@@ -432,7 +432,7 @@ function Footer() {
           <Link to="/participate">Submit a correction</Link>
           <a
             className="footer-icon-link"
-            href="https://github.com/lordzxxxx/bettermalaybalay"
+            href="https://github.com/lordzxxxx/BetterMC"
             target="_blank"
             rel="noreferrer"
           >

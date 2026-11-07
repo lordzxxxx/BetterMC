@@ -81,10 +81,10 @@ describe("Malaybalay weather", () => {
     fireEvent.click(laterHour);
     expect(laterHour).toHaveAttribute("aria-pressed", "true");
     expect(currentHour).toHaveAttribute("aria-pressed", "false");
-    expect(screen.getByText("Selected forecast")).toBeInTheDocument();
+    expect(screen.getByText("Selected hour")).toBeInTheDocument();
     expect(screen.getByText(/4 AM · Partly cloudy/i)).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /Forecast methodology/i }),
+      screen.getByRole("link", { name: /Open-Meteo methodology/i }),
     ).toHaveAttribute("href", "https://open-meteo.com/en/docs");
   });
 

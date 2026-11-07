@@ -146,86 +146,93 @@ export default function WeatherPanel() {
 
   return (
     <section className="section container weather-section" aria-labelledby="weather-title">
-      <div className="weather-heading">
-        <div>
-          <span className="eyebrow">Malaybalay weather</span>
-          <h2 id="weather-title">Current conditions and the next 24 hours</h2>
-        </div>
-        <span className="weather-updated">Updated {formatUpdated(current.time)} · Malaybalay time</span>
-      </div>
-
-      <div className="weather-layout">
-        <article className="weather-current">
-          <span className="weather-current-icon"><WeatherIcon code={current.weather_code} /></span>
-          <div className="weather-temperature">
-            <strong>{Math.round(current.temperature_2m)}°</strong>
-            <span>{units.temperature_2m.replace("°", "")}</span>
+      <div className="weather-card">
+        <header className="weather-heading">
+          <div>
+            <span className="eyebrow">Malaybalay weather</span>
+            <h2 id="weather-title">Current conditions and the next 24 hours</h2>
           </div>
-          <div className="weather-condition">
-            <h3>{weatherCondition(current.weather_code)}</h3>
-            <p>Feels like {Math.round(current.apparent_temperature)}{units.apparent_temperature}</p>
+          <span className="weather-updated"><Clock3 aria-hidden="true" /> Updated {formatUpdated(current.time)}</span>
+        </header>
+
+        <div className="weather-summary">
+          <article className="weather-current">
+            <span className="weather-current-icon"><WeatherIcon code={current.weather_code} /></span>
+            <div className="weather-temperature">
+              <strong>{Math.round(current.temperature_2m)}°</strong>
+              <span>{units.temperature_2m.replace("°", "")}</span>
+            </div>
+            <div className="weather-condition">
+              <h3>{weatherCondition(current.weather_code)}</h3>
+              <p>Feels like {Math.round(current.apparent_temperature)}{units.apparent_temperature}</p>
+            </div>
+            <dl>
+              <div><dt><Droplets aria-hidden="true" /> Humidity</dt><dd>{current.relative_humidity_2m}{units.relative_humidity_2m}</dd></div>
+              <div><dt><CloudRain aria-hidden="true" /> Rain</dt><dd>{current.precipitation}{units.precipitation}</dd></div>
+              <div><dt><Wind aria-hidden="true" /> Wind</dt><dd>{Math.round(current.wind_speed_10m)} {units.wind_speed_10m}</dd></div>
+            </dl>
+          </article>
+
+          <aside className="weather-outlook" aria-label="24-hour weather outlook">
+            <span>Next 24 hours</span>
+            <h3>{summary?.outlook}</h3>
+            <p><strong>{summary?.low}–{summary?.high}°C</strong> · Peak rain chance <strong>{summary?.peakRain}%</strong> near <strong>{summary?.peakRainTime}</strong></p>
+          </aside>
+        </div>
+
+        <div className="weather-forecast-heading">
+          <strong>Hourly outlook</strong>
+          <span>Select a time for details</span>
+        </div>
+
+        <div className="weather-hourly" aria-label="Three-hour weather forecast intervals">
+          {hourlySamples.map((hour, index) => {
+            const isCurrent = index === activeHourIndex;
+            const isSelected = hour.time === selectedHour.time;
+            return (
+              <button
+                type="button"
+                key={hour.time}
+                className={`${isCurrent ? "is-current " : ""}${isSelected ? "is-selected" : ""}`.trim()}
+                aria-current={isCurrent ? "time" : undefined}
+                aria-pressed={isSelected}
+                aria-label={`${formatHour(hour.time)} forecast: ${weatherCondition(hour.code)}, ${Math.round(hour.temperature)}${hourlyUnits.temperature_2m}, ${hour.rain}${hourlyUnits.precipitation_probability} chance of rain, wind ${Math.round(hour.wind)} ${hourlyUnits.wind_speed_10m}${isCurrent ? ", current hour" : ""}`}
+                onClick={() => setSelectedHourTime(hour.time)}
+              >
+                <span className="weather-hour-time">
+                  <time dateTime={hour.time}>{formatHour(hour.time)}</time>
+                  {isCurrent && <em className="weather-hour-badge">Now</em>}
+                </span>
+                <WeatherIcon code={hour.code} />
+                <strong>{Math.round(hour.temperature)}{hourlyUnits.temperature_2m}</strong>
+                <span className="weather-hour-rain"><Droplets aria-hidden="true" /> {hour.rain}{hourlyUnits.precipitation_probability}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="weather-selected-detail" role="status" aria-live="polite">
+          <div className="weather-selected-label">
+            <WeatherIcon code={selectedHour.code} />
+            <div>
+              <span>{selectedHour.time === hourlySamples[activeHourIndex].time ? "Current hour" : "Selected hour"}</span>
+              <strong>{formatHour(selectedHour.time)} · {weatherCondition(selectedHour.code)}</strong>
+            </div>
           </div>
           <dl>
-            <div><dt><Droplets aria-hidden="true" /> Humidity</dt><dd>{current.relative_humidity_2m}{units.relative_humidity_2m}</dd></div>
-            <div><dt><CloudRain aria-hidden="true" /> Rain now</dt><dd>{current.precipitation}{units.precipitation}</dd></div>
-            <div><dt><Wind aria-hidden="true" /> Wind</dt><dd>{Math.round(current.wind_speed_10m)} {units.wind_speed_10m}</dd></div>
+            <div><dt>Temperature</dt><dd>{Math.round(selectedHour.temperature)}{hourlyUnits.temperature_2m}</dd></div>
+            <div><dt>Rain chance</dt><dd>{selectedHour.rain}{hourlyUnits.precipitation_probability}</dd></div>
+            <div><dt>Wind</dt><dd>{Math.round(selectedHour.wind)} {hourlyUnits.wind_speed_10m}</dd></div>
           </dl>
-        </article>
-
-        <article className="weather-outlook">
-          <span>What to expect</span>
-          <h3>{summary?.outlook}</h3>
-          <p>
-            Temperatures are forecast between <strong>{summary?.low}°C</strong> and <strong>{summary?.high}°C</strong>. The highest modeled rain chance is <strong>{summary?.peakRain}%</strong> around <strong>{summary?.peakRainTime}</strong>.
-          </p>
-          <small>Forecast values are model-based and may change as new data arrives.</small>
-        </article>
-      </div>
-
-      <div className="weather-hourly" aria-label="Three-hour weather forecast intervals">
-        {hourlySamples.map((hour, index) => {
-          const isCurrent = index === activeHourIndex;
-          const isSelected = hour.time === selectedHour.time;
-          return (
-            <button
-              type="button"
-              key={hour.time}
-              className={`${isCurrent ? "is-current " : ""}${isSelected ? "is-selected" : ""}`.trim()}
-              aria-current={isCurrent ? "time" : undefined}
-              aria-pressed={isSelected}
-              aria-label={`${formatHour(hour.time)} forecast: ${weatherCondition(hour.code)}, ${Math.round(hour.temperature)}${hourlyUnits.temperature_2m}, ${hour.rain}${hourlyUnits.precipitation_probability} chance of rain, wind ${Math.round(hour.wind)} ${hourlyUnits.wind_speed_10m}${isCurrent ? ", current hour" : ""}`}
-              onClick={() => setSelectedHourTime(hour.time)}
-            >
-              <time dateTime={hour.time}>{formatHour(hour.time)}</time>
-              {isCurrent && <em className="weather-hour-badge">Now</em>}
-              <WeatherIcon code={hour.code} />
-              <strong>{Math.round(hour.temperature)}{hourlyUnits.temperature_2m}</strong>
-              <span><Droplets aria-hidden="true" /> {hour.rain}{hourlyUnits.precipitation_probability}</span>
-              <small>{Math.round(hour.wind)} {hourlyUnits.wind_speed_10m}</small>
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="weather-selected-detail" role="status" aria-live="polite">
-        <Clock3 aria-hidden="true" />
-        <div>
-          <span>{selectedHour.time === hourlySamples[activeHourIndex].time ? "Current-hour details" : "Selected forecast"}</span>
-          <strong>{formatHour(selectedHour.time)} · {weatherCondition(selectedHour.code)}</strong>
         </div>
-        <dl>
-          <div><dt>Temperature</dt><dd>{Math.round(selectedHour.temperature)}{hourlyUnits.temperature_2m}</dd></div>
-          <div><dt>Rain chance</dt><dd>{selectedHour.rain}{hourlyUnits.precipitation_probability}</dd></div>
-          <div><dt>Wind</dt><dd>{Math.round(selectedHour.wind)} {hourlyUnits.wind_speed_10m}</dd></div>
-        </dl>
-      </div>
 
-      <p className="weather-source">
-        Open-Meteo model forecast for Malaybalay City at 8.1575° N, 125.12778° E—not an official severe-weather warning.
-        <a href="https://open-meteo.com/en/docs" target="_blank" rel="noreferrer">
-          Forecast methodology <ExternalLink aria-hidden="true" />
-        </a>
-      </p>
+        <footer className="weather-source">
+          <span>Model-based forecast for Malaybalay City; values may change · Not an official severe-weather warning</span>
+          <a href="https://open-meteo.com/en/docs" target="_blank" rel="noreferrer">
+            Open-Meteo methodology <ExternalLink aria-hidden="true" />
+          </a>
+        </footer>
+      </div>
     </section>
   );
 }

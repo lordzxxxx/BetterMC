@@ -362,7 +362,7 @@ describe("BetterMC public portal", () => {
     );
     expect(
       screen.getByRole("link", { name: /Contribute on GitHub/i }),
-    ).toHaveAttribute("href", "https://github.com/lordzxxxx/bettermalaybalay");
+    ).toHaveAttribute("href", "https://github.com/lordzxxxx/BetterMC");
     expect(
       screen.getByRole("link", { name: /0917 188 4225/i }),
     ).toHaveAttribute("href", "tel:09171884225");

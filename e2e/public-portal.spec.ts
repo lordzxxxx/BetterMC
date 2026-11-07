@@ -70,9 +70,9 @@ test("homepage presents current Malaybalay conditions and a 24-hour forecast", a
   await laterHour.click();
   await expect(laterHour).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator(".weather-selected-detail")).toContainText(
-    "Selected forecast",
+    "Selected hour",
   );
-  await expect(page.getByText(/model-based and may change/i)).toBeVisible();
+  await expect(page.getByText(/model-based.*may change/i)).toBeVisible();
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
   );
@@ -338,7 +338,7 @@ test("footer publishes civic contribution and verified city channels", async ({
   await page.goto("/");
   await expect(
     page.getByRole("link", { name: /Contribute on GitHub/i }),
-  ).toHaveAttribute("href", "https://github.com/lordzxxxx/bettermalaybalay");
+  ).toHaveAttribute("href", "https://github.com/lordzxxxx/BetterMC");
   await expect(
     page.getByRole("link", { name: /0917 188 4225/i }),
   ).toHaveAttribute("href", "tel:09171884225");
