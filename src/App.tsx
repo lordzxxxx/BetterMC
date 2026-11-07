@@ -36,6 +36,7 @@ import {
   House,
   IdCard,
   Landmark,
+  LayoutGrid,
   Leaf,
   Mail,
   Menu,
@@ -110,6 +111,8 @@ import {
 } from "./serviceCatalog";
 import { civicRecordContext } from "./civicRecordContext";
 import { searchPortal } from "./searchIndex";
+import SiteAssistant from "./SiteAssistant";
+import { sitePages } from "./sitePages";
 import WeatherPanel from "./WeatherPanel";
 
 const navItems = [
@@ -341,15 +344,20 @@ function FinancialBreakdown() {
 
 function Header() {
   const [open, setOpen] = useState(false);
+  const [pagesOpen, setPagesOpen] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    if (!open) return;
+    if (!open && !pagesOpen) return;
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        setPagesOpen(false);
+      }
     };
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [open]);
+  }, [open, pagesOpen]);
 
   return (
     <>
@@ -374,6 +382,39 @@ function Header() {
                 {item.label}
               </NavLink>
             ))}
+            <div className="page-access-menu">
+              <button
+                type="button"
+                aria-expanded={pagesOpen}
+                aria-controls="all-pages-menu"
+                onClick={() => setPagesOpen((value) => !value)}
+              >
+                <LayoutGrid aria-hidden="true" /> All pages <ChevronDown aria-hidden="true" />
+              </button>
+              <div
+                id="all-pages-menu"
+                className={`page-access-panel${pagesOpen ? " is-open" : ""}`}
+                role="navigation"
+                aria-label="All BetterMC pages"
+                aria-hidden={!pagesOpen}
+              >
+                <div>
+                  <strong>Explore BetterMC</strong>
+                  <span>Direct access to every main portal area</span>
+                </div>
+                {sitePages.map((page) => (
+                  <Link
+                    key={page.to}
+                    className={pathname === page.to ? "is-active" : undefined}
+                    to={page.to}
+                    onClick={() => setPagesOpen(false)}
+                  >
+                    <span><strong>{page.label}</strong><small>{page.description}</small></span>
+                    <ArrowRight aria-hidden="true" />
+                  </Link>
+                ))}
+              </div>
+            </div>
           </nav>
           <button
             className="menu-button"
@@ -391,7 +432,7 @@ function Header() {
           aria-hidden={!open}
         >
           <nav className="mobile-nav" aria-label="Mobile navigation">
-            {navItems.map((item) => (
+            {sitePages.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -529,6 +570,7 @@ function Layout({ children }: { children: ReactNode }) {
       <Header />
       <main id="main">{children}</main>
       <Footer />
+      <SiteAssistant />
     </>
   );
 }
@@ -1981,17 +2023,6 @@ function GovernmentPage() {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
-  useEffect(() => {
-    if (!openOfficial) return;
-    const profile = document.getElementById(`official-${openOfficial}`);
-    if (!profile || typeof profile.scrollIntoView !== "function") return;
-    const reducedMotion =
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
-    profile.scrollIntoView({
-      behavior: reducedMotion ? "auto" : "smooth",
-      block: "start",
-    });
-  }, [openOfficial]);
   const toggleOfficial = (name: string) => {
     const next = new URLSearchParams(params);
     next.set("tab", "officials");
@@ -2708,9 +2739,9 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             </div>
           </div>
           <div className="barangay-hero-copy">
-            <span>{profile.classification} barangay · Malaybalay City</span>
+            <span>Welcome to Barangay {profile.name}</span>
             <h1>{profile.name}</h1>
-            <p>{profile.description}</p>
+            <p>{profile.classification} barangay · Malaybalay City. {profile.description}</p>
             <div className="barangay-hero-actions">
               {profile.phone && (
                 <a

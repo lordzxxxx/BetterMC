@@ -403,3 +403,47 @@ test("directory filters reach emergency contacts", async ({ page }) => {
     page.getByRole("link", { name: /0917-677-7700/ }),
   ).toHaveAttribute("href", /^tel:/);
 });
+
+test("global page access and the indexed guide do not move the reading position", async ({
+  page,
+}) => {
+  await page.route("https://api.open-meteo.com/**", (route) =>
+    route.fulfill({ json: weatherFixture }),
+  );
+  await page.goto("/");
+  await expect(page.locator('link[rel="icon"]').first()).toHaveAttribute(
+    "href",
+    "/favicon.svg",
+  );
+
+  if ((page.viewportSize()?.width ?? 0) > 960) {
+    await page.getByRole("button", { name: "All pages" }).click();
+    const allPages = page.getByRole("navigation", { name: "All BetterMC pages" });
+    await expect(allPages.getByRole("link")).toHaveCount(9);
+    await expect(allPages.getByRole("link", { name: /Legislation/i })).toHaveAttribute(
+      "href",
+      "/legislation",
+    );
+  } else {
+    await page.getByRole("button", { name: "Open menu" }).click();
+    await expect(page.locator("#mobile-navigation").getByRole("link")).toHaveCount(9);
+    await page.getByRole("button", { name: "Close menu" }).click();
+  }
+
+  await page.evaluate(() => window.scrollTo(0, 700));
+  const before = await page.evaluate(() => window.scrollY);
+  await page.getByRole("button", { name: "Open BetterMC guide" }).click();
+  const afterOpen = await page.evaluate(() => window.scrollY);
+  expect(afterOpen).toBe(before);
+  await page
+    .getByRole("button", { name: "Where can I find emergency contacts?" })
+    .click();
+  await expect(page.getByText("Emergency and urgent-help contacts")).toBeVisible();
+  const afterAnswer = await page.evaluate(() => window.scrollY);
+  expect(afterAnswer).toBe(before);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    ),
+  ).toBe(false);
+});

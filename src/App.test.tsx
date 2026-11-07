@@ -108,6 +108,43 @@ describe("BetterMC public portal", () => {
     ).toHaveAttribute("href", "/procurement/bidding-opportunities");
   });
 
+  it("provides compact access to every primary portal page", () => {
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
+    fireEvent.click(screen.getByRole("button", { name: /All pages/i }));
+    const navigation = screen.getByRole("navigation", { name: /All BetterMC pages/i });
+    expect(within(navigation).getByRole("link", { name: /Legislation/i })).toHaveAttribute(
+      "href",
+      "/legislation",
+    );
+    expect(within(navigation).getByRole("link", { name: /Procurement/i })).toHaveAttribute(
+      "href",
+      "/procurement/bidding-opportunities",
+    );
+    expect(within(navigation).getAllByRole("link")).toHaveLength(9);
+  });
+
+  it("answers portal questions from the indexed BetterMC content", () => {
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
+    fireEvent.click(screen.getByRole("button", { name: /Open BetterMC guide/i }));
+    fireEvent.click(
+      screen.getByRole("button", { name: /Where can I find emergency contacts/i }),
+    );
+    expect(
+      screen.getByText("Emergency and urgent-help contacts"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByRole("link", { name: /Emergency/i }).length,
+    ).toBeGreaterThan(0);
+  });
+
   it("lists source-linked transparency records", () => {
     render(
       <MemoryRouter initialEntries={["/transparency"]}>
