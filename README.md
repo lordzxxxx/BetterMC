@@ -17,7 +17,6 @@ BetterMC is an independent public information and transparency portal for Malayb
 - Scope-labeled BAC procurement links for infrastructure, goods and services, and small-value procurement
 - Official Citizen's Charter and public-service entry points
 - Compact access to every primary portal page from the global navigation
-- BetterMC Guide, an in-browser assistant that retrieves matching records and routes from the portal's current search index
 - Moderated community correction intake with validation, D1 persistence, and rate limiting
 - Responsive, keyboard-accessible public interface
 
@@ -32,8 +31,6 @@ Published financial and project figures are labeled with their reporting period 
 - Vitest and Playwright
 
 The architecture is informed by [BetterLosBaños](https://github.com/BetterLosBanos/betterlb) and the [BetterGov LGU ecosystem](https://lgu.bettergov.ph/). No Los Baños content is reused as Malaybalay data.
-
-The BetterMC Guide is intentionally retrieval-based. It answers from content already indexed by this repository and links users to the relevant BetterMC page for full context. It does not send questions to an external AI provider, identify visitors through their browser accounts, or present its responses as official government advice.
 
 ## Local development
 

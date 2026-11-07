@@ -127,24 +127,6 @@ describe("BetterMC public portal", () => {
     expect(within(navigation).getAllByRole("link")).toHaveLength(9);
   });
 
-  it("answers portal questions from the indexed BetterMC content", () => {
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
-    );
-    fireEvent.click(screen.getByRole("button", { name: /Open BetterMC guide/i }));
-    fireEvent.click(
-      screen.getByRole("button", { name: /Where can I find emergency contacts/i }),
-    );
-    expect(
-      screen.getByText("Emergency and urgent-help contacts"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getAllByRole("link", { name: /Emergency/i }).length,
-    ).toBeGreaterThan(0);
-  });
-
   it("lists source-linked transparency records", () => {
     render(
       <MemoryRouter initialEntries={["/transparency"]}>

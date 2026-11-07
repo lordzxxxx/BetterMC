@@ -111,7 +111,6 @@ import {
 } from "./serviceCatalog";
 import { civicRecordContext } from "./civicRecordContext";
 import { searchPortal } from "./searchIndex";
-import SiteAssistant from "./SiteAssistant";
 import { sitePages } from "./sitePages";
 import WeatherPanel from "./WeatherPanel";
 
@@ -570,7 +569,6 @@ function Layout({ children }: { children: ReactNode }) {
       <Header />
       <main id="main">{children}</main>
       <Footer />
-      <SiteAssistant />
     </>
   );
 }
