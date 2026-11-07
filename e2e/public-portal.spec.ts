@@ -413,7 +413,7 @@ test("global page access and the indexed guide do not move the reading position"
   await page.goto("/");
   await expect(page.locator('link[rel="icon"]').first()).toHaveAttribute(
     "href",
-    "/favicon.svg",
+    "/favicon-bettermc.png",
   );
 
   if ((page.viewportSize()?.width ?? 0) > 960) {
