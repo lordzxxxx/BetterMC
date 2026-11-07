@@ -5,12 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b && tsc -p tsconfig.functions.json",
+    "build": "npm run typecheck && vite build",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check": "npm run lint && npm test && npm run build"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

@@ -2158,6 +2158,20 @@ kbd {
   position: absolute;
   left: -10000px;
 }
+.verification-field {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.verification-field > span {
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.turnstile-widget {
+  min-height: 65px;
+  overflow: hidden;
+}
 .privacy-note {
   margin: -7px 0 0;
   color: var(--muted);
@@ -9698,18 +9712,46 @@ kbd {
   }
 }
 
-/* Homepage welcome: restrained blue field with readable civic actions. */
+/* Homepage welcome: optimized city image beneath a matte 80% civic-blue layer. */
 .hero,
 .home-page .hero {
   background: #1258b6;
   background-image: none;
+  isolation: isolate;
 }
 
 .hero::before,
 .home-page .hero::before {
-  background: transparent;
+  inset: -28px;
+  z-index: 0;
+  display: block;
+  background: url("/images/malaybalay-city-hall-background.webp") center 48% / cover no-repeat;
+  opacity: 1;
+  filter: blur(20px) saturate(78%);
+  transform: scale(1.04);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+}
+
+.hero::after,
+.home-page .hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  background: rgba(9, 75, 166, 0.8);
+  box-shadow: none;
+  transform: none;
+  pointer-events: none;
+}
+
+.home-page .hero-grid {
+  z-index: 2;
 }
 
 .hero-copy h1,
@@ -9763,6 +9805,12 @@ kbd {
   .home-page .hero {
     background: #1258b6;
     background-image: none;
+  }
+
+  .hero::before,
+  .home-page .hero::before {
+    inset: -20px;
+    filter: blur(15px) saturate(76%);
   }
 
   .hero-panel {

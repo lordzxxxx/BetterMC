@@ -9,6 +9,7 @@ import {
   useMemo,
   useRef,
   useState,
+  useCallback,
 } from "react";
 import {
   ArrowRight,
@@ -63,7 +64,6 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { z } from "zod";
 import {
   civicRecords,
   departments,
@@ -113,6 +113,12 @@ import { civicRecordContext } from "./civicRecordContext";
 import { searchPortal } from "./searchIndex";
 import { sitePages } from "./sitePages";
 import WeatherPanel from "./WeatherPanel";
+import TurnstileWidget from "./TurnstileWidget";
+import {
+  feedbackSchema,
+  requestTypeOptions,
+  type RequestType,
+} from "./feedback";
 
 const navItems = [
   { label: "Transparency", to: "/transparency" },
@@ -3400,44 +3406,6 @@ function ServiceCategoryPage() {
   );
 }
 
-const feedbackSchema = z.object({
-  category: z.enum([
-    "correction",
-    "broken-link",
-    "document-request",
-    "website-feedback",
-  ]),
-  subject: z
-    .string()
-    .trim()
-    .min(5, "Please enter a specific subject.")
-    .max(120),
-  details: z
-    .string()
-    .trim()
-    .min(20, "Please provide at least 20 characters of context.")
-    .max(3000),
-  sourceUrl: z
-    .string()
-    .trim()
-    .url("Enter a complete URL, including https://")
-    .or(z.literal("")),
-  email: z
-    .string()
-    .trim()
-    .email("Enter a valid email address.")
-    .or(z.literal("")),
-  website: z.string().max(0),
-});
-
-const requestTypeOptions = [
-  { value: "correction", label: "Suggest a correction" },
-  { value: "broken-link", label: "Report a broken link" },
-  { value: "document-request", label: "Suggest a public document" },
-  { value: "website-feedback", label: "Website feedback" },
-] as const;
-type RequestType = (typeof requestTypeOptions)[number]["value"];
-
 function RequestTypeSelect({
   value,
   onChange,
@@ -3549,6 +3517,12 @@ function ParticipatePage() {
   const [state, setState] = useState<FeedbackState>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverMessage, setServerMessage] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim();
+  const handleTurnstileToken = useCallback((token: string) => {
+    setTurnstileToken(token);
+  }, []);
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setErrors({});
@@ -3582,6 +3556,7 @@ function ParticipatePage() {
       setServerMessage(result.message ?? "Your submission was received.");
       event.currentTarget.reset();
       setRequestType("correction");
+      setTurnstileResetKey((current) => current + 1);
     } catch (error) {
       setState("error");
       setServerMessage(
@@ -3698,6 +3673,21 @@ function ParticipatePage() {
             Website
             <input name="website" tabIndex={-1} autoComplete="off" />
           </label>
+          {turnstileSiteKey && (
+            <div className="verification-field">
+              <span>Human verification</span>
+              <input
+                type="hidden"
+                name="turnstileToken"
+                value={turnstileToken}
+              />
+              <TurnstileWidget
+                siteKey={turnstileSiteKey}
+                resetKey={turnstileResetKey}
+                onTokenChange={handleTurnstileToken}
+              />
+            </div>
+          )}
           <button className="button primary" disabled={state === "submitting"}>
             {state === "submitting" ? "Sending…" : "Send for review"}
             <ArrowRight />

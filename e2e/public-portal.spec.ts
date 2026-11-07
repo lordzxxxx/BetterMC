@@ -116,19 +116,25 @@ test("core public routes are navigable and do not overflow", async ({
   expect(overflow).toBe(false);
 });
 
-test("blue homepage hero and detailed finance remain usable", async ({
+test("layered homepage hero and detailed finance remain usable", async ({
   page,
 }) => {
   await page.goto("/");
   await expect(page.getByRole("button", { name: "Next image" })).toHaveCount(0);
   await expect(page.locator(".hero")).toHaveCSS(
-    "background-image",
-    "none",
-  );
-  await expect(page.locator(".hero")).toHaveCSS(
     "background-color",
     "rgb(18, 88, 182)",
   );
+  const heroLayers = await page.locator(".hero").evaluate((element) => ({
+    image: getComputedStyle(element, "::before").backgroundImage,
+    imageOpacity: getComputedStyle(element, "::before").opacity,
+    imageFilter: getComputedStyle(element, "::before").filter,
+    overlay: getComputedStyle(element, "::after").backgroundColor,
+  }));
+  expect(heroLayers.image).toContain("malaybalay-city-hall-background.webp");
+  expect(heroLayers.imageOpacity).toBe("1");
+  expect(heroLayers.imageFilter).toContain("blur(");
+  expect(heroLayers.overlay).toBe("rgba(9, 75, 166, 0.8)");
   await expect(page.locator("#financial-detail")).toBeVisible();
   await expect(page.getByText("₱1,188,506,575.00")).toBeVisible();
   await page.getByRole("button", { name: /Current operating income/i }).click();

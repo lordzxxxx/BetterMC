@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { feedbackSchema } from '../../src/feedback'
 
 interface D1PreparedStatement {
   bind(...values: unknown[]): D1PreparedStatement
@@ -11,7 +11,7 @@ interface D1Database {
 }
 
 interface Env {
-  DB: D1Database
+  DB?: D1Database
   TURNSTILE_SECRET_KEY?: string
 }
 
@@ -20,18 +20,19 @@ interface PagesContext {
   env: Env
 }
 
-const submissionSchema = z.object({
-  category: z.enum(['correction', 'broken-link', 'document-request', 'website-feedback']),
-  subject: z.string().trim().min(5).max(120),
-  details: z.string().trim().min(20).max(3000),
-  sourceUrl: z.string().trim().url().or(z.literal('')),
-  email: z.string().trim().email().or(z.literal('')),
-  website: z.string().max(0),
-  turnstileToken: z.string().optional(),
-})
+const MAX_BODY_BYTES = 16_384
+const TURNSTILE_TIMEOUT_MS = 5_000
 
 function json(body: unknown, status = 200): Response {
-  return Response.json(body, { status, headers: { 'cache-control': 'no-store' } })
+  return Response.json(body, {
+    status,
+    headers: {
+      'cache-control': 'no-store',
+      'content-type': 'application/json; charset=utf-8',
+      'cross-origin-resource-policy': 'same-origin',
+      'x-content-type-options': 'nosniff',
+    },
+  })
 }
 
 async function hash(value: string): Promise<string> {
@@ -44,18 +45,68 @@ async function verifyTurnstile(secret: string, token: string, ip: string): Promi
   body.set('secret', secret)
   body.set('response', token)
   body.set('remoteip', ip)
-  const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body })
-  const result = await response.json() as { success?: boolean }
-  return result.success === true
+  try {
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      body,
+      signal: AbortSignal.timeout(TURNSTILE_TIMEOUT_MS),
+    })
+    if (!response.ok) return false
+    const result = await response.json() as { success?: boolean }
+    return result.success === true
+  } catch {
+    return false
+  }
+}
+
+class RequestBodyTooLargeError extends Error {}
+
+async function readJsonBody(request: Request): Promise<unknown> {
+  const declaredLength = Number(request.headers.get('content-length') ?? 0)
+  if (Number.isFinite(declaredLength) && declaredLength > MAX_BODY_BYTES) {
+    throw new RequestBodyTooLargeError()
+  }
+
+  const reader = request.body?.getReader()
+  if (!reader) return null
+  const decoder = new TextDecoder()
+  let totalBytes = 0
+  let body = ''
+
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+    totalBytes += value.byteLength
+    if (totalBytes > MAX_BODY_BYTES) {
+      await reader.cancel()
+      throw new RequestBodyTooLargeError()
+    }
+    body += decoder.decode(value, { stream: true })
+  }
+  body += decoder.decode()
+  return JSON.parse(body)
+}
+
+function isSameOriginRequest(request: Request): boolean {
+  const fetchSite = request.headers.get('sec-fetch-site')
+  if (fetchSite === 'cross-site') return false
+  const origin = request.headers.get('origin')
+  return !origin || origin === new URL(request.url).origin
 }
 
 export async function onRequestPost({ request, env }: PagesContext): Promise<Response> {
+  if (!isSameOriginRequest(request)) return json({ message: 'Cross-site submissions are not accepted.' }, 403)
   if (!request.headers.get('content-type')?.includes('application/json')) return json({ message: 'Expected a JSON request.' }, 415)
   if (!env.DB) return json({ message: 'The submission service is not configured yet.' }, 503)
 
   let input: unknown
-  try { input = await request.json() } catch { return json({ message: 'The request body is not valid JSON.' }, 400) }
-  const parsed = submissionSchema.safeParse(input)
+  try {
+    input = await readJsonBody(request)
+  } catch (error) {
+    if (error instanceof RequestBodyTooLargeError) return json({ message: 'The request is too large.' }, 413)
+    return json({ message: 'The request body is not valid JSON.' }, 400)
+  }
+  const parsed = feedbackSchema.safeParse(input)
   if (!parsed.success) return json({ message: 'Review the form fields and try again.', issues: parsed.error.flatten().fieldErrors }, 400)
 
   const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown'
@@ -65,19 +116,24 @@ export async function onRequestPost({ request, env }: PagesContext): Promise<Res
     }
   }
 
-  const ipHash = await hash(ip)
-  const recent = await env.DB.prepare("SELECT COUNT(*) AS count FROM submissions WHERE ip_hash = ? AND created_at > datetime('now', '-1 hour')")
-    .bind(ipHash).first<{ count: number }>()
-  if ((recent?.count ?? 0) >= 5) return json({ message: 'Too many recent submissions. Please try again later.' }, 429)
+  try {
+    const ipHash = await hash(ip)
+    const recent = await env.DB.prepare("SELECT COUNT(*) AS count FROM submissions WHERE ip_hash = ? AND created_at > datetime('now', '-1 hour')")
+      .bind(ipHash).first<{ count: number }>()
+    if (Number(recent?.count ?? 0) >= 5) return json({ message: 'Too many recent submissions. Please try again later.' }, 429)
 
-  const id = crypto.randomUUID()
-  const result = await env.DB.prepare(`
-    INSERT INTO submissions (id, category, subject, details, source_url, contact_email, ip_hash, status)
-    VALUES (?, ?, ?, ?, ?, ?, ?, 'pending_verification')
-  `).bind(id, parsed.data.category, parsed.data.subject, parsed.data.details, parsed.data.sourceUrl || null, parsed.data.email || null, ipHash).run()
-  if (!result.success) return json({ message: 'The submission could not be saved.' }, 500)
+    const id = crypto.randomUUID()
+    const result = await env.DB.prepare(`
+      INSERT INTO submissions (id, category, subject, details, source_url, contact_email, ip_hash, status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, 'pending_verification')
+    `).bind(id, parsed.data.category, parsed.data.subject, parsed.data.details, parsed.data.sourceUrl || null, parsed.data.email || null, ipHash).run()
+    if (!result.success) return json({ message: 'The submission could not be saved.' }, 500)
 
-  return json({ id, message: 'Your submission was saved for moderator review.' }, 201)
+    return json({ id, message: 'Your submission was saved for moderator review.' }, 201)
+  } catch (error) {
+    console.error('Submission persistence failed', error instanceof Error ? error.message : 'Unknown error')
+    return json({ message: 'The submission service is temporarily unavailable. Please try again later.' }, 503)
+  }
 }
 
 export function onRequest(): Response {

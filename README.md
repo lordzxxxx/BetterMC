@@ -48,17 +48,25 @@ npx wrangler d1 migrations apply bettermc-production --local
 npx wrangler pages dev dist --d1 DB=bettermc-production
 ```
 
-Copy `.dev.vars.example` to `.dev.vars` to configure Turnstile locally. Production public intake should not be enabled without `TURNSTILE_SECRET_KEY` and its matching site key in the frontend.
+Copy `.env.example` to `.env` for the public Turnstile site key and
+`.dev.vars.example` to `.dev.vars` for the secret used by the Pages Function.
+Production public intake should not be enabled until the matching
+`VITE_TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` values are configured.
+The site key is public; never place the secret in a `VITE_*` variable.
 
 ## Verification
 
 ```bash
-npm run lint
-npm test
-npm run build
+npm run check
 npx playwright install chromium
 npm run test:e2e
+npm audit --omit=dev
 ```
+
+`npm run check` runs ESLint, unit/API tests, strict frontend and Pages Function
+type-checking, and the production build. See
+[docs/SECURITY_REVIEW.md](docs/SECURITY_REVIEW.md) for the reviewed controls and
+the deployment steps that still require Cloudflare configuration.
 
 ## Source and editorial rules
 
