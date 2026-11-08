@@ -227,6 +227,12 @@ test("homepage exposes local and national service pathways", async ({ page }) =>
 
 test("transparency and legislation retain local context pages", async ({ page }) => {
   await page.goto("/transparency?year=2026&quarter=Q2");
+  await expect(
+    page.getByRole("complementary", { name: "Source review and citation" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: /Open official catalog/i }),
+  ).toHaveAttribute("href", "https://sakata.malaybalaycity.gov.ph/full-disclosure/");
   const detailLink = page.getByRole("link", {
     name: /View context for Statement of Receipts and Expenditures/i,
   });

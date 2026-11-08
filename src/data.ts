@@ -1,4 +1,8 @@
-export const VERIFIED_ON = "2026-11-06";
+/**
+ * Date on which BetterMC rechecked source-page availability. A source listing
+ * is not a claim that every linked file was independently transcribed again.
+ */
+export const VERIFIED_ON = "2026-11-09";
 
 export type Source = {
   label: string;

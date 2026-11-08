@@ -614,7 +614,7 @@ function SourceNote({
           {label}
           <ExternalLink aria-hidden="true" />
         </a>
-        <small>Checked {date}</small>
+        <small>Last source check {date}</small>
       </span>
     </div>
   );
@@ -896,7 +896,10 @@ function HomePage() {
               <ShieldCheck />
               <span>
                 Records show their original source and verification date.
-                <strong>Last research review: November 6, 2026</strong>
+                <strong>
+                  Portal review: November 6, 2026 · finance and disclosure
+                  rechecked November 9
+                </strong>
               </span>
             </div>
           </div>
@@ -1048,8 +1051,18 @@ function HomePage() {
                 2025 Q2 Statement of Receipts and Expenditures <ExternalLink />
               </a>
               <small>
-                Official City Government PDF · source reviewed {VERIFIED_ON}
+                Reporting period: April–June 2025 · values transcribed from
+                the cited statement · arithmetic checked · catalog last
+                checked {VERIFIED_ON}
               </small>
+              <a
+                className="finance-catalog-link"
+                href="https://sakata.malaybalaycity.gov.ph/full-disclosure/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Verify the official Full Disclosure catalog <ExternalLink />
+              </a>
             </div>
           </div>
         </div>
@@ -1573,6 +1586,30 @@ function TransparencyPage() {
             </p>
           </div>
         </div>
+        <aside
+          className="source-review-callout"
+          aria-label="Source review and citation"
+        >
+          <div>
+            <ShieldCheck aria-hidden="true" />
+            <span>
+              <strong>Source review and citation</strong>
+              <p>
+                The City Government’s Full Disclosure catalog was rechecked on{" "}
+                {VERIFIED_ON}. “Source listed” means the title appears in that
+                official catalog; it does not certify a payment, delivery,
+                completion, or legal-compliance outcome.
+              </p>
+            </span>
+          </div>
+          <a
+            href="https://sakata.malaybalaycity.gov.ph/full-disclosure/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open official catalog <ExternalLink aria-hidden="true" />
+          </a>
+        </aside>
         <div className="procurement-sources">
           <SectionHeading
             eyebrow="Procurement records"
