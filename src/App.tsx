@@ -805,6 +805,44 @@ function ServiceCategoryGrid({ compact = false }: { compact?: boolean }) {
   );
 }
 
+function HomeEmergencyHotlines() {
+  const priorityHotlines = departments.filter((office) =>
+    [
+      "City Disaster Risk Reduction and Management Office",
+      "Bureau of Fire Protection — Malaybalay",
+      "Malaybalay City Police Station",
+    ].includes(office.name),
+  );
+
+  return (
+    <aside className="home-emergency" aria-labelledby="home-emergency-title">
+      <div className="home-emergency-heading">
+        <span className="home-emergency-icon" aria-hidden="true">
+          <ShieldAlert />
+        </span>
+        <div>
+          <h2 id="home-emergency-title">Emergency hotlines</h2>
+          <p>For urgent help, call the response office that matches the situation.</p>
+        </div>
+        <Link to="/government?tab=hotlines">
+          All city hotlines <ArrowRight aria-hidden="true" />
+        </Link>
+      </div>
+      <div className="home-hotline-list" aria-label="Priority emergency hotlines">
+        {priorityHotlines.map((office) => (
+          <a key={office.name} href={`tel:${telephoneHref(office.phone)}`}>
+            <Phone aria-hidden="true" />
+            <span>
+              <small>{office.name}</small>
+              <strong>{office.phone}</strong>
+            </span>
+          </a>
+        ))}
+      </div>
+    </aside>
+  );
+}
+
 function civicRecordId(number: string) {
   return number
     .toLowerCase()
@@ -982,21 +1020,8 @@ function HomePage() {
             Open the complete service guide <ArrowRight />
           </Link>
         </div>
+        <HomeEmergencyHotlines />
         <ServiceCategoryGrid compact />
-        <div className="service-access-bar">
-          <span className="service-category-icon is-emergency">
-            <ShieldAlert aria-hidden="true" />
-          </span>
-          <div>
-            <strong>Need urgent help in Malaybalay?</strong>
-            <p>
-              Tap to call the appropriate city response office.
-            </p>
-          </div>
-          <Link to="/government?tab=hotlines">
-            View emergency contacts <ArrowRight aria-hidden="true" />
-          </Link>
-        </div>
       </section>
       <section
         className="section container finance-section"

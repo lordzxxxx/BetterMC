@@ -200,6 +200,15 @@ test("homepage exposes local and national service pathways", async ({ page }) =>
     page.getByRole("heading", { name: /Find the right public service/i }),
   ).toBeVisible();
   await expect(page.locator(".service-category-grid.is-compact article")).toHaveCount(12);
+  await expect(
+    page.getByRole("heading", { name: "Emergency hotlines" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: /City Disaster Risk Reduction.*0917-827-6117/i }),
+  ).toHaveAttribute("href", "tel:09178276117");
+  await expect(
+    page.getByRole("link", { name: /All city hotlines/i }),
+  ).toHaveAttribute("href", "/government?tab=hotlines");
   await page
     .locator(".service-category-grid article")
     .filter({ hasText: "Health" })
