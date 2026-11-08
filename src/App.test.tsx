@@ -5,7 +5,7 @@ import {
   barangayMicrosites,
   MALAYBALAY_2024_POPULATION,
 } from "./barangayProfiles";
-import { civicRecords } from "./data";
+import { civicRecords, reportedProcurementSavings } from "./data";
 import { civicRecordContext } from "./civicRecordContext";
 
 describe("BetterMC public portal", () => {
@@ -56,11 +56,23 @@ describe("BetterMC public portal", () => {
       screen.getByRole("heading", { name: /Welcome to BetterMC/i }),
     ).toBeInTheDocument();
     expect(screen.getByLabelText(/Malaybalay time/i)).toBeInTheDocument();
-    expect(screen.getByText("Not separately reported")).toBeInTheDocument();
+    expect(screen.getByText("₱361.87M")).toBeInTheDocument();
+    expect(reportedProcurementSavings.earlierPeriod + reportedProcurementSavings.latestYear).toBe(
+      reportedProcurementSavings.amount,
+    );
     expect(
       screen.getByRole("heading", { name: /Operating income by source/i }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Open Business and trade guide" }),
+    ).toHaveAttribute("href", "/services/business-trade");
     expect(screen.getByText("₱1,188,506,575.00")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /Reported procurement savings/i }));
+    expect(screen.getByRole("heading", { name: /Reported procurement savings, through 2025/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Read the report and its breakdown/i })).toHaveAttribute(
+      "href",
+      reportedProcurementSavings.source.url,
+    );
     fireEvent.click(
       screen.getByRole("button", { name: /Current operating income/i }),
     );

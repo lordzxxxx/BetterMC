@@ -907,6 +907,18 @@ export const financialSnapshot = {
   } satisfies Source,
 };
 
+export const reportedProcurementSavings = {
+  amount: 361_870_000,
+  period: "Mid-2022 through 2025",
+  earlierPeriod: 241_920_000,
+  latestYear: 119_950_000,
+  source: {
+    label: "Philippine Daily Inquirer — Transparency pays for Malaybalay City",
+    url: "https://newsinfo.inquirer.net/2172582/transparency-pays-for-malaybalay-city/amp",
+    verifiedOn: VERIFIED_ON,
+  } satisfies Source,
+} as const;
+
 export type CivicRecord = {
   number: string;
   title: string;

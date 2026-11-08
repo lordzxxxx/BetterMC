@@ -75,6 +75,7 @@ import {
   officials,
   officialPortraits,
   procurementSources,
+  reportedProcurementSavings,
   publicProjects,
   services,
   specialBodyOrders,
@@ -795,8 +796,12 @@ function ServiceCategoryGrid({ compact = false }: { compact?: boolean }) {
               ))}
             </ul>
           )}
-          <Link to={`/services/${category.slug}`}>
-            Open guide
+          <Link
+            to={`/services/${category.slug}`}
+            aria-label={`Open ${category.title} guide`}
+            title={`Open ${category.title} guide`}
+          >
+            <span className="sr-only">Open {category.title} guide</span>
             <ArrowRight aria-hidden="true" />
           </Link>
         </article>
@@ -1114,9 +1119,9 @@ function HomePage() {
             }
           >
             <ShieldCheck />
-            <span>Total savings</span>
-            <strong>Not separately reported</strong>
-            <small>Why BetterMC does not invent this number · inspect</small>
+            <span>Reported procurement savings</span>
+            <strong>₱361.87M</strong>
+            <small>Reported for {reportedProcurementSavings.period} · inspect</small>
           </button>
         </div>
         {financeFocus && (
@@ -1130,7 +1135,7 @@ function HomePage() {
                     ? "Current operating expenditures"
                     : financeFocus === "balance"
                       ? "Net operating balance"
-                      : "Savings is not a reported line item"}
+                      : "Reported procurement savings, through 2025"}
               </h3>
             </div>
             <p>
@@ -1140,15 +1145,25 @@ function HomePage() {
                   ? "Current operating costs reported for the period. Capital, debt-principal, and other non-operating movements are shown separately below."
                   : financeFocus === "balance"
                     ? `${money(financialSnapshot.currentOperatingIncome)} income less ${money(financialSnapshot.currentOperatingExpenditures)} operating expenditures equals ${money(financialSnapshot.netOperatingBalance)}. This is not automatically “savings.”`
-                    : "The official statement reports a net operating balance, net increase in funds, and ending cash balance, but it does not publish a distinct total-savings figure. BetterMC therefore leaves it uncalculated."}
+                    : `The Philippine Daily Inquirer reports Mayor Jay Warren Pabillaran’s statement that procurement activities generated ₱${(reportedProcurementSavings.amount / 1_000_000).toFixed(2)} million in savings since 2022. Its breakdown is ₱${(reportedProcurementSavings.earlierPeriod / 1_000_000).toFixed(2)} million from mid-2022 through 2024 plus ₱${(reportedProcurementSavings.latestYear / 1_000_000).toFixed(2)} million for 2025; the figures add up to the reported total. This is a reported procurement figure, not a line item in the 2025 Q2 financial statement, cash on hand, or an independently audited savings calculation. The supplied first-half 2025 amount is not added separately to the full-year 2025 figure.`}
             </p>
-            <a
-              href={financialSnapshot.source.url}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Verify in the official statement <ExternalLink />
-            </a>
+            {financeFocus === "savings" ? (
+              <a
+                href={reportedProcurementSavings.source.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Read the report and its breakdown <ExternalLink />
+              </a>
+            ) : (
+              <a
+                href={financialSnapshot.source.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Verify in the official statement <ExternalLink />
+              </a>
+            )}
           </div>
         )}
         <div
