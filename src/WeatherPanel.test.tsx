@@ -24,6 +24,8 @@ const forecast = {
       `2026-11-07T${String(index + 1).padStart(2, "0")}:00`,
     ),
     temperature_2m: Array.from({ length: 24 }, (_, index) => 20 + index / 4),
+    apparent_temperature: Array.from({ length: 24 }, (_, index) => 22 + index / 4),
+    relative_humidity_2m: Array.from({ length: 24 }, (_, index) => 92 - index),
     precipitation_probability: Array.from(
       { length: 24 },
       (_, index) => (index === 11 ? 75 : 20),
@@ -33,6 +35,8 @@ const forecast = {
   },
   hourly_units: {
     temperature_2m: "°C",
+    apparent_temperature: "°C",
+    relative_humidity_2m: "%",
     precipitation_probability: "%",
     wind_speed_10m: "km/h",
   },
@@ -72,17 +76,19 @@ describe("Malaybalay weather", () => {
       name: /1 AM forecast.*current hour/i,
     });
     expect(currentHour).toHaveAttribute("aria-current", "time");
-    expect(currentHour).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByText("Now")).toBeInTheDocument();
 
     const laterHour = screen.getByRole("button", {
       name: /4 AM forecast/i,
     });
     fireEvent.click(laterHour);
-    expect(laterHour).toHaveAttribute("aria-pressed", "true");
-    expect(currentHour).toHaveAttribute("aria-pressed", "false");
-    expect(screen.getByText("Selected hour")).toBeInTheDocument();
-    expect(screen.getByText(/4 AM · Partly cloudy/i)).toBeInTheDocument();
+    const dialog = screen.getByRole("dialog");
+    expect(dialog).toBeVisible();
+    expect(dialog).toHaveTextContent(/Saturday, November 7 at 4 AM/i);
+    expect(dialog).toHaveTextContent(/Feels like/i);
+    expect(dialog).toHaveTextContent(/Humidity/i);
+    fireEvent.click(screen.getByRole("button", { name: /Close forecast details/i }));
+    expect(dialog).not.toHaveAttribute("open");
     expect(
       screen.getByRole("link", { name: /Open-Meteo methodology/i }),
     ).toHaveAttribute("href", "https://open-meteo.com/en/docs");

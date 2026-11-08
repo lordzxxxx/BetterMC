@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Cloud,
   CloudFog,
@@ -10,7 +10,9 @@ import {
   ExternalLink,
   RefreshCw,
   Sun,
+  ThermometerSun,
   Wind,
+  X,
 } from "lucide-react";
 import {
   fetchMalaybalayWeather,
@@ -39,13 +41,35 @@ const formatUpdated = (value: string) =>
     timeZone: "Asia/Manila",
   }).format(localDate(value));
 
+const formatForecastDay = (value: string) =>
+  new Intl.DateTimeFormat("en-PH", {
+    weekday: "short",
+    timeZone: "Asia/Manila",
+  }).format(localDate(value));
+
+const formatForecastDate = (value: string) =>
+  new Intl.DateTimeFormat("en-PH", {
+    month: "short",
+    day: "numeric",
+    timeZone: "Asia/Manila",
+  }).format(localDate(value));
+
+const formatForecastMoment = (value: string) =>
+  new Intl.DateTimeFormat("en-PH", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    timeZone: "Asia/Manila",
+  }).format(localDate(value));
+
 function WeatherIcon({ code }: { code: number }) {
-  if (code === 0) return <Sun aria-hidden="true" />;
-  if (code <= 2) return <CloudSun aria-hidden="true" />;
-  if (code <= 3) return <Cloud aria-hidden="true" />;
-  if (code === 45 || code === 48) return <CloudFog aria-hidden="true" />;
-  if (code >= 95) return <CloudLightning aria-hidden="true" />;
-  return <CloudRain aria-hidden="true" />;
+  if (code === 0) return <Sun className="weather-icon-sun" aria-hidden="true" />;
+  if (code <= 2) return <CloudSun className="weather-icon-sun" aria-hidden="true" />;
+  if (code <= 3) return <Cloud className="weather-icon-cloud" aria-hidden="true" />;
+  if (code === 45 || code === 48) return <CloudFog className="weather-icon-cloud" aria-hidden="true" />;
+  if (code >= 95) return <CloudLightning className="weather-icon-storm" aria-hidden="true" />;
+  return <CloudRain className="weather-icon-rain" aria-hidden="true" />;
 }
 
 function WeatherSkeleton() {
@@ -65,6 +89,9 @@ export default function WeatherPanel() {
   const [state, setState] = useState<WeatherState>({ status: "loading" });
   const [attempt, setAttempt] = useState(0);
   const [selectedHourTime, setSelectedHourTime] = useState<string | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const triggerRefs = useRef(new Map<string, HTMLButtonElement>());
 
   useEffect(() => {
     const controller = new AbortController();
@@ -76,6 +103,13 @@ export default function WeatherPanel() {
       });
     return () => controller.abort();
   }, [attempt]);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (detailsOpen && !dialog.open) dialog.showModal();
+    if (!detailsOpen && dialog.open) dialog.close();
+  }, [detailsOpen]);
 
   const summary = useMemo(() => {
     if (state.status !== "ready") return null;
@@ -129,6 +163,8 @@ export default function WeatherPanel() {
     .map((time, index) => ({
       time,
       temperature: hourly.temperature_2m[index],
+      feelsLike: hourly.apparent_temperature[index],
+      humidity: hourly.relative_humidity_2m[index],
       rain: hourly.precipitation_probability[index],
       code: hourly.weather_code[index],
       wind: hourly.wind_speed_10m[index],
@@ -143,6 +179,12 @@ export default function WeatherPanel() {
   const selectedHour =
     hourlySamples.find((hour) => hour.time === selectedHourTime) ??
     hourlySamples[activeHourIndex];
+  const closeDetails = () => {
+    setDetailsOpen(false);
+    window.requestAnimationFrame(() => {
+      triggerRefs.current.get(selectedHour.time)?.focus();
+    });
+  };
 
   return (
     <section className="section container weather-section" aria-labelledby="weather-title">
@@ -181,8 +223,8 @@ export default function WeatherPanel() {
         </div>
 
         <div className="weather-forecast-heading">
-          <strong>Hourly outlook</strong>
-          <span>Select a time for details</span>
+          <strong>24-hour forecast</strong>
+          <span>Open any interval for complete conditions</span>
         </div>
 
         <div className="weather-hourly" aria-label="Three-hour weather forecast intervals">
@@ -193,37 +235,35 @@ export default function WeatherPanel() {
               <button
                 type="button"
                 key={hour.time}
-                className={`${isCurrent ? "is-current " : ""}${isSelected ? "is-selected" : ""}`.trim()}
+                ref={(element) => {
+                  if (element) triggerRefs.current.set(hour.time, element);
+                  else triggerRefs.current.delete(hour.time);
+                }}
+                className={`${isCurrent ? "is-current " : ""}${isSelected && detailsOpen ? "is-selected" : ""}`.trim()}
                 aria-current={isCurrent ? "time" : undefined}
-                aria-pressed={isSelected}
+                aria-haspopup="dialog"
                 aria-label={`${formatHour(hour.time)} forecast: ${weatherCondition(hour.code)}, ${Math.round(hour.temperature)}${hourlyUnits.temperature_2m}, ${hour.rain}${hourlyUnits.precipitation_probability} chance of rain, wind ${Math.round(hour.wind)} ${hourlyUnits.wind_speed_10m}${isCurrent ? ", current hour" : ""}`}
-                onClick={() => setSelectedHourTime(hour.time)}
+                onClick={() => {
+                  setSelectedHourTime(hour.time);
+                  setDetailsOpen(true);
+                }}
               >
+                <span className="weather-hour-day">
+                  <strong>{formatForecastDay(hour.time)}</strong>
+                  <small>{formatForecastDate(hour.time)}</small>
+                </span>
                 <span className="weather-hour-time">
                   <time dateTime={hour.time}>{formatHour(hour.time)}</time>
                   {isCurrent && <em className="weather-hour-badge">Now</em>}
                 </span>
                 <WeatherIcon code={hour.code} />
                 <strong>{Math.round(hour.temperature)}{hourlyUnits.temperature_2m}</strong>
+                <span className="weather-hour-condition">{weatherCondition(hour.code)}</span>
                 <span className="weather-hour-rain"><Droplets aria-hidden="true" /> {hour.rain}{hourlyUnits.precipitation_probability}</span>
+                <span className="weather-hour-wind"><Wind aria-hidden="true" /> {Math.round(hour.wind)} {hourlyUnits.wind_speed_10m}</span>
               </button>
             );
           })}
-        </div>
-
-        <div className="weather-selected-detail" role="status" aria-live="polite">
-          <div className="weather-selected-label">
-            <WeatherIcon code={selectedHour.code} />
-            <div>
-              <span>{selectedHour.time === hourlySamples[activeHourIndex].time ? "Current hour" : "Selected hour"}</span>
-              <strong>{formatHour(selectedHour.time)} · {weatherCondition(selectedHour.code)}</strong>
-            </div>
-          </div>
-          <dl>
-            <div><dt>Temperature</dt><dd>{Math.round(selectedHour.temperature)}{hourlyUnits.temperature_2m}</dd></div>
-            <div><dt>Rain chance</dt><dd>{selectedHour.rain}{hourlyUnits.precipitation_probability}</dd></div>
-            <div><dt>Wind</dt><dd>{Math.round(selectedHour.wind)} {hourlyUnits.wind_speed_10m}</dd></div>
-          </dl>
         </div>
 
         <footer className="weather-source">
@@ -233,6 +273,48 @@ export default function WeatherPanel() {
           </a>
         </footer>
       </div>
+      <dialog
+        ref={dialogRef}
+        className="weather-detail-dialog"
+        aria-labelledby="weather-detail-title"
+        onCancel={(event) => {
+          event.preventDefault();
+          closeDetails();
+        }}
+        onClose={() => setDetailsOpen(false)}
+        onClick={(event) => {
+          if (event.target === event.currentTarget) closeDetails();
+        }}
+      >
+        <article className="weather-detail-card">
+          <header>
+            <div>
+              <span>Malaybalay forecast</span>
+              <h3 id="weather-detail-title">{formatForecastMoment(selectedHour.time)}</h3>
+            </div>
+            <button type="button" aria-label="Close forecast details" onClick={closeDetails}>
+              <X aria-hidden="true" />
+            </button>
+          </header>
+          <div className="weather-detail-condition">
+            <span><WeatherIcon code={selectedHour.code} /></span>
+            <div>
+              <strong>{Math.round(selectedHour.temperature)}{hourlyUnits.temperature_2m}</strong>
+              <p>{weatherCondition(selectedHour.code)}</p>
+            </div>
+          </div>
+          <dl>
+            <div><dt><ThermometerSun aria-hidden="true" /> Feels like</dt><dd>{Math.round(selectedHour.feelsLike)}{hourlyUnits.apparent_temperature}</dd></div>
+            <div><dt><Droplets aria-hidden="true" /> Humidity</dt><dd>{selectedHour.humidity}{hourlyUnits.relative_humidity_2m}</dd></div>
+            <div><dt><CloudRain aria-hidden="true" /> Rain chance</dt><dd>{selectedHour.rain}{hourlyUnits.precipitation_probability}</dd></div>
+            <div><dt><Wind aria-hidden="true" /> Wind</dt><dd>{Math.round(selectedHour.wind)} {hourlyUnits.wind_speed_10m}</dd></div>
+          </dl>
+          <p className="weather-detail-note">
+            This is a model-based forecast for Malaybalay City and may change as new observations become available.
+          </p>
+          <button className="weather-detail-done" type="button" onClick={closeDetails}>Done</button>
+        </article>
+      </dialog>
     </section>
   );
 }

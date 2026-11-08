@@ -9,7 +9,7 @@ const weatherParameters = new URLSearchParams({
   current:
     "temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,wind_speed_10m",
   hourly:
-    "temperature_2m,precipitation_probability,weather_code,wind_speed_10m",
+    "temperature_2m,apparent_temperature,relative_humidity_2m,precipitation_probability,weather_code,wind_speed_10m",
   forecast_hours: "24",
   timezone: "Asia/Manila",
 });
@@ -38,12 +38,16 @@ export type MalaybalayWeather = {
   hourly: {
     time: string[];
     temperature_2m: number[];
+    apparent_temperature: number[];
+    relative_humidity_2m: number[];
     precipitation_probability: number[];
     weather_code: number[];
     wind_speed_10m: number[];
   };
   hourly_units: {
     temperature_2m: string;
+    apparent_temperature: string;
+    relative_humidity_2m: string;
     precipitation_probability: string;
     wind_speed_10m: string;
   };
@@ -72,10 +76,14 @@ function isMalaybalayWeather(value: unknown): value is MalaybalayWeather {
       isStringArray(data.hourly.time) &&
       data.hourly.time.length === 24 &&
       isNumberArray(data.hourly.temperature_2m) &&
+      isNumberArray(data.hourly.apparent_temperature) &&
+      isNumberArray(data.hourly.relative_humidity_2m) &&
       isNumberArray(data.hourly.precipitation_probability) &&
       isNumberArray(data.hourly.weather_code) &&
       isNumberArray(data.hourly.wind_speed_10m) &&
       data.hourly.temperature_2m.length === data.hourly.time.length &&
+      data.hourly.apparent_temperature.length === data.hourly.time.length &&
+      data.hourly.relative_humidity_2m.length === data.hourly.time.length &&
       data.hourly.precipitation_probability.length === data.hourly.time.length &&
       data.current_units &&
       typeof data.current_units.temperature_2m === "string" &&
@@ -85,6 +93,8 @@ function isMalaybalayWeather(value: unknown): value is MalaybalayWeather {
       typeof data.current_units.wind_speed_10m === "string" &&
       data.hourly_units &&
       typeof data.hourly_units.temperature_2m === "string" &&
+      typeof data.hourly_units.apparent_temperature === "string" &&
+      typeof data.hourly_units.relative_humidity_2m === "string" &&
       typeof data.hourly_units.precipitation_probability === "string" &&
       typeof data.hourly_units.wind_speed_10m === "string",
   );

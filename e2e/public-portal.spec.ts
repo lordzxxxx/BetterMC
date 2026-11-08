@@ -25,12 +25,16 @@ const weatherFixture = {
       return `2026-11-${day}T${String(hour).padStart(2, "0")}:00`;
     }),
     temperature_2m: Array.from({ length: 24 }, (_, index) => 24 + (index % 6)),
+    apparent_temperature: Array.from({ length: 24 }, (_, index) => 26 + (index % 5)),
+    relative_humidity_2m: Array.from({ length: 24 }, (_, index) => 78 + (index % 8)),
     precipitation_probability: Array.from({ length: 24 }, (_, index) => index === 5 ? 65 : 15),
     weather_code: Array.from({ length: 24 }, () => 2),
     wind_speed_10m: Array.from({ length: 24 }, () => 5),
   },
   hourly_units: {
     temperature_2m: "°C",
+    apparent_temperature: "°C",
+    relative_humidity_2m: "%",
     precipitation_probability: "%",
     wind_speed_10m: "km/h",
   },
@@ -68,11 +72,15 @@ test("homepage presents current Malaybalay conditions and a 24-hour forecast", a
   await expect(currentHour).toHaveAttribute("aria-current", "time");
   const laterHour = page.locator(".weather-hourly button").nth(1);
   await laterHour.click();
-  await expect(laterHour).toHaveAttribute("aria-pressed", "true");
-  await expect(page.locator(".weather-selected-detail")).toContainText(
-    "Selected hour",
-  );
-  await expect(page.getByText(/model-based.*may change/i)).toBeVisible();
+  const details = page.getByRole("dialog");
+  await expect(details).toBeVisible();
+  await expect(details).toContainText("Feels like");
+  await expect(details).toContainText("Humidity");
+  await expect(details).toContainText("Rain chance");
+  await page.getByRole("button", { name: /Close forecast details/i }).click();
+  await expect(details).toBeHidden();
+  await expect(laterHour).toBeFocused();
+  await expect(page.locator(".weather-source").getByText(/model-based.*may change/i)).toBeVisible();
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
   );
