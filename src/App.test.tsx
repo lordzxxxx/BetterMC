@@ -114,8 +114,8 @@ describe("BetterMC public portal", () => {
         <App />
       </MemoryRouter>,
     );
-    fireEvent.click(screen.getByRole("button", { name: /All pages/i }));
-    const navigation = screen.getByRole("navigation", { name: /All BetterMC pages/i });
+    fireEvent.click(screen.getByRole("button", { name: /BetterMC site directory/i }));
+    const navigation = screen.getByRole("navigation", { name: /BetterMC site directory/i });
     expect(within(navigation).getByRole("link", { name: /Legislation/i })).toHaveAttribute(
       "href",
       "/legislation",

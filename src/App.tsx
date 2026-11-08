@@ -25,6 +25,7 @@ import {
   CircleAlert,
   CloudSun,
   Clock3,
+  Compass,
   Database,
   ExternalLink,
   Facebook,
@@ -350,6 +351,7 @@ function FinancialBreakdown() {
 function Header() {
   const [open, setOpen] = useState(false);
   const [pagesOpen, setPagesOpen] = useState(false);
+  const pageAccessRef = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -363,6 +365,17 @@ function Header() {
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [open, pagesOpen]);
+
+  useEffect(() => {
+    if (!pagesOpen) return;
+    const closeOutside = (event: PointerEvent) => {
+      if (!pageAccessRef.current?.contains(event.target as Node)) {
+        setPagesOpen(false);
+      }
+    };
+    window.addEventListener("pointerdown", closeOutside);
+    return () => window.removeEventListener("pointerdown", closeOutside);
+  }, [pagesOpen]);
 
   return (
     <>
@@ -387,30 +400,35 @@ function Header() {
                 {item.label}
               </NavLink>
             ))}
-            <div className="page-access-menu">
+            <div className="page-access-menu" ref={pageAccessRef}>
               <button
                 type="button"
                 aria-expanded={pagesOpen}
                 aria-controls="all-pages-menu"
+                aria-label={`${pagesOpen ? "Close" : "Open"} BetterMC site directory`}
                 onClick={() => setPagesOpen((value) => !value)}
               >
-                <LayoutGrid aria-hidden="true" /> All pages <ChevronDown aria-hidden="true" />
+                <Compass aria-hidden="true" /> Explore <ChevronDown aria-hidden="true" />
               </button>
               <div
                 id="all-pages-menu"
                 className={`page-access-panel${pagesOpen ? " is-open" : ""}`}
                 role="navigation"
-                aria-label="All BetterMC pages"
+                aria-label="BetterMC site directory"
                 aria-hidden={!pagesOpen}
               >
-                <div>
-                  <strong>Explore BetterMC</strong>
-                  <span>Direct access to every main portal area</span>
+                <div className="page-access-heading">
+                  <span className="page-access-heading-icon"><LayoutGrid aria-hidden="true" /></span>
+                  <span>
+                    <strong>Browse BetterMC</strong>
+                    <small>Go directly to any section of the public information portal.</small>
+                  </span>
                 </div>
                 {sitePages.map((page) => (
                   <Link
                     key={page.to}
                     className={pathname === page.to ? "is-active" : undefined}
+                    aria-current={pathname === page.to ? "page" : undefined}
                     to={page.to}
                     onClick={() => setPagesOpen(false)}
                   >
@@ -823,9 +841,10 @@ function HomePage() {
           <div className="hero-copy">
             <h1>Welcome to BetterMC.</h1>
             <p>
-              Your independent guide to source-linked Malaybalay records,
-              services, public offices, and barangays—organized for clearer
-              understanding and stronger accountability.
+              Explore source-linked Malaybalay records, public services,
+              government offices, and all 46 barangays in one clear,
+              independent portal built for informed participation and public
+              accountability.
             </p>
             <div className="hero-actions">
               <Link className="button primary" to="/transparency">

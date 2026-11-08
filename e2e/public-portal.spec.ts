@@ -431,8 +431,8 @@ test("global page access remains complete and responsive", async ({
   );
 
   if ((page.viewportSize()?.width ?? 0) > 960) {
-    await page.getByRole("button", { name: "All pages" }).click();
-    const allPages = page.getByRole("navigation", { name: "All BetterMC pages" });
+    await page.getByRole("button", { name: "Open BetterMC site directory" }).click();
+    const allPages = page.getByRole("navigation", { name: "BetterMC site directory" });
     await expect(allPages.getByRole("link")).toHaveCount(9);
     await expect(allPages.getByRole("link", { name: /Legislation/i })).toHaveAttribute(
       "href",
