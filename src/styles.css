@@ -9712,7 +9712,7 @@ kbd {
   }
 }
 
-/* Homepage welcome: optimized city image beneath a matte 80% civic-blue layer. */
+/* Homepage welcome: optimized city image beneath a matte 60% civic-blue layer. */
 .hero,
 .home-page .hero {
   background: #1258b6;
@@ -9744,7 +9744,7 @@ kbd {
   height: auto;
   border: 0;
   border-radius: 0;
-  background: rgba(9, 75, 166, 0.8);
+  background: rgba(9, 75, 166, 0.6);
   box-shadow: none;
   transform: none;
   pointer-events: none;

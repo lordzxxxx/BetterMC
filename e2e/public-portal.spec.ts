@@ -134,7 +134,7 @@ test("layered homepage hero and detailed finance remain usable", async ({
   expect(heroLayers.image).toContain("malaybalay-city-hall-background.webp");
   expect(heroLayers.imageOpacity).toBe("1");
   expect(heroLayers.imageFilter).toContain("blur(");
-  expect(heroLayers.overlay).toBe("rgba(9, 75, 166, 0.8)");
+  expect(heroLayers.overlay).toBe("rgba(9, 75, 166, 0.6)");
   await expect(page.locator("#financial-detail")).toBeVisible();
   await expect(page.getByText("₱1,188,506,575.00")).toBeVisible();
   await page.getByRole("button", { name: /Current operating income/i }).click();
