@@ -4932,27 +4932,29 @@ kbd {
 
 .weather-card .weather-hourly {
   grid-template-columns: repeat(8, minmax(0, 1fr));
-  gap: 0;
+  gap: 7px;
   overflow: visible;
-  border-block: 1px solid rgba(255, 255, 255, 0.19);
+  padding: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 18px;
+  background: rgba(4, 48, 109, 0.18);
 }
 
 .weather-card .weather-hourly button {
   position: relative;
   min-width: 0;
-  min-height: 164px;
+  min-height: 176px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 5px;
-  padding: 12px 8px 10px;
-  border: 0;
-  border-right: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 0;
+  gap: 6px;
+  padding: 13px 7px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
   color: #ffffff;
-  background: transparent;
-  box-shadow: none;
+  background: rgba(4, 58, 130, 0.28);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.08);
   text-align: center;
   transition:
     background-color 160ms ease,
@@ -4960,17 +4962,15 @@ kbd {
     box-shadow 160ms ease;
 }
 
-.weather-card .weather-hourly button:last-child {
-  border-right: 0;
-}
-
 .weather-card .weather-hourly button:hover,
 .weather-card .weather-hourly button:focus-visible {
   z-index: 2;
-  border-color: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.62);
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.22),
+    0 10px 24px rgba(3, 35, 79, 0.16);
   transform: translateY(-2px);
 }
 
@@ -4987,8 +4987,8 @@ kbd {
 }
 
 .weather-hour-day > strong {
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -5005,43 +5005,48 @@ kbd {
 }
 
 .weather-card .weather-hourly .weather-hour-day > small {
-  color: rgba(235, 246, 255, 0.72);
+  color: rgba(242, 249, 255, 0.88);
 }
 
 .weather-card .weather-hourly button > svg {
   grid-column: auto;
   grid-row: auto;
-  width: 32px;
-  height: 32px;
-  margin: 5px 0 1px;
-  stroke-width: 1.65;
+  width: 36px;
+  height: 36px;
+  margin: 5px 0 2px;
+  stroke-width: 1.9;
+  filter: drop-shadow(0 2px 5px rgba(1, 33, 75, 0.22));
 }
 
-.weather-icon-sun {
+.weather-card .weather-hourly button > svg.weather-icon-sun {
   color: #ffe05f;
 }
 
-.weather-icon-cloud {
+.weather-card .weather-hourly button > svg.weather-icon-cloud {
   color: #eef7ff;
 }
 
-.weather-icon-rain,
-.weather-icon-storm {
-  color: #bfe3ff;
+.weather-card .weather-hourly button > svg.weather-icon-rain {
+  color: #d7eeff;
+}
+
+.weather-card .weather-hourly button > svg.weather-icon-storm {
+  color: #f0dcff;
 }
 
 .weather-card .weather-hourly button > strong {
   grid-column: auto;
   color: #ffffff;
-  font-size: 1.2rem;
+  font-size: 1.28rem;
   line-height: 1;
 }
 
 .weather-card .weather-hourly .weather-hour-condition {
   width: 100%;
   overflow: hidden;
-  color: rgba(242, 249, 255, 0.84);
-  font-size: 0.58rem;
+  color: #ffffff;
+  font-size: 0.64rem;
+  font-weight: 750;
   line-height: 1.2;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -5055,7 +5060,8 @@ kbd {
   justify-content: center;
   gap: 3px;
   color: rgba(238, 247, 255, 0.76);
-  font-size: 0.55rem;
+  font-size: 0.59rem;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -5064,7 +5070,7 @@ kbd {
 .weather-card .weather-hourly button > .weather-hour-condition,
 .weather-card .weather-hourly button > .weather-hour-rain,
 .weather-card .weather-hourly button > .weather-hour-wind {
-  color: rgba(242, 249, 255, 0.84);
+  color: rgba(248, 252, 255, 0.94);
 }
 
 .weather-card .weather-hourly :is(.weather-hour-rain, .weather-hour-wind) svg {
@@ -5081,9 +5087,11 @@ kbd {
 .weather-card .weather-hourly button.is-current,
 .weather-card .weather-hourly button.is-selected:not(.is-current) {
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.19);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+  border-color: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.36),
+    0 10px 25px rgba(3, 36, 82, 0.18);
 }
 
 .weather-card .weather-hourly button.is-current::after {
@@ -5306,14 +5314,15 @@ kbd {
   .weather-card .weather-hourly {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: 98px;
+    grid-auto-columns: 108px;
     grid-template-columns: none;
     margin-inline: 0;
-    padding: 0 0 5px;
+    padding: 6px;
+    gap: 6px;
   }
 
   .weather-card .weather-hourly button {
-    min-height: 158px;
+    min-height: 170px;
     padding-inline: 6px;
   }
 
