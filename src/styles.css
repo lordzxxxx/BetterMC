@@ -10779,3 +10779,24 @@ body {
     transition: none;
   }
 }
+
+@media (min-width: 641px) and (max-width: 960px) {
+  .independence-inner {
+    gap: 18px;
+  }
+
+  .independence-inner > p {
+    max-width: 46%;
+    font-size: 0.64rem;
+    line-height: 1.25;
+  }
+
+  .independence-inner > p span {
+    display: block;
+    margin-left: 0;
+  }
+
+  .independence-bar .city-clock time {
+    white-space: nowrap;
+  }
+}
