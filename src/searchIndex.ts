@@ -16,7 +16,11 @@ import {
   goodsServicesAwardRecords,
   infrastructureAwardRecords,
 } from "./procurementRecords";
-import { localServicePathways, serviceCategories } from "./serviceCatalog";
+import {
+  localServicePathways,
+  serviceCategories,
+  VERIFIED_SERVICE_PROVIDERS,
+} from "./serviceCatalog";
 
 export type PortalSearchRecord = {
   type: string;
@@ -188,6 +192,22 @@ export const portalSearchIndex: PortalSearchRecord[] = [
       .map((subcategory) => subcategory.title)
       .join(" ")}`,
   })),
+  ...VERIFIED_SERVICE_PROVIDERS.flatMap((provider) => [
+    {
+      type: "Service provider",
+      title: provider.name,
+      detail: `${provider.jurisdiction} · ${provider.address}`,
+      href: `/services/${provider.categorySlug}`,
+      keywords: `${provider.barangay} ${provider.shortName} ${provider.phone ?? ""} ${provider.hours} ${provider.onlinePortalLabel}`,
+    },
+    ...provider.transactions.map((tx) => ({
+      type: "Public transaction",
+      title: tx.title,
+      detail: `${provider.shortName} · ${tx.processingTime}`,
+      href: `/services/${provider.categorySlug}?provider=${provider.id}&tx=${tx.id}`,
+      keywords: `${tx.requirements.join(" ")} ${tx.feeSchedule} ${provider.name} transaction requirements fees`,
+    })),
+  ]),
   ...services.map((service) => ({
     type: "City service",
     title: service.title,

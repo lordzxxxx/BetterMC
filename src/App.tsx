@@ -26,6 +26,7 @@ import {
   CloudSun,
   Clock3,
   Compass,
+  Copy,
   Database,
   ExternalLink,
   Facebook,
@@ -42,14 +43,18 @@ import {
   LayoutGrid,
   Leaf,
   Mail,
+  MapPin,
   Menu,
+  Navigation,
   Phone,
   Plane,
+  Printer,
   ReceiptText,
   Search,
   Scale,
   ShieldCheck,
   ShieldAlert,
+  Sparkles,
   TrendingUp,
   Users,
   WalletCards,
@@ -123,7 +128,15 @@ import {
   betterGovServiceUrl,
   localServicePathways,
   serviceCategories,
+  getProvidersForCategory,
+  getBarangayOriginCoordinates,
+  sanitizeExternalServiceUrl,
+  generateTransactionReference,
+  type RankedServiceProvider,
+  type ServiceTransactionOption,
+  type ServiceProvider,
 } from "./serviceCatalog";
+import { MALAYBALAY_CENTROIDS } from "./malaybalayGisData";
 import { civicRecordContext } from "./civicRecordContext";
 import { searchPortal } from "./searchIndex";
 import { sitePages } from "./sitePages";
@@ -4422,16 +4435,517 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
   );
 }
 
+function BarangayOriginSelect({
+  selectedSlug,
+  onChange,
+  onDetectLocation,
+  isDetecting,
+}: {
+  selectedSlug: string;
+  onChange: (slug: string) => void;
+  onDetectLocation?: () => void;
+  isDetecting?: boolean;
+}) {
+  return (
+    <div className="service-origin-bar" aria-label="Select your location for nearest service providers">
+      <div className="service-origin-info">
+        <span className="service-origin-icon" aria-hidden="true">
+          <MapPin />
+        </span>
+        <div>
+          <span className="eyebrow">Your Location in Malaybalay City</span>
+          <strong>Nearest providers calculated from your barangay</strong>
+        </div>
+      </div>
+      <div className="service-origin-controls">
+        <label htmlFor="service-origin-select" className="sr-only">
+          Select Barangay origin
+        </label>
+        <select
+          id="service-origin-select"
+          className="service-origin-select"
+          value={selectedSlug}
+          onChange={(e) => onChange(e.target.value)}
+        >
+          <option value="city-center">📍 Malaybalay City Proper (Poblacion Center)</option>
+          <optgroup label="Urban Barangays (17)">
+            {barangayMicrosites
+              .filter((b) => b.classification === "Urban")
+              .map((b) => (
+                <option key={b.slug} value={b.slug}>
+                  Brgy. {b.name} (Urban · PSGC {b.code})
+                </option>
+              ))}
+          </optgroup>
+          <optgroup label="Rural Barangays (29)">
+            {barangayMicrosites
+              .filter((b) => b.classification === "Rural")
+              .map((b) => (
+                <option key={b.slug} value={b.slug}>
+                  Brgy. {b.name} (Rural · PSGC {b.code})
+                </option>
+              ))}
+          </optgroup>
+        </select>
+        {onDetectLocation && (
+          <button
+            type="button"
+            className="button secondary service-gps-btn"
+            onClick={onDetectLocation}
+            disabled={isDetecting}
+            title="Detect nearest barangay via device GPS"
+          >
+            <Navigation aria-hidden="true" />
+            <span>{isDetecting ? "Locating…" : "Use GPS"}</span>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function TransactionModal({
+  provider,
+  transaction,
+  categoryTitle,
+  categorySlug,
+  userOriginLabel,
+  onClose,
+}: {
+  provider: ServiceProvider;
+  transaction: ServiceTransactionOption;
+  categoryTitle: string;
+  categorySlug: string;
+  userOriginLabel: string;
+  onClose: () => void;
+}) {
+  const [checkedReqs, setCheckedReqs] = useState<Record<string, boolean>>({});
+  const [copied, setCopied] = useState(false);
+  const txRef = useMemo(
+    () => generateTransactionReference(categorySlug, provider.id, transaction.id),
+    [categorySlug, provider.id, transaction.id],
+  );
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
+  const toggleReq = (req: string) => {
+    setCheckedReqs((prev) => ({ ...prev, [req]: !prev[req] }));
+  };
+
+  const handleCopyRef = async () => {
+    try {
+      await navigator.clipboard.writeText(txRef);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2400);
+    } catch {
+      // fallback
+    }
+  };
+
+  const completedCount = transaction.requirements.filter((r) => checkedReqs[r]).length;
+  const totalCount = transaction.requirements.length;
+  const isAllReady = totalCount > 0 && completedCount === totalCount;
+  const sanitizedActionUrl = sanitizeExternalServiceUrl(transaction.actionUrl);
+
+  return (
+    <div
+      className="barangay-popout-backdrop service-tx-backdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${transaction.title} Transaction Guide & Checklist`}
+      onClick={onClose}
+    >
+      <div
+        className="barangay-popout-modal service-tx-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="barangay-popout-header">
+          <div className="barangay-popout-brand">
+            <span className="barangay-icon-tile">
+              <ServiceCategoryIcon slug={categorySlug} />
+            </span>
+            <div>
+              <span className="eyebrow">
+                {categoryTitle} · {provider.jurisdiction}
+              </span>
+              <h3>{transaction.title}</h3>
+            </div>
+          </div>
+          <button
+            type="button"
+            className="barangay-popout-close"
+            aria-label="Close transaction guide"
+            onClick={onClose}
+          >
+            <X aria-hidden="true" />
+          </button>
+        </div>
+
+        <div className="barangay-popout-body service-tx-body">
+          {/* Reference & Quick Facts Banner */}
+          <div className="service-tx-ref-card">
+            <div className="service-tx-ref-main">
+              <span className="service-tx-ref-label">Official Tracking Reference:</span>
+              <code className="service-tx-ref-code">{txRef}</code>
+              <button
+                type="button"
+                className="button secondary service-copy-btn"
+                onClick={handleCopyRef}
+                title="Copy reference code to clipboard"
+              >
+                {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
+                <span>{copied ? "Copied!" : "Copy Code"}</span>
+              </button>
+            </div>
+            <div className="service-tx-badges">
+              <span className="service-stat-badge">
+                <Clock3 aria-hidden="true" />
+                <strong>Processing:</strong> {transaction.processingTime}
+              </span>
+              <span className="service-stat-badge">
+                <ReceiptText aria-hidden="true" />
+                <strong>Fees:</strong> {transaction.feeSchedule}
+              </span>
+              <span className="service-stat-badge is-origin">
+                <MapPin aria-hidden="true" />
+                <strong>For:</strong> {userOriginLabel}
+              </span>
+            </div>
+          </div>
+
+          {/* Provider Destination Info */}
+          <div className="service-tx-facility-summary">
+            <strong>Responsible Provider & Cashier:</strong>
+            <p>
+              {provider.name} · {provider.address} ({provider.hours})
+            </p>
+            <small>Accepted E-Payment Channels: {provider.epaymentChannel}</small>
+          </div>
+
+          {/* Interactive Requirements Checklist */}
+          <section className="service-tx-section" aria-label="Requirements checklist">
+            <div className="service-tx-section-head">
+              <h4>
+                <FileCheck2 aria-hidden="true" />
+                Documentary Requirements Checklist
+              </h4>
+              <span className={`service-readiness-pill${isAllReady ? " is-ready" : ""}`}>
+                {completedCount} of {totalCount} ready {isAllReady && "✓ Ready to file!"}
+              </span>
+            </div>
+            <p className="service-tx-subtitle">
+              Check off each document as you prepare them before visiting the counter or filing online.
+            </p>
+            <div className="service-req-checklist">
+              {transaction.requirements.map((req, idx) => {
+                const checked = Boolean(checkedReqs[req]);
+                return (
+                  <label
+                    key={`req-${idx}`}
+                    className={`service-req-item${checked ? " is-checked" : ""}`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => toggleReq(req)}
+                    />
+                    <span className="service-req-text">{req}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* Step-by-Step Procedure Guide */}
+          <section className="service-tx-section" aria-label="Step-by-step procedures">
+            <div className="service-tx-section-head">
+              <h4>
+                <Landmark aria-hidden="true" />
+                Step-by-Step Transaction Walkthrough
+              </h4>
+            </div>
+            <ol className="service-steps-list">
+              {transaction.steps.map((step, idx) => (
+                <li key={`step-${idx}`}>
+                  <span className="service-step-number">{idx + 1}</span>
+                  <div className="service-step-content">
+                    <p>{step}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          {/* Actions Bar */}
+          <div className="noah-popout-actions service-tx-actions">
+            <a
+              className="button primary"
+              href={sanitizedActionUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>{transaction.actionLabel}</span>
+              <ExternalLink aria-hidden="true" />
+            </a>
+            <button
+              type="button"
+              className="button secondary"
+              onClick={() => window.print()}
+              title="Print checklist and transaction slip"
+            >
+              <Printer aria-hidden="true" />
+              <span>Print Checklist</span>
+            </button>
+            <button
+              type="button"
+              className="button secondary"
+              onClick={onClose}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ServiceProviderCard({
+  provider,
+  onStartTransaction,
+}: {
+  provider: RankedServiceProvider;
+  onStartTransaction: (tx: ServiceTransactionOption) => void;
+}) {
+  const sanitizedPortalUrl = sanitizeExternalServiceUrl(provider.onlinePortalUrl);
+
+  return (
+    <article className={`provider-card${provider.isNearest ? " is-nearest-card" : ""}`}>
+      <div className="provider-card-head">
+        <div className="provider-card-identity">
+          <div className="provider-badges-row">
+            {provider.isNearest && (
+              <span className="provider-nearest-badge">
+                <Sparkles aria-hidden="true" /> Nearest Provider
+              </span>
+            )}
+            <span className="provider-distance-badge">
+              <MapPin aria-hidden="true" /> {provider.distanceKm} km · ~{provider.estimatedDriveMinutes} mins drive
+            </span>
+            <span className="provider-jurisdiction-badge">
+              {provider.jurisdiction}
+            </span>
+          </div>
+          <h3>{provider.name}</h3>
+          <p className="provider-address">
+            <strong>Address:</strong> {provider.address}
+          </p>
+        </div>
+      </div>
+
+      <div className="provider-meta-grid">
+        <div>
+          <small>Operating Schedule</small>
+          <span>
+            <Clock3 aria-hidden="true" /> {provider.hours}
+          </span>
+        </div>
+        {provider.phone && (
+          <div>
+            <small>Direct Phone</small>
+            <a href={`tel:${telephoneHref(provider.phone)}`}>
+              <Phone aria-hidden="true" /> {provider.phone}
+            </a>
+          </div>
+        )}
+        {provider.email && (
+          <div>
+            <small>Official Email</small>
+            <a href={`mailto:${provider.email}`}>
+              <Mail aria-hidden="true" /> {provider.email}
+            </a>
+          </div>
+        )}
+        <div>
+          <small>E-Payment & Cashier Gateway</small>
+          <span>
+            <WalletCards aria-hidden="true" /> {provider.epaymentChannel}
+          </span>
+        </div>
+      </div>
+
+      {/* Available Transactions */}
+      <div className="provider-transactions-section">
+        <h4>Official Transactions Available at this Provider:</h4>
+        <div className="provider-transactions-list">
+          {provider.transactions.map((tx) => (
+            <div key={tx.id} className="provider-tx-row">
+              <div className="provider-tx-info">
+                <strong>{tx.title}</strong>
+                <div className="provider-tx-meta">
+                  <span>⚡ {tx.processingTime}</span>
+                  <span>💳 {tx.feeSchedule}</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="button primary provider-tx-btn"
+                onClick={() => onStartTransaction(tx)}
+              >
+                <span>Make Transaction & Checklist</span>
+                <ArrowRight aria-hidden="true" />
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Card Action Links */}
+      <div className="provider-card-footer">
+        <div className="provider-directions-group">
+          <a
+            className="button secondary provider-action-link"
+            href={provider.directionsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Open turn-by-turn road navigation on OpenStreetMap"
+          >
+            <Navigation aria-hidden="true" />
+            <span>OpenStreetMap Directions</span>
+            <ExternalLink aria-hidden="true" />
+          </a>
+          <a
+            className="button secondary provider-action-link"
+            href={provider.googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Open route on Google Maps"
+          >
+            <MapPin aria-hidden="true" />
+            <span>Google Maps</span>
+            <ExternalLink aria-hidden="true" />
+          </a>
+        </div>
+        <a
+          className="button primary provider-action-link"
+          href={sanitizedPortalUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>{provider.onlinePortalLabel}</span>
+          <ExternalLink aria-hidden="true" />
+        </a>
+      </div>
+    </article>
+  );
+}
+
+function ServicesQuickFinder() {
+  const [selectedCategory, setSelectedCategory] = useState("certificates-ids");
+  const [selectedBarangay, setSelectedBarangay] = useState("city-center");
+
+  const originInfo = getBarangayOriginCoordinates(selectedBarangay);
+  const ranked = getProvidersForCategory(selectedCategory, originInfo.coords, selectedBarangay);
+  const topProvider = ranked[0];
+
+  return (
+    <section className="services-quick-finder-card" aria-label="Quick nearest service finder">
+      <div className="quick-finder-header">
+        <span className="service-category-icon">
+          <Navigation aria-hidden="true" />
+        </span>
+        <div>
+          <span className="eyebrow">Direct to Nearest Provider</span>
+          <h2>Find the closest facility & start your transaction</h2>
+          <p>
+            Select the service category and your barangay to locate the nearest official counter,
+            statutory processing time, requirements checklist, and e-payment gateways.
+          </p>
+        </div>
+      </div>
+      <div className="quick-finder-controls">
+        <label>
+          <span>I need a service in:</span>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            {serviceCategories.map((c) => (
+              <option key={c.slug} value={c.slug}>
+                {c.title}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          <span>My location / Barangay:</span>
+          <select
+            value={selectedBarangay}
+            onChange={(e) => setSelectedBarangay(e.target.value)}
+          >
+            <option value="city-center">📍 Malaybalay City Proper (Poblacion)</option>
+            {barangayMicrosites.map((b) => (
+              <option key={b.slug} value={b.slug}>
+                Brgy. {b.name} ({b.classification})
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      {topProvider && (
+        <div className="quick-finder-result">
+          <div className="quick-finder-result-info">
+            <span className="provider-nearest-badge">
+              <Sparkles aria-hidden="true" /> Nearest Match
+            </span>
+            <h3>{topProvider.name}</h3>
+            <p>{topProvider.address} · {topProvider.hours}</p>
+            <div className="quick-finder-meta">
+              <span>📍 {topProvider.distanceKm} km away (~{topProvider.estimatedDriveMinutes} mins drive)</span>
+              <span>⚡ {topProvider.transactions.length} verified transactions available</span>
+            </div>
+          </div>
+          <div className="quick-finder-result-actions">
+            <Link className="button primary" to={`/services/${selectedCategory}?origin=${selectedBarangay}`}>
+              <span>Open Provider & Make Transactions</span>
+              <ArrowRight aria-hidden="true" />
+            </Link>
+            <a
+              className="button secondary"
+              href={topProvider.directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Navigation aria-hidden="true" />
+              <span>Get Directions</span>
+              <ExternalLink aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
 function ServicesPage() {
   const [allBodiesVisible, setAllBodiesVisible] = useState(false);
   return (
     <>
       <PageHero
-        eyebrow="Public services"
+        eyebrow="Public services & transactions"
         title="Start with the official service standard."
-        description="Open the City Government’s Citizen’s Charter, protocol manual, and official forms. BetterMC does not replace an application or official transaction channel."
+        description="Connect directly to nearest service providers across Malaybalay City, complete requirements checklists, and start official online/in-person transactions under the Citizen's Charter and ARTA RA 11032."
       />
       <section className="section container">
+        {/* Quick Nearest Provider & Transaction Locator */}
+        <ServicesQuickFinder />
+
         <div className="service-intro-grid">
           <article className="economic-brief service-scope-card">
             <span className="eyebrow">Current city context</span>
@@ -4508,12 +5022,10 @@ function ServicesPage() {
         </div>
         <div className="service-resource-section national-service-section">
           <SectionHeading
-            eyebrow="National government services"
+            eyebrow="National government services & nearest providers"
             title="BetterGov categories for Malaybalay residents"
           >
-            These links open BetterGov’s national service directory. A service
-            listed here is not necessarily delivered by the City Government of
-            Malaybalay.
+            Select any category below to locate the nearest service provider in Malaybalay City, review required documentary checklists, and start official online/counter transactions.
           </SectionHeading>
           <ServiceCategoryGrid />
           <a
@@ -4611,53 +5123,159 @@ function ServicesPage() {
   );
 }
 
+const safeGetLocalStorage = (key: string): string | null => {
+  try {
+    if (typeof window !== "undefined" && window.localStorage) {
+      return window.localStorage.getItem(key);
+    }
+  } catch {
+    // fallback
+  }
+  return null;
+};
+
+const safeSetLocalStorage = (key: string, value: string): void => {
+  try {
+    if (typeof window !== "undefined" && window.localStorage) {
+      window.localStorage.setItem(key, value);
+    }
+  } catch {
+    // fallback
+  }
+};
+
 function ServiceCategoryPage() {
   const { category: categorySlug } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const category = serviceCategories.find(
     (item) => item.slug === categorySlug,
   );
 
+  const [selectedBarangay, setSelectedBarangay] = useState<string>(() => {
+    return (
+      searchParams.get("origin") ||
+      safeGetLocalStorage("bettermc_origin_barangay") ||
+      "city-center"
+    );
+  });
+  const [isDetecting, setIsDetecting] = useState(false);
+  const [activeTx, setActiveTx] = useState<{
+    provider: ServiceProvider;
+    transaction: ServiceTransactionOption;
+  } | null>(null);
+
+  const handleBarangayChange = (slug: string) => {
+    setSelectedBarangay(slug);
+    safeSetLocalStorage("bettermc_origin_barangay", slug);
+    const next = new URLSearchParams(searchParams);
+    if (slug === "city-center") next.delete("origin");
+    else next.set("origin", slug);
+    setSearchParams(next, { replace: true });
+  };
+
+  const handleDetectLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      return;
+    }
+    setIsDetecting(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setIsDetecting(false);
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        let closestSlug = "city-center";
+        let closestDist = Infinity;
+        for (const [code, [cLng, cLat]] of Object.entries(MALAYBALAY_CENTROIDS)) {
+          const d = Math.hypot(lat - cLat, lng - cLng);
+          if (d < closestDist) {
+            closestDist = d;
+            const b = barangayMicrosites.find((item) => item.code === code);
+            if (b) closestSlug = b.slug;
+          }
+        }
+        handleBarangayChange(closestSlug);
+      },
+      () => {
+        setIsDetecting(false);
+        alert("Could not retrieve GPS location. You can select your barangay manually from the list.");
+      },
+      { timeout: 8000 },
+    );
+  };
+
   if (!category) return <NotFoundPage />;
+
+  const originInfo = getBarangayOriginCoordinates(selectedBarangay);
+  const rankedProviders = getProvidersForCategory(category.slug, originInfo.coords, selectedBarangay);
 
   return (
     <>
       <PageHero
-        eyebrow="Government service guide"
+        eyebrow="Government service guide & fast transactions"
         title={category.title}
         description={category.localContext}
         compact
       />
       <section className="section container service-category-page">
+        {/* Origin Selector */}
+        <BarangayOriginSelect
+          selectedSlug={selectedBarangay}
+          onChange={handleBarangayChange}
+          onDetectLocation={handleDetectLocation}
+          isDetecting={isDetecting}
+        />
+
         <div className="service-category-layout">
-          <div>
+          <div className="service-category-main-content">
+            {/* Nearest Providers & Direct Transactions */}
             <SectionHeading
-              eyebrow="National service paths"
-              title={`Browse ${category.title.toLowerCase()} services`}
+              eyebrow="Nearest service providers"
+              title={`Where to transact in Malaybalay for ${category.title.toLowerCase()}`}
             >
-              BetterGov organizes these national pathways. Each link opens the
-              matching directory results and the responsible agency’s service
-              entry where available.
+              These official facilities serve residents of {originInfo.label}. Distance and travel times are road-network adjusted. Click any transaction below to prepare your requirements checklist, view step-by-step procedures, and open official portals.
             </SectionHeading>
-            <div className="service-subcategory-list">
-              {category.subcategories.map((subcategory) => (
-                <a
-                  key={subcategory.slug}
-                  href={betterGovServiceUrl(category.slug, subcategory.slug)}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <span className="service-category-icon">
-                    <ServiceCategoryIcon slug={category.slug} />
-                  </span>
-                  <span>
-                    <strong>{subcategory.title}</strong>
-                    <small>BetterGov national service directory</small>
-                  </span>
-                  <ExternalLink aria-hidden="true" />
-                </a>
+
+            <div className="service-providers-list">
+              {rankedProviders.map((provider) => (
+                <ServiceProviderCard
+                  key={provider.id}
+                  provider={provider}
+                  onStartTransaction={(transaction) => setActiveTx({ provider, transaction })}
+                />
               ))}
             </div>
+
+            {/* National service paths via BetterGov */}
+            <div className="service-subcategories-section">
+              <SectionHeading
+                eyebrow="National service paths"
+                title={`Browse ${category.title.toLowerCase()} services`}
+              >
+                BetterGov organizes these national pathways. Each link opens the matching directory results and the responsible agency’s service entry where available.
+              </SectionHeading>
+              <div className="service-subcategory-list">
+                {category.subcategories.map((subcategory) => (
+                  <a
+                    key={subcategory.slug}
+                    href={betterGovServiceUrl(category.slug, subcategory.slug)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className="service-category-icon">
+                      <ServiceCategoryIcon slug={category.slug} />
+                    </span>
+                    <span>
+                      <strong>{subcategory.title}</strong>
+                      <small>BetterGov national service directory</small>
+                    </span>
+                    <ExternalLink aria-hidden="true" />
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
+
           <aside className="service-responsibility-note">
             <ShieldCheck aria-hidden="true" />
             <h2>Check who owns the transaction</h2>
@@ -4675,6 +5293,7 @@ function ServiceCategoryPage() {
             </Link>
           </aside>
         </div>
+
         <div className="service-access-bar">
           <span className="service-category-icon is-emergency">
             <ShieldAlert aria-hidden="true" />
@@ -4688,6 +5307,18 @@ function ServiceCategoryPage() {
           </Link>
         </div>
       </section>
+
+      {/* Interactive Transaction Modal */}
+      {activeTx && (
+        <TransactionModal
+          provider={activeTx.provider}
+          transaction={activeTx.transaction}
+          categorySlug={category.slug}
+          categoryTitle={category.title}
+          userOriginLabel={originInfo.label}
+          onClose={() => setActiveTx(null)}
+        />
+      )}
     </>
   );
 }

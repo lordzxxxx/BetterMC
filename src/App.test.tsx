@@ -524,4 +524,103 @@ describe("BetterMC public portal", () => {
       "/images/officials/mayor-jay-warren-pabillaran.webp",
     );
   });
+
+  it("guides residents to nearest service providers and allows interactive transactions with requirements checklist", () => {
+    const { unmount } = render(
+      <MemoryRouter initialEntries={["/services"]}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    // Main services page should render the quick finder
+    expect(
+      screen.getByRole("heading", {
+        name: /Find the closest facility & start your transaction/i,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Nearest Match/i),
+    ).toBeInTheDocument();
+    unmount();
+
+    // Navigate to a specific service category (Business and Trade)
+    render(
+      <MemoryRouter initialEntries={["/services/business-trade"]}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    // Shows origin selector with Malaybalay barangays
+    expect(
+      screen.getByLabelText(/Select your location for nearest service providers/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Nearest providers calculated from your barangay/i),
+    ).toBeInTheDocument();
+
+    // Ranks nearest providers (BPLD New City Hall, DTI Bukidnon, SEC/IPOPHL)
+    const bpldHeading = screen.getByRole("heading", {
+      name: /Business Permits and Licensing Division/i,
+    });
+    expect(bpldHeading).toBeInTheDocument();
+    expect(
+      screen.getAllByText(/Nearest Provider/i).length,
+    ).toBeGreaterThanOrEqual(1);
+
+    // Renders available transactions with statutory processing time
+    expect(
+      screen.getByText(/New Business Permit & Mayor’s Permit Registration/i),
+    ).toBeInTheDocument();
+
+    // Clicking "Make Transaction & Checklist" on BPLD opens the interactive modal
+    const bpldCard = bpldHeading.closest("article")!;
+    const bpldTxBtn = within(bpldCard).getAllByRole("button", {
+      name: /Make Transaction & Checklist/i,
+    })[0];
+    fireEvent.click(bpldTxBtn);
+
+    // Transaction modal should display the tracking reference, statutory info, and interactive checklist
+    expect(
+      screen.getByText(/Official Tracking Reference:/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/BMC-TX-2026-BUS-/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: /Documentary Requirements Checklist/i,
+      }),
+    ).toBeInTheDocument();
+
+    // User can check off requirements
+    const firstCheckbox = screen.getAllByRole("checkbox")[0];
+    expect(firstCheckbox).not.toBeChecked();
+    fireEvent.click(firstCheckbox);
+    expect(firstCheckbox).toBeChecked();
+
+    // Step-by-step walkthrough is present
+    expect(
+      screen.getByRole("heading", {
+        name: /Step-by-Step Transaction Walkthrough/i,
+      }),
+    ).toBeInTheDocument();
+
+    // Action button to launch official government portal is present and secure
+    const launchBtn = screen.getByRole("link", {
+      name: /Open BPLD Charter & Requirements/i,
+    });
+    expect(launchBtn).toHaveAttribute(
+      "href",
+      "https://sakata.malaybalaycity.gov.ph/citizens-charter/",
+    );
+    expect(launchBtn).toHaveAttribute("target", "_blank");
+    expect(launchBtn).toHaveAttribute("rel", "noopener noreferrer");
+
+    // Close button dismisses the modal
+    const closeBtn = screen.getByRole("button", {
+      name: /Close transaction guide/i,
+    });
+    fireEvent.click(closeBtn);
+    expect(screen.queryByText(/Official Tracking Reference:/i)).not.toBeInTheDocument();
+  });
 });
