@@ -800,25 +800,23 @@ function ServiceCategoryGrid({ compact = false }: { compact?: boolean }) {
           key={category.slug}
           className={`service-category-card cat-${category.slug}`}
         >
-          <div className="category-card-head">
-            <span className={`service-category-icon cat-icon-${category.slug}`}>
-              <ServiceCategoryIcon slug={category.slug} />
-            </span>
-            <Link
-              to={`/services/${category.slug}`}
-              className="category-card-arrow-link"
-              aria-label={`Open ${category.title} guide`}
-              title={`Open ${category.title} guide`}
-            >
-              <ArrowRight aria-hidden="true" />
-            </Link>
-          </div>
+          <span className={`service-category-icon cat-icon-${category.slug}`}>
+            <ServiceCategoryIcon slug={category.slug} />
+          </span>
           <div className="category-card-body">
             <h3>
               <Link to={`/services/${category.slug}`}>{category.title}</Link>
             </h3>
             <p>{category.summary}</p>
           </div>
+          <Link
+            to={`/services/${category.slug}`}
+            className="category-card-arrow-link"
+            aria-label={`Open ${category.title} guide`}
+            title={`Open ${category.title} guide`}
+          >
+            <ArrowRight aria-hidden="true" />
+          </Link>
           {!compact && (
             <ul className="category-subcategories-list">
               {category.subcategories.map((subcategory) => (
@@ -837,19 +835,6 @@ function ServiceCategoryGrid({ compact = false }: { compact?: boolean }) {
                 </li>
               ))}
             </ul>
-          )}
-          {compact && (
-            <div className="category-card-footer">
-              <Link
-                to={`/services/${category.slug}`}
-                className="category-explore-pill"
-                tabIndex={-1}
-                aria-hidden="true"
-              >
-                <span>View local & nearest counters</span>
-                <ArrowRight aria-hidden="true" />
-              </Link>
-            </div>
           )}
         </article>
       ))}
@@ -4801,7 +4786,7 @@ function ServiceProviderCard({
           {provider.email && (
             <div className="provider-info-cell">
               <span className="info-cell-label">Official Email</span>
-              <a className="info-cell-value is-link" href={`mailto:${provider.email}`}>
+              <a className="info-cell-value is-link provider-email-link" href={`mailto:${provider.email}`} title={provider.email}>
                 <Mail aria-hidden="true" />
                 <span>{provider.email}</span>
               </a>
@@ -4831,48 +4816,55 @@ function ServiceProviderCard({
         </div>
 
         <div className="provider-transactions-list">
-          {provider.transactions.map((tx) => (
-            <div
-              key={tx.id}
-              className="provider-tx-row"
-              role="button"
-              tabIndex={0}
-              onClick={() => onStartTransaction(tx)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  onStartTransaction(tx);
-                }
-              }}
-              aria-label={`Make Transaction & Checklist: ${tx.title}`}
-            >
-              <div className="provider-tx-info">
-                <strong className="provider-tx-title">{tx.title}</strong>
-                <div className="provider-tx-meta">
-                  <span className="tx-meta-pill time">
-                    <Clock3 aria-hidden="true" />
-                    <span>{tx.processingTime}</span>
-                  </span>
-                  <span className="tx-meta-pill fee">
-                    <ReceiptText aria-hidden="true" />
-                    <span>{tx.feeSchedule}</span>
-                  </span>
-                </div>
-              </div>
-              <button
-                type="button"
-                className="button primary provider-tx-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onStartTransaction(tx);
+          {provider.transactions.map((tx) => {
+            const isFree =
+              tx.feeSchedule.toLowerCase().includes("free") ||
+              tx.feeSchedule.includes("₱0.00") ||
+              tx.feeSchedule.includes("P0.00");
+
+            return (
+              <div
+                key={tx.id}
+                className="provider-tx-row"
+                role="button"
+                tabIndex={0}
+                onClick={() => onStartTransaction(tx)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onStartTransaction(tx);
+                  }
                 }}
                 aria-label={`Make Transaction & Checklist: ${tx.title}`}
               >
-                <span>Make Transaction & Checklist</span>
-                <ArrowRight aria-hidden="true" />
-              </button>
-            </div>
-          ))}
+                <div className="provider-tx-info">
+                  <strong className="provider-tx-title">{tx.title}</strong>
+                  <div className="provider-tx-meta">
+                    <span className="tx-meta-pill time">
+                      <Clock3 aria-hidden="true" />
+                      <span>{tx.processingTime}</span>
+                    </span>
+                    <span className={`tx-meta-pill fee${isFree ? " is-free" : ""}`}>
+                      <ReceiptText aria-hidden="true" />
+                      <span>{tx.feeSchedule}</span>
+                    </span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="button primary provider-tx-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onStartTransaction(tx);
+                  }}
+                  aria-label={`Make Transaction & Checklist: ${tx.title}`}
+                >
+                  <span>Make Transaction & Checklist</span>
+                  <ArrowRight aria-hidden="true" />
+                </button>
+              </div>
+            );
+          })}
         </div>
       </div>
 

@@ -6317,77 +6317,22 @@ kbd {
   stroke-width: 2;
 }
 
-/* Category Specific Color Schemes - Eliminates generic monochrome */
-.cat-icon-business-and-trade {
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
-  color: #1d4ed8;
-}
-
-.cat-icon-certificates-and-ids {
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  color: #15803d;
-}
-
-.cat-icon-contributions {
-  background: #f0fdfa;
-  border: 1px solid #99f6e4;
-  color: #0f766e;
-}
-
+/* Category Specific Color Schemes - Sticking to BetterMC Civic Branding */
+.cat-icon-business-and-trade,
+.cat-icon-certificates-and-ids,
+.cat-icon-contributions,
+.cat-icon-education,
+.cat-icon-employment,
+.cat-icon-housing,
+.cat-icon-passport-and-travel,
+.cat-icon-social-services,
+.cat-icon-tax,
+.cat-icon-transport-and-driving,
+.cat-icon-health,
 .cat-icon-disaster-and-weather {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #b91c1c;
-}
-
-.cat-icon-education {
-  background: #f5f3ff;
-  border: 1px solid #ddd6fe;
-  color: #6d28d9;
-}
-
-.cat-icon-employment {
-  background: #ecfdf5;
-  border: 1px solid #a7f3d0;
-  color: #047857;
-}
-
-.cat-icon-health {
-  background: #fff1f2;
-  border: 1px solid #fecdd3;
-  color: #be123c;
-}
-
-.cat-icon-housing {
-  background: #fffbeb;
-  border: 1px solid #fde68a;
-  color: #b45309;
-}
-
-.cat-icon-passport-and-travel {
-  background: #f0f9ff;
-  border: 1px solid #bae6fd;
-  color: #0284c7;
-}
-
-.cat-icon-social-services {
-  background: #fdf2f8;
-  border: 1px solid #fbcfe8;
-  color: #be185d;
-}
-
-.cat-icon-tax {
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
-  color: #334155;
-}
-
-.cat-icon-transport-and-driving {
-  background: #f1f5f9;
-  border: 1px solid #cbd5e1;
-  color: #1e3a8a;
+  background: #edf5fc;
+  border: 1px solid #cbdff2;
+  color: var(--green-900);
 }
 
 .service-category-icon.is-emergency {
@@ -6411,11 +6356,11 @@ kbd {
 }
 
 .service-category-card:hover .category-card-arrow-link {
-  background: #2563eb;
-  border-color: #2563eb;
+  background: var(--green-900);
+  border-color: var(--green-900);
   color: #ffffff;
   transform: translateX(2px);
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 2px 8px rgba(18, 62, 155, 0.3);
 }
 
 .category-card-arrow-link svg {
@@ -6443,7 +6388,7 @@ kbd {
 }
 
 .category-card-body h3 a:hover {
-  color: #2563eb;
+  color: var(--green-900);
 }
 
 .category-card-body p {
@@ -6483,13 +6428,13 @@ kbd {
 .category-subcategories-list li a:hover {
   background: #eff6ff;
   border-color: #93c5fd;
-  color: #1d4ed8;
+  color: var(--green-900);
 }
 
 .category-subcategories-list li a svg {
   width: 13px;
   height: 13px;
-  color: #3b82f6;
+  color: var(--green-700);
   flex-shrink: 0;
 }
 
@@ -6506,14 +6451,14 @@ kbd {
   gap: 6px;
   font-size: 0.78rem;
   font-weight: 750;
-  color: #2563eb;
+  color: var(--green-900);
   text-decoration: none;
   transition: gap 0.15s ease;
 }
 
 .service-category-card:hover .category-explore-pill {
   gap: 9px;
-  color: #1d4ed8;
+  color: var(--green-800);
 }
 
 .category-explore-pill svg {
@@ -6601,12 +6546,12 @@ kbd {
 
 .local-service-grid article:hover {
   transform: translateY(-2px);
-  border-color: #93c5fd;
-  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.1);
+  border-color: #adcbe7;
+  box-shadow: 0 10px 28px rgba(18, 62, 155, 0.1);
 }
 
 .local-service-grid article > span {
-  color: #1458b8;
+  color: var(--green-900);
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.05em;
@@ -6633,7 +6578,7 @@ kbd {
   align-items: center;
   gap: 7px;
   margin-top: auto;
-  color: #1d4ed8;
+  color: var(--green-900);
   font-size: 0.84rem;
   font-weight: 750;
   text-decoration: none;
@@ -6641,7 +6586,7 @@ kbd {
 }
 
 .local-service-grid article > a:hover {
-  color: #1e40af;
+  color: var(--green-800);
   gap: 10px;
 }
 
@@ -12960,10 +12905,10 @@ body {
 .barangay-directory-search:focus-within,
 .procurement-search:focus-within,
 .barangay-disclosure-search:focus-within {
-  border-color: #2563eb;
+  border-color: var(--green-900);
   background: #ffffff;
   box-shadow:
-    0 0 0 3px rgba(37, 99, 235, 0.14),
+    0 0 0 3px rgba(18, 62, 155, 0.14),
     0 8px 22px rgba(15, 41, 77, 0.08);
 }
 
@@ -14112,8 +14057,8 @@ body {
 
 .noah-clean-date-pills button:hover,
 .noah-clean-layer-pills button:hover {
-  border-color: #2563eb;
-  color: #1d4ed8;
+  border-color: var(--green-900);
+  color: var(--green-900);
 }
 
 .noah-clean-date-pills button.is-active,
@@ -14328,9 +14273,9 @@ body {
 
 .noah-nav-pan-grid button:hover,
 .noah-nav-zoom-bar button:hover {
-  background: #eff6ff;
-  border-color: #2563eb;
-  color: #1d4ed8;
+  background: #f4f8fd;
+  border-color: var(--green-900);
+  color: var(--green-900);
 }
 
 .noah-nav-pan-grid button svg,
@@ -14565,8 +14510,8 @@ body {
 .government-official-card:hover,
 .government-official-card:focus-visible {
   transform: translateY(-2px);
-  border-color: #2563eb;
-  box-shadow: 0 12px 26px rgba(29, 78, 216, 0.12);
+  border-color: var(--green-800);
+  box-shadow: 0 12px 26px rgba(18, 62, 155, 0.12);
   outline: none;
 }
 
@@ -14661,8 +14606,8 @@ body {
 }
 
 .popout-measures-list li a:hover {
-  border-color: #93c5fd;
-  background: #eff6ff;
+  border-color: #adcbe7;
+  background: #f4f8fd;
 }
 
 .popout-measures-list li a span {
@@ -14670,7 +14615,7 @@ body {
 }
 
 .popout-measures-list li a strong {
-  color: #1d4ed8;
+  color: var(--green-900);
   font-weight: 700;
 }
 
@@ -14679,7 +14624,7 @@ body {
   height: 15px;
   flex-shrink: 0;
   margin-top: 3px;
-  color: #2563eb;
+  color: var(--green-900);
 }
 
 .popout-measures-more {
@@ -14687,7 +14632,7 @@ body {
   align-items: center;
   gap: 6px;
   font-weight: 700;
-  color: #1d4ed8;
+  color: var(--green-900);
 }
 
 @media (max-width: 960px) {
@@ -14834,7 +14779,7 @@ body {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #2563eb;
+  color: var(--green-900);
   margin-bottom: 2px;
 }
 
@@ -14857,7 +14802,7 @@ body {
   font-size: 0.92rem;
   font-weight: 600;
   color: #0f2347;
-  border: 1.5px solid #93c5fd;
+  border: 1.5px solid #adcbe7;
   border-radius: 12px;
   background: #ffffff;
   cursor: pointer;
@@ -14866,8 +14811,8 @@ body {
 }
 
 .service-origin-select:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+  border-color: var(--green-900);
+  box-shadow: 0 0 0 3px rgba(18, 62, 155, 0.16);
 }
 
 .service-gps-btn {
@@ -14906,24 +14851,24 @@ body {
 
 .provider-card {
   position: relative;
-  border: 1px solid #dbe7f5;
-  border-radius: 20px;
+  border: 1px solid #cfe0f2;
+  border-radius: var(--civic-radius);
   background: #ffffff;
   padding: 24px 26px;
-  box-shadow: 0 4px 18px rgba(16, 44, 84, 0.05);
+  box-shadow: 0 8px 24px rgba(23, 60, 103, 0.05);
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
   overflow: hidden;
 }
 
 .provider-card:hover {
-  border-color: #93c5fd;
-  box-shadow: 0 10px 30px rgba(16, 44, 84, 0.08);
+  border-color: #8bb8e4;
+  box-shadow: 0 12px 32px rgba(23, 60, 103, 0.09);
 }
 
 .provider-card.is-nearest-card {
-  border: 1.5px solid #3b82f6;
+  border: 1.5px solid var(--green-800);
   background: #ffffff;
-  box-shadow: 0 10px 32px rgba(37, 99, 235, 0.1), 0 2px 8px rgba(37, 99, 235, 0.04);
+  box-shadow: 0 12px 36px rgba(18, 62, 155, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
 .provider-top-accent-bar {
@@ -14932,7 +14877,7 @@ body {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #1d4ed8 0%, #2563eb 50%, #38bdf8 100%);
+  background: linear-gradient(90deg, var(--green-950) 0%, var(--green-900) 50%, #468ee5 100%);
 }
 
 .provider-card-head {
@@ -14948,16 +14893,16 @@ body {
 
 .provider-card-identity h3 {
   margin: 10px 0 6px;
-  color: #0c234a;
-  font-size: 1.28rem;
-  font-weight: 800;
-  line-height: 1.35;
+  color: #10213b;
+  font-size: 1.25rem;
+  font-weight: 750;
+  line-height: 1.32;
   letter-spacing: -0.01em;
 }
 
 .provider-address {
   margin: 0;
-  color: #475569;
+  color: #526986;
   font-size: 0.88rem;
   line-height: 1.5;
   display: flex;
@@ -14968,7 +14913,7 @@ body {
 .provider-address svg {
   width: 16px;
   height: 16px;
-  color: #64748b;
+  color: #58708f;
   flex-shrink: 0;
   margin-top: 3px;
 }
@@ -14987,12 +14932,12 @@ body {
   padding: 5px 12px;
   border-radius: 999px;
   font-size: 0.76rem;
-  font-weight: 800;
+  font-weight: 750;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: #ffffff;
-  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.32);
+  background: linear-gradient(135deg, var(--green-900) 0%, var(--green-800) 100%);
+  box-shadow: 0 2px 8px rgba(18, 62, 155, 0.28);
 }
 
 .provider-nearest-badge svg {
@@ -15008,9 +14953,9 @@ body {
   border-radius: 999px;
   font-size: 0.78rem;
   font-weight: 750;
-  color: #065f46;
-  background: #ecfdf5;
-  border: 1px solid #a7f3d0;
+  color: #156f45;
+  background: #eef8f2;
+  border: 1px solid #b7e4c7;
 }
 
 .provider-distance-badge svg {
@@ -15025,40 +14970,42 @@ body {
   border-radius: 999px;
   font-size: 0.76rem;
   font-weight: 700;
-  color: #475569;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
+  color: #3b5275;
+  background: #f0f5fb;
+  border: 1px solid #cfdeeb;
 }
 
 /* Structured Info Box: Hours, Phone, Email & Cashier Gateway */
 .provider-info-box {
   margin: 16px 0 22px;
   border-radius: 14px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cfe0f2;
   overflow: hidden;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.96);
 }
 
 .provider-contact-strip {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 14px;
-  padding: 14px 18px;
-  background: #f8fafc;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px 22px;
+  padding: 15px 18px;
+  background: #f8fbfe;
+  border-bottom: 1px solid #d4e3f3;
 }
 
 .provider-info-cell {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .info-cell-label {
   font-size: 0.72rem;
   font-weight: 750;
   text-transform: uppercase;
-  color: #64748b;
-  letter-spacing: 0.04em;
+  color: #58708f;
+  letter-spacing: 0.05em;
 }
 
 .info-cell-value {
@@ -15067,53 +15014,55 @@ body {
   gap: 7px;
   font-size: 0.88rem;
   font-weight: 650;
-  color: #1e293b;
+  color: #10213b;
   line-height: 1.4;
   text-decoration: none;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .info-cell-value.is-link {
-  color: #2563eb;
+  color: #1458b8;
   transition: color 0.15s ease;
 }
 
 .info-cell-value.is-link:hover {
-  color: #1d4ed8;
+  color: #123e9b;
   text-decoration: underline;
 }
 
 .info-cell-value svg {
   width: 15px;
   height: 15px;
-  color: #3b82f6;
+  color: #1458b8;
   flex-shrink: 0;
 }
 
 .provider-payment-strip {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 12px 18px;
-  background: #f0f7ff;
-  border-top: 1px solid #dbeafe;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 18px;
+  background: rgba(235, 244, 255, 0.85);
 }
 
 .payment-strip-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: #dbeafe;
-  color: #1d4ed8;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #e0eeff;
+  border: 1px solid #b8d6f8;
+  color: var(--green-900);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-top: 1px;
 }
 
 .payment-strip-icon svg {
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
 }
 
 .payment-strip-body {
@@ -15126,8 +15075,8 @@ body {
   font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
-  color: #1e40af;
-  letter-spacing: 0.04em;
+  color: var(--green-900);
+  letter-spacing: 0.05em;
   margin-bottom: 2px;
 }
 
@@ -15135,7 +15084,7 @@ body {
   margin: 0;
   font-size: 0.86rem;
   font-weight: 600;
-  color: #1e293b;
+  color: #10213b;
   line-height: 1.45;
 }
 
@@ -15157,30 +15106,30 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #0c234a;
+  color: #10213b;
 }
 
 .provider-tx-header-title svg {
   width: 18px;
   height: 18px;
-  color: #2563eb;
+  color: #1458b8;
 }
 
 .provider-tx-header-title h4 {
   margin: 0;
   font-size: 0.98rem;
-  font-weight: 800;
-  color: #0c234a;
+  font-weight: 750;
+  color: #10213b;
 }
 
 .provider-tx-count-pill {
   padding: 3px 10px;
   border-radius: 999px;
   font-size: 0.76rem;
-  font-weight: 750;
+  font-weight: 700;
   color: #475569;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
+  background: #f0f5fb;
+  border: 1px solid #cfdeeb;
 }
 
 .provider-transactions-list {
@@ -15195,20 +15144,21 @@ body {
   justify-content: space-between;
   gap: 16px;
   padding: 14px 18px;
-  border: 1.5px solid #e2e8f0;
+  border: 1px solid #cfdeeb;
   border-radius: 14px;
   background: #ffffff;
   cursor: pointer;
   outline: none;
+  box-shadow: 0 2px 8px rgba(23, 60, 103, 0.04);
   transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .provider-tx-row:hover,
 .provider-tx-row:focus-visible {
-  border-color: #93c5fd;
-  background: #f8fbff;
+  border-color: #8bb8e4;
+  background: #f6fbff;
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
+  box-shadow: 0 6px 18px rgba(18, 62, 155, 0.08);
 }
 
 .provider-tx-info {
@@ -15220,7 +15170,7 @@ body {
   display: block;
   font-size: 0.98rem;
   font-weight: 750;
-  color: #0f2347;
+  color: #10213b;
   margin-bottom: 6px;
   line-height: 1.35;
 }
@@ -15236,29 +15186,49 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: 8px;
   font-size: 0.8rem;
   font-weight: 650;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
+/* Civic Brand Processing Time */
 .tx-meta-pill.time {
-  background: #fefce8;
-  border: 1px solid #fef08a;
-  color: #854d0e;
+  background: #eef5fc;
+  border: 1px solid #cfe0f2;
+  color: #123e9b;
 }
 
-.tx-meta-pill.fee {
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  color: #166534;
-}
-
-.tx-meta-pill svg {
+.tx-meta-pill.time svg {
   width: 14px;
   height: 14px;
+  color: #1458b8;
   flex-shrink: 0;
+}
+
+/* Civic Brand Fee Schedule */
+.tx-meta-pill.fee {
+  background: #f0f5fb;
+  border: 1px solid #cfdeeb;
+  color: #173b69;
+}
+
+.tx-meta-pill.fee svg {
+  width: 14px;
+  height: 14px;
+  color: #173b69;
+  flex-shrink: 0;
+}
+
+.tx-meta-pill.fee.is-free {
+  background: #eef8f2;
+  border: 1px solid #b7e4c7;
+  color: #156f45;
+}
+
+.tx-meta-pill.fee.is-free svg {
+  color: #156f45;
 }
 
 .provider-tx-btn {
@@ -15267,14 +15237,23 @@ body {
   gap: 8px;
   min-height: 40px;
   padding: 0 16px;
-  border-radius: 10px;
+  border-radius: 9px;
   font-size: 0.84rem;
-  font-weight: 750;
+  font-weight: 700;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.22);
+  background: var(--green-900);
+  color: #ffffff;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 12px rgba(18, 62, 155, 0.18);
   cursor: pointer;
   flex-shrink: 0;
-  transition: all 0.16s ease;
+  transition: transform 140ms var(--ease-out), background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.provider-tx-btn:hover {
+  background: var(--green-800);
+  box-shadow: 0 6px 18px rgba(18, 62, 155, 0.25);
+  transform: translateY(-1px);
 }
 
 .provider-tx-row:hover .provider-tx-btn svg {
@@ -15296,7 +15275,7 @@ body {
   gap: 14px;
   margin-top: 20px;
   padding-top: 18px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid #eef4fb;
 }
 
 .provider-directions-group {
@@ -15307,12 +15286,12 @@ body {
 }
 
 .provider-nav-hint {
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   font-weight: 750;
   text-transform: uppercase;
-  color: #64748b;
-  letter-spacing: 0.04em;
-  margin-right: 2px;
+  color: #58708f;
+  letter-spacing: 0.05em;
+  margin-right: 4px;
 }
 
 .provider-nav-btn {
@@ -15324,23 +15303,23 @@ body {
   border-radius: 9px;
   font-size: 0.82rem;
   font-weight: 700;
-  color: #1e293b;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
+  color: #173b69;
+  background: #f5f9fd;
+  border: 1px solid #c9ddef;
   text-decoration: none;
   transition: all 0.15s ease;
 }
 
 .provider-nav-btn:hover {
-  background: #eff6ff;
-  border-color: #93c5fd;
-  color: #1d4ed8;
+  background: #eaf3fc;
+  border-color: #8bb8e4;
+  color: #123e9b;
 }
 
 .provider-nav-btn svg {
   width: 14px;
   height: 14px;
-  color: #2563eb;
+  color: #1458b8;
 }
 
 .provider-portal-btn {
@@ -15349,10 +15328,19 @@ body {
   gap: 8px;
   min-height: 40px;
   padding: 0 18px;
-  border-radius: 10px;
+  border-radius: 9px;
   font-size: 0.86rem;
-  font-weight: 750;
-  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.22);
+  font-weight: 700;
+  background: var(--green-900);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(18, 62, 155, 0.18);
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.provider-portal-btn:hover {
+  background: var(--green-800);
+  transform: translateY(-1px);
 }
 
 .provider-portal-btn svg {
@@ -15364,10 +15352,10 @@ body {
 .services-quick-finder-card {
   padding: 24px 28px;
   margin: 0 0 36px;
-  border: 1px solid #bfdbfe;
+  border: 1px solid #bfd8ef;
   border-radius: 20px;
-  background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
-  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.08);
+  background: rgba(240, 248, 255, 0.85);
+  box-shadow: 0 8px 30px rgba(18, 62, 155, 0.07);
 }
 
 .quick-finder-header {
@@ -15380,13 +15368,13 @@ body {
 .quick-finder-header h2 {
   margin: 4px 0 6px;
   font-size: 1.35rem;
-  color: #0c234a;
-  font-weight: 800;
+  color: #10213b;
+  font-weight: 750;
 }
 
 .quick-finder-header p {
   margin: 0;
-  color: #475569;
+  color: #526986;
   font-size: 0.92rem;
   line-height: 1.45;
 }
@@ -15404,25 +15392,25 @@ body {
   gap: 6px;
   font-size: 0.86rem;
   font-weight: 700;
-  color: #1e293b;
+  color: #10213b;
 }
 
 .quick-finder-controls select {
   min-height: 46px;
   padding: 0 16px;
-  border: 1.5px solid #93c5fd;
+  border: 1.5px solid #adcbe7;
   border-radius: 12px;
   background: #ffffff;
   font-size: 0.92rem;
   font-weight: 600;
-  color: #0f2347;
+  color: #10213b;
   cursor: pointer;
   outline: none;
 }
 
 .quick-finder-controls select:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+  border-color: #1458b8;
+  box-shadow: 0 0 0 3px rgba(18, 62, 155, 0.16);
 }
 
 .quick-finder-result {
@@ -15434,21 +15422,21 @@ body {
   padding: 18px 22px;
   border-radius: 16px;
   background: #ffffff;
-  border: 1.5px solid #93c5fd;
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.07);
+  border: 1.5px solid #b8d6f5;
+  box-shadow: 0 4px 16px rgba(18, 62, 155, 0.06);
 }
 
 .quick-finder-result-info h3 {
   margin: 6px 0 4px;
   font-size: 1.15rem;
-  color: #0c234a;
-  font-weight: 800;
+  color: #10213b;
+  font-weight: 750;
 }
 
 .quick-finder-address {
   margin: 0 0 8px;
   font-size: 0.86rem;
-  color: #64748b;
+  color: #526986;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -15457,7 +15445,7 @@ body {
 .quick-finder-address svg {
   width: 14px;
   height: 14px;
-  color: #64748b;
+  color: #526986;
   flex-shrink: 0;
 }
 
@@ -15476,9 +15464,9 @@ body {
   border-radius: 8px;
   font-size: 0.8rem;
   font-weight: 700;
-  color: #065f46;
-  background: #ecfdf5;
-  border: 1px solid #a7f3d0;
+  color: #156f45;
+  background: #eef8f2;
+  border: 1px solid #b7e4c7;
 }
 
 .quick-finder-meta-pill svg {
@@ -15511,8 +15499,8 @@ body {
 .service-tx-ref-card {
   padding: 16px 18px;
   border-radius: 14px;
-  background: #f0f7ff;
-  border: 1px solid #bfdbfe;
+  background: #f4f8fd;
+  border: 1px solid #cfe0f2;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -15529,7 +15517,7 @@ body {
 .service-tx-ref-label {
   font-size: 0.82rem;
   font-weight: 750;
-  color: #1e3a8a;
+  color: var(--green-950);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -15542,8 +15530,8 @@ body {
   padding: 4px 10px;
   border-radius: 8px;
   background: #ffffff;
-  color: #1d4ed8;
-  border: 1px solid #93c5fd;
+  color: var(--green-900);
+  border: 1px solid #bfd8ef;
 }
 
 .service-copy-btn {
@@ -15591,7 +15579,7 @@ body {
 .service-stat-badge svg {
   width: 14px;
   height: 14px;
-  color: #2563eb;
+  color: var(--green-900);
   flex-shrink: 0;
 }
 
@@ -15647,7 +15635,7 @@ body {
 .service-tx-section-head svg {
   width: 18px;
   height: 18px;
-  color: #2563eb;
+  color: var(--green-900);
 }
 
 .service-readiness-pill {
@@ -15691,7 +15679,7 @@ body {
 }
 
 .service-req-item:hover {
-  border-color: #93c5fd;
+  border-color: #adcbe7;
   background: #f8fafc;
 }
 
@@ -15749,7 +15737,7 @@ body {
   font-size: 0.85rem;
   font-weight: 800;
   color: #ffffff;
-  background: #2563eb;
+  background: var(--green-900);
   flex-shrink: 0;
 }
 
