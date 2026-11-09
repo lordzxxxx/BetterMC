@@ -3,6 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 import {
   barangayMicrosites,
+  barangaySlugFromHostname,
   MALAYBALAY_2024_POPULATION,
 } from "./barangayProfiles";
 import { civicRecords, reportedProcurementSavings } from "./data";
@@ -40,7 +41,14 @@ describe("BetterMC public portal", () => {
         "Barangay Secretary",
       );
       expect(barangay.fullDisclosure.items.length).toBeGreaterThanOrEqual(4);
+      expect(barangay.subdomainHost).toBe(`${barangay.slug}.bettermc.ph`);
+      expect(barangay.subdomainUrl).toBe(`https://${barangay.slug}.bettermc.ph`);
+      expect(barangay.mainPortalDomain).toBe("bettermc.ph");
     }
+    expect(barangaySlugFromHostname("dalwangan.bettermc.ph")).toBe("dalwangan");
+    expect(barangaySlugFromHostname("localhost", "?subdomain=casisang")).toBe(
+      "casisang",
+    );
     expect(
       barangayMicrosites.filter((barangay) =>
         barangay.heroImage?.url.includes("/barangay-heroes/"),
@@ -197,6 +205,12 @@ describe("BetterMC public portal", () => {
     expect(
       screen.getByRole("heading", { name: "Dalwangan", level: 1 }),
     ).toBeInTheDocument();
+    expect(
+      screen.getAllByText(/dalwangan\.bettermc\.ph/i).length,
+    ).toBeGreaterThan(0);
+    expect(
+      screen.getByRole("link", { name: /Main Portal:\s*BetterMC/i }),
+    ).toHaveAttribute("href", "/");
     expect(screen.getAllByText("Royville C. Pasco").length).toBeGreaterThan(0);
     expect(screen.getAllByText("7,812").length).toBeGreaterThan(0);
     expect(

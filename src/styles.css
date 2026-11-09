@@ -11205,20 +11205,29 @@ body {
   .service-category-grid.is-compact article > a {
     width: 42px;
     height: 42px;
+    min-width: 42px;
     min-height: 42px;
-    display: grid;
+    display: inline-flex;
     grid-column: 3;
     grid-row: 1;
-    place-items: center;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    justify-self: end;
+    gap: 0;
     margin: 0;
     padding: 0;
     border-radius: 12px;
     font-size: 0;
+    line-height: 1;
   }
 
   .service-category-grid.is-compact article > a svg {
-    width: 19px;
-    height: 19px;
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    margin: 0;
+    display: block;
   }
 
   .records-preview-section .section-heading h2 {
@@ -11249,25 +11258,36 @@ body {
 
 .service-category-grid article,
 .service-category-grid.is-compact article {
-  grid-template-columns: 36px minmax(0, 1fr) 44px;
+  grid-template-columns: 38px minmax(0, 1fr) 42px;
   grid-template-rows: auto auto;
   align-items: center;
-  gap: 8px 10px;
+  align-content: center;
+  gap: 8px 12px;
   min-height: 0;
-  padding: 13px;
+  padding: 14px;
   border-radius: 14px;
+}
+
+.service-category-grid.is-compact article {
+  grid-template-rows: auto;
+  min-height: 92px;
 }
 
 .service-category-grid article > div {
   grid-column: 2;
   grid-row: 1;
+  align-self: center;
 }
 
 .service-category-grid .service-category-icon {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   grid-column: 1;
   grid-row: 1;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 10px;
 }
 
@@ -11279,22 +11299,32 @@ body {
 
 .service-category-grid article > a,
 .service-category-grid.is-compact article > a {
-  width: 44px;
-  height: 44px;
-  min-height: 44px;
-  display: grid;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  display: inline-flex;
   grid-column: 3;
   grid-row: 1;
-  place-items: center;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
   justify-self: end;
+  gap: 0;
   margin: 0;
   padding: 0;
-  border-radius: 10px;
+  border-radius: 11px;
+  line-height: 1;
+  text-align: center;
 }
 
-.service-category-grid article > a svg {
+.service-category-grid article > a svg,
+.service-category-grid.is-compact article > a svg {
   width: 18px;
   height: 18px;
+  flex: 0 0 18px;
+  margin: 0;
+  display: block;
   transition: transform 160ms var(--ease-out);
 }
 
@@ -11881,52 +11911,501 @@ body {
   gap: 6px;
 }
 
-/* Complete DILG Leadership Grid */
+/* Embedded Barangay Subdomain & Main BetterMC Portal Architecture */
+.barangay-domain-architecture-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding: 14px 16px;
+  border: 1px solid #bdd4ef;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f2f8ff 0%, #ffffff 100%);
+  box-shadow: 0 4px 14px rgba(14, 52, 106, 0.05);
+}
+
+.barangay-domain-architecture-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1 1 360px;
+}
+
+.barangay-domain-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  color: #0d4ca3;
+  background: #e3f0ff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.barangay-domain-badge svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+}
+
+.barangay-domain-architecture-main strong {
+  display: block;
+  color: #0f2b54;
+  font-size: 0.94rem;
+}
+
+.barangay-domain-architecture-main p {
+  margin: 2px 0 0;
+  color: #4b6485;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.barangay-domain-architecture-main code {
+  padding: 1px 5px;
+  border-radius: 5px;
+  color: #0e4ea8;
+  background: #eaf3ff;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.barangay-domain-architecture-stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.barangay-domain-architecture-stats > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid #cce0f7;
+  border-radius: 9px;
+  color: #164b96;
+  background: #f6faff;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.barangay-domain-architecture-stats > span svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+}
+
+.barangay-domain-architecture-stats > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 11px;
+  border-radius: 9px;
+  color: #ffffff;
+  background: #1254b0;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.barangay-domain-architecture-stats > a svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+}
+
+.barangay-card-subdomain {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: -2px 0 4px;
+}
+
+.barangay-subdomain-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border: 1px solid #c6dcf5;
+  border-radius: 999px;
+  color: #0f4ea8;
+  background: #edf5ff;
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+.barangay-subdomain-pill:hover {
+  border-color: #1458b8;
+  background: #e0eeff;
+}
+
+.barangay-subdomain-pill svg {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 13px;
+}
+
+.barangay-subdomain-ext {
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cfe1f6;
+  border-radius: 7px;
+  color: #1956b0;
+  background: #f5f9ff;
+}
+
+.barangay-subdomain-ext svg {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 13px;
+}
+
+.barangay-subdomain-bar {
+  border-bottom: 1px solid rgba(180, 208, 242, 0.35);
+  background: #0a2346;
+  color: #e6f0ff;
+}
+
+.barangay-subdomain-bar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  padding: 8px 0;
+}
+
+.barangay-subdomain-identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.barangay-main-portal-pill,
+.barangay-active-subdomain-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+.barangay-main-portal-pill {
+  border: 1px solid rgba(143, 188, 245, 0.35);
+  color: #ffffff;
+  background: rgba(25, 86, 174, 0.55);
+}
+
+.barangay-main-portal-pill:hover {
+  background: rgba(34, 104, 204, 0.85);
+}
+
+.barangay-active-subdomain-pill {
+  border: 1px solid rgba(114, 185, 255, 0.45);
+  color: #d9ecff;
+  background: rgba(15, 55, 112, 0.75);
+}
+
+.barangay-main-portal-pill svg,
+.barangay-active-subdomain-pill svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+}
+
+.barangay-subdomain-sep {
+  color: rgba(182, 208, 242, 0.5);
+  font-size: 0.78rem;
+}
+
+.barangay-subdomain-external {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #9ec8ff;
+  font-size: 0.73rem;
+  font-weight: 600;
+}
+
+.barangay-subdomain-external svg {
+  width: 12px;
+  height: 12px;
+  flex: 0 0 12px;
+}
+
+.barangay-subdomain-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.barangay-subdomain-switcher label {
+  display: inline-flex;
+  align-items: center;
+  color: #9ec8ff;
+}
+
+.barangay-subdomain-switcher label svg {
+  width: 14px;
+  height: 14px;
+}
+
+.barangay-subdomain-switcher select {
+  max-width: 230px;
+  padding: 4px 8px;
+  border: 1px solid rgba(145, 188, 242, 0.42);
+  border-radius: 7px;
+  color: #ffffff;
+  background: #103260;
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.barangay-all-domains-link {
+  padding: 4px 9px;
+  border: 1px solid rgba(145, 188, 242, 0.38);
+  border-radius: 7px;
+  color: #d6e9ff;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.73rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.barangay-embedded-domain-box {
+  display: grid;
+  gap: 5px;
+  padding: 9px 11px;
+  border: 1px solid #c5dbf4;
+  border-radius: 10px;
+  background: #eef6ff;
+}
+
+.barangay-embedded-domain-box small {
+  color: #4b6587;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.barangay-embedded-domain-box a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #0e4ca3;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.barangay-embedded-domain-box a svg {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 13px;
+}
+
+/* Complete DILG Leadership Grid — Clean, Readable & Accessible */
 .barangay-leadership-executive-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 14px;
+  margin-bottom: 18px;
 }
 
-.barangay-leadership-executive-grid .barangay-captain-card {
+.barangay-executive-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--civic-material-border, #c8d9ef);
+  border-radius: 15px;
+  background: var(--civic-material, #ffffff);
+  box-shadow: var(--civic-material-shadow, 0 6px 18px rgba(15, 45, 92, 0.06));
   cursor: pointer;
   transition:
     transform 150ms ease,
-    border-color 150ms ease;
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
-.barangay-leadership-executive-grid .barangay-captain-card:hover {
+.barangay-executive-card:hover {
   border-color: #1b63c6;
-  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(15, 55, 118, 0.11);
+  transform: translateY(-2px);
 }
 
-.barangay-official-contacts,
-.barangay-official-links {
-  grid-column: 2;
+.barangay-executive-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.barangay-executive-head .barangay-icon-tile {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.barangay-executive-head .barangay-icon-tile svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
+
+.barangay-executive-role {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.barangay-executive-badge {
+  color: #1355b5;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.barangay-executive-role small {
+  color: #5b7290;
+  font-size: 0.69rem;
+}
+
+.barangay-executive-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.barangay-executive-identity h3 {
+  margin: 0;
+  color: #0e2952;
+  font-size: 1.06rem;
+  line-height: 1.24;
+  letter-spacing: -0.01em;
+}
+
+.barangay-official-registry {
+  margin: 0;
+  color: #516886;
+  font-size: 0.74rem;
+  line-height: 1.35;
+}
+
+.barangay-official-registry strong {
+  color: #2c476d;
+  font-weight: 700;
+}
+
+.barangay-official-contacts {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 10px;
-  margin-top: 4px;
+  align-items: center;
+  gap: 6px;
 }
 
 .barangay-official-contacts a {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: #124fa8;
-  font-size: 0.76rem;
+  padding: 4px 9px;
+  border: 1px solid #cde0f5;
+  border-radius: 8px;
+  color: #0f4ea8;
+  background: #f2f8ff;
+  font-size: 0.75rem;
   font-weight: 700;
+  line-height: 1.3;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
-.barangay-official-contacts small {
-  color: #5e7491;
-  font-size: 0.71rem;
-  line-height: 1.35;
+.barangay-official-contacts a:hover {
+  border-color: #1558b8;
+  background: #e4f0ff;
 }
 
-.barangay-captain-card .barangay-card-popout-trigger {
-  grid-column: 2;
+.barangay-official-contacts a svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+}
+
+.barangay-contact-muted {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  border: 1px dashed #cbd9ec;
+  border-radius: 8px;
+  color: #5b718f;
+  background: #f8fbff;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.barangay-official-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding-top: 6px;
+  border-top: 1px solid #e4eef9;
+}
+
+.barangay-official-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #1b5299;
+  font-size: 0.73rem;
+  font-weight: 600;
+}
+
+.barangay-official-links a svg {
+  width: 12px;
+  height: 12px;
+  flex: 0 0 12px;
+}
+
+.barangay-executive-card .barangay-card-popout-trigger,
+.barangay-kagawad-card .barangay-card-popout-trigger {
+  width: 100%;
+  margin-top: auto;
+  padding: 7px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  border: 1px solid #c7dcf4;
+  border-radius: 9px;
+  color: #0f4ea8;
+  background: #eff6ff;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-align: left;
+}
+
+.barangay-executive-card .barangay-card-popout-trigger:hover,
+.barangay-kagawad-card .barangay-card-popout-trigger:hover {
+  border-color: #1357b9;
+  color: #ffffff;
+  background: #1357b9;
 }
 
 .barangay-kagawad-section {
@@ -11949,27 +12428,29 @@ body {
 .barangay-kagawad-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  gap: 12px;
 }
 
 .barangay-kagawad-card {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  padding: 13px;
+  gap: 8px;
+  padding: 14px;
   border: 1px solid var(--civic-material-border, #c8d9ef);
-  border-radius: 13px;
+  border-radius: 14px;
   background: var(--civic-material, #ffffff);
   box-shadow: var(--civic-material-shadow, 0 4px 12px rgba(16, 48, 96, 0.05));
   cursor: pointer;
   transition:
     transform 150ms ease,
-    border-color 150ms ease;
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .barangay-kagawad-card:hover {
   border-color: #1b63c6;
-  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(15, 55, 118, 0.1);
+  transform: translateY(-2px);
 }
 
 .barangay-kagawad-badge {
@@ -11981,15 +12462,23 @@ body {
   text-transform: uppercase;
 }
 
+.barangay-kagawad-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .barangay-kagawad-card h4 {
   margin: 0;
   color: #102b53;
-  font-size: 0.92rem;
+  font-size: 0.94rem;
+  line-height: 1.25;
 }
 
 .barangay-kagawad-registry {
   color: #59708e;
   font-size: 0.71rem;
+  line-height: 1.32;
 }
 
 /* Interactive Popout Modal */
@@ -12042,13 +12531,20 @@ body {
 .barangay-popout-close {
   width: 36px;
   height: 36px;
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid #c8daef;
   border-radius: 10px;
   color: #214575;
   background: #ffffff;
   cursor: pointer;
+}
+
+.barangay-popout-close svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
 }
 
 .barangay-popout-body {
@@ -12145,9 +12641,24 @@ body {
   background: #eef6ff;
 }
 
+.barangay-popout-source-primary > svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+}
+
 .barangay-popout-source-primary div {
   display: grid;
+  gap: 2px;
   flex: 1;
+  min-width: 0;
+}
+
+.barangay-popout-source-primary strong {
+  color: #0d3e88;
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .barangay-popout-source-primary small {
@@ -12164,13 +12675,21 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 11px;
+  gap: 10px;
+  padding: 8px 12px;
   border: 1px solid #d8e6f4;
   border-radius: 9px;
   color: #1c4c96;
   background: #f9fcff;
   font-size: 0.77rem;
   font-weight: 600;
+  line-height: 1.35;
+}
+
+.barangay-popout-backup-list a > svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
 }
 
 @media (max-width: 1024px) {

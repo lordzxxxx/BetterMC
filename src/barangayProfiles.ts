@@ -212,6 +212,11 @@ export type BarangayMicrositeProfile = {
   bids: BidRecord[];
   officialRoster: BarangayOfficialRoster;
   fullDisclosure: BarangayFullDisclosureProfile;
+  subdomainHost: string;
+  subdomainUrl: string;
+  betterGovSubdomainUrl: string;
+  mainPortalDomain: string;
+  mainPortalUrl: string;
   requestedSubdomain: string;
 };
 
@@ -371,7 +376,12 @@ export const barangayMicrosites: BarangayMicrositeProfile[] = psgcProfiles.map(
       ),
       officialRoster,
       fullDisclosure,
-      requestedSubdomain: `https://${slug}.bettergov.org`,
+      subdomainHost: `${slug}.bettermc.ph`,
+      subdomainUrl: `https://${slug}.bettermc.ph`,
+      betterGovSubdomainUrl: `https://${slug}.bettergov.org`,
+      mainPortalDomain: "bettermc.ph",
+      mainPortalUrl: "https://bettermc.ph",
+      requestedSubdomain: `https://${slug}.bettermc.ph`,
     };
   },
 );
@@ -380,13 +390,40 @@ export const barangayMicrositeBySlug = new Map(
   barangayMicrosites.map((profile) => [profile.slug, profile]),
 );
 
-export function barangaySlugFromHostname(hostname: string) {
+export const MAIN_BETTERMC_PORTAL = {
+  name: "BetterMC",
+  fullTitle: "BetterMC — Malaybalay City Public Information Portal",
+  domain: "bettermc.ph",
+  url: "https://bettermc.ph",
+} as const;
+
+export function barangaySlugFromHostname(hostname: string, search = "") {
+  if (search) {
+    const params = new URLSearchParams(search);
+    const paramSlug = (
+      params.get("subdomain") ??
+      params.get("domain") ??
+      ""
+    )
+      .trim()
+      .toLowerCase();
+    if (paramSlug && barangayMicrositeBySlug.has(paramSlug)) {
+      return paramSlug;
+    }
+  }
   const normalized = hostname.toLowerCase().split(":")[0];
-  const supportedSuffixes = [".bettergov.org", ".bettermc.ph"];
+  const supportedSuffixes = [
+    ".bettermc.ph",
+    ".bettergov.org",
+    ".bettermalaybalay.com",
+    ".localhost",
+  ];
   const suffix = supportedSuffixes.find((candidate) =>
     normalized.endsWith(candidate),
   );
   if (!suffix) return null;
   const slug = normalized.slice(0, -suffix.length);
-  return slug && slug !== "www" ? slug : null;
+  return slug && slug !== "www" && barangayMicrositeBySlug.has(slug)
+    ? slug
+    : null;
 }
