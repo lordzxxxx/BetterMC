@@ -12756,3 +12756,1051 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ==========================================================================
+   UI Polish, Seamless Search Inputs, Structured Popout Tables, Mobile Weather,
+   and 3D / Interactive UP Project NOAH Malaybalay GIS Map
+   ========================================================================== */
+
+/* 1. Fix Search Bar Inner Input Seam (Screenshots 1-3) */
+.directory-search,
+.barangay-directory-search,
+.legislation-toolbar .directory-search,
+.directory-toolbar .directory-search,
+.procurement-search,
+.barangay-disclosure-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(137, 181, 224, 0.68);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.98),
+    0 6px 18px rgba(15, 41, 77, 0.05);
+  overflow: hidden;
+}
+
+.directory-search input,
+.barangay-directory-search input,
+.legislation-toolbar .directory-search input,
+.directory-toolbar .directory-search input,
+.procurement-search input,
+.barangay-disclosure-search input {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 4px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.directory-search:focus-within,
+.barangay-directory-search:focus-within,
+.procurement-search:focus-within,
+.barangay-disclosure-search:focus-within {
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.14),
+    0 8px 22px rgba(15, 41, 77, 0.08);
+}
+
+/* 2. Barangay Directory Card Organized Text (Replacing Boxed Punong Barangay Sub-Card) */
+.barangay-card-meta-lines {
+  display: grid;
+  gap: 6px;
+  margin: 6px 0 12px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.22);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.barangay-card-meta-lines p {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: #334155;
+}
+
+.barangay-card-meta-lines p span {
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+}
+
+.barangay-card-meta-lines p strong {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.barangay-card-meta-lines p small {
+  font-size: 0.74rem;
+  color: #64748b;
+}
+
+/* 3. Clean Inline Barangay Hero Portal Switcher (Replacing Top Subdomain Bar) */
+.barangay-hero-inline-portal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.barangay-hero-inline-portal .barangay-main-portal-pill,
+.barangay-hero-inline-portal .barangay-active-subdomain-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  background: rgba(15, 23, 42, 0.48);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: #f8fafc;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  text-decoration: none;
+}
+
+.barangay-hero-inline-portal .barangay-main-portal-pill:hover {
+  background: rgba(37, 99, 235, 0.75);
+  border-color: rgba(191, 219, 254, 0.6);
+}
+
+.barangay-hero-inline-portal select {
+  min-height: 32px;
+  padding: 4px 28px 4px 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(15, 23, 42, 0.56);
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+/* 4. Organized Structured Tables Inside Government, Transparency & GIS Popout Modals */
+.government-popout-modal,
+.transparency-popout-modal,
+.noah-gis-popout-modal {
+  max-width: 820px;
+  width: min(94vw, 820px);
+}
+
+.avatar.is-modal-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: #e2e8f0;
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.avatar.is-modal-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.popout-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.34);
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+.popout-structured-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.popout-structured-table tr {
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+.popout-structured-table tr:last-child {
+  border-bottom: 0;
+}
+
+.popout-structured-table th {
+  width: 32%;
+  min-width: 165px;
+  padding: 13px 16px;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  vertical-align: top;
+  border-right: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+.popout-structured-table td {
+  padding: 13px 16px;
+  color: #0f172a;
+  line-height: 1.5;
+  vertical-align: top;
+}
+
+.popout-structured-table td a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #1d4ed8;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.popout-structured-table td a:hover {
+  text-decoration: underline;
+}
+
+.popout-table-list {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 5px;
+}
+
+.popout-table-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.popout-table-links a {
+  padding: 6px 11px;
+  border-radius: 8px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  font-size: 0.82rem;
+}
+
+.popout-verified-date {
+  display: block;
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.noah-popout-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.records-list article.is-interactive-card {
+  cursor: pointer;
+  transition: background-color 0.16s ease, transform 0.16s ease;
+}
+
+.records-list article.is-interactive-card:hover {
+  background: rgba(239, 246, 255, 0.72);
+}
+
+/* 5. Mobile-Optimized Weather UI (@media max-width: 768px) */
+@media (max-width: 768px) {
+  .weather-section {
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+  }
+
+  .weather-card {
+    padding: 16px !important;
+    border-radius: 18px !important;
+  }
+
+  .weather-card .weather-heading {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 6px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .weather-card .weather-heading h2 {
+    font-size: 1.18rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .weather-card .weather-summary {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .weather-card .weather-current {
+    padding: 14px !important;
+    border-radius: 14px !important;
+    display: grid !important;
+    grid-template-columns: auto auto 1fr !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  .weather-card .weather-current-icon {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .weather-card .weather-temperature strong {
+    font-size: 2rem !important;
+  }
+
+  .weather-card .weather-current dl {
+    grid-column: 1 / -1 !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    margin-top: 6px !important;
+    padding-top: 8px !important;
+  }
+
+  .weather-card .weather-current dl > div {
+    padding: 6px 8px !important;
+    border-radius: 10px !important;
+    text-align: center !important;
+  }
+
+  .weather-card .weather-outlook {
+    padding: 12px 14px !important;
+    border-radius: 14px !important;
+  }
+
+  .weather-card .weather-outlook h3 {
+    font-size: 0.92rem !important;
+    margin: 4px 0 !important;
+  }
+
+  /* Horizontal snap-scrolling strip for 24-hour intervals on mobile */
+  .weather-card .weather-hourly {
+    display: flex !important;
+    grid-template-columns: none !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 10px !important;
+    padding: 4px 2px 10px !important;
+    margin: 0 -4px !important;
+  }
+
+  .weather-card .weather-hourly button {
+    flex: 0 0 112px !important;
+    min-width: 112px !important;
+    scroll-snap-align: start !important;
+    padding: 10px 8px !important;
+    border-radius: 14px !important;
+  }
+
+  .weather-detail-dialog {
+    width: calc(100vw - 20px) !important;
+    max-width: 420px !important;
+    border-radius: 18px !important;
+  }
+}
+
+/* 6. 3D / Interactive UP Project NOAH Malaybalay GIS Map */
+.barangay-city-gis-section {
+  margin-top: 36px;
+}
+
+.noah-gis-shell {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  border-radius: 22px;
+  background: linear-gradient(165deg, #0b1528 0%, #0f213c 60%, #102a49 100%);
+  border: 1px solid rgba(56, 189, 248, 0.32);
+  box-shadow:
+    0 20px 48px rgba(2, 12, 27, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
+}
+
+.noah-gis-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.noah-gis-brand {
+  max-width: 720px;
+}
+
+.noah-gis-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(14, 165, 233, 0.18);
+  border: 1px solid rgba(56, 189, 248, 0.42);
+  color: #38bdf8;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.noah-gis-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
+.noah-gis-brand h3 {
+  margin: 8px 0 6px;
+  font-size: 1.32rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.noah-gis-brand p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #cbd5e1;
+}
+
+.noah-gis-brand p a {
+  color: #38bdf8;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.noah-gis-quick-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.noah-gis-select-wrap {
+  display: grid;
+  gap: 4px;
+}
+
+.noah-gis-select-wrap span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+}
+
+.noah-gis-select-wrap select,
+.noah-basemap-select,
+.noah-est-filter-select {
+  min-height: 38px;
+  padding: 6px 30px 6px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.38);
+  background: rgba(15, 23, 42, 0.85);
+  color: #f8fafc;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.noah-gis-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  background: rgba(14, 165, 233, 0.16);
+  color: #e0f2fe;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.noah-gis-chip-btn:hover {
+  background: rgba(14, 165, 233, 0.28);
+}
+
+.noah-gis-chip-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Calendar & Hydrological Timeline Bar */
+.noah-gis-calendar-bar {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+}
+
+.noah-calendar-picker-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.noah-date-input-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.noah-date-input-label svg {
+  width: 18px;
+  height: 18px;
+  color: #38bdf8;
+}
+
+.noah-date-input-label span {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+}
+
+.noah-date-input-label input[type="date"] {
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 2px 0;
+  outline: none;
+  color-scheme: dark;
+}
+
+.noah-calendar-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.noah-calendar-presets button {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: rgba(30, 41, 59, 0.75);
+  color: #cbd5e1;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.noah-calendar-presets button:hover {
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+
+.noah-calendar-presets button.is-active {
+  background: #0284c7;
+  border-color: #38bdf8;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+}
+
+.noah-hydro-telemetry-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.noah-telemetry-item {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(30, 41, 59, 0.65);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  display: grid;
+  gap: 2px;
+}
+
+.noah-telemetry-item span {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.noah-telemetry-item strong {
+  font-size: 1rem;
+  color: #f8fafc;
+}
+
+.noah-telemetry-item small {
+  font-size: 0.72rem;
+  color: #cbd5e1;
+}
+
+.noah-telemetry-item.is-alert-yellow-advisory {
+  border-color: rgba(250, 204, 21, 0.55);
+  background: rgba(250, 204, 21, 0.12);
+}
+
+.noah-telemetry-item.is-alert-orange-watch {
+  border-color: rgba(249, 115, 22, 0.65);
+  background: rgba(249, 115, 22, 0.16);
+}
+
+.noah-telemetry-item.is-alert-red-critical {
+  border-color: rgba(239, 68, 68, 0.75);
+  background: rgba(239, 68, 68, 0.22);
+}
+
+/* Layer Controls Toolbar */
+.noah-gis-layer-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.noah-layer-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.noah-toolbar-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-right: 4px;
+}
+
+.noah-toolbar-label svg {
+  width: 14px;
+  height: 14px;
+  color: #38bdf8;
+}
+
+.noah-toggle-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(30, 41, 59, 0.7);
+  color: #cbd5e1;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.noah-toggle-pill svg {
+  width: 13px;
+  height: 13px;
+}
+
+.noah-toggle-pill.is-active {
+  background: rgba(14, 165, 233, 0.24);
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+
+.noah-pitch-slider {
+  width: 84px;
+  accent-color: #38bdf8;
+}
+
+/* Main 3D GIS Stage + Right Sidebar */
+.noah-gis-stage-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.9fr) minmax(300px, 0.95fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.noah-gis-map-viewport {
+  position: relative;
+  min-height: 540px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: #091326;
+  perspective: 1400px;
+}
+
+.noah-gis-map-viewport .noah-gis-canvas {
+  width: 100%;
+  height: 540px;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: center 55%;
+}
+
+.noah-gis-map-viewport.is-3d-pitched .noah-gis-canvas {
+  transform: rotateX(var(--gis-pitch-deg, 26deg)) scale(1.06);
+  box-shadow: 0 26px 50px rgba(0, 0, 0, 0.55);
+}
+
+/* Active Barangay Spotlight & Blur on Other Barangays */
+.gis-brgy-polygon.is-dimmed-blurred {
+  filter: blur(2.4px) saturate(0.25) brightness(0.55);
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.gis-brgy-polygon.is-focused-active {
+  filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.75));
+}
+
+.noah-map-floating-legend {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 500;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  backdrop-filter: blur(10px);
+  color: #f8fafc;
+  font-size: 0.74rem;
+  display: grid;
+  gap: 6px;
+}
+
+.noah-legend-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.noah-legend-title span {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+.noah-legend-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.noah-legend-items span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.noah-legend-items i {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+}
+
+.noah-active-barangay-floating-pill {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(56, 189, 248, 0.55);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+  color: #ffffff;
+}
+
+.noah-color-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  flex-shrink: 0;
+}
+
+.noah-active-barangay-floating-pill strong {
+  display: block;
+  font-size: 0.84rem;
+}
+
+.noah-active-barangay-floating-pill small {
+  display: block;
+  font-size: 0.72rem;
+  color: #93c5fd;
+}
+
+/* Right GIS Sidebar Inspector */
+.noah-gis-sidebar {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.noah-inspector-card {
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  display: grid;
+  gap: 10px;
+}
+
+.noah-inspector-head .eyebrow {
+  color: #38bdf8;
+  font-size: 0.68rem;
+}
+
+.noah-inspector-head h4 {
+  margin: 2px 0 0;
+  font-size: 0.96rem;
+  color: #ffffff;
+}
+
+.noah-hazard-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.noah-hazard-stat-grid > div {
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.noah-hazard-stat-grid > div.is-high {
+  border-left: 3px solid #dc2626;
+}
+
+.noah-hazard-stat-grid > div.is-medium {
+  border-left: 3px solid #f97316;
+}
+
+.noah-hazard-stat-grid > div.is-low {
+  border-left: 3px solid #facc15;
+}
+
+.noah-hazard-stat-grid > div.is-total {
+  border-left: 3px solid #38bdf8;
+}
+
+.noah-hazard-stat-grid span {
+  display: block;
+  font-size: 0.68rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.noah-hazard-stat-grid strong {
+  font-size: 0.92rem;
+  color: #f8fafc;
+}
+
+.noah-advisory-note {
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(14, 165, 233, 0.12);
+  color: #bae6fd;
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.noah-advisory-note svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #38bdf8;
+}
+
+.noah-entity-list {
+  display: grid;
+  gap: 6px;
+}
+
+.noah-entity-list.is-scrollable {
+  max-height: 175px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.noah-entity-btn {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(30, 41, 59, 0.65);
+  color: #f8fafc;
+  text-align: left;
+  cursor: pointer;
+}
+
+.noah-entity-btn:hover,
+.noah-entity-btn.is-selected {
+  border-color: #38bdf8;
+  background: rgba(14, 165, 233, 0.2);
+}
+
+.noah-entity-btn strong {
+  display: block;
+  font-size: 0.8rem;
+}
+
+.noah-entity-btn small {
+  display: block;
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
+
+.noah-entity-btn svg {
+  width: 14px;
+  height: 14px;
+  color: #38bdf8;
+}
+
+.noah-entity-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* 46 Barangay Color Palette Swatch Strip */
+.noah-barangay-palette-strip {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.68);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.noah-palette-header {
+  font-size: 0.78rem;
+  color: #cbd5e1;
+}
+
+.noah-palette-scroll {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.noah-brgy-swatch-chip {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: rgba(30, 41, 59, 0.8);
+  color: #e2e8f0;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.noah-brgy-swatch-chip i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.noah-brgy-swatch-chip svg {
+  width: 12px;
+  height: 12px;
+  color: #38bdf8;
+}
+
+.noah-brgy-swatch-chip.is-active {
+  background: #0284c7;
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+@media (max-width: 980px) {
+  .noah-gis-stage-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .noah-hydro-telemetry-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .noah-gis-shell {
+    padding: 14px;
+  }
+
+  .noah-hydro-telemetry-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .noah-gis-map-viewport,
+  .noah-gis-map-viewport .noah-gis-canvas {
+    min-height: 400px;
+    height: 400px;
+  }
+}

@@ -1,0 +1,846 @@
+{
+  "source": "UP Resilience Institute \u2014 Project NOAH Flood Hazard Maps",
+  "sourceUrl": "https://noah.up.edu.ph/",
+  "mirrorUrl": "https://huggingface.co/datasets/bettergovph/project-noah-hazard-maps",
+  "license": "ODC-ODbL",
+  "verifiedOn": "2026-11-09",
+  "levels": {
+    "low": "Low hazard (0\u20130.5 m depth)",
+    "medium": "Medium hazard (>0.5\u20131.5 m depth)",
+    "high": "High hazard (>1.5 m depth)"
+  },
+  "scenarios": {
+    "100yr": {
+      "1001312001": {
+        "name": "Aglayan",
+        "areaKm2": 20.633,
+        "low": 2.315,
+        "medium": 1.898,
+        "high": 0.302,
+        "exposedKm2": 4.515,
+        "exposedShare": 21.88
+      },
+      "1001312002": {
+        "name": "Bangcud",
+        "areaKm2": 5.069,
+        "low": 0.172,
+        "medium": 0.528,
+        "high": 0.541,
+        "exposedKm2": 1.241,
+        "exposedShare": 24.48
+      },
+      "1001312003": {
+        "name": "Busdi",
+        "areaKm2": 90.697,
+        "low": 4.733,
+        "medium": 3.672,
+        "high": 1.843,
+        "exposedKm2": 10.248,
+        "exposedShare": 11.3
+      },
+      "1001312004": {
+        "name": "Cabangahan",
+        "areaKm2": 5.598,
+        "low": 0.829,
+        "medium": 0.503,
+        "high": 0.509,
+        "exposedKm2": 1.841,
+        "exposedShare": 32.89
+      },
+      "1001312007": {
+        "name": "Caburacanan",
+        "areaKm2": 22.975,
+        "low": 0.958,
+        "medium": 0.801,
+        "high": 0.492,
+        "exposedKm2": 2.251,
+        "exposedShare": 9.8
+      },
+      "1001312009": {
+        "name": "Canayan",
+        "areaKm2": 111.545,
+        "low": 2.372,
+        "medium": 1.569,
+        "high": 0.742,
+        "exposedKm2": 4.683,
+        "exposedShare": 4.2
+      },
+      "1001312010": {
+        "name": "Capitan Angel",
+        "areaKm2": 35.124,
+        "low": 3.196,
+        "medium": 1.68,
+        "high": 0.717,
+        "exposedKm2": 5.593,
+        "exposedShare": 15.92
+      },
+      "1001312012": {
+        "name": "Casisang",
+        "areaKm2": 36.006,
+        "low": 3.086,
+        "medium": 2.689,
+        "high": 0.697,
+        "exposedKm2": 6.472,
+        "exposedShare": 17.97
+      },
+      "1001312014": {
+        "name": "Dalwangan",
+        "areaKm2": 36.421,
+        "low": 1.35,
+        "medium": 2.073,
+        "high": 0.47,
+        "exposedKm2": 3.893,
+        "exposedShare": 10.69
+      },
+      "1001312017": {
+        "name": "Imbayao",
+        "areaKm2": 31.547,
+        "low": 3.253,
+        "medium": 1.947,
+        "high": 0.652,
+        "exposedKm2": 5.852,
+        "exposedShare": 18.55
+      },
+      "1001312018": {
+        "name": "Indalaza",
+        "areaKm2": 15.181,
+        "low": 0.471,
+        "medium": 0.415,
+        "high": 0.291,
+        "exposedKm2": 1.177,
+        "exposedShare": 7.75
+      },
+      "1001312019": {
+        "name": "Kalasungay",
+        "areaKm2": 29.246,
+        "low": 1.508,
+        "medium": 1.322,
+        "high": 0.621,
+        "exposedKm2": 3.451,
+        "exposedShare": 11.8
+      },
+      "1001312021": {
+        "name": "Kabalabag",
+        "areaKm2": 67.379,
+        "low": 0.6,
+        "medium": 0.343,
+        "high": 0.227,
+        "exposedKm2": 1.17,
+        "exposedShare": 1.74
+      },
+      "1001312022": {
+        "name": "Kulaman",
+        "areaKm2": 21.353,
+        "low": 1.642,
+        "medium": 0.934,
+        "high": 0.339,
+        "exposedKm2": 2.915,
+        "exposedShare": 13.65
+      },
+      "1001312023": {
+        "name": "Laguitas",
+        "areaKm2": 14.131,
+        "low": 1.134,
+        "medium": 0.743,
+        "high": 1.124,
+        "exposedKm2": 3.001,
+        "exposedShare": 21.24
+      },
+      "1001312025": {
+        "name": "Patpat",
+        "areaKm2": 31.273,
+        "low": 1.925,
+        "medium": 1.708,
+        "high": 1.076,
+        "exposedKm2": 4.709,
+        "exposedShare": 15.06
+      },
+      "1001312026": {
+        "name": "Linabo",
+        "areaKm2": 15.137,
+        "low": 2.22,
+        "medium": 1.099,
+        "high": 0.474,
+        "exposedKm2": 3.793,
+        "exposedShare": 25.06
+      },
+      "1001312027": {
+        "name": "Apo Macote",
+        "areaKm2": 22.046,
+        "low": 1.814,
+        "medium": 1.603,
+        "high": 2.138,
+        "exposedKm2": 5.555,
+        "exposedShare": 25.2
+      },
+      "1001312028": {
+        "name": "Miglamin",
+        "areaKm2": 25.935,
+        "low": 1.511,
+        "medium": 1.0,
+        "high": 0.828,
+        "exposedKm2": 3.339,
+        "exposedShare": 12.87
+      },
+      "1001312029": {
+        "name": "Magsaysay",
+        "areaKm2": 12.87,
+        "low": 1.197,
+        "medium": 0.888,
+        "high": 0.139,
+        "exposedKm2": 2.224,
+        "exposedShare": 17.28
+      },
+      "1001312030": {
+        "name": "Maligaya",
+        "areaKm2": 17.572,
+        "low": 1.212,
+        "medium": 1.01,
+        "high": 0.357,
+        "exposedKm2": 2.579,
+        "exposedShare": 14.68
+      },
+      "1001312031": {
+        "name": "Managok",
+        "areaKm2": 18.335,
+        "low": 1.849,
+        "medium": 1.441,
+        "high": 1.536,
+        "exposedKm2": 4.826,
+        "exposedShare": 26.32
+      },
+      "1001312032": {
+        "name": "Manalog",
+        "areaKm2": 57.562,
+        "low": 0.817,
+        "medium": 0.346,
+        "high": 0.249,
+        "exposedKm2": 1.412,
+        "exposedShare": 2.45
+      },
+      "1001312034": {
+        "name": "Mapayag",
+        "areaKm2": 14.264,
+        "low": 1.387,
+        "medium": 0.736,
+        "high": 0.086,
+        "exposedKm2": 2.209,
+        "exposedShare": 15.49
+      },
+      "1001312035": {
+        "name": "Mapulo",
+        "areaKm2": 12.222,
+        "low": 0.554,
+        "medium": 0.498,
+        "high": 0.379,
+        "exposedKm2": 1.431,
+        "exposedShare": 11.71
+      },
+      "1001312038": {
+        "name": "Barangay 1",
+        "areaKm2": 1.44,
+        "low": 0.199,
+        "medium": 0.107,
+        "high": 0.021,
+        "exposedKm2": 0.327,
+        "exposedShare": 22.71
+      },
+      "1001312045": {
+        "name": "Barangay 2",
+        "areaKm2": 0.036,
+        "low": 0.003,
+        "medium": 0.0,
+        "high": 0.0,
+        "exposedKm2": 0.003,
+        "exposedShare": 8.33
+      },
+      "1001312046": {
+        "name": "Barangay 3",
+        "areaKm2": 0.161,
+        "low": 0.0,
+        "medium": 0.004,
+        "high": 0.0,
+        "exposedKm2": 0.004,
+        "exposedShare": 2.48
+      },
+      "1001312047": {
+        "name": "Barangay 4",
+        "areaKm2": 0.047,
+        "low": 0.002,
+        "medium": 0.004,
+        "high": 0.0,
+        "exposedKm2": 0.006,
+        "exposedShare": 12.77
+      },
+      "1001312048": {
+        "name": "Barangay 5",
+        "areaKm2": 0.011,
+        "low": 0.0,
+        "medium": 0.0,
+        "high": 0.0,
+        "exposedKm2": 0.0,
+        "exposedShare": 0.0
+      },
+      "1001312049": {
+        "name": "Barangay 6",
+        "areaKm2": 0.022,
+        "low": 0.0,
+        "medium": 0.0,
+        "high": 0.0,
+        "exposedKm2": 0.0,
+        "exposedShare": 0.0
+      },
+      "1001312050": {
+        "name": "Barangay 7",
+        "areaKm2": 0.171,
+        "low": 0.001,
+        "medium": 0.001,
+        "high": 0.0,
+        "exposedKm2": 0.002,
+        "exposedShare": 1.17
+      },
+      "1001312051": {
+        "name": "Barangay 8",
+        "areaKm2": 0.027,
+        "low": 0.0,
+        "medium": 0.057,
+        "high": 0.0,
+        "exposedKm2": 0.027,
+        "exposedShare": 100.0
+      },
+      "1001312052": {
+        "name": "Barangay 9",
+        "areaKm2": 4.285,
+        "low": 0.185,
+        "medium": 0.162,
+        "high": 0.016,
+        "exposedKm2": 0.363,
+        "exposedShare": 8.47
+      },
+      "1001312053": {
+        "name": "Barangay 10",
+        "areaKm2": 6.133,
+        "low": 0.502,
+        "medium": 0.418,
+        "high": 0.139,
+        "exposedKm2": 1.059,
+        "exposedShare": 17.27
+      },
+      "1001312054": {
+        "name": "Barangay 11",
+        "areaKm2": 4.328,
+        "low": 0.274,
+        "medium": 0.159,
+        "high": 0.013,
+        "exposedKm2": 0.446,
+        "exposedShare": 10.3
+      },
+      "1001312058": {
+        "name": "Saint Peter",
+        "areaKm2": 24.322,
+        "low": 1.049,
+        "medium": 0.832,
+        "high": 0.657,
+        "exposedKm2": 2.538,
+        "exposedShare": 10.43
+      },
+      "1001312059": {
+        "name": "San Jose",
+        "areaKm2": 31.574,
+        "low": 1.634,
+        "medium": 0.984,
+        "high": 0.473,
+        "exposedKm2": 3.091,
+        "exposedShare": 9.79
+      },
+      "1001312060": {
+        "name": "San Martin",
+        "areaKm2": 17.707,
+        "low": 1.518,
+        "medium": 0.466,
+        "high": 0.163,
+        "exposedKm2": 2.147,
+        "exposedShare": 12.13
+      },
+      "1001312061": {
+        "name": "Santo Ni\u00f1o",
+        "areaKm2": 7.762,
+        "low": 0.511,
+        "medium": 0.424,
+        "high": 0.122,
+        "exposedKm2": 1.057,
+        "exposedShare": 13.62
+      },
+      "1001312062": {
+        "name": "Silae",
+        "areaKm2": 61.733,
+        "low": 2.192,
+        "medium": 1.557,
+        "high": 1.436,
+        "exposedKm2": 5.185,
+        "exposedShare": 8.4
+      },
+      "1001312063": {
+        "name": "Simaya",
+        "areaKm2": 15.051,
+        "low": 0.679,
+        "medium": 0.173,
+        "high": 0.123,
+        "exposedKm2": 0.975,
+        "exposedShare": 6.48
+      },
+      "1001312064": {
+        "name": "Sinanglanan",
+        "areaKm2": 12.611,
+        "low": 1.729,
+        "medium": 1.316,
+        "high": 0.338,
+        "exposedKm2": 3.383,
+        "exposedShare": 26.83
+      },
+      "1001312065": {
+        "name": "Sumpong",
+        "areaKm2": 18.72,
+        "low": 0.649,
+        "medium": 0.415,
+        "high": 0.092,
+        "exposedKm2": 1.156,
+        "exposedShare": 6.18
+      },
+      "1001312066": {
+        "name": "Violeta",
+        "areaKm2": 4.301,
+        "low": 0.016,
+        "medium": 0.321,
+        "high": 0.285,
+        "exposedKm2": 0.622,
+        "exposedShare": 14.46
+      },
+      "1001312067": {
+        "name": "Zamboanguita",
+        "areaKm2": 22.662,
+        "low": 0.897,
+        "medium": 0.853,
+        "high": 0.638,
+        "exposedKm2": 2.388,
+        "exposedShare": 10.54
+      }
+    },
+    "5yr": {
+      "1001312001": {
+        "name": "Aglayan",
+        "areaKm2": 20.633,
+        "low": 1.416,
+        "medium": 1.133,
+        "high": 0.159,
+        "exposedKm2": 2.708,
+        "exposedShare": 13.12
+      },
+      "1001312002": {
+        "name": "Bangcud",
+        "areaKm2": 5.069,
+        "low": 0.38,
+        "medium": 1.016,
+        "high": 1.21,
+        "exposedKm2": 2.606,
+        "exposedShare": 51.41
+      },
+      "1001312003": {
+        "name": "Busdi",
+        "areaKm2": 90.697,
+        "low": 3.764,
+        "medium": 2.09,
+        "high": 1.721,
+        "exposedKm2": 7.575,
+        "exposedShare": 8.35
+      },
+      "1001312004": {
+        "name": "Cabangahan",
+        "areaKm2": 5.598,
+        "low": 0.426,
+        "medium": 0.34,
+        "high": 0.11,
+        "exposedKm2": 0.876,
+        "exposedShare": 15.65
+      },
+      "1001312007": {
+        "name": "Caburacanan",
+        "areaKm2": 22.975,
+        "low": 0.742,
+        "medium": 0.59,
+        "high": 0.478,
+        "exposedKm2": 1.81,
+        "exposedShare": 7.88
+      },
+      "1001312009": {
+        "name": "Canayan",
+        "areaKm2": 111.545,
+        "low": 1.647,
+        "medium": 1.132,
+        "high": 0.914,
+        "exposedKm2": 3.693,
+        "exposedShare": 3.31
+      },
+      "1001312010": {
+        "name": "Capitan Angel",
+        "areaKm2": 35.124,
+        "low": 2.029,
+        "medium": 1.128,
+        "high": 0.614,
+        "exposedKm2": 3.771,
+        "exposedShare": 10.74
+      },
+      "1001312012": {
+        "name": "Casisang",
+        "areaKm2": 36.006,
+        "low": 2.083,
+        "medium": 1.806,
+        "high": 0.562,
+        "exposedKm2": 4.451,
+        "exposedShare": 12.36
+      },
+      "1001312014": {
+        "name": "Dalwangan",
+        "areaKm2": 36.421,
+        "low": 0.628,
+        "medium": 0.519,
+        "high": 0.124,
+        "exposedKm2": 1.271,
+        "exposedShare": 3.49
+      },
+      "1001312017": {
+        "name": "Imbayao",
+        "areaKm2": 31.547,
+        "low": 2.268,
+        "medium": 1.204,
+        "high": 0.418,
+        "exposedKm2": 3.89,
+        "exposedShare": 12.33
+      },
+      "1001312018": {
+        "name": "Indalaza",
+        "areaKm2": 15.181,
+        "low": 0.354,
+        "medium": 0.335,
+        "high": 0.364,
+        "exposedKm2": 1.053,
+        "exposedShare": 6.94
+      },
+      "1001312019": {
+        "name": "Kalasungay",
+        "areaKm2": 29.246,
+        "low": 1.096,
+        "medium": 1.053,
+        "high": 0.711,
+        "exposedKm2": 2.86,
+        "exposedShare": 9.78
+      },
+      "1001312021": {
+        "name": "Kabalabag",
+        "areaKm2": 67.379,
+        "low": 0.444,
+        "medium": 0.251,
+        "high": 0.122,
+        "exposedKm2": 0.817,
+        "exposedShare": 1.21
+      },
+      "1001312022": {
+        "name": "Kulaman",
+        "areaKm2": 21.353,
+        "low": 1.12,
+        "medium": 0.521,
+        "high": 0.298,
+        "exposedKm2": 1.939,
+        "exposedShare": 9.08
+      },
+      "1001312023": {
+        "name": "Laguitas",
+        "areaKm2": 14.131,
+        "low": 0.727,
+        "medium": 0.641,
+        "high": 0.184,
+        "exposedKm2": 1.552,
+        "exposedShare": 10.98
+      },
+      "1001312025": {
+        "name": "Patpat",
+        "areaKm2": 31.273,
+        "low": 1.243,
+        "medium": 1.092,
+        "high": 0.632,
+        "exposedKm2": 2.967,
+        "exposedShare": 9.49
+      },
+      "1001312026": {
+        "name": "Linabo",
+        "areaKm2": 15.137,
+        "low": 3.747,
+        "medium": 2.674,
+        "high": 0.187,
+        "exposedKm2": 6.608,
+        "exposedShare": 43.65
+      },
+      "1001312027": {
+        "name": "Apo Macote",
+        "areaKm2": 22.046,
+        "low": 1.303,
+        "medium": 2.371,
+        "high": 0.968,
+        "exposedKm2": 4.642,
+        "exposedShare": 21.06
+      },
+      "1001312028": {
+        "name": "Miglamin",
+        "areaKm2": 25.935,
+        "low": 1.111,
+        "medium": 0.74,
+        "high": 0.457,
+        "exposedKm2": 2.308,
+        "exposedShare": 8.9
+      },
+      "1001312029": {
+        "name": "Magsaysay",
+        "areaKm2": 12.87,
+        "low": 0.907,
+        "medium": 0.545,
+        "high": 0.254,
+        "exposedKm2": 1.706,
+        "exposedShare": 13.26
+      },
+      "1001312030": {
+        "name": "Maligaya",
+        "areaKm2": 17.572,
+        "low": 1.17,
+        "medium": 0.48,
+        "high": 0.306,
+        "exposedKm2": 1.956,
+        "exposedShare": 11.13
+      },
+      "1001312031": {
+        "name": "Managok",
+        "areaKm2": 18.335,
+        "low": 3.505,
+        "medium": 1.149,
+        "high": 0.729,
+        "exposedKm2": 5.383,
+        "exposedShare": 29.36
+      },
+      "1001312032": {
+        "name": "Manalog",
+        "areaKm2": 57.562,
+        "low": 0.544,
+        "medium": 0.252,
+        "high": 0.152,
+        "exposedKm2": 0.948,
+        "exposedShare": 1.65
+      },
+      "1001312034": {
+        "name": "Mapayag",
+        "areaKm2": 14.264,
+        "low": 0.978,
+        "medium": 0.425,
+        "high": 0.306,
+        "exposedKm2": 1.709,
+        "exposedShare": 11.98
+      },
+      "1001312035": {
+        "name": "Mapulo",
+        "areaKm2": 12.222,
+        "low": 0.444,
+        "medium": 0.411,
+        "high": 0.556,
+        "exposedKm2": 1.411,
+        "exposedShare": 11.54
+      },
+      "1001312038": {
+        "name": "Barangay 1",
+        "areaKm2": 1.44,
+        "low": 0.073,
+        "medium": 0.095,
+        "high": 0.036,
+        "exposedKm2": 0.204,
+        "exposedShare": 14.17
+      },
+      "1001312045": {
+        "name": "Barangay 2",
+        "areaKm2": 0.036,
+        "low": 0.006,
+        "medium": 0.005,
+        "high": 0.0,
+        "exposedKm2": 0.011,
+        "exposedShare": 30.56
+      },
+      "1001312046": {
+        "name": "Barangay 3",
+        "areaKm2": 0.161,
+        "low": 0.0,
+        "medium": 0.004,
+        "high": 0.0,
+        "exposedKm2": 0.004,
+        "exposedShare": 2.48
+      },
+      "1001312047": {
+        "name": "Barangay 4",
+        "areaKm2": 0.047,
+        "low": 0.003,
+        "medium": 0.003,
+        "high": 0.0,
+        "exposedKm2": 0.006,
+        "exposedShare": 12.77
+      },
+      "1001312048": {
+        "name": "Barangay 5",
+        "areaKm2": 0.011,
+        "low": 0.0,
+        "medium": 0.0,
+        "high": 0.0,
+        "exposedKm2": 0.0,
+        "exposedShare": 0.0
+      },
+      "1001312049": {
+        "name": "Barangay 6",
+        "areaKm2": 0.022,
+        "low": 0.0,
+        "medium": 0.0,
+        "high": 0.0,
+        "exposedKm2": 0.0,
+        "exposedShare": 0.0
+      },
+      "1001312050": {
+        "name": "Barangay 7",
+        "areaKm2": 0.171,
+        "low": 0.0,
+        "medium": 0.002,
+        "high": 0.0,
+        "exposedKm2": 0.002,
+        "exposedShare": 1.17
+      },
+      "1001312051": {
+        "name": "Barangay 8",
+        "areaKm2": 0.027,
+        "low": 0.0,
+        "medium": 0.0,
+        "high": 0.0,
+        "exposedKm2": 0.0,
+        "exposedShare": 0.0
+      },
+      "1001312052": {
+        "name": "Barangay 9",
+        "areaKm2": 4.285,
+        "low": 0.16,
+        "medium": 0.153,
+        "high": 0.103,
+        "exposedKm2": 0.416,
+        "exposedShare": 9.71
+      },
+      "1001312053": {
+        "name": "Barangay 10",
+        "areaKm2": 6.133,
+        "low": 0.326,
+        "medium": 0.252,
+        "high": 0.044,
+        "exposedKm2": 0.622,
+        "exposedShare": 10.14
+      },
+      "1001312054": {
+        "name": "Barangay 11",
+        "areaKm2": 4.328,
+        "low": 0.152,
+        "medium": 0.099,
+        "high": 0.004,
+        "exposedKm2": 0.255,
+        "exposedShare": 5.89
+      },
+      "1001312058": {
+        "name": "Saint Peter",
+        "areaKm2": 24.322,
+        "low": 0.772,
+        "medium": 0.618,
+        "high": 1.028,
+        "exposedKm2": 2.418,
+        "exposedShare": 9.94
+      },
+      "1001312059": {
+        "name": "San Jose",
+        "areaKm2": 31.574,
+        "low": 1.099,
+        "medium": 0.896,
+        "high": 0.507,
+        "exposedKm2": 2.502,
+        "exposedShare": 7.92
+      },
+      "1001312060": {
+        "name": "San Martin",
+        "areaKm2": 17.707,
+        "low": 2.565,
+        "medium": 0.34,
+        "high": 0.043,
+        "exposedKm2": 2.948,
+        "exposedShare": 16.65
+      },
+      "1001312061": {
+        "name": "Santo Ni\u00f1o",
+        "areaKm2": 7.762,
+        "low": 0.9,
+        "medium": 0.192,
+        "high": 0.148,
+        "exposedKm2": 1.24,
+        "exposedShare": 15.98
+      },
+      "1001312062": {
+        "name": "Silae",
+        "areaKm2": 61.733,
+        "low": 1.638,
+        "medium": 1.185,
+        "high": 1.061,
+        "exposedKm2": 3.884,
+        "exposedShare": 6.29
+      },
+      "1001312063": {
+        "name": "Simaya",
+        "areaKm2": 15.051,
+        "low": 1.004,
+        "medium": 1.182,
+        "high": 1.067,
+        "exposedKm2": 3.253,
+        "exposedShare": 21.61
+      },
+      "1001312064": {
+        "name": "Sinanglanan",
+        "areaKm2": 12.611,
+        "low": 0.578,
+        "medium": 0.5,
+        "high": 0.177,
+        "exposedKm2": 1.255,
+        "exposedShare": 9.95
+      },
+      "1001312065": {
+        "name": "Sumpong",
+        "areaKm2": 18.72,
+        "low": 0.453,
+        "medium": 0.297,
+        "high": 0.193,
+        "exposedKm2": 0.943,
+        "exposedShare": 5.04
+      },
+      "1001312066": {
+        "name": "Violeta",
+        "areaKm2": 4.301,
+        "low": 0.452,
+        "medium": 0.302,
+        "high": 0.037,
+        "exposedKm2": 0.791,
+        "exposedShare": 18.39
+      },
+      "1001312067": {
+        "name": "Zamboanguita",
+        "areaKm2": 22.662,
+        "low": 0.792,
+        "medium": 0.541,
+        "high": 0.468,
+        "exposedKm2": 1.801,
+        "exposedShare": 7.95
+      }
+    }
+  }
+}

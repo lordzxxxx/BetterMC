@@ -175,6 +175,15 @@ describe("BetterMC public portal", () => {
     expect(
       screen.getAllByRole("link", { name: /View context for/i }).length,
     ).toBeGreaterThan(0);
+    fireEvent.click(
+      screen.getAllByRole("link", { name: /View context for/i })[0],
+    );
+    expect(
+      screen.getByRole("dialog", { name: /disclosure popout/i }),
+    ).toBeInTheDocument();
+    fireEvent.click(
+      screen.getByRole("button", { name: /Close record popout/i }),
+    );
   });
 
   it("lists DILG-sourced barangay leadership", () => {
@@ -204,6 +213,12 @@ describe("BetterMC public portal", () => {
     );
     expect(
       screen.getByRole("heading", { name: "Dalwangan", level: 1 }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Powered by BetterMC")).toBeInTheDocument();
+    expect(
+      screen.getByRole("region", {
+        name: /Hydrological and flood timeline calendar/i,
+      }),
     ).toBeInTheDocument();
     expect(
       screen.getAllByText(/dalwangan\.bettermc\.ph/i).length,

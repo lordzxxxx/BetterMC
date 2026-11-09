@@ -44,7 +44,6 @@ import {
   Mail,
   Menu,
   Phone,
-  MapPin,
   Plane,
   ReceiptText,
   Search,
@@ -56,7 +55,6 @@ import {
   WalletCards,
   X,
 } from "lucide-react";
-import type { FeatureCollection, Geometry } from "geojson";
 import {
   Link,
   NavLink,
@@ -130,6 +128,7 @@ import { civicRecordContext } from "./civicRecordContext";
 import { searchPortal } from "./searchIndex";
 import { sitePages } from "./sitePages";
 import WeatherPanel from "./WeatherPanel";
+import MalaybalayGisMap from "./MalaybalayGisMap";
 import TurnstileWidget from "./TurnstileWidget";
 import {
   feedbackSchema,
@@ -1583,6 +1582,8 @@ function TransparencyPage() {
   const quarter = params.get("quarter") ?? "All";
   const category = params.get("category") ?? "All";
   const [query, setQuery] = useState("");
+  const [activeRecordPopout, setActiveRecordPopout] =
+    useState<Disclosure | null>(null);
   const deferredQuery = useDeferredValue(query);
   const rows = disclosures.filter(
     (item) =>
@@ -1591,6 +1592,15 @@ function TransparencyPage() {
       (category === "All" || item.category === category) &&
       item.title.toLowerCase().includes(deferredQuery.toLowerCase()),
   );
+  useEffect(() => {
+    if (!activeRecordPopout) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setActiveRecordPopout(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeRecordPopout]);
+
   const updateParam = (key: string, value: string) => {
     const next = new URLSearchParams(params);
     next.set(key, value);
@@ -1730,7 +1740,11 @@ function TransparencyPage() {
         </div>
         <div className="records-list">
           {rows.map((record) => (
-            <article key={`${record.year}-${record.quarter}-${record.title}`}>
+            <article
+              key={`${record.year}-${record.quarter}-${record.title}`}
+              className="is-interactive-card"
+              onClick={() => setActiveRecordPopout(record)}
+            >
               <div className="record-icon" aria-hidden="true">
                 <DisclosureCategoryIcon category={record.category} />
               </div>
@@ -1760,12 +1774,167 @@ function TransparencyPage() {
                 className="record-link"
                 to={`/transparency/${record.year}/${record.quarter.toLowerCase()}/${disclosureSlug(record.title)}`}
                 aria-label={`View context for ${record.title}`}
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  setActiveRecordPopout(record);
+                }}
               >
                 View record details <ArrowRight />
               </Link>
             </article>
           ))}
         </div>
+        {activeRecordPopout && (
+          <div
+            className="barangay-popout-backdrop"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${activeRecordPopout.title} disclosure popout`}
+            onClick={() => setActiveRecordPopout(null)}
+          >
+            <div
+              className="barangay-popout-modal transparency-popout-modal"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="barangay-popout-header">
+                <div className="barangay-popout-brand">
+                  <span className="barangay-icon-tile">
+                    <DisclosureCategoryIcon
+                      category={activeRecordPopout.category}
+                    />
+                  </span>
+                  <div>
+                    <span className="eyebrow">
+                      {activeRecordPopout.category} Disclosure ·{" "}
+                      {activeRecordPopout.year} {activeRecordPopout.quarter}
+                    </span>
+                    <h3>{activeRecordPopout.title}</h3>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="barangay-popout-close"
+                  aria-label="Close record popout"
+                  onClick={() => setActiveRecordPopout(null)}
+                >
+                  <X aria-hidden="true" />
+                </button>
+              </div>
+              <div className="barangay-popout-body">
+                <div className="popout-table-wrap">
+                  <table className="popout-structured-table">
+                    <tbody>
+                      <tr>
+                        <th scope="row">Document Title</th>
+                        <td>
+                          <strong>{activeRecordPopout.title}</strong>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Disclosure Category</th>
+                        <td>{activeRecordPopout.category}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Fiscal Year & Reporting Period</th>
+                        <td>
+                          FY {activeRecordPopout.year} ·{" "}
+                          {activeRecordPopout.quarter}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Catalog Availability Status</th>
+                        <td>{activeRecordPopout.status}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Analytical & Reporting Context</th>
+                        <td>
+                          {disclosureContext[activeRecordPopout.category]}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Official Catalog Publisher</th>
+                        <td>{activeRecordPopout.source.label}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Source Review Date</th>
+                        <td>{activeRecordPopout.source.verifiedOn}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Primary & Backup Source References</th>
+                        <td>
+                          <div className="popout-table-links">
+                            <a
+                              href={
+                                activeRecordPopout.downloadUrl ??
+                                activeRecordPopout.source.url
+                              }
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {activeRecordPopout.downloadUrl
+                                ? "Open Official Published PDF"
+                                : "Open Official Full Disclosure Catalog"}{" "}
+                              <ExternalLink aria-hidden="true" />
+                            </a>
+                            <a
+                              href="https://sakata.malaybalaycity.gov.ph/full-disclosure/"
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              City Government of Malaybalay Full Disclosure
+                              Portal <ExternalLink aria-hidden="true" />
+                            </a>
+                            <a
+                              href="https://fdpp.dilg.gov.ph/"
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              DILG Full Disclosure Policy Portal (FDPP){" "}
+                              <ExternalLink aria-hidden="true" />
+                            </a>
+                            <a
+                              href="https://www.coa.gov.ph/reports/annual-audit-reports/aar-local-government-units/"
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              Commission on Audit (COA) LGU Audit Archive{" "}
+                              <ExternalLink aria-hidden="true" />
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div className="noah-popout-actions">
+                  <a
+                    className="button primary"
+                    href={
+                      activeRecordPopout.downloadUrl ??
+                      activeRecordPopout.source.url
+                    }
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {activeRecordPopout.downloadUrl
+                      ? "Open official PDF"
+                      : "Open official catalog"}{" "}
+                    <ExternalLink aria-hidden="true" />
+                  </a>
+                  <Link
+                    className="button secondary"
+                    to={`/transparency/${activeRecordPopout.year}/${activeRecordPopout.quarter.toLowerCase()}/${disclosureSlug(activeRecordPopout.title)}`}
+                    onClick={() => setActiveRecordPopout(null)}
+                  >
+                    Open standalone record page{" "}
+                    <ArrowRight aria-hidden="true" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         <SourceNote
           url="https://sakata.malaybalaycity.gov.ph/full-disclosure/"
           label="Malaybalay City Full Disclosure"
@@ -2307,8 +2476,9 @@ function GovernmentPage() {
               <div>
                 <strong>Select a leader for verified details</strong>
                 <p>
-                  View published contacts, assignments, records, and sources.
-                  Measures are attributed only when the source names an author.
+                  Click any official’s card or “Details” button to open an
+                  organized popup table of published contacts, committee
+                  assignments, records, and official source references.
                 </p>
               </div>
             </div>
@@ -2317,19 +2487,12 @@ function GovernmentPage() {
                 const id = officialId(official.name);
                 const portrait = officialPortraits[official.name];
                 const expanded = openOfficial === id;
-                const officeRecords =
-                  official.role === "City Mayor"
-                    ? civicRecords.filter(
-                        (record) => record.attributionLevel === "office",
-                      )
-                    : [];
-                const sharedContact =
-                  official.office.scope === "Shared legislative-office routing";
                 return (
                   <article
                     id={`official-${id}`}
-                    className={expanded ? "expanded" : ""}
+                    className="is-interactive-card"
                     key={official.name}
+                    onClick={() => toggleOfficial(official.name)}
                   >
                     <div className="official-summary">
                       <div className="avatar">
@@ -2358,176 +2521,301 @@ function GovernmentPage() {
                         className="leader-toggle"
                         type="button"
                         aria-expanded={expanded}
-                        aria-controls={`leader-details-${id}`}
-                        onClick={() => toggleOfficial(official.name)}
+                        aria-haspopup="dialog"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          toggleOfficial(official.name);
+                        }}
                       >
-                        Details <ChevronDown />
+                        Details <ArrowRight aria-hidden="true" />
                       </button>
-                    </div>
-                    <div
-                      id={`leader-details-${id}`}
-                      className={`leader-reveal ${expanded ? "is-open" : ""}`}
-                      aria-hidden={!expanded}
-                    >
-                      <div className="leader-reveal-inner">
-                        <div
-                          className={`leader-details${
-                            official.chairmanships?.length ||
-                            official.committeeMemberships?.length
-                              ? " has-committees"
-                              : ""
-                          }`}
-                        >
-                          <div className="leader-office">
-                            <span>{official.office.scope}</span>
-                            <h3>{official.office.name}</h3>
-                            {sharedContact && (
-                              <p className="contact-scope-note">
-                                <CircleAlert />
-                                No individual phone or email is published on
-                                this official’s City Government profile. The
-                                contact below routes inquiries through the
-                                shared legislative office.
-                              </p>
-                            )}
-                            <p>
-                              <MapPin />
-                              {official.office.address}
-                            </p>
-                            <a
-                              href={`tel:${telephoneHref(official.office.phone)}`}
-                            >
-                              <Phone />
-                              {official.office.phone}
-                            </a>
-                            {official.office.email ? (
-                              <a href={`mailto:${official.office.email}`}>
-                                <Mail />
-                                {official.office.email}
-                              </a>
-                            ) : (
-                              <span className="contact-unavailable">
-                                <Mail />
-                                No direct email published
-                              </span>
-                            )}
-                            <a
-                              href={official.office.source.url}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Verify published contact <ExternalLink />
-                            </a>
-                          </div>
-                          {(official.chairmanships?.length ||
-                            official.committeeMemberships?.length) && (
-                            <div className="leader-committees">
-                              <span>Published committee assignments</span>
-                              {official.chairmanships?.length && (
-                                <div>
-                                  <strong>Chairmanship</strong>
-                                  <ul>
-                                    {official.chairmanships.map((committee) => (
-                                      <li key={committee}>{committee}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
-                              {official.committeeMemberships?.length && (
-                                <div>
-                                  <strong>Member committees</strong>
-                                  <ul>
-                                    {official.committeeMemberships.map(
-                                      (committee) => (
-                                        <li key={committee}>{committee}</li>
-                                      ),
-                                    )}
-                                  </ul>
-                                </div>
-                              )}
-                              <a
-                                href={official.source.url}
-                                target="_blank"
-                                rel="noreferrer"
-                              >
-                                Verify committee assignments <ExternalLink />
-                              </a>
-                            </div>
-                          )}
-                          <div className="leader-records">
-                            <span>Published record coverage</span>
-                            {officeRecords.length ? (
-                              <>
-                                <strong>
-                                  {officeRecords.length} mayoral office
-                                  issuances indexed
-                                </strong>
-                                <ul>
-                                  {officeRecords.slice(0, 3).map((record) => (
-                                    <li key={record.number}>
-                                      <a
-                                        href={record.source.url}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                      >
-                                        <b>{record.number}</b>
-                                        {record.title}
-                                        <ExternalLink />
-                                      </a>
-                                    </li>
-                                  ))}
-                                </ul>
-                                {officeRecords.length > 3 && (
-                                  <Link to="/government?tab=records">
-                                    View all {officeRecords.length} published
-                                    measures <ArrowRight />
-                                  </Link>
-                                )}
-                              </>
-                            ) : (
-                              <>
-                                <strong>
-                                  No individually attributed measure found
-                                </strong>
-                                <p>
-                                  The verified listings publish council measures
-                                  at the Sangguniang Panlungsod level and do not
-                                  name this official as sponsor or author.
-                                </p>
-                                <Link to="/government?tab=records">
-                                  Review institutional measures <ArrowRight />
-                                </Link>
-                              </>
-                            )}
-                            <p className="award-status">
-                              <Award />
-                              No personal award is claimed because no verified
-                              source reviewed names this official as the
-                              individual recipient.
-                            </p>
-                          </div>
-                          <div className="leader-sources">
-                            <a
-                              href={official.source.url}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Open official profile <ExternalLink />
-                            </a>
-                            <small>Sources reviewed {VERIFIED_ON}</small>
-                            {portrait && (
-                              <small className="portrait-note">
-                                {portrait.note}
-                              </small>
-                            )}
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </article>
                 );
               })}
             </div>
+            {(() => {
+              const selectedOfficial = officials.find(
+                (item) => officialId(item.name) === openOfficial,
+              );
+              if (!selectedOfficial) return null;
+              const portrait = officialPortraits[selectedOfficial.name];
+              const officeRecords =
+                selectedOfficial.role === "City Mayor"
+                  ? civicRecords.filter(
+                      (record) => record.attributionLevel === "office",
+                    )
+                  : [];
+              const sharedContact =
+                selectedOfficial.office.scope ===
+                "Shared legislative-office routing";
+              const closeModal = () => {
+                const next = new URLSearchParams(params);
+                next.delete("official");
+                setParams(next);
+              };
+              return (
+                <div
+                  className="barangay-popout-backdrop government-popout-backdrop"
+                  onClick={closeModal}
+                >
+                  <article
+                    className="expanded barangay-popout-modal government-popout-modal"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={`${selectedOfficial.name} verified profile details`}
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <div className="barangay-popout-header">
+                      <div className="barangay-popout-brand">
+                        <div className="avatar is-modal-avatar">
+                          {portrait ? (
+                            <img
+                              src={portrait.src}
+                              alt=""
+                              aria-hidden="true"
+                              style={{ objectPosition: portrait.position }}
+                            />
+                          ) : (
+                            <span aria-hidden="true">
+                              {selectedOfficial.name
+                                .split(" ")
+                                .map((part) => part[0])
+                                .slice(0, 2)
+                                .join("")}
+                            </span>
+                          )}
+                        </div>
+                        <div>
+                          <span className="eyebrow">
+                            {selectedOfficial.group} · Verified Leadership
+                            Profile
+                          </span>
+                          <h3>
+                            {selectedOfficial.name} — {selectedOfficial.role}
+                          </h3>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        className="barangay-popout-close"
+                        aria-label="Close official profile popup"
+                        onClick={closeModal}
+                      >
+                        <X aria-hidden="true" />
+                      </button>
+                    </div>
+
+                    <div className="barangay-popout-body">
+                      {sharedContact && (
+                        <p className="contact-scope-note">
+                          <CircleAlert aria-hidden="true" />
+                          No individual phone or email is published on this
+                          official’s City Government profile. The contact below
+                          routes inquiries through the shared legislative
+                          office.
+                        </p>
+                      )}
+
+                      <div className="popout-table-wrap">
+                        <table className="popout-structured-table">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Official Name & Position</th>
+                              <td>
+                                <strong>{selectedOfficial.name}</strong> ·{" "}
+                                {selectedOfficial.role} (
+                                {selectedOfficial.group})
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Assigned Office</th>
+                              <td>
+                                <strong>{selectedOfficial.office.name}</strong>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Contact Routing Scope</th>
+                              <td>{selectedOfficial.office.scope}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Office Address</th>
+                              <td>{selectedOfficial.office.address}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Published Telephone</th>
+                              <td>
+                                <a
+                                  href={`tel:${telephoneHref(selectedOfficial.office.phone)}`}
+                                >
+                                  <Phone aria-hidden="true" />{" "}
+                                  {selectedOfficial.office.phone}
+                                </a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Published Email</th>
+                              <td>
+                                {selectedOfficial.office.email ? (
+                                  <a
+                                    href={`mailto:${selectedOfficial.office.email}`}
+                                  >
+                                    <Mail aria-hidden="true" />{" "}
+                                    {selectedOfficial.office.email}
+                                  </a>
+                                ) : (
+                                  <span className="contact-unavailable">
+                                    No direct email published
+                                  </span>
+                                )}
+                              </td>
+                            </tr>
+                            {selectedOfficial.chairmanships?.length ? (
+                              <tr>
+                                <th scope="row">Committee Chairmanships</th>
+                                <td>
+                                  <ul className="popout-table-list">
+                                    {selectedOfficial.chairmanships.map(
+                                      (committee) => (
+                                        <li key={committee}>{committee}</li>
+                                      ),
+                                    )}
+                                  </ul>
+                                </td>
+                              </tr>
+                            ) : null}
+                            {selectedOfficial.committeeMemberships?.length ? (
+                              <tr>
+                                <th scope="row">Committee Memberships</th>
+                                <td>
+                                  <ul className="popout-table-list">
+                                    {selectedOfficial.committeeMemberships.map(
+                                      (committee) => (
+                                        <li key={committee}>{committee}</li>
+                                      ),
+                                    )}
+                                  </ul>
+                                </td>
+                              </tr>
+                            ) : null}
+                            <tr>
+                              <th scope="row">Published Record Coverage</th>
+                              <td>
+                                {officeRecords.length ? (
+                                  <>
+                                    <strong>
+                                      {officeRecords.length} mayoral office
+                                      issuances indexed
+                                    </strong>
+                                    <ul className="popout-table-list">
+                                      {officeRecords
+                                        .slice(0, 3)
+                                        .map((record) => (
+                                          <li key={record.number}>
+                                            <a
+                                              href={record.source.url}
+                                              target="_blank"
+                                              rel="noreferrer"
+                                            >
+                                              <b>{record.number}</b> —{" "}
+                                              {record.title}{" "}
+                                              <ExternalLink aria-hidden="true" />
+                                            </a>
+                                          </li>
+                                        ))}
+                                    </ul>
+                                    {officeRecords.length > 3 && (
+                                      <Link
+                                        to="/government?tab=records"
+                                        onClick={closeModal}
+                                      >
+                                        View all {officeRecords.length}{" "}
+                                        published measures{" "}
+                                        <ArrowRight aria-hidden="true" />
+                                      </Link>
+                                    )}
+                                  </>
+                                ) : (
+                                  <>
+                                    <strong>
+                                      No individually attributed measure found
+                                    </strong>
+                                    <p>
+                                      The verified listings publish council
+                                      measures at the Sangguniang Panlungsod
+                                      level and do not name this official as
+                                      sponsor or author.
+                                    </p>
+                                    <Link
+                                      to="/government?tab=records"
+                                      onClick={closeModal}
+                                    >
+                                      Review institutional measures{" "}
+                                      <ArrowRight aria-hidden="true" />
+                                    </Link>
+                                  </>
+                                )}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Award & Attribution Scope</th>
+                              <td>
+                                No personal award is claimed because no verified
+                                source reviewed names this official as the
+                                individual recipient.
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">
+                                Official Sources & Verification References
+                              </th>
+                              <td>
+                                <div className="popout-table-links">
+                                  <a
+                                    href={selectedOfficial.source.url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    Open official profile (
+                                    {selectedOfficial.source.label}){" "}
+                                    <ExternalLink aria-hidden="true" />
+                                  </a>
+                                  <a
+                                    href={selectedOfficial.office.source.url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    Verify published contact (
+                                    {selectedOfficial.office.source.label}){" "}
+                                    <ExternalLink aria-hidden="true" />
+                                  </a>
+                                  {(selectedOfficial.chairmanships?.length ||
+                                    selectedOfficial.committeeMemberships
+                                      ?.length) && (
+                                    <a
+                                      href={selectedOfficial.source.url}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                    >
+                                      Verify committee assignments{" "}
+                                      <ExternalLink aria-hidden="true" />
+                                    </a>
+                                  )}
+                                </div>
+                                <small className="popout-verified-date">
+                                  Sources reviewed {VERIFIED_ON}
+                                  {portrait ? ` · ${portrait.note}` : ""}
+                                </small>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              );
+            })()}
           </>
         ) : (
           <div className="directory-list">
@@ -2620,16 +2908,19 @@ function BarangaysPage() {
                 </span>
               </div>
               <h2>{barangay.name}</h2>
-              <dl className="barangay-card-facts">
-                <div>
-                  <dt>Population</dt>
-                  <dd>{barangay.population.toLocaleString("en-PH")}</dd>
-                </div>
-                <div>
-                  <dt>Punong Barangay</dt>
-                  <dd>{barangay.punongBarangay}</dd>
-                </div>
-              </dl>
+              <div className="barangay-card-meta-lines">
+                <p>
+                  <span>Punong Barangay:</span>{" "}
+                  <strong>{barangay.punongBarangay}</strong>
+                </p>
+                <p>
+                  <span>Population:</span>{" "}
+                  <strong>
+                    {barangay.population.toLocaleString("en-PH")}
+                  </strong>{" "}
+                  <small>(2024 POPCEN)</small>
+                </p>
+              </div>
               <div className="barangay-contacts">
                 {barangay.phone && (
                   <a href={`tel:${telephoneHref(barangay.phone)}`}>
@@ -2660,6 +2951,14 @@ function BarangaysPage() {
             </article>
           ))}
         </div>
+
+        <section
+          id="city-gis-map"
+          className="barangay-city-gis-section"
+          aria-label="Malaybalay City 3D Interactive GIS and Project NOAH Flood Hazard Map"
+        >
+          <MalaybalayGisMap />
+        </section>
       </section>
     </>
   );
@@ -2688,112 +2987,8 @@ function BarangayServiceIcon({ title }: { title: string }) {
   return <FileCheck2 aria-hidden="true" />;
 }
 
-type BoundaryCollection = FeatureCollection<
-  Geometry,
-  { name: string; code: string; validOn: string }
->;
-
 function BarangayMap({ profile }: { profile: BarangayMicrositeProfile }) {
-  const mapElement = useRef<HTMLDivElement>(null);
-  const [mapError, setMapError] = useState(false);
-  const [mapLoading, setMapLoading] = useState(true);
-
-  useEffect(() => {
-    if (!mapElement.current || navigator.userAgent.includes("jsdom")) return;
-    let disposed = false;
-    let map: import("leaflet").Map | undefined;
-
-    const renderMap = async () => {
-      setMapLoading(true);
-      setMapError(false);
-      try {
-        const [leafletModule, response] = await Promise.all([
-          import("leaflet"),
-          fetch("/data/malaybalay-barangays.geojson"),
-        ]);
-        if (!response.ok) throw new Error("Boundary data unavailable");
-        const boundaries = (await response.json()) as BoundaryCollection;
-        if (disposed || !mapElement.current) return;
-
-        const L = leafletModule.default;
-        map = L.map(mapElement.current, {
-          zoomControl: true,
-          scrollWheelZoom: false,
-        });
-        const street = L.tileLayer(
-          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-          {
-            maxZoom: 19,
-            attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
-          },
-        );
-        const imagery = L.tileLayer(
-          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-          {
-            maxZoom: 19,
-            attribution:
-              "Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
-          },
-        );
-
-        const selected = boundaries.features.find(
-          (feature) => feature.properties.code === profile.code,
-        );
-        if (!selected) throw new Error("Selected barangay boundary unavailable");
-        const selectedLayer = L.geoJSON(selected, {
-          style: {
-            color: "#1259c3",
-            weight: 4,
-            opacity: 0.95,
-            fillOpacity: 0,
-          },
-        })
-          .bindPopup(
-            `<strong>${profile.name}</strong><br>Indicative outline · PSGC ${profile.code}`,
-          )
-          .addTo(map);
-        const bounds = selectedLayer.getBounds();
-        street.addTo(map);
-        map.fitBounds(bounds, { padding: [34, 34], maxZoom: 14 });
-        L.control.layers({ "Street map": street, Satellite: imagery }).addTo(map);
-        if (!disposed) setMapLoading(false);
-      } catch {
-        if (!disposed) {
-          setMapLoading(false);
-          setMapError(true);
-        }
-      }
-    };
-
-    void renderMap();
-    return () => {
-      disposed = true;
-      map?.remove();
-    };
-  }, [profile]);
-
-  return (
-    <div className="barangay-map-card">
-      {mapLoading && (
-        <div className="map-loading-skeleton" role="status" aria-live="polite">
-          <span className="skeleton-block" />
-          <span>Preparing the interactive barangay map…</span>
-        </div>
-      )}
-      <div
-        ref={mapElement}
-        className="barangay-map-canvas"
-        aria-label={`Interactive map showing the indicative outline of ${profile.name}`}
-      />
-      {mapError && (
-        <p role="status">
-          The interactive map could not load. Use the provenance link below to
-          inspect the boundary source.
-        </p>
-      )}
-    </div>
-  );
+  return <MalaybalayGisMap profile={profile} compactHeader />;
 }
 
 type BarangayPopoutState =
@@ -2932,57 +3127,6 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
 
   return (
     <div className="barangay-site">
-      <div
-        className="barangay-subdomain-bar"
-        role="region"
-        aria-label={`${profile.name} embedded subdomain and main portal navigation`}
-      >
-        <div className="container barangay-subdomain-bar-inner">
-          <div className="barangay-subdomain-identity">
-            <Link to="/" className="barangay-main-portal-pill">
-              <Landmark aria-hidden="true" />
-              <span>
-                Main Portal: <strong>{MAIN_BETTERMC_PORTAL.name}</strong>
-              </span>
-            </Link>
-            <span className="barangay-subdomain-sep" aria-hidden="true">
-              /
-            </span>
-            <span className="barangay-active-subdomain-pill">
-              <Globe aria-hidden="true" />
-              <strong>{profile.subdomainHost}</strong>
-            </span>
-          </div>
-          <div className="barangay-subdomain-switcher">
-            <label htmlFor="barangay-domain-select">
-              <span className="sr-only">Switch barangay subdomain</span>
-            </label>
-            <select
-              id="barangay-domain-select"
-              aria-label="Switch barangay subdomain"
-              value={profile.slug}
-              onChange={(event) => {
-                const nextSlug = event.target.value;
-                if (!nextSlug) {
-                  navigate("/");
-                  return;
-                }
-                navigate(
-                  slugOverride
-                    ? `/?subdomain=${nextSlug}`
-                    : `/barangays/${nextSlug}`,
-                );
-              }}
-            >
-              {barangayMicrosites.map((b) => (
-                <option key={b.slug} value={b.slug}>
-                  {b.name} ({b.subdomainHost})
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </div>
       <section className="barangay-hero">
         <div
           className={`barangay-hero-image${profile.heroImage ? " has-photo" : ""}`}
@@ -3018,10 +3162,49 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                 aria-hidden="true"
                 decoding="async"
               />
-              <span>Barangay profile by BetterMC</span>
+              <span>Powered by BetterMC</span>
             </div>
           </div>
           <div className="barangay-hero-copy">
+            <div
+              className="barangay-hero-inline-portal"
+              role="region"
+              aria-label={`${profile.name} embedded subdomain and main portal navigation`}
+            >
+              <Link to="/" className="barangay-main-portal-pill">
+                <Landmark aria-hidden="true" />
+                <span>
+                  Main Portal: <strong>{MAIN_BETTERMC_PORTAL.name}</strong>
+                </span>
+              </Link>
+              <span className="barangay-active-subdomain-pill">
+                <Globe aria-hidden="true" />
+                <strong>{profile.subdomainHost}</strong>
+              </span>
+              <select
+                id="barangay-domain-select"
+                aria-label="Switch barangay subdomain"
+                value={profile.slug}
+                onChange={(event) => {
+                  const nextSlug = event.target.value;
+                  if (!nextSlug) {
+                    navigate("/");
+                    return;
+                  }
+                  navigate(
+                    slugOverride
+                      ? `/?subdomain=${nextSlug}`
+                      : `/barangays/${nextSlug}`,
+                  );
+                }}
+              >
+                {barangayMicrosites.map((b) => (
+                  <option key={b.slug} value={b.slug}>
+                    {b.name} ({b.subdomainHost})
+                  </option>
+                ))}
+              </select>
+            </div>
             <span>Welcome to Barangay {profile.name}</span>
             <h1>{profile.name}</h1>
             <p>
