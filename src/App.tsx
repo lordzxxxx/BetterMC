@@ -796,16 +796,31 @@ function ServiceCategoryGrid({ compact = false }: { compact?: boolean }) {
   return (
     <div className={`service-category-grid${compact ? " is-compact" : ""}`}>
       {serviceCategories.map((category) => (
-        <article key={category.slug}>
-          <span className="service-category-icon">
-            <ServiceCategoryIcon slug={category.slug} />
-          </span>
-          <div>
-            <h3>{category.title}</h3>
+        <article
+          key={category.slug}
+          className={`service-category-card cat-${category.slug}`}
+        >
+          <div className="category-card-head">
+            <span className={`service-category-icon cat-icon-${category.slug}`}>
+              <ServiceCategoryIcon slug={category.slug} />
+            </span>
+            <Link
+              to={`/services/${category.slug}`}
+              className="category-card-arrow-link"
+              aria-label={`Open ${category.title} guide`}
+              title={`Open ${category.title} guide`}
+            >
+              <ArrowRight aria-hidden="true" />
+            </Link>
+          </div>
+          <div className="category-card-body">
+            <h3>
+              <Link to={`/services/${category.slug}`}>{category.title}</Link>
+            </h3>
             <p>{category.summary}</p>
           </div>
           {!compact && (
-            <ul>
+            <ul className="category-subcategories-list">
               {category.subcategories.map((subcategory) => (
                 <li key={subcategory.slug}>
                   <a
@@ -816,20 +831,26 @@ function ServiceCategoryGrid({ compact = false }: { compact?: boolean }) {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    {subcategory.title}
+                    <span>{subcategory.title}</span>
                     <ExternalLink aria-hidden="true" />
                   </a>
                 </li>
               ))}
             </ul>
           )}
-          <Link
-            to={`/services/${category.slug}`}
-            aria-label={`Open ${category.title} guide`}
-            title={`Open ${category.title} guide`}
-          >
-            <ArrowRight aria-hidden="true" />
-          </Link>
+          {compact && (
+            <div className="category-card-footer">
+              <Link
+                to={`/services/${category.slug}`}
+                className="category-explore-pill"
+                tabIndex={-1}
+                aria-hidden="true"
+              >
+                <span>View local & nearest counters</span>
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </div>
+          )}
         </article>
       ))}
     </div>
@@ -4467,7 +4488,7 @@ function BarangayOriginSelect({
           value={selectedSlug}
           onChange={(e) => onChange(e.target.value)}
         >
-          <option value="city-center">📍 Malaybalay City Proper (Poblacion Center)</option>
+          <option value="city-center">Malaybalay City Proper (Poblacion Center)</option>
           <optgroup label="Urban Barangays (17)">
             {barangayMicrosites
               .filter((b) => b.classification === "Urban")
@@ -4636,7 +4657,14 @@ function TransactionModal({
                 Documentary Requirements Checklist
               </h4>
               <span className={`service-readiness-pill${isAllReady ? " is-ready" : ""}`}>
-                {completedCount} of {totalCount} ready {isAllReady && "✓ Ready to file!"}
+                {isAllReady ? (
+                  <>
+                    <Check aria-hidden="true" />
+                    <span>{completedCount} of {totalCount} ready — Ready to file!</span>
+                  </>
+                ) : (
+                  <span>{completedCount} of {totalCount} ready</span>
+                )}
               </span>
             </div>
             <p className="service-tx-subtitle">
@@ -4932,7 +4960,7 @@ function ServicesQuickFinder() {
             value={selectedBarangay}
             onChange={(e) => setSelectedBarangay(e.target.value)}
           >
-            <option value="city-center">📍 Malaybalay City Proper (Poblacion)</option>
+            <option value="city-center">Malaybalay City Proper (Poblacion)</option>
             {barangayMicrosites.map((b) => (
               <option key={b.slug} value={b.slug}>
                 Brgy. {b.name} ({b.classification})

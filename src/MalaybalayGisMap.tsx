@@ -783,7 +783,7 @@ export default function MalaybalayGisMap({
           });
 
           riverLine.bindTooltip(
-            `<strong>🌊 ${river.name}</strong> (${river.localName})<br/>Stage: ${currentHydroSnapshot.sawagaWaterLevelM}m · Discharge: ${currentHydroSnapshot.sawagaDischargeM3s} m³/s · Click for telemetry`,
+            `<strong>${river.name}</strong> (${river.localName})<br/>Stage: ${currentHydroSnapshot.sawagaWaterLevelM}m · Discharge: ${currentHydroSnapshot.sawagaDischargeM3s} m³/s · Click for telemetry`,
             { sticky: true },
           );
 
@@ -808,7 +808,7 @@ export default function MalaybalayGisMap({
               pane: "indicatorLabelPane",
               icon: L.divIcon({
                 className: "gis-river-indicator",
-                html: `<button type="button">🌊 ${shortName}</button>`,
+                html: `<button type="button" class="gis-river-marker-label">${shortName}</button>`,
                 iconSize: [132, 22],
                 iconAnchor: [66, 11],
               }),
@@ -1016,14 +1016,14 @@ export default function MalaybalayGisMap({
               <optgroup label="Malaybalay Rivers & Waterways">
                 {MALAYBALAY_WATERWAYS.map((w) => (
                   <option key={w.id} value={`river:${w.id}`}>
-                    🌊 {w.name}
+                    {w.name}
                   </option>
                 ))}
               </optgroup>
               <optgroup label="Key Malaybalay Establishments">
                 {MALAYBALAY_ESTABLISHMENTS.slice(0, 14).map((est) => (
                   <option key={est.id} value={`est:${est.id}`}>
-                    📍 {est.name} ({est.barangayName})
+                    {est.name} ({est.barangayName})
                   </option>
                 ))}
               </optgroup>
