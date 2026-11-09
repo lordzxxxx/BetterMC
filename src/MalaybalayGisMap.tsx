@@ -9,12 +9,8 @@ import {
   Compass,
   ExternalLink,
   Eye,
-  Layers,
   LocateFixed,
-  MapPin,
   Navigation,
-  ShieldAlert,
-  Sparkles,
   Waves,
   X,
 } from "lucide-react";
@@ -26,14 +22,12 @@ import {
   BARANGAY_GIS_COLORS,
   buildDeterministicDateSnapshot,
   fetchLiveHydroTimeline,
-  HISTORICAL_HYDRO_YEARS,
   MALAYBALAY_CENTROIDS,
   MALAYBALAY_ESTABLISHMENTS,
   MALAYBALAY_WATERWAYS,
   type BarangayFloodStat,
   type DateHydroSnapshot,
   type MalaybalayEstablishment,
-  type MalaybalayEstablishmentCategory,
   type MalaybalayFloodStatsFile,
   type MalaybalayWaterway,
   type NoahHazardScenario,
@@ -79,9 +73,9 @@ type SelectedGisEntity =
     };
 
 const FLOOD_COLORS: Record<"low" | "medium" | "high", string> = {
-  low: "#facc15", // NOAH Yellow (0 - 0.5m)
-  medium: "#f97316", // NOAH Orange (>0.5 - 1.5m)
-  high: "#dc2626", // NOAH Red (>1.5m)
+  low: "#eab308", // NOAH Low (0 - 0.5m)
+  medium: "#f97316", // NOAH Medium (>0.5 - 1.5m)
+  high: "#dc2626", // NOAH High (>1.5m)
 };
 
 function getTodayManila(): string {
@@ -101,7 +95,6 @@ function addDaysManila(baseDateStr: string, days: number): string {
 export default function MalaybalayGisMap({
   profile,
   initialBarangayCode,
-  compactHeader = false,
 }: {
   profile?: BarangayMicrositeProfile;
   initialBarangayCode?: string;
@@ -132,13 +125,13 @@ export default function MalaybalayGisMap({
     },
     [profile?.code],
   );
+
   const [selectedDate, setSelectedDate] = useState<string>(todayStr);
   const [noahScenario, setNoahScenario] = useState<NoahHazardScenario>("100yr");
-  const [basemapStyle, setBasemapStyle] = useState<
-    "noah-dark" | "satellite" | "terrain"
-  >("noah-dark");
-  const [is3DPitch, setIs3DPitch] = useState<boolean>(true);
-  const [pitchAngle, setPitchAngle] = useState<number>(28);
+  const [basemapStyle, setBasemapStyle] = useState<"street" | "satellite">(
+    "street",
+  );
+  const [is3DPitch, setIs3DPitch] = useState<boolean>(false);
   const [blurInactiveBarangays, setBlurInactiveBarangays] =
     useState<boolean>(true);
 
@@ -146,8 +139,6 @@ export default function MalaybalayGisMap({
   const [showRiversLayer, setShowRiversLayer] = useState<boolean>(true);
   const [showEstablishmentsLayer, setShowEstablishmentsLayer] =
     useState<boolean>(true);
-  const [establishmentCategoryFilter, setEstablishmentCategoryFilter] =
-    useState<"ALL" | MalaybalayEstablishmentCategory>("ALL");
 
   const [floodStatsFile, setFloodStatsFile] =
     useState<MalaybalayFloodStatsFile | null>(null);
@@ -173,9 +164,7 @@ export default function MalaybalayGisMap({
     const controller = new AbortController();
     fetchLiveHydroTimeline(controller.signal)
       .then((data) => setLiveHydroMap(data))
-      .catch(() => {
-        // Fallback deterministic data is used automatically
-      });
+      .catch(() => {});
     return () => controller.abort();
   }, []);
 
@@ -213,50 +202,20 @@ export default function MalaybalayGisMap({
     return floodStatsFile.scenarios[noahScenario]?.[activeBarangayCode];
   }, [floodStatsFile, noahScenario, activeBarangayCode]);
 
-  const citywideFloodTotals = useMemo(() => {
-    const scenarioStats = floodStatsFile?.scenarios[noahScenario];
-    if (!scenarioStats) {
-      return { low: 76.4, medium: 52.8, high: 38.2, exposedKm2: 167.4 };
-    }
-    let low = 0;
-    let medium = 0;
-    let high = 0;
-    let exposedKm2 = 0;
-    Object.values(scenarioStats).forEach((st) => {
-      low += st.low;
-      medium += st.medium;
-      high += st.high;
-      exposedKm2 += st.exposedKm2;
-    });
-    return {
-      low: Math.round(low * 100) / 100,
-      medium: Math.round(medium * 100) / 100,
-      high: Math.round(high * 100) / 100,
-      exposedKm2: Math.round(exposedKm2 * 100) / 100,
-    };
-  }, [floodStatsFile, noahScenario]);
-
   const visibleEstablishments = useMemo(() => {
     return MALAYBALAY_ESTABLISHMENTS.filter((est) => {
-      if (
-        establishmentCategoryFilter !== "ALL" &&
-        est.category !== establishmentCategoryFilter
-      ) {
-        return false;
-      }
       if (
         activeBarangayCode !== "ALL" &&
         est.barangayCode !== activeBarangayCode &&
         est.category === "Barangay Hall"
       ) {
-        // When zoomed into an active barangay, show all core city landmarks + the active barangay's hall
         return false;
       }
       return true;
     });
-  }, [establishmentCategoryFilter, activeBarangayCode]);
+  }, [activeBarangayCode]);
 
-  // Initialize Leaflet Map once
+  // Initialize Leaflet Map with explicit center & zoom so tiles and vector layers render immediately
   useEffect(() => {
     if (!mapElement.current || navigator.userAgent.includes("jsdom")) return;
     let disposed = false;
@@ -283,14 +242,31 @@ export default function MalaybalayGisMap({
 
         const L = leafletModule.default;
         const map = L.map(mapElement.current, {
+          center: [8.1575, 125.1278],
+          zoom: 11,
           zoomControl: true,
           scrollWheelZoom: false,
-          preferCanvas: false,
         });
         leafletMapRef.current = map;
 
+        const initialTile = L.tileLayer(
+          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          {
+            maxZoom: 19,
+            attribution:
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · UP Project NOAH',
+          },
+        ).addTo(map);
+        tileLayerRef.current = initialTile;
+
         const layerGroup = L.layerGroup().addTo(map);
         layerGroupRef.current = layerGroup;
+
+        window.setTimeout(() => {
+          if (!disposed && leafletMapRef.current) {
+            leafletMapRef.current.invalidateSize();
+          }
+        }, 120);
 
         // Preload 5yr flood in background
         fetch("/data/malaybalay-flood-5yr.geojson")
@@ -317,7 +293,7 @@ export default function MalaybalayGisMap({
     };
   }, []);
 
-  // Update basemap tiles when basemapStyle changes
+  // Switch between Street and Satellite basemap tiles
   useEffect(() => {
     const map = leafletMapRef.current;
     if (!map || mapLoading) return;
@@ -332,22 +308,17 @@ export default function MalaybalayGisMap({
       const tileUrl =
         basemapStyle === "satellite"
           ? "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-          : basemapStyle === "terrain"
-            ? "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
-            : "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+          : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
       const attribution =
         basemapStyle === "satellite"
-          ? "Tiles &copy; Esri &mdash; Esri, Maxar, Earthstar Geographics"
-          : basemapStyle === "terrain"
-            ? "Map data: &copy; OpenStreetMap contributors, SRTM | Map style: &copy; OpenTopoMap"
-            : "&copy; OpenStreetMap contributors &copy; CARTO · UP Project NOAH GIS Reference";
+          ? "Tiles &copy; Esri &mdash; Esri, Maxar, Earthstar Geographics · UP Project NOAH"
+          : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · UP Project NOAH';
 
       const tl = L.tileLayer(tileUrl, {
         maxZoom: 19,
         attribution,
-      });
-      tl.addTo(leafletMapRef.current);
+      }).addTo(leafletMapRef.current);
       tl.bringToBack();
       tileLayerRef.current = tl;
     });
@@ -357,7 +328,7 @@ export default function MalaybalayGisMap({
     };
   }, [basemapStyle, mapLoading]);
 
-  // Render GIS vector layers & handle zoom/focus whenever state changes
+  // Render GIS vector layers & zoom to active barangay
   useEffect(() => {
     const map = leafletMapRef.current;
     const layerGroup = layerGroupRef.current;
@@ -373,49 +344,16 @@ export default function MalaybalayGisMap({
       let targetBounds: import("leaflet").LatLngBounds | null = null;
       let fullCityBounds: import("leaflet").LatLngBounds | null = null;
 
-      // 1. Render all 46 barangay polygons with unique colors & active spotlight/blur
+      // 1. Render all 46 barangay polygons with distinct colors
       boundaries.features.forEach((feature) => {
         const code = feature.properties.code;
         const name = feature.properties.name;
         const bProfile = barangayMicrosites.find((b) => b.code === code);
-        const color = BARANGAY_GIS_COLORS[code] ?? "#3b82f6";
+        const color = BARANGAY_GIS_COLORS[code] ?? "#2563eb";
         const isFocused =
           activeBarangayCode !== "ALL" && code === activeBarangayCode;
         const isDimmed =
           activeBarangayCode !== "ALL" && code !== activeBarangayCode;
-
-        // If 3D mode is active and a barangay is focused, draw a subtle 3D extruded base offset polygon
-        if (is3DPitch && isFocused) {
-          const shadowFeature = JSON.parse(
-            JSON.stringify(feature),
-          ) as typeof feature;
-          const shiftCoords = (coords: unknown): unknown => {
-            if (
-              Array.isArray(coords) &&
-              typeof coords[0] === "number" &&
-              typeof coords[1] === "number"
-            ) {
-              return [coords[0] + 0.0014, coords[1] - 0.0018];
-            }
-            if (Array.isArray(coords)) return coords.map(shiftCoords);
-            return coords;
-          };
-          if ("coordinates" in shadowFeature.geometry) {
-            shadowFeature.geometry.coordinates = shiftCoords(
-              shadowFeature.geometry.coordinates,
-            ) as never;
-          }
-          L.geoJSON(shadowFeature, {
-            style: {
-              color: "#0f172a",
-              weight: 3,
-              opacity: 0.75,
-              fillColor: color,
-              fillOpacity: 0.35,
-            },
-            interactive: false,
-          }).addTo(layerGroup);
-        }
 
         const brgyLayer = L.geoJSON(feature, {
           style: {
@@ -427,20 +365,20 @@ export default function MalaybalayGisMap({
                 ? "gis-brgy-polygon is-focused-active"
                 : "gis-brgy-polygon",
             color: isFocused
-              ? "#ffffff"
+              ? color
               : isDimmed
-                ? "rgba(148, 163, 184, 0.28)"
-                : "#f8fafc",
-            weight: isFocused ? 3.8 : isDimmed ? 1 : 1.8,
-            opacity: isFocused ? 1 : isDimmed ? 0.35 : 0.88,
-            fillColor: isDimmed && blurInactiveBarangays ? "#0f172a" : color,
+                ? "#94a3b8"
+                : color,
+            weight: isFocused ? 4 : isDimmed ? 1 : 2,
+            opacity: isFocused ? 1 : isDimmed ? 0.35 : 0.85,
+            fillColor: isDimmed && blurInactiveBarangays ? "#cbd5e1" : color,
             fillOpacity: isFocused
-              ? 0.36
+              ? 0.14
               : isDimmed
                 ? blurInactiveBarangays
-                  ? 0.62
-                  : 0.14
-                : 0.42,
+                  ? 0.45
+                  : 0.08
+                : 0.24,
           },
         });
 
@@ -456,27 +394,28 @@ export default function MalaybalayGisMap({
         });
 
         brgyLayer.bindTooltip(
-          `<strong>Brgy. ${name}</strong> · PSGC ${code}`,
+          `<strong>Brgy. ${name}</strong> · Click to focus & inspect`,
           {
             sticky: true,
             direction: "top",
-            className: "gis-map-tooltip",
           },
         );
 
         brgyLayer.addTo(layerGroup);
 
         const bBounds = brgyLayer.getBounds();
-        if (!fullCityBounds) {
-          fullCityBounds = L.latLngBounds(
-            bBounds.getSouthWest(),
-            bBounds.getNorthEast(),
-          );
-        } else {
-          fullCityBounds.extend(bBounds);
-        }
-        if (isFocused) {
-          targetBounds = bBounds;
+        if (bBounds.isValid()) {
+          if (!fullCityBounds) {
+            fullCityBounds = L.latLngBounds(
+              bBounds.getSouthWest(),
+              bBounds.getNorthEast(),
+            );
+          } else {
+            fullCityBounds.extend(bBounds);
+          }
+          if (isFocused) {
+            targetBounds = bBounds;
+          }
         }
       });
 
@@ -487,18 +426,10 @@ export default function MalaybalayGisMap({
           : flood100Ref.current;
 
       if (showFloodLayer && activeFloodCollection) {
-        const rainfallFactor =
-          currentHydroSnapshot.alertLevel === "Red Critical"
-            ? 0.85
-            : currentHydroSnapshot.alertLevel === "Orange Watch"
-              ? 0.76
-              : 0.68;
-
         activeFloodCollection.features.forEach((f) => {
           const fCode = f.properties.code;
           const isTargetBrgy =
             activeBarangayCode === "ALL" || fCode === activeBarangayCode;
-          // Dim flood polygons outside the active barangay so the active barangay's flood zones stand out sharply
           if (!isTargetBrgy && blurInactiveBarangays) return;
 
           const level = f.properties.level;
@@ -507,10 +438,10 @@ export default function MalaybalayGisMap({
           const fLayer = L.geoJSON(f, {
             style: {
               color: hazardColor,
-              weight: isTargetBrgy ? 1.2 : 0.4,
-              opacity: isTargetBrgy ? 0.92 : 0.22,
+              weight: isTargetBrgy ? 1.2 : 0.5,
+              opacity: isTargetBrgy ? 0.9 : 0.25,
               fillColor: hazardColor,
-              fillOpacity: isTargetBrgy ? rainfallFactor : 0.15,
+              fillOpacity: isTargetBrgy ? 0.58 : 0.15,
             },
           });
 
@@ -527,43 +458,25 @@ export default function MalaybalayGisMap({
           });
 
           fLayer.bindTooltip(
-            `<strong>UP NOAH ${level.toUpperCase()} Flood Hazard (${f.properties.depth})</strong><br/>Brgy. ${f.properties.barangay} · ${noahScenario === "100yr" ? "100-Yr Return" : "5-Yr Return"}`,
-            {
-              sticky: true,
-              className: "gis-map-tooltip is-hazard",
-            },
+            `<strong>UP NOAH ${level.toUpperCase()} Flood Zone (${f.properties.depth})</strong><br/>Brgy. ${f.properties.barangay}`,
+            { sticky: true },
           );
 
           fLayer.addTo(layerGroup);
         });
       }
 
-      // 3. Render Rivers & Waterways (Sawaga River + major Malaybalay tributaries)
+      // 3. Render Sawaga River & Malaybalay Waterways
       if (showRiversLayer) {
         MALAYBALAY_WATERWAYS.forEach((river) => {
           const latLngs = river.coordinates.map(
             ([lng, lat]) => [lat, lng] as [number, number],
           );
 
-          // Outer glow line for Sawaga River and major waterways
-          L.polyline(latLngs, {
-            color:
-              currentHydroSnapshot.alertLevel === "Red Critical"
-                ? "#ef4444"
-                : currentHydroSnapshot.alertLevel === "Orange Watch"
-                  ? "#f59e0b"
-                  : "#38bdf8",
-            weight: river.widthPx + 5,
-            opacity: 0.35,
-            interactive: false,
-          }).addTo(layerGroup);
-
           const riverLine = L.polyline(latLngs, {
             color: river.color,
             weight: river.widthPx,
-            opacity: 0.96,
-            dashArray:
-              river.type === "Urban Creek / Floodway" ? "6, 4" : undefined,
+            opacity: 0.95,
           });
 
           riverLine.on("click", (e) => {
@@ -575,36 +488,33 @@ export default function MalaybalayGisMap({
           });
 
           riverLine.bindTooltip(
-            `<strong>${river.name}</strong> (${river.localName})<br/>Stage: ${currentHydroSnapshot.sawagaWaterLevelM}m · Click for river telemetry`,
-            {
-              sticky: true,
-              className: "gis-map-tooltip is-river",
-            },
+            `<strong>${river.name}</strong> · Stage ${currentHydroSnapshot.sawagaWaterLevelM}m`,
+            { sticky: true },
           );
 
           riverLine.addTo(layerGroup);
         });
       }
 
-      // 4. Render Interactive Malaybalay Establishments & Barangay Halls
+      // 4. Render Establishments & Barangay Halls
       if (showEstablishmentsLayer) {
         visibleEstablishments.forEach((est) => {
           const [lng, lat] = est.coordinates;
           const markerColor =
             est.category === "Hospital & Health"
-              ? "#ef4444"
+              ? "#dc2626"
               : est.category === "Government & DRRMO"
-                ? "#2563eb"
+                ? "#1d4ed8"
                 : est.category === "School & University"
-                  ? "#8b5cf6"
+                  ? "#7c3aed"
                   : est.category === "Market & Transport"
-                    ? "#f59e0b"
+                    ? "#d97706"
                     : est.category === "Landmark & Watershed"
-                      ? "#06b6d4"
-                      : "#10b981";
+                      ? "#0891b2"
+                      : "#059669";
 
           const marker = L.circleMarker([lat, lng], {
-            radius: est.category === "Barangay Hall" ? 6 : 8,
+            radius: est.category === "Barangay Hall" ? 5.5 : 7.5,
             color: "#ffffff",
             weight: 2,
             fillColor: markerColor,
@@ -621,26 +531,24 @@ export default function MalaybalayGisMap({
 
           marker.bindTooltip(
             `<strong>${est.name}</strong><br/>${est.category} · Brgy. ${est.barangayName}`,
-            {
-              direction: "top",
-              className: "gis-map-tooltip",
-            },
+            { direction: "top" },
           );
 
           marker.addTo(layerGroup);
         });
       }
 
-      // 5. Fly / Zoom to active barangay or full Malaybalay City bounds
-      if (targetBounds) {
+      // 5. Zoom cleanly to active barangay or full Malaybalay City
+      map.invalidateSize();
+      if (targetBounds && (targetBounds as import("leaflet").LatLngBounds).isValid()) {
         map.fitBounds(targetBounds, {
-          padding: [42, 42],
+          padding: [36, 36],
           maxZoom: 14,
           animate: true,
         });
-      } else if (fullCityBounds) {
+      } else if (fullCityBounds && (fullCityBounds as import("leaflet").LatLngBounds).isValid()) {
         map.fitBounds(fullCityBounds, {
-          padding: [24, 24],
+          padding: [20, 20],
           maxZoom: 12,
           animate: true,
         });
@@ -652,15 +560,13 @@ export default function MalaybalayGisMap({
     };
   }, [
     activeBarangayCode,
-    setActiveBarangayCode,
+     setActiveBarangayCode,
     noahScenario,
     showFloodLayer,
     showRiversLayer,
     showEstablishmentsLayer,
     visibleEstablishments,
     blurInactiveBarangays,
-    is3DPitch,
-    currentHydroSnapshot.alertLevel,
     currentHydroSnapshot.sawagaWaterLevelM,
     floodStatsFile,
     mapLoading,
@@ -668,7 +574,6 @@ export default function MalaybalayGisMap({
 
   const handleDateChange = (nextDate: string) => {
     setSelectedDate(nextDate);
-    // When changing the calendar date, re-focus/zoom on the active barangay so the user immediately sees the flood/river impact
     if (leafletMapRef.current && activeBarangayCode !== "ALL") {
       const centroid = MALAYBALAY_CENTROIDS[activeBarangayCode];
       if (centroid) {
@@ -680,154 +585,71 @@ export default function MalaybalayGisMap({
   };
 
   return (
-    <div className="noah-gis-shell">
-      {/* Top GIS Command & UP Project NOAH Header Bar */}
-      <div className="noah-gis-header">
-        <div className="noah-gis-brand">
-          <span className="noah-gis-badge">
-            <Waves aria-hidden="true" />
-            UP Project NOAH · Malaybalay 3D GIS
-          </span>
-          <h3>
-            {activeBarangayProfile
-              ? `Barangay ${activeBarangayProfile.name} Flood Hazard, Sawaga River & Establishment GIS`
-              : "Malaybalay City Interactive 3D Flood Hazard & Barangay GIS (46 Barangays)"}
-          </h3>
-          {!compactHeader && (
-            <p>
-              Referenced from{" "}
-              <a
-                href="https://noah.up.edu.ph/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                UP Resilience Institute — Project NOAH (noah.up.edu.ph)
-              </a>{" "}
-              LiDAR flood hazard models, PAGASA / Open-Meteo real-time weather,
-              and GloFAS Sawaga River discharge records (2019–present & forecast
-              days ahead).
-            </p>
-          )}
-        </div>
-
-        <div className="noah-gis-quick-controls">
-          <label className="noah-gis-select-wrap">
-            <span>Active Barangay Spotlight</span>
+    <div className="noah-clean-gis">
+      {/* Compact, Clean GIS Toolbar */}
+      <div
+        className="noah-clean-toolbar"
+        role="region"
+        aria-label="Hydrological and flood timeline calendar from 2019 to forecast days ahead"
+      >
+        <div className="noah-clean-toolbar-row">
+          <label className="noah-clean-control">
+            <span>Barangay Focus</span>
             <select
               aria-label="Select active barangay in Malaybalay GIS"
               value={activeBarangayCode}
               onChange={(e) => {
                 const code = e.target.value;
                 setActiveBarangayCode(code);
-                if (code === "ALL") {
-                  setSelectedEntity(null);
-                } else {
-                  const found = barangayMicrosites.find((b) => b.code === code);
-                  if (found) {
-                    setSelectedEntity({
-                      kind: "barangay",
-                      barangay: found,
-                      floodStat: floodStatsFile?.scenarios[noahScenario]?.[code],
-                    });
-                  }
-                }
+                if (code === "ALL") setSelectedEntity(null);
               }}
             >
-              <option value="ALL">
-                All 46 Barangays (Malaybalay Citywide View)
-              </option>
+              <option value="ALL">All 46 Barangays (Citywide)</option>
               {barangayMicrosites.map((b) => (
                 <option key={b.code} value={b.code}>
-                  Brgy. {b.name} ({b.classification})
+                  Brgy. {b.name}
                 </option>
               ))}
             </select>
           </label>
 
-          {activeBarangayCode !== "ALL" && (
-            <button
-              type="button"
-              className="noah-gis-chip-btn is-spotlight-toggle"
-              aria-pressed={blurInactiveBarangays}
-              onClick={() => setBlurInactiveBarangays((v) => !v)}
-              title="Blur and dim surrounding barangays to focus on the active barangay"
-            >
-              <Eye aria-hidden="true" />
-              {blurInactiveBarangays
-                ? "Blur other barangays: ON"
-                : "Blur other barangays: OFF"}
-            </button>
-          )}
-
-          {activeBarangayCode !== "ALL" && (
-            <button
-              type="button"
-              className="noah-gis-chip-btn"
-              onClick={() => {
-                setActiveBarangayCode("ALL");
-                setSelectedEntity(null);
-              }}
-            >
-              <LocateFixed aria-hidden="true" /> Reset to all 46 barangays
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Calendar & Hydrological Timeline Bar (2019 – Present – Future Forecast Days Ahead) */}
-      <div
-        className="noah-gis-calendar-bar"
-        role="region"
-        aria-label="Hydrological and flood timeline calendar from 2019 to forecast days ahead"
-      >
-        <div className="noah-calendar-picker-group">
-          <label className="noah-date-input-label">
-            <Calendar aria-hidden="true" />
-            <div>
-              <span>Historical (2019+) · Real-Time · Forecast Calendar</span>
-              <input
-                type="date"
-                aria-label="Select GIS observation or forecast date"
-                min="2019-01-01"
-                max={maxForecastDateStr}
-                value={selectedDate}
-                onChange={(e) => handleDateChange(e.target.value)}
-              />
-            </div>
+          <label className="noah-clean-control">
+            <span>
+              <Calendar aria-hidden="true" /> Date (2019–Forecast)
+            </span>
+            <input
+              type="date"
+              aria-label="Select GIS observation or forecast date"
+              min="2019-01-01"
+              max={maxForecastDateStr}
+              value={selectedDate}
+              onChange={(e) => handleDateChange(e.target.value)}
+            />
           </label>
 
-          <div className="noah-calendar-presets" aria-label="Quick timeline dates">
-            {HISTORICAL_HYDRO_YEARS.slice(0, 7).map((yr) => (
-              <button
-                key={yr.year}
-                type="button"
-                className={
-                  selectedDate.startsWith(String(yr.year)) &&
-                  selectedDate !== todayStr
-                    ? "is-active"
-                    : ""
-                }
-                onClick={() => handleDateChange(yr.peakEventDate)}
-                title={`${yr.year} Peak Event: ${yr.notableWeatherSystem}`}
-              >
-                {yr.year} Peak
-              </button>
-            ))}
+          <div className="noah-clean-date-pills">
             <button
               type="button"
-              className={selectedDate === todayStr ? "is-active is-live" : "is-live"}
-              onClick={() => handleDateChange(todayStr)}
+              className={selectedDate === "2021-12-16" ? "is-active" : ""}
+              onClick={() => handleDateChange("2021-12-16")}
+              title="2021 Super Typhoon Odette Peak"
             >
-              Today (Real-Time)
+              2021 Peak
             </button>
             <button
               type="button"
-              className={
-                selectedDate === addDaysManila(todayStr, 1) ? "is-active" : ""
-              }
-              onClick={() => handleDateChange(addDaysManila(todayStr, 1))}
+              className={selectedDate === "2023-11-21" ? "is-active" : ""}
+              onClick={() => handleDateChange("2023-11-21")}
+              title="2023 Shear Line Peak"
             >
-              +1 Day Ahead
+              2023 Peak
+            </button>
+            <button
+              type="button"
+              className={selectedDate === todayStr ? "is-active" : ""}
+              onClick={() => handleDateChange(todayStr)}
+            >
+              Today
             </button>
             <button
               type="button"
@@ -836,488 +658,187 @@ export default function MalaybalayGisMap({
               }
               onClick={() => handleDateChange(addDaysManila(todayStr, 3))}
             >
-              +3 Days Ahead
+              +3d Forecast
+            </button>
+          </div>
+
+          <div className="noah-clean-layer-pills">
+            <button
+              type="button"
+              className={showFloodLayer ? "is-active" : ""}
+              onClick={() => setShowFloodLayer((v) => !v)}
+            >
+              <AlertTriangle aria-hidden="true" /> NOAH Flood
+            </button>
+            {showFloodLayer && (
+              <select
+                aria-label="Select NOAH flood return period"
+                value={noahScenario}
+                onChange={(e) =>
+                  setNoahScenario(e.target.value as NoahHazardScenario)
+                }
+                className="noah-clean-mini-select"
+              >
+                <option value="100yr">100-Yr</option>
+                <option value="5yr">5-Yr</option>
+              </select>
+            )}
+            <button
+              type="button"
+              className={showRiversLayer ? "is-active" : ""}
+              onClick={() => setShowRiversLayer((v) => !v)}
+            >
+              <Waves aria-hidden="true" /> Sawaga & Rivers
             </button>
             <button
               type="button"
-              className={
-                selectedDate === addDaysManila(todayStr, 7) ? "is-active" : ""
-              }
-              onClick={() => handleDateChange(addDaysManila(todayStr, 7))}
+              className={showEstablishmentsLayer ? "is-active" : ""}
+              onClick={() => setShowEstablishmentsLayer((v) => !v)}
             >
-              +7 Days Forecast
+              <Building2 aria-hidden="true" /> Establishments
             </button>
-          </div>
-        </div>
-
-        <div className="noah-hydro-telemetry-strip">
-          <div className="noah-telemetry-item">
-            <span>Selected Date</span>
-            <strong>{currentHydroSnapshot.date}</strong>
-            <small>
-              {currentHydroSnapshot.isForecast
-                ? "Forecast Ahead"
-                : currentHydroSnapshot.date === todayStr
-                  ? "Live Telemetry"
-                  : "Historical Record"}
-            </small>
-          </div>
-          <div className="noah-telemetry-item">
-            <span>24h Rainfall / Chance</span>
-            <strong>
-              {currentHydroSnapshot.rainfallMm} mm ({currentHydroSnapshot.rainProbabilityPct}%)
-            </strong>
-            <small>
-              Temp {currentHydroSnapshot.temperatureMinC}–
-              {currentHydroSnapshot.temperatureMaxC}°C · Wind{" "}
-              {currentHydroSnapshot.windMaxKmh} km/h
-            </small>
-          </div>
-          <div className="noah-telemetry-item">
-            <span>Sawaga River Discharge</span>
-            <strong>{currentHydroSnapshot.sawagaDischargeM3s} m³/s</strong>
-            <small>
-              Est. Stage: {currentHydroSnapshot.sawagaWaterLevelM} m (Normal:
-              1.4m)
-            </small>
-          </div>
-          <div
-            className={`noah-telemetry-item is-alert-${currentHydroSnapshot.alertLevel
-              .toLowerCase()
-              .replace(/\s+/g, "-")}`}
-          >
-            <span>Basin Flood Advisory</span>
-            <strong>{currentHydroSnapshot.alertLevel}</strong>
-            <small>{currentHydroSnapshot.dataSource.split("+")[0]}</small>
-          </div>
-        </div>
-      </div>
-
-      {/* Layer Controls Toolbar */}
-      <div className="noah-gis-layer-toolbar">
-        <div className="noah-layer-group">
-          <span className="noah-toolbar-label">
-            <Layers aria-hidden="true" /> NOAH Return Period:
-          </span>
-          <button
-            type="button"
-            className={`noah-toggle-pill ${noahScenario === "100yr" ? "is-active" : ""}`}
-            onClick={() => setNoahScenario("100yr")}
-          >
-            100-Year Extreme Rain
-          </button>
-          <button
-            type="button"
-            className={`noah-toggle-pill ${noahScenario === "5yr" ? "is-active" : ""}`}
-            onClick={() => setNoahScenario("5yr")}
-          >
-            5-Year Rain Return
-          </button>
-        </div>
-
-        <div className="noah-layer-group">
-          <span className="noah-toolbar-label">Map Layers:</span>
-          <button
-            type="button"
-            className={`noah-toggle-pill ${showFloodLayer ? "is-active" : ""}`}
-            aria-pressed={showFloodLayer}
-            onClick={() => setShowFloodLayer((v) => !v)}
-          >
-            <AlertTriangle aria-hidden="true" /> Flood Hazard Zones
-          </button>
-          <button
-            type="button"
-            className={`noah-toggle-pill ${showRiversLayer ? "is-active" : ""}`}
-            aria-pressed={showRiversLayer}
-            onClick={() => setShowRiversLayer((v) => !v)}
-          >
-            <Waves aria-hidden="true" /> Sawaga & Rivers (6)
-          </button>
-          <button
-            type="button"
-            className={`noah-toggle-pill ${showEstablishmentsLayer ? "is-active" : ""}`}
-            aria-pressed={showEstablishmentsLayer}
-            onClick={() => setShowEstablishmentsLayer((v) => !v)}
-          >
-            <Building2 aria-hidden="true" /> Establishments (
-            {visibleEstablishments.length})
-          </button>
-        </div>
-
-        <div className="noah-layer-group">
-          <span className="noah-toolbar-label">
-            <Compass aria-hidden="true" /> View & Basemap:
-          </span>
-          <button
-            type="button"
-            className={`noah-toggle-pill ${is3DPitch ? "is-active" : ""}`}
-            aria-pressed={is3DPitch}
-            onClick={() => setIs3DPitch((v) => !v)}
-          >
-            {is3DPitch ? `3D GIS Tilt (${pitchAngle}°)` : "2D Flat View"}
-          </button>
-          {is3DPitch && (
-            <input
-              type="range"
-              aria-label="Adjust 3D GIS pitch angle"
-              min={12}
-              max={42}
-              value={pitchAngle}
-              onChange={(e) => setPitchAngle(Number(e.target.value))}
-              className="noah-pitch-slider"
-            />
-          )}
-          <select
-            aria-label="Select GIS basemap style"
-            value={basemapStyle}
-            onChange={(e) =>
-              setBasemapStyle(
-                e.target.value as "noah-dark" | "satellite" | "terrain",
-              )
-            }
-            className="noah-basemap-select"
-          >
-            <option value="noah-dark">NOAH Dark GIS Basemap</option>
-            <option value="satellite">Esri World Satellite Imagery</option>
-            <option value="terrain">Topographic Elevation Map</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Main 3D GIS Map Stage + Side Interactive Inspector */}
-      <div className="noah-gis-stage-grid">
-        <div
-          className={`barangay-map-card noah-gis-map-viewport ${
-            is3DPitch ? "is-3d-pitched" : ""
-          } ${
-            activeBarangayCode !== "ALL" && blurInactiveBarangays
-              ? "has-active-spotlight"
-              : ""
-          }`}
-          style={
-            {
-              "--gis-pitch-deg": `${is3DPitch ? pitchAngle : 0}deg`,
-            } as React.CSSProperties
-          }
-        >
-          {mapLoading && (
-            <div
-              className="map-loading-skeleton"
-              role="status"
-              aria-live="polite"
-            >
-              <span className="skeleton-block" />
-              <span>
-                Loading Malaybalay 3D GIS, UP Project NOAH flood layers, and
-                Sawaga River network…
-              </span>
-            </div>
-          )}
-
-          <div
-            ref={mapElement}
-            className="barangay-map-canvas noah-gis-canvas"
-            aria-label={
-              profile
-                ? `Interactive map showing the indicative outline of ${profile.name}`
-                : "Interactive 3D GIS map of Malaybalay City and its 46 barangays"
-            }
-          />
-
-          {/* Floating Legend & Active Barangay Badge inside Map */}
-          <div className="noah-map-floating-legend">
-            <div className="noah-legend-title">
-              <strong>UP Project NOAH Flood Depth</strong>
-              <span>
-                {noahScenario === "100yr"
-                  ? "100-Yr Return"
-                  : "5-Yr Return"}
-              </span>
-            </div>
-            <div className="noah-legend-items">
-              <span>
-                <i style={{ background: FLOOD_COLORS.high }} /> High (&gt;1.5m)
-              </span>
-              <span>
-                <i style={{ background: FLOOD_COLORS.medium }} /> Medium
-                (0.5–1.5m)
-              </span>
-              <span>
-                <i style={{ background: FLOOD_COLORS.low }} /> Low (0–0.5m)
-              </span>
-              <span>
-                <i
-                  style={{
-                    background: "#0284c7",
-                    borderRadius: "2px",
-                    height: "4px",
-                  }}
-                />{" "}
-                Sawaga & Rivers
-              </span>
-            </div>
-          </div>
-
-          {activeBarangayProfile && (
-            <div className="noah-active-barangay-floating-pill">
-              <span
-                className="noah-color-dot"
-                style={{
-                  background:
-                    BARANGAY_GIS_COLORS[activeBarangayProfile.code] ??
-                    "#3b82f6",
-                }}
-              />
-              <div>
-                <strong>
-                  Active Focus: Barangay {activeBarangayProfile.name}
-                </strong>
-                <small>
-                  {activeBarangayFloodStat
-                    ? `${activeBarangayFloodStat.exposedKm2} km² flood-prone (${activeBarangayFloodStat.exposedShare}% of ${activeBarangayFloodStat.areaKm2} km²)`
-                    : `PSGC ${activeBarangayProfile.code}`}
-                </small>
-              </div>
-            </div>
-          )}
-
-          {mapError && (
-            <p role="status" className="noah-map-error">
-              The interactive GIS canvas could not initialize in this browser
-              environment. Use the barangay, river, and establishment directory
-              controls alongside this panel to inspect UP Project NOAH flood
-              data.
-            </p>
-          )}
-        </div>
-
-        {/* Right-Hand Interactive GIS Inspector & Layer Directory */}
-        <aside
-          className="noah-gis-sidebar"
-          aria-label="Malaybalay GIS layer inspector and flood statistics"
-        >
-          {/* Active Barangay or Citywide NOAH Flood Summary Card */}
-          <div className="noah-inspector-card">
-            <div className="noah-inspector-head">
-              <span className="eyebrow">
-                {activeBarangayProfile
-                  ? `Barangay ${activeBarangayProfile.name} · NOAH Hazard`
-                  : "Malaybalay Citywide · NOAH Hazard"}
-              </span>
-              <h4>
-                {activeBarangayProfile
-                  ? `${activeBarangayProfile.name} Flood Exposure (${noahScenario.toUpperCase()})`
-                  : `All 46 Barangays Flood Exposure (${noahScenario.toUpperCase()})`}
-              </h4>
-            </div>
-
-            {activeBarangayFloodStat ? (
-              <div className="noah-hazard-stat-grid">
-                <div className="is-high">
-                  <span>High (&gt;1.5m)</span>
-                  <strong>{activeBarangayFloodStat.high} km²</strong>
-                </div>
-                <div className="is-medium">
-                  <span>Medium (0.5–1.5m)</span>
-                  <strong>{activeBarangayFloodStat.medium} km²</strong>
-                </div>
-                <div className="is-low">
-                  <span>Low (0–0.5m)</span>
-                  <strong>{activeBarangayFloodStat.low} km²</strong>
-                </div>
-                <div className="is-total">
-                  <span>Flood-Prone Share</span>
-                  <strong>
-                    {activeBarangayFloodStat.exposedShare}% (
-                    {activeBarangayFloodStat.exposedKm2} km²)
-                  </strong>
-                </div>
-              </div>
-            ) : (
-              <div className="noah-hazard-stat-grid">
-                <div className="is-high">
-                  <span>City High (&gt;1.5m)</span>
-                  <strong>{citywideFloodTotals.high} km²</strong>
-                </div>
-                <div className="is-medium">
-                  <span>City Medium</span>
-                  <strong>{citywideFloodTotals.medium} km²</strong>
-                </div>
-                <div className="is-low">
-                  <span>City Low (0–0.5m)</span>
-                  <strong>{citywideFloodTotals.low} km²</strong>
-                </div>
-                <div className="is-total">
-                  <span>Total Mapped Zone</span>
-                  <strong>{citywideFloodTotals.exposedKm2} km²</strong>
-                </div>
-              </div>
-            )}
-
-            <p className="noah-advisory-note">
-              <ShieldAlert aria-hidden="true" />
-              <span>{currentHydroSnapshot.advisorySummary}</span>
-            </p>
-          </div>
-
-          {/* Clickable Rivers & Waterways List (Sawaga River + Tributaries) */}
-          <div className="noah-inspector-card">
-            <div className="noah-inspector-head">
-              <span className="eyebrow">Interactive Hydrological Network</span>
-              <h4>Rivers & Sawaga Basin (Click to Inspect)</h4>
-            </div>
-            <div className="noah-entity-list">
-              {MALAYBALAY_WATERWAYS.map((river) => (
-                <button
-                  key={river.id}
-                  type="button"
-                  className={`noah-entity-btn ${
-                    selectedEntity?.kind === "waterway" &&
-                    selectedEntity.waterway.id === river.id
-                      ? "is-selected"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    setSelectedEntity({ kind: "waterway", waterway: river })
-                  }
-                >
-                  <span
-                    className="noah-entity-dot"
-                    style={{ background: river.color }}
-                  />
-                  <div>
-                    <strong>{river.name}</strong>
-                    <small>
-                      {river.lengthKm} km · {river.traversedBarangays.length}{" "}
-                      barangays traversed
-                    </small>
-                  </div>
-                  <ArrowRight aria-hidden="true" />
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Clickable Establishments & Critical Facilities */}
-          <div className="noah-inspector-card">
-            <div className="noah-inspector-head">
-              <span className="eyebrow">Critical Facilities & Landmarks</span>
-              <h4>Malaybalay Establishments</h4>
-            </div>
-            <select
-              aria-label="Filter Malaybalay establishments by category"
-              value={establishmentCategoryFilter}
-              onChange={(e) =>
-                setEstablishmentCategoryFilter(
-                  e.target.value as "ALL" | MalaybalayEstablishmentCategory,
+            <button
+              type="button"
+              className={basemapStyle === "satellite" ? "is-active" : ""}
+              onClick={() =>
+                setBasemapStyle((s) =>
+                  s === "street" ? "satellite" : "street",
                 )
               }
-              className="noah-est-filter-select"
             >
-              <option value="ALL">All Establishment Categories</option>
-              <option value="Government & DRRMO">Government & DRRMO</option>
-              <option value="Hospital & Health">Hospitals & Health</option>
-              <option value="School & University">Schools & Universities</option>
-              <option value="Market & Transport">Markets & Transport</option>
-              <option value="Landmark & Watershed">
-                Landmarks & River Gauges
-              </option>
-              <option value="Barangay Hall">46 Barangay Halls</option>
-            </select>
-
-            <div className="noah-entity-list is-scrollable">
-              {visibleEstablishments.slice(0, 12).map((est) => (
+              {basemapStyle === "satellite" ? "Satellite" : "Street Map"}
+            </button>
+            <button
+              type="button"
+              className={is3DPitch ? "is-active" : ""}
+              onClick={() => setIs3DPitch((v) => !v)}
+            >
+              <Compass aria-hidden="true" /> 3D Tilt
+            </button>
+            {activeBarangayCode !== "ALL" && (
+              <>
                 <button
-                  key={est.id}
                   type="button"
-                  className={`noah-entity-btn ${
-                    selectedEntity?.kind === "establishment" &&
-                    selectedEntity.establishment.id === est.id
-                      ? "is-selected"
-                      : ""
-                  }`}
+                  className={blurInactiveBarangays ? "is-active" : ""}
+                  onClick={() => setBlurInactiveBarangays((v) => !v)}
+                >
+                  <Eye aria-hidden="true" /> Blur others
+                </button>
+                <button
+                  type="button"
                   onClick={() => {
-                    setSelectedEntity({
-                      kind: "establishment",
-                      establishment: est,
-                    });
-                    if (leafletMapRef.current) {
-                      leafletMapRef.current.setView(
-                        [est.coordinates[1], est.coordinates[0]],
-                        15,
-                        { animate: true },
-                      );
-                    }
+                    setActiveBarangayCode("ALL");
+                    setSelectedEntity(null);
                   }}
                 >
-                  <MapPin aria-hidden="true" />
-                  <div>
-                    <strong>{est.name}</strong>
-                    <small>
-                      Brgy. {est.barangayName} · {est.noahFloodZone}
-                    </small>
-                  </div>
-                  <ArrowRight aria-hidden="true" />
+                  <LocateFixed aria-hidden="true" /> All 46
                 </button>
-              ))}
-            </div>
+              </>
+            )}
           </div>
-        </aside>
+        </div>
       </div>
 
-      {/* 46 Barangay Color Swatch & Quick Zoom Strip */}
+      {/* Full-Width High-Visibility Interactive Map Canvas */}
       <div
-        className="noah-barangay-palette-strip"
-        aria-label="46 barangay color key and quick zoom selector"
+        className={`barangay-map-card noah-clean-map-stage ${
+          is3DPitch ? "is-3d-tilted" : ""
+        }`}
       >
-        <div className="noah-palette-header">
+        {mapLoading && (
+          <div
+            className="map-loading-skeleton"
+            role="status"
+            aria-live="polite"
+          >
+            <span className="skeleton-block" />
+            <span>Loading Malaybalay interactive GIS map…</span>
+          </div>
+        )}
+
+        <div
+          ref={mapElement}
+          className="barangay-map-canvas noah-clean-map-canvas"
+          aria-label={
+            profile
+              ? `Interactive map showing the indicative outline of ${profile.name}`
+              : "Interactive GIS map of Malaybalay City and its 46 barangays"
+          }
+        />
+
+        {mapError && (
+          <p role="status" className="noah-map-error">
+            The interactive map could not load. Check your connection or use the
+            controls above.
+          </p>
+        )}
+      </div>
+
+      {/* Simple, Clean Status & Legend Bar Below Map */}
+      <div className="noah-clean-footer">
+        <div className="noah-clean-legend">
+          <strong>
+            <a
+              href="https://noah.up.edu.ph/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              UP Project NOAH
+            </a>{" "}
+            Flood Depth:
+          </strong>
           <span>
-            <strong>46 Barangay Color Key & Instant GIS Zoom</strong> — Click
-            any barangay to zoom in, inspect its UP Project NOAH flood zones,
-            and blur surrounding barangays:
+            <i style={{ background: FLOOD_COLORS.high }} /> High (&gt;1.5m)
+          </span>
+          <span>
+            <i style={{ background: FLOOD_COLORS.medium }} /> Medium (0.5–1.5m)
+          </span>
+          <span>
+            <i style={{ background: FLOOD_COLORS.low }} /> Low (0–0.5m)
+          </span>
+          <span>
+            <i
+              style={{
+                background: "#0284c7",
+                height: "4px",
+                borderRadius: "2px",
+              }}
+            />{" "}
+            Sawaga & Rivers
           </span>
         </div>
-        <div className="noah-palette-scroll">
+
+        <div className="noah-clean-telemetry">
+          <span>
+            <strong>{currentHydroSnapshot.date}:</strong>{" "}
+            {currentHydroSnapshot.rainfallMm} mm rain · Sawaga River{" "}
+            {currentHydroSnapshot.sawagaDischargeM3s} m³/s (
+            {currentHydroSnapshot.sawagaWaterLevelM}m ·{" "}
+            <b>{currentHydroSnapshot.alertLevel}</b>)
+          </span>
+          {activeBarangayProfile && activeBarangayFloodStat && (
+            <span>
+              · <strong>Brgy. {activeBarangayProfile.name}:</strong>{" "}
+              {activeBarangayFloodStat.exposedKm2} km² flood-prone (
+              {activeBarangayFloodStat.exposedShare}%)
+            </span>
+          )}
           <button
             type="button"
-            className={`noah-brgy-swatch-chip ${
-              activeBarangayCode === "ALL" ? "is-active" : ""
-            }`}
-            onClick={() => {
-              setActiveBarangayCode("ALL");
-              setSelectedEntity(null);
-            }}
+            className="noah-clean-link-btn"
+            onClick={() =>
+              setSelectedEntity({
+                kind: "waterway",
+                waterway: MALAYBALAY_WATERWAYS[0],
+              })
+            }
           >
-            <Sparkles aria-hidden="true" /> All 46 Barangays
+            Inspect Sawaga River <ArrowRight aria-hidden="true" />
           </button>
-          {barangayMicrosites.map((b) => {
-            const c = BARANGAY_GIS_COLORS[b.code] ?? "#3b82f6";
-            const isSelected = activeBarangayCode === b.code;
-            return (
-              <button
-                key={b.code}
-                type="button"
-                className={`noah-brgy-swatch-chip ${
-                  isSelected ? "is-active" : ""
-                }`}
-                onClick={() => {
-                  setActiveBarangayCode(b.code);
-                  setSelectedEntity({
-                    kind: "barangay",
-                    barangay: b,
-                    floodStat: floodStatsFile?.scenarios[noahScenario]?.[b.code],
-                  });
-                }}
-              >
-                <i style={{ background: c }} />
-                <span>{b.name}</span>
-              </button>
-            );
-          })}
         </div>
       </div>
 
-      {/* Interactive Popout Card Modal for Clicked GIS Feature (Barangay, Waterway, Establishment, or Flood Zone) */}
+      {/* Popup Modal when any Barangay, Flood Zone, River, or Establishment is clicked */}
       {selectedEntity && (
         <div
           className="barangay-popout-backdrop noah-gis-popout-backdrop"
@@ -1346,7 +867,7 @@ export default function MalaybalayGisMap({
                 <div>
                   <span className="eyebrow">
                     {selectedEntity.kind === "waterway"
-                      ? `Malaybalay River & Waterway Telemetry · ${selectedDate}`
+                      ? `Malaybalay River Telemetry · ${selectedDate}`
                       : selectedEntity.kind === "establishment"
                         ? `${selectedEntity.establishment.category} · Barangay ${selectedEntity.establishment.barangayName}`
                         : selectedEntity.kind === "floodzone"
@@ -1404,10 +925,10 @@ export default function MalaybalayGisMap({
                         </tr>
                         <tr>
                           <th scope="row">
-                            Active Date ({currentHydroSnapshot.date}) Telemetry
+                            Selected Date ({currentHydroSnapshot.date})
                           </th>
                           <td>
-                            Sawaga Basin Discharge:{" "}
+                            Discharge:{" "}
                             <strong>
                               {currentHydroSnapshot.sawagaDischargeM3s} m³/s
                             </strong>{" "}
@@ -1419,7 +940,7 @@ export default function MalaybalayGisMap({
                           </td>
                         </tr>
                         <tr>
-                          <th scope="row">Traversed Barangays in Malaybalay</th>
+                          <th scope="row">Traversed Barangays</th>
                           <td>
                             {selectedEntity.waterway.traversedBarangays.join(
                               ", ",
@@ -1427,7 +948,7 @@ export default function MalaybalayGisMap({
                           </td>
                         </tr>
                         <tr>
-                          <th scope="row">UP Project NOAH Flood Advisory</th>
+                          <th scope="row">UP Project NOAH Advisory</th>
                           <td>{selectedEntity.waterway.noahAdvisory}</td>
                         </tr>
                       </tbody>
@@ -1443,7 +964,7 @@ export default function MalaybalayGisMap({
                     <table className="popout-structured-table">
                       <tbody>
                         <tr>
-                          <th scope="row">Facility / Establishment</th>
+                          <th scope="row">Facility Name</th>
                           <td>{selectedEntity.establishment.name}</td>
                         </tr>
                         <tr>
@@ -1451,7 +972,7 @@ export default function MalaybalayGisMap({
                           <td>{selectedEntity.establishment.category}</td>
                         </tr>
                         <tr>
-                          <th scope="row">Barangay & PSGC</th>
+                          <th scope="row">Barangay</th>
                           <td>
                             Barangay {selectedEntity.establishment.barangayName}{" "}
                             (PSGC {selectedEntity.establishment.barangayCode})
@@ -1472,15 +993,11 @@ export default function MalaybalayGisMap({
                           </td>
                         </tr>
                         <tr>
-                          <th scope="row">UP Project NOAH Flood Zone Status</th>
+                          <th scope="row">UP Project NOAH Flood Status</th>
                           <td>
                             <strong>
                               {selectedEntity.establishment.noahFloodZone}
-                            </strong>{" "}
-                            ·{" "}
-                            {selectedEntity.establishment.evacuationCapable
-                              ? "Designated High-Ground / Emergency Assembly Point"
-                              : "Monitor riverside access roads during heavy rain"}
+                            </strong>
                           </td>
                         </tr>
                         {selectedEntity.establishment.contact && (
@@ -1490,7 +1007,7 @@ export default function MalaybalayGisMap({
                           </tr>
                         )}
                         <tr>
-                          <th scope="row">Source Citation</th>
+                          <th scope="row">Source Reference</th>
                           <td>
                             <a
                               href={selectedEntity.establishment.sourceUrl}
@@ -1554,13 +1071,13 @@ export default function MalaybalayGisMap({
                           {stat100 && (
                             <tr>
                               <th scope="row">
-                                UP NOAH 100-Year Flood Hazard Breakdown
+                                UP NOAH 100-Year Flood Hazard
                               </th>
                               <td>
-                                Total Land Area: {stat100.areaKm2} km² ·{" "}
                                 <strong>
-                                  Exposed: {stat100.exposedKm2} km² (
-                                  {stat100.exposedShare}%)
+                                  {stat100.exposedKm2} km² (
+                                  {stat100.exposedShare}% of {stat100.areaKm2}{" "}
+                                  km²)
                                 </strong>{" "}
                                 — Low (0–0.5m): {stat100.low} km², Medium
                                 (0.5–1.5m): {stat100.medium} km², High
@@ -1570,13 +1087,11 @@ export default function MalaybalayGisMap({
                           )}
                           {stat5 && (
                             <tr>
-                              <th scope="row">
-                                UP NOAH 5-Year Flood Hazard Breakdown
-                              </th>
+                              <th scope="row">UP NOAH 5-Year Flood Hazard</th>
                               <td>
                                 <strong>
-                                  Exposed: {stat5.exposedKm2} km² (
-                                  {stat5.exposedShare}%)
+                                  {stat5.exposedKm2} km² ({stat5.exposedShare}
+                                  %)
                                 </strong>{" "}
                                 — Low: {stat5.low} km², Medium: {stat5.medium}{" "}
                                 km², High: {stat5.high} km²
@@ -1585,7 +1100,7 @@ export default function MalaybalayGisMap({
                           )}
                           <tr>
                             <th scope="row">
-                              Selected Date ({currentHydroSnapshot.date}) Status
+                              Selected Date ({currentHydroSnapshot.date})
                             </th>
                             <td>
                               {currentHydroSnapshot.alertLevel} · Rainfall:{" "}
@@ -1595,23 +1110,14 @@ export default function MalaybalayGisMap({
                             </td>
                           </tr>
                           <tr>
-                            <th scope="row">Primary & Backup GIS References</th>
+                            <th scope="row">Official Sources</th>
                             <td>
                               <a
                                 href="https://noah.up.edu.ph/"
                                 target="_blank"
                                 rel="noreferrer"
                               >
-                                UP Resilience Institute — Project NOAH{" "}
-                                <ExternalLink aria-hidden="true" />
-                              </a>{" "}
-                              ·{" "}
-                              <a
-                                href="https://huggingface.co/datasets/bettergovph/project-noah-hazard-maps"
-                                target="_blank"
-                                rel="noreferrer"
-                              >
-                                NOAH Bukidnon LiDAR Shapefile Archive{" "}
+                                UP Project NOAH (noah.up.edu.ph){" "}
                                 <ExternalLink aria-hidden="true" />
                               </a>
                             </td>
@@ -1626,7 +1132,7 @@ export default function MalaybalayGisMap({
                           to={`/barangays/${bProfile.slug}`}
                           onClick={() => setSelectedEntity(null)}
                         >
-                          Open Barangay {bProfile.name} Full Profile{" "}
+                          Open Barangay {bProfile.name} Profile{" "}
                           <ArrowRight aria-hidden="true" />
                         </Link>
                       </div>
