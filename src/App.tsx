@@ -97,7 +97,19 @@ import {
   BAC_2026_SOURCE,
   BAC_2026_VERIFIED_ON,
   bidRecords2026,
+  type BidRecord,
 } from "./bidRecords";
+import {
+  DILG_DIRECTORY_INDEX_SOURCE,
+  CITY_BARANGAY_DIRECTORY_SOURCE,
+  SK_FUNCTIONALITY_ORDINANCE_SOURCE,
+  getOfficialRoleScope,
+  type BarangayOfficialRecord,
+} from "./barangayOfficials";
+import {
+  type BarangayDisclosureCategory,
+  type BarangayDisclosureItem,
+} from "./barangayDisclosures";
 import {
   goodsServicesAwardRecords,
   GOODS_SERVICES_AWARDS_SOURCE,
@@ -2557,7 +2569,7 @@ function BarangaysPage() {
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query.toLowerCase());
   const visible = barangayMicrosites.filter((item) =>
-    `${item.name} ${item.punongBarangay} ${item.classification}`
+    `${item.name} ${item.punongBarangay} ${item.classification} ${item.officialRoster.officials.map((o) => o.name).join(" ")}`
       .toLowerCase()
       .includes(deferredQuery),
   );
@@ -2566,7 +2578,7 @@ function BarangaysPage() {
       <PageHero
         eyebrow="Malaybalay barangay directory"
         title="Explore all 46 barangays."
-        description="Search official population, local leadership, contacts, and source-linked community profiles."
+        description="Search official population, DILG-verified Punong Barangay, Kagawads, SK Chairperson, Barangay Secretary, contacts, and full disclosure profiles."
         compact
       />
       <section className="section container government-directory-section">
@@ -2576,15 +2588,15 @@ function BarangaysPage() {
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search by barangay or Punong Barangay"
+            placeholder="Search by barangay, Punong Barangay, Kagawad, SK Chairperson, or Secretary"
           />
         </label>
         <div className="data-notice barangay-contact-notice">
           <CircleAlert />
           <div>
-            <strong>About contact availability</strong>
+            <strong>About contact availability & DILG roster coverage</strong>
             <p>
-              Only contacts published in the reviewed DILG directory are shown.
+              All 46 barangays include the complete 10-official DILG directory roster (Punong Barangay, 7 Sangguniang Barangay Members, SK Chairperson, and Barangay Secretary). Only validated contacts published in the reviewed DILG directory are shown as active links.
             </p>
           </div>
         </div>
@@ -2602,7 +2614,7 @@ function BarangaysPage() {
                 />
                 <span className="barangay-card-context">
                   <strong>{barangay.classification} barangay</strong>
-                  <small>Malaybalay City</small>
+                  <small>PSGC {barangay.code} · Rank #{barangay.populationRank} of 46</small>
                 </span>
               </div>
               <h2>{barangay.name}</h2>
@@ -2610,13 +2622,21 @@ function BarangaysPage() {
                 <div>
                   <dt>Population</dt>
                   <dd>{barangay.population.toLocaleString("en-PH")}</dd>
-                  <small>2024 POPCEN · 2026 release</small>
+                  <small>2024 POPCEN · 2026 release ({barangay.cityPopulationShare.toFixed(2)}%)</small>
                 </div>
                 <div>
                   <dt>Punong Barangay</dt>
                   <dd>{barangay.punongBarangay}</dd>
+                  <small>
+                    SK: {barangay.officialRoster.skChairperson.name} · Sec: {barangay.officialRoster.barangaySecretary.name}
+                  </small>
                 </div>
               </dl>
+              <div className="barangay-card-roster-strip">
+                <span>10 DILG officials verified</span>
+                <span>₱1.0M 2026 BDP</span>
+                <span>{barangay.fullDisclosure.items.length + barangay.bids.length} disclosure records</span>
+              </div>
               <div className="barangay-contacts">
                 {barangay.phone && (
                   <a href={`tel:${telephoneHref(barangay.phone)}`}>
@@ -2782,10 +2802,102 @@ function BarangayMap({ profile }: { profile: BarangayMicrositeProfile }) {
   );
 }
 
+type BarangayPopoutState =
+  | {
+      kind: "snapshot";
+      metric: "population" | "share" | "rank" | "bids";
+    }
+  | {
+      kind: "official";
+      official: BarangayOfficialRecord;
+    }
+  | {
+      kind: "disclosure";
+      item: BarangayDisclosureItem;
+    }
+  | {
+      kind: "bid";
+      bid: BidRecord;
+    };
+
+function formatPeso(amount: number | null) {
+  if (amount === null) return "See PhilGEPS / Bid Abstract";
+  return `₱${amount.toLocaleString("en-PH", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+}
+
 function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
   const { slug: routeSlug } = useParams();
   const profile = barangayMicrositeBySlug.get(slugOverride ?? routeSlug ?? "");
   const emergencyContacts = departments.filter((office) => office.emergency);
+  const [disclosureState, setDisclosureState] = useState<{
+    slug?: string;
+    filter: "all" | BarangayDisclosureCategory;
+    query: string;
+    popout: BarangayPopoutState | null;
+  }>({
+    slug: profile?.slug,
+    filter: "all",
+    query: "",
+    popout: null,
+  });
+
+  const currentSlug = profile?.slug;
+  const disclosureFilter =
+    disclosureState.slug === currentSlug ? disclosureState.filter : "all";
+  const disclosureQuery =
+    disclosureState.slug === currentSlug ? disclosureState.query : "";
+  const activePopout =
+    disclosureState.slug === currentSlug ? disclosureState.popout : null;
+
+  const setDisclosureFilter = useCallback(
+    (filter: "all" | BarangayDisclosureCategory) => {
+      setDisclosureState((prev) => ({
+        slug: currentSlug,
+        filter,
+        query: prev.slug === currentSlug ? prev.query : "",
+        popout: prev.slug === currentSlug ? prev.popout : null,
+      }));
+    },
+    [currentSlug],
+  );
+
+  const setDisclosureQuery = useCallback(
+    (query: string) => {
+      setDisclosureState((prev) => ({
+        slug: currentSlug,
+        filter: prev.slug === currentSlug ? prev.filter : "all",
+        query,
+        popout: prev.slug === currentSlug ? prev.popout : null,
+      }));
+    },
+    [currentSlug],
+  );
+
+  const setActivePopout = useCallback(
+    (popout: BarangayPopoutState | null) => {
+      setDisclosureState((prev) => ({
+        slug: currentSlug,
+        filter: prev.slug === currentSlug ? prev.filter : "all",
+        query: prev.slug === currentSlug ? prev.query : "",
+        popout,
+      }));
+    },
+    [currentSlug],
+  );
+
+  useEffect(() => {
+    if (!activePopout) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActivePopout(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activePopout, setActivePopout]);
 
   useEffect(() => {
     if (!profile) return;
@@ -2798,6 +2910,31 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
 
   if (!profile) return <NotFoundPage />;
 
+  const roster = profile.officialRoster;
+  const disclosure = profile.fullDisclosure;
+  const normalizedDisclosureQuery = disclosureQuery.trim().toLowerCase();
+
+  const categoryCounts = {
+    all: disclosure.items.length,
+    budget: disclosure.items.filter((item) => item.category === "budget").length,
+    accomplishments: disclosure.items.filter(
+      (item) => item.category === "accomplishments",
+    ).length,
+    bids: disclosure.items.filter((item) => item.category === "bids").length,
+    projects: disclosure.items.filter((item) => item.category === "projects")
+      .length,
+  };
+
+  const filteredDisclosureItems = disclosure.items.filter((item) => {
+    if (disclosureFilter !== "all" && item.category !== disclosureFilter) {
+      return false;
+    }
+    if (!normalizedDisclosureQuery) return true;
+    return `${item.title} ${item.referenceNumber} ${item.subcategory} ${item.status} ${item.implementingOffice} ${item.summary}`
+      .toLowerCase()
+      .includes(normalizedDisclosureQuery);
+  });
+
   return (
     <div className="barangay-site">
       <section className="barangay-hero">
@@ -2805,11 +2942,11 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
           className={`barangay-hero-image${profile.heroImage ? " has-photo" : ""}`}
           style={
             profile.heroImage
-              ? {
+              ? ({
                   "--barangay-hero-url": `url("${profile.heroImage.url}")`,
                   "--barangay-hero-position":
                     profile.heroImage.position ?? "center",
-                } as CSSProperties
+                } as CSSProperties)
               : undefined
           }
           aria-hidden="true"
@@ -2841,7 +2978,10 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
           <div className="barangay-hero-copy">
             <span>Welcome to Barangay {profile.name}</span>
             <h1>{profile.name}</h1>
-            <p>{profile.classification} barangay · Malaybalay City. {profile.description}</p>
+            <p>
+              {profile.classification} barangay · Malaybalay City.{" "}
+              {profile.description}
+            </p>
             <div className="barangay-hero-actions">
               {profile.phone && (
                 <a
@@ -2851,8 +2991,11 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                   <Phone /> Call barangay
                 </a>
               )}
+              <a className="button secondary" href="#disclosure">
+                <FileText /> Full disclosure
+              </a>
               <a className="button secondary" href="#emergency">
-                  <ShieldAlert /> Emergency
+                <ShieldAlert /> Emergency
               </a>
             </div>
           </div>
@@ -2893,9 +3036,10 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
       >
         <div className="container">
           <a href="#about">About</a>
+          <a href="#disclosure">Full disclosure</a>
+          <a href="#leadership">Leadership (10)</a>
+          <a href="#projects">2026 BAC notices</a>
           <a href="#map">Map</a>
-          <a href="#leadership">Leadership</a>
-          <a href="#projects">Projects</a>
           <a href="#committees">Committees</a>
           <a href="#services">Services</a>
           <a href="#contacts">Contacts</a>
@@ -2919,6 +3063,114 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                 </p>
               </div>
             </div>
+            <div
+              className="barangay-community-snapshot"
+              aria-label={`${profile.name} community data summary`}
+            >
+              <article
+                className="is-interactive-card"
+                onClick={() =>
+                  setActivePopout({ kind: "snapshot", metric: "population" })
+                }
+              >
+                <div className="barangay-snapshot-head">
+                  <span className="barangay-icon-tile is-compact">
+                    <Users aria-hidden="true" />
+                  </span>
+                  <span>Latest official count</span>
+                </div>
+                <strong>{profile.population.toLocaleString("en-PH")}</strong>
+                <p>2024 POPCEN · released Jan 2026</p>
+                <button
+                  type="button"
+                  className="barangay-card-popout-trigger"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setActivePopout({ kind: "snapshot", metric: "population" });
+                  }}
+                >
+                  Details & citation <ArrowRight aria-hidden="true" />
+                </button>
+              </article>
+              <article
+                className="is-interactive-card"
+                onClick={() =>
+                  setActivePopout({ kind: "snapshot", metric: "share" })
+                }
+              >
+                <div className="barangay-snapshot-head">
+                  <span className="barangay-icon-tile is-compact">
+                    <BarChart3 aria-hidden="true" />
+                  </span>
+                  <span>Share of city population</span>
+                </div>
+                <strong>{profile.cityPopulationShare.toFixed(2)}%</strong>
+                <p>
+                  Of {MALAYBALAY_2024_POPULATION.toLocaleString("en-PH")} city
+                  total
+                </p>
+                <button
+                  type="button"
+                  className="barangay-card-popout-trigger"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setActivePopout({ kind: "snapshot", metric: "share" });
+                  }}
+                >
+                  Details & citation <ArrowRight aria-hidden="true" />
+                </button>
+              </article>
+              <article
+                className="is-interactive-card"
+                onClick={() =>
+                  setActivePopout({ kind: "snapshot", metric: "rank" })
+                }
+              >
+                <div className="barangay-snapshot-head">
+                  <span className="barangay-icon-tile is-compact">
+                    <TrendingUp aria-hidden="true" />
+                  </span>
+                  <span>Population rank</span>
+                </div>
+                <strong>{profile.populationRank} of 46</strong>
+                <p>Ranked across 46 barangays</p>
+                <button
+                  type="button"
+                  className="barangay-card-popout-trigger"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setActivePopout({ kind: "snapshot", metric: "rank" });
+                  }}
+                >
+                  Details & citation <ArrowRight aria-hidden="true" />
+                </button>
+              </article>
+              <article
+                className="is-interactive-card"
+                onClick={() =>
+                  setActivePopout({ kind: "snapshot", metric: "bids" })
+                }
+              >
+                <div className="barangay-snapshot-head">
+                  <span className="barangay-icon-tile is-compact">
+                    <FileText aria-hidden="true" />
+                  </span>
+                  <span>2026 BAC notices</span>
+                </div>
+                <strong>{profile.bids.length}</strong>
+                <p>ITB notices naming {profile.name}</p>
+                <button
+                  type="button"
+                  className="barangay-card-popout-trigger"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setActivePopout({ kind: "snapshot", metric: "bids" });
+                  }}
+                >
+                  Details & citation <ArrowRight aria-hidden="true" />
+                </button>
+              </article>
+            </div>
           </div>
           <aside className="barangay-source-card">
             <span className="barangay-icon-tile">
@@ -2929,51 +3181,232 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             <BarangaySourceLink source={profile.populationReleaseSource} />
             <BarangaySourceLink source={profile.leadershipSource} />
             <BarangaySourceLink source={profile.logoSource} />
+            <a
+              href={roster.apiEndpointUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              DILG BOPS Master Filter — Barangay {profile.name} (Backup){" "}
+              <ExternalLink />
+            </a>
+            <a
+              href="https://sakata.malaybalaycity.gov.ph/full-disclosure/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Malaybalay Full Disclosure Portal (20% NTA, APP, Bid Results){" "}
+              <ExternalLink />
+            </a>
             <small>
               Barangay sources reviewed through {BARANGAY_PROFILE_REVIEWED_ON}
             </small>
           </aside>
-          <div
-            className="barangay-community-snapshot"
-            aria-label={`${profile.name} community data summary`}
+        </section>
+
+        <section
+          id="disclosure"
+          className="barangay-profile-section barangay-disclosure-section"
+        >
+          <SectionHeading
+            eyebrow="Barangay full disclosure & audit trail"
+            title={`Budget, accomplishments, bids, and projects in ${profile.name}`}
           >
-            <article>
-              <span className="barangay-icon-tile">
-                <Users aria-hidden="true" />
+            Source-verified records compiled from the City Government Full
+            Disclosure Portal (20% NTA, APP, Bid Results, Trust Fund, SEF,
+            LDRRMF), BAC Malaybalay, PhilGEPS, DILG, and COA. Click any card to
+            open the full discussion, image reference, and backup citations.
+          </SectionHeading>
+
+          <div
+            className="barangay-disclosure-summary-strip"
+            aria-label={`${profile.name} full disclosure summary`}
+          >
+            <div>
+              <span>2026 BDP allocation (20% NTA)</span>
+              <strong>{formatPeso(disclosure.bdp2026Budget)}</strong>
+              <small>
+                {disclosure.bdp2026ProjectTitle} ({disclosure.bdp2026Status})
+              </small>
+            </div>
+            <div>
+              <span>2025 Q4 BDP accomplishment</span>
+              <strong>{disclosure.bdp2025CompletionRate}</strong>
+              <small>
+                {formatPeso(disclosure.bdp2025CostIncurred)} incurred ·{" "}
+                {disclosure.bdp2025Remarks}
+              </small>
+            </div>
+            <div>
+              <span>PhilGEPS & BAC bid records</span>
+              <strong>
+                {disclosure.philgepsAwardsCount +
+                  disclosure.officialBidResultsCount +
+                  profile.bids.length}
+              </strong>
+              <small>
+                {disclosure.philgepsAwardsCount} PhilGEPS awards ·{" "}
+                {disclosure.officialBidResultsCount} Q1/Q2 bid results ·{" "}
+                {profile.bids.length} 2026 ITBs
+              </small>
+            </div>
+            <div>
+              <span>Primary & backup authorities</span>
+              <strong>5 portals linked</strong>
+              <small>
+                Full Disclosure · BAC Malaybalay · PhilGEPS · DILG · COA
+              </small>
+            </div>
+          </div>
+
+          <div className="barangay-disclosure-controls">
+            <div
+              className="barangay-disclosure-tabs"
+              role="tablist"
+              aria-label={`Filter ${profile.name} disclosure records by category`}
+            >
+              {(
+                [
+                  ["all", `All records (${categoryCounts.all})`],
+                  ["budget", `Budget (${categoryCounts.budget})`],
+                  [
+                    "accomplishments",
+                    `Accomplishments (${categoryCounts.accomplishments})`,
+                  ],
+                  ["bids", `Bids & awards (${categoryCounts.bids})`],
+                  ["projects", `Projects (${categoryCounts.projects})`],
+                ] as const
+              ).map(([key, label]) => (
+                <button
+                  key={key}
+                  type="button"
+                  role="tab"
+                  aria-selected={disclosureFilter === key}
+                  className={disclosureFilter === key ? "is-active" : ""}
+                  onClick={() => setDisclosureFilter(key)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <label className="barangay-disclosure-search">
+              <span className="sr-only">
+                Search {profile.name} disclosure records
               </span>
-              <span>Latest official count</span>
-              <strong>{profile.population.toLocaleString("en-PH")}</strong>
-              <p>Official census count · released January 2026</p>
-            </article>
-            <article>
-              <span className="barangay-icon-tile">
-                <BarChart3 aria-hidden="true" />
-              </span>
-              <span>Share of city population</span>
-              <strong>{profile.cityPopulationShare.toFixed(2)}%</strong>
-              <p>
-                Portal calculation from the official city total of{" "}
-                {MALAYBALAY_2024_POPULATION.toLocaleString("en-PH")}
-              </p>
-            </article>
-            <article>
-              <span className="barangay-icon-tile">
-                <TrendingUp aria-hidden="true" />
-              </span>
-              <span>Population rank</span>
-              <strong>{profile.populationRank} of 46</strong>
-              <p>Ranked by official barangay-level census counts</p>
-            </article>
-            <article>
-              <span className="barangay-icon-tile">
-                <FileText aria-hidden="true" />
-              </span>
-              <span>2026 BAC notices</span>
-              <strong>{profile.bids.length}</strong>
-              <p>
-                Notices naming {profile.name}; not awards or completion reports
-              </p>
-            </article>
+              <Search aria-hidden="true" />
+              <input
+                value={disclosureQuery}
+                onChange={(event) => setDisclosureQuery(event.target.value)}
+                placeholder={`Filter ${profile.name} budget, accomplishments, bids, or contractors…`}
+              />
+            </label>
+          </div>
+
+          <div className="barangay-disclosure-grid">
+            {filteredDisclosureItems.map((item) => (
+              <article
+                key={item.id}
+                className="barangay-disclosure-card is-interactive-card"
+                onClick={() => setActivePopout({ kind: "disclosure", item })}
+              >
+                <div className="barangay-disclosure-card-media">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.imageCaption}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <img
+                    className="barangay-disclosure-seal"
+                    src={item.badgeUrl}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span
+                    className={`barangay-disclosure-badge is-${item.category}`}
+                  >
+                    {item.category === "budget"
+                      ? "Budget & allocation"
+                      : item.category === "accomplishments"
+                        ? "Accomplishment & utilization"
+                        : item.category === "bids"
+                          ? "Bid & award record"
+                          : "Project & program"}
+                  </span>
+                  <span className="barangay-disclosure-ref">
+                    {item.referenceNumber}
+                  </span>
+                </div>
+                <div className="barangay-disclosure-card-body">
+                  <small className="barangay-disclosure-sub">
+                    {item.subcategory} · {item.period}
+                  </small>
+                  <h3>{item.title}</h3>
+                  <p>{item.summary}</p>
+                  <dl className="barangay-disclosure-metrics">
+                    <div>
+                      <dt>Approved budget / ABC</dt>
+                      <dd>{formatPeso(item.approvedBudget)}</dd>
+                    </div>
+                    <div>
+                      <dt>Utilized / Contract amount</dt>
+                      <dd>{formatPeso(item.utilizedAmount)}</dd>
+                    </div>
+                    <div>
+                      <dt>Reported progress / Stage</dt>
+                      <dd>{item.completionRate}</dd>
+                    </div>
+                    <div>
+                      <dt>Office / Contractor</dt>
+                      <dd>{item.implementingOffice}</dd>
+                    </div>
+                  </dl>
+                  <div
+                    className="barangay-disclosure-citations"
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <a
+                      href={item.primarySource.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="barangay-primary-citation"
+                    >
+                      <FileCheck2 aria-hidden="true" />
+                      {item.primarySource.label}
+                      <ExternalLink aria-hidden="true" />
+                    </a>
+                    <div className="barangay-backup-citations">
+                      <span>Backup references:</span>
+                      {item.backupSources.map((backup) => (
+                        <a
+                          key={`${item.id}-${backup.url}`}
+                          href={backup.url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {backup.label.split("—")[0].trim()}{" "}
+                          <ExternalLink aria-hidden="true" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="barangay-disclosure-card-footer">
+                    <button
+                      type="button"
+                      className="barangay-popout-btn"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        setActivePopout({ kind: "disclosure", item });
+                      }}
+                    >
+                      Open full details & discussion{" "}
+                      <ArrowRight aria-hidden="true" />
+                    </button>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 
@@ -3012,38 +3445,66 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
           >
             These are BAC notices linked to this barangay. A notice is not an
             award, expenditure, completion report, or personal achievement.
+            Click any notice to inspect its procurement context or open the
+            official BAC file.
           </SectionHeading>
           {profile.bids.length ? (
             <div className="barangay-bid-list">
               {profile.bids.slice(0, 6).map((record, index) => (
-                <a
+                <div
                   key={`${record.url}-${index}`}
-                  href={record.url}
-                  target="_blank"
-                  rel="noreferrer"
+                  className="barangay-bid-item-card"
                 >
-                  <span>{record.stage}</span>
-                  <strong>{record.number}</strong>
-                  <p>{record.title.replace(/^ITB-2026-\d+\.?\s*/i, "")}</p>
-                  <ExternalLink aria-hidden="true" />
-                </a>
+                  <a
+                    href={record.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span>{record.stage}</span>
+                    <strong>{record.number}</strong>
+                    <p>{record.title.replace(/^ITB-2026-\d+\.?\s*/i, "")}</p>
+                    <ExternalLink aria-hidden="true" />
+                  </a>
+                  <button
+                    type="button"
+                    className="barangay-bid-popout-btn"
+                    onClick={() =>
+                      setActivePopout({ kind: "bid", bid: record })
+                    }
+                  >
+                    Popout discussion & backup links <ArrowRight aria-hidden="true" />
+                  </button>
+                </div>
               ))}
               {profile.bids.length > 6 && (
                 <details>
                   <summary>Show {profile.bids.length - 6} more records</summary>
                   <div>
                     {profile.bids.slice(6).map((record, index) => (
-                      <a
+                      <div
                         key={`${record.url}-more-${index}`}
-                        href={record.url}
-                        target="_blank"
-                        rel="noreferrer"
+                        className="barangay-bid-item-card"
                       >
-                        <span>{record.stage}</span>
-                        <strong>{record.number}</strong>
-                        <p>{record.title.replace(/^ITB-2026-\d+\.?\s*/i, "")}</p>
-                        <ExternalLink aria-hidden="true" />
-                      </a>
+                        <a
+                          href={record.url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <span>{record.stage}</span>
+                          <strong>{record.number}</strong>
+                          <p>{record.title.replace(/^ITB-2026-\d+\.?\s*/i, "")}</p>
+                          <ExternalLink aria-hidden="true" />
+                        </a>
+                        <button
+                          type="button"
+                          className="barangay-bid-popout-btn"
+                          onClick={() =>
+                            setActivePopout({ kind: "bid", bid: record })
+                          }
+                        >
+                          Popout discussion & backup links <ArrowRight aria-hidden="true" />
+                        </button>
+                      </div>
                     ))}
                   </div>
                 </details>
@@ -3054,7 +3515,10 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
               <CircleAlert aria-hidden="true" />
               <p>
                 No 2026 BAC notice on the reviewed source page explicitly
-                matched this barangay. This is not proof that no project exists.
+                matched this barangay. See the{" "}
+                <a href="#disclosure">Full Disclosure section above</a> for{" "}
+                {profile.name}’s ₱1,000,000.00 2026 Barangay Development Project
+                allocation, 2025 Q4 accomplishments, and PhilGEPS records.
               </p>
               <a href={BAC_2026_SOURCE} target="_blank" rel="noreferrer">
                 Check the official BAC page <ExternalLink aria-hidden="true" />
@@ -3065,39 +3529,141 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
 
         <section id="leadership" className="barangay-profile-section">
           <SectionHeading
-            eyebrow="Current published leadership"
-            title="Who leads the barangay"
+            eyebrow="Current published leadership · DILG directory"
+            title={`Who leads Barangay ${profile.name}`}
           >
-            Only roles and names found in the reviewed public directory are
-            presented as verified.
+            All 10 barangay officials below—the Punong Barangay, 7 Sangguniang
+            Barangay Members (Kagawads), SK Chairperson, and Barangay
+            Secretary—are verified from the DILG Barangay Officials Directory.
+            Click any official card to open their full record, statutory role,
+            and backup citations.
           </SectionHeading>
-          <div className="barangay-leadership-grid">
-            <article className="barangay-captain-card">
-              <span className="barangay-icon-tile">
-                <Users aria-hidden="true" />
-              </span>
-              <span>Punong Barangay</span>
-              <h3>{profile.punongBarangay}</h3>
-              <p>Leader listed in the DILG Barangay Officials Directory.</p>
-              <BarangaySourceLink source={profile.leadershipSource} />
-            </article>
-            <article className="barangay-data-gap">
-              <span className="barangay-icon-tile is-neutral">
-                <CircleAlert aria-hidden="true" />
-              </span>
-              <div>
-                <span>Barangay council roster</span>
-                <h3>Complete roster not published in the reviewed sources</h3>
+
+          <div className="barangay-leadership-executive-grid">
+            {[
+              roster.punongBarangay,
+              roster.skChairperson,
+              roster.barangaySecretary,
+            ].map((official) => (
+              <article
+                key={official.id}
+                className="barangay-captain-card is-interactive-card"
+                onClick={() => setActivePopout({ kind: "official", official })}
+              >
+                <span className="barangay-icon-tile">
+                  <Users aria-hidden="true" />
+                </span>
+                <span>{official.position}</span>
+                <h3>{official.name}</h3>
                 <p>
-                  BetterMC will add kagawad, secretary, treasurer, SK, and
-                  committee assignments when an attributable current roster is
-                  available.
+                  DILG Registry: <strong>{official.fullRegistryName}</strong>
                 </p>
-                <Link to="/participate">
-                  Submit an official source <ArrowRight />
-                </Link>
-              </div>
-            </article>
+                <div
+                  className="barangay-official-contacts"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  {official.phone ? (
+                    <a href={`tel:${telephoneHref(official.phone)}`}>
+                      <Phone aria-hidden="true" /> {official.phone}
+                    </a>
+                  ) : (
+                    <small>{official.phoneHygieneNote}</small>
+                  )}
+                  {official.email && (
+                    <a href={`mailto:${official.email}`}>
+                      <Mail aria-hidden="true" /> {official.email}
+                    </a>
+                  )}
+                </div>
+                <div
+                  className="barangay-official-links"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <BarangaySourceLink source={profile.leadershipSource} />
+                  <a
+                    href={official.sourceUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    DILG BOPS endpoint <ExternalLink aria-hidden="true" />
+                  </a>
+                </div>
+                <button
+                  type="button"
+                  className="barangay-card-popout-trigger"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setActivePopout({ kind: "official", official });
+                  }}
+                >
+                  Inspect official record & discussion{" "}
+                  <ArrowRight aria-hidden="true" />
+                </button>
+              </article>
+            ))}
+          </div>
+
+          <div className="barangay-kagawad-section">
+            <div className="barangay-kagawad-header">
+              <h3>
+                Sangguniang Barangay Members (7 Kagawads) — Barangay{" "}
+                {profile.name}
+              </h3>
+              <p>
+                Verified council members published in the DILG Barangay
+                Officials Directory for Barangay {profile.name} (DILG Code{" "}
+                {roster.dilgBarangayCode}).
+              </p>
+            </div>
+            <div className="barangay-kagawad-grid">
+              {roster.sangguniangBarangayMembers.map((kagawad, idx) => (
+                <article
+                  key={kagawad.id}
+                  className="barangay-kagawad-card is-interactive-card"
+                  onClick={() =>
+                    setActivePopout({ kind: "official", official: kagawad })
+                  }
+                >
+                  <div className="barangay-kagawad-top">
+                    <span className="barangay-kagawad-badge">
+                      Kagawad #{idx + 1} · Sangguniang Barangay Member
+                    </span>
+                  </div>
+                  <h4>{kagawad.name}</h4>
+                  <small className="barangay-kagawad-registry">
+                    Registry: {kagawad.fullRegistryName}
+                  </small>
+                  <div
+                    className="barangay-official-contacts"
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    {kagawad.phone ? (
+                      <a href={`tel:${telephoneHref(kagawad.phone)}`}>
+                        <Phone aria-hidden="true" /> {kagawad.phone}
+                      </a>
+                    ) : (
+                      <small>{kagawad.phoneHygieneNote}</small>
+                    )}
+                    {kagawad.email && (
+                      <a href={`mailto:${kagawad.email}`}>
+                        <Mail aria-hidden="true" /> {kagawad.email}
+                      </a>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    className="barangay-card-popout-trigger"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setActivePopout({ kind: "official", official: kagawad });
+                    }}
+                  >
+                    View role, contact & DILG source{" "}
+                    <ArrowRight aria-hidden="true" />
+                  </button>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -3106,8 +3672,9 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             eyebrow="Committee transparency"
             title="Common committee areas"
           >
-            Named assignments were not available in the reviewed official
-            directory.
+            While all 7 Sangguniang Barangay Members and the SK Chairperson are
+            verified above from the DILG directory, the national directory table
+            does not specify which Kagawad chairs each standing committee below.
           </SectionHeading>
           <div className="barangay-committee-grid">
             {profile.committeeAreas.map((committee) => (
@@ -3226,8 +3793,447 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             date={VERIFIED_ON}
           />
         </section>
-
       </div>
+
+      {activePopout && (
+        <div
+          className="barangay-popout-backdrop"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${profile.name} detail and discussion popout`}
+          onClick={() => setActivePopout(null)}
+        >
+          <div
+            className="barangay-popout-modal"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="barangay-popout-header">
+              <div className="barangay-popout-brand">
+                <img
+                  src={profile.logo}
+                  width="44"
+                  height="44"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <div>
+                  <span className="eyebrow">
+                    Barangay {profile.name} · PSGC {profile.code}
+                  </span>
+                  <h3>
+                    {activePopout.kind === "disclosure"
+                      ? activePopout.item.title
+                      : activePopout.kind === "official"
+                        ? `${activePopout.official.name} (${activePopout.official.position})`
+                        : activePopout.kind === "bid"
+                          ? `${activePopout.bid.number} — ${activePopout.bid.title.replace(/^ITB-2026-\d+\.?\s*/i, "")}`
+                          : activePopout.metric === "population"
+                            ? `Latest Official Population Count: ${profile.population.toLocaleString("en-PH")}`
+                            : activePopout.metric === "share"
+                              ? `Share of Malaybalay City Population: ${profile.cityPopulationShare.toFixed(2)}%`
+                              : activePopout.metric === "rank"
+                                ? `Barangay Population Rank: ${profile.populationRank} of 46`
+                                : `2026 BAC Procurement Notices Naming ${profile.name}: ${profile.bids.length}`}
+                  </h3>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="barangay-popout-close"
+                aria-label="Close popout details"
+                onClick={() => setActivePopout(null)}
+              >
+                <X aria-hidden="true" />
+              </button>
+            </div>
+
+            <div className="barangay-popout-body">
+              {activePopout.kind === "disclosure" && (
+                <>
+                  <div className="barangay-popout-visual">
+                    <img
+                      src={activePopout.item.imageUrl}
+                      alt={activePopout.item.imageCaption}
+                    />
+                    <span>{activePopout.item.imageCaption}</span>
+                  </div>
+                  <dl className="barangay-popout-grid">
+                    <div>
+                      <dt>Reference number</dt>
+                      <dd>{activePopout.item.referenceNumber}</dd>
+                    </div>
+                    <div>
+                      <dt>Disclosure category & period</dt>
+                      <dd>
+                        {activePopout.item.subcategory} ·{" "}
+                        {activePopout.item.period}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Approved budget / ABC</dt>
+                      <dd>{formatPeso(activePopout.item.approvedBudget)}</dd>
+                    </div>
+                    <div>
+                      <dt>Utilized / Contract amount</dt>
+                      <dd>{formatPeso(activePopout.item.utilizedAmount)}</dd>
+                    </div>
+                    <div>
+                      <dt>Completion rate / Duration</dt>
+                      <dd>
+                        {activePopout.item.completionRate} (
+                        {activePopout.item.contractDuration})
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Implementing office / Contractor</dt>
+                      <dd>{activePopout.item.implementingOffice}</dd>
+                    </div>
+                  </dl>
+                  <div className="barangay-popout-discussion">
+                    <h4>What this public record shows</h4>
+                    <p>{activePopout.item.discussion.whatThisRecordShows}</p>
+                    <h4>Budget, procurement & COA audit discussion</h4>
+                    <p>{activePopout.item.discussion.budgetAndAuditContext}</p>
+                    <h4>How to verify independently</h4>
+                    <p>{activePopout.item.discussion.howToVerify}</p>
+                  </div>
+                  <div className="barangay-popout-sources">
+                    <h4>Primary & backup references</h4>
+                    <a
+                      href={activePopout.item.primarySource.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="barangay-popout-source-primary"
+                    >
+                      <FileCheck2 aria-hidden="true" />
+                      <div>
+                        <strong>
+                          Primary source: {activePopout.item.primarySource.label}
+                        </strong>
+                        <small>
+                          Verified on{" "}
+                          {activePopout.item.primarySource.verifiedOn}
+                        </small>
+                      </div>
+                      <ExternalLink aria-hidden="true" />
+                    </a>
+                    <div className="barangay-popout-backup-list">
+                      {activePopout.item.backupSources.map((source) => (
+                        <a
+                          key={source.url}
+                          href={source.url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <span>Backup reference: {source.label}</span>
+                          <ExternalLink aria-hidden="true" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {activePopout.kind === "official" && (() => {
+                const roleInfo = getOfficialRoleScope(
+                  activePopout.official.position,
+                  profile.name,
+                );
+                return (
+                  <>
+                    <dl className="barangay-popout-grid">
+                      <div>
+                        <dt>Official name</dt>
+                        <dd>{activePopout.official.name}</dd>
+                      </div>
+                      <div>
+                        <dt>DILG registry full name</dt>
+                        <dd>{activePopout.official.fullRegistryName}</dd>
+                      </div>
+                      <div>
+                        <dt>Position</dt>
+                        <dd>{roleInfo.badge}</dd>
+                      </div>
+                      <div>
+                        <dt>Barangay & DILG code</dt>
+                        <dd>
+                          Barangay {profile.name} (PSGC {profile.code} · DILG
+                          Brgy Code {activePopout.official.dilgBarangayCode})
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>Published telephone</dt>
+                        <dd>
+                          {activePopout.official.phone ? (
+                            <a
+                              href={`tel:${telephoneHref(activePopout.official.phone)}`}
+                            >
+                              {activePopout.official.phone}
+                            </a>
+                          ) : (
+                            activePopout.official.phoneHygieneNote
+                          )}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>Published email</dt>
+                        <dd>
+                          {activePopout.official.email ? (
+                            <a href={`mailto:${activePopout.official.email}`}>
+                              {activePopout.official.email}
+                            </a>
+                          ) : (
+                            "No individual email published in the DILG directory row"
+                          )}
+                        </dd>
+                      </div>
+                    </dl>
+                    <div className="barangay-popout-discussion">
+                      <h4>Statutory basis & role in Barangay {profile.name}</h4>
+                      <p>
+                        <strong>{roleInfo.statutoryBasis}:</strong>{" "}
+                        {roleInfo.summary}
+                      </p>
+                      <h4>Editorial & governance context</h4>
+                      <p>{roleInfo.governanceNote}</p>
+                      <h4>Contact verification note</h4>
+                      <p>{activePopout.official.phoneHygieneNote}</p>
+                    </div>
+                    <div className="barangay-popout-sources">
+                      <h4>Primary & backup references</h4>
+                      <a
+                        href={DILG_DIRECTORY_INDEX_SOURCE.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="barangay-popout-source-primary"
+                      >
+                        <ShieldCheck aria-hidden="true" />
+                        <div>
+                          <strong>
+                            Primary source: {DILG_DIRECTORY_INDEX_SOURCE.label}
+                          </strong>
+                          <small>
+                            Verified on {DILG_DIRECTORY_INDEX_SOURCE.verifiedOn}
+                          </small>
+                        </div>
+                        <ExternalLink aria-hidden="true" />
+                      </a>
+                      <div className="barangay-popout-backup-list">
+                        <a
+                          href={activePopout.official.sourceUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <span>
+                            Backup reference: DILG BOPS Master Filter API —
+                            Barangay {profile.name}
+                          </span>
+                          <ExternalLink aria-hidden="true" />
+                        </a>
+                        <a
+                          href={CITY_BARANGAY_DIRECTORY_SOURCE.url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <span>
+                            Backup reference:{" "}
+                            {CITY_BARANGAY_DIRECTORY_SOURCE.label}
+                          </span>
+                          <ExternalLink aria-hidden="true" />
+                        </a>
+                        {activePopout.official.position ===
+                          "SK Chairperson" && (
+                          <a
+                            href={SK_FUNCTIONALITY_ORDINANCE_SOURCE.url}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <span>
+                              Related local measure:{" "}
+                              {SK_FUNCTIONALITY_ORDINANCE_SOURCE.label}
+                            </span>
+                            <ExternalLink aria-hidden="true" />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                );
+              })()}
+
+              {activePopout.kind === "bid" && (
+                <>
+                  <dl className="barangay-popout-grid">
+                    <div>
+                      <dt>ITB / Notice number</dt>
+                      <dd>{activePopout.bid.number}</dd>
+                    </div>
+                    <div>
+                      <dt>Procurement stage</dt>
+                      <dd>{activePopout.bid.stage}</dd>
+                    </div>
+                    <div>
+                      <dt>Matched barangay</dt>
+                      <dd>Barangay {profile.name}</dd>
+                    </div>
+                    <div>
+                      <dt>Review date</dt>
+                      <dd>{BAC_2026_VERIFIED_ON}</dd>
+                    </div>
+                  </dl>
+                  <div className="barangay-popout-discussion">
+                    <h4>What this 2026 BAC notice means</h4>
+                    <p>
+                      This Invitation to Bid / Request for Quotation (
+                      <strong>{activePopout.bid.number}</strong>) was published
+                      by the City Government of Malaybalay Bids and Awards
+                      Committee (BAC) for 2026 procurement and explicitly names
+                      Barangay {profile.name}.
+                    </p>
+                    <h4>Why a bidding notice is distinct from an award</h4>
+                    <p>
+                      Under Republic Act No. 9184, an Invitation to Bid (ITB)
+                      invites qualified contractors or suppliers to submit
+                      sealed bids. To check whether this notice progressed to a
+                      contract award or physical completion, compare it against
+                      the 2026 Q1/Q2 Bid Results (FDP Form 10a) and 20% NTA
+                      Utilization Reports in the Full Disclosure section above.
+                    </p>
+                  </div>
+                  <div className="barangay-popout-sources">
+                    <h4>Primary & backup references</h4>
+                    <a
+                      href={activePopout.bid.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="barangay-popout-source-primary"
+                    >
+                      <FileText aria-hidden="true" />
+                      <div>
+                        <strong>
+                          Primary source: Official BAC Notice File (
+                          {activePopout.bid.number})
+                        </strong>
+                        <small>Verified on {BAC_2026_VERIFIED_ON}</small>
+                      </div>
+                      <ExternalLink aria-hidden="true" />
+                    </a>
+                    <div className="barangay-popout-backup-list">
+                      <a
+                        href={BAC_2026_SOURCE}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span>
+                          Backup reference: BAC Malaybalay 2026 Bidding
+                          Opportunities Index
+                        </span>
+                        <ExternalLink aria-hidden="true" />
+                      </a>
+                      <a
+                        href="https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/BID-RESULTS-ON-CIVIL-WORKS-GOOD-AND-SERVICES-AND-CONSULTING-SERVICES2026-Q2.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span>
+                          Backup reference: 2026 Q2 Official Bid Results (FDP
+                          Form 10a)
+                        </span>
+                        <ExternalLink aria-hidden="true" />
+                      </a>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {activePopout.kind === "snapshot" && (
+                <>
+                  <dl className="barangay-popout-grid">
+                    <div>
+                      <dt>Latest official count</dt>
+                      <dd>{profile.population.toLocaleString("en-PH")}</dd>
+                    </div>
+                    <div>
+                      <dt>Share of city population</dt>
+                      <dd>{profile.cityPopulationShare.toFixed(2)}%</dd>
+                    </div>
+                    <div>
+                      <dt>Population rank</dt>
+                      <dd>{profile.populationRank} of 46 barangays</dd>
+                    </div>
+                    <div>
+                      <dt>2026 BAC notices</dt>
+                      <dd>{profile.bids.length} indexed ITB notices</dd>
+                    </div>
+                  </dl>
+                  <div className="barangay-popout-discussion">
+                    <h4>Demographic & statistical provenance</h4>
+                    <p>
+                      {profile.introduction} {profile.populationSummary}
+                    </p>
+                    <h4>Classification & procurement note</h4>
+                    <p>
+                      {profile.classificationNote} Alongside the{" "}
+                      {profile.bids.length} 2026 BAC notices naming{" "}
+                      {profile.name}, BetterMC indexes{" "}
+                      {disclosure.items.length} full disclosure records covering{" "}
+                      {profile.name}’s ₱1,000,000.00 2026 Barangay Development
+                      Project budget, 2025 Q4 accomplishments (
+                      {disclosure.bdp2025CompletionRate}), and PhilGEPS contract
+                      awards.
+                    </p>
+                  </div>
+                  <div className="barangay-popout-sources">
+                    <h4>Primary & backup references</h4>
+                    <a
+                      href={profile.populationReleaseSource.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="barangay-popout-source-primary"
+                    >
+                      <BarChart3 aria-hidden="true" />
+                      <div>
+                        <strong>
+                          Primary source:{" "}
+                          {profile.populationReleaseSource.label}
+                        </strong>
+                        <small>
+                          Reference date {POPULATION_REFERENCE_DATE} · Released{" "}
+                          {POPULATION_RELEASE_DATE}
+                        </small>
+                      </div>
+                      <ExternalLink aria-hidden="true" />
+                    </a>
+                    <div className="barangay-popout-backup-list">
+                      <a
+                        href={profile.psgcSource.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span>
+                          Backup reference: {profile.psgcSource.label}
+                        </span>
+                        <ExternalLink aria-hidden="true" />
+                      </a>
+                      <a
+                        href={BAC_2026_SOURCE}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span>
+                          Backup reference: BAC Malaybalay 2026 Procurement
+                          Index
+                        </span>
+                        <ExternalLink aria-hidden="true" />
+                      </a>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

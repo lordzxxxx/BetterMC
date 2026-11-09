@@ -4,6 +4,14 @@ import {
   type Source,
 } from "./data";
 import { bidRecords2026, type BidRecord } from "./bidRecords";
+import {
+  barangayRosterBySlug,
+  type BarangayOfficialRoster,
+} from "./barangayOfficials";
+import {
+  barangayDisclosureBySlug,
+  type BarangayFullDisclosureProfile,
+} from "./barangayDisclosures";
 
 export const barangaySlug = (name: string) =>
   name
@@ -23,7 +31,7 @@ type PsgcProfile = {
 export const MALAYBALAY_2024_POPULATION = 195_046;
 export const POPULATION_REFERENCE_DATE = "1 July 2024";
 export const POPULATION_RELEASE_DATE = "15 January 2026";
-export const BARANGAY_PROFILE_REVIEWED_ON = "2026-11-06";
+export const BARANGAY_PROFILE_REVIEWED_ON = "2026-11-09";
 
 const psgcRows: Array<[string, string, "Urban" | "Rural", number]> = [
   ["Aglayan", "1001312001", "Urban", 8225],
@@ -202,6 +210,8 @@ export type BarangayMicrositeProfile = {
   serviceAreas: typeof localServiceAreas;
   committeeAreas: typeof committeeAreas;
   bids: BidRecord[];
+  officialRoster: BarangayOfficialRoster;
+  fullDisclosure: BarangayFullDisclosureProfile;
   requestedSubdomain: string;
 };
 
@@ -325,6 +335,12 @@ export const barangayMicrosites: BarangayMicrositeProfile[] = psgcProfiles.map(
     const populationRank = populationRankByName.get(psgc.name);
     if (!populationRank)
       throw new Error(`Missing population rank for ${psgc.name}`);
+    const officialRoster = barangayRosterBySlug.get(slug);
+    if (!officialRoster)
+      throw new Error(`Missing DILG official roster for ${psgc.name}`);
+    const fullDisclosure = barangayDisclosureBySlug.get(slug);
+    if (!fullDisclosure)
+      throw new Error(`Missing full disclosure profile for ${psgc.name}`);
     const cityPopulationShare =
       (psgc.population / MALAYBALAY_2024_POPULATION) * 100;
     const article = psgc.classification === "Urban" ? "an" : "a";
@@ -333,8 +349,8 @@ export const barangayMicrosites: BarangayMicrositeProfile[] = psgcProfiles.map(
       ...psgc,
       slug,
       punongBarangay: directory.punongBarangay,
-      phone: directory.phone,
-      email: directory.email,
+      phone: directory.phone ?? officialRoster.fallbackPhone,
+      email: directory.email ?? officialRoster.fallbackEmail,
       logo: `/images/barangays/${slug}.webp`,
       logoSource,
       heroImage: heroImageFor(psgc.name, slug),
@@ -353,6 +369,8 @@ export const barangayMicrosites: BarangayMicrositeProfile[] = psgcProfiles.map(
       bids: bidRecords2026.filter((record) =>
         record.barangays.includes(slug),
       ),
+      officialRoster,
+      fullDisclosure,
       requestedSubdomain: `https://${slug}.bettergov.org`,
     };
   },

@@ -28,6 +28,18 @@ describe("BetterMC public portal", () => {
         "rsso10.psa.gov.ph",
       );
       expect(barangay.heroImage?.url).toMatch(/^\/images\//);
+      expect(barangay.officialRoster.officials).toHaveLength(10);
+      expect(barangay.officialRoster.sangguniangBarangayMembers).toHaveLength(7);
+      expect(barangay.officialRoster.punongBarangay.position).toBe(
+        "Punong Barangay",
+      );
+      expect(barangay.officialRoster.skChairperson.position).toBe(
+        "SK Chairperson",
+      );
+      expect(barangay.officialRoster.barangaySecretary.position).toBe(
+        "Barangay Secretary",
+      );
+      expect(barangay.fullDisclosure.items.length).toBeGreaterThanOrEqual(4);
     }
     expect(
       barangayMicrosites.filter((barangay) =>
@@ -214,8 +226,28 @@ describe("BetterMC public portal", () => {
     ).toBeInTheDocument();
     expect(screen.getAllByText(/ITB-2026-/i).length).toBeGreaterThan(0);
     expect(
-      screen.getByText(/Complete roster not published/i),
+      screen.getByRole("heading", {
+        name: /Sangguniang Barangay Members \(7 Kagawads\) — Barangay Dalwangan/i,
+      }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: /Budget, accomplishments, bids, and projects in Dalwangan/i,
+      }),
+    ).toBeInTheDocument();
+    fireEvent.click(
+      screen.getAllByRole("button", {
+        name: /Open full details & discussion/i,
+      })[0],
+    );
+    expect(
+      screen.getByRole("dialog", {
+        name: /Dalwangan detail and discussion popout/i,
+      }),
+    ).toBeInTheDocument();
+    fireEvent.click(
+      screen.getByRole("button", { name: /Close popout details/i }),
+    );
     expect(
       screen.getByRole("heading", { name: /Urgent help across Malaybalay/i }),
     ).toBeInTheDocument();

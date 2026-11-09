@@ -123,8 +123,17 @@ export const portalSearchIndex: PortalSearchRecord[] = [
     title: barangay.name,
     detail: `${barangay.classification} barangay · Punong Barangay ${barangay.punongBarangay} · ${barangay.population.toLocaleString("en-PH")} residents`,
     href: `/barangays/${barangay.slug}`,
-    keywords: `${barangay.code} barangay hall captain population projects services map`,
+    keywords: `${barangay.code} barangay hall captain kagawad sk secretary ${barangay.officialRoster.officials.map((o) => o.name).join(" ")} population projects services map`,
   })),
+  ...barangayMicrosites.flatMap((barangay) =>
+    barangay.officialRoster.officials.map((official) => ({
+      type: `Barangay ${official.position}`,
+      title: official.name,
+      detail: `${official.position} · Barangay ${barangay.name}`,
+      href: `/barangays/${barangay.slug}#leadership`,
+      keywords: `barangay official kagawad sk chairperson secretary ${barangay.name} DILG`,
+    })),
+  ),
   ...civicRecords.map((record) => ({
     type: record.kind,
     title: record.number,
