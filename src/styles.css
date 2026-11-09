@@ -12692,6 +12692,40 @@ body {
   flex: 0 0 15px;
 }
 
+/* Minimal, clean barangay directory cards */
+.barangay-grid article {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+}
+
+.barangay-grid h2 {
+  margin: 2px 0;
+  font-size: 1.18rem;
+  line-height: 1.2;
+}
+
+.barangay-card-facts > div {
+  min-height: 0;
+  padding: 8px 10px;
+}
+
+.barangay-contacts {
+  min-height: 0;
+  margin-top: 2px;
+}
+
+.barangay-profile-link {
+  min-height: 38px;
+  margin-top: auto;
+  padding: 7px 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
 @media (max-width: 1024px) {
   .barangay-about {
     grid-template-columns: 1fr;

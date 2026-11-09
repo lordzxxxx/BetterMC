@@ -2578,48 +2578,27 @@ function BarangaysPage() {
   return (
     <>
       <PageHero
-        eyebrow="Malaybalay barangay directory & microsite network"
+        eyebrow="Malaybalay barangay directory"
         title="Explore all 46 barangays."
-        description="Every barangay operates as an embedded microsite domain under the main BetterMC portal, featuring official population, all 10 DILG-verified barangay officials, contacts, and full disclosure records."
+        description="Search official population, DILG-verified barangay officials, public contacts, and full disclosure profiles."
         compact
       />
       <section className="section container government-directory-section">
-        <div className="barangay-domain-architecture-banner" role="region" aria-label="BetterMC main portal and barangay subdomain architecture">
-          <div className="barangay-domain-architecture-main">
-            <span className="barangay-domain-badge">
-              <Landmark aria-hidden="true" /> Main Portal
-            </span>
-            <div>
-              <strong>{MAIN_BETTERMC_PORTAL.name} ({MAIN_BETTERMC_PORTAL.domain})</strong>
-              <p>
-                Central Malaybalay City public information portal connecting all 46 dedicated barangay subdomain microsites (<code>&lt;barangay&gt;.bettermc.ph</code>).
-              </p>
-            </div>
-          </div>
-          <div className="barangay-domain-architecture-stats">
-            <span>
-              <Globe aria-hidden="true" /> 46 embedded barangay subdomains
-            </span>
-            <Link to="/">
-              Return to BetterMC main portal <ArrowRight aria-hidden="true" />
-            </Link>
-          </div>
-        </div>
         <label className="directory-search barangay-directory-search">
           <span className="sr-only">Search barangays</span>
           <Search />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search by barangay, subdomain, Punong Barangay, Kagawad, SK Chairperson, or Secretary"
+            placeholder="Search by barangay or official name"
           />
         </label>
         <div className="data-notice barangay-contact-notice">
           <CircleAlert />
           <div>
-            <strong>About contact availability, DILG roster coverage & embedded subdomains</strong>
+            <strong>Verified public directory</strong>
             <p>
-              All 46 barangays include the complete 10-official DILG directory roster (Punong Barangay, 7 Sangguniang Barangay Members, SK Chairperson, and Barangay Secretary) and an embedded subdomain portal link. Only validated contacts published in the reviewed DILG directory are shown as active links.
+              Population counts follow the 2024 POPCEN (released 2026) and leadership records follow the DILG Barangay Officials Directory.
             </p>
           </div>
         </div>
@@ -2629,57 +2608,28 @@ function BarangaysPage() {
               <div className="barangay-card-heading">
                 <img
                   src={barangay.logo}
-                  width="56"
-                  height="56"
+                  width="52"
+                  height="52"
                   loading="lazy"
                   decoding="async"
                   alt={`${barangay.name} mark published by the City Government`}
                 />
                 <span className="barangay-card-context">
                   <strong>{barangay.classification} barangay</strong>
-                  <small>PSGC {barangay.code} · Rank #{barangay.populationRank} of 46</small>
+                  <small>PSGC {barangay.code}</small>
                 </span>
               </div>
               <h2>{barangay.name}</h2>
-              <div className="barangay-card-subdomain">
-                <Link
-                  to={`/?subdomain=${barangay.slug}`}
-                  className="barangay-subdomain-pill"
-                  title={`Open embedded subdomain microsite for ${barangay.name} (${barangay.subdomainHost})`}
-                >
-                  <Globe aria-hidden="true" />
-                  <span>{barangay.subdomainHost}</span>
-                </Link>
-                <a
-                  href={barangay.subdomainUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="barangay-subdomain-ext"
-                  aria-label={`Direct subdomain URL ${barangay.subdomainUrl}`}
-                  title={`Direct subdomain URL: ${barangay.subdomainUrl}`}
-                >
-                  <ExternalLink aria-hidden="true" />
-                </a>
-              </div>
               <dl className="barangay-card-facts">
                 <div>
                   <dt>Population</dt>
                   <dd>{barangay.population.toLocaleString("en-PH")}</dd>
-                  <small>2024 POPCEN · 2026 release ({barangay.cityPopulationShare.toFixed(2)}%)</small>
                 </div>
                 <div>
                   <dt>Punong Barangay</dt>
                   <dd>{barangay.punongBarangay}</dd>
-                  <small>
-                    SK: {barangay.officialRoster.skChairperson.name} · Sec: {barangay.officialRoster.barangaySecretary.name}
-                  </small>
                 </div>
               </dl>
-              <div className="barangay-card-roster-strip">
-                <span>10 DILG officials verified</span>
-                <span>₱1.0M 2026 BDP</span>
-                <span>{barangay.fullDisclosure.items.length + barangay.bids.length} disclosure records</span>
-              </div>
               <div className="barangay-contacts">
                 {barangay.phone && (
                   <a href={`tel:${telephoneHref(barangay.phone)}`}>
@@ -2696,7 +2646,7 @@ function BarangaysPage() {
                 {!barangay.phone && !barangay.email && (
                   <span>
                     <CircleAlert />
-                    No complete public contact listed
+                    No public contact listed
                   </span>
                 )}
               </div>
@@ -2704,7 +2654,7 @@ function BarangaysPage() {
                 className="barangay-profile-link"
                 to={`/barangays/${barangay.slug}`}
               >
-                <span>Open profile · {barangay.subdomainHost}</span>
+                <span>Open profile</span>
                 <ArrowRight aria-hidden="true" />
               </Link>
             </article>
@@ -2992,36 +2942,19 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             <Link to="/" className="barangay-main-portal-pill">
               <Landmark aria-hidden="true" />
               <span>
-                Main Portal: <strong>{MAIN_BETTERMC_PORTAL.name}</strong> ({MAIN_BETTERMC_PORTAL.domain})
+                Main Portal: <strong>{MAIN_BETTERMC_PORTAL.name}</strong>
               </span>
             </Link>
             <span className="barangay-subdomain-sep" aria-hidden="true">
               /
             </span>
-            <Link
-              to={`/?subdomain=${profile.slug}`}
-              className="barangay-active-subdomain-pill"
-              title={`Open embedded subdomain root for ${profile.name} (${profile.subdomainHost})`}
-            >
+            <span className="barangay-active-subdomain-pill">
               <Globe aria-hidden="true" />
-              <span>
-                Barangay Subdomain: <strong>{profile.subdomainHost}</strong>
-              </span>
-            </Link>
-            <a
-              href={profile.subdomainUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="barangay-subdomain-external"
-              aria-label={`Open ${profile.subdomainUrl} in a new tab`}
-              title={profile.subdomainUrl}
-            >
-              {profile.subdomainUrl} <ExternalLink aria-hidden="true" />
-            </a>
+              <strong>{profile.subdomainHost}</strong>
+            </span>
           </div>
           <div className="barangay-subdomain-switcher">
             <label htmlFor="barangay-domain-select">
-              <Globe aria-hidden="true" />
               <span className="sr-only">Switch barangay subdomain</span>
             </label>
             <select
@@ -3043,13 +2976,10 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             >
               {barangayMicrosites.map((b) => (
                 <option key={b.slug} value={b.slug}>
-                  {b.subdomainHost} — Barangay {b.name}
+                  {b.name} ({b.subdomainHost})
                 </option>
               ))}
             </select>
-            <Link to="/barangays" className="barangay-all-domains-link">
-              All 46 domains
-            </Link>
           </div>
         </div>
       </div>
@@ -3293,42 +3223,10 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
               <ShieldCheck aria-hidden="true" />
             </span>
             <strong>Where this information comes from</strong>
-            <div className="barangay-embedded-domain-box">
-              <small>Embedded barangay subdomain & parent portal</small>
-              <Link to={`/?subdomain=${profile.slug}`}>
-                <Globe aria-hidden="true" /> {profile.subdomainUrl} (Barangay Microsite)
-              </Link>
-              <a
-                href={profile.betterGovSubdomainUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Globe aria-hidden="true" /> {profile.betterGovSubdomainUrl} <ExternalLink aria-hidden="true" />
-              </a>
-              <Link to="/">
-                <Landmark aria-hidden="true" /> {MAIN_BETTERMC_PORTAL.url} — Main {MAIN_BETTERMC_PORTAL.name} Portal
-              </Link>
-            </div>
             <BarangaySourceLink source={profile.psgcSource} />
             <BarangaySourceLink source={profile.populationReleaseSource} />
             <BarangaySourceLink source={profile.leadershipSource} />
             <BarangaySourceLink source={profile.logoSource} />
-            <a
-              href={roster.apiEndpointUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              DILG BOPS Master Filter — Barangay {profile.name} (Backup){" "}
-              <ExternalLink />
-            </a>
-            <a
-              href="https://sakata.malaybalaycity.gov.ph/full-disclosure/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Malaybalay Full Disclosure Portal (20% NTA, APP, Bid Results){" "}
-              <ExternalLink />
-            </a>
             <small>
               Barangay sources reviewed through {BARANGAY_PROFILE_REVIEWED_ON}
             </small>
@@ -3690,14 +3588,10 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                     <span className="barangay-executive-badge">
                       {official.position}
                     </span>
-                    <small>DILG Brgy Code {official.dilgBarangayCode}</small>
                   </div>
                 </div>
                 <div className="barangay-executive-identity">
                   <h3>{official.name}</h3>
-                  <p className="barangay-official-registry">
-                    DILG Registry: <strong>{official.fullRegistryName}</strong>
-                  </p>
                 </div>
                 <div
                   className="barangay-official-contacts"
@@ -3710,7 +3604,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                     </a>
                   ) : (
                     <span className="barangay-contact-muted">
-                      No valid public phone listed
+                      No public phone listed
                     </span>
                   )}
                   {official.email && (
@@ -3720,19 +3614,6 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                     </a>
                   )}
                 </div>
-                <div
-                  className="barangay-official-links"
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  <BarangaySourceLink source={profile.leadershipSource} />
-                  <a
-                    href={official.sourceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    DILG BOPS endpoint <ExternalLink aria-hidden="true" />
-                  </a>
-                </div>
                 <button
                   type="button"
                   className="barangay-card-popout-trigger"
@@ -3741,7 +3622,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                     setActivePopout({ kind: "official", official });
                   }}
                 >
-                  <span>Inspect official record & discussion</span>
+                  <span>View details</span>
                   <ArrowRight aria-hidden="true" />
                 </button>
               </article>
@@ -3754,11 +3635,6 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                 Sangguniang Barangay Members (7 Kagawads) — Barangay{" "}
                 {profile.name}
               </h3>
-              <p>
-                Verified council members published in the DILG Barangay
-                Officials Directory for Barangay {profile.name} (DILG Code{" "}
-                {roster.dilgBarangayCode}).
-              </p>
             </div>
             <div className="barangay-kagawad-grid">
               {roster.sangguniangBarangayMembers.map((kagawad, idx) => (
@@ -3771,14 +3647,11 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                 >
                   <div className="barangay-kagawad-top">
                     <span className="barangay-kagawad-badge">
-                      Kagawad #{idx + 1} · Sangguniang Barangay Member
+                      Kagawad #{idx + 1}
                     </span>
                   </div>
                   <div className="barangay-kagawad-identity">
                     <h4>{kagawad.name}</h4>
-                    <small className="barangay-kagawad-registry">
-                      Registry: {kagawad.fullRegistryName}
-                    </small>
                   </div>
                   <div
                     className="barangay-official-contacts"
@@ -3791,7 +3664,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                       </a>
                     ) : (
                       <span className="barangay-contact-muted">
-                        No valid public phone listed
+                        No public phone listed
                       </span>
                     )}
                     {kagawad.email && (
@@ -3809,7 +3682,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                       setActivePopout({ kind: "official", official: kagawad });
                     }}
                   >
-                    <span>View role, contact & DILG source</span>
+                    <span>View details</span>
                     <ArrowRight aria-hidden="true" />
                   </button>
                 </article>
