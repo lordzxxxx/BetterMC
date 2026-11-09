@@ -13809,28 +13809,49 @@ body {
 /* Clean, Uncrowded, High-Visibility Malaybalay GIS Map */
 .noah-clean-gis {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .noah-clean-toolbar {
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(148, 163, 184, 0.38);
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(148, 163, 184, 0.42);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+}
+
+.noah-toolbar-grid-top {
+  display: grid;
+  grid-template-columns: minmax(210px, 1fr) minmax(210px, 1fr) minmax(320px, 1.5fr);
+  align-items: end;
+  gap: 12px 14px;
+}
+
+.noah-clean-timeline-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px 10px;
 }
 
 .noah-clean-toolbar-row {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   gap: 10px 14px;
 }
 
+.noah-clean-toolbar-row.is-secondary-row {
+  padding-top: 10px;
+  border-top: 1px solid #e2e8f0;
+}
+
 .noah-clean-control {
   display: grid;
-  gap: 4px;
+  gap: 5px;
 }
 
 .noah-clean-control span {
@@ -13859,7 +13880,7 @@ body {
   border: 1px solid #cbd5e1;
   background: #ffffff;
   color: #0f172a;
-  font-size: 0.84rem;
+  font-size: 0.83rem;
   font-weight: 600;
 }
 
@@ -13869,6 +13890,47 @@ body {
   flex-wrap: wrap;
   align-items: center;
   gap: 6px;
+}
+
+.noah-pill-cluster {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
+  border-radius: 11px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+}
+
+.noah-pill-cluster .noah-clean-mini-select {
+  min-height: 32px;
+  border: none;
+  background: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.noah-basemap-segmented {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+}
+
+.noah-basemap-segmented button {
+  min-height: 32px !important;
+  border: none !important;
+  background: transparent !important;
+  color: #475569 !important;
+  border-radius: 8px !important;
+  padding: 4px 10px !important;
+}
+
+.noah-basemap-segmented button.is-active {
+  background: #1d4ed8 !important;
+  color: #ffffff !important;
 }
 
 .noah-clean-date-pills button,
@@ -13907,38 +13969,113 @@ body {
   color: #ffffff;
 }
 
+/* Map Stage — Oversized canvas + padding:1.0 SVG renderer ensures zero black or white corner gaps when tilting/rotating */
 .noah-clean-map-stage {
   position: relative;
   width: 100%;
+  height: 560px;
   border-radius: 16px;
   overflow: hidden;
-  border: 1px solid rgba(148, 163, 184, 0.42);
-  background: #0f172a;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: #e2e8f0;
   perspective: 1400px;
 }
 
 .noah-clean-map-stage .noah-clean-map-canvas {
-  width: 100% !important;
-  height: 560px !important;
-  min-height: 560px !important;
-  background: #dceaf5;
-  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  position: absolute !important;
+  left: -14% !important;
+  top: -14% !important;
+  width: 128% !important;
+  height: 128% !important;
+  min-height: 128% !important;
+  background: #e2e8f0 !important;
+  transition: transform 0.25s ease;
 }
 
 .noah-clean-map-stage.is-3d-tilted .noah-clean-map-canvas {
-  transform: rotateX(var(--gis-pitch, 22deg)) rotateZ(var(--gis-bearing, 0deg)) scale(1.06);
-  transform-origin: center 58%;
-  box-shadow: 0 28px 54px rgba(15, 23, 42, 0.45);
+  transform: rotateX(var(--gis-pitch, 22deg)) rotateZ(var(--gis-bearing, 0deg)) scale(1.12);
+  transform-origin: center 52%;
+}
+
+.noah-clean-map-stage .leaflet-bottom.leaflet-right {
+  bottom: 12%;
+  right: 12%;
+}
+
+/* Outside-Malaybalay Frosted Blur Mask */
+.gis-outside-malaybalay-mask {
+  filter: blur(2px);
+}
+
+/* Top-Left Malaybalay Jurisdiction Focus Pill */
+.noah-map-focus-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 650;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+  font-size: 0.75rem;
+  color: #334155;
+  pointer-events: none;
+}
+
+.noah-focus-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.22);
+}
+
+/* On-Map River & Active Barangay Line Indicator Badges */
+.gis-river-indicator button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1.5px solid #0284c7;
+  background: rgba(255, 255, 255, 0.94);
+  color: #0369a1;
+  font-size: 0.68rem;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(2, 132, 199, 0.22);
+  cursor: pointer;
+}
+
+.gis-active-brgy-indicator span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1.5px solid #0f172a;
+  background: rgba(255, 255, 255, 0.96);
+  color: #0f172a;
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.22);
+}
+
+.gis-active-brgy-indicator span i {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  display: inline-block;
 }
 
 /* Remove browser rectangular focus box on clicked Leaflet SVG paths */
 .leaflet-container .leaflet-interactive:focus {
   outline: none !important;
-}
-
-.noah-clean-toolbar-row.is-secondary-row {
-  padding-top: 8px;
-  border-top: 1px solid rgba(226, 232, 240, 0.9);
 }
 
 .noah-3d-Sliders {
@@ -13986,81 +14123,66 @@ body {
   height: 12px;
 }
 
-/* On-Map Floating Zoom + Directional Pan Navigation Dock */
+/* Unified On-Map Controller & Zoom Pod (Inset cleanly from top-right edge) */
 .noah-map-nav-dock {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 16px;
+  right: 16px;
   z-index: 650;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  pointer-events: auto;
-}
-
-.noah-nav-zoom-group {
-  display: flex;
-  flex-direction: column;
-  border-radius: 11px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.95);
+  width: 112px;
+  padding: 8px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(148, 163, 184, 0.55);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.16);
-}
-
-.noah-nav-zoom-group button {
-  width: 36px;
-  height: 36px;
-  display: inline-flex;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16);
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  color: #0f172a;
-  cursor: pointer;
-  transition: background 0.14s ease, color 0.14s ease;
+  gap: 7px;
+  pointer-events: auto;
+  backdrop-filter: blur(8px);
 }
 
-.noah-nav-zoom-group button + button {
-  border-top: 1px solid #e2e8f0;
-}
-
-.noah-nav-zoom-group button:hover,
-.noah-nav-pan-grid button:hover {
-  background: #eff6ff;
-  color: #1d4ed8;
-}
-
-.noah-nav-zoom-group button svg,
-.noah-nav-pan-grid button svg {
-  width: 16px;
-  height: 16px;
+.noah-nav-pod-label {
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
 }
 
 .noah-nav-pan-grid {
   display: grid;
-  grid-template-columns: repeat(3, 30px);
-  grid-template-rows: repeat(3, 30px);
-  gap: 2px;
-  padding: 4px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(148, 163, 184, 0.55);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.16);
+  grid-template-columns: repeat(3, 28px);
+  grid-template-rows: repeat(3, 28px);
+  gap: 3px;
 }
 
 .noah-nav-pan-grid button {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 7px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   background: #f8fafc;
   color: #1e293b;
   cursor: pointer;
+  transition: all 0.14s ease;
+}
+
+.noah-nav-pan-grid button:hover,
+.noah-nav-zoom-bar button:hover {
+  background: #eff6ff;
+  border-color: #2563eb;
+  color: #1d4ed8;
+}
+
+.noah-nav-pan-grid button svg,
+.noah-nav-zoom-bar button svg {
+  width: 14px;
+  height: 14px;
 }
 
 .noah-nav-pan-grid .pan-n {
@@ -14076,9 +14198,14 @@ body {
 .noah-nav-pan-grid .pan-center {
   grid-column: 2;
   grid-row: 2;
-  background: #eff6ff;
-  border-color: #bfdbfe;
-  color: #1d4ed8;
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+  color: #ffffff;
+}
+
+.noah-nav-pan-grid .pan-center:hover {
+  background: #1e40af;
+  color: #ffffff;
 }
 
 .noah-nav-pan-grid .pan-e {
@@ -14091,20 +14218,53 @@ body {
   grid-row: 3;
 }
 
+.noah-nav-zoom-bar {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 28px 1fr 28px;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.noah-nav-zoom-bar button {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+.noah-nav-zoom-bar span {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #1e293b;
+  border-left: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  line-height: 28px;
+}
+
 /* Active Barangay or Citywide NOAH Floating Summary Pill */
 .noah-map-active-overlay {
   position: absolute;
-  left: 14px;
-  bottom: 14px;
+  left: 16px;
+  bottom: 16px;
   z-index: 650;
-  max-width: calc(100% - 140px);
+  max-width: calc(100% - 148px);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 10px 12px;
   padding: 9px 14px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(148, 163, 184, 0.55);
   box-shadow: 0 10px 26px rgba(15, 23, 42, 0.18);
   backdrop-filter: blur(8px);
@@ -14161,8 +14321,8 @@ body {
   gap: 10px 18px;
   padding: 10px 14px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(148, 163, 184, 0.34);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(148, 163, 184, 0.38);
   font-size: 0.8rem;
   color: #334155;
 }
@@ -14193,6 +14353,28 @@ body {
   border-radius: 3px;
 }
 
+.noah-clean-legend i.legend-line-river {
+  width: 16px;
+  height: 4px;
+  border-radius: 999px;
+  background: #0284c7;
+  border: 1px solid #0f172a;
+}
+
+.noah-clean-legend i.legend-line-focus {
+  width: 16px;
+  height: 4px;
+  border-radius: 999px;
+  background: #facc15;
+  border: 1px solid #0f172a;
+}
+
+.noah-clean-legend i.legend-line-city {
+  width: 16px;
+  height: 0;
+  border-top: 3px dashed #1e3a8a;
+}
+
 .noah-clean-telemetry {
   display: flex;
   flex-wrap: wrap;
@@ -14219,14 +14401,233 @@ body {
   height: 13px;
 }
 
+/* Government Official Cards & Popout Modal (Desktop vs Mobile Separate UI/UX) */
+.government-official-card {
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+}
+
+.government-official-card:hover,
+.government-official-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: #2563eb;
+  box-shadow: 0 12px 26px rgba(29, 78, 216, 0.12);
+  outline: none;
+}
+
+.government-official-card .official-card-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.government-official-card .official-group-tag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #1d4ed8;
+}
+
+.government-official-card .official-role-title {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.government-official-card .official-office-preview {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.76rem;
+  color: #64748b;
+  line-height: 1.35;
+}
+
+.popout-scope-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+.popout-inline-contact {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: #1d4ed8;
+}
+
+.popout-measures-stack {
+  display: grid;
+  gap: 10px;
+}
+
+.popout-measures-count {
+  display: block;
+  color: #0f172a;
+}
+
+.popout-measures-note {
+  margin: 0;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.popout-measures-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.popout-measures-list li a {
+  display: flex !important;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
+  font-weight: 500;
+  line-height: 1.45;
+  text-decoration: none;
+  transition: border-color 0.14s ease, background 0.14s ease;
+}
+
+.popout-measures-list li a:hover {
+  border-color: #93c5fd;
+  background: #eff6ff;
+}
+
+.popout-measures-list li a span {
+  flex: 1;
+}
+
+.popout-measures-list li a strong {
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.popout-measures-list li a svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: #2563eb;
+}
+
+.popout-measures-more {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: #1d4ed8;
+}
+
+@media (max-width: 960px) {
+  .noah-toolbar-grid-top {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
+  .noah-clean-map-stage {
+    height: 430px;
+  }
+
   .noah-clean-map-stage .noah-clean-map-canvas {
-    height: 420px !important;
-    min-height: 420px !important;
+    width: 128% !important;
+    height: 128% !important;
+    min-height: 128% !important;
+  }
+
+  .noah-map-focus-badge {
+    top: 10px;
+    left: 10px;
+    max-width: calc(100% - 134px);
+    font-size: 0.68rem;
+    padding: 5px 9px;
+  }
+
+  .noah-map-nav-dock {
+    top: 10px;
+    right: 10px;
+    width: 98px;
+    padding: 6px;
   }
 
   .noah-map-active-overlay {
-    max-width: calc(100% - 28px);
-    right: 14px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    max-width: none;
+  }
+
+  /* Dedicated Mobile UI/UX for Government & Barangay Official Cards */
+  .people-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .government-official-card .official-summary {
+    display: grid !important;
+    grid-template-columns: 58px 1fr !important;
+    align-items: center !important;
+    text-align: left !important;
+    gap: 14px !important;
+    padding: 12px 14px !important;
+  }
+
+  .government-official-card .avatar {
+    width: 58px !important;
+    height: 58px !important;
+    margin: 0 !important;
+  }
+
+  /* Mobile Bottom-Sheet Popout Modal UI/UX with Stacked Table Rows */
+  .government-popout-backdrop,
+  .barangay-popout-backdrop {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+
+  .government-popout-modal,
+  .barangay-popout-modal {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 88vh !important;
+    border-radius: 20px 20px 0 0 !important;
+  }
+
+  .popout-structured-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 10px 12px;
+  }
+
+  .popout-structured-table th,
+  .popout-structured-table td {
+    padding: 0 !important;
+    border: none !important;
+    width: 100% !important;
+  }
+
+  .popout-scope-badge {
+    display: inline-block;
+    margin-left: 0;
+    margin-top: 4px;
   }
 }

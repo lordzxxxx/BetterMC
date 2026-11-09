@@ -2474,11 +2474,11 @@ function GovernmentPage() {
             <div className="data-notice directory-guidance">
               <CircleAlert />
               <div>
-                <strong>Select a leader for verified details</strong>
+                <strong>Select any official card for verified details</strong>
                 <p>
-                  Click any official’s card or “Details” button to open an
-                  organized popup table of published contacts, committee
-                  assignments, records, and official source references.
+                  Click an official’s card to open a structured popup of
+                  verified office contacts, committee assignments, published
+                  measures, and official source links.
                 </p>
               </div>
             </div>
@@ -2490,9 +2490,20 @@ function GovernmentPage() {
                 return (
                   <article
                     id={`official-${id}`}
-                    className="is-interactive-card"
+                    className="is-interactive-card government-official-card"
                     key={official.name}
+                    role="button"
+                    tabIndex={0}
+                    aria-expanded={expanded}
+                    aria-haspopup="dialog"
+                    aria-label={`${official.name}, ${official.role} — open verified profile`}
                     onClick={() => toggleOfficial(official.name)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        toggleOfficial(official.name);
+                      }
+                    }}
                   >
                     <div className="official-summary">
                       <div className="avatar">
@@ -2514,21 +2525,16 @@ function GovernmentPage() {
                           </span>
                         )}
                       </div>
-                      <span>{official.group}</span>
-                      <h2>{official.name}</h2>
-                      <p>{official.role}</p>
-                      <button
-                        className="leader-toggle"
-                        type="button"
-                        aria-expanded={expanded}
-                        aria-haspopup="dialog"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          toggleOfficial(official.name);
-                        }}
-                      >
-                        Details <ArrowRight aria-hidden="true" />
-                      </button>
+                      <div className="official-card-copy">
+                        <span className="official-group-tag">
+                          {official.group}
+                        </span>
+                        <h2>{official.name}</h2>
+                        <p className="official-role-title">{official.role}</p>
+                        <small className="official-office-preview">
+                          {official.office.name} · {official.office.phone}
+                        </small>
+                      </div>
                     </div>
                   </article>
                 );
@@ -2610,10 +2616,9 @@ function GovernmentPage() {
                       {sharedContact && (
                         <p className="contact-scope-note">
                           <CircleAlert aria-hidden="true" />
-                          No individual phone or email is published on this
-                          official’s City Government profile. The contact below
-                          routes inquiries through the shared legislative
-                          office.
+                          Inquiries for this office are routed through the
+                          shared Sangguniang Panlungsod legislative office
+                          contact listed below.
                         </p>
                       )}
 
@@ -2621,7 +2626,7 @@ function GovernmentPage() {
                         <table className="popout-structured-table">
                           <tbody>
                             <tr>
-                              <th scope="row">Official Name & Position</th>
+                              <th scope="row">Official Name & Role</th>
                               <td>
                                 <strong>{selectedOfficial.name}</strong> ·{" "}
                                 {selectedOfficial.role} (
@@ -2632,11 +2637,10 @@ function GovernmentPage() {
                               <th scope="row">Assigned Office</th>
                               <td>
                                 <strong>{selectedOfficial.office.name}</strong>
+                                <span className="popout-scope-badge">
+                                  {selectedOfficial.office.scope}
+                                </span>
                               </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Contact Routing Scope</th>
-                              <td>{selectedOfficial.office.scope}</td>
                             </tr>
                             <tr>
                               <th scope="row">Office Address</th>
@@ -2646,10 +2650,11 @@ function GovernmentPage() {
                               <th scope="row">Published Telephone</th>
                               <td>
                                 <a
+                                  className="popout-inline-contact"
                                   href={`tel:${telephoneHref(selectedOfficial.office.phone)}`}
                                 >
                                   <Phone aria-hidden="true" />{" "}
-                                  {selectedOfficial.office.phone}
+                                  <span>{selectedOfficial.office.phone}</span>
                                 </a>
                               </td>
                             </tr>
@@ -2658,10 +2663,11 @@ function GovernmentPage() {
                               <td>
                                 {selectedOfficial.office.email ? (
                                   <a
+                                    className="popout-inline-contact"
                                     href={`mailto:${selectedOfficial.office.email}`}
                                   >
                                     <Mail aria-hidden="true" />{" "}
-                                    {selectedOfficial.office.email}
+                                    <span>{selectedOfficial.office.email}</span>
                                   </a>
                                 ) : (
                                   <span className="contact-unavailable">
@@ -2699,15 +2705,15 @@ function GovernmentPage() {
                               </tr>
                             ) : null}
                             <tr>
-                              <th scope="row">Published Record Coverage</th>
+                              <th scope="row">Published Measures</th>
                               <td>
                                 {officeRecords.length ? (
-                                  <>
-                                    <strong>
+                                  <div className="popout-measures-stack">
+                                    <strong className="popout-measures-count">
                                       {officeRecords.length} mayoral office
                                       issuances indexed
                                     </strong>
-                                    <ul className="popout-table-list">
+                                    <ul className="popout-measures-list">
                                       {officeRecords
                                         .slice(0, 3)
                                         .map((record) => (
@@ -2717,8 +2723,10 @@ function GovernmentPage() {
                                               target="_blank"
                                               rel="noreferrer"
                                             >
-                                              <b>{record.number}</b> —{" "}
-                                              {record.title}{" "}
+                                              <span>
+                                                <strong>{record.number}</strong>{" "}
+                                                — {record.title}
+                                              </span>
                                               <ExternalLink aria-hidden="true" />
                                             </a>
                                           </li>
@@ -2726,49 +2734,41 @@ function GovernmentPage() {
                                     </ul>
                                     {officeRecords.length > 3 && (
                                       <Link
+                                        className="popout-measures-more"
                                         to="/government?tab=records"
                                         onClick={closeModal}
                                       >
-                                        View all {officeRecords.length}{" "}
-                                        published measures{" "}
+                                        <span>
+                                          View all {officeRecords.length}{" "}
+                                          published measures
+                                        </span>
                                         <ArrowRight aria-hidden="true" />
                                       </Link>
                                     )}
-                                  </>
+                                  </div>
                                 ) : (
-                                  <>
-                                    <strong>
-                                      No individually attributed measure found
-                                    </strong>
-                                    <p>
-                                      The verified listings publish council
-                                      measures at the Sangguniang Panlungsod
-                                      level and do not name this official as
-                                      sponsor or author.
+                                  <div className="popout-measures-stack">
+                                    <p className="popout-measures-note">
+                                      Ordinances and resolutions are published
+                                      institutionally under the Sangguniang
+                                      Panlungsod.
                                     </p>
                                     <Link
+                                      className="popout-measures-more"
                                       to="/government?tab=records"
                                       onClick={closeModal}
                                     >
-                                      Review institutional measures{" "}
+                                      <span>
+                                        Browse Sangguniang Panlungsod measures
+                                      </span>
                                       <ArrowRight aria-hidden="true" />
                                     </Link>
-                                  </>
+                                  </div>
                                 )}
                               </td>
                             </tr>
                             <tr>
-                              <th scope="row">Award & Attribution Scope</th>
-                              <td>
-                                No personal award is claimed because no verified
-                                source reviewed names this official as the
-                                individual recipient.
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">
-                                Official Sources & Verification References
-                              </th>
+                              <th scope="row">Official Sources</th>
                               <td>
                                 <div className="popout-table-links">
                                   <a
@@ -2776,8 +2776,10 @@ function GovernmentPage() {
                                     target="_blank"
                                     rel="noreferrer"
                                   >
-                                    Open official profile (
-                                    {selectedOfficial.source.label}){" "}
+                                    <span>
+                                      Official profile (
+                                      {selectedOfficial.source.label})
+                                    </span>
                                     <ExternalLink aria-hidden="true" />
                                   </a>
                                   <a
@@ -2785,22 +2787,12 @@ function GovernmentPage() {
                                     target="_blank"
                                     rel="noreferrer"
                                   >
-                                    Verify published contact (
-                                    {selectedOfficial.office.source.label}){" "}
+                                    <span>
+                                      Published office contact (
+                                      {selectedOfficial.office.source.label})
+                                    </span>
                                     <ExternalLink aria-hidden="true" />
                                   </a>
-                                  {(selectedOfficial.chairmanships?.length ||
-                                    selectedOfficial.committeeMemberships
-                                      ?.length) && (
-                                    <a
-                                      href={selectedOfficial.source.url}
-                                      target="_blank"
-                                      rel="noreferrer"
-                                    >
-                                      Verify committee assignments{" "}
-                                      <ExternalLink aria-hidden="true" />
-                                    </a>
-                                  )}
                                 </div>
                                 <small className="popout-verified-date">
                                   Sources reviewed {VERIFIED_ON}
@@ -2951,14 +2943,6 @@ function BarangaysPage() {
             </article>
           ))}
         </div>
-
-        <section
-          id="city-gis-map"
-          className="barangay-city-gis-section"
-          aria-label="Malaybalay City 3D Interactive GIS and Project NOAH Flood Hazard Map"
-        >
-          <MalaybalayGisMap />
-        </section>
       </section>
     </>
   );
@@ -3298,9 +3282,17 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             >
               <article
                 className="is-interactive-card"
+                role="button"
+                tabIndex={0}
                 onClick={() =>
                   setActivePopout({ kind: "snapshot", metric: "population" })
                 }
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setActivePopout({ kind: "snapshot", metric: "population" });
+                  }
+                }}
               >
                 <div className="barangay-snapshot-head">
                   <span className="barangay-icon-tile is-compact">
@@ -3310,22 +3302,20 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                 </div>
                 <strong>{profile.population.toLocaleString("en-PH")}</strong>
                 <p>2024 POPCEN · released Jan 2026</p>
-                <button
-                  type="button"
-                  className="barangay-card-popout-trigger"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    setActivePopout({ kind: "snapshot", metric: "population" });
-                  }}
-                >
-                  Details & citation <ArrowRight aria-hidden="true" />
-                </button>
               </article>
               <article
                 className="is-interactive-card"
+                role="button"
+                tabIndex={0}
                 onClick={() =>
                   setActivePopout({ kind: "snapshot", metric: "share" })
                 }
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setActivePopout({ kind: "snapshot", metric: "share" });
+                  }
+                }}
               >
                 <div className="barangay-snapshot-head">
                   <span className="barangay-icon-tile is-compact">
@@ -3338,22 +3328,20 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                   Of {MALAYBALAY_2024_POPULATION.toLocaleString("en-PH")} city
                   total
                 </p>
-                <button
-                  type="button"
-                  className="barangay-card-popout-trigger"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    setActivePopout({ kind: "snapshot", metric: "share" });
-                  }}
-                >
-                  Details & citation <ArrowRight aria-hidden="true" />
-                </button>
               </article>
               <article
                 className="is-interactive-card"
+                role="button"
+                tabIndex={0}
                 onClick={() =>
                   setActivePopout({ kind: "snapshot", metric: "rank" })
                 }
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setActivePopout({ kind: "snapshot", metric: "rank" });
+                  }
+                }}
               >
                 <div className="barangay-snapshot-head">
                   <span className="barangay-icon-tile is-compact">
@@ -3363,22 +3351,20 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                 </div>
                 <strong>{profile.populationRank} of 46</strong>
                 <p>Ranked across 46 barangays</p>
-                <button
-                  type="button"
-                  className="barangay-card-popout-trigger"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    setActivePopout({ kind: "snapshot", metric: "rank" });
-                  }}
-                >
-                  Details & citation <ArrowRight aria-hidden="true" />
-                </button>
               </article>
               <article
                 className="is-interactive-card"
+                role="button"
+                tabIndex={0}
                 onClick={() =>
                   setActivePopout({ kind: "snapshot", metric: "bids" })
                 }
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setActivePopout({ kind: "snapshot", metric: "bids" });
+                  }
+                }}
               >
                 <div className="barangay-snapshot-head">
                   <span className="barangay-icon-tile is-compact">
@@ -3388,16 +3374,6 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                 </div>
                 <strong>{profile.bids.length}</strong>
                 <p>ITB notices naming {profile.name}</p>
-                <button
-                  type="button"
-                  className="barangay-card-popout-trigger"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    setActivePopout({ kind: "snapshot", metric: "bids" });
-                  }}
-                >
-                  Details & citation <ArrowRight aria-hidden="true" />
-                </button>
               </article>
             </div>
           </div>
@@ -3424,10 +3400,11 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             eyebrow="Barangay full disclosure & audit trail"
             title={`Budget, accomplishments, bids, and projects in ${profile.name}`}
           >
-            Source-verified records compiled from the City Government Full
-            Disclosure Portal (20% NTA, APP, Bid Results, Trust Fund, SEF,
-            LDRRMF), BAC Malaybalay, PhilGEPS, DILG, and COA. Click any card to
-            open the full discussion, image reference, and backup citations.
+            Source-verified records compiled from DBM FY 2026 National Tax
+            Allotment (LBM No. 92 / RA 7160 Sec. 285 & 287), the City
+            Government Full Disclosure Portal (20% NTA, APP, Bid Results, Trust
+            Fund, SEF, LDRRMF), BAC Malaybalay, PhilGEPS, DILG, and COA. Click
+            any card to open the full discussion and citations.
           </SectionHeading>
 
           <div
@@ -3435,10 +3412,20 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             aria-label={`${profile.name} full disclosure summary`}
           >
             <div>
-              <span>2026 BDP allocation (20% NTA)</span>
+              <span>Combined 2026 BDP allocation</span>
               <strong>{formatPeso(disclosure.bdp2026Budget)}</strong>
               <small>
-                {disclosure.bdp2026ProjectTitle} ({disclosure.bdp2026Status})
+                {formatPeso(disclosure.barangay20PctBdf2026)} Brgy 20% BDF (RA
+                7160 Sec. 287) + ₱1.00M City 20% NTA ({disclosure.bdp2026Status})
+              </small>
+            </div>
+            <div>
+              <span>FY 2026 Statutory Barangay NTA</span>
+              <strong>{formatPeso(disclosure.barangayNta2026)}</strong>
+              <small>
+                DBM LBM No. 92 ({profile.population.toLocaleString("en-PH")}{" "}
+                pop.) · 10% SK: {formatPeso(disclosure.skFund2026)} · 5% BDRRMF:{" "}
+                {formatPeso(disclosure.bdrrmf2026)}
               </small>
             </div>
             <div>
@@ -3450,23 +3437,15 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
               </small>
             </div>
             <div>
-              <span>PhilGEPS & BAC bid records</span>
+              <span>PhilGEPS, BAC & audit citations</span>
               <strong>
                 {disclosure.philgepsAwardsCount +
                   disclosure.officialBidResultsCount +
-                  profile.bids.length}
+                  profile.bids.length}{" "}
+                records
               </strong>
               <small>
-                {disclosure.philgepsAwardsCount} PhilGEPS awards ·{" "}
-                {disclosure.officialBidResultsCount} Q1/Q2 bid results ·{" "}
-                {profile.bids.length} 2026 ITBs
-              </small>
-            </div>
-            <div>
-              <span>Primary & backup authorities</span>
-              <strong>5 portals linked</strong>
-              <small>
-                Full Disclosure · BAC Malaybalay · PhilGEPS · DILG · COA
+                DBM · Full Disclosure · BAC Malaybalay · PhilGEPS · DILG · COA
               </small>
             </div>
           </div>
@@ -3730,8 +3709,9 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                 No 2026 BAC notice on the reviewed source page explicitly
                 matched this barangay. See the{" "}
                 <a href="#disclosure">Full Disclosure section above</a> for{" "}
-                {profile.name}’s ₱1,000,000.00 2026 Barangay Development Project
-                allocation, 2025 Q4 accomplishments, and PhilGEPS records.
+                {profile.name}’s {formatPeso(disclosure.bdp2026Budget)} combined
+                2026 Barangay Development allocation (20% BDF + City 20% NTA
+                Counterpart), 2025 Q4 accomplishments, and PhilGEPS records.
               </p>
               <a href={BAC_2026_SOURCE} target="_blank" rel="noreferrer">
                 Check the official BAC page <ExternalLink aria-hidden="true" />
@@ -3761,7 +3741,15 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
               <article
                 key={official.id}
                 className="barangay-executive-card is-interactive-card"
+                role="button"
+                tabIndex={0}
                 onClick={() => setActivePopout({ kind: "official", official })}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setActivePopout({ kind: "official", official });
+                  }
+                }}
               >
                 <div className="barangay-executive-head">
                   <span className="barangay-icon-tile">
@@ -3797,17 +3785,6 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                     </a>
                   )}
                 </div>
-                <button
-                  type="button"
-                  className="barangay-card-popout-trigger"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    setActivePopout({ kind: "official", official });
-                  }}
-                >
-                  <span>View details</span>
-                  <ArrowRight aria-hidden="true" />
-                </button>
               </article>
             ))}
           </div>
@@ -3824,9 +3801,17 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                 <article
                   key={kagawad.id}
                   className="barangay-kagawad-card is-interactive-card"
+                  role="button"
+                  tabIndex={0}
                   onClick={() =>
                     setActivePopout({ kind: "official", official: kagawad })
                   }
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      setActivePopout({ kind: "official", official: kagawad });
+                    }
+                  }}
                 >
                   <div className="barangay-kagawad-top">
                     <span className="barangay-kagawad-badge">
@@ -3857,17 +3842,6 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                       </a>
                     )}
                   </div>
-                  <button
-                    type="button"
-                    className="barangay-card-popout-trigger"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      setActivePopout({ kind: "official", official: kagawad });
-                    }}
-                  >
-                    <span>View details</span>
-                    <ArrowRight aria-hidden="true" />
-                  </button>
                 </article>
               ))}
             </div>
@@ -4384,10 +4358,13 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                       {profile.bids.length} 2026 BAC notices naming{" "}
                       {profile.name}, BetterMC indexes{" "}
                       {disclosure.items.length} full disclosure records covering{" "}
-                      {profile.name}’s ₱1,000,000.00 2026 Barangay Development
-                      Project budget, 2025 Q4 accomplishments (
-                      {disclosure.bdp2025CompletionRate}), and PhilGEPS contract
-                      awards.
+                      {profile.name}’s {formatPeso(disclosure.bdp2026Budget)}{" "}
+                      combined 2026 Barangay Development allocation (
+                      {formatPeso(disclosure.barangay20PctBdf2026)} 20% BDF from{" "}
+                      {formatPeso(disclosure.barangayNta2026)} FY 2026 NTA +
+                      ₱1,000,000.00 City 20% NTA Counterpart), 2025 Q4
+                      accomplishments ({disclosure.bdp2025CompletionRate}), and
+                      PhilGEPS contract awards.
                     </p>
                   </div>
                   <div className="barangay-popout-sources">

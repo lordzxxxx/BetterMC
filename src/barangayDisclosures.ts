@@ -38,6 +38,11 @@ export type BarangayFullDisclosureProfile = {
   barangayName: string;
   barangaySlug: string;
   bdp2026Budget: number;
+  barangayNta2026: number;
+  barangay20PctBdf2026: number;
+  cityCounterpartBdp2026: number;
+  skFund2026: number;
+  bdrrmf2026: number;
   bdp2026ProjectTitle: string;
   bdp2026Status: string;
   bdp2025ProjectTitle: string;
@@ -53,7 +58,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
   {
     "barangayName": "Aglayan",
     "barangaySlug": "aglayan",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 3226613.25,
     "bdp2026ProjectTitle": "Construction of Multi-Purpose Building (Stage and Bleachers), Purok 3B",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Construction of Multi-Purpose Hall at Purok 3B",
@@ -68,24 +73,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Aglayan",
         "barangaySlug": "aglayan",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Aglayan)",
         "title": "Construction of Multi-Purpose Building (Stage and Bleachers), Purok 3B",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 3226613.25,
+        "utilizedAmount": 2226613.25,
+        "completionRate": "₱2,226,613.25 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/barangay-heroes/aglayan.webp",
         "badgeUrl": "/images/barangays/aglayan.webp",
         "imageCaption": "Aglayan community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Aglayan under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱3,226,613.25 FY 2026 Barangay Development allocation for Barangay Aglayan (2024 POPCEN pop. 8,225): comprises ₱2,226,613.25 statutory 20% Barangay Development Fund (from ₱11,133,066.25 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Multi-Purpose Building (Stage and Bleachers), Purok 3B\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Aglayan, the programmed project is \"Construction of Multi-Purpose Building (Stage and Bleachers), Purok 3B\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Aglayan (population 8,225) has an estimated FY 2026 National Tax Allotment (NTA) of ₱11,133,066.25, of which at least 20% (₱2,226,613.25) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Multi-Purpose Building (Stage and Bleachers), Purok 3B\" (with PR; Procurement ongoing), bringing Barangay Aglayan's combined 2026 BDP allocation to ₱3,226,613.25.",
+          "budgetAndAuditContext": "Alongside the ₱3,226,613.25 combined BDP allocation, Barangay Aglayan's FY 2026 statutory budget framework includes ₱1,113,306.62 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱556,653.31 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -93,6 +98,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -167,20 +177,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Aglayan",
         "barangaySlug": "aglayan",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Aglayan)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Aglayan)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱556,653.31), 10% SK Fund (₱1,113,306.62) & City Operation Listo DRRM Program — Barangay Aglayan",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 1669959.93,
+        "utilizedAmount": 556653.31,
+        "completionRate": "5% BDRRMF: ₱556,653.31 · 10% SK: ₱1,113,306.62",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/aglayan.webp",
         "badgeUrl": "/images/barangays/aglayan.webp",
         "imageCaption": "Aglayan community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Aglayan): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Aglayan (₱556,653.31 5% BDRRMF under RA 10121 Sec. 21 and ₱1,113,306.62 10% SK Fund under RA 10742 Sec. 20, computed from ₱11,133,066.25 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Aglayan's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -585,12 +595,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 11133066.25,
+    "barangay20PctBdf2026": 2226613.25,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 1113306.62,
+    "bdrrmf2026": 556653.31
   },
   {
     "barangayName": "Bangcud",
     "barangaySlug": "bangcud",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2804369.51,
     "bdp2026ProjectTitle": "Rehabilitation of Barangay Water System",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Rehabilitation of Barangay Water System at Purok 8",
@@ -605,24 +620,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Bangcud",
         "barangaySlug": "bangcud",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Bangcud)",
         "title": "Rehabilitation of Barangay Water System",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2804369.51,
+        "utilizedAmount": 1804369.51,
+        "completionRate": "₱1,804,369.51 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "60 cd",
         "imageUrl": "/images/barangay-heroes/bangcud.webp",
         "badgeUrl": "/images/barangays/bangcud.webp",
         "imageCaption": "Bangcud community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Bangcud under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,804,369.51 FY 2026 Barangay Development allocation for Barangay Bangcud (2024 POPCEN pop. 6,387): comprises ₱1,804,369.51 statutory 20% Barangay Development Fund (from ₱9,021,847.55 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Rehabilitation of Barangay Water System\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Bangcud, the programmed project is \"Rehabilitation of Barangay Water System\" with target duration \"60 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Bangcud (population 6,387) has an estimated FY 2026 National Tax Allotment (NTA) of ₱9,021,847.55, of which at least 20% (₱1,804,369.51) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Rehabilitation of Barangay Water System\" (with PR; Procurement ongoing), bringing Barangay Bangcud's combined 2026 BDP allocation to ₱2,804,369.51.",
+          "budgetAndAuditContext": "Alongside the ₱2,804,369.51 combined BDP allocation, Barangay Bangcud's FY 2026 statutory budget framework includes ₱902,184.76 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱451,092.38 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -630,6 +645,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -704,20 +724,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Bangcud",
         "barangaySlug": "bangcud",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Bangcud)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Bangcud)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱451,092.38), 10% SK Fund (₱902,184.76) & City Operation Listo DRRM Program — Barangay Bangcud",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 1353277.14,
+        "utilizedAmount": 451092.38,
+        "completionRate": "5% BDRRMF: ₱451,092.38 · 10% SK: ₱902,184.76",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/bangcud.webp",
         "badgeUrl": "/images/barangays/bangcud.webp",
         "imageCaption": "Bangcud community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Bangcud): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Bangcud (₱451,092.38 5% BDRRMF under RA 10121 Sec. 21 and ₱902,184.76 10% SK Fund under RA 10742 Sec. 20, computed from ₱9,021,847.55 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Bangcud's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -1075,12 +1095,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 9021847.55,
+    "barangay20PctBdf2026": 1804369.51,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 902184.76,
+    "bdrrmf2026": 451092.38
   },
   {
     "barangayName": "Busdi",
     "barangaySlug": "busdi",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1958273.92,
     "bdp2026ProjectTitle": "Construction of Solar Dryer at Purok 1 and Purok 7",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Construction of Solar Dryer at Purok 3 and Purok 6",
@@ -1095,24 +1120,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Busdi",
         "barangaySlug": "busdi",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Busdi)",
         "title": "Construction of Solar Dryer at Purok 1 and Purok 7",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1958273.92,
+        "utilizedAmount": 958273.92,
+        "completionRate": "₱958,273.92 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "60 cd",
         "imageUrl": "/images/barangay-heroes/busdi.webp",
         "badgeUrl": "/images/barangays/busdi.webp",
         "imageCaption": "Busdi community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Busdi under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,958,273.92 FY 2026 Barangay Development allocation for Barangay Busdi (2024 POPCEN pop. 2,704): comprises ₱958,273.92 statutory 20% Barangay Development Fund (from ₱4,791,369.60 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Solar Dryer at Purok 1 and Purok 7\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Busdi, the programmed project is \"Construction of Solar Dryer at Purok 1 and Purok 7\" with target duration \"60 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Busdi (population 2,704) has an estimated FY 2026 National Tax Allotment (NTA) of ₱4,791,369.60, of which at least 20% (₱958,273.92) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Solar Dryer at Purok 1 and Purok 7\" (with PR; Procurement ongoing), bringing Barangay Busdi's combined 2026 BDP allocation to ₱1,958,273.92.",
+          "budgetAndAuditContext": "Alongside the ₱1,958,273.92 combined BDP allocation, Barangay Busdi's FY 2026 statutory budget framework includes ₱479,136.96 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱239,568.48 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -1120,6 +1145,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -1241,20 +1271,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Busdi",
         "barangaySlug": "busdi",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Busdi)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Busdi)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱239,568.48), 10% SK Fund (₱479,136.96) & City Operation Listo DRRM Program — Barangay Busdi",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 718705.44,
+        "utilizedAmount": 239568.48,
+        "completionRate": "5% BDRRMF: ₱239,568.48 · 10% SK: ₱479,136.96",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/busdi.webp",
         "badgeUrl": "/images/barangays/busdi.webp",
         "imageCaption": "Busdi community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Busdi): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Busdi (₱239,568.48 5% BDRRMF under RA 10121 Sec. 21 and ₱479,136.96 10% SK Fund under RA 10742 Sec. 20, computed from ₱4,791,369.60 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Busdi's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -1518,12 +1548,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 4791369.6,
+    "barangay20PctBdf2026": 958273.92,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 479136.96,
+    "bdrrmf2026": 239568.48
   },
   {
     "barangayName": "Cabangahan",
     "barangaySlug": "cabangahan",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2071071.35,
     "bdp2026ProjectTitle": "Road Concreting at Purok 1 and Purok 2",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Concreting of Barangay Road at Purok 3 and Purok 5",
@@ -1538,24 +1573,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Cabangahan",
         "barangaySlug": "cabangahan",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Cabangahan)",
         "title": "Road Concreting at Purok 1 and Purok 2",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2071071.35,
+        "utilizedAmount": 1071071.35,
+        "completionRate": "₱1,071,071.35 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "45 cd",
         "imageUrl": "/images/barangay-heroes/cabangahan.webp",
         "badgeUrl": "/images/barangays/cabangahan.webp",
         "imageCaption": "Cabangahan community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Cabangahan under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,071,071.35 FY 2026 Barangay Development allocation for Barangay Cabangahan (2024 POPCEN pop. 3,195): comprises ₱1,071,071.35 statutory 20% Barangay Development Fund (from ₱5,355,356.75 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Road Concreting at Purok 1 and Purok 2\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Cabangahan, the programmed project is \"Road Concreting at Purok 1 and Purok 2\" with target duration \"45 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Cabangahan (population 3,195) has an estimated FY 2026 National Tax Allotment (NTA) of ₱5,355,356.75, of which at least 20% (₱1,071,071.35) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Road Concreting at Purok 1 and Purok 2\" (with PR; Procurement ongoing), bringing Barangay Cabangahan's combined 2026 BDP allocation to ₱2,071,071.35.",
+          "budgetAndAuditContext": "Alongside the ₱2,071,071.35 combined BDP allocation, Barangay Cabangahan's FY 2026 statutory budget framework includes ₱535,535.68 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱267,767.84 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -1563,6 +1598,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -1637,20 +1677,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Cabangahan",
         "barangaySlug": "cabangahan",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Cabangahan)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Cabangahan)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱267,767.84), 10% SK Fund (₱535,535.68) & City Operation Listo DRRM Program — Barangay Cabangahan",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 803303.52,
+        "utilizedAmount": 267767.84,
+        "completionRate": "5% BDRRMF: ₱267,767.84 · 10% SK: ₱535,535.68",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/cabangahan.webp",
         "badgeUrl": "/images/barangays/cabangahan.webp",
         "imageCaption": "Cabangahan community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Cabangahan): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Cabangahan (₱267,767.84 5% BDRRMF under RA 10121 Sec. 21 and ₱535,535.68 10% SK Fund under RA 10742 Sec. 20, computed from ₱5,355,356.75 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Cabangahan's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -2055,12 +2095,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 5355356.75,
+    "barangay20PctBdf2026": 1071071.35,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 535535.68,
+    "bdrrmf2026": 267767.84
   },
   {
     "barangayName": "Caburacanan",
     "barangaySlug": "caburacanan",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1610462.7,
     "bdp2026ProjectTitle": "Construction of Drainage Canal at Purok 1 and Purok 2",
     "bdp2026Status": "For reversion (per Q1 2026 NTA report)",
     "bdp2025ProjectTitle": "Rehabilitation of Multi-Purpose Building (Barangay Hall), Purok 2",
@@ -2075,24 +2120,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Caburacanan",
         "barangaySlug": "caburacanan",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Caburacanan)",
         "title": "Construction of Drainage Canal at Purok 1 and Purok 2",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1610462.7,
+        "utilizedAmount": 610462.7,
+        "completionRate": "₱610,462.70 Brgy 20% BDF + ₱1.00M City BDP (For reversion (per Q1 2026 NTA report))",
         "status": "For reversion (per Q1 2026 NTA report)",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "n/a",
         "imageUrl": "/images/barangay-heroes/caburacanan.webp",
         "badgeUrl": "/images/barangays/caburacanan.webp",
         "imageCaption": "Caburacanan community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Caburacanan under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,610,462.70 FY 2026 Barangay Development allocation for Barangay Caburacanan (2024 POPCEN pop. 1,190): comprises ₱610,462.70 statutory 20% Barangay Development Fund (from ₱3,052,313.50 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Drainage Canal at Purok 1 and Purok 2\" (For reversion (per Q1 2026 NTA report)).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Caburacanan, the programmed project is \"Construction of Drainage Canal at Purok 1 and Purok 2\" with target duration \"n/a\" and Q1 2026 status \"For reversion (per Q1 2026 NTA report)\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Caburacanan (population 1,190) has an estimated FY 2026 National Tax Allotment (NTA) of ₱3,052,313.50, of which at least 20% (₱610,462.70) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Drainage Canal at Purok 1 and Purok 2\" (For reversion (per Q1 2026 NTA report)), bringing Barangay Caburacanan's combined 2026 BDP allocation to ₱1,610,462.70.",
+          "budgetAndAuditContext": "Alongside the ₱1,610,462.70 combined BDP allocation, Barangay Caburacanan's FY 2026 statutory budget framework includes ₱305,231.35 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱152,615.68 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -2100,6 +2145,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -2221,20 +2271,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Caburacanan",
         "barangaySlug": "caburacanan",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Caburacanan)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Caburacanan)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱152,615.68), 10% SK Fund (₱305,231.35) & City Operation Listo DRRM Program — Barangay Caburacanan",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 457847.03,
+        "utilizedAmount": 152615.68,
+        "completionRate": "5% BDRRMF: ₱152,615.68 · 10% SK: ₱305,231.35",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/caburacanan.webp",
         "badgeUrl": "/images/barangays/caburacanan.webp",
         "imageCaption": "Caburacanan community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Caburacanan): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Caburacanan (₱152,615.68 5% BDRRMF under RA 10121 Sec. 21 and ₱305,231.35 10% SK Fund under RA 10742 Sec. 20, computed from ₱3,052,313.50 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Caburacanan's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -2639,12 +2689,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 3052313.5,
+    "barangay20PctBdf2026": 610462.7,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 305231.35,
+    "bdrrmf2026": 152615.68
   },
   {
     "barangayName": "Can-ayan",
     "barangaySlug": "can-ayan",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2863180.39,
     "bdp2026ProjectTitle": "Installation of Streetlights",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Installation of Solar Streetlights at Purok 1 to Purok 11",
@@ -2659,24 +2714,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Can-ayan",
         "barangaySlug": "can-ayan",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Can-ayan)",
         "title": "Installation of Streetlights",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2863180.39,
+        "utilizedAmount": 1863180.39,
+        "completionRate": "₱1,863,180.39 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "45 cd",
         "imageUrl": "/images/barangay-heroes/can-ayan.webp",
         "badgeUrl": "/images/barangays/can-ayan.webp",
         "imageCaption": "Can-ayan community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Can-ayan under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,863,180.39 FY 2026 Barangay Development allocation for Barangay Can-ayan (2024 POPCEN pop. 6,643): comprises ₱1,863,180.39 statutory 20% Barangay Development Fund (from ₱9,315,901.95 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Installation of Streetlights\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Can-ayan, the programmed project is \"Installation of Streetlights\" with target duration \"45 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Can-ayan (population 6,643) has an estimated FY 2026 National Tax Allotment (NTA) of ₱9,315,901.95, of which at least 20% (₱1,863,180.39) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Installation of Streetlights\" (with PR; Procurement ongoing), bringing Barangay Can-ayan's combined 2026 BDP allocation to ₱2,863,180.39.",
+          "budgetAndAuditContext": "Alongside the ₱2,863,180.39 combined BDP allocation, Barangay Can-ayan's FY 2026 statutory budget framework includes ₱931,590.19 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱465,795.10 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -2684,6 +2739,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -2758,20 +2818,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Can-ayan",
         "barangaySlug": "can-ayan",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Can-ayan)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Can-ayan)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱465,795.10), 10% SK Fund (₱931,590.19) & City Operation Listo DRRM Program — Barangay Can-ayan",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 1397385.29,
+        "utilizedAmount": 465795.1,
+        "completionRate": "5% BDRRMF: ₱465,795.10 · 10% SK: ₱931,590.19",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/can-ayan.webp",
         "badgeUrl": "/images/barangays/can-ayan.webp",
         "imageCaption": "Can-ayan community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Can-ayan): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Can-ayan (₱465,795.10 5% BDRRMF under RA 10121 Sec. 21 and ₱931,590.19 10% SK Fund under RA 10742 Sec. 20, computed from ₱9,315,901.95 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Can-ayan's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -3411,12 +3471,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 9315901.95,
+    "barangay20PctBdf2026": 1863180.39,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 931590.19,
+    "bdrrmf2026": 465795.1
   },
   {
     "barangayName": "Capitan Angel",
     "barangaySlug": "capitan-angel",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1697760.1,
     "bdp2026ProjectTitle": "Construction of Multi-Purpose Building (SK and Senior Citizen Office), Purok 1",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Construction of Drainage Canal at Purok 2 and Purok 3",
@@ -3431,24 +3496,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Capitan Angel",
         "barangaySlug": "capitan-angel",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Capitan Angel)",
         "title": "Construction of Multi-Purpose Building (SK and Senior Citizen Office), Purok 1",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1697760.1,
+        "utilizedAmount": 697760.1,
+        "completionRate": "₱697,760.10 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/barangay-heroes/capitan-angel.webp",
         "badgeUrl": "/images/barangays/capitan-angel.webp",
         "imageCaption": "Capitan Angel community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Capitan Angel under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,697,760.10 FY 2026 Barangay Development allocation for Barangay Capitan Angel (2024 POPCEN pop. 1,570): comprises ₱697,760.10 statutory 20% Barangay Development Fund (from ₱3,488,800.50 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Multi-Purpose Building (SK and Senior Citizen Office), Purok 1\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Capitan Angel, the programmed project is \"Construction of Multi-Purpose Building (SK and Senior Citizen Office), Purok 1\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Capitan Angel (population 1,570) has an estimated FY 2026 National Tax Allotment (NTA) of ₱3,488,800.50, of which at least 20% (₱697,760.10) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Multi-Purpose Building (SK and Senior Citizen Office), Purok 1\" (with PR; Procurement ongoing), bringing Barangay Capitan Angel's combined 2026 BDP allocation to ₱1,697,760.10.",
+          "budgetAndAuditContext": "Alongside the ₱1,697,760.10 combined BDP allocation, Barangay Capitan Angel's FY 2026 statutory budget framework includes ₱348,880.05 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱174,440.03 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -3456,6 +3521,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -3577,20 +3647,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Capitan Angel",
         "barangaySlug": "capitan-angel",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Capitan Angel)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Capitan Angel)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱174,440.03), 10% SK Fund (₱348,880.05) & City Operation Listo DRRM Program — Barangay Capitan Angel",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 523320.08,
+        "utilizedAmount": 174440.03,
+        "completionRate": "5% BDRRMF: ₱174,440.03 · 10% SK: ₱348,880.05",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/capitan-angel.webp",
         "badgeUrl": "/images/barangays/capitan-angel.webp",
         "imageCaption": "Capitan Angel community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Capitan Angel): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Capitan Angel (₱174,440.03 5% BDRRMF under RA 10121 Sec. 21 and ₱348,880.05 10% SK Fund under RA 10742 Sec. 20, computed from ₱3,488,800.50 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Capitan Angel's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -3901,12 +3971,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 3488800.5,
+    "barangay20PctBdf2026": 697760.1,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 348880.05,
+    "bdrrmf2026": 174440.03
   },
   {
     "barangayName": "Casisang",
     "barangaySlug": "casisang",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 8112281.16,
     "bdp2026ProjectTitle": "Procurement of Rescue Vehicle",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Construction of Drainage Canal at Purok 4",
@@ -3921,24 +3996,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Casisang",
         "barangaySlug": "casisang",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Casisang)",
         "title": "Procurement of Rescue Vehicle",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 8112281.16,
+        "utilizedAmount": 7112281.16,
+        "completionRate": "₱7,112,281.16 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Mayor's Office / Brgy. Casisang · Mode: NP-53.9 - SVP",
         "contractDuration": "n/a",
         "imageUrl": "/images/barangay-heroes/casisang.webp",
         "badgeUrl": "/images/barangays/casisang.webp",
         "imageCaption": "Casisang community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Casisang under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱8,112,281.16 FY 2026 Barangay Development allocation for Barangay Casisang (2024 POPCEN pop. 29,492): comprises ₱7,112,281.16 statutory 20% Barangay Development Fund (from ₱35,561,405.80 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Procurement of Rescue Vehicle\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Casisang, the programmed project is \"Procurement of Rescue Vehicle\" with target duration \"n/a\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Mayor's Office / Brgy. Casisang as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Casisang (population 29,492) has an estimated FY 2026 National Tax Allotment (NTA) of ₱35,561,405.80, of which at least 20% (₱7,112,281.16) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Procurement of Rescue Vehicle\" (with PR; Procurement ongoing), bringing Barangay Casisang's combined 2026 BDP allocation to ₱8,112,281.16.",
+          "budgetAndAuditContext": "Alongside the ₱8,112,281.16 combined BDP allocation, Barangay Casisang's FY 2026 statutory budget framework includes ₱3,556,140.58 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱1,778,070.29 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -3946,6 +4021,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -4020,20 +4100,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Casisang",
         "barangaySlug": "casisang",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Casisang)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Casisang)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱1,778,070.29), 10% SK Fund (₱3,556,140.58) & City Operation Listo DRRM Program — Barangay Casisang",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 5334210.87,
+        "utilizedAmount": 1778070.29,
+        "completionRate": "5% BDRRMF: ₱1,778,070.29 · 10% SK: ₱3,556,140.58",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/casisang.webp",
         "badgeUrl": "/images/barangays/casisang.webp",
         "imageCaption": "Casisang community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Casisang): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Casisang (₱1,778,070.29 5% BDRRMF under RA 10121 Sec. 21 and ₱3,556,140.58 10% SK Fund under RA 10742 Sec. 20, computed from ₱35,561,405.80 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Casisang's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -5143,12 +5223,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 35561405.8,
+    "barangay20PctBdf2026": 7112281.16,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 3556140.58,
+    "bdrrmf2026": 1778070.29
   },
   {
     "barangayName": "Dalwangan",
     "barangaySlug": "dalwangan",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 3131734.76,
     "bdp2026ProjectTitle": "Expansion of Level III Water System",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Expansion of Barangay Water System at Purok 3 and Purok 6",
@@ -5163,24 +5248,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Dalwangan",
         "barangaySlug": "dalwangan",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Dalwangan)",
         "title": "Expansion of Level III Water System",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 3131734.76,
+        "utilizedAmount": 2131734.76,
+        "completionRate": "₱2,131,734.76 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "45 cd",
         "imageUrl": "/images/barangay-heroes/dalwangan.webp",
         "badgeUrl": "/images/barangays/dalwangan.webp",
         "imageCaption": "Dalwangan community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Dalwangan under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱3,131,734.76 FY 2026 Barangay Development allocation for Barangay Dalwangan (2024 POPCEN pop. 7,812): comprises ₱2,131,734.76 statutory 20% Barangay Development Fund (from ₱10,658,673.80 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Expansion of Level III Water System\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Dalwangan, the programmed project is \"Expansion of Level III Water System\" with target duration \"45 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Dalwangan (population 7,812) has an estimated FY 2026 National Tax Allotment (NTA) of ₱10,658,673.80, of which at least 20% (₱2,131,734.76) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Expansion of Level III Water System\" (with PR; Procurement ongoing), bringing Barangay Dalwangan's combined 2026 BDP allocation to ₱3,131,734.76.",
+          "budgetAndAuditContext": "Alongside the ₱3,131,734.76 combined BDP allocation, Barangay Dalwangan's FY 2026 statutory budget framework includes ₱1,065,867.38 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱532,933.69 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -5188,6 +5273,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -5262,20 +5352,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Dalwangan",
         "barangaySlug": "dalwangan",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Dalwangan)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Dalwangan)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱532,933.69), 10% SK Fund (₱1,065,867.38) & City Operation Listo DRRM Program — Barangay Dalwangan",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 1598801.07,
+        "utilizedAmount": 532933.69,
+        "completionRate": "5% BDRRMF: ₱532,933.69 · 10% SK: ₱1,065,867.38",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/dalwangan.webp",
         "badgeUrl": "/images/barangays/dalwangan.webp",
         "imageCaption": "Dalwangan community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Dalwangan): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Dalwangan (₱532,933.69 5% BDRRMF under RA 10121 Sec. 21 and ₱1,065,867.38 10% SK Fund under RA 10742 Sec. 20, computed from ₱10,658,673.80 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Dalwangan's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -5962,12 +6052,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 10658673.8,
+    "barangay20PctBdf2026": 2131734.76,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 1065867.38,
+    "bdrrmf2026": 532933.69
   },
   {
     "barangayName": "Imbayao",
     "barangaySlug": "imbayao",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1789881.83,
     "bdp2026ProjectTitle": "Construction of Multi-Purpose Building (Phase 2)",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Construction of Multi-Purpose Building (Phase 1), Purok 2",
@@ -5982,24 +6077,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Imbayao",
         "barangaySlug": "imbayao",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Imbayao)",
         "title": "Construction of Multi-Purpose Building (Phase 2)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1789881.83,
+        "utilizedAmount": 789881.83,
+        "completionRate": "₱789,881.83 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/imbayao.webp",
         "imageCaption": "Barangay Imbayao official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Imbayao under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,789,881.83 FY 2026 Barangay Development allocation for Barangay Imbayao (2024 POPCEN pop. 1,971): comprises ₱789,881.83 statutory 20% Barangay Development Fund (from ₱3,949,409.15 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Multi-Purpose Building (Phase 2)\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Imbayao, the programmed project is \"Construction of Multi-Purpose Building (Phase 2)\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Imbayao (population 1,971) has an estimated FY 2026 National Tax Allotment (NTA) of ₱3,949,409.15, of which at least 20% (₱789,881.83) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Multi-Purpose Building (Phase 2)\" (with PR; Procurement ongoing), bringing Barangay Imbayao's combined 2026 BDP allocation to ₱1,789,881.83.",
+          "budgetAndAuditContext": "Alongside the ₱1,789,881.83 combined BDP allocation, Barangay Imbayao's FY 2026 statutory budget framework includes ₱394,940.92 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱197,470.46 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -6007,6 +6102,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -6128,20 +6228,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Imbayao",
         "barangaySlug": "imbayao",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Imbayao)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Imbayao)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱197,470.46), 10% SK Fund (₱394,940.92) & City Operation Listo DRRM Program — Barangay Imbayao",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 592411.38,
+        "utilizedAmount": 197470.46,
+        "completionRate": "5% BDRRMF: ₱197,470.46 · 10% SK: ₱394,940.92",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/imbayao.webp",
         "imageCaption": "Barangay Imbayao official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Imbayao): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Imbayao (₱197,470.46 5% BDRRMF under RA 10121 Sec. 21 and ₱394,940.92 10% SK Fund under RA 10742 Sec. 20, computed from ₱3,949,409.15 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Imbayao's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -6405,12 +6505,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 3949409.15,
+    "barangay20PctBdf2026": 789881.83,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 394940.92,
+    "bdrrmf2026": 197470.46
   },
   {
     "barangayName": "Indalasa",
     "barangaySlug": "indalasa",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1818598.08,
     "bdp2026ProjectTitle": "Expansion of Barangay Water System at Purok 7 (Sitio Ulayanon)",
     "bdp2026Status": "No PR as of Q1 2026 report",
     "bdp2025ProjectTitle": "Rehabilitation of Barangay Water System at Purok 1 to Purok 5",
@@ -6425,24 +6530,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Indalasa",
         "barangaySlug": "indalasa",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Indalasa)",
         "title": "Expansion of Barangay Water System at Purok 7 (Sitio Ulayanon)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1818598.08,
+        "utilizedAmount": 818598.08,
+        "completionRate": "₱818,598.08 Brgy 20% BDF + ₱1.00M City BDP (No PR as of Q1 2026 report)",
         "status": "No PR as of Q1 2026 report",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "n/a",
         "imageUrl": "/images/barangay-heroes/indalasa.webp",
         "badgeUrl": "/images/barangays/indalasa.webp",
         "imageCaption": "Indalasa community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Indalasa under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,818,598.08 FY 2026 Barangay Development allocation for Barangay Indalasa (2024 POPCEN pop. 2,096): comprises ₱818,598.08 statutory 20% Barangay Development Fund (from ₱4,092,990.40 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Expansion of Barangay Water System at Purok 7 (Sitio Ulayanon)\" (No PR as of Q1 2026 report).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Indalasa, the programmed project is \"Expansion of Barangay Water System at Purok 7 (Sitio Ulayanon)\" with target duration \"n/a\" and Q1 2026 status \"No PR as of Q1 2026 report\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Indalasa (population 2,096) has an estimated FY 2026 National Tax Allotment (NTA) of ₱4,092,990.40, of which at least 20% (₱818,598.08) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Expansion of Barangay Water System at Purok 7 (Sitio Ulayanon)\" (No PR as of Q1 2026 report), bringing Barangay Indalasa's combined 2026 BDP allocation to ₱1,818,598.08.",
+          "budgetAndAuditContext": "Alongside the ₱1,818,598.08 combined BDP allocation, Barangay Indalasa's FY 2026 statutory budget framework includes ₱409,299.04 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱204,649.52 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -6450,6 +6555,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -6571,20 +6681,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Indalasa",
         "barangaySlug": "indalasa",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Indalasa)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Indalasa)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱204,649.52), 10% SK Fund (₱409,299.04) & City Operation Listo DRRM Program — Barangay Indalasa",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 613948.56,
+        "utilizedAmount": 204649.52,
+        "completionRate": "5% BDRRMF: ₱204,649.52 · 10% SK: ₱409,299.04",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/indalasa.webp",
         "badgeUrl": "/images/barangays/indalasa.webp",
         "imageCaption": "Indalasa community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Indalasa): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Indalasa (₱204,649.52 5% BDRRMF under RA 10121 Sec. 21 and ₱409,299.04 10% SK Fund under RA 10742 Sec. 20, computed from ₱4,092,990.40 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Indalasa's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -6895,12 +7005,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 4092990.4,
+    "barangay20PctBdf2026": 818598.08,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 409299.04,
+    "bdrrmf2026": 204649.52
   },
   {
     "barangayName": "Kalasungay",
     "barangaySlug": "kalasungay",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 3670221.88,
     "bdp2026ProjectTitle": "Construction of Multi-Purpose Building at Zone 4 (Sitio Gabunan)",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Concreting of Barangay Road at Zone 3",
@@ -6915,24 +7030,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Kalasungay",
         "barangaySlug": "kalasungay",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Kalasungay)",
         "title": "Construction of Multi-Purpose Building at Zone 4 (Sitio Gabunan)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 3670221.88,
+        "utilizedAmount": 2670221.88,
+        "completionRate": "₱2,670,221.88 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/barangay-heroes/kalasungay.webp",
         "badgeUrl": "/images/barangays/kalasungay.webp",
         "imageCaption": "Kalasungay community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Kalasungay under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱3,670,221.88 FY 2026 Barangay Development allocation for Barangay Kalasungay (2024 POPCEN pop. 10,156): comprises ₱2,670,221.88 statutory 20% Barangay Development Fund (from ₱13,351,109.40 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Multi-Purpose Building at Zone 4 (Sitio Gabunan)\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Kalasungay, the programmed project is \"Construction of Multi-Purpose Building at Zone 4 (Sitio Gabunan)\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Kalasungay (population 10,156) has an estimated FY 2026 National Tax Allotment (NTA) of ₱13,351,109.40, of which at least 20% (₱2,670,221.88) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Multi-Purpose Building at Zone 4 (Sitio Gabunan)\" (with PR; Procurement ongoing), bringing Barangay Kalasungay's combined 2026 BDP allocation to ₱3,670,221.88.",
+          "budgetAndAuditContext": "Alongside the ₱3,670,221.88 combined BDP allocation, Barangay Kalasungay's FY 2026 statutory budget framework includes ₱1,335,110.94 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱667,555.47 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -6940,6 +7055,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -7014,20 +7134,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Kalasungay",
         "barangaySlug": "kalasungay",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Kalasungay)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Kalasungay)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱667,555.47), 10% SK Fund (₱1,335,110.94) & City Operation Listo DRRM Program — Barangay Kalasungay",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 2002666.41,
+        "utilizedAmount": 667555.47,
+        "completionRate": "5% BDRRMF: ₱667,555.47 · 10% SK: ₱1,335,110.94",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/kalasungay.webp",
         "badgeUrl": "/images/barangays/kalasungay.webp",
         "imageCaption": "Kalasungay community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Kalasungay): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Kalasungay (₱667,555.47 5% BDRRMF under RA 10121 Sec. 21 and ₱1,335,110.94 10% SK Fund under RA 10742 Sec. 20, computed from ₱13,351,109.40 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Kalasungay's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -7526,12 +7646,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 13351109.4,
+    "barangay20PctBdf2026": 2670221.88,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 1335110.94,
+    "bdrrmf2026": 667555.47
   },
   {
     "barangayName": "Kibalabag",
     "barangaySlug": "kibalabag",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1648138.42,
     "bdp2026ProjectTitle": "Improvement of Barangay Water System (Sections A, B, C, and D)",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Rehabilitation of Barangay Water System at Purok 2 and Purok 4",
@@ -7546,24 +7671,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Kibalabag",
         "barangaySlug": "kibalabag",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Kibalabag)",
         "title": "Improvement of Barangay Water System (Sections A, B, C, and D)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1648138.42,
+        "utilizedAmount": 648138.42,
+        "completionRate": "₱648,138.42 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "45 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/kibalabag.webp",
         "imageCaption": "Barangay Kibalabag official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Kibalabag under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,648,138.42 FY 2026 Barangay Development allocation for Barangay Kibalabag (2024 POPCEN pop. 1,354): comprises ₱648,138.42 statutory 20% Barangay Development Fund (from ₱3,240,692.10 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Improvement of Barangay Water System (Sections A, B, C, and D)\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Kibalabag, the programmed project is \"Improvement of Barangay Water System (Sections A, B, C, and D)\" with target duration \"45 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Kibalabag (population 1,354) has an estimated FY 2026 National Tax Allotment (NTA) of ₱3,240,692.10, of which at least 20% (₱648,138.42) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Improvement of Barangay Water System (Sections A, B, C, and D)\" (with PR; Procurement ongoing), bringing Barangay Kibalabag's combined 2026 BDP allocation to ₱1,648,138.42.",
+          "budgetAndAuditContext": "Alongside the ₱1,648,138.42 combined BDP allocation, Barangay Kibalabag's FY 2026 statutory budget framework includes ₱324,069.21 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱162,034.61 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -7571,6 +7696,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -7692,20 +7822,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Kibalabag",
         "barangaySlug": "kibalabag",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Kibalabag)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Kibalabag)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱162,034.61), 10% SK Fund (₱324,069.21) & City Operation Listo DRRM Program — Barangay Kibalabag",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 486103.82,
+        "utilizedAmount": 162034.61,
+        "completionRate": "5% BDRRMF: ₱162,034.61 · 10% SK: ₱324,069.21",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/kibalabag.webp",
         "imageCaption": "Barangay Kibalabag official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Kibalabag): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Kibalabag (₱162,034.61 5% BDRRMF under RA 10121 Sec. 21 and ₱324,069.21 10% SK Fund under RA 10742 Sec. 20, computed from ₱3,240,692.10 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Kibalabag's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -7969,12 +8099,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 3240692.1,
+    "barangay20PctBdf2026": 648138.42,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 324069.21,
+    "bdrrmf2026": 162034.61
   },
   {
     "barangayName": "Kulaman",
     "barangaySlug": "kulaman",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1650205.99,
     "bdp2026ProjectTitle": "Construction of Solar Dryer at Purok 5",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Construction of Solar Dryer at Purok 2",
@@ -7989,24 +8124,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Kulaman",
         "barangaySlug": "kulaman",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Kulaman)",
         "title": "Construction of Solar Dryer at Purok 5",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1650205.99,
+        "utilizedAmount": 650205.99,
+        "completionRate": "₱650,205.99 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "45 cd",
         "imageUrl": "/images/barangay-heroes/kulaman.webp",
         "badgeUrl": "/images/barangays/kulaman.webp",
         "imageCaption": "Kulaman community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Kulaman under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,650,205.99 FY 2026 Barangay Development allocation for Barangay Kulaman (2024 POPCEN pop. 1,363): comprises ₱650,205.99 statutory 20% Barangay Development Fund (from ₱3,251,029.95 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Solar Dryer at Purok 5\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Kulaman, the programmed project is \"Construction of Solar Dryer at Purok 5\" with target duration \"45 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Kulaman (population 1,363) has an estimated FY 2026 National Tax Allotment (NTA) of ₱3,251,029.95, of which at least 20% (₱650,205.99) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Solar Dryer at Purok 5\" (with PR; Procurement ongoing), bringing Barangay Kulaman's combined 2026 BDP allocation to ₱1,650,205.99.",
+          "budgetAndAuditContext": "Alongside the ₱1,650,205.99 combined BDP allocation, Barangay Kulaman's FY 2026 statutory budget framework includes ₱325,103.00 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱162,551.50 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -8014,6 +8149,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -8135,20 +8275,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Kulaman",
         "barangaySlug": "kulaman",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Kulaman)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Kulaman)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱162,551.50), 10% SK Fund (₱325,103.00) & City Operation Listo DRRM Program — Barangay Kulaman",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 487654.5,
+        "utilizedAmount": 162551.5,
+        "completionRate": "5% BDRRMF: ₱162,551.50 · 10% SK: ₱325,103.00",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/kulaman.webp",
         "badgeUrl": "/images/barangays/kulaman.webp",
         "imageCaption": "Kulaman community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Kulaman): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Kulaman (₱162,551.50 5% BDRRMF under RA 10121 Sec. 21 and ₱325,103.00 10% SK Fund under RA 10742 Sec. 20, computed from ₱3,251,029.95 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Kulaman's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -8459,12 +8599,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 3251029.95,
+    "barangay20PctBdf2026": 650205.99,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 325103.0,
+    "bdrrmf2026": 162551.5
   },
   {
     "barangayName": "Laguitas",
     "barangaySlug": "laguitas",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2290693.23,
     "bdp2026ProjectTitle": "Construction of Multi-Purpose Hall at Purok 5",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Improvement of Multi-Purpose Building (Covered Court), Purok 2",
@@ -8479,24 +8624,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Laguitas",
         "barangaySlug": "laguitas",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Laguitas)",
         "title": "Construction of Multi-Purpose Hall at Purok 5",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2290693.23,
+        "utilizedAmount": 1290693.23,
+        "completionRate": "₱1,290,693.23 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/barangay-heroes/laguitas.webp",
         "badgeUrl": "/images/barangays/laguitas.webp",
         "imageCaption": "Laguitas community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Laguitas under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,290,693.23 FY 2026 Barangay Development allocation for Barangay Laguitas (2024 POPCEN pop. 4,151): comprises ₱1,290,693.23 statutory 20% Barangay Development Fund (from ₱6,453,466.15 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Multi-Purpose Hall at Purok 5\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Laguitas, the programmed project is \"Construction of Multi-Purpose Hall at Purok 5\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Laguitas (population 4,151) has an estimated FY 2026 National Tax Allotment (NTA) of ₱6,453,466.15, of which at least 20% (₱1,290,693.23) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Multi-Purpose Hall at Purok 5\" (with PR; Procurement ongoing), bringing Barangay Laguitas's combined 2026 BDP allocation to ₱2,290,693.23.",
+          "budgetAndAuditContext": "Alongside the ₱2,290,693.23 combined BDP allocation, Barangay Laguitas's FY 2026 statutory budget framework includes ₱645,346.62 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱322,673.31 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -8504,6 +8649,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -8625,20 +8775,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Laguitas",
         "barangaySlug": "laguitas",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Laguitas)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Laguitas)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱322,673.31), 10% SK Fund (₱645,346.62) & City Operation Listo DRRM Program — Barangay Laguitas",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 968019.93,
+        "utilizedAmount": 322673.31,
+        "completionRate": "5% BDRRMF: ₱322,673.31 · 10% SK: ₱645,346.62",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/laguitas.webp",
         "badgeUrl": "/images/barangays/laguitas.webp",
         "imageCaption": "Laguitas community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Laguitas): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Laguitas (₱322,673.31 5% BDRRMF under RA 10121 Sec. 21 and ₱645,346.62 10% SK Fund under RA 10742 Sec. 20, computed from ₱6,453,466.15 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Laguitas's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -8855,12 +9005,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 6453466.15,
+    "barangay20PctBdf2026": 1290693.23,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 645346.62,
+    "bdrrmf2026": 322673.31
   },
   {
     "barangayName": "Patpat",
     "barangaySlug": "patpat",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2366733.86,
     "bdp2026ProjectTitle": "Construction of Multi-Purpose Building (Phase 2), Purok 3",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Construction of Multi-Purpose Building (Phase 1), Purok 3",
@@ -8875,24 +9030,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Patpat",
         "barangaySlug": "patpat",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Patpat)",
         "title": "Construction of Multi-Purpose Building (Phase 2), Purok 3",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2366733.86,
+        "utilizedAmount": 1366733.86,
+        "completionRate": "₱1,366,733.86 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/barangay-heroes/patpat.webp",
         "badgeUrl": "/images/barangays/patpat.webp",
         "imageCaption": "Patpat community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Patpat under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,366,733.86 FY 2026 Barangay Development allocation for Barangay Patpat (2024 POPCEN pop. 4,482): comprises ₱1,366,733.86 statutory 20% Barangay Development Fund (from ₱6,833,669.30 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Multi-Purpose Building (Phase 2), Purok 3\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Patpat, the programmed project is \"Construction of Multi-Purpose Building (Phase 2), Purok 3\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Patpat (population 4,482) has an estimated FY 2026 National Tax Allotment (NTA) of ₱6,833,669.30, of which at least 20% (₱1,366,733.86) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Multi-Purpose Building (Phase 2), Purok 3\" (with PR; Procurement ongoing), bringing Barangay Patpat's combined 2026 BDP allocation to ₱2,366,733.86.",
+          "budgetAndAuditContext": "Alongside the ₱2,366,733.86 combined BDP allocation, Barangay Patpat's FY 2026 statutory budget framework includes ₱683,366.93 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱341,683.47 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -8900,6 +9055,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -8974,20 +9134,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Patpat",
         "barangaySlug": "patpat",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Patpat)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Patpat)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱341,683.47), 10% SK Fund (₱683,366.93) & City Operation Listo DRRM Program — Barangay Patpat",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 1025050.4,
+        "utilizedAmount": 341683.47,
+        "completionRate": "5% BDRRMF: ₱341,683.47 · 10% SK: ₱683,366.93",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/patpat.webp",
         "badgeUrl": "/images/barangays/patpat.webp",
         "imageCaption": "Patpat community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Patpat): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Patpat (₱341,683.47 5% BDRRMF under RA 10121 Sec. 21 and ₱683,366.93 10% SK Fund under RA 10742 Sec. 20, computed from ₱6,833,669.30 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Patpat's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -9345,12 +9505,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 6833669.3,
+    "barangay20PctBdf2026": 1366733.86,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 683366.93,
+    "bdrrmf2026": 341683.47
   },
   {
     "barangayName": "Linabo",
     "barangaySlug": "linabo",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 3060288.73,
     "bdp2026ProjectTitle": "Construction of Multi-Purpose Building (Health Center), Purok 5",
     "bdp2026Status": "For reversion (per Q1 2026 NTA report)",
     "bdp2025ProjectTitle": "Improvement of Multi-Purpose Building (Covered Court Stage), Purok 3",
@@ -9365,24 +9530,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Linabo",
         "barangaySlug": "linabo",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Linabo)",
         "title": "Construction of Multi-Purpose Building (Health Center), Purok 5",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 3060288.73,
+        "utilizedAmount": 2060288.73,
+        "completionRate": "₱2,060,288.73 Brgy 20% BDF + ₱1.00M City BDP (For reversion (per Q1 2026 NTA report))",
         "status": "For reversion (per Q1 2026 NTA report)",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "n/a",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/linabo.webp",
         "imageCaption": "Barangay Linabo official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Linabo under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱3,060,288.73 FY 2026 Barangay Development allocation for Barangay Linabo (2024 POPCEN pop. 7,501): comprises ₱2,060,288.73 statutory 20% Barangay Development Fund (from ₱10,301,443.65 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Multi-Purpose Building (Health Center), Purok 5\" (For reversion (per Q1 2026 NTA report)).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Linabo, the programmed project is \"Construction of Multi-Purpose Building (Health Center), Purok 5\" with target duration \"n/a\" and Q1 2026 status \"For reversion (per Q1 2026 NTA report)\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Linabo (population 7,501) has an estimated FY 2026 National Tax Allotment (NTA) of ₱10,301,443.65, of which at least 20% (₱2,060,288.73) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Multi-Purpose Building (Health Center), Purok 5\" (For reversion (per Q1 2026 NTA report)), bringing Barangay Linabo's combined 2026 BDP allocation to ₱3,060,288.73.",
+          "budgetAndAuditContext": "Alongside the ₱3,060,288.73 combined BDP allocation, Barangay Linabo's FY 2026 statutory budget framework includes ₱1,030,144.37 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱515,072.18 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -9390,6 +9555,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -9511,20 +9681,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Linabo",
         "barangaySlug": "linabo",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Linabo)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Linabo)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱515,072.18), 10% SK Fund (₱1,030,144.37) & City Operation Listo DRRM Program — Barangay Linabo",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 1545216.55,
+        "utilizedAmount": 515072.18,
+        "completionRate": "5% BDRRMF: ₱515,072.18 · 10% SK: ₱1,030,144.37",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/linabo.webp",
         "imageCaption": "Barangay Linabo official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Linabo): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Linabo (₱515,072.18 5% BDRRMF under RA 10121 Sec. 21 and ₱1,030,144.37 10% SK Fund under RA 10742 Sec. 20, computed from ₱10,301,443.65 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Linabo's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -10023,12 +10193,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 10301443.65,
+    "barangay20PctBdf2026": 2060288.73,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 1030144.37,
+    "bdrrmf2026": 515072.18
   },
   {
     "barangayName": "Apo Macote",
     "barangaySlug": "apo-macote",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2512382.68,
     "bdp2026ProjectTitle": "Improvement of Covered Court (Painting and Flooring)",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Construction of Multi-Purpose Building (Bleachers), Purok 2",
@@ -10043,24 +10218,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Apo Macote",
         "barangaySlug": "apo-macote",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Apo Macote)",
         "title": "Improvement of Covered Court (Painting and Flooring)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2512382.68,
+        "utilizedAmount": 1512382.68,
+        "completionRate": "₱1,512,382.68 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "60 cd",
         "imageUrl": "/images/barangay-heroes/apo-macote.webp",
         "badgeUrl": "/images/barangays/apo-macote.webp",
         "imageCaption": "Apo Macote community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Apo Macote under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,512,382.68 FY 2026 Barangay Development allocation for Barangay Apo Macote (2024 POPCEN pop. 5,116): comprises ₱1,512,382.68 statutory 20% Barangay Development Fund (from ₱7,561,913.40 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Improvement of Covered Court (Painting and Flooring)\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Apo Macote, the programmed project is \"Improvement of Covered Court (Painting and Flooring)\" with target duration \"60 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Apo Macote (population 5,116) has an estimated FY 2026 National Tax Allotment (NTA) of ₱7,561,913.40, of which at least 20% (₱1,512,382.68) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Improvement of Covered Court (Painting and Flooring)\" (with PR; Procurement ongoing), bringing Barangay Apo Macote's combined 2026 BDP allocation to ₱2,512,382.68.",
+          "budgetAndAuditContext": "Alongside the ₱2,512,382.68 combined BDP allocation, Barangay Apo Macote's FY 2026 statutory budget framework includes ₱756,191.34 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱378,095.67 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -10068,6 +10243,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -10189,20 +10369,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Apo Macote",
         "barangaySlug": "apo-macote",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Apo Macote)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Apo Macote)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱378,095.67), 10% SK Fund (₱756,191.34) & City Operation Listo DRRM Program — Barangay Apo Macote",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 1134287.01,
+        "utilizedAmount": 378095.67,
+        "completionRate": "5% BDRRMF: ₱378,095.67 · 10% SK: ₱756,191.34",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/apo-macote.webp",
         "badgeUrl": "/images/barangays/apo-macote.webp",
         "imageCaption": "Apo Macote community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Apo Macote): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Apo Macote (₱378,095.67 5% BDRRMF under RA 10121 Sec. 21 and ₱756,191.34 10% SK Fund under RA 10742 Sec. 20, computed from ₱7,561,913.40 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Apo Macote's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -10748,12 +10928,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 7561913.4,
+    "barangay20PctBdf2026": 1512382.68,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 756191.34,
+    "bdrrmf2026": 378095.67
   },
   {
     "barangayName": "Miglamin",
     "barangaySlug": "miglamin",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2034774.01,
     "bdp2026ProjectTitle": "Rehabilitation of Barangay Water System at Purok 1 to Purok 7",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Construction of Drainage Canal at Purok 2",
@@ -10768,24 +10953,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Miglamin",
         "barangaySlug": "miglamin",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Miglamin)",
         "title": "Rehabilitation of Barangay Water System at Purok 1 to Purok 7",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2034774.01,
+        "utilizedAmount": 1034774.01,
+        "completionRate": "₱1,034,774.01 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "45 cd",
         "imageUrl": "/images/barangay-heroes/miglamin.webp",
         "badgeUrl": "/images/barangays/miglamin.webp",
         "imageCaption": "Miglamin community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Miglamin under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,034,774.01 FY 2026 Barangay Development allocation for Barangay Miglamin (2024 POPCEN pop. 3,037): comprises ₱1,034,774.01 statutory 20% Barangay Development Fund (from ₱5,173,870.05 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Rehabilitation of Barangay Water System at Purok 1 to Purok 7\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Miglamin, the programmed project is \"Rehabilitation of Barangay Water System at Purok 1 to Purok 7\" with target duration \"45 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Miglamin (population 3,037) has an estimated FY 2026 National Tax Allotment (NTA) of ₱5,173,870.05, of which at least 20% (₱1,034,774.01) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Rehabilitation of Barangay Water System at Purok 1 to Purok 7\" (with PR; Procurement ongoing), bringing Barangay Miglamin's combined 2026 BDP allocation to ₱2,034,774.01.",
+          "budgetAndAuditContext": "Alongside the ₱2,034,774.01 combined BDP allocation, Barangay Miglamin's FY 2026 statutory budget framework includes ₱517,387.01 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱258,693.50 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -10793,6 +10978,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -10914,20 +11104,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Miglamin",
         "barangaySlug": "miglamin",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Miglamin)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Miglamin)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱258,693.50), 10% SK Fund (₱517,387.01) & City Operation Listo DRRM Program — Barangay Miglamin",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 776080.51,
+        "utilizedAmount": 258693.5,
+        "completionRate": "5% BDRRMF: ₱258,693.50 · 10% SK: ₱517,387.01",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/miglamin.webp",
         "badgeUrl": "/images/barangays/miglamin.webp",
         "imageCaption": "Miglamin community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Miglamin): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Miglamin (₱258,693.50 5% BDRRMF under RA 10121 Sec. 21 and ₱517,387.01 10% SK Fund under RA 10742 Sec. 20, computed from ₱5,173,870.05 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Miglamin's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -11285,12 +11475,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 5173870.05,
+    "barangay20PctBdf2026": 1034774.01,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 517387.01,
+    "bdrrmf2026": 258693.5
   },
   {
     "barangayName": "Magsaysay",
     "barangaySlug": "magsaysay",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2069003.78,
     "bdp2026ProjectTitle": "Rehabilitation of Barangay Water System",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Expansion of Barangay Water System at Purok 4",
@@ -11305,24 +11500,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Magsaysay",
         "barangaySlug": "magsaysay",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Magsaysay)",
         "title": "Rehabilitation of Barangay Water System",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2069003.78,
+        "utilizedAmount": 1069003.78,
+        "completionRate": "₱1,069,003.78 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "45 cd",
         "imageUrl": "/images/barangay-heroes/magsaysay.webp",
         "badgeUrl": "/images/barangays/magsaysay.webp",
         "imageCaption": "Magsaysay community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Magsaysay under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,069,003.78 FY 2026 Barangay Development allocation for Barangay Magsaysay (2024 POPCEN pop. 3,186): comprises ₱1,069,003.78 statutory 20% Barangay Development Fund (from ₱5,345,018.90 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Rehabilitation of Barangay Water System\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Magsaysay, the programmed project is \"Rehabilitation of Barangay Water System\" with target duration \"45 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Magsaysay (population 3,186) has an estimated FY 2026 National Tax Allotment (NTA) of ₱5,345,018.90, of which at least 20% (₱1,069,003.78) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Rehabilitation of Barangay Water System\" (with PR; Procurement ongoing), bringing Barangay Magsaysay's combined 2026 BDP allocation to ₱2,069,003.78.",
+          "budgetAndAuditContext": "Alongside the ₱2,069,003.78 combined BDP allocation, Barangay Magsaysay's FY 2026 statutory budget framework includes ₱534,501.89 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱267,250.95 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -11330,6 +11525,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -11451,20 +11651,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Magsaysay",
         "barangaySlug": "magsaysay",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Magsaysay)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Magsaysay)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱267,250.95), 10% SK Fund (₱534,501.89) & City Operation Listo DRRM Program — Barangay Magsaysay",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 801752.84,
+        "utilizedAmount": 267250.95,
+        "completionRate": "5% BDRRMF: ₱267,250.95 · 10% SK: ₱534,501.89",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/magsaysay.webp",
         "badgeUrl": "/images/barangays/magsaysay.webp",
         "imageCaption": "Magsaysay community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Magsaysay): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Magsaysay (₱267,250.95 5% BDRRMF under RA 10121 Sec. 21 and ₱534,501.89 10% SK Fund under RA 10742 Sec. 20, computed from ₱5,345,018.90 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Magsaysay's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -11728,12 +11928,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 5345018.9,
+    "barangay20PctBdf2026": 1069003.78,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 534501.89,
+    "bdrrmf2026": 267250.95
   },
   {
     "barangayName": "Maligaya",
     "barangaySlug": "maligaya",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2043503.75,
     "bdp2026ProjectTitle": "Construction of Multi-Purpose Building (Senior Citizen Building), Purok 2",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Concreting of Barangay Road at Purok 4",
@@ -11748,24 +11953,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Maligaya",
         "barangaySlug": "maligaya",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Maligaya)",
         "title": "Construction of Multi-Purpose Building (Senior Citizen Building), Purok 2",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2043503.75,
+        "utilizedAmount": 1043503.75,
+        "completionRate": "₱1,043,503.75 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/maligaya.webp",
         "imageCaption": "Barangay Maligaya official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Maligaya under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,043,503.75 FY 2026 Barangay Development allocation for Barangay Maligaya (2024 POPCEN pop. 3,075): comprises ₱1,043,503.75 statutory 20% Barangay Development Fund (from ₱5,217,518.75 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Multi-Purpose Building (Senior Citizen Building), Purok 2\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Maligaya, the programmed project is \"Construction of Multi-Purpose Building (Senior Citizen Building), Purok 2\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Maligaya (population 3,075) has an estimated FY 2026 National Tax Allotment (NTA) of ₱5,217,518.75, of which at least 20% (₱1,043,503.75) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Multi-Purpose Building (Senior Citizen Building), Purok 2\" (with PR; Procurement ongoing), bringing Barangay Maligaya's combined 2026 BDP allocation to ₱2,043,503.75.",
+          "budgetAndAuditContext": "Alongside the ₱2,043,503.75 combined BDP allocation, Barangay Maligaya's FY 2026 statutory budget framework includes ₱521,751.88 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱260,875.94 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -11773,6 +11978,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -11894,20 +12104,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Maligaya",
         "barangaySlug": "maligaya",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Maligaya)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Maligaya)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱260,875.94), 10% SK Fund (₱521,751.88) & City Operation Listo DRRM Program — Barangay Maligaya",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 782627.82,
+        "utilizedAmount": 260875.94,
+        "completionRate": "5% BDRRMF: ₱260,875.94 · 10% SK: ₱521,751.88",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/maligaya.webp",
         "imageCaption": "Barangay Maligaya official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Maligaya): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Maligaya (₱260,875.94 5% BDRRMF under RA 10121 Sec. 21 and ₱521,751.88 10% SK Fund under RA 10742 Sec. 20, computed from ₱5,217,518.75 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Maligaya's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -12218,12 +12428,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 5217518.75,
+    "barangay20PctBdf2026": 1043503.75,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 521751.88,
+    "bdrrmf2026": 260875.94
   },
   {
     "barangayName": "Managok",
     "barangaySlug": "managok",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 3157923.98,
     "bdp2026ProjectTitle": "Improvement of Covered Court (Bleachers and Flooring), Purok 4",
     "bdp2026Status": "For reversion (per Q1 2026 NTA report)",
     "bdp2025ProjectTitle": "Concreting of Barangay Road at Purok 6",
@@ -12238,24 +12453,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Managok",
         "barangaySlug": "managok",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Managok)",
         "title": "Improvement of Covered Court (Bleachers and Flooring), Purok 4",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 3157923.98,
+        "utilizedAmount": 2157923.98,
+        "completionRate": "₱2,157,923.98 Brgy 20% BDF + ₱1.00M City BDP (For reversion (per Q1 2026 NTA report))",
         "status": "For reversion (per Q1 2026 NTA report)",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "n/a",
         "imageUrl": "/images/barangay-heroes/managok.webp",
         "badgeUrl": "/images/barangays/managok.webp",
         "imageCaption": "Managok community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Managok under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱3,157,923.98 FY 2026 Barangay Development allocation for Barangay Managok (2024 POPCEN pop. 7,926): comprises ₱2,157,923.98 statutory 20% Barangay Development Fund (from ₱10,789,619.90 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Improvement of Covered Court (Bleachers and Flooring), Purok 4\" (For reversion (per Q1 2026 NTA report)).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Managok, the programmed project is \"Improvement of Covered Court (Bleachers and Flooring), Purok 4\" with target duration \"n/a\" and Q1 2026 status \"For reversion (per Q1 2026 NTA report)\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Managok (population 7,926) has an estimated FY 2026 National Tax Allotment (NTA) of ₱10,789,619.90, of which at least 20% (₱2,157,923.98) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Improvement of Covered Court (Bleachers and Flooring), Purok 4\" (For reversion (per Q1 2026 NTA report)), bringing Barangay Managok's combined 2026 BDP allocation to ₱3,157,923.98.",
+          "budgetAndAuditContext": "Alongside the ₱3,157,923.98 combined BDP allocation, Barangay Managok's FY 2026 statutory budget framework includes ₱1,078,961.99 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱539,480.99 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -12263,6 +12478,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -12384,20 +12604,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Managok",
         "barangaySlug": "managok",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Managok)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Managok)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱539,480.99), 10% SK Fund (₱1,078,961.99) & City Operation Listo DRRM Program — Barangay Managok",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 1618442.98,
+        "utilizedAmount": 539480.99,
+        "completionRate": "5% BDRRMF: ₱539,480.99 · 10% SK: ₱1,078,961.99",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/managok.webp",
         "badgeUrl": "/images/barangays/managok.webp",
         "imageCaption": "Managok community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Managok): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Managok (₱539,480.99 5% BDRRMF under RA 10121 Sec. 21 and ₱1,078,961.99 10% SK Fund under RA 10742 Sec. 20, computed from ₱10,789,619.90 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Managok's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -12896,12 +13116,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 10789619.9,
+    "barangay20PctBdf2026": 2157923.98,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 1078961.99,
+    "bdrrmf2026": 539480.99
   },
   {
     "barangayName": "Manalog",
     "barangaySlug": "manalog",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1589097.81,
     "bdp2026ProjectTitle": "Rehabilitation of Barangay Water System",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Rehabilitation of Barangay Water System at Purok 1 and Purok 2",
@@ -12916,24 +13141,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Manalog",
         "barangaySlug": "manalog",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Manalog)",
         "title": "Rehabilitation of Barangay Water System",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1589097.81,
+        "utilizedAmount": 589097.81,
+        "completionRate": "₱589,097.81 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "30 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/manalog.webp",
         "imageCaption": "Barangay Manalog official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Manalog under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,589,097.81 FY 2026 Barangay Development allocation for Barangay Manalog (2024 POPCEN pop. 1,097): comprises ₱589,097.81 statutory 20% Barangay Development Fund (from ₱2,945,489.05 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Rehabilitation of Barangay Water System\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Manalog, the programmed project is \"Rehabilitation of Barangay Water System\" with target duration \"30 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Manalog (population 1,097) has an estimated FY 2026 National Tax Allotment (NTA) of ₱2,945,489.05, of which at least 20% (₱589,097.81) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Rehabilitation of Barangay Water System\" (with PR; Procurement ongoing), bringing Barangay Manalog's combined 2026 BDP allocation to ₱1,589,097.81.",
+          "budgetAndAuditContext": "Alongside the ₱1,589,097.81 combined BDP allocation, Barangay Manalog's FY 2026 statutory budget framework includes ₱294,548.90 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱147,274.45 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -12941,6 +13166,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -13015,20 +13245,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Manalog",
         "barangaySlug": "manalog",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Manalog)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Manalog)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱147,274.45), 10% SK Fund (₱294,548.90) & City Operation Listo DRRM Program — Barangay Manalog",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 441823.35,
+        "utilizedAmount": 147274.45,
+        "completionRate": "5% BDRRMF: ₱147,274.45 · 10% SK: ₱294,548.90",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/manalog.webp",
         "imageCaption": "Barangay Manalog official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Manalog): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Manalog (₱147,274.45 5% BDRRMF under RA 10121 Sec. 21 and ₱294,548.90 10% SK Fund under RA 10742 Sec. 20, computed from ₱2,945,489.05 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Manalog's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -13198,12 +13428,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 2945489.05,
+    "barangay20PctBdf2026": 589097.81,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 294548.9,
+    "bdrrmf2026": 147274.45
   },
   {
     "barangayName": "Mapayag",
     "barangaySlug": "mapayag",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1604030.26,
     "bdp2026ProjectTitle": "Construction of Drainage Canal at Purok 2",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Improvement of Multi-Purpose Building (Barangay Hall), Purok 2",
@@ -13218,24 +13453,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Mapayag",
         "barangaySlug": "mapayag",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Mapayag)",
         "title": "Construction of Drainage Canal at Purok 2",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1604030.26,
+        "utilizedAmount": 604030.26,
+        "completionRate": "₱604,030.26 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "60 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/mapayag.webp",
         "imageCaption": "Barangay Mapayag official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Mapayag under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,604,030.26 FY 2026 Barangay Development allocation for Barangay Mapayag (2024 POPCEN pop. 1,162): comprises ₱604,030.26 statutory 20% Barangay Development Fund (from ₱3,020,151.30 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Drainage Canal at Purok 2\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Mapayag, the programmed project is \"Construction of Drainage Canal at Purok 2\" with target duration \"60 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Mapayag (population 1,162) has an estimated FY 2026 National Tax Allotment (NTA) of ₱3,020,151.30, of which at least 20% (₱604,030.26) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Drainage Canal at Purok 2\" (with PR; Procurement ongoing), bringing Barangay Mapayag's combined 2026 BDP allocation to ₱1,604,030.26.",
+          "budgetAndAuditContext": "Alongside the ₱1,604,030.26 combined BDP allocation, Barangay Mapayag's FY 2026 statutory budget framework includes ₱302,015.13 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱151,007.57 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -13243,6 +13478,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -13364,20 +13604,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Mapayag",
         "barangaySlug": "mapayag",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Mapayag)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Mapayag)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱151,007.57), 10% SK Fund (₱302,015.13) & City Operation Listo DRRM Program — Barangay Mapayag",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 453022.7,
+        "utilizedAmount": 151007.57,
+        "completionRate": "5% BDRRMF: ₱151,007.57 · 10% SK: ₱302,015.13",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/mapayag.webp",
         "imageCaption": "Barangay Mapayag official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Mapayag): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Mapayag (₱151,007.57 5% BDRRMF under RA 10121 Sec. 21 and ₱302,015.13 10% SK Fund under RA 10742 Sec. 20, computed from ₱3,020,151.30 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Mapayag's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -13782,12 +14022,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 3020151.3,
+    "barangay20PctBdf2026": 604030.26,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 302015.13,
+    "bdrrmf2026": 151007.57
   },
   {
     "barangayName": "Mapulo",
     "barangaySlug": "mapulo",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1744395.29,
     "bdp2026ProjectTitle": "Improvement of Barangay Water System at Purok 1, 2, 3, and 4",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Rehabilitation of Barangay Water System at Purok 3",
@@ -13802,24 +14047,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Mapulo",
         "barangaySlug": "mapulo",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Mapulo)",
         "title": "Improvement of Barangay Water System at Purok 1, 2, 3, and 4",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1744395.29,
+        "utilizedAmount": 744395.29,
+        "completionRate": "₱744,395.29 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "45 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/mapulo.webp",
         "imageCaption": "Barangay Mapulo official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Mapulo under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,744,395.29 FY 2026 Barangay Development allocation for Barangay Mapulo (2024 POPCEN pop. 1,773): comprises ₱744,395.29 statutory 20% Barangay Development Fund (from ₱3,721,976.45 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Improvement of Barangay Water System at Purok 1, 2, 3, and 4\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Mapulo, the programmed project is \"Improvement of Barangay Water System at Purok 1, 2, 3, and 4\" with target duration \"45 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Mapulo (population 1,773) has an estimated FY 2026 National Tax Allotment (NTA) of ₱3,721,976.45, of which at least 20% (₱744,395.29) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Improvement of Barangay Water System at Purok 1, 2, 3, and 4\" (with PR; Procurement ongoing), bringing Barangay Mapulo's combined 2026 BDP allocation to ₱1,744,395.29.",
+          "budgetAndAuditContext": "Alongside the ₱1,744,395.29 combined BDP allocation, Barangay Mapulo's FY 2026 statutory budget framework includes ₱372,197.65 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱186,098.82 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -13827,6 +14072,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -13948,20 +14198,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Mapulo",
         "barangaySlug": "mapulo",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Mapulo)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Mapulo)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱186,098.82), 10% SK Fund (₱372,197.65) & City Operation Listo DRRM Program — Barangay Mapulo",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 558296.47,
+        "utilizedAmount": 186098.82,
+        "completionRate": "5% BDRRMF: ₱186,098.82 · 10% SK: ₱372,197.65",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/mapulo.webp",
         "imageCaption": "Barangay Mapulo official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Mapulo): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Mapulo (₱186,098.82 5% BDRRMF under RA 10121 Sec. 21 and ₱372,197.65 10% SK Fund under RA 10742 Sec. 20, computed from ₱3,721,976.45 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Mapulo's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -14319,12 +14569,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 3721976.45,
+    "barangay20PctBdf2026": 744395.29,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 372197.65,
+    "bdrrmf2026": 186098.82
   },
   {
     "barangayName": "Barangay 1",
     "barangaySlug": "barangay-1",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2819991.15,
     "bdp2026ProjectTitle": "Construction of Multi-Purpose Building (Health Center Phase 2)",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Construction of Multi-Purpose Building (Health Center Phase 1)",
@@ -14339,24 +14594,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 1",
         "barangaySlug": "barangay-1",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Barangay 1)",
         "title": "Construction of Multi-Purpose Building (Health Center Phase 2)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2819991.15,
+        "utilizedAmount": 1819991.15,
+        "completionRate": "₱1,819,991.15 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-1.webp",
         "imageCaption": "Barangay Barangay 1 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Barangay 1 under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,819,991.15 FY 2026 Barangay Development allocation for Barangay Barangay 1 (2024 POPCEN pop. 6,455): comprises ₱1,819,991.15 statutory 20% Barangay Development Fund (from ₱9,099,955.75 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Multi-Purpose Building (Health Center Phase 2)\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Barangay 1, the programmed project is \"Construction of Multi-Purpose Building (Health Center Phase 2)\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Barangay 1 (population 6,455) has an estimated FY 2026 National Tax Allotment (NTA) of ₱9,099,955.75, of which at least 20% (₱1,819,991.15) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Multi-Purpose Building (Health Center Phase 2)\" (with PR; Procurement ongoing), bringing Barangay Barangay 1's combined 2026 BDP allocation to ₱2,819,991.15.",
+          "budgetAndAuditContext": "Alongside the ₱2,819,991.15 combined BDP allocation, Barangay Barangay 1's FY 2026 statutory budget framework includes ₱909,995.58 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱454,997.79 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -14364,6 +14619,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -14485,20 +14745,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 1",
         "barangaySlug": "barangay-1",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Barangay 1)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Barangay 1)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱454,997.79), 10% SK Fund (₱909,995.58) & City Operation Listo DRRM Program — Barangay Barangay 1",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 1364993.37,
+        "utilizedAmount": 454997.79,
+        "completionRate": "5% BDRRMF: ₱454,997.79 · 10% SK: ₱909,995.58",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-1.webp",
         "imageCaption": "Barangay Barangay 1 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Barangay 1): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Barangay 1 (₱454,997.79 5% BDRRMF under RA 10121 Sec. 21 and ₱909,995.58 10% SK Fund under RA 10742 Sec. 20, computed from ₱9,099,955.75 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Barangay 1's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -14762,12 +15022,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 9099955.75,
+    "barangay20PctBdf2026": 1819991.15,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 909995.58,
+    "bdrrmf2026": 454997.79
   },
   {
     "barangayName": "Barangay 2",
     "barangaySlug": "barangay-2",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1476300.38,
     "bdp2026ProjectTitle": "Rehabilitation of Multi-Purpose Building (Barangay Hall)",
     "bdp2026Status": "Contracting period (Awarded Q1 2026)",
     "bdp2025ProjectTitle": "Improvement of Multi-Purpose Building (Barangay Hall Phase 1)",
@@ -14782,24 +15047,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 2",
         "barangaySlug": "barangay-2",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Barangay 2)",
         "title": "Rehabilitation of Multi-Purpose Building (Barangay Hall)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 998643.8,
-        "completionRate": "Contracting period",
+        "approvedBudget": 1476300.38,
+        "utilizedAmount": 476300.38,
+        "completionRate": "₱476,300.38 Brgy 20% BDF + ₱1.00M City BDP (Contracting period (Awarded Q1 2026))",
         "status": "Contracting period (Awarded Q1 2026)",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-2.webp",
         "imageCaption": "Barangay Barangay 2 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Barangay 2 under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,476,300.38 FY 2026 Barangay Development allocation for Barangay Barangay 2 (2024 POPCEN pop. 606): comprises ₱476,300.38 statutory 20% Barangay Development Fund (from ₱2,381,501.90 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Rehabilitation of Multi-Purpose Building (Barangay Hall)\" (Contracting period (Awarded Q1 2026)).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Barangay 2, the programmed project is \"Rehabilitation of Multi-Purpose Building (Barangay Hall)\" with target duration \"75 cd\" and Q1 2026 status \"Contracting period (Awarded Q1 2026)\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Barangay 2 (population 606) has an estimated FY 2026 National Tax Allotment (NTA) of ₱2,381,501.90, of which at least 20% (₱476,300.38) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Rehabilitation of Multi-Purpose Building (Barangay Hall)\" (Contracting period (Awarded Q1 2026)), bringing Barangay Barangay 2's combined 2026 BDP allocation to ₱1,476,300.38.",
+          "budgetAndAuditContext": "Alongside the ₱1,476,300.38 combined BDP allocation, Barangay Barangay 2's FY 2026 statutory budget framework includes ₱238,150.19 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱119,075.10 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -14807,6 +15072,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -14881,20 +15151,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 2",
         "barangaySlug": "barangay-2",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Barangay 2)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Barangay 2)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱119,075.10), 10% SK Fund (₱238,150.19) & City Operation Listo DRRM Program — Barangay Barangay 2",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 357225.29,
+        "utilizedAmount": 119075.1,
+        "completionRate": "5% BDRRMF: ₱119,075.10 · 10% SK: ₱238,150.19",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-2.webp",
         "imageCaption": "Barangay Barangay 2 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Barangay 2): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Barangay 2 (₱119,075.10 5% BDRRMF under RA 10121 Sec. 21 and ₱238,150.19 10% SK Fund under RA 10742 Sec. 20, computed from ₱2,381,501.90 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Barangay 2's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -15064,12 +15334,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 2381501.9,
+    "barangay20PctBdf2026": 476300.38,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 238150.19,
+    "bdrrmf2026": 119075.1
   },
   {
     "barangayName": "Barangay 3",
     "barangaySlug": "barangay-3",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1488935.53,
     "bdp2026ProjectTitle": "Improvement of Multi-Purpose Building (Barangay Hall)",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Rehabilitation of Drainage Canal at Purok 2",
@@ -15084,24 +15359,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 3",
         "barangaySlug": "barangay-3",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Barangay 3)",
         "title": "Improvement of Multi-Purpose Building (Barangay Hall)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1488935.53,
+        "utilizedAmount": 488935.53,
+        "completionRate": "₱488,935.53 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-3.webp",
         "imageCaption": "Barangay Barangay 3 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Barangay 3 under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,488,935.53 FY 2026 Barangay Development allocation for Barangay Barangay 3 (2024 POPCEN pop. 661): comprises ₱488,935.53 statutory 20% Barangay Development Fund (from ₱2,444,677.65 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Improvement of Multi-Purpose Building (Barangay Hall)\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Barangay 3, the programmed project is \"Improvement of Multi-Purpose Building (Barangay Hall)\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Barangay 3 (population 661) has an estimated FY 2026 National Tax Allotment (NTA) of ₱2,444,677.65, of which at least 20% (₱488,935.53) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Improvement of Multi-Purpose Building (Barangay Hall)\" (with PR; Procurement ongoing), bringing Barangay Barangay 3's combined 2026 BDP allocation to ₱1,488,935.53.",
+          "budgetAndAuditContext": "Alongside the ₱1,488,935.53 combined BDP allocation, Barangay Barangay 3's FY 2026 statutory budget framework includes ₱244,467.77 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱122,233.88 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -15109,6 +15384,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -15230,20 +15510,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 3",
         "barangaySlug": "barangay-3",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Barangay 3)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Barangay 3)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱122,233.88), 10% SK Fund (₱244,467.77) & City Operation Listo DRRM Program — Barangay Barangay 3",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 366701.65,
+        "utilizedAmount": 122233.88,
+        "completionRate": "5% BDRRMF: ₱122,233.88 · 10% SK: ₱244,467.77",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-3.webp",
         "imageCaption": "Barangay Barangay 3 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Barangay 3): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Barangay 3 (₱122,233.88 5% BDRRMF under RA 10121 Sec. 21 and ₱244,467.77 10% SK Fund under RA 10742 Sec. 20, computed from ₱2,444,677.65 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Barangay 3's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -15460,12 +15740,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 2444677.65,
+    "barangay20PctBdf2026": 488935.53,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 244467.77,
+    "bdrrmf2026": 122233.88
   },
   {
     "barangayName": "Barangay 4",
     "barangaySlug": "barangay-4",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1424840.86,
     "bdp2026ProjectTitle": "Improvement of Multi-Purpose Building (Barangay Hall)",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Rehabilitation of Multi-Purpose Building (Barangay Hall Phase 1)",
@@ -15480,24 +15765,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 4",
         "barangaySlug": "barangay-4",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Barangay 4)",
         "title": "Improvement of Multi-Purpose Building (Barangay Hall)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1424840.86,
+        "utilizedAmount": 424840.86,
+        "completionRate": "₱424,840.86 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-4.webp",
         "imageCaption": "Barangay Barangay 4 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Barangay 4 under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,424,840.86 FY 2026 Barangay Development allocation for Barangay Barangay 4 (2024 POPCEN pop. 382): comprises ₱424,840.86 statutory 20% Barangay Development Fund (from ₱2,124,204.30 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Improvement of Multi-Purpose Building (Barangay Hall)\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Barangay 4, the programmed project is \"Improvement of Multi-Purpose Building (Barangay Hall)\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Barangay 4 (population 382) has an estimated FY 2026 National Tax Allotment (NTA) of ₱2,124,204.30, of which at least 20% (₱424,840.86) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Improvement of Multi-Purpose Building (Barangay Hall)\" (with PR; Procurement ongoing), bringing Barangay Barangay 4's combined 2026 BDP allocation to ₱1,424,840.86.",
+          "budgetAndAuditContext": "Alongside the ₱1,424,840.86 combined BDP allocation, Barangay Barangay 4's FY 2026 statutory budget framework includes ₱212,420.43 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱106,210.21 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -15505,6 +15790,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -15626,20 +15916,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 4",
         "barangaySlug": "barangay-4",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Barangay 4)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Barangay 4)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱106,210.21), 10% SK Fund (₱212,420.43) & City Operation Listo DRRM Program — Barangay Barangay 4",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 318630.64,
+        "utilizedAmount": 106210.21,
+        "completionRate": "5% BDRRMF: ₱106,210.21 · 10% SK: ₱212,420.43",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-4.webp",
         "imageCaption": "Barangay Barangay 4 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Barangay 4): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Barangay 4 (₱106,210.21 5% BDRRMF under RA 10121 Sec. 21 and ₱212,420.43 10% SK Fund under RA 10742 Sec. 20, computed from ₱2,124,204.30 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Barangay 4's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -15809,12 +16099,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 2124204.3,
+    "barangay20PctBdf2026": 424840.86,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 212420.43,
+    "bdrrmf2026": 106210.21
   },
   {
     "barangayName": "Barangay 5",
     "barangaySlug": "barangay-5",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1363273.22,
     "bdp2026ProjectTitle": "Improvement of Multi-Purpose Building (Barangay Hall)",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Rehabilitation of Multi-Purpose Building (Barangay Hall Phase 1)",
@@ -15829,24 +16124,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 5",
         "barangaySlug": "barangay-5",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Barangay 5)",
         "title": "Improvement of Multi-Purpose Building (Barangay Hall)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1363273.22,
+        "utilizedAmount": 363273.22,
+        "completionRate": "₱363,273.22 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "60 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-5.webp",
         "imageCaption": "Barangay Barangay 5 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Barangay 5 under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,363,273.22 FY 2026 Barangay Development allocation for Barangay Barangay 5 (2024 POPCEN pop. 114): comprises ₱363,273.22 statutory 20% Barangay Development Fund (from ₱1,816,366.10 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Improvement of Multi-Purpose Building (Barangay Hall)\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Barangay 5, the programmed project is \"Improvement of Multi-Purpose Building (Barangay Hall)\" with target duration \"60 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Barangay 5 (population 114) has an estimated FY 2026 National Tax Allotment (NTA) of ₱1,816,366.10, of which at least 20% (₱363,273.22) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Improvement of Multi-Purpose Building (Barangay Hall)\" (with PR; Procurement ongoing), bringing Barangay Barangay 5's combined 2026 BDP allocation to ₱1,363,273.22.",
+          "budgetAndAuditContext": "Alongside the ₱1,363,273.22 combined BDP allocation, Barangay Barangay 5's FY 2026 statutory budget framework includes ₱181,636.61 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱90,818.31 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -15854,6 +16149,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -15975,20 +16275,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 5",
         "barangaySlug": "barangay-5",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Barangay 5)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Barangay 5)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱90,818.31), 10% SK Fund (₱181,636.61) & City Operation Listo DRRM Program — Barangay Barangay 5",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 272454.92,
+        "utilizedAmount": 90818.31,
+        "completionRate": "5% BDRRMF: ₱90,818.31 · 10% SK: ₱181,636.61",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-5.webp",
         "imageCaption": "Barangay Barangay 5 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Barangay 5): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Barangay 5 (₱90,818.31 5% BDRRMF under RA 10121 Sec. 21 and ₱181,636.61 10% SK Fund under RA 10742 Sec. 20, computed from ₱1,816,366.10 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Barangay 5's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -16111,12 +16411,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 1816366.1,
+    "barangay20PctBdf2026": 363273.22,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 181636.61,
+    "bdrrmf2026": 90818.31
   },
   {
     "barangayName": "Barangay 6",
     "barangaySlug": "barangay-6",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1481584.17,
     "bdp2026ProjectTitle": "Rehabilitation of Drainage Canal along Fortich Street",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Improvement of Multi-Purpose Building (Barangay Hall)",
@@ -16131,24 +16436,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 6",
         "barangaySlug": "barangay-6",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Barangay 6)",
         "title": "Rehabilitation of Drainage Canal along Fortich Street",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1481584.17,
+        "utilizedAmount": 481584.17,
+        "completionRate": "₱481,584.17 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "60 cd",
         "imageUrl": "/images/barangay-heroes/barangay-6.webp",
         "badgeUrl": "/images/barangays/barangay-6.webp",
         "imageCaption": "Barangay 6 community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Barangay 6 under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,481,584.17 FY 2026 Barangay Development allocation for Barangay Barangay 6 (2024 POPCEN pop. 629): comprises ₱481,584.17 statutory 20% Barangay Development Fund (from ₱2,407,920.85 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Rehabilitation of Drainage Canal along Fortich Street\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Barangay 6, the programmed project is \"Rehabilitation of Drainage Canal along Fortich Street\" with target duration \"60 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Barangay 6 (population 629) has an estimated FY 2026 National Tax Allotment (NTA) of ₱2,407,920.85, of which at least 20% (₱481,584.17) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Rehabilitation of Drainage Canal along Fortich Street\" (with PR; Procurement ongoing), bringing Barangay Barangay 6's combined 2026 BDP allocation to ₱1,481,584.17.",
+          "budgetAndAuditContext": "Alongside the ₱1,481,584.17 combined BDP allocation, Barangay Barangay 6's FY 2026 statutory budget framework includes ₱240,792.09 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱120,396.04 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -16156,6 +16461,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -16277,20 +16587,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 6",
         "barangaySlug": "barangay-6",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Barangay 6)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Barangay 6)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱120,396.04), 10% SK Fund (₱240,792.09) & City Operation Listo DRRM Program — Barangay Barangay 6",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 361188.13,
+        "utilizedAmount": 120396.04,
+        "completionRate": "5% BDRRMF: ₱120,396.04 · 10% SK: ₱240,792.09",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/barangay-6.webp",
         "badgeUrl": "/images/barangays/barangay-6.webp",
         "imageCaption": "Barangay 6 community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Barangay 6): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Barangay 6 (₱120,396.04 5% BDRRMF under RA 10121 Sec. 21 and ₱240,792.09 10% SK Fund under RA 10742 Sec. 20, computed from ₱2,407,920.85 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Barangay 6's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -16413,12 +16723,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 2407920.85,
+    "barangay20PctBdf2026": 481584.17,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 240792.09,
+    "bdrrmf2026": 120396.04
   },
   {
     "barangayName": "Barangay 7",
     "barangaySlug": "barangay-7",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1781381.82,
     "bdp2026ProjectTitle": "Installation of Solar Streetlights",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Improvement of Senior Citizen and Multi-Purpose Building",
@@ -16433,24 +16748,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 7",
         "barangaySlug": "barangay-7",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Barangay 7)",
         "title": "Installation of Solar Streetlights",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1781381.82,
+        "utilizedAmount": 781381.82,
+        "completionRate": "₱781,381.82 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "45 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-7.webp",
         "imageCaption": "Barangay Barangay 7 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Barangay 7 under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,781,381.82 FY 2026 Barangay Development allocation for Barangay Barangay 7 (2024 POPCEN pop. 1,934): comprises ₱781,381.82 statutory 20% Barangay Development Fund (from ₱3,906,909.10 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Installation of Solar Streetlights\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Barangay 7, the programmed project is \"Installation of Solar Streetlights\" with target duration \"45 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Barangay 7 (population 1,934) has an estimated FY 2026 National Tax Allotment (NTA) of ₱3,906,909.10, of which at least 20% (₱781,381.82) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Installation of Solar Streetlights\" (with PR; Procurement ongoing), bringing Barangay Barangay 7's combined 2026 BDP allocation to ₱1,781,381.82.",
+          "budgetAndAuditContext": "Alongside the ₱1,781,381.82 combined BDP allocation, Barangay Barangay 7's FY 2026 statutory budget framework includes ₱390,690.91 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱195,345.46 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -16458,6 +16773,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -16579,20 +16899,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 7",
         "barangaySlug": "barangay-7",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Barangay 7)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Barangay 7)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱195,345.46), 10% SK Fund (₱390,690.91) & City Operation Listo DRRM Program — Barangay Barangay 7",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 586036.37,
+        "utilizedAmount": 195345.46,
+        "completionRate": "5% BDRRMF: ₱195,345.46 · 10% SK: ₱390,690.91",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-7.webp",
         "imageCaption": "Barangay Barangay 7 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Barangay 7): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Barangay 7 (₱195,345.46 5% BDRRMF under RA 10121 Sec. 21 and ₱390,690.91 10% SK Fund under RA 10742 Sec. 20, computed from ₱3,906,909.10 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Barangay 7's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -16715,12 +17035,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 3906909.1,
+    "barangay20PctBdf2026": 781381.82,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 390690.91,
+    "bdrrmf2026": 195345.46
   },
   {
     "barangayName": "Barangay 8",
     "barangaySlug": "barangay-8",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1477908.49,
     "bdp2026ProjectTitle": "Improvement of Multi-Purpose Building (Barangay Hall)",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Rehabilitation of Multi-Purpose Building (Barangay Hall Phase 1)",
@@ -16735,24 +17060,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 8",
         "barangaySlug": "barangay-8",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Barangay 8)",
         "title": "Improvement of Multi-Purpose Building (Barangay Hall)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1477908.49,
+        "utilizedAmount": 477908.49,
+        "completionRate": "₱477,908.49 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-8.webp",
         "imageCaption": "Barangay Barangay 8 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Barangay 8 under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,477,908.49 FY 2026 Barangay Development allocation for Barangay Barangay 8 (2024 POPCEN pop. 613): comprises ₱477,908.49 statutory 20% Barangay Development Fund (from ₱2,389,542.45 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Improvement of Multi-Purpose Building (Barangay Hall)\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Barangay 8, the programmed project is \"Improvement of Multi-Purpose Building (Barangay Hall)\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Barangay 8 (population 613) has an estimated FY 2026 National Tax Allotment (NTA) of ₱2,389,542.45, of which at least 20% (₱477,908.49) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Improvement of Multi-Purpose Building (Barangay Hall)\" (with PR; Procurement ongoing), bringing Barangay Barangay 8's combined 2026 BDP allocation to ₱1,477,908.49.",
+          "budgetAndAuditContext": "Alongside the ₱1,477,908.49 combined BDP allocation, Barangay Barangay 8's FY 2026 statutory budget framework includes ₱238,954.25 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱119,477.12 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -16760,6 +17085,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -16881,20 +17211,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 8",
         "barangaySlug": "barangay-8",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Barangay 8)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Barangay 8)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱119,477.12), 10% SK Fund (₱238,954.25) & City Operation Listo DRRM Program — Barangay Barangay 8",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 358431.37,
+        "utilizedAmount": 119477.12,
+        "completionRate": "5% BDRRMF: ₱119,477.12 · 10% SK: ₱238,954.25",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-8.webp",
         "imageCaption": "Barangay Barangay 8 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Barangay 8): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Barangay 8 (₱119,477.12 5% BDRRMF under RA 10121 Sec. 21 and ₱238,954.25 10% SK Fund under RA 10742 Sec. 20, computed from ₱2,389,542.45 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Barangay 8's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -17064,12 +17394,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 2389542.45,
+    "barangay20PctBdf2026": 477908.49,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 238954.25,
+    "bdrrmf2026": 119477.12
   },
   {
     "barangayName": "Barangay 9",
     "barangaySlug": "barangay-9",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 3318505.25,
     "bdp2026ProjectTitle": "Construction of Drainage Canal at Purok 5",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Rehabilitation of Drainage Canal at Purok 3 and Purok 4",
@@ -17084,24 +17419,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 9",
         "barangaySlug": "barangay-9",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Barangay 9)",
         "title": "Construction of Drainage Canal at Purok 5",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 3318505.25,
+        "utilizedAmount": 2318505.25,
+        "completionRate": "₱2,318,505.25 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "60 cd",
         "imageUrl": "/images/barangay-heroes/barangay-9.webp",
         "badgeUrl": "/images/barangays/barangay-9.webp",
         "imageCaption": "Barangay 9 community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Barangay 9 under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱3,318,505.25 FY 2026 Barangay Development allocation for Barangay Barangay 9 (2024 POPCEN pop. 8,625): comprises ₱2,318,505.25 statutory 20% Barangay Development Fund (from ₱11,592,526.25 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Drainage Canal at Purok 5\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Barangay 9, the programmed project is \"Construction of Drainage Canal at Purok 5\" with target duration \"60 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Barangay 9 (population 8,625) has an estimated FY 2026 National Tax Allotment (NTA) of ₱11,592,526.25, of which at least 20% (₱2,318,505.25) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Drainage Canal at Purok 5\" (with PR; Procurement ongoing), bringing Barangay Barangay 9's combined 2026 BDP allocation to ₱3,318,505.25.",
+          "budgetAndAuditContext": "Alongside the ₱3,318,505.25 combined BDP allocation, Barangay Barangay 9's FY 2026 statutory budget framework includes ₱1,159,252.62 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱579,626.31 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -17109,6 +17444,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -17183,20 +17523,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 9",
         "barangaySlug": "barangay-9",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Barangay 9)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Barangay 9)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱579,626.31), 10% SK Fund (₱1,159,252.62) & City Operation Listo DRRM Program — Barangay Barangay 9",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 1738878.93,
+        "utilizedAmount": 579626.31,
+        "completionRate": "5% BDRRMF: ₱579,626.31 · 10% SK: ₱1,159,252.62",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/barangay-9.webp",
         "badgeUrl": "/images/barangays/barangay-9.webp",
         "imageCaption": "Barangay 9 community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Barangay 9): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Barangay 9 (₱579,626.31 5% BDRRMF under RA 10121 Sec. 21 and ₱1,159,252.62 10% SK Fund under RA 10742 Sec. 20, computed from ₱11,592,526.25 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Barangay 9's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -17977,12 +18317,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 11592526.25,
+    "barangay20PctBdf2026": 2318505.25,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 1159252.62,
+    "bdrrmf2026": 579626.31
   },
   {
     "barangayName": "Barangay 10",
     "barangaySlug": "barangay-10",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2110355.18,
     "bdp2026ProjectTitle": "Improvement of Multi-Purpose Building (Barangay Hall)",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Rehabilitation of Multi-Purpose Building (Barangay Hall Phase 1)",
@@ -17997,24 +18342,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 10",
         "barangaySlug": "barangay-10",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Barangay 10)",
         "title": "Improvement of Multi-Purpose Building (Barangay Hall)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2110355.18,
+        "utilizedAmount": 1110355.18,
+        "completionRate": "₱1,110,355.18 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "60 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-10.webp",
         "imageCaption": "Barangay Barangay 10 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Barangay 10 under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,110,355.18 FY 2026 Barangay Development allocation for Barangay Barangay 10 (2024 POPCEN pop. 3,366): comprises ₱1,110,355.18 statutory 20% Barangay Development Fund (from ₱5,551,775.90 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Improvement of Multi-Purpose Building (Barangay Hall)\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Barangay 10, the programmed project is \"Improvement of Multi-Purpose Building (Barangay Hall)\" with target duration \"60 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Barangay 10 (population 3,366) has an estimated FY 2026 National Tax Allotment (NTA) of ₱5,551,775.90, of which at least 20% (₱1,110,355.18) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Improvement of Multi-Purpose Building (Barangay Hall)\" (with PR; Procurement ongoing), bringing Barangay Barangay 10's combined 2026 BDP allocation to ₱2,110,355.18.",
+          "budgetAndAuditContext": "Alongside the ₱2,110,355.18 combined BDP allocation, Barangay Barangay 10's FY 2026 statutory budget framework includes ₱555,177.59 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱277,588.80 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -18022,6 +18367,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -18143,20 +18493,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 10",
         "barangaySlug": "barangay-10",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Barangay 10)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Barangay 10)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱277,588.80), 10% SK Fund (₱555,177.59) & City Operation Listo DRRM Program — Barangay Barangay 10",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 832766.39,
+        "utilizedAmount": 277588.8,
+        "completionRate": "5% BDRRMF: ₱277,588.80 · 10% SK: ₱555,177.59",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-10.webp",
         "imageCaption": "Barangay Barangay 10 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Barangay 10): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Barangay 10 (₱277,588.80 5% BDRRMF under RA 10121 Sec. 21 and ₱555,177.59 10% SK Fund under RA 10742 Sec. 20, computed from ₱5,551,775.90 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Barangay 10's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -18326,12 +18676,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 5551775.9,
+    "barangay20PctBdf2026": 1110355.18,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 555177.59,
+    "bdrrmf2026": 277588.8
   },
   {
     "barangayName": "Barangay 11",
     "barangaySlug": "barangay-11",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2036611.85,
     "bdp2026ProjectTitle": "Construction of Multi-Purpose Building (Senior Citizen Building)",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Concreting of Barangay Road at Zone 3",
@@ -18346,24 +18701,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 11",
         "barangaySlug": "barangay-11",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Barangay 11)",
         "title": "Construction of Multi-Purpose Building (Senior Citizen Building)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2036611.85,
+        "utilizedAmount": 1036611.85,
+        "completionRate": "₱1,036,611.85 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-11.webp",
         "imageCaption": "Barangay Barangay 11 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Barangay 11 under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,036,611.85 FY 2026 Barangay Development allocation for Barangay Barangay 11 (2024 POPCEN pop. 3,045): comprises ₱1,036,611.85 statutory 20% Barangay Development Fund (from ₱5,183,059.25 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Multi-Purpose Building (Senior Citizen Building)\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Barangay 11, the programmed project is \"Construction of Multi-Purpose Building (Senior Citizen Building)\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Barangay 11 (population 3,045) has an estimated FY 2026 National Tax Allotment (NTA) of ₱5,183,059.25, of which at least 20% (₱1,036,611.85) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Multi-Purpose Building (Senior Citizen Building)\" (with PR; Procurement ongoing), bringing Barangay Barangay 11's combined 2026 BDP allocation to ₱2,036,611.85.",
+          "budgetAndAuditContext": "Alongside the ₱2,036,611.85 combined BDP allocation, Barangay Barangay 11's FY 2026 statutory budget framework includes ₱518,305.93 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱259,152.96 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -18371,6 +18726,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -18492,20 +18852,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Barangay 11",
         "barangaySlug": "barangay-11",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Barangay 11)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Barangay 11)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱259,152.96), 10% SK Fund (₱518,305.93) & City Operation Listo DRRM Program — Barangay Barangay 11",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 777458.89,
+        "utilizedAmount": 259152.96,
+        "completionRate": "5% BDRRMF: ₱259,152.96 · 10% SK: ₱518,305.93",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/barangay-11.webp",
         "imageCaption": "Barangay Barangay 11 official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Barangay 11): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Barangay 11 (₱259,152.96 5% BDRRMF under RA 10121 Sec. 21 and ₱518,305.93 10% SK Fund under RA 10742 Sec. 20, computed from ₱5,183,059.25 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Barangay 11's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -18769,12 +19129,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 5183059.25,
+    "barangay20PctBdf2026": 1036611.85,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 518305.93,
+    "bdrrmf2026": 259152.96
   },
   {
     "barangayName": "St. Peter",
     "barangaySlug": "st-peter",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1988368.55,
     "bdp2026ProjectTitle": "Rehabilitation of Barangay Water System",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Improvement of Barangay Water System at Purok 2 and Purok 4",
@@ -18789,24 +19154,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "St. Peter",
         "barangaySlug": "st-peter",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (St. Peter)",
         "title": "Rehabilitation of Barangay Water System",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1988368.55,
+        "utilizedAmount": 988368.55,
+        "completionRate": "₱988,368.55 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "45 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/st-peter.webp",
         "imageCaption": "Barangay St. Peter official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay St. Peter under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,988,368.55 FY 2026 Barangay Development allocation for Barangay St. Peter (2024 POPCEN pop. 2,835): comprises ₱988,368.55 statutory 20% Barangay Development Fund (from ₱4,941,842.75 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Rehabilitation of Barangay Water System\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay St. Peter, the programmed project is \"Rehabilitation of Barangay Water System\" with target duration \"45 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay St. Peter (population 2,835) has an estimated FY 2026 National Tax Allotment (NTA) of ₱4,941,842.75, of which at least 20% (₱988,368.55) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Rehabilitation of Barangay Water System\" (with PR; Procurement ongoing), bringing Barangay St. Peter's combined 2026 BDP allocation to ₱1,988,368.55.",
+          "budgetAndAuditContext": "Alongside the ₱1,988,368.55 combined BDP allocation, Barangay St. Peter's FY 2026 statutory budget framework includes ₱494,184.28 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱247,092.14 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -18814,6 +19179,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -18935,20 +19305,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "St. Peter",
         "barangaySlug": "st-peter",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · St. Peter)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (St. Peter)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱247,092.14), 10% SK Fund (₱494,184.28) & City Operation Listo DRRM Program — Barangay St. Peter",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 741276.42,
+        "utilizedAmount": 247092.14,
+        "completionRate": "5% BDRRMF: ₱247,092.14 · 10% SK: ₱494,184.28",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/st-peter.webp",
         "imageCaption": "Barangay St. Peter official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay St. Peter): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay St. Peter (₱247,092.14 5% BDRRMF under RA 10121 Sec. 21 and ₱494,184.28 10% SK Fund under RA 10742 Sec. 20, computed from ₱4,941,842.75 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay St. Peter's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -19494,12 +19864,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 4941842.75,
+    "barangay20PctBdf2026": 988368.55,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 494184.28,
+    "bdrrmf2026": 247092.14
   },
   {
     "barangayName": "San Jose",
     "barangaySlug": "san-jose",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 3516762.24,
     "bdp2026ProjectTitle": "Road Concreting at Purok 4",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Concreting of Barangay Road at Purok 3",
@@ -19514,24 +19889,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "San Jose",
         "barangaySlug": "san-jose",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (San Jose)",
         "title": "Road Concreting at Purok 4",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 3516762.24,
+        "utilizedAmount": 2516762.24,
+        "completionRate": "₱2,516,762.24 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "45 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/san-jose.webp",
         "imageCaption": "Barangay San Jose official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay San Jose under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱3,516,762.24 FY 2026 Barangay Development allocation for Barangay San Jose (2024 POPCEN pop. 9,488): comprises ₱2,516,762.24 statutory 20% Barangay Development Fund (from ₱12,583,811.20 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Road Concreting at Purok 4\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay San Jose, the programmed project is \"Road Concreting at Purok 4\" with target duration \"45 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay San Jose (population 9,488) has an estimated FY 2026 National Tax Allotment (NTA) of ₱12,583,811.20, of which at least 20% (₱2,516,762.24) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Road Concreting at Purok 4\" (with PR; Procurement ongoing), bringing Barangay San Jose's combined 2026 BDP allocation to ₱3,516,762.24.",
+          "budgetAndAuditContext": "Alongside the ₱3,516,762.24 combined BDP allocation, Barangay San Jose's FY 2026 statutory budget framework includes ₱1,258,381.12 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱629,190.56 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -19539,6 +19914,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -19613,20 +19993,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "San Jose",
         "barangaySlug": "san-jose",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · San Jose)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (San Jose)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱629,190.56), 10% SK Fund (₱1,258,381.12) & City Operation Listo DRRM Program — Barangay San Jose",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 1887571.68,
+        "utilizedAmount": 629190.56,
+        "completionRate": "5% BDRRMF: ₱629,190.56 · 10% SK: ₱1,258,381.12",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/san-jose.webp",
         "imageCaption": "Barangay San Jose official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay San Jose): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay San Jose (₱629,190.56 5% BDRRMF under RA 10121 Sec. 21 and ₱1,258,381.12 10% SK Fund under RA 10742 Sec. 20, computed from ₱12,583,811.20 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay San Jose's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -20172,12 +20552,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 12583811.2,
+    "barangay20PctBdf2026": 2516762.24,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 1258381.12,
+    "bdrrmf2026": 629190.56
   },
   {
     "barangayName": "San Martin",
     "barangaySlug": "san-martin",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2102084.9,
     "bdp2026ProjectTitle": "Construction of Multi-Purpose Building (Health Center), Purok 3",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Concreting of Barangay Road at Purok 2",
@@ -20192,24 +20577,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "San Martin",
         "barangaySlug": "san-martin",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (San Martin)",
         "title": "Construction of Multi-Purpose Building (Health Center), Purok 3",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2102084.9,
+        "utilizedAmount": 1102084.9,
+        "completionRate": "₱1,102,084.90 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/san-martin.webp",
         "imageCaption": "Barangay San Martin official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay San Martin under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,102,084.90 FY 2026 Barangay Development allocation for Barangay San Martin (2024 POPCEN pop. 3,330): comprises ₱1,102,084.90 statutory 20% Barangay Development Fund (from ₱5,510,424.50 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Multi-Purpose Building (Health Center), Purok 3\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay San Martin, the programmed project is \"Construction of Multi-Purpose Building (Health Center), Purok 3\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay San Martin (population 3,330) has an estimated FY 2026 National Tax Allotment (NTA) of ₱5,510,424.50, of which at least 20% (₱1,102,084.90) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Multi-Purpose Building (Health Center), Purok 3\" (with PR; Procurement ongoing), bringing Barangay San Martin's combined 2026 BDP allocation to ₱2,102,084.90.",
+          "budgetAndAuditContext": "Alongside the ₱2,102,084.90 combined BDP allocation, Barangay San Martin's FY 2026 statutory budget framework includes ₱551,042.45 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱275,521.23 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -20217,6 +20602,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -20338,20 +20728,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "San Martin",
         "barangaySlug": "san-martin",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · San Martin)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (San Martin)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱275,521.23), 10% SK Fund (₱551,042.45) & City Operation Listo DRRM Program — Barangay San Martin",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 826563.68,
+        "utilizedAmount": 275521.23,
+        "completionRate": "5% BDRRMF: ₱275,521.23 · 10% SK: ₱551,042.45",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/san-martin.webp",
         "imageCaption": "Barangay San Martin official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay San Martin): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay San Martin (₱275,521.23 5% BDRRMF under RA 10121 Sec. 21 and ₱551,042.45 10% SK Fund under RA 10742 Sec. 20, computed from ₱5,510,424.50 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay San Martin's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -20568,12 +20958,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 5510424.5,
+    "barangay20PctBdf2026": 1102084.9,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 551042.45,
+    "bdrrmf2026": 275521.23
   },
   {
     "barangayName": "Sto. Niño",
     "barangaySlug": "sto-nino",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1790800.75,
     "bdp2026ProjectTitle": "Construction of Drainage Canal at Purok 1",
     "bdp2026Status": "For reversion (per Q1 2026 NTA report)",
     "bdp2025ProjectTitle": "Rehabilitation of Multi-Purpose Building (Covered Court), Purok 2",
@@ -20588,24 +20983,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Sto. Niño",
         "barangaySlug": "sto-nino",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Sto. Niño)",
         "title": "Construction of Drainage Canal at Purok 1",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1790800.75,
+        "utilizedAmount": 790800.75,
+        "completionRate": "₱790,800.75 Brgy 20% BDF + ₱1.00M City BDP (For reversion (per Q1 2026 NTA report))",
         "status": "For reversion (per Q1 2026 NTA report)",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "n/a",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/sto-nino.webp",
         "imageCaption": "Barangay Sto. Niño official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Sto. Niño under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,790,800.75 FY 2026 Barangay Development allocation for Barangay Sto. Niño (2024 POPCEN pop. 1,975): comprises ₱790,800.75 statutory 20% Barangay Development Fund (from ₱3,954,003.75 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Drainage Canal at Purok 1\" (For reversion (per Q1 2026 NTA report)).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Sto. Niño, the programmed project is \"Construction of Drainage Canal at Purok 1\" with target duration \"n/a\" and Q1 2026 status \"For reversion (per Q1 2026 NTA report)\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Sto. Niño (population 1,975) has an estimated FY 2026 National Tax Allotment (NTA) of ₱3,954,003.75, of which at least 20% (₱790,800.75) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Drainage Canal at Purok 1\" (For reversion (per Q1 2026 NTA report)), bringing Barangay Sto. Niño's combined 2026 BDP allocation to ₱1,790,800.75.",
+          "budgetAndAuditContext": "Alongside the ₱1,790,800.75 combined BDP allocation, Barangay Sto. Niño's FY 2026 statutory budget framework includes ₱395,400.38 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱197,700.19 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -20613,6 +21008,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -20734,20 +21134,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Sto. Niño",
         "barangaySlug": "sto-nino",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Sto. Niño)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Sto. Niño)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱197,700.19), 10% SK Fund (₱395,400.38) & City Operation Listo DRRM Program — Barangay Sto. Niño",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 593100.57,
+        "utilizedAmount": 197700.19,
+        "completionRate": "5% BDRRMF: ₱197,700.19 · 10% SK: ₱395,400.38",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/sto-nino.webp",
         "imageCaption": "Barangay Sto. Niño official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Sto. Niño): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Sto. Niño (₱197,700.19 5% BDRRMF under RA 10121 Sec. 21 and ₱395,400.38 10% SK Fund under RA 10742 Sec. 20, computed from ₱3,954,003.75 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Sto. Niño's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -21011,12 +21411,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 3954003.75,
+    "barangay20PctBdf2026": 790800.75,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 395400.38,
+    "bdrrmf2026": 197700.19
   },
   {
     "barangayName": "Silae",
     "barangaySlug": "silae",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1970909.07,
     "bdp2026ProjectTitle": "Construction of Solar Dryer at Purok 3",
     "bdp2026Status": "For reversion (per Q1 2026 NTA report)",
     "bdp2025ProjectTitle": "Concreting of Barangay Road at Purok 2",
@@ -21031,24 +21436,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Silae",
         "barangaySlug": "silae",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Silae)",
         "title": "Construction of Solar Dryer at Purok 3",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1970909.07,
+        "utilizedAmount": 970909.07,
+        "completionRate": "₱970,909.07 Brgy 20% BDF + ₱1.00M City BDP (For reversion (per Q1 2026 NTA report))",
         "status": "For reversion (per Q1 2026 NTA report)",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "n/a",
         "imageUrl": "/images/barangay-heroes/silae.webp",
         "badgeUrl": "/images/barangays/silae.webp",
         "imageCaption": "Silae community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Silae under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,970,909.07 FY 2026 Barangay Development allocation for Barangay Silae (2024 POPCEN pop. 2,759): comprises ₱970,909.07 statutory 20% Barangay Development Fund (from ₱4,854,545.35 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Solar Dryer at Purok 3\" (For reversion (per Q1 2026 NTA report)).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Silae, the programmed project is \"Construction of Solar Dryer at Purok 3\" with target duration \"n/a\" and Q1 2026 status \"For reversion (per Q1 2026 NTA report)\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Silae (population 2,759) has an estimated FY 2026 National Tax Allotment (NTA) of ₱4,854,545.35, of which at least 20% (₱970,909.07) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Solar Dryer at Purok 3\" (For reversion (per Q1 2026 NTA report)), bringing Barangay Silae's combined 2026 BDP allocation to ₱1,970,909.07.",
+          "budgetAndAuditContext": "Alongside the ₱1,970,909.07 combined BDP allocation, Barangay Silae's FY 2026 statutory budget framework includes ₱485,454.53 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱242,727.27 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -21056,6 +21461,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -21177,20 +21587,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Silae",
         "barangaySlug": "silae",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Silae)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Silae)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱242,727.27), 10% SK Fund (₱485,454.53) & City Operation Listo DRRM Program — Barangay Silae",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 728181.8,
+        "utilizedAmount": 242727.27,
+        "completionRate": "5% BDRRMF: ₱242,727.27 · 10% SK: ₱485,454.53",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/silae.webp",
         "badgeUrl": "/images/barangays/silae.webp",
         "imageCaption": "Silae community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Silae): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Silae (₱242,727.27 5% BDRRMF under RA 10121 Sec. 21 and ₱485,454.53 10% SK Fund under RA 10742 Sec. 20, computed from ₱4,854,545.35 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Silae's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -21548,12 +21958,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 4854545.35,
+    "barangay20PctBdf2026": 970909.07,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 485454.53,
+    "bdrrmf2026": 242727.27
   },
   {
     "barangayName": "Simaya",
     "barangaySlug": "simaya",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2422558.25,
     "bdp2026ProjectTitle": "Construction of Multi-Purpose Building (Senior Citizen and SK Office)",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Concreting of Barangay Road at Purok 3",
@@ -21568,24 +21983,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Simaya",
         "barangaySlug": "simaya",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Simaya)",
         "title": "Construction of Multi-Purpose Building (Senior Citizen and SK Office)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2422558.25,
+        "utilizedAmount": 1422558.25,
+        "completionRate": "₱1,422,558.25 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "90 cd",
         "imageUrl": "/images/barangay-heroes/simaya.webp",
         "badgeUrl": "/images/barangays/simaya.webp",
         "imageCaption": "Simaya community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Simaya under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,422,558.25 FY 2026 Barangay Development allocation for Barangay Simaya (2024 POPCEN pop. 4,725): comprises ₱1,422,558.25 statutory 20% Barangay Development Fund (from ₱7,112,791.25 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Multi-Purpose Building (Senior Citizen and SK Office)\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Simaya, the programmed project is \"Construction of Multi-Purpose Building (Senior Citizen and SK Office)\" with target duration \"90 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Simaya (population 4,725) has an estimated FY 2026 National Tax Allotment (NTA) of ₱7,112,791.25, of which at least 20% (₱1,422,558.25) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Multi-Purpose Building (Senior Citizen and SK Office)\" (with PR; Procurement ongoing), bringing Barangay Simaya's combined 2026 BDP allocation to ₱2,422,558.25.",
+          "budgetAndAuditContext": "Alongside the ₱2,422,558.25 combined BDP allocation, Barangay Simaya's FY 2026 statutory budget framework includes ₱711,279.12 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱355,639.56 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -21593,6 +22008,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -21714,20 +22134,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Simaya",
         "barangaySlug": "simaya",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Simaya)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Simaya)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱355,639.56), 10% SK Fund (₱711,279.12) & City Operation Listo DRRM Program — Barangay Simaya",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 1066918.68,
+        "utilizedAmount": 355639.56,
+        "completionRate": "5% BDRRMF: ₱355,639.56 · 10% SK: ₱711,279.12",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/simaya.webp",
         "badgeUrl": "/images/barangays/simaya.webp",
         "imageCaption": "Simaya community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Simaya): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Simaya (₱355,639.56 5% BDRRMF under RA 10121 Sec. 21 and ₱711,279.12 10% SK Fund under RA 10742 Sec. 20, computed from ₱7,112,791.25 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Simaya's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -22226,12 +22646,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 7112791.25,
+    "barangay20PctBdf2026": 1422558.25,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 711279.12,
+    "bdrrmf2026": 355639.56
   },
   {
     "barangayName": "Sinanglanan",
     "barangaySlug": "sinanglanan",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 2178125.53,
     "bdp2026ProjectTitle": "Construction of Multi-Purpose Building (Phase 2), Purok 4",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Construction of Multi-Purpose Building (Phase 1), Purok 4",
@@ -22246,24 +22671,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Sinanglanan",
         "barangaySlug": "sinanglanan",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Sinanglanan)",
         "title": "Construction of Multi-Purpose Building (Phase 2), Purok 4",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 2178125.53,
+        "utilizedAmount": 1178125.53,
+        "completionRate": "₱1,178,125.53 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/barangay-heroes/sinanglanan.webp",
         "badgeUrl": "/images/barangays/sinanglanan.webp",
         "imageCaption": "Sinanglanan community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Sinanglanan under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱2,178,125.53 FY 2026 Barangay Development allocation for Barangay Sinanglanan (2024 POPCEN pop. 3,661): comprises ₱1,178,125.53 statutory 20% Barangay Development Fund (from ₱5,890,627.65 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Multi-Purpose Building (Phase 2), Purok 4\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Sinanglanan, the programmed project is \"Construction of Multi-Purpose Building (Phase 2), Purok 4\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Sinanglanan (population 3,661) has an estimated FY 2026 National Tax Allotment (NTA) of ₱5,890,627.65, of which at least 20% (₱1,178,125.53) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Multi-Purpose Building (Phase 2), Purok 4\" (with PR; Procurement ongoing), bringing Barangay Sinanglanan's combined 2026 BDP allocation to ₱2,178,125.53.",
+          "budgetAndAuditContext": "Alongside the ₱2,178,125.53 combined BDP allocation, Barangay Sinanglanan's FY 2026 statutory budget framework includes ₱589,062.77 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱294,531.38 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -22271,6 +22696,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -22392,20 +22822,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Sinanglanan",
         "barangaySlug": "sinanglanan",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Sinanglanan)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Sinanglanan)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱294,531.38), 10% SK Fund (₱589,062.77) & City Operation Listo DRRM Program — Barangay Sinanglanan",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 883594.15,
+        "utilizedAmount": 294531.38,
+        "completionRate": "5% BDRRMF: ₱294,531.38 · 10% SK: ₱589,062.77",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/sinanglanan.webp",
         "badgeUrl": "/images/barangays/sinanglanan.webp",
         "imageCaption": "Sinanglanan community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Sinanglanan): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Sinanglanan (₱294,531.38 5% BDRRMF under RA 10121 Sec. 21 and ₱589,062.77 10% SK Fund under RA 10742 Sec. 20, computed from ₱5,890,627.65 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Sinanglanan's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -22857,12 +23287,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 5890627.65,
+    "barangay20PctBdf2026": 1178125.53,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 589062.77,
+    "bdrrmf2026": 294531.38
   },
   {
     "barangayName": "Sumpong",
     "barangaySlug": "sumpong",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 3407410.76,
     "bdp2026ProjectTitle": "Construction of Drainage Canal at Purok 6",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Concreting of Barangay Road at Purok 5",
@@ -22877,24 +23312,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Sumpong",
         "barangaySlug": "sumpong",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Sumpong)",
         "title": "Construction of Drainage Canal at Purok 6",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 3407410.76,
+        "utilizedAmount": 2407410.76,
+        "completionRate": "₱2,407,410.76 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "60 cd",
         "imageUrl": "/images/barangay-heroes/sumpong.webp",
         "badgeUrl": "/images/barangays/sumpong.webp",
         "imageCaption": "Sumpong community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Sumpong under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱3,407,410.76 FY 2026 Barangay Development allocation for Barangay Sumpong (2024 POPCEN pop. 9,012): comprises ₱2,407,410.76 statutory 20% Barangay Development Fund (from ₱12,037,053.80 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Drainage Canal at Purok 6\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Sumpong, the programmed project is \"Construction of Drainage Canal at Purok 6\" with target duration \"60 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Sumpong (population 9,012) has an estimated FY 2026 National Tax Allotment (NTA) of ₱12,037,053.80, of which at least 20% (₱2,407,410.76) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Drainage Canal at Purok 6\" (with PR; Procurement ongoing), bringing Barangay Sumpong's combined 2026 BDP allocation to ₱3,407,410.76.",
+          "budgetAndAuditContext": "Alongside the ₱3,407,410.76 combined BDP allocation, Barangay Sumpong's FY 2026 statutory budget framework includes ₱1,203,705.38 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱601,852.69 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -22902,6 +23337,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -22976,20 +23416,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Sumpong",
         "barangaySlug": "sumpong",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Sumpong)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Sumpong)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱601,852.69), 10% SK Fund (₱1,203,705.38) & City Operation Listo DRRM Program — Barangay Sumpong",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 1805558.07,
+        "utilizedAmount": 601852.69,
+        "completionRate": "5% BDRRMF: ₱601,852.69 · 10% SK: ₱1,203,705.38",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/sumpong.webp",
         "badgeUrl": "/images/barangays/sumpong.webp",
         "imageCaption": "Sumpong community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Sumpong): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Sumpong (₱601,852.69 5% BDRRMF under RA 10121 Sec. 21 and ₱1,203,705.38 10% SK Fund under RA 10742 Sec. 20, computed from ₱12,037,053.80 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Sumpong's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -23394,12 +23834,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 12037053.8,
+    "barangay20PctBdf2026": 2407410.76,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 1203705.38,
+    "bdrrmf2026": 601852.69
   },
   {
     "barangayName": "Violeta",
     "barangaySlug": "violeta",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1887746.81,
     "bdp2026ProjectTitle": "Rehabilitation of Barangay Water System",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Improvement of Multi-Purpose Building (Covered Court), Purok 2",
@@ -23414,24 +23859,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Violeta",
         "barangaySlug": "violeta",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Violeta)",
         "title": "Rehabilitation of Barangay Water System",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1887746.81,
+        "utilizedAmount": 887746.81,
+        "completionRate": "₱887,746.81 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "45 cd",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/violeta.webp",
         "imageCaption": "Barangay Violeta official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Violeta under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,887,746.81 FY 2026 Barangay Development allocation for Barangay Violeta (2024 POPCEN pop. 2,397): comprises ₱887,746.81 statutory 20% Barangay Development Fund (from ₱4,438,734.05 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Rehabilitation of Barangay Water System\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Violeta, the programmed project is \"Rehabilitation of Barangay Water System\" with target duration \"45 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Violeta (population 2,397) has an estimated FY 2026 National Tax Allotment (NTA) of ₱4,438,734.05, of which at least 20% (₱887,746.81) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Rehabilitation of Barangay Water System\" (with PR; Procurement ongoing), bringing Barangay Violeta's combined 2026 BDP allocation to ₱1,887,746.81.",
+          "budgetAndAuditContext": "Alongside the ₱1,887,746.81 combined BDP allocation, Barangay Violeta's FY 2026 statutory budget framework includes ₱443,873.41 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱221,936.70 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -23439,6 +23884,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -23560,20 +24010,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Violeta",
         "barangaySlug": "violeta",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Violeta)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Violeta)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱221,936.70), 10% SK Fund (₱443,873.41) & City Operation Listo DRRM Program — Barangay Violeta",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 665810.11,
+        "utilizedAmount": 221936.7,
+        "completionRate": "5% BDRRMF: ₱221,936.70 · 10% SK: ₱443,873.41",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/malaybalay-city-hall-background.webp",
         "badgeUrl": "/images/barangays/violeta.webp",
         "imageCaption": "Barangay Violeta official mark & Malaybalay City Government Full Disclosure archive reference",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Violeta): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Violeta (₱221,936.70 5% BDRRMF under RA 10121 Sec. 21 and ₱443,873.41 10% SK Fund under RA 10742 Sec. 20, computed from ₱4,438,734.05 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Violeta's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -23743,12 +24193,17 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 4438734.05,
+    "barangay20PctBdf2026": 887746.81,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 443873.41,
+    "bdrrmf2026": 221936.7
   },
   {
     "barangayName": "Zamboanguita",
     "barangaySlug": "zamboanguita",
-    "bdp2026Budget": 1000000,
+    "bdp2026Budget": 1743706.1,
     "bdp2026ProjectTitle": "Construction of Multi-Purpose Building (Barangay Hall Phase 2)",
     "bdp2026Status": "with PR; Procurement ongoing",
     "bdp2025ProjectTitle": "Construction of Multi-Purpose Building (Barangay Hall Phase 1), Purok 2",
@@ -23763,24 +24218,24 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Zamboanguita",
         "barangaySlug": "zamboanguita",
         "category": "budget",
-        "subcategory": "20% NTA Barangay Development Fund (2026)",
+        "subcategory": "Combined 2026 BDP Allocation (20% Barangay NTA + City 20% NTA Counterpart)",
         "referenceNumber": "20% NTA 2026-II (Zamboanguita)",
         "title": "Construction of Multi-Purpose Building (Barangay Hall Phase 2)",
         "period": "2026 Q1 / Annual APP",
-        "approvedBudget": 1000000,
-        "utilizedAmount": 0,
-        "completionRate": "0.00% (Procurement stage)",
+        "approvedBudget": 1743706.1,
+        "utilizedAmount": 743706.1,
+        "completionRate": "₱743,706.10 Brgy 20% BDF + ₱1.00M City BDP (with PR; Procurement ongoing)",
         "status": "with PR; Procurement ongoing",
         "implementingOffice": "City Engineer's Office · Mode: NP-53.9 - SVP",
         "contractDuration": "75 cd",
         "imageUrl": "/images/barangay-heroes/zamboanguita.webp",
         "badgeUrl": "/images/barangays/zamboanguita.webp",
         "imageCaption": "Zamboanguita community & public works context · Official mark & reference photo",
-        "summary": "Programmed ₱1,000,000.00 Barangay Development Project allocation for Barangay Zamboanguita under the City of Malaybalay's 2026 20% National Tax Allotment (NTA) and 2026 Annual Procurement Plan (APP).",
+        "summary": "Combined ₱1,743,706.10 FY 2026 Barangay Development allocation for Barangay Zamboanguita (2024 POPCEN pop. 1,770): comprises ₱743,706.10 statutory 20% Barangay Development Fund (from ₱3,718,530.50 FY 2026 Barangay NTA under RA 7160 Sec. 285/287 & DBM LBM No. 92) plus ₱1,000,000.00 City-funded BDP infrastructure counterpart for \"Construction of Multi-Purpose Building (Barangay Hall Phase 2)\" (with PR; Procurement ongoing).",
         "discussion": {
-          "whatThisRecordShows": "The City Government of Malaybalay allocates an equal ₱1,000,000.00 Barangay Development Project share across each of its 46 barangays (₱46,000,000.00 total) inside Section II of the 2026 20% NTA Utilization Report. For Barangay Zamboanguita, the programmed project is \"Construction of Multi-Purpose Building (Barangay Hall Phase 2)\" with target duration \"75 cd\" and Q1 2026 status \"with PR; Procurement ongoing\".",
-          "budgetAndAuditContext": "Cross-referenced in the 2026 Annual Procurement Plan (FDP Form 4a/4b) under \"NP-53.9 - SVP\" with City Engineer's Office as PMO/End-User. Under DILG-DBM Joint Memorandum Circular No. 2020-1 and COA audit rules, a programmed appropriation or ongoing procurement status is an authorization to procure—not a completed expenditure—until bidding, contract award, physical delivery, and inspection are completed.",
-          "howToVerify": "Open the 2026 Q1 20% NTA Utilization PDF (pages 6–9, Section II) and the 2026 Annual Procurement Plan PDF (pages 13–20) on the Malaybalay Full Disclosure Portal, or compare against the backup COA and DILG Full Disclosure Policy portals."
+          "whatThisRecordShows": "Under Section 285 and Section 287 of Republic Act No. 7160 (Local Government Code) and DBM Local Budget Memorandum No. 92 (FY 2026 NTA), Barangay Zamboanguita (population 1,770) has an estimated FY 2026 National Tax Allotment (NTA) of ₱3,718,530.50, of which at least 20% (₱743,706.10) is mandated for the Barangay Development Fund (BDF). In addition, the City Government of Malaybalay appropriates ₱1,000,000.00 in Section II of the City 2026 20% NTA Utilization Report (FDP Form 7) for \"Construction of Multi-Purpose Building (Barangay Hall Phase 2)\" (with PR; Procurement ongoing), bringing Barangay Zamboanguita's combined 2026 BDP allocation to ₱1,743,706.10.",
+          "budgetAndAuditContext": "Alongside the ₱1,743,706.10 combined BDP allocation, Barangay Zamboanguita's FY 2026 statutory budget framework includes ₱371,853.05 for the 10% Sangguniang Kabataan (SK) Youth Development Fund (RA 10742 Sec. 20) and ₱185,926.53 for the 5% Barangay Disaster Risk Reduction and Management Fund (RA 10121 Sec. 21). City-funded capital outlays in Section I/III of the City 20% NTA report, Special Education Fund (SEF), and BAC/PhilGEPS procurements are accounted for separately in their respective cards.",
+          "howToVerify": "Verify the City ₱1,000,000.00 counterpart in Section II of the 2026 Q1 20% NTA Utilization PDF (FDP Form 7) and 2026 Annual Procurement Plan (FDP Form 4a/4b), and cross-check the population-scaled Barangay NTA and 20% BDF formula against DBM Local Budget Memorandum No. 92, PSA 2024 POPCEN Malaybalay City counts, DILG FDPP, and COA Region X audit reports."
         },
         "primarySource": {
           "label": "2026 Q1 20% National Tax Allotment Utilization Report (FDP Form 7)",
@@ -23788,6 +24243,11 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           "verifiedOn": "2026-11-09"
         },
         "backupSources": [
+          {
+            "label": "DBM Local Budget Memorandum No. 92 — FY 2026 National Tax Allotment (NTA) of LGUs (RA 7160 Sec. 285/287)",
+            "url": "https://www.dbm.gov.ph/index.php/programs-projects/national-tax-allotment-nta",
+            "verifiedOn": "2026-11-09"
+          },
           {
             "label": "2026 Annual Procurement Plan (FDP Form 4a/4b — Barangay Development Projects)",
             "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf",
@@ -23862,20 +24322,20 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "barangayName": "Zamboanguita",
         "barangaySlug": "zamboanguita",
         "category": "budget",
-        "subcategory": "Local DRRM Fund & Statutory Barangay Budget Framework (2026)",
+        "subcategory": "Statutory Barangay NTA, 10% SK Fund & 5% BDRRMF + City LDRRMF (2026)",
         "referenceNumber": "LDRRMF 2026-Q2 (46-Brgy Scope · Zamboanguita)",
-        "title": "46-Barangay Operation Listo Simulation Drill & Barangay DRRM Opcen Digital Radio Network (Zamboanguita)",
+        "title": "Statutory 5% Barangay DRRM Fund (₱185,926.53), 10% SK Fund (₱371,853.05) & City Operation Listo DRRM Program — Barangay Zamboanguita",
         "period": "2026 Q2",
-        "approvedBudget": 2010590,
-        "utilizedAmount": 503210,
-        "completionRate": "Operation Listo 98.55% utilized; Digital Radio PR ongoing",
+        "approvedBudget": 557779.58,
+        "utilizedAmount": 185926.53,
+        "completionRate": "5% BDRRMF: ₱185,926.53 · 10% SK: ₱371,853.05",
         "status": "Active 46-barangay DRRM preparedness & communications allocation",
         "implementingOffice": "CDRRMO / Barangay DRRM Committee (BDRRMC)",
         "contractDuration": "2026 Annual Cycle",
         "imageUrl": "/images/barangay-heroes/zamboanguita.webp",
         "badgeUrl": "/images/barangays/zamboanguita.webp",
         "imageCaption": "Zamboanguita community & public works context · Official mark & reference photo",
-        "summary": "Citywide 2026 Local DRRM Fund allocations expressly covering all 46 barangays (including Barangay Zamboanguita): ₱510,590.00 for the 46-Barangay Operation Listo Simulation Exercise (₱503,210.00 utilized) and ₱1,500,000.00 for Barangay DRRM Opcen Digital Communication Equipment.",
+        "summary": "FY 2026 statutory disaster preparedness and youth allocations for Barangay Zamboanguita (₱185,926.53 5% BDRRMF under RA 10121 Sec. 21 and ₱371,853.05 10% SK Fund under RA 10742 Sec. 20, computed from ₱3,718,530.50 Barangay NTA), paired with the City of Malaybalay's ₱2,010,590.00 Q2 2026 LDRRMF 46-barangay capacity-building program.",
         "discussion": {
           "whatThisRecordShows": "The Q2 2026 Local Disaster Risk Reduction and Management Fund (LDRRMF) Utilization Report documents two multi-barangay preparedness programs covering all 46 barangays of Malaybalay City: (1) Simulation Exercise on Operation Listo for 46 Barangays (₱510,590.00 budget; ₱503,210.00 utilized, leaving ₱7,380.00 unobligated) and (2) Purchase of Digital Communication Equipment for the 46 Barangays and CDRRMO Opcen (₱1,500,000.00 budget).",
           "budgetAndAuditContext": "In addition to city-funded DRRM support, under Republic Act No. 7160 (Sections 329–334), Republic Act No. 10121 (Section 21), and Republic Act No. 10742 (Section 20), Barangay Zamboanguita's own annual barangay budget is audited by the Commission on Audit (COA) and reviewed by the Sangguniang Panlungsod across mandatory statutory shares: 20% Barangay Development Fund, 10% Sangguniang Kabataan (SK) Fund (subject to Malaybalay Ordinance No. 1118 s. 2026 SK Functionality Audit), and 5% Barangay DRRM Fund.",
@@ -24092,7 +24552,12 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
           }
         ]
       }
-    ]
+    ],
+    "barangayNta2026": 3718530.5,
+    "barangay20PctBdf2026": 743706.1,
+    "cityCounterpartBdp2026": 1000000.0,
+    "skFund2026": 371853.05,
+    "bdrrmf2026": 185926.53
   }
 ];
 

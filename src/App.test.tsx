@@ -41,6 +41,8 @@ describe("BetterMC public portal", () => {
         "Barangay Secretary",
       );
       expect(barangay.fullDisclosure.items.length).toBeGreaterThanOrEqual(4);
+      expect(barangay.fullDisclosure.bdp2026Budget).toBeGreaterThan(1000000);
+      expect(barangay.fullDisclosure.barangayNta2026).toBeGreaterThan(1685420);
       expect(barangay.subdomainHost).toBe(`${barangay.slug}.bettermc.ph`);
       expect(barangay.subdomainUrl).toBe(`https://${barangay.slug}.bettermc.ph`);
       expect(barangay.mainPortalDomain).toBe("bettermc.ph");
@@ -384,7 +386,7 @@ describe("BetterMC public portal", () => {
       </MemoryRouter>,
     );
     fireEvent.click(
-      screen.getAllByRole("button", { name: /^Details$/i })[0],
+      screen.getByRole("button", { name: /Jay Warren R\. Pabillaran/i }),
     );
     const expandedProfile = document.querySelector("article.expanded");
     expect(expandedProfile).not.toBeNull();
