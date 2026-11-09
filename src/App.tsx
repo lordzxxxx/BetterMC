@@ -4727,6 +4727,7 @@ function ServiceProviderCard({
 
   return (
     <article className={`provider-card${provider.isNearest ? " is-nearest-card" : ""}`}>
+      {provider.isNearest && <div className="provider-top-accent-bar" aria-hidden="true" />}
       <div className="provider-card-head">
         <div className="provider-card-identity">
           <div className="provider-badges-row">
@@ -4744,59 +4745,100 @@ function ServiceProviderCard({
           </div>
           <h3>{provider.name}</h3>
           <p className="provider-address">
-            <strong>Address:</strong> {provider.address}
+            <MapPin aria-hidden="true" />
+            <span><strong>Address:</strong> {provider.address}</span>
           </p>
         </div>
       </div>
 
-      <div className="provider-meta-grid">
-        <div>
-          <small>Operating Schedule</small>
-          <span>
-            <Clock3 aria-hidden="true" /> {provider.hours}
-          </span>
+      {/* Structured Info Box: Hours/Contacts on Top, E-Payment Gateway Below */}
+      <div className="provider-info-box">
+        <div className="provider-contact-strip">
+          <div className="provider-info-cell">
+            <span className="info-cell-label">Operating Schedule</span>
+            <span className="info-cell-value">
+              <Clock3 aria-hidden="true" />
+              <span>{provider.hours}</span>
+            </span>
+          </div>
+          {provider.phone && (
+            <div className="provider-info-cell">
+              <span className="info-cell-label">Direct Phone</span>
+              <a className="info-cell-value is-link" href={`tel:${telephoneHref(provider.phone)}`}>
+                <Phone aria-hidden="true" />
+                <span>{provider.phone}</span>
+              </a>
+            </div>
+          )}
+          {provider.email && (
+            <div className="provider-info-cell">
+              <span className="info-cell-label">Official Email</span>
+              <a className="info-cell-value is-link" href={`mailto:${provider.email}`}>
+                <Mail aria-hidden="true" />
+                <span>{provider.email}</span>
+              </a>
+            </div>
+          )}
         </div>
-        {provider.phone && (
-          <div>
-            <small>Direct Phone</small>
-            <a href={`tel:${telephoneHref(provider.phone)}`}>
-              <Phone aria-hidden="true" /> {provider.phone}
-            </a>
+
+        <div className="provider-payment-strip">
+          <div className="payment-strip-icon">
+            <WalletCards aria-hidden="true" />
           </div>
-        )}
-        {provider.email && (
-          <div>
-            <small>Official Email</small>
-            <a href={`mailto:${provider.email}`}>
-              <Mail aria-hidden="true" /> {provider.email}
-            </a>
+          <div className="payment-strip-body">
+            <span className="payment-strip-label">Payment & Cashier Gateway</span>
+            <p className="payment-strip-val">{provider.epaymentChannel}</p>
           </div>
-        )}
-        <div>
-          <small>E-Payment & Cashier Gateway</small>
-          <span>
-            <WalletCards aria-hidden="true" /> {provider.epaymentChannel}
-          </span>
         </div>
       </div>
 
       {/* Available Transactions */}
       <div className="provider-transactions-section">
-        <h4>Official Transactions Available at this Provider:</h4>
+        <div className="provider-tx-header">
+          <div className="provider-tx-header-title">
+            <FileText aria-hidden="true" />
+            <h4>Official Transactions Available at this Provider</h4>
+          </div>
+          <span className="provider-tx-count-pill">{provider.transactions.length} available</span>
+        </div>
+
         <div className="provider-transactions-list">
           {provider.transactions.map((tx) => (
-            <div key={tx.id} className="provider-tx-row">
+            <div
+              key={tx.id}
+              className="provider-tx-row"
+              role="button"
+              tabIndex={0}
+              onClick={() => onStartTransaction(tx)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onStartTransaction(tx);
+                }
+              }}
+              aria-label={`Make Transaction & Checklist: ${tx.title}`}
+            >
               <div className="provider-tx-info">
-                <strong>{tx.title}</strong>
+                <strong className="provider-tx-title">{tx.title}</strong>
                 <div className="provider-tx-meta">
-                  <span>⚡ {tx.processingTime}</span>
-                  <span>💳 {tx.feeSchedule}</span>
+                  <span className="tx-meta-pill time">
+                    <Clock3 aria-hidden="true" />
+                    <span>{tx.processingTime}</span>
+                  </span>
+                  <span className="tx-meta-pill fee">
+                    <ReceiptText aria-hidden="true" />
+                    <span>{tx.feeSchedule}</span>
+                  </span>
                 </div>
               </div>
               <button
                 type="button"
                 className="button primary provider-tx-btn"
-                onClick={() => onStartTransaction(tx)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onStartTransaction(tx);
+                }}
+                aria-label={`Make Transaction & Checklist: ${tx.title}`}
               >
                 <span>Make Transaction & Checklist</span>
                 <ArrowRight aria-hidden="true" />
@@ -4809,19 +4851,9 @@ function ServiceProviderCard({
       {/* Card Action Links */}
       <div className="provider-card-footer">
         <div className="provider-directions-group">
+          <span className="provider-nav-hint">Navigation:</span>
           <a
-            className="button secondary provider-action-link"
-            href={provider.directionsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Open turn-by-turn road navigation on OpenStreetMap"
-          >
-            <Navigation aria-hidden="true" />
-            <span>OpenStreetMap Directions</span>
-            <ExternalLink aria-hidden="true" />
-          </a>
-          <a
-            className="button secondary provider-action-link"
+            className="provider-nav-btn"
             href={provider.googleMapsUrl}
             target="_blank"
             rel="noopener noreferrer"
@@ -4831,9 +4863,20 @@ function ServiceProviderCard({
             <span>Google Maps</span>
             <ExternalLink aria-hidden="true" />
           </a>
+          <a
+            className="provider-nav-btn"
+            href={provider.directionsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Open turn-by-turn road navigation on OpenStreetMap"
+          >
+            <Navigation aria-hidden="true" />
+            <span>OpenStreetMap</span>
+            <ExternalLink aria-hidden="true" />
+          </a>
         </div>
         <a
-          className="button primary provider-action-link"
+          className="button primary provider-portal-btn"
           href={sanitizedPortalUrl}
           target="_blank"
           rel="noopener noreferrer"
@@ -4905,25 +4948,34 @@ function ServicesQuickFinder() {
               <Sparkles aria-hidden="true" /> Nearest Match
             </span>
             <h3>{topProvider.name}</h3>
-            <p>{topProvider.address} · {topProvider.hours}</p>
+            <p className="quick-finder-address">
+              <MapPin aria-hidden="true" />
+              <span>{topProvider.address} · {topProvider.hours}</span>
+            </p>
             <div className="quick-finder-meta">
-              <span>📍 {topProvider.distanceKm} km away (~{topProvider.estimatedDriveMinutes} mins drive)</span>
-              <span>⚡ {topProvider.transactions.length} verified transactions available</span>
+              <span className="quick-finder-meta-pill">
+                <MapPin aria-hidden="true" />
+                <span>{topProvider.distanceKm} km away (~{topProvider.estimatedDriveMinutes} mins drive)</span>
+              </span>
+              <span className="quick-finder-meta-pill">
+                <FileCheck2 aria-hidden="true" />
+                <span>{topProvider.transactions.length} verified transactions available</span>
+              </span>
             </div>
           </div>
           <div className="quick-finder-result-actions">
-            <Link className="button primary" to={`/services/${selectedCategory}?origin=${selectedBarangay}`}>
-              <span>Open Provider & Make Transactions</span>
+            <Link className="button primary quick-finder-primary-btn" to={`/services/${selectedCategory}?origin=${selectedBarangay}`}>
+              <span>Open Provider & Transactions</span>
               <ArrowRight aria-hidden="true" />
             </Link>
             <a
-              className="button secondary"
+              className="button secondary quick-finder-secondary-btn"
               href={topProvider.directionsUrl}
               target="_blank"
               rel="noopener noreferrer"
             >
               <Navigation aria-hidden="true" />
-              <span>Get Directions</span>
+              <span>Directions</span>
               <ExternalLink aria-hidden="true" />
             </a>
           </div>
