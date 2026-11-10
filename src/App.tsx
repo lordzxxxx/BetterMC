@@ -5624,9 +5624,10 @@ function ParticipatePage() {
   }, []);
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const formElement = event.currentTarget;
     setErrors({});
     setServerMessage("");
-    const form = new FormData(event.currentTarget);
+    const form = new FormData(formElement);
     const payload = Object.fromEntries(form.entries());
     const parsed = feedbackSchema.safeParse(payload);
     if (!parsed.success) {
@@ -5657,7 +5658,7 @@ function ParticipatePage() {
         throw new Error(result.message ?? "The submission could not be saved.");
       setState("success");
       setServerMessage(result.message ?? "Your submission was received.");
-      event.currentTarget.reset();
+      formElement.reset();
       setRequestType("correction");
       setTurnstileResetKey((current) => current + 1);
     } catch (error) {

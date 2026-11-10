@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 import {
@@ -493,6 +493,43 @@ describe("BetterMC public portal", () => {
     fireEvent.click(brokenLink);
     expect(trigger).toHaveTextContent("Report a broken link");
     expect(trigger).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("submits participation feedback and resets form without errors", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({
+          message: "Your submission was saved for moderator review.",
+        }),
+        {
+          status: 201,
+          headers: { "content-type": "application/json" },
+        },
+      ),
+    );
+    render(
+      <MemoryRouter initialEntries={["/participate"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    fireEvent.change(screen.getByLabelText(/Subject/i), {
+      target: { value: "ayohon" },
+    });
+    fireEvent.change(screen.getByLabelText(/Details/i), {
+      target: { value: "sdadsa" },
+    });
+    fireEvent.change(screen.getByLabelText(/Email/i), {
+      target: { value: "pepotsagreda@gmail.com" },
+    });
+    const form = screen
+      .getByRole("button", { name: /Send for review/i })
+      .closest("form")!;
+    fireEvent.submit(form);
+    await waitFor(() => {
+      expect(
+        screen.getByText(/Your submission was saved for moderator review/i),
+      ).toBeInTheDocument();
+    });
   });
 
   it("publishes current service documents and locally stored official portraits", () => {
