@@ -3,10 +3,7 @@ import { Link } from "react-router-dom";
 import type { FeatureCollection, Geometry } from "geojson";
 import {
   AlertTriangle,
-  ArrowDown,
-  ArrowLeft,
   ArrowRight,
-  ArrowUp,
   Building2,
   Calendar,
   Compass,
@@ -84,6 +81,18 @@ const FLOOD_COLORS: Record<"low" | "medium" | "high", string> = {
   medium: "#f97316", // UP Project NOAH Medium (0.5 - 1.5m)
   high: "#dc2626", // UP Project NOAH High (>1.5m)
 };
+
+function getCardinalHeading(bearing: number): string {
+  const normalized = ((bearing % 360) + 360) % 360;
+  if (normalized >= 337.5 || normalized < 22.5) return "N";
+  if (normalized >= 22.5 && normalized < 67.5) return "NE";
+  if (normalized >= 67.5 && normalized < 112.5) return "E";
+  if (normalized >= 112.5 && normalized < 157.5) return "SE";
+  if (normalized >= 157.5 && normalized < 202.5) return "S";
+  if (normalized >= 202.5 && normalized < 247.5) return "SW";
+  if (normalized >= 247.5 && normalized < 292.5) return "W";
+  return "NW";
+}
 
 function resolveHazardLevel(props: {
   level?: "low" | "medium" | "high";
@@ -904,10 +913,6 @@ export default function MalaybalayGisMap({
     leafletMapRef.current?.zoomOut(1, { animate: true });
   };
 
-  const handlePanBy = (dx: number, dy: number) => {
-    leafletMapRef.current?.panBy([dx, dy], { animate: true });
-  };
-
   const handleZoomToActiveBarangay = () => {
     const map = leafletMapRef.current;
     if (!map) return;
@@ -1173,9 +1178,19 @@ export default function MalaybalayGisMap({
               type="button"
               className={is3DMode ? "is-active" : ""}
               aria-pressed={is3DMode}
-              onClick={() => setIs3DMode((v) => !v)}
+              onClick={() => {
+                if (!is3DMode) {
+                  setIs3DMode(true);
+                  setPitchDeg(35);
+                  setBearingDeg(20);
+                } else {
+                  setIs3DMode(false);
+                  setPitchDeg(0);
+                  setBearingDeg(0);
+                }
+              }}
             >
-              <Compass aria-hidden="true" /> 3D Tilt
+              <Compass aria-hidden="true" /> {is3DMode ? "3D Active" : "3D Tilt"}
             </button>
 
             {activeBarangayCode !== "ALL" && (
@@ -1193,36 +1208,92 @@ export default function MalaybalayGisMap({
 
           {is3DMode && (
             <div className="noah-3d-Sliders">
+              <div
+                className="noah-3d-presets"
+                role="group"
+                aria-label="Perspective presets"
+              >
+                <button
+                  type="button"
+                  className={
+                    pitchDeg === 0 && bearingDeg === 0 ? "is-active" : ""
+                  }
+                  onClick={() => {
+                    setPitchDeg(0);
+                    setBearingDeg(0);
+                  }}
+                  title="2D Top-Down View"
+                >
+                  2D Flat
+                </button>
+                <button
+                  type="button"
+                  className={
+                    pitchDeg > 0 && pitchDeg < 50 ? "is-active" : ""
+                  }
+                  onClick={() => {
+                    setPitchDeg(35);
+                    setBearingDeg(20);
+                  }}
+                  title="3D Isometric Perspective"
+                >
+                  3D View (35°)
+                </button>
+                <button
+                  type="button"
+                  className={pitchDeg >= 50 ? "is-active" : ""}
+                  onClick={() => {
+                    setPitchDeg(62);
+                    setBearingDeg(0);
+                  }}
+                  title="Surface-Level Low-Angle Horizon View"
+                >
+                  Surface Level (62°)
+                </button>
+              </div>
               <label>
-                <span>Tilt ({pitchDeg}°)</span>
+                <span>
+                  Tilt: <strong>{pitchDeg}°</strong>
+                </span>
                 <input
                   type="range"
                   min={0}
-                  max={32}
+                  max={68}
                   value={pitchDeg}
                   onChange={(e) => setPitchDeg(Number(e.target.value))}
+                  aria-label="Map surface tilt angle in degrees"
                 />
               </label>
               <label>
-                <span>Rotate ({bearingDeg}°)</span>
+                <span>
+                  Rotate:{" "}
+                  <strong>
+                    {bearingDeg > 0 ? `+${bearingDeg}°` : `${bearingDeg}°`} (
+                    {getCardinalHeading(bearingDeg)})
+                  </strong>
+                </span>
                 <input
                   type="range"
-                  min={-20}
-                  max={20}
+                  min={-180}
+                  max={180}
+                  step={5}
                   value={bearingDeg}
                   onChange={(e) => setBearingDeg(Number(e.target.value))}
+                  aria-label="Map rotation bearing in degrees"
                 />
               </label>
-              {(pitchDeg !== 22 || bearingDeg !== 0) && (
+              {(pitchDeg !== 0 || bearingDeg !== 0) && (
                 <button
                   type="button"
                   className="noah-clean-reset-3d"
                   onClick={() => {
-                    setPitchDeg(22);
+                    setPitchDeg(0);
                     setBearingDeg(0);
+                    setIs3DMode(false);
                   }}
+                  title="Reset to 2D Top-Down North view"
                 >
-                  <RotateCcw aria-hidden="true" /> Reset
+                  <RotateCcw aria-hidden="true" /> Reset North
                 </button>
               )}
             </div>
@@ -1230,7 +1301,7 @@ export default function MalaybalayGisMap({
         </div>
       </div>
 
-      {/* Main Interactive Map Stage (Blurred Outside Malaybalay, Seamless 3D Tilt, Unified Controller Pod) */}
+      {/* Main Interactive Map Stage (Distraction-Free, Clear Surface Perspective, Minimalist Controls) */}
       <div
         className={`barangay-map-card noah-clean-map-stage ${
           is3DMode ? "is-3d-tilted" : ""
@@ -1238,6 +1309,7 @@ export default function MalaybalayGisMap({
         style={
           {
             "--gis-pitch": `${is3DMode ? pitchDeg : 0}deg`,
+            "--gis-pitch-val": is3DMode ? pitchDeg : 0,
             "--gis-bearing": `${is3DMode ? bearingDeg : 0}deg`,
           } as React.CSSProperties
         }
@@ -1263,148 +1335,88 @@ export default function MalaybalayGisMap({
           }
         />
 
-        {/* Top-Left Jurisdiction Focus Indicator Pill */}
-        <div className="noah-map-focus-badge">
-          <span className="noah-focus-dot" />
-          <span>
-            <strong>Malaybalay City GIS Focus</strong> · Outside areas masked
-          </span>
-        </div>
-
-        {/* Unified Top-Right Navigation & Zoom Controller Pod */}
+        {/* Sleek Floating Compact Map Controls (Zoom, Re-center, Compass, Surface 3D Toggle) */}
         <div
-          className="noah-map-nav-dock"
-          aria-label="Map zoom and directional navigation controls"
+          className="noah-map-controls-stack"
+          aria-label="Map navigation and perspective controls"
         >
-          <span className="noah-nav-pod-label">Navigate & Zoom</span>
-          <div className="noah-nav-pan-grid">
-            <button
-              type="button"
-              className="pan-n"
-              onClick={() => handlePanBy(0, -140)}
-              aria-label="Pan north"
-              title="Pan north"
-            >
-              <ArrowUp aria-hidden="true" />
-            </button>
-            <button
-              type="button"
-              className="pan-w"
-              onClick={() => handlePanBy(-140, 0)}
-              aria-label="Pan west"
-              title="Pan west"
-            >
-              <ArrowLeft aria-hidden="true" />
-            </button>
-            <button
-              type="button"
-              className="pan-center"
-              onClick={handleZoomToActiveBarangay}
-              aria-label="Center on active area"
-              title="Center on active barangay or city"
-            >
-              <LocateFixed aria-hidden="true" />
-            </button>
-            <button
-              type="button"
-              className="pan-e"
-              onClick={() => handlePanBy(140, 0)}
-              aria-label="Pan east"
-              title="Pan east"
-            >
-              <ArrowRight aria-hidden="true" />
-            </button>
-            <button
-              type="button"
-              className="pan-s"
-              onClick={() => handlePanBy(0, 140)}
-              aria-label="Pan south"
-              title="Pan south"
-            >
-              <ArrowDown aria-hidden="true" />
-            </button>
-          </div>
-
-          <div className="noah-nav-zoom-bar">
-            <button
-              type="button"
-              onClick={handleZoomOut}
-              aria-label="Zoom out"
-              title="Zoom out"
-            >
-              <Minus aria-hidden="true" />
-            </button>
-            <span title="Current zoom level">{zoomLevel}x</span>
-            <button
-              type="button"
-              onClick={handleZoomIn}
-              aria-label="Zoom in"
-              title="Zoom in"
-            >
-              <Plus aria-hidden="true" />
-            </button>
-          </div>
-        </div>
-
-        {/* Active Barangay or Citywide NOAH Floating Summary Pill */}
-        <div className="noah-map-active-overlay">
-          {activeBarangayProfile ? (
-            <>
-              <span
-                className="noah-active-swatch"
-                style={{
-                  background:
-                    BARANGAY_GIS_COLORS[activeBarangayProfile.code] ??
-                    "#2563eb",
-                }}
-              />
-              <div>
-                <strong>
-                  Brgy. {activeBarangayProfile.name} · PB{" "}
-                  {activeBarangayProfile.punongBarangay}
-                </strong>
-                <small>
-                  Pop.{" "}
-                  {activeBarangayProfile.population.toLocaleString("en-PH")} ·{" "}
-                  {activeBarangayFloodStat
-                    ? `NOAH ${noahScenario.toUpperCase()} Flood-Prone: ${activeBarangayFloodStat.exposedKm2} km² (${activeBarangayFloodStat.exposedShare}%) — High: ${activeBarangayFloodStat.high} km², Med: ${activeBarangayFloodStat.medium} km², Low: ${activeBarangayFloodStat.low} km²`
-                    : `PSGC ${activeBarangayProfile.code}`}
-                </small>
-              </div>
-              <button
-                type="button"
-                className="noah-overlay-inspect-btn"
-                onClick={() =>
-                  setSelectedEntity({
-                    kind: "barangay",
-                    barangay: activeBarangayProfile,
-                    floodStat: activeBarangayFloodStat,
-                  })
-                }
-              >
-                Barangay NOAH Table <ArrowRight aria-hidden="true" />
-              </button>
-            </>
-          ) : (
-            <>
-              <span
-                className="noah-active-swatch"
-                style={{ background: "#1d4ed8" }}
-              />
-              <div>
-                <strong>
-                  Malaybalay City (All 46 Barangays) · UP Project NOAH{" "}
-                  {noahScenario.toUpperCase()}
-                </strong>
-                <small>
-                  Total Mapped Flood Zone: {citywideFloodTotals.exposedKm2} km²
-                  (High: {citywideFloodTotals.high} km² · Medium:{" "}
-                  {citywideFloodTotals.medium} km² · Low:{" "}
-                  {citywideFloodTotals.low} km²)
-                </small>
-              </div>
-            </>
-          )}
+          <button
+            type="button"
+            onClick={handleZoomIn}
+            aria-label="Zoom in"
+            title="Zoom in"
+          >
+            <Plus aria-hidden="true" />
+          </button>
+          <span className="noah-zoom-indicator" title="Current zoom level">
+            {zoomLevel}x
+          </span>
+          <button
+            type="button"
+            onClick={handleZoomOut}
+            aria-label="Zoom out"
+            title="Zoom out"
+          >
+            <Minus aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            onClick={handleZoomToActiveBarangay}
+            aria-label="Center on active area"
+            title="Center on active barangay or city"
+          >
+            <LocateFixed aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className={`noah-control-compass ${bearingDeg !== 0 ? "is-rotated" : ""}`}
+            onClick={() => {
+              setBearingDeg(0);
+            }}
+            aria-label={`Bearing: ${bearingDeg}°. Click to reset North`}
+            title={`Bearing: ${bearingDeg}°. Click to reset North`}
+          >
+            <Compass
+              aria-hidden="true"
+              style={{ transform: `rotate(${-bearingDeg}deg)` }}
+            />
+          </button>
+          <button
+            type="button"
+            className={`noah-control-3d-toggle ${is3DMode ? "is-active" : ""}`}
+            onClick={() => {
+              if (!is3DMode) {
+                setIs3DMode(true);
+                setPitchDeg(35);
+                setBearingDeg(20);
+              } else if (pitchDeg < 50) {
+                setPitchDeg(62);
+                setBearingDeg(0);
+              } else {
+                setIs3DMode(false);
+                setPitchDeg(0);
+                setBearingDeg(0);
+              }
+            }}
+            aria-label={
+              !is3DMode
+                ? "Switch to 3D perspective"
+                : pitchDeg < 50
+                  ? "Switch to Surface-Level view"
+                  : "Switch to 2D Top-Down view"
+            }
+            title={
+              !is3DMode
+                ? "Switch to 3D View (35°)"
+                : pitchDeg < 50
+                  ? "Switch to Surface-Level View (62°)"
+                  : "Switch to 2D Top-Down View"
+            }
+          >
+            <span className="noah-3d-badge-text">
+              {!is3DMode ? "2D" : pitchDeg >= 50 ? "SURF" : "3D"}
+            </span>
+          </button>
         </div>
 
         {mapError && (
@@ -1412,6 +1424,67 @@ export default function MalaybalayGisMap({
             The interactive map could not load. Check your connection or use the
             controls above.
           </p>
+        )}
+      </div>
+
+      {/* Integrated Active Barangay / Citywide Flood Summary Strip */}
+      <div className="noah-summary-strip">
+        <div className="noah-summary-content">
+          <span
+            className="noah-summary-swatch"
+            style={{
+              background: activeBarangayProfile
+                ? BARANGAY_GIS_COLORS[activeBarangayProfile.code] ?? "#2563eb"
+                : "#1d4ed8",
+            }}
+          />
+          <div className="noah-summary-text">
+            <strong>
+              {activeBarangayProfile ? (
+                <>
+                  Brgy. {activeBarangayProfile.name} · PB{" "}
+                  {activeBarangayProfile.punongBarangay}
+                </>
+              ) : (
+                <>
+                  Malaybalay City (All 46 Barangays) · UP Project NOAH{" "}
+                  {noahScenario.toUpperCase()}
+                </>
+              )}
+            </strong>
+            <p>
+              {activeBarangayProfile ? (
+                <>
+                  Pop. {activeBarangayProfile.population.toLocaleString("en-PH")} ·{" "}
+                  {activeBarangayFloodStat
+                    ? `NOAH ${noahScenario.toUpperCase()} Flood-Prone: ${activeBarangayFloodStat.exposedKm2} km² (${activeBarangayFloodStat.exposedShare}%) — High: ${activeBarangayFloodStat.high} km², Med: ${activeBarangayFloodStat.medium} km², Low: ${activeBarangayFloodStat.low} km²`
+                    : `PSGC ${activeBarangayProfile.code}`}
+                </>
+              ) : (
+                <>
+                  Total Mapped Flood Zone: {citywideFloodTotals.exposedKm2} km²
+                  (High: {citywideFloodTotals.high} km² · Medium:{" "}
+                  {citywideFloodTotals.medium} km² · Low:{" "}
+                  {citywideFloodTotals.low} km²)
+                </>
+              )}
+            </p>
+          </div>
+        </div>
+        {activeBarangayProfile && (
+          <button
+            type="button"
+            className="noah-summary-inspect-btn"
+            onClick={() =>
+              setSelectedEntity({
+                kind: "barangay",
+                barangay: activeBarangayProfile,
+                floodStat: activeBarangayFloodStat,
+              })
+            }
+          >
+            Barangay NOAH Table <ArrowRight aria-hidden="true" />
+          </button>
         )}
       </div>
 
