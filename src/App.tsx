@@ -922,10 +922,15 @@ function HomePage() {
         <div className="container hero-grid">
           <div className="hero-copy">
             <h1>Welcome to BetterMC.</h1>
-            <p>
-              An independent civic platform for every Malaybalaynon. Track
-              public funds, navigate city services, and explore verified records
-              across all 46 barangays.
+            <p className="hero-tagline">
+              Your city. Your information. Your right to know.
+            </p>
+            <p className="hero-description">
+              BetterMC is an independent civic technology platform making
+              Malaybalay City&apos;s public information more accessible and
+              transparent. Explore government projects, track public funds,
+              access public services, and discover local records across all 46
+              barangays.
             </p>
             <div className="hero-actions">
               <Link className="button primary" to="/transparency">

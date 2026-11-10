@@ -84,6 +84,12 @@ describe("BetterMC public portal", () => {
     expect(
       screen.getByRole("heading", { name: /Welcome to BetterMC/i }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByText("Your city. Your information. Your right to know."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/BetterMC is an independent civic technology platform/),
+    ).toBeInTheDocument();
     expect(screen.getByLabelText(/Malaybalay time/i)).toBeInTheDocument();
     expect(screen.getByText("₱361.87M")).toBeInTheDocument();
     expect(reportedProcurementSavings.earlierPeriod + reportedProcurementSavings.latestYear).toBe(

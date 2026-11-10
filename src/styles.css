@@ -781,6 +781,20 @@ button {
   font-size: 1.2rem;
   line-height: 1.6;
 }
+.hero-tagline {
+  margin: -8px 0 16px;
+  font-size: clamp(1.15rem, 2.1vw, 1.4rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  color: #123e9b;
+}
+.hero-description {
+  max-width: 650px;
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -5473,6 +5487,10 @@ kbd {
   .hero-copy > p {
     font-size: 0.96rem;
     line-height: 1.55;
+  }
+  .hero-copy .hero-tagline {
+    font-size: 1.05rem;
+    margin: -6px 0 12px;
   }
   .hero-actions .button {
     width: 100%;
@@ -10625,6 +10643,24 @@ kbd {
 .hero-verification,
 .hero-verification strong {
   color: #ffffff;
+}
+
+.hero-copy .hero-tagline {
+  color: #dbe8ff;
+  font-size: clamp(1.15rem, 2.1vw, 1.4rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  margin: -8px 0 16px;
+  text-shadow: 0 1px 2px rgba(4, 25, 66, 0.35);
+}
+
+.hero-copy .hero-description {
+  max-width: 650px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 1.15rem;
+  line-height: 1.6;
 }
 
 .hero-verification {
