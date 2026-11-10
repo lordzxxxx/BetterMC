@@ -14094,14 +14094,37 @@ body {
   box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
 }
 
+.noah-live-telemetry-badge .dot-yellow {
+  background: #eab308;
+  box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.25);
+}
+
 .noah-live-telemetry-badge .dot-orange {
   background: #f97316;
-  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.25);
 }
 
 .noah-live-telemetry-badge .dot-red {
   background: #dc2626;
-  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.25);
+}
+
+.noah-live-telemetry-badge.is-yellow {
+  background: #fefce8;
+  border-color: #fde047;
+  color: #713f12;
+}
+
+.noah-live-telemetry-badge.is-orange {
+  background: #fff7ed;
+  border-color: #fdba74;
+  color: #9a3412;
+}
+
+.noah-live-telemetry-badge.is-red {
+  background: #fef2f2;
+  border-color: #fca5a5;
+  color: #991b1b;
 }
 
 .noah-active-brgy-pill {

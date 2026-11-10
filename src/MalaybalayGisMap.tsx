@@ -711,7 +711,9 @@ export default function MalaybalayGisMap({
             ? 0.14
             : currentHydroSnapshot.alertLevel === "Orange Watch"
               ? 0.08
-              : 0;
+              : currentHydroSnapshot.alertLevel === "Yellow Advisory"
+                ? 0.04
+                : 0;
 
         activeFloodCollection.features.forEach((f) => {
           const fCode = f.properties.code;
@@ -777,7 +779,9 @@ export default function MalaybalayGisMap({
                 ? "#ef4444"
                 : currentHydroSnapshot.alertLevel === "Orange Watch"
                   ? "#f97316"
-                  : "#0f172a",
+                  : currentHydroSnapshot.alertLevel === "Yellow Advisory"
+                    ? "#eab308"
+                    : "#0f172a",
             weight: river.widthPx + 3.5,
             opacity: 0.55,
             lineCap: "round",
@@ -1014,7 +1018,19 @@ export default function MalaybalayGisMap({
           </div>
           <div className="noah-toolbar-meta">
             <div
-              className="noah-live-telemetry-badge"
+              className={`noah-live-telemetry-badge ${
+                currentHydroSnapshot.alertLevel.toLowerCase().includes("red")
+                  ? "is-red"
+                  : currentHydroSnapshot.alertLevel
+                        .toLowerCase()
+                        .includes("orange")
+                    ? "is-orange"
+                    : currentHydroSnapshot.alertLevel
+                          .toLowerCase()
+                          .includes("yellow")
+                      ? "is-yellow"
+                      : "is-normal"
+              }`}
               title="Sawaga River real-time gauging telemetry"
             >
               <span
@@ -1025,7 +1041,11 @@ export default function MalaybalayGisMap({
                           .toLowerCase()
                           .includes("orange")
                       ? "dot-orange"
-                      : "dot-green"
+                      : currentHydroSnapshot.alertLevel
+                            .toLowerCase()
+                            .includes("yellow")
+                        ? "dot-yellow"
+                        : "dot-green"
                 }`}
               />
               <span>
