@@ -14565,9 +14565,14 @@ body {
   transform: rotateX(var(--gis-pitch, 0deg)) rotateZ(var(--gis-bearing, 0deg)) scale(calc(1.16 + (var(--gis-pitch-val, 0) * 0.0042)));
 }
 
-.noah-clean-map-stage .leaflet-bottom.leaflet-right {
-  bottom: 12%;
-  right: 12%;
+/* Hide Leaflet trademark and attribution watermark for an uncluttered civic GIS stage */
+.noah-clean-map-stage .leaflet-control-attribution,
+.leaflet-control-attribution,
+.leaflet-attribution-flag {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 /* High-contrast Matte HUD Tooltips */

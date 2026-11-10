@@ -344,6 +344,7 @@ export default function MalaybalayGisMap({
           maxBoundsViscosity: 0.92,
           renderer: L.svg({ padding: 1.0 }),
           zoomControl: false,
+          attributionControl: false,
           scrollWheelZoom: true,
           doubleClickZoom: true,
           dragging: true,
