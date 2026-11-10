@@ -2490,27 +2490,21 @@ function GovernmentPage() {
           </>
         ) : tab === "officials" ? (
           <>
-            <div className="data-notice directory-guidance">
-              <CircleAlert />
-              <div>
-                <strong>Select any official card for verified details</strong>
-                <p>
-                  Click an official’s card to open a structured popup of
-                  verified office contacts, committee assignments, published
-                  measures, and official source links.
-                </p>
-              </div>
-            </div>
             <div className="people-grid">
-              {visibleOfficials.map((official) => {
+              {visibleOfficials.map((official, index) => {
                 const id = officialId(official.name);
                 const portrait = officialPortraits[official.name];
                 const expanded = openOfficial === id;
+                const startsGroup =
+                  official.group !== visibleOfficials[index - 1]?.group;
                 return (
+                  <Fragment key={official.name}>
+                  {startsGroup && (
+                    <h2 className="official-group-heading">{official.group}</h2>
+                  )}
                   <article
                     id={`official-${id}`}
                     className="is-interactive-card government-official-card"
-                    key={official.name}
                     role="button"
                     tabIndex={0}
                     aria-expanded={expanded}
@@ -2545,17 +2539,15 @@ function GovernmentPage() {
                         )}
                       </div>
                       <div className="official-card-copy">
-                        <span className="official-group-tag">
-                          {official.group}
-                        </span>
-                        <h2>{official.name}</h2>
+                        <h3>{official.name}</h3>
                         <p className="official-role-title">{official.role}</p>
                         <small className="official-office-preview">
-                          {official.office.name} · {official.office.phone}
+                          {official.office.phone}
                         </small>
                       </div>
                     </div>
                   </article>
+                  </Fragment>
                 );
               })}
             </div>

@@ -16746,3 +16746,54 @@ div.service-category-grid.is-compact > article.service-category-card {
     min-height: 44px;
   }
 }
+
+/* Official directory: one heading per group, compact matte cards */
+.people-grid .official-group-heading {
+  grid-column: 1 / -1;
+  margin: 10px 0 0;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--svc-border);
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--svc-muted);
+}
+
+.people-grid .official-group-heading:first-child {
+  margin-top: 0;
+}
+
+.people-grid article.government-official-card {
+  padding: 12px 16px;
+  background: var(--svc-surface);
+  background-image: none;
+  border: 1px solid var(--svc-border);
+  border-radius: 12px;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.people-grid article.government-official-card:hover,
+.people-grid article.government-official-card:focus-visible {
+  transform: none;
+  background: var(--svc-tint);
+  border-color: var(--svc-brand);
+  box-shadow: none;
+}
+
+.government-official-card .official-card-copy h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 750;
+  line-height: 1.25;
+  color: var(--svc-ink);
+}
+
+.government-official-card .official-card-copy {
+  gap: 2px;
+}
+
+.government-official-card .official-office-preview {
+  margin-top: 2px;
+}
