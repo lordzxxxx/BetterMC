@@ -8,7 +8,7 @@
     "noEmit": true,
     "skipLibCheck": true,
     "verbatimModuleSyntax": true,
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals", "node"]
   },
-  "include": ["functions/**/*.ts", "src/feedback.ts"]
+  "include": ["api/**/*.ts", "functions/**/*.ts", "src/feedback.ts"]
 }

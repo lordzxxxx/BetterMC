@@ -417,6 +417,7 @@ export function barangaySlugFromHostname(hostname: string, search = "") {
     ".bettermc.ph",
     ".bettergov.org",
     ".bettermalaybalay.com",
+    ".vercel.app",
     ".localhost",
   ];
   const suffix = supportedSuffixes.find((candidate) =>

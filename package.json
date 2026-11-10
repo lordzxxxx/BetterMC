@@ -15,6 +15,7 @@
     "verify:sources": "node scripts/verify-sources.mjs",
     "pages:build": "npm run build",
     "pages:deploy": "wrangler pages deploy dist",
+    "vercel-build": "npm run build",
     "check": "npm run lint && npm test && npm run build"
   },
   "dependencies": {
