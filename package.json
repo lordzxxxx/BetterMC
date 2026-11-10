@@ -13,6 +13,8 @@
     "test:e2e": "playwright test",
     "preview": "vite preview",
     "verify:sources": "node scripts/verify-sources.mjs",
+    "pages:build": "npm run build",
+    "pages:deploy": "wrangler pages deploy dist",
     "check": "npm run lint && npm test && npm run build"
   },
   "dependencies": {
@@ -44,6 +46,7 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.3",
     "vite": "^7.2.2",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.8",
+    "wrangler": "^4.159.0"
   }
 }

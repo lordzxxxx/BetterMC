@@ -2,8 +2,16 @@ name = "bettermc"
 compatibility_date = "2026-11-04"
 pages_build_output_dir = "dist"
 
-[[d1_databases]]
-binding = "DB"
-database_name = "bettermc-production"
-database_id = "REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID"
-migrations_dir = "db/migrations"
+[vars]
+CONTACT_EMAIL = "bettermc.org@gmail.com"
+RESEND_FROM = "BetterMC Desk <onboarding@resend.dev>"
+
+# Optional Cloudflare D1 Database binding
+# If using Cloudflare D1 for audit logging / persistent submissions:
+# 1. Run: npx wrangler d1 create bettermc-production
+# 2. Paste the database_id below and un-comment:
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "bettermc-production"
+# database_id = "your-d1-database-uuid"
+# migrations_dir = "db/migrations"

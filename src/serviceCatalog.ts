@@ -1890,7 +1890,7 @@ function buildDynamicBarangayProvider(
     hours: "Mon–Fri · 8:00 AM – 5:00 PM (BDRRMC & Tanod Desk on Call)",
     phone: profile.phone,
     email: profile.email,
-    onlinePortalUrl: `https://bettermc.ph/barangays/${profile.slug}`,
+    onlinePortalUrl: `/barangays/${profile.slug}`,
     onlinePortalLabel: `Open Barangay ${profile.name} Official Directory`,
     epaymentChannel: `Barangay Treasurer of Barangay ${profile.name} (₱0.00 Free for RA 11261 First-Time Jobseekers & Indigency Certificates)`,
     transactions: [

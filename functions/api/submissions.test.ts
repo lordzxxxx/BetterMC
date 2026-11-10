@@ -107,16 +107,54 @@ describe("public submission API", () => {
     expect(response.status).toBe(429);
   });
 
-  it("fails closed when configured Turnstile verification is unavailable", async () => {
-    vi.spyOn(globalThis, "fetch").mockRejectedValue(new Error("offline"));
+  it("dispatches notification email via Resend when RESEND_API_KEY is configured", async () => {
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ id: "resend_test_123" }), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      }),
+    );
+
     const response = await onRequestPost({
-      request: request({ ...validPayload, turnstileToken: "token" }),
-      env: { DB: database(), TURNSTILE_SECRET_KEY: "test-secret" },
+      request: request(),
+      env: {
+        RESEND_API_KEY: "re_test_dummy_key",
+        CONTACT_EMAIL: "bettermc.org@gmail.com",
+      },
     });
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(201);
+    expect(fetchSpy).toHaveBeenCalledWith(
+      "https://api.resend.com/emails",
+      expect.objectContaining({
+        method: "POST",
+        headers: expect.objectContaining({
+          Authorization: "Bearer re_test_dummy_key",
+        }),
+      }),
+    );
+  });
+
+  it("accepts valid submissions from barangay subdomains", async () => {
+    const response = await onRequestPost({
+      request: request(validPayload, {
+        origin: "https://casisang.bettermalaybalay.cloud",
+      }),
+      env: { DB: database() },
+    });
+
+    expect(response.status).toBe(201);
+  });
+
+  it("returns 503 if neither database nor Resend mailer is configured", async () => {
+    const response = await onRequestPost({
+      request: request(),
+      env: {},
+    });
+
+    expect(response.status).toBe(503);
     await expect(response.json()).resolves.toMatchObject({
-      message: expect.stringContaining("verification failed"),
+      message: expect.stringContaining("bettermc.org@gmail.com"),
     });
   });
 });

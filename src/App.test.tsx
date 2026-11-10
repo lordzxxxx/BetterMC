@@ -43,10 +43,17 @@ describe("BetterMC public portal", () => {
       expect(barangay.fullDisclosure.items.length).toBeGreaterThanOrEqual(4);
       expect(barangay.fullDisclosure.bdp2026Budget).toBeGreaterThan(1000000);
       expect(barangay.fullDisclosure.barangayNta2026).toBeGreaterThan(1685420);
-      expect(barangay.subdomainHost).toBe(`${barangay.slug}.bettermc.ph`);
-      expect(barangay.subdomainUrl).toBe(`https://${barangay.slug}.bettermc.ph`);
-      expect(barangay.mainPortalDomain).toBe("bettermc.ph");
+      expect(barangay.subdomainHost).toBe(
+        `${barangay.slug}.bettermalaybalay.cloud`,
+      );
+      expect(barangay.subdomainUrl).toBe(
+        `https://${barangay.slug}.bettermalaybalay.cloud`,
+      );
+      expect(barangay.mainPortalDomain).toBe("bettermalaybalay.cloud");
     }
+    expect(barangaySlugFromHostname("dalwangan.bettermalaybalay.cloud")).toBe(
+      "dalwangan",
+    );
     expect(barangaySlugFromHostname("dalwangan.bettermc.ph")).toBe("dalwangan");
     expect(barangaySlugFromHostname("localhost", "?subdomain=casisang")).toBe(
       "casisang",
@@ -223,7 +230,7 @@ describe("BetterMC public portal", () => {
       }),
     ).toBeInTheDocument();
     expect(
-      screen.getAllByText(/dalwangan\.bettermc\.ph/i).length,
+      screen.getAllByText(/dalwangan\.bettermalaybalay\.cloud/i).length,
     ).toBeGreaterThan(0);
     expect(
       screen.getByRole("link", { name: /Main Portal:\s*BetterMC/i }),

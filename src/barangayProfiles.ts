@@ -376,12 +376,12 @@ export const barangayMicrosites: BarangayMicrositeProfile[] = psgcProfiles.map(
       ),
       officialRoster,
       fullDisclosure,
-      subdomainHost: `${slug}.bettermc.ph`,
-      subdomainUrl: `https://${slug}.bettermc.ph`,
+      subdomainHost: `${slug}.bettermalaybalay.cloud`,
+      subdomainUrl: `https://${slug}.bettermalaybalay.cloud`,
       betterGovSubdomainUrl: `https://${slug}.bettergov.org`,
-      mainPortalDomain: "bettermc.ph",
-      mainPortalUrl: "https://bettermc.ph",
-      requestedSubdomain: `https://${slug}.bettermc.ph`,
+      mainPortalDomain: "bettermalaybalay.cloud",
+      mainPortalUrl: "https://bettermalaybalay.cloud",
+      requestedSubdomain: `https://${slug}.bettermalaybalay.cloud`,
     };
   },
 );
@@ -393,8 +393,8 @@ export const barangayMicrositeBySlug = new Map(
 export const MAIN_BETTERMC_PORTAL = {
   name: "BetterMC",
   fullTitle: "BetterMC — Malaybalay City Public Information Portal",
-  domain: "bettermc.ph",
-  url: "https://bettermc.ph",
+  domain: "bettermalaybalay.cloud",
+  url: "https://bettermalaybalay.cloud",
 } as const;
 
 export function barangaySlugFromHostname(hostname: string, search = "") {
@@ -413,6 +413,7 @@ export function barangaySlugFromHostname(hostname: string, search = "") {
   }
   const normalized = hostname.toLowerCase().split(":")[0];
   const supportedSuffixes = [
+    ".bettermalaybalay.cloud",
     ".bettermc.ph",
     ".bettergov.org",
     ".bettermalaybalay.com",

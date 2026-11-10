@@ -524,6 +524,13 @@ function Footer() {
           <Link to="/participate">Submit a correction</Link>
           <a
             className="footer-icon-link"
+            href="mailto:bettermc.org@gmail.com"
+          >
+            <Mail aria-hidden="true" />
+            bettermc.org@gmail.com
+          </a>
+          <a
+            className="footer-icon-link"
             href="https://github.com/lordzxxxx/BetterMC"
             target="_blank"
             rel="noreferrer"
@@ -3166,12 +3173,24 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
               role="region"
               aria-label={`${profile.name} embedded subdomain and main portal navigation`}
             >
-              <Link to="/" className="barangay-main-portal-pill">
-                <Landmark aria-hidden="true" />
-                <span>
-                  Main Portal: <strong>{MAIN_BETTERMC_PORTAL.name}</strong>
-                </span>
-              </Link>
+              {slugOverride ? (
+                <a
+                  href={MAIN_BETTERMC_PORTAL.url}
+                  className="barangay-main-portal-pill"
+                >
+                  <Landmark aria-hidden="true" />
+                  <span>
+                    Main Portal: <strong>{MAIN_BETTERMC_PORTAL.name}</strong>
+                  </span>
+                </a>
+              ) : (
+                <Link to="/" className="barangay-main-portal-pill">
+                  <Landmark aria-hidden="true" />
+                  <span>
+                    Main Portal: <strong>{MAIN_BETTERMC_PORTAL.name}</strong>
+                  </span>
+                </Link>
+              )}
               <span className="barangay-active-subdomain-pill">
                 <Globe aria-hidden="true" />
                 <strong>{profile.subdomainHost}</strong>
@@ -5685,6 +5704,22 @@ function ParticipatePage() {
               </div>
             </li>
           </ol>
+          <div className="participate-contact-box">
+            <span className="participate-contact-label">
+              Direct initiative contact
+            </span>
+            <p>
+              For organizational communications, partnerships, or direct
+              research inquiries, email the BetterMC volunteer initiative:
+            </p>
+            <a
+              href="mailto:bettermc.org@gmail.com"
+              className="participate-contact-link"
+            >
+              <Mail aria-hidden="true" />
+              <span>bettermc.org@gmail.com</span>
+            </a>
+          </div>
         </div>
         <form className="feedback-form" onSubmit={handleSubmit} noValidate>
           <h2>Submit to the correction desk</h2>
@@ -5814,6 +5849,12 @@ function AboutPage() {
           url="https://github.com/BetterLosBanos/betterlb"
           label="BetterLosBaños technical reference"
         />
+        <h2>Direct contact & editorial desk</h2>
+        <p>
+          For corrections, verification suggestions, or civic inquiries, reach the
+          volunteer team directly at{" "}
+          <a href="mailto:bettermc.org@gmail.com">bettermc.org@gmail.com</a>.
+        </p>
       </section>
     </>
   );

@@ -2092,14 +2092,61 @@ kbd {
   place-items: center;
   flex: none;
   border-radius: 50%;
-  background: var(--green-100);
-  color: var(--green-900);
+  background: #eff6ff;
+  color: #0038a8;
+  border: 1px solid #bfdbfe;
   font-weight: 700;
 }
 .process-list p {
   margin: 5px 0 0;
   color: var(--muted);
-  line-height: 1.45;
+}
+
+.participate-contact-box {
+  margin-top: 32px;
+  padding: 20px 24px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.participate-contact-label {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #0038a8;
+  margin-bottom: 6px;
+}
+.participate-contact-box p {
+  margin: 0 0 14px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.participate-contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  color: #0038a8;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease-in-out;
+}
+.participate-contact-link:hover {
+  background: #0038a8;
+  color: #ffffff;
+  border-color: #0038a8;
+}
+.participate-contact-link svg {
+  width: 16px;
+  height: 16px;
 }
 .feedback-form {
   position: relative;
