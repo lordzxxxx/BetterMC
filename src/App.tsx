@@ -923,10 +923,10 @@ function HomePage() {
           <div className="hero-copy">
             <h1>Welcome to BetterMC.</h1>
             <p>
-              Explore source-linked Malaybalay records, public services,
-              government offices, and all 46 barangays in one clear,
-              independent portal built for informed participation and public
-              accountability.
+              Explore source-verified public records, city services, official
+              directories, and all 46 barangays in one independent civic
+              portal—built for informed citizen participation and public
+              accountability in Malaybalay City.
             </p>
             <div className="hero-actions">
               <Link className="button primary" to="/transparency">
