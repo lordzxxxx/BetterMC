@@ -16,33 +16,43 @@ const requestTypes = [
   "website-feedback",
 ] as const;
 
-const publicHttpUrl = z
+const optionalPublicHttpUrl = z
   .string()
   .trim()
-  .url("Enter a complete URL, including https://")
+  .optional()
   .refine((value) => {
-    const protocol = new URL(value).protocol;
-    return protocol === "https:" || protocol === "http:";
+    if (!value || value === "") return true;
+    try {
+      const parsed = new URL(value);
+      return parsed.protocol === "https:" || parsed.protocol === "http:";
+    } catch {
+      return false;
+    }
   }, "Use an http:// or https:// source URL.");
+
+const optionalEmail = z
+  .string()
+  .trim()
+  .optional()
+  .refine((val) => {
+    if (!val || val === "") return true;
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+  }, "Enter a valid email address.");
 
 export const feedbackSchema = z.object({
   category: z.enum(requestTypes),
   subject: z
     .string()
     .trim()
-    .min(5, "Please enter a specific subject.")
+    .min(3, "Please enter a specific subject (at least 3 characters).")
     .max(120),
   details: z
     .string()
     .trim()
-    .min(20, "Please provide at least 20 characters of context.")
+    .min(5, "Please provide at least 5 characters of context.")
     .max(3000),
-  sourceUrl: publicHttpUrl.or(z.literal("")),
-  email: z
-    .string()
-    .trim()
-    .email("Enter a valid email address.")
-    .or(z.literal("")),
+  sourceUrl: optionalPublicHttpUrl,
+  email: optionalEmail,
   website: z.string().max(0),
   turnstileToken: z.string().trim().max(2048).optional(),
 });

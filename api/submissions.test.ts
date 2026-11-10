@@ -115,6 +115,28 @@ describe("Vercel Edge submissions API", () => {
     expect(vercelResponse.status).toBe(201);
   });
 
+  it("accepts submissions with empty sourceUrl without crashing", async () => {
+    process.env.RESEND_API_KEY = "re_test_dummy_key";
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ id: "resend_test_123" }), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      }),
+    );
+
+    const response = await POST(
+      request({
+        category: "broken-link",
+        subject: "Kulang",
+        details: "asijhakdasdas",
+        sourceUrl: "",
+        email: "pepotsagreda@gmail.com",
+        website: "",
+      }),
+    );
+    expect(response.status).toBe(201);
+  });
+
   it("returns 503 if RESEND_API_KEY is not configured", async () => {
     delete process.env.RESEND_API_KEY;
     const response = await POST(request());

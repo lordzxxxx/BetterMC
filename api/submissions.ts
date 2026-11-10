@@ -226,88 +226,98 @@ Delivered via https://bettermalaybalay.cloud/participate`
 }
 
 export async function handleSubmission(request: Request): Promise<Response> {
-  if (!isAllowedOrigin(request)) {
-    return json({ message: 'Cross-site submissions are not accepted.' }, 403)
-  }
-  if (!request.headers.get('content-type')?.includes('application/json')) {
-    return json({ message: 'Expected a JSON request.' }, 415)
-  }
-
-  const apiKey = process.env.RESEND_API_KEY
-  const contactEmail = process.env.CONTACT_EMAIL || DEFAULT_CONTACT_EMAIL
-  const resendFrom = process.env.RESEND_FROM || DEFAULT_RESEND_FROM
-  const turnstileSecret = process.env.TURNSTILE_SECRET_KEY
-
-  if (!apiKey) {
-    return json(
-      {
-        message: `The submission desk is currently undergoing setup. Please email your inquiry directly to ${contactEmail}.`,
-      },
-      503,
-    )
-  }
-
-  let input: unknown
   try {
-    input = await readJsonBody(request)
+    if (!isAllowedOrigin(request)) {
+      return json({ message: 'Cross-site submissions are not accepted.' }, 403)
+    }
+    if (!request.headers.get('content-type')?.includes('application/json')) {
+      return json({ message: 'Expected a JSON request.' }, 415)
+    }
+
+    const apiKey = process.env.RESEND_API_KEY
+    const contactEmail = process.env.CONTACT_EMAIL || DEFAULT_CONTACT_EMAIL
+    const resendFrom = process.env.RESEND_FROM || DEFAULT_RESEND_FROM
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY
+
+    if (!apiKey) {
+      return json(
+        {
+          message: `The submission desk is currently undergoing setup. Please email your inquiry directly to ${contactEmail}.`,
+        },
+        503,
+      )
+    }
+
+    let input: unknown
+    try {
+      input = await readJsonBody(request)
+    } catch (error) {
+      if (error instanceof RequestBodyTooLargeError) {
+        return json({ message: 'The request is too large.' }, 413)
+      }
+      return json({ message: 'The request body is not valid JSON.' }, 400)
+    }
+
+    const parsed = feedbackSchema.safeParse(input)
+    if (!parsed.success) {
+      return json(
+        {
+          message: 'Review the form fields and try again.',
+          issues: parsed.error.flatten().fieldErrors,
+        },
+        400,
+      )
+    }
+
+    const ip =
+      request.headers.get('x-forwarded-for')?.split(',')[0].trim() ??
+      request.headers.get('x-real-ip') ??
+      'unknown'
+
+    if (turnstileSecret) {
+      if (
+        !parsed.data.turnstileToken ||
+        !(await verifyTurnstile(turnstileSecret, parsed.data.turnstileToken, ip))
+      ) {
+        return json({ message: 'Human verification failed. Please retry.' }, 400)
+      }
+    }
+
+    const id = crypto.randomUUID()
+    const emailResult = await sendResendEmail({
+      apiKey,
+      from: resendFrom,
+      to: contactEmail,
+      replyTo: parsed.data.email || undefined,
+      submission: parsed.data,
+    })
+
+    if (!emailResult.ok) {
+      console.error('Resend delivery failed:', emailResult.error)
+      return json(
+        {
+          message: `The submission could not be delivered to the desk. Please email ${contactEmail} directly.`,
+        },
+        502,
+      )
+    }
+
+    return json(
+      {
+        id,
+        message: 'Your submission was saved for moderator review.',
+      },
+      201,
+    )
   } catch (error) {
-    if (error instanceof RequestBodyTooLargeError) {
-      return json({ message: 'The request is too large.' }, 413)
-    }
-    return json({ message: 'The request body is not valid JSON.' }, 400)
-  }
-
-  const parsed = feedbackSchema.safeParse(input)
-  if (!parsed.success) {
+    console.error('Submission processing error:', error instanceof Error ? error.message : 'Unknown error')
     return json(
       {
-        message: 'Review the form fields and try again.',
-        issues: parsed.error.flatten().fieldErrors,
+        message: 'An error occurred while processing your submission. Please try again.',
       },
-      400,
+      500,
     )
   }
-
-  const ip =
-    request.headers.get('x-forwarded-for')?.split(',')[0].trim() ??
-    request.headers.get('x-real-ip') ??
-    'unknown'
-
-  if (turnstileSecret) {
-    if (
-      !parsed.data.turnstileToken ||
-      !(await verifyTurnstile(turnstileSecret, parsed.data.turnstileToken, ip))
-    ) {
-      return json({ message: 'Human verification failed. Please retry.' }, 400)
-    }
-  }
-
-  const id = crypto.randomUUID()
-  const emailResult = await sendResendEmail({
-    apiKey,
-    from: resendFrom,
-    to: contactEmail,
-    replyTo: parsed.data.email || undefined,
-    submission: parsed.data,
-  })
-
-  if (!emailResult.ok) {
-    console.error('Resend delivery failed:', emailResult.error)
-    return json(
-      {
-        message: `The submission could not be delivered to the desk. Please email ${contactEmail} directly.`,
-      },
-      502,
-    )
-  }
-
-  return json(
-    {
-      id,
-      message: 'Your submission was saved for moderator review.',
-    },
-    201,
-  )
 }
 
 export default async function handler(request: Request): Promise<Response> {

@@ -5639,6 +5639,10 @@ function ParticipatePage() {
         ),
       );
       setState("error");
+      setServerMessage(
+        parsed.error.issues[0]?.message ||
+          "Please review the form fields and try again.",
+      );
       return;
     }
     setState("submitting");
