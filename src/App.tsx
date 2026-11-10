@@ -5655,15 +5655,17 @@ function ParticipatePage() {
   const [serverMessage, setServerMessage] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const formRef = useRef<HTMLFormElement>(null);
   const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim();
   const handleTurnstileToken = useCallback((token: string) => {
     setTurnstileToken(token);
   }, []);
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formElement = event.currentTarget;
+    const formElement = event.currentTarget ?? formRef.current;
     setErrors({});
     setServerMessage("");
+    if (!formElement) return;
     const form = new FormData(formElement);
     const payload = Object.fromEntries(form.entries());
     const parsed = feedbackSchema.safeParse(payload);
@@ -5695,9 +5697,26 @@ function ParticipatePage() {
         throw new Error(result.message ?? "The submission could not be saved.");
       setState("success");
       setServerMessage(result.message ?? "Your submission was received.");
-      formElement.reset();
       setRequestType("correction");
       setTurnstileResetKey((current) => current + 1);
+
+      try {
+        formElement.reset();
+      } catch {
+        formElement
+          .querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+            "input, textarea",
+          )
+          .forEach((field) => {
+            if (
+              field.type !== "hidden" &&
+              field.type !== "submit" &&
+              field.type !== "button"
+            ) {
+              field.value = "";
+            }
+          });
+      }
     } catch (error) {
       setState("error");
       setServerMessage(
@@ -5774,7 +5793,12 @@ function ParticipatePage() {
             </div>
           </div>
         </div>
-        <form className="feedback-form" onSubmit={handleSubmit} noValidate>
+        <form
+          ref={formRef}
+          className="feedback-form"
+          onSubmit={handleSubmit}
+          noValidate
+        >
           <h2>Submit to the correction desk</h2>
           {serverMessage && (
             <div className={`form-message ${state}`} role="status">
