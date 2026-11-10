@@ -5701,13 +5701,13 @@ function ParticipatePage() {
       setTurnstileResetKey((current) => current + 1);
 
       try {
-        formElement.reset();
+        formElement?.reset?.();
       } catch {
-        formElement
-          .querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+        (formElement ?? formRef.current)
+          ?.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
             "input, textarea",
           )
-          .forEach((field) => {
+          ?.forEach((field) => {
             if (
               field.type !== "hidden" &&
               field.type !== "submit" &&

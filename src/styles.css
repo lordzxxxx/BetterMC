@@ -14181,10 +14181,11 @@ body {
 /* Section 2: Layers & 3D Horizon Perspective */
 .noah-section-layers-perspective {
   display: grid;
-  grid-template-columns: 1fr 1.25fr;
-  gap: 14px 18px;
-  padding: 12px 16px;
-  border-radius: 12px;
+  grid-template-columns: auto minmax(360px, 1fr);
+  gap: 16px 24px;
+  align-items: start;
+  padding: 14px 18px;
+  border-radius: 14px;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
 }
@@ -14205,9 +14206,9 @@ body {
 
 .noah-button-row {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 6px 8px;
+  gap: 8px;
+  flex-wrap: nowrap;
 }
 
 /* Layer toggles */
@@ -14216,7 +14217,7 @@ body {
   align-items: center;
   gap: 6px;
   min-height: 34px;
-  padding: 5px 11px;
+  padding: 5px 12px;
   border-radius: 8px;
   border: 1px solid #cbd5e1;
   background: #ffffff;
@@ -14225,6 +14226,7 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.14s ease;
+  white-space: nowrap;
 }
 
 .noah-layer-toggle svg {
@@ -14255,6 +14257,7 @@ body {
   border-radius: 9px;
   background: #ffffff;
   border: 1px solid #cbd5e1;
+  white-space: nowrap;
 }
 
 .noah-layer-composite .noah-layer-toggle {
@@ -14282,28 +14285,31 @@ body {
   margin-left: 2px;
 }
 
-/* Segmented Buttons */
+/* Segmented Buttons — Evenly Distributed across Full Width */
 .noah-segmented-group {
-  display: inline-flex;
+  display: flex;
+  width: 100%;
   align-items: center;
-  padding: 2px;
-  border-radius: 9px;
+  padding: 3px;
+  border-radius: 10px;
   background: #f1f5f9;
   border: 1px solid #cbd5e1;
   gap: 2px;
 }
 
 .noah-segmented-group button {
-  min-height: 32px;
-  padding: 4px 10px;
-  border-radius: 7px;
+  flex: 1;
+  text-align: center;
+  min-height: 34px;
+  padding: 5px 12px;
+  border-radius: 8px;
   border: none;
   background: transparent;
   color: #475569;
-  font-size: 0.74rem;
+  font-size: 0.76rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.14s ease;
+  transition: all 0.15s ease;
   white-space: nowrap;
 }
 
@@ -14326,30 +14332,40 @@ body {
 }
 
 .noah-sliders-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 14px 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+  margin-top: 2px;
 }
 
 .noah-slider-item {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 10px;
+  background: #ffffff;
+  padding: 6px 12px;
+  border-radius: 9px;
+  border: 1px solid #e2e8f0;
   font-size: 0.74rem;
   font-weight: 600;
   color: #334155;
 }
 
+.noah-slider-item span {
+  white-space: nowrap;
+}
+
 .noah-slider-item strong {
   color: #1d4ed8;
   font-weight: 800;
-  min-width: 44px;
+  min-width: 32px;
   display: inline-block;
 }
 
 .noah-slider-item input[type="range"] {
-  width: 95px;
+  flex: 1;
+  min-width: 60px;
   accent-color: #1d4ed8;
   cursor: pointer;
 }
@@ -14367,6 +14383,7 @@ body {
   cursor: pointer;
   padding: 0;
   transition: all 0.15s ease;
+  flex-shrink: 0;
 }
 
 .noah-swivel-reset:hover {
@@ -14382,43 +14399,43 @@ body {
 
 /* Section 3: Timeline & Forecast Strip */
 .noah-section-timeline {
-  padding-top: 10px;
+  padding-top: 12px;
   border-top: 1px solid #e2e8f0;
 }
 
 .noah-timeline-container {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px 14px;
+  gap: 18px;
+  flex-wrap: wrap;
 }
 
 .noah-timeline-group-historical,
 .noah-timeline-group-forecast {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 10px;
 }
 
 .noah-timeline-sublabel {
-  font-size: 0.67rem;
+  font-size: 0.69rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #64748b;
+  white-space: nowrap;
 }
 
 .noah-timeline-pills {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: 5px;
+  flex-wrap: nowrap;
 }
 
 .noah-timeline-pills button {
-  min-height: 30px;
-  padding: 4px 9px;
+  min-height: 32px;
+  padding: 4px 10px;
   border-radius: 7px;
   border: 1px solid #cbd5e1;
   background: #f8fafc;
@@ -14443,8 +14460,13 @@ body {
 
 .noah-timeline-divider {
   width: 1px;
-  height: 34px;
+  height: 28px;
   background: #cbd5e1;
+  align-self: center;
+}
+
+.noah-timeline-date-picker {
+  margin-left: auto;
 }
 
 .noah-timeline-date-picker label {
@@ -15062,10 +15084,13 @@ body {
     font-size: 0.72rem;
   }
 
+  .noah-button-row {
+    flex-wrap: wrap;
+  }
+
   .noah-sliders-row {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .noah-slider-item {
@@ -15081,7 +15106,26 @@ body {
   .noah-timeline-container {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 12px;
+  }
+
+  .noah-timeline-group-historical,
+  .noah-timeline-group-forecast {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .noah-timeline-pills {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .noah-timeline-pills button {
+    flex: 1;
+    text-align: center;
   }
 
   .noah-timeline-divider {
@@ -15090,6 +15134,7 @@ body {
 
   .noah-timeline-date-picker {
     width: 100%;
+    margin-left: 0;
   }
 
   .noah-timeline-date-picker label {
