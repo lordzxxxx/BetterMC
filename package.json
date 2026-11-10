@@ -12,6 +12,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "preview": "vite preview",
+    "verify:sources": "node scripts/verify-sources.mjs",
     "check": "npm run lint && npm test && npm run build"
   },
   "dependencies": {
