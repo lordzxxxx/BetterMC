@@ -16554,3 +16554,17 @@ div.service-category-grid.is-compact > article.service-category-card {
     justify-content: center;
   }
 }
+
+/* Provider header: stacked, never side-by-side */
+.provider-card header.provider-card-head {
+  display: block;
+  margin: 0;
+  width: 100%;
+}
+
+.provider-card header.provider-card-head > h3,
+.provider-card header.provider-card-head > .provider-address {
+  display: block;
+  width: 100%;
+  max-width: none;
+}

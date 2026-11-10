@@ -46,7 +46,6 @@ export type ServiceProvider = {
 export type RankedServiceProvider = ServiceProvider & {
   distanceKm: number;
   estimatedDriveMinutes: number;
-  directionsUrl: string;
   googleMapsUrl: string;
   isNearest: boolean;
 };
@@ -118,30 +117,14 @@ export function estimateTravelMinutes(distanceKm: number): number {
   return Math.max(3, Math.round((distanceKm / 32) * 60 + 2));
 }
 
-export function buildDirectionsUrl(
-  fromLat: number,
-  fromLng: number,
-  toLat: number,
-  toLng: number,
-): string {
-  const fLat = Number(fromLat.toFixed(5));
-  const fLng = Number(fromLng.toFixed(5));
-  const tLat = Number(toLat.toFixed(5));
-  const tLng = Number(toLng.toFixed(5));
-  return `https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route=${fLat}%2C${fLng}%3B${tLat}%2C${tLng}`;
-}
-
-export function buildGoogleMapsDirectionsUrl(
-  fromLat: number,
-  fromLng: number,
-  toLat: number,
-  toLng: number,
-): string {
-  const fLat = Number(fromLat.toFixed(5));
-  const fLng = Number(fromLng.toFixed(5));
-  const tLat = Number(toLat.toFixed(5));
-  const tLng = Number(toLng.toFixed(5));
-  return `https://www.google.com/maps/dir/?api=1&origin=${fLat},${fLng}&destination=${tLat},${tLng}&travelmode=driving`;
+/**
+ * Google Maps place search for a provider. Searching by establishment name and
+ * full street address opens the exact listing (building/office pin, address,
+ * photos, hours) rather than a bare coordinate.
+ */
+export function buildGoogleMapsPlaceUrl(name: string, address: string): string {
+  const query = encodeURIComponent(`${name}, ${address}`);
+  return `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
 
 export function getBarangayOriginCoordinates(barangaySlug?: string): {
@@ -1976,18 +1959,7 @@ export function getProvidersForCategory(
         ...provider,
         distanceKm,
         estimatedDriveMinutes: estimateTravelMinutes(distanceKm),
-        directionsUrl: buildDirectionsUrl(
-          originCoords[0],
-          originCoords[1],
-          provider.coordinates[0],
-          provider.coordinates[1],
-        ),
-        googleMapsUrl: buildGoogleMapsDirectionsUrl(
-          originCoords[0],
-          originCoords[1],
-          provider.coordinates[0],
-          provider.coordinates[1],
-        ),
+        googleMapsUrl: buildGoogleMapsPlaceUrl(provider.name, provider.address),
         isNearest: false,
       };
     })
@@ -2013,18 +1985,7 @@ export function getAllRankedProviders(
       ...provider,
       distanceKm,
       estimatedDriveMinutes: estimateTravelMinutes(distanceKm),
-      directionsUrl: buildDirectionsUrl(
-        originCoords[0],
-        originCoords[1],
-        provider.coordinates[0],
-        provider.coordinates[1],
-      ),
-      googleMapsUrl: buildGoogleMapsDirectionsUrl(
-        originCoords[0],
-        originCoords[1],
-        provider.coordinates[0],
-        provider.coordinates[1],
-      ),
+      googleMapsUrl: buildGoogleMapsPlaceUrl(provider.name, provider.address),
       isNearest: false,
     };
   }).sort((a, b) => a.distanceKm - b.distanceKm);

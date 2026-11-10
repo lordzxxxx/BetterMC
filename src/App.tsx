@@ -4827,18 +4827,9 @@ function ServiceProviderCard({
           href={provider.googleMapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          title="Open route on Google Maps"
+          title={`View ${provider.name} on Google Maps`}
         >
-          Google Maps
-        </a>
-        <a
-          className="provider-link"
-          href={provider.directionsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Open turn-by-turn road navigation on OpenStreetMap"
-        >
-          OpenStreetMap
+          View on Google Maps
         </a>
         <a
           className="provider-portal-btn"
@@ -4935,12 +4926,11 @@ function ServicesQuickFinder() {
             </Link>
             <a
               className="button secondary quick-finder-secondary-btn"
-              href={topProvider.directionsUrl}
+              href={topProvider.googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Navigation aria-hidden="true" />
-              <span>Directions</span>
+              <span>View on Google Maps</span>
               <ExternalLink aria-hidden="true" />
             </a>
           </div>
