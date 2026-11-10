@@ -13999,41 +13999,147 @@ body {
   gap: 12px;
 }
 
+/* ==========================================================================
+   Interactive 3D Civic GIS Map & Control Hub
+   ========================================================================== */
+
+.noah-clean-gis {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
 .noah-clean-toolbar {
-  display: grid;
-  gap: 10px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.97);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.98);
   border: 1px solid rgba(148, 163, 184, 0.42);
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
 }
 
-.noah-toolbar-grid-top {
-  display: grid;
-  grid-template-columns: minmax(210px, 1fr) minmax(210px, 1fr) minmax(320px, 1.5fr);
-  align-items: end;
-  gap: 12px 14px;
-}
-
-.noah-clean-timeline-group {
+/* Toolbar Header Bar */
+.noah-toolbar-header {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 8px 10px;
-}
-
-.noah-clean-toolbar-row {
-  display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 10px 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-.noah-clean-toolbar-row.is-secondary-row {
-  padding-top: 10px;
-  border-top: 1px solid #e2e8f0;
+.noah-toolbar-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.noah-toolbar-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #1d4ed8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.noah-toolbar-eyebrow svg {
+  width: 13px;
+  height: 13px;
+}
+
+.noah-toolbar-heading {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.noah-toolbar-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.noah-live-telemetry-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.noah-live-telemetry-badge .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.noah-live-telemetry-badge .dot-green {
+  background: #16a34a;
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+}
+
+.noah-live-telemetry-badge .dot-orange {
+  background: #f97316;
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+}
+
+.noah-live-telemetry-badge .dot-red {
+  background: #dc2626;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+
+.noah-active-brgy-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.noah-active-brgy-pill:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+.noah-active-brgy-pill svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Sections */
+.noah-toolbar-section {
+  width: 100%;
+}
+
+/* Section 1: Geographic Navigation */
+.noah-section-geo .noah-input-group {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.2fr) minmax(220px, 1.2fr) minmax(180px, 0.9fr);
+  gap: 12px 16px;
+  align-items: end;
 }
 
 .noah-clean-control {
@@ -14052,120 +14158,331 @@ body {
   color: #475569;
 }
 
-.noah-clean-control span svg {
-  width: 13px;
-  height: 13px;
-  color: #1d4ed8;
-}
-
 .noah-clean-control select,
-.noah-clean-control input[type="date"],
-.noah-clean-mini-select {
-  min-height: 36px;
-  padding: 5px 10px;
-  border-radius: 9px;
+.noah-clean-control input[type="date"] {
+  min-height: 38px;
+  padding: 6px 12px;
+  border-radius: 10px;
   border: 1px solid #cbd5e1;
   background: #ffffff;
   color: #0f172a;
   font-size: 0.83rem;
   font-weight: 600;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.noah-clean-date-pills,
-.noah-clean-layer-pills {
+.noah-clean-control select:focus,
+.noah-clean-control input[type="date"]:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* Section 2: Layers & 3D Horizon Perspective */
+.noah-section-layers-perspective {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 14px 18px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.noah-control-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.noah-block-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #475569;
+}
+
+.noah-button-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  gap: 6px 8px;
+}
+
+/* Layer toggles */
+.noah-layer-toggle {
+  display: inline-flex;
+  align-items: center;
   gap: 6px;
-}
-
-.noah-pill-cluster {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px;
-  border-radius: 11px;
-  background: #f1f5f9;
+  min-height: 34px;
+  padding: 5px 11px;
+  border-radius: 8px;
   border: 1px solid #cbd5e1;
-}
-
-.noah-pill-cluster .noah-clean-mini-select {
-  min-height: 32px;
-  border: none;
   background: #ffffff;
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-
-.noah-basemap-segmented {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px;
-  border-radius: 10px;
-  background: #f1f5f9;
-  border: 1px solid #cbd5e1;
-}
-
-.noah-basemap-segmented button {
-  min-height: 32px !important;
-  border: none !important;
-  background: transparent !important;
-  color: #475569 !important;
-  border-radius: 8px !important;
-  padding: 4px 10px !important;
-}
-
-.noah-basemap-segmented button.is-active {
-  background: #1d4ed8 !important;
-  color: #ffffff !important;
-}
-
-.noah-clean-date-pills button,
-.noah-clean-layer-pills button {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  min-height: 36px;
-  padding: 6px 11px;
-  border-radius: 9px;
-  border: 1px solid #cbd5e1;
-  background: #f8fafc;
   color: #334155;
-  font-size: 0.78rem;
+  font-size: 0.77rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.14s ease;
 }
 
-.noah-clean-date-pills button svg,
-.noah-clean-layer-pills button svg {
+.noah-layer-toggle svg {
   width: 14px;
   height: 14px;
+  color: #64748b;
 }
 
-.noah-clean-date-pills button:hover,
-.noah-clean-layer-pills button:hover {
-  border-color: var(--green-900);
-  color: var(--green-900);
+.noah-layer-toggle:hover {
+  border-color: #2563eb;
+  color: #1d4ed8;
 }
 
-.noah-clean-date-pills button.is-active,
-.noah-clean-layer-pills button.is-active {
+.noah-layer-toggle.is-active {
   background: #1d4ed8;
   border-color: #1d4ed8;
   color: #ffffff;
 }
 
-/* Map Stage — Oversized canvas + padding:1.0 SVG renderer ensures zero black or white corner gaps when tilting/rotating */
+.noah-layer-toggle.is-active svg {
+  color: #ffffff;
+}
+
+.noah-layer-composite {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: 9px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+}
+
+.noah-layer-composite .noah-layer-toggle {
+  border: none;
+  background: transparent;
+  padding: 4px 8px;
+  min-height: 30px;
+}
+
+.noah-layer-composite .noah-layer-toggle.is-active {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+.noah-scenario-select {
+  min-height: 30px;
+  padding: 3px 6px;
+  border: none;
+  background: #f1f5f9;
+  border-radius: 6px;
+  font-size: 0.73rem;
+  font-weight: 700;
+  color: #1e293b;
+  cursor: pointer;
+  margin-left: 2px;
+}
+
+/* Segmented Buttons */
+.noah-segmented-group {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: 9px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  gap: 2px;
+}
+
+.noah-segmented-group button {
+  min-height: 32px;
+  padding: 4px 10px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: #475569;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  white-space: nowrap;
+}
+
+.noah-segmented-group button:hover {
+  color: #1d4ed8;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.noah-segmented-group button.is-active {
+  background: #1d4ed8;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+}
+
+/* Perspective controls */
+.noah-perspective-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.noah-sliders-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 18px;
+}
+
+.noah-slider-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.noah-slider-item strong {
+  color: #1d4ed8;
+  font-weight: 800;
+  min-width: 44px;
+  display: inline-block;
+}
+
+.noah-slider-item input[type="range"] {
+  width: 95px;
+  accent-color: #1d4ed8;
+  cursor: pointer;
+}
+
+.noah-swivel-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #475569;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.15s ease;
+}
+
+.noah-swivel-reset:hover {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #93c5fd;
+}
+
+.noah-swivel-reset svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Section 3: Timeline & Forecast Strip */
+.noah-section-timeline {
+  padding-top: 10px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.noah-timeline-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 14px;
+}
+
+.noah-timeline-group-historical,
+.noah-timeline-group-forecast {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.noah-timeline-sublabel {
+  font-size: 0.67rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.noah-timeline-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+.noah-timeline-pills button {
+  min-height: 30px;
+  padding: 4px 9px;
+  border-radius: 7px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  white-space: nowrap;
+}
+
+.noah-timeline-pills button:hover {
+  border-color: #1d4ed8;
+  color: #1d4ed8;
+}
+
+.noah-timeline-pills button.is-active {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+  color: #ffffff;
+}
+
+.noah-timeline-divider {
+  width: 1px;
+  height: 34px;
+  background: #cbd5e1;
+}
+
+.noah-timeline-date-picker label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f8fafc;
+  padding: 3px 8px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+}
+
+.noah-timeline-date-picker svg {
+  width: 14px;
+  height: 14px;
+  color: #1d4ed8;
+}
+
+.noah-timeline-date-picker input[type="date"] {
+  border: none;
+  background: transparent;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #0f172a;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Map Stage — Surface Horizon Perspective & Maximum Tilt (72deg) */
 .noah-clean-map-stage {
   position: relative;
   width: 100%;
-  height: 580px;
+  height: 600px;
   border-radius: 16px 16px 0 0;
   overflow: hidden;
   border: 1px solid rgba(148, 163, 184, 0.45);
-  background: #e2e8f0;
-  perspective: 1100px;
+  background: #0f172a;
+  perspective: 1200px;
 }
 
 .noah-clean-map-stage::after {
@@ -14174,38 +14491,71 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 110px;
-  background: linear-gradient(180deg, rgba(219, 234, 254, 0.55) 0%, rgba(219, 234, 254, 0) 100%);
+  height: 140px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(15, 23, 42, 0.28) 60%, rgba(15, 23, 42, 0) 100%);
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s ease;
   z-index: 500;
 }
 
 .noah-clean-map-stage.is-3d-tilted::after {
-  opacity: 1;
+  opacity: calc(var(--gis-pitch-val, 0) / 72);
 }
 
 .noah-clean-map-stage .noah-clean-map-canvas {
   position: absolute !important;
-  left: -16% !important;
-  top: -16% !important;
-  width: 132% !important;
-  height: 132% !important;
-  min-height: 132% !important;
-  background: #e2e8f0 !important;
+  left: -18% !important;
+  top: -18% !important;
+  width: 136% !important;
+  height: 136% !important;
+  min-height: 136% !important;
+  background: #0f172a !important;
   transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
-  transform-origin: center 58%;
+  transform-origin: center 60%;
   will-change: transform;
 }
 
 .noah-clean-map-stage.is-3d-tilted .noah-clean-map-canvas {
-  transform: rotateX(var(--gis-pitch, 22deg)) rotateZ(var(--gis-bearing, 0deg)) scale(calc(1.1 + (var(--gis-pitch-val, 22) * 0.0035)));
+  transform: rotateX(var(--gis-pitch, 0deg)) rotateZ(var(--gis-bearing, 0deg)) scale(calc(1.16 + (var(--gis-pitch-val, 0) * 0.0042)));
 }
 
 .noah-clean-map-stage .leaflet-bottom.leaflet-right {
   bottom: 12%;
   right: 12%;
+}
+
+/* High-contrast Matte HUD Tooltips */
+.leaflet-tooltip.noah-hud-tooltip,
+.leaflet-tooltip {
+  background: rgba(15, 23, 42, 0.94) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 8px !important;
+  color: #f8fafc !important;
+  font-size: 0.74rem !important;
+  line-height: 1.4 !important;
+  padding: 6px 10px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  pointer-events: none !important;
+  max-width: 260px !important;
+  white-space: normal !important;
+}
+
+.leaflet-tooltip-top:before {
+  border-top-color: rgba(15, 23, 42, 0.94) !important;
+}
+
+.leaflet-tooltip-bottom:before {
+  border-bottom-color: rgba(15, 23, 42, 0.94) !important;
+}
+
+.leaflet-tooltip strong {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  display: block;
+  margin-bottom: 2px;
 }
 
 /* Outside-Malaybalay Frosted Blur Mask */
@@ -14265,98 +14615,6 @@ body {
 /* Remove browser rectangular focus box on clicked Leaflet SVG paths */
 .leaflet-container .leaflet-interactive:focus {
   outline: none !important;
-}
-
-.noah-3d-Sliders {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  padding: 6px 12px;
-  border-radius: 10px;
-  background: #f1f5f9;
-  border: 1px solid #cbd5e1;
-}
-
-.noah-3d-presets {
-  display: inline-flex;
-  align-items: center;
-  background: #e2e8f0;
-  border-radius: 8px;
-  padding: 2px;
-  gap: 2px;
-}
-
-.noah-3d-presets button {
-  padding: 4px 9px;
-  border-radius: 6px;
-  border: none;
-  background: transparent;
-  color: #334155;
-  font-size: 0.72rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-}
-
-.noah-3d-presets button:hover {
-  color: #1d4ed8;
-  background: rgba(255, 255, 255, 0.5);
-}
-
-.noah-3d-presets button.is-active {
-  background: #ffffff;
-  color: #1d4ed8;
-  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.1);
-}
-
-.noah-3d-Sliders label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.74rem;
-  font-weight: 600;
-  color: #334155;
-}
-
-.noah-3d-Sliders label strong {
-  color: #1d4ed8;
-  font-weight: 800;
-  min-width: 32px;
-  display: inline-block;
-}
-
-.noah-3d-Sliders input[type="range"] {
-  width: 90px;
-  accent-color: #1d4ed8;
-  cursor: pointer;
-}
-
-.noah-clean-reset-3d {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 10px;
-  border-radius: 7px;
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
-  color: #1e293b;
-  font-size: 0.72rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.noah-clean-reset-3d:hover {
-  border-color: #1d4ed8;
-  color: #1d4ed8;
-  background: #eff6ff;
-}
-
-.noah-clean-reset-3d svg {
-  width: 12px;
-  height: 12px;
 }
 
 /* Modern Compact Map Controls Stack (Replaces bulky arcade D-pad) */
@@ -14769,33 +15027,74 @@ body {
     right: 10px;
   }
 
-  .noah-3d-Sliders {
+  .noah-clean-toolbar {
+    padding: 14px;
+    border-radius: 14px;
+    gap: 12px;
+  }
+
+  .noah-toolbar-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .noah-section-geo .noah-input-group {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .noah-section-layers-perspective {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .noah-segmented-group {
     width: 100%;
+    display: flex;
+  }
+
+  .noah-segmented-group button {
+    flex: 1;
+    text-align: center;
+    padding: 6px 4px;
+    font-size: 0.72rem;
+  }
+
+  .noah-sliders-row {
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
   }
 
-  .noah-3d-presets {
-    width: 100%;
-    display: flex;
-  }
-
-  .noah-3d-presets button {
-    flex: 1;
-    text-align: center;
-    padding: 6px 4px;
-    font-size: 0.7rem;
-  }
-
-  .noah-3d-Sliders label {
+  .noah-slider-item {
     display: flex;
     justify-content: space-between;
     width: 100%;
   }
 
-  .noah-3d-Sliders input[type="range"] {
+  .noah-slider-item input[type="range"] {
     width: 50%;
+  }
+
+  .noah-timeline-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .noah-timeline-divider {
+    display: none;
+  }
+
+  .noah-timeline-date-picker {
+    width: 100%;
+  }
+
+  .noah-timeline-date-picker label {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .noah-summary-strip {

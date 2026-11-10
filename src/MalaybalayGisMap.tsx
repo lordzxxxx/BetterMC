@@ -94,6 +94,13 @@ function getCardinalHeading(bearing: number): string {
   return "NW";
 }
 
+function getSwivelLabel(bearing: number): string {
+  if (bearing === 0) return "0° (True North)";
+  const cardinal = getCardinalHeading(bearing);
+  if (bearing > 0) return `+${bearing}° E (${cardinal})`;
+  return `${bearing}° W (${cardinal})`;
+}
+
 function resolveHazardLevel(props: {
   level?: "low" | "medium" | "high";
   hazard?: number;
@@ -195,9 +202,9 @@ export default function MalaybalayGisMap({
   const [noahScenario, setNoahScenario] = useState<NoahHazardScenario>("100yr");
   const [basemapStyle, setBasemapStyle] = useState<
     "street" | "satellite" | "topo"
-  >("street");
+  >("topo");
   const [is3DMode, setIs3DMode] = useState<boolean>(true);
-  const [pitchDeg, setPitchDeg] = useState<number>(22);
+  const [pitchDeg, setPitchDeg] = useState<number>(35);
   const [bearingDeg, setBearingDeg] = useState<number>(0);
   const [zoomLevel, setZoomLevel] = useState<number>(profile ? 13 : 11);
 
@@ -645,8 +652,9 @@ export default function MalaybalayGisMap({
               ? `<br/>NOAH ${noahScenario.toUpperCase()} Flood Zone: <b>${stat.exposedKm2} km² (${stat.exposedShare}%)</b>`
               : ""),
           {
-            sticky: true,
+            sticky: false,
             direction: "top",
+            className: "noah-hud-tooltip",
           },
         );
 
@@ -745,7 +753,11 @@ export default function MalaybalayGisMap({
 
           fLayer.bindTooltip(
             `<strong>UP Project NOAH: ${level.toUpperCase()} Flood Hazard (${depth})</strong><br/>Brgy. ${f.properties.barangay} · ${noahScenario === "100yr" ? "100-Year Return" : "5-Year Return"}`,
-            { sticky: true },
+            {
+              sticky: false,
+              direction: "top",
+              className: "noah-hud-tooltip",
+            },
           );
 
           fLayer.addTo(layerGroup);
@@ -793,7 +805,11 @@ export default function MalaybalayGisMap({
 
           riverLine.bindTooltip(
             `<strong>${river.name}</strong> (${river.localName})<br/>Stage: ${currentHydroSnapshot.sawagaWaterLevelM}m · Discharge: ${currentHydroSnapshot.sawagaDischargeM3s} m³/s · Click for telemetry`,
-            { sticky: true },
+            {
+              sticky: false,
+              direction: "top",
+              className: "noah-hud-tooltip",
+            },
           );
 
           riverLine.addTo(layerGroup);
@@ -877,7 +893,7 @@ export default function MalaybalayGisMap({
 
           marker.bindTooltip(
             `<strong>${est.name}</strong><br/>${est.category} · Brgy. ${est.barangayName} · ${est.noahFloodZone}`,
-            { direction: "top" },
+            { direction: "top", className: "noah-hud-tooltip" },
           );
 
           marker.addTo(layerGroup);
@@ -950,354 +966,433 @@ export default function MalaybalayGisMap({
     }
   };
 
+  const handleJumpChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    if (!val) return;
+    if (val.startsWith("river:")) {
+      const rId = val.replace("river:", "");
+      const r = MALAYBALAY_WATERWAYS.find((w) => w.id === rId);
+      if (r && leafletMapRef.current) {
+        const mid = r.coordinates[Math.floor(r.coordinates.length / 2)];
+        leafletMapRef.current.flyTo([mid[1], mid[0]], 13, { duration: 0.5 });
+        setSelectedEntity({ kind: "waterway", waterway: r });
+      }
+    } else if (val.startsWith("est:")) {
+      const eId = val.replace("est:", "");
+      const est = MALAYBALAY_ESTABLISHMENTS.find((item) => item.id === eId);
+      if (est && leafletMapRef.current) {
+        leafletMapRef.current.flyTo(
+          [est.coordinates[1], est.coordinates[0]],
+          15,
+          { duration: 0.5 },
+        );
+        setSelectedEntity({
+          kind: "establishment",
+          establishment: est,
+        });
+      }
+    }
+  };
+
   return (
     <div className="noah-clean-gis">
-      {/* Structured 2-Row GIS Control Bar */}
+      {/* Organized 3D Civic GIS Control Hub */}
       <div
         className="noah-clean-toolbar"
         role="region"
-        aria-label="Hydrological and flood timeline calendar from 2019 to forecast days ahead"
+        aria-label="Hydrological and flood timeline calendar and 3D surface simulation controls"
       >
-        <div className="noah-toolbar-grid-top">
-          <label className="noah-clean-control">
-            <span>Barangay Focus (46 Barangays)</span>
-            <select
-              aria-label="Select active barangay in Malaybalay GIS"
-              value={activeBarangayCode}
-              onChange={(e) => {
-                const code = e.target.value;
-                setActiveBarangayCode(code);
-                if (code === "ALL") setSelectedEntity(null);
-              }}
-            >
-              <option value="ALL">All 46 Barangays (Malaybalay City)</option>
-              {barangayMicrosites.map((b) => (
-                <option key={b.code} value={b.code}>
-                  Brgy. {b.name} ({b.classification})
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className="noah-clean-control">
-            <span>Jump to River / Landmark</span>
-            <select
-              aria-label="Jump to Malaybalay river or establishment"
-              defaultValue=""
-              onChange={(e) => {
-                const val = e.target.value;
-                if (!val) return;
-                if (val.startsWith("river:")) {
-                  const rId = val.replace("river:", "");
-                  const r = MALAYBALAY_WATERWAYS.find((w) => w.id === rId);
-                  if (r && leafletMapRef.current) {
-                    const mid =
-                      r.coordinates[Math.floor(r.coordinates.length / 2)];
-                    leafletMapRef.current.flyTo([mid[1], mid[0]], 13, {
-                      duration: 0.5,
-                    });
-                    setSelectedEntity({ kind: "waterway", waterway: r });
-                  }
-                } else if (val.startsWith("est:")) {
-                  const eId = val.replace("est:", "");
-                  const est = MALAYBALAY_ESTABLISHMENTS.find(
-                    (item) => item.id === eId,
-                  );
-                  if (est && leafletMapRef.current) {
-                    leafletMapRef.current.flyTo(
-                      [est.coordinates[1], est.coordinates[0]],
-                      15,
-                      { duration: 0.5 },
-                    );
-                    setSelectedEntity({
-                      kind: "establishment",
-                      establishment: est,
-                    });
-                  }
-                }
-              }}
-            >
-              <option value="">Select river or establishment…</option>
-              <optgroup label="Malaybalay Rivers & Waterways">
-                {MALAYBALAY_WATERWAYS.map((w) => (
-                  <option key={w.id} value={`river:${w.id}`}>
-                    {w.name}
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup label="Key Malaybalay Establishments">
-                {MALAYBALAY_ESTABLISHMENTS.slice(0, 14).map((est) => (
-                  <option key={est.id} value={`est:${est.id}`}>
-                    {est.name} ({est.barangayName})
-                  </option>
-                ))}
-              </optgroup>
-            </select>
-          </label>
-
-          <div className="noah-clean-timeline-group">
-            <label className="noah-clean-control">
-              <span>
-                <Calendar aria-hidden="true" /> Date (2019–Forecast)
-              </span>
-              <input
-                type="date"
-                aria-label="Select GIS observation or forecast date"
-                min="2019-01-01"
-                max={maxForecastDateStr}
-                value={selectedDate}
-                onChange={(e) => handleDateChange(e.target.value)}
-              />
-            </label>
-            <div className="noah-clean-date-pills">
-              <button
-                type="button"
-                className={selectedDate === "2019-09-14" ? "is-active" : ""}
-                onClick={() => handleDateChange("2019-09-14")}
-                title="2019 Southwest Monsoon Peak"
-              >
-                2019
-              </button>
-              <button
-                type="button"
-                className={selectedDate === "2021-12-16" ? "is-active" : ""}
-                onClick={() => handleDateChange("2021-12-16")}
-                title="2021 Super Typhoon Odette Peak"
-              >
-                2021 Peak
-              </button>
-              <button
-                type="button"
-                className={selectedDate === "2023-11-21" ? "is-active" : ""}
-                onClick={() => handleDateChange("2023-11-21")}
-                title="2023 Shear Line Peak"
-              >
-                2023 Peak
-              </button>
-              <button
-                type="button"
-                className={selectedDate === todayStr ? "is-active" : ""}
-                onClick={() => handleDateChange(todayStr)}
-              >
-                Today
-              </button>
-              <button
-                type="button"
-                className={
-                  selectedDate === addDaysManila(todayStr, 3) ? "is-active" : ""
-                }
-                onClick={() => handleDateChange(addDaysManila(todayStr, 3))}
-              >
-                +3d
-              </button>
-              <button
-                type="button"
-                className={
-                  selectedDate === addDaysManila(todayStr, 7) ? "is-active" : ""
-                }
-                onClick={() => handleDateChange(addDaysManila(todayStr, 7))}
-              >
-                +7d
-              </button>
-            </div>
+        {/* Card Header & Live Telemetry Status */}
+        <div className="noah-toolbar-header">
+          <div className="noah-toolbar-title-group">
+            <span className="noah-toolbar-eyebrow">
+              <Compass aria-hidden="true" /> Interactive 3D Surface GIS
+            </span>
+            <h3 className="noah-toolbar-heading">
+              Malaybalay City Surface & Flood Hydrology
+            </h3>
           </div>
-        </div>
-
-        {/* Row 2: Layer Toggles, Basemap Switcher & 3D Tilt Controls */}
-        <div className="noah-clean-toolbar-row is-secondary-row">
-          <div className="noah-clean-layer-pills">
-            <div className="noah-pill-cluster">
-              <button
-                type="button"
-                className={showFloodLayer ? "is-active" : ""}
-                aria-pressed={showFloodLayer}
-                onClick={() => setShowFloodLayer((v) => !v)}
-              >
-                <AlertTriangle aria-hidden="true" /> NOAH Flood
-              </button>
-              <select
-                aria-label="Select NOAH flood return period"
-                value={noahScenario}
-                onChange={(e) => {
-                  setNoahScenario(e.target.value as NoahHazardScenario);
-                  setShowFloodLayer(true);
-                }}
-                className="noah-clean-mini-select"
-              >
-                <option value="100yr">100-Yr Return</option>
-                <option value="5yr">5-Yr Return</option>
-              </select>
-            </div>
-
-            <button
-              type="button"
-              className={showRiversLayer ? "is-active" : ""}
-              aria-pressed={showRiversLayer}
-              onClick={() => setShowRiversLayer((v) => !v)}
-            >
-              <Waves aria-hidden="true" /> Sawaga & Rivers
-            </button>
-            <button
-              type="button"
-              className={showEstablishmentsLayer ? "is-active" : ""}
-              aria-pressed={showEstablishmentsLayer}
-              onClick={() => setShowEstablishmentsLayer((v) => !v)}
-            >
-              <Building2 aria-hidden="true" /> Establishments
-            </button>
-
+          <div className="noah-toolbar-meta">
             <div
-              className="noah-basemap-segmented"
-              role="group"
-              aria-label="Basemap style"
+              className="noah-live-telemetry-badge"
+              title="Sawaga River real-time gauging telemetry"
             >
-              <button
-                type="button"
-                className={basemapStyle === "street" ? "is-active" : ""}
-                onClick={() => setBasemapStyle("street")}
-              >
-                Street
-              </button>
-              <button
-                type="button"
-                className={basemapStyle === "satellite" ? "is-active" : ""}
-                onClick={() => setBasemapStyle("satellite")}
-              >
-                Satellite
-              </button>
-              <button
-                type="button"
-                className={basemapStyle === "topo" ? "is-active" : ""}
-                onClick={() => setBasemapStyle("topo")}
-              >
-                Terrain
-              </button>
+              <span
+                className={`status-dot ${
+                  currentHydroSnapshot.alertLevel.toLowerCase().includes("red")
+                    ? "dot-red"
+                    : currentHydroSnapshot.alertLevel
+                          .toLowerCase()
+                          .includes("orange")
+                      ? "dot-orange"
+                      : "dot-green"
+                }`}
+              />
+              <span>
+                Sawaga River:{" "}
+                <strong>{currentHydroSnapshot.sawagaWaterLevelM}m</strong> (
+                {currentHydroSnapshot.alertLevel})
+              </span>
             </div>
-
-            <button
-              type="button"
-              className={is3DMode ? "is-active" : ""}
-              aria-pressed={is3DMode}
-              onClick={() => {
-                if (!is3DMode) {
-                  setIs3DMode(true);
-                  setPitchDeg(35);
-                  setBearingDeg(20);
-                } else {
-                  setIs3DMode(false);
-                  setPitchDeg(0);
-                  setBearingDeg(0);
-                }
-              }}
-            >
-              <Compass aria-hidden="true" /> {is3DMode ? "3D Active" : "3D Tilt"}
-            </button>
-
             {activeBarangayCode !== "ALL" && (
               <button
                 type="button"
+                className="noah-active-brgy-pill"
                 onClick={() => {
                   setActiveBarangayCode("ALL");
                   setSelectedEntity(null);
                 }}
+                title="Clear filter and view all 46 barangays"
               >
-                <LocateFixed aria-hidden="true" /> All 46 Barangays
+                <span>
+                  Brgy. {activeBarangayProfile?.name ?? activeBarangayCode}
+                </span>
+                <X aria-hidden="true" />
               </button>
             )}
           </div>
+        </div>
 
-          {is3DMode && (
-            <div className="noah-3d-Sliders">
+        {/* Section 1: Navigation & Geographic Filter */}
+        <div className="noah-toolbar-section noah-section-geo">
+          <div className="noah-input-group">
+            <label className="noah-clean-control">
+              <span>Barangay Focus</span>
+              <select
+                aria-label="Select active barangay in Malaybalay GIS"
+                value={activeBarangayCode}
+                onChange={(e) => {
+                  const code = e.target.value;
+                  setActiveBarangayCode(code);
+                  if (code === "ALL") setSelectedEntity(null);
+                }}
+              >
+                <option value="ALL">All 46 Barangays (Malaybalay City)</option>
+                {barangayMicrosites.map((b) => (
+                  <option key={b.code} value={b.code}>
+                    Brgy. {b.name} ({b.classification})
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="noah-clean-control">
+              <span>Jump to Landmark / River</span>
+              <select
+                aria-label="Jump to Malaybalay river or establishment"
+                defaultValue=""
+                onChange={handleJumpChange}
+              >
+                <option value="">Select river or landmark…</option>
+                <optgroup label="Malaybalay Rivers & Waterways">
+                  {MALAYBALAY_WATERWAYS.map((w) => (
+                    <option key={w.id} value={`river:${w.id}`}>
+                      {w.name}
+                    </option>
+                  ))}
+                </optgroup>
+                <optgroup label="Key Establishments & Evacuation Sites">
+                  {MALAYBALAY_ESTABLISHMENTS.slice(0, 16).map((est) => (
+                    <option key={est.id} value={`est:${est.id}`}>
+                      {est.name} ({est.barangayName})
+                    </option>
+                  ))}
+                </optgroup>
+              </select>
+            </label>
+
+            <div className="noah-clean-control">
+              <span>Basemap Style</span>
               <div
-                className="noah-3d-presets"
+                className="noah-segmented-group"
+                role="group"
+                aria-label="Basemap style"
+              >
+                <button
+                  type="button"
+                  className={basemapStyle === "topo" ? "is-active" : ""}
+                  onClick={() => setBasemapStyle("topo")}
+                  title="Terrain elevation contours and shaded relief"
+                >
+                  Terrain
+                </button>
+                <button
+                  type="button"
+                  className={basemapStyle === "satellite" ? "is-active" : ""}
+                  onClick={() => setBasemapStyle("satellite")}
+                  title="High-resolution aerial satellite imagery"
+                >
+                  Satellite
+                </button>
+                <button
+                  type="button"
+                  className={basemapStyle === "street" ? "is-active" : ""}
+                  onClick={() => setBasemapStyle("street")}
+                  title="Detailed street map and road networks"
+                >
+                  Street
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Section 2: Layers & 3D Surface Horizon View Controls */}
+        <div className="noah-toolbar-section noah-section-layers-perspective">
+          {/* Data Layers */}
+          <div className="noah-control-block">
+            <span className="noah-block-label">Data Layers</span>
+            <div className="noah-button-row">
+              <div className="noah-layer-composite">
+                <button
+                  type="button"
+                  className={`noah-layer-toggle ${
+                    showFloodLayer ? "is-active" : ""
+                  }`}
+                  aria-pressed={showFloodLayer}
+                  onClick={() => setShowFloodLayer((v) => !v)}
+                  title="Toggle UP Project NOAH Flood Hazard overlay"
+                >
+                  <AlertTriangle aria-hidden="true" />
+                  <span>Flood Hazard</span>
+                </button>
+                <select
+                  aria-label="Select NOAH flood return period"
+                  value={noahScenario}
+                  onChange={(e) => {
+                    setNoahScenario(e.target.value as NoahHazardScenario);
+                    setShowFloodLayer(true);
+                  }}
+                  className="noah-scenario-select"
+                >
+                  <option value="100yr">100-Yr Return</option>
+                  <option value="5yr">5-Yr Return</option>
+                </select>
+              </div>
+
+              <button
+                type="button"
+                className={`noah-layer-toggle ${
+                  showRiversLayer ? "is-active" : ""
+                }`}
+                aria-pressed={showRiversLayer}
+                onClick={() => setShowRiversLayer((v) => !v)}
+                title="Toggle Sawaga River, tributaries, and waterways"
+              >
+                <Waves aria-hidden="true" />
+                <span>Sawaga & Rivers</span>
+              </button>
+
+              <button
+                type="button"
+                className={`noah-layer-toggle ${
+                  showEstablishmentsLayer ? "is-active" : ""
+                }`}
+                aria-pressed={showEstablishmentsLayer}
+                onClick={() => setShowEstablishmentsLayer((v) => !v)}
+                title="Toggle hospitals, barangay halls, and evacuation facilities"
+              >
+                <Building2 aria-hidden="true" />
+                <span>Facilities</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Camera Perspective & Surface Tilt Controls */}
+          <div className="noah-control-block noah-perspective-block">
+            <span className="noah-block-label">
+              Camera Perspective & Surface Level
+            </span>
+            <div className="noah-perspective-controls">
+              <div
+                className="noah-segmented-group"
                 role="group"
                 aria-label="Perspective presets"
               >
                 <button
                   type="button"
-                  className={
-                    pitchDeg === 0 && bearingDeg === 0 ? "is-active" : ""
-                  }
-                  onClick={() => {
-                    setPitchDeg(0);
-                    setBearingDeg(0);
-                  }}
-                  title="2D Top-Down View"
-                >
-                  2D Flat
-                </button>
-                <button
-                  type="button"
-                  className={
-                    pitchDeg > 0 && pitchDeg < 50 ? "is-active" : ""
-                  }
-                  onClick={() => {
-                    setPitchDeg(35);
-                    setBearingDeg(20);
-                  }}
-                  title="3D Isometric Perspective"
-                >
-                  3D View (35°)
-                </button>
-                <button
-                  type="button"
-                  className={pitchDeg >= 50 ? "is-active" : ""}
-                  onClick={() => {
-                    setPitchDeg(62);
-                    setBearingDeg(0);
-                  }}
-                  title="Surface-Level Low-Angle Horizon View"
-                >
-                  Surface Level (62°)
-                </button>
-              </div>
-              <label>
-                <span>
-                  Tilt: <strong>{pitchDeg}°</strong>
-                </span>
-                <input
-                  type="range"
-                  min={0}
-                  max={68}
-                  value={pitchDeg}
-                  onChange={(e) => setPitchDeg(Number(e.target.value))}
-                  aria-label="Map surface tilt angle in degrees"
-                />
-              </label>
-              <label>
-                <span>
-                  Rotate:{" "}
-                  <strong>
-                    {bearingDeg > 0 ? `+${bearingDeg}°` : `${bearingDeg}°`} (
-                    {getCardinalHeading(bearingDeg)})
-                  </strong>
-                </span>
-                <input
-                  type="range"
-                  min={-180}
-                  max={180}
-                  step={5}
-                  value={bearingDeg}
-                  onChange={(e) => setBearingDeg(Number(e.target.value))}
-                  aria-label="Map rotation bearing in degrees"
-                />
-              </label>
-              {(pitchDeg !== 0 || bearingDeg !== 0) && (
-                <button
-                  type="button"
-                  className="noah-clean-reset-3d"
+                  className={pitchDeg === 0 ? "is-active" : ""}
                   onClick={() => {
                     setPitchDeg(0);
                     setBearingDeg(0);
                     setIs3DMode(false);
                   }}
-                  title="Reset to 2D Top-Down North view"
+                  title="2D Top-Down planimetric map view"
                 >
-                  <RotateCcw aria-hidden="true" /> Reset North
+                  2D Flat
                 </button>
-              )}
+                <button
+                  type="button"
+                  className={pitchDeg > 0 && pitchDeg < 60 ? "is-active" : ""}
+                  onClick={() => {
+                    setPitchDeg(45);
+                    setBearingDeg(0);
+                    setIs3DMode(true);
+                  }}
+                  title="3D Terrain isometric angle (45°)"
+                >
+                  3D Terrain (45°)
+                </button>
+                <button
+                  type="button"
+                  className={pitchDeg >= 60 ? "is-active" : ""}
+                  onClick={() => {
+                    setPitchDeg(72);
+                    setBearingDeg(0);
+                    setIs3DMode(true);
+                  }}
+                  title="Surface Horizon view (72°) — Max low-angle ground level"
+                >
+                  Surface Horizon (72°)
+                </button>
+              </div>
+
+              {/* Smooth Sliders for Maximized Tilt & Subtle Swivel */}
+              <div className="noah-sliders-row">
+                <label className="noah-slider-item">
+                  <span>
+                    Tilt: <strong>{pitchDeg}°</strong>
+                  </span>
+                  <input
+                    type="range"
+                    min={0}
+                    max={72}
+                    step={1}
+                    value={pitchDeg}
+                    onChange={(e) => {
+                      const val = Number(e.target.value);
+                      setPitchDeg(val);
+                      setIs3DMode(val > 0 || bearingDeg !== 0);
+                    }}
+                    aria-label="Map surface tilt angle in degrees"
+                  />
+                </label>
+
+                <label className="noah-slider-item">
+                  <span>
+                    Swivel: <strong>{getSwivelLabel(bearingDeg)}</strong>
+                  </span>
+                  <input
+                    type="range"
+                    min={-15}
+                    max={15}
+                    step={1}
+                    value={bearingDeg}
+                    onChange={(e) => {
+                      const val = Number(e.target.value);
+                      setBearingDeg(val);
+                      setIs3DMode(pitchDeg > 0 || val !== 0);
+                    }}
+                    aria-label="Camera swivel bearing in degrees (-15° to +15°)"
+                  />
+                  {bearingDeg !== 0 && (
+                    <button
+                      type="button"
+                      className="noah-swivel-reset"
+                      onClick={() => setBearingDeg(0)}
+                      title="Reset swivel to True North"
+                      aria-label="Reset swivel to True North"
+                    >
+                      <RotateCcw aria-hidden="true" />
+                    </button>
+                  )}
+                </label>
+              </div>
             </div>
-          )}
+          </div>
+        </div>
+
+        {/* Section 3: Hydrology Timeline & Forecast Bar */}
+        <div className="noah-toolbar-section noah-section-timeline">
+          <div className="noah-timeline-container">
+            <div className="noah-timeline-group-historical">
+              <span className="noah-timeline-sublabel">
+                Historical Weather Peaks
+              </span>
+              <div className="noah-timeline-pills">
+                <button
+                  type="button"
+                  className={selectedDate === "2019-09-14" ? "is-active" : ""}
+                  onClick={() => handleDateChange("2019-09-14")}
+                  title="2019 Southwest Monsoon Peak Flood"
+                >
+                  2019 Monsoon
+                </button>
+                <button
+                  type="button"
+                  className={selectedDate === "2021-12-16" ? "is-active" : ""}
+                  onClick={() => handleDateChange("2021-12-16")}
+                  title="2021 Super Typhoon Odette Peak Flood"
+                >
+                  2021 Odette
+                </button>
+                <button
+                  type="button"
+                  className={selectedDate === "2023-11-21" ? "is-active" : ""}
+                  onClick={() => handleDateChange("2023-11-21")}
+                  title="2023 Shear Line Peak Flood"
+                >
+                  2023 Shear Line
+                </button>
+              </div>
+            </div>
+
+            <div className="noah-timeline-divider" aria-hidden="true" />
+
+            <div className="noah-timeline-group-forecast">
+              <span className="noah-timeline-sublabel">
+                Live Telemetry & Forecast
+              </span>
+              <div className="noah-timeline-pills">
+                <button
+                  type="button"
+                  className={selectedDate === todayStr ? "is-active" : ""}
+                  onClick={() => handleDateChange(todayStr)}
+                  title="Today's live hydrological reading"
+                >
+                  Today (Live)
+                </button>
+                <button
+                  type="button"
+                  className={
+                    selectedDate === addDaysManila(todayStr, 3)
+                      ? "is-active"
+                      : ""
+                  }
+                  onClick={() => handleDateChange(addDaysManila(todayStr, 3))}
+                  title="3-Day Weather & River Discharge Forecast"
+                >
+                  +3 Days
+                </button>
+                <button
+                  type="button"
+                  className={
+                    selectedDate === addDaysManila(todayStr, 7)
+                      ? "is-active"
+                      : ""
+                  }
+                  onClick={() => handleDateChange(addDaysManila(todayStr, 7))}
+                  title="7-Day Weather & River Discharge Forecast"
+                >
+                  +7 Days
+                </button>
+              </div>
+            </div>
+
+            <div className="noah-timeline-date-picker">
+              <label>
+                <Calendar aria-hidden="true" />
+                <input
+                  type="date"
+                  aria-label="Select custom observation or forecast date"
+                  min="2019-01-01"
+                  max={maxForecastDateStr}
+                  value={selectedDate}
+                  onChange={(e) => handleDateChange(e.target.value)}
+                />
+              </label>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1373,8 +1468,8 @@ export default function MalaybalayGisMap({
             onClick={() => {
               setBearingDeg(0);
             }}
-            aria-label={`Bearing: ${bearingDeg}°. Click to reset North`}
-            title={`Bearing: ${bearingDeg}°. Click to reset North`}
+            aria-label={`Camera swivel: ${bearingDeg}°. Click to reset True North`}
+            title={`Camera swivel: ${bearingDeg}°. Click to reset True North`}
           >
             <Compass
               aria-hidden="true"
@@ -1385,36 +1480,37 @@ export default function MalaybalayGisMap({
             type="button"
             className={`noah-control-3d-toggle ${is3DMode ? "is-active" : ""}`}
             onClick={() => {
-              if (!is3DMode) {
-                setIs3DMode(true);
-                setPitchDeg(35);
-                setBearingDeg(20);
-              } else if (pitchDeg < 50) {
-                setPitchDeg(62);
+              if (pitchDeg === 0) {
+                setPitchDeg(45);
                 setBearingDeg(0);
+                setIs3DMode(true);
+              } else if (pitchDeg < 60) {
+                setPitchDeg(72);
+                setBearingDeg(0);
+                setIs3DMode(true);
               } else {
-                setIs3DMode(false);
                 setPitchDeg(0);
                 setBearingDeg(0);
+                setIs3DMode(false);
               }
             }}
             aria-label={
-              !is3DMode
-                ? "Switch to 3D perspective"
-                : pitchDeg < 50
-                  ? "Switch to Surface-Level view"
-                  : "Switch to 2D Top-Down view"
+              pitchDeg === 0
+                ? "Switch to 3D Terrain perspective (45°)"
+                : pitchDeg < 60
+                  ? "Switch to Surface Horizon view (72°)"
+                  : "Switch to 2D Top-Down view (0°)"
             }
             title={
-              !is3DMode
-                ? "Switch to 3D View (35°)"
-                : pitchDeg < 50
-                  ? "Switch to Surface-Level View (62°)"
+              pitchDeg === 0
+                ? "Switch to 3D Terrain View (45°)"
+                : pitchDeg < 60
+                  ? "Switch to Surface Horizon View (72°)"
                   : "Switch to 2D Top-Down View"
             }
           >
             <span className="noah-3d-badge-text">
-              {!is3DMode ? "2D" : pitchDeg >= 50 ? "SURF" : "3D"}
+              {pitchDeg === 0 ? "2D" : pitchDeg >= 60 ? "SURF" : "3D"}
             </span>
           </button>
         </div>
