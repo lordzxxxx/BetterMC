@@ -2139,6 +2139,11 @@ kbd {
   line-height: 1.5;
   color: var(--muted);
 }
+.participate-contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 .participate-contact-link {
   display: inline-flex;
   align-items: center;

@@ -30,7 +30,6 @@ import {
   Copy,
   Database,
   ExternalLink,
-  Facebook,
   FileCheck2,
   FileText,
   Globe,
@@ -159,6 +158,31 @@ const navItems = [
 
 const telephoneHref = (value?: string) =>
   value?.split(/\s*(?:\/|\|)\s*/)[0].replace(/[^+\d]/g, "") ?? "";
+
+function FacebookIcon({
+  size = 16,
+  className,
+}: {
+  size?: number | string;
+  className?: string;
+}) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      aria-hidden="true"
+      style={{ flexShrink: 0, display: "inline-block", verticalAlign: "middle" }}
+    >
+      <circle cx="12" cy="12" r="12" fill="#1877F2" />
+      <path
+        d="M13.861 23.854v-8.385h2.796l.532-3.47h-3.328V9.749c0-.949.465-1.874 1.956-1.874h1.724V4.922s-1.374-.235-2.686-.235c-2.741 0-4.533 1.662-4.533 4.669v2.569H7.078v3.47h3.047v8.385a12.09 12.09 0 0 0 3.736.074z"
+        fill="#ffffff"
+      />
+    </svg>
+  );
+}
 
 function Brand() {
   return (
@@ -524,6 +548,15 @@ function Footer() {
           <Link to="/participate">Submit a correction</Link>
           <a
             className="footer-icon-link"
+            href="https://www.facebook.com/profile.php?id=61596547555480"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FacebookIcon />
+            BetterMC on Facebook
+          </a>
+          <a
+            className="footer-icon-link"
             href="mailto:bettermc.org@gmail.com"
           >
             <Mail aria-hidden="true" />
@@ -568,7 +601,7 @@ function Footer() {
               target="_blank"
               rel="noreferrer"
             >
-              <Facebook aria-hidden="true" />
+              <FacebookIcon />
               Official Facebook page
             </a>
           </div>
@@ -3967,7 +4000,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
               target="_blank"
               rel="noreferrer"
             >
-              <Facebook /> City Government official Facebook
+              <FacebookIcon /> City Government official Facebook
             </a>
             <BarangaySourceLink source={profile.leadershipSource} />
           </div>
@@ -5721,13 +5754,24 @@ function ParticipatePage() {
               For organizational communications, partnerships, or direct
               research inquiries, email the BetterMC volunteer initiative:
             </p>
-            <a
-              href="mailto:bettermc.org@gmail.com"
-              className="participate-contact-link"
-            >
-              <Mail aria-hidden="true" />
-              <span>bettermc.org@gmail.com</span>
-            </a>
+            <div className="participate-contact-actions">
+              <a
+                href="mailto:bettermc.org@gmail.com"
+                className="participate-contact-link"
+              >
+                <Mail aria-hidden="true" />
+                <span>bettermc.org@gmail.com</span>
+              </a>
+              <a
+                href="https://www.facebook.com/profile.php?id=61596547555480"
+                target="_blank"
+                rel="noreferrer"
+                className="participate-contact-link"
+              >
+                <FacebookIcon />
+                <span>BetterMC on Facebook</span>
+              </a>
+            </div>
           </div>
         </div>
         <form className="feedback-form" onSubmit={handleSubmit} noValidate>
@@ -5862,7 +5906,15 @@ function AboutPage() {
         <p>
           For corrections, verification suggestions, or civic inquiries, reach the
           volunteer team directly at{" "}
-          <a href="mailto:bettermc.org@gmail.com">bettermc.org@gmail.com</a>.
+          <a href="mailto:bettermc.org@gmail.com">bettermc.org@gmail.com</a>{" "}
+          or follow updates on our official{" "}
+          <a
+            href="https://www.facebook.com/profile.php?id=61596547555480"
+            target="_blank"
+            rel="noreferrer"
+          >
+            BetterMC Facebook page
+          </a>.
         </p>
       </section>
     </>
