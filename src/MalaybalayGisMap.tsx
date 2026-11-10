@@ -203,8 +203,6 @@ export default function MalaybalayGisMap({
   const [basemapStyle, setBasemapStyle] = useState<
     "street" | "satellite" | "topo"
   >("topo");
-  const [is3DMode, setIs3DMode] = useState<boolean>(true);
-  const [pitchDeg, setPitchDeg] = useState<number>(35);
   const [bearingDeg, setBearingDeg] = useState<number>(0);
   const [zoomLevel, setZoomLevel] = useState<number>(profile ? 13 : 11);
 
@@ -541,21 +539,6 @@ export default function MalaybalayGisMap({
         interactive: false,
       }).addTo(layerGroup);
 
-      // 3D City-Wide Extruded Pedestal when 3D Mode is active
-      if (is3DMode) {
-        const shiftedCityWall = MALAYBALAY_OUTER_PERIMETER.map(
-          ([lng, lat]) => [lat - 0.0022, lng + 0.0016] as [number, number],
-        );
-        L.polyline(shiftedCityWall, {
-          pane: "outsideCityMaskPane",
-          color: "#0f172a",
-          weight: 7,
-          opacity: 0.55,
-          lineJoin: "round",
-          interactive: false,
-        }).addTo(layerGroup);
-      }
-
       // Crisp Malaybalay City Outer Jurisdiction Boundary Indicator Line
       const cityPerimeterLine = L.polyline(cityHoleLatLngs, {
         pane: "barangayPane",
@@ -575,42 +558,6 @@ export default function MalaybalayGisMap({
         const color = BARANGAY_GIS_COLORS[code] ?? "#2563eb";
         const isFocused =
           activeBarangayCode !== "ALL" && code === activeBarangayCode;
-
-        // 3D Extruded Depth Wall for the active barangay (and subtle relief for all barangays)
-        if (is3DMode) {
-          const offsetLng = isFocused ? 0.0014 : 0.0005;
-          const offsetLat = isFocused ? -0.0018 : -0.0007;
-          const extrudedFeature = JSON.parse(
-            JSON.stringify(feature),
-          ) as typeof feature;
-          const shiftCoords = (coords: unknown): unknown => {
-            if (
-              Array.isArray(coords) &&
-              typeof coords[0] === "number" &&
-              typeof coords[1] === "number"
-            ) {
-              return [coords[0] + offsetLng, coords[1] + offsetLat];
-            }
-            if (Array.isArray(coords)) return coords.map(shiftCoords);
-            return coords;
-          };
-          if ("coordinates" in extrudedFeature.geometry) {
-            extrudedFeature.geometry.coordinates = shiftCoords(
-              extrudedFeature.geometry.coordinates,
-            ) as never;
-          }
-          L.geoJSON(extrudedFeature, {
-            pane: "barangayPane",
-            style: {
-              color: "#0f172a",
-              weight: isFocused ? 3.5 : 1,
-              opacity: isFocused ? 0.72 : 0.24,
-              fillColor: "#0f172a",
-              fillOpacity: isFocused ? 0.25 : 0.07,
-            },
-            interactive: false,
-          }).addTo(layerGroup);
-        }
 
         const brgyLayer = L.geoJSON(feature, {
           pane: "barangayPane",
@@ -914,7 +861,6 @@ export default function MalaybalayGisMap({
     setActiveBarangayCode,
     noahScenario,
     basemapStyle,
-    is3DMode,
     showFloodLayer,
     showRiversLayer,
     showEstablishmentsLayer,
@@ -1001,20 +947,20 @@ export default function MalaybalayGisMap({
 
   return (
     <div className="noah-clean-gis">
-      {/* Organized 3D Civic GIS Control Hub */}
+      {/* Organized Civic GIS Control Hub */}
       <div
         className="noah-clean-toolbar"
         role="region"
-        aria-label="Hydrological and flood timeline calendar and 3D surface simulation controls"
+        aria-label="Hydrological and flood timeline calendar and GIS orientation controls"
       >
         {/* Card Header & Live Telemetry Status */}
         <div className="noah-toolbar-header">
           <div className="noah-toolbar-title-group">
             <span className="noah-toolbar-eyebrow">
-              <Compass aria-hidden="true" /> Interactive 3D Surface GIS
+              <Compass aria-hidden="true" /> Interactive Civic GIS
             </span>
             <h3 className="noah-toolbar-heading">
-              Malaybalay City Surface & Flood Hydrology
+              Malaybalay City Flood Hydrology & Geographic Information
             </h3>
           </div>
           <div className="noah-toolbar-meta">
@@ -1219,99 +1165,70 @@ export default function MalaybalayGisMap({
             </div>
           </div>
 
-          {/* Camera Perspective & Surface Tilt Controls */}
-          <div className="noah-control-block noah-perspective-block">
+          {/* Map Swivel & Orientation Controls */}
+          <div className="noah-control-block noah-swivel-block">
             <span className="noah-block-label">
-              Camera Perspective & Surface Level
+              Map Swivel & Orientation
             </span>
-            <div className="noah-perspective-controls">
+            <div className="noah-swivel-controls">
               <div
                 className="noah-segmented-group"
                 role="group"
-                aria-label="Perspective presets"
+                aria-label="Swivel presets"
               >
                 <button
                   type="button"
-                  className={pitchDeg === 0 ? "is-active" : ""}
-                  onClick={() => {
-                    setPitchDeg(0);
-                    setBearingDeg(0);
-                    setIs3DMode(false);
-                  }}
-                  title="2D Top-Down planimetric map view"
+                  className={bearingDeg === -15 ? "is-active" : ""}
+                  onClick={() => setBearingDeg(-15)}
+                  title="Swivel 15° West"
                 >
-                  2D Flat
+                  -15° W
                 </button>
                 <button
                   type="button"
-                  className={pitchDeg > 0 && pitchDeg < 60 ? "is-active" : ""}
-                  onClick={() => {
-                    setPitchDeg(45);
-                    setBearingDeg(0);
-                    setIs3DMode(true);
-                  }}
-                  title="3D Terrain isometric angle (45°)"
+                  className={bearingDeg === 0 ? "is-active" : ""}
+                  onClick={() => setBearingDeg(0)}
+                  title="Align to True North (0°)"
                 >
-                  3D Terrain (45°)
+                  North (0°)
                 </button>
                 <button
                   type="button"
-                  className={pitchDeg >= 60 ? "is-active" : ""}
-                  onClick={() => {
-                    setPitchDeg(72);
-                    setBearingDeg(0);
-                    setIs3DMode(true);
-                  }}
-                  title="Surface Horizon view (72°) — Max low-angle ground level"
+                  className={bearingDeg === 15 ? "is-active" : ""}
+                  onClick={() => setBearingDeg(15)}
+                  title="Swivel 15° East"
                 >
-                  Surface Horizon (72°)
+                  +15° E
                 </button>
               </div>
 
-              {/* Smooth Sliders for Maximized Tilt & Subtle Swivel */}
+              {/* Smooth Swivel Slider */}
               <div className="noah-sliders-row">
                 <label className="noah-slider-item">
-                  <span>
-                    Tilt: <strong>{pitchDeg}°</strong>
+                  <span className="noah-swivel-display">
+                    <Compass
+                      aria-hidden="true"
+                      style={{ transform: `rotate(${-bearingDeg}deg)` }}
+                    />
+                    <span>
+                      Swivel: <strong>{getSwivelLabel(bearingDeg)}</strong>
+                    </span>
                   </span>
                   <input
                     type="range"
-                    min={0}
-                    max={72}
-                    step={1}
-                    value={pitchDeg}
-                    onChange={(e) => {
-                      const val = Number(e.target.value);
-                      setPitchDeg(val);
-                      setIs3DMode(val > 0 || bearingDeg !== 0);
-                    }}
-                    aria-label="Map surface tilt angle in degrees"
-                  />
-                </label>
-
-                <label className="noah-slider-item">
-                  <span>
-                    Swivel: <strong>{getSwivelLabel(bearingDeg)}</strong>
-                  </span>
-                  <input
-                    type="range"
-                    min={-15}
-                    max={15}
+                    min={-30}
+                    max={30}
                     step={1}
                     value={bearingDeg}
-                    onChange={(e) => {
-                      const val = Number(e.target.value);
-                      setBearingDeg(val);
-                      setIs3DMode(pitchDeg > 0 || val !== 0);
-                    }}
-                    aria-label="Camera swivel bearing in degrees (-15° to +15°)"
+                    onChange={(e) => setBearingDeg(Number(e.target.value))}
+                    aria-label="Camera swivel bearing in degrees (-30° to +30°)"
                   />
                   {bearingDeg !== 0 && (
                     <button
                       type="button"
                       className="noah-swivel-reset"
                       onClick={() => setBearingDeg(0)}
-                      title="Reset swivel to True North"
+                      title="Reset swivel to True North (0°)"
                       aria-label="Reset swivel to True North"
                     >
                       <RotateCcw aria-hidden="true" />
@@ -1417,16 +1334,12 @@ export default function MalaybalayGisMap({
         </div>
       </div>
 
-      {/* Main Interactive Map Stage (Distraction-Free, Clear Surface Perspective, Minimalist Controls) */}
+      {/* Main Interactive Map Stage (Distraction-Free, Clear Flat Planimetric View with Smooth Swivel) */}
       <div
-        className={`barangay-map-card noah-clean-map-stage ${
-          is3DMode ? "is-3d-tilted" : ""
-        }`}
+        className="barangay-map-card noah-clean-map-stage"
         style={
           {
-            "--gis-pitch": `${is3DMode ? pitchDeg : 0}deg`,
-            "--gis-pitch-val": is3DMode ? pitchDeg : 0,
-            "--gis-bearing": `${is3DMode ? bearingDeg : 0}deg`,
+            "--gis-bearing": `${bearingDeg}deg`,
           } as React.CSSProperties
         }
       >
@@ -1451,10 +1364,10 @@ export default function MalaybalayGisMap({
           }
         />
 
-        {/* Sleek Floating Compact Map Controls (Zoom, Re-center, Compass, Surface 3D Toggle) */}
+        {/* Sleek Floating Compact Map Controls (Zoom, Re-center, Compass Swivel Reset) */}
         <div
           className="noah-map-controls-stack"
-          aria-label="Map navigation and perspective controls"
+          aria-label="Map navigation and orientation controls"
         >
           <button
             type="button"
@@ -1496,43 +1409,6 @@ export default function MalaybalayGisMap({
               aria-hidden="true"
               style={{ transform: `rotate(${-bearingDeg}deg)` }}
             />
-          </button>
-          <button
-            type="button"
-            className={`noah-control-3d-toggle ${is3DMode ? "is-active" : ""}`}
-            onClick={() => {
-              if (pitchDeg === 0) {
-                setPitchDeg(45);
-                setBearingDeg(0);
-                setIs3DMode(true);
-              } else if (pitchDeg < 60) {
-                setPitchDeg(72);
-                setBearingDeg(0);
-                setIs3DMode(true);
-              } else {
-                setPitchDeg(0);
-                setBearingDeg(0);
-                setIs3DMode(false);
-              }
-            }}
-            aria-label={
-              pitchDeg === 0
-                ? "Switch to 3D Terrain perspective (45°)"
-                : pitchDeg < 60
-                  ? "Switch to Surface Horizon view (72°)"
-                  : "Switch to 2D Top-Down view (0°)"
-            }
-            title={
-              pitchDeg === 0
-                ? "Switch to 3D Terrain View (45°)"
-                : pitchDeg < 60
-                  ? "Switch to Surface Horizon View (72°)"
-                  : "Switch to 2D Top-Down View"
-            }
-          >
-            <span className="noah-3d-badge-text">
-              {pitchDeg === 0 ? "2D" : pitchDeg >= 60 ? "SURF" : "3D"}
-            </span>
           </button>
         </div>
 

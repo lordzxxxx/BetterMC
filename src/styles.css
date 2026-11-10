@@ -14347,16 +14347,31 @@ body {
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
 }
 
-/* Perspective controls */
+/* Swivel and Orientation controls */
+.noah-swivel-controls,
 .noah-perspective-controls {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
+.noah-swivel-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.noah-swivel-display svg {
+  width: 15px;
+  height: 15px;
+  color: #1d4ed8;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
 .noah-sliders-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 12px 16px;
   margin-top: 2px;
 }
@@ -14518,7 +14533,7 @@ body {
   cursor: pointer;
 }
 
-/* Map Stage — Surface Horizon Perspective & Maximum Tilt (72deg) */
+/* Map Stage — Clean Flat Civic Stage with Smooth Compass Swivel */
 .noah-clean-map-stage {
   position: relative;
   width: 100%;
@@ -14527,42 +14542,20 @@ body {
   overflow: hidden;
   border: 1px solid rgba(148, 163, 184, 0.45);
   background: #0f172a;
-  perspective: 1200px;
-}
-
-.noah-clean-map-stage::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 140px;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(15, 23, 42, 0.28) 60%, rgba(15, 23, 42, 0) 100%);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  z-index: 500;
-}
-
-.noah-clean-map-stage.is-3d-tilted::after {
-  opacity: calc(var(--gis-pitch-val, 0) / 72);
 }
 
 .noah-clean-map-stage .noah-clean-map-canvas {
   position: absolute !important;
-  left: -18% !important;
-  top: -18% !important;
-  width: 136% !important;
-  height: 136% !important;
-  min-height: 136% !important;
+  left: -12% !important;
+  top: -12% !important;
+  width: 124% !important;
+  height: 124% !important;
+  min-height: 124% !important;
   background: #0f172a !important;
-  transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
-  transform-origin: center 60%;
+  transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1);
+  transform-origin: center center;
+  transform: rotate(var(--gis-bearing, 0deg));
   will-change: transform;
-}
-
-.noah-clean-map-stage.is-3d-tilted .noah-clean-map-canvas {
-  transform: rotateX(var(--gis-pitch, 0deg)) rotateZ(var(--gis-bearing, 0deg)) scale(calc(1.16 + (var(--gis-pitch-val, 0) * 0.0042)));
 }
 
 /* Hide Leaflet trademark and attribution watermark for an uncluttered civic GIS stage */
@@ -14736,21 +14729,7 @@ body {
 
 .noah-control-compass.is-rotated {
   color: #1d4ed8;
-}
-
-.noah-control-3d-toggle {
-  background: #f8fafc !important;
-}
-
-.noah-control-3d-toggle.is-active {
-  background: #1d4ed8 !important;
-  color: #ffffff !important;
-}
-
-.noah-3d-badge-text {
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
+  background: #eff6ff !important;
 }
 
 /* Integrated Summary Strip (Docked directly beneath map canvas) */
