@@ -1,5 +1,6 @@
 import {
   type CSSProperties,
+  Fragment,
   FormEvent,
   type KeyboardEvent as ReactKeyboardEvent,
   ReactNode,
@@ -4440,6 +4441,195 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
   );
 }
 
+type ServiceSelectOption = {
+  value: string;
+  label: string;
+  group?: string;
+};
+
+/**
+ * Accessible single-select dropdown with grouped options and type-to-filter.
+ * Replaces native <select> so long lists (46 barangays) stay compact, readable
+ * and on-brand across desktop and mobile.
+ */
+function ServiceSelect({
+  id,
+  label,
+  value,
+  options,
+  onChange,
+  searchPlaceholder = "Search…",
+  className = "",
+}: {
+  id: string;
+  label: string;
+  value: string;
+  options: ServiceSelectOption[];
+  onChange: (value: string) => void;
+  searchPlaceholder?: string;
+  className?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [activeIndex, setActiveIndex] = useState(0);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const listId = `${id}-listbox`;
+  const searchable = options.length > 8;
+
+  const selected = options.find((option) => option.value === value);
+  const filtered = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    if (!needle) return options;
+    return options.filter(
+      (option) =>
+        option.label.toLowerCase().includes(needle) ||
+        option.group?.toLowerCase().includes(needle),
+    );
+  }, [options, query]);
+
+  useEffect(() => {
+    if (!open) return;
+    const handlePointer = (event: MouseEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handlePointer);
+    return () => document.removeEventListener("mousedown", handlePointer);
+  }, [open]);
+
+  useEffect(() => {
+    if (open && searchable) searchRef.current?.focus();
+  }, [open, searchable]);
+
+  useEffect(() => {
+    if (!open) return;
+    document
+      .getElementById(`${id}-option-${activeIndex}`)
+      ?.scrollIntoView({ block: "nearest" });
+  }, [activeIndex, id, open]);
+
+  const openMenu = () => {
+    setQuery("");
+    setActiveIndex(Math.max(0, options.findIndex((option) => option.value === value)));
+    setOpen(true);
+  };
+
+  const choose = (option: ServiceSelectOption) => {
+    onChange(option.value);
+    setOpen(false);
+  };
+
+  const handleKeyDown = (event: ReactKeyboardEvent) => {
+    if (!open) {
+      if (["ArrowDown", "ArrowUp", "Enter", " "].includes(event.key)) {
+        event.preventDefault();
+        openMenu();
+      }
+      return;
+    }
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setOpen(false);
+    } else if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setActiveIndex((index) => Math.min(filtered.length - 1, index + 1));
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setActiveIndex((index) => Math.max(0, index - 1));
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      const option = filtered[activeIndex];
+      if (option) choose(option);
+    }
+  };
+
+  return (
+    <div
+      className={`service-select ${className}`.trim()}
+      ref={rootRef}
+      onKeyDown={handleKeyDown}
+    >
+      <button
+        type="button"
+        id={id}
+        className="service-select-trigger"
+        role="combobox"
+        aria-label={label}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={listId}
+        onClick={() => (open ? setOpen(false) : openMenu())}
+      >
+        <span>{selected?.label ?? "Select"}</span>
+        <ChevronDown aria-hidden="true" />
+      </button>
+      {open && (
+        <div className="service-select-menu">
+          {searchable && (
+            <input
+              ref={searchRef}
+              type="search"
+              className="service-select-search"
+              placeholder={searchPlaceholder}
+              aria-label={`${label} search`}
+              value={query}
+              onChange={(event) => {
+                setQuery(event.target.value);
+                setActiveIndex(0);
+              }}
+            />
+          )}
+          <ul id={listId} role="listbox" aria-label={label} className="service-select-list">
+            {filtered.length === 0 && (
+              <li className="service-select-empty" role="presentation">
+                No matches
+              </li>
+            )}
+            {filtered.map((option, index) => {
+              const showGroup = option.group && option.group !== filtered[index - 1]?.group;
+              return (
+                <Fragment key={option.value}>
+                  {showGroup && (
+                    <li className="service-select-group" role="presentation">
+                      {option.group}
+                    </li>
+                  )}
+                  <li
+                    id={`${id}-option-${index}`}
+                    role="option"
+                    aria-selected={option.value === value}
+                    className={`service-select-option${index === activeIndex ? " is-active" : ""}${
+                      option.value === value ? " is-selected" : ""
+                    }`}
+                    onMouseEnter={() => setActiveIndex(index)}
+                    onClick={() => choose(option)}
+                  >
+                    <span>{option.label}</span>
+                    {option.value === value && <Check aria-hidden="true" />}
+                  </li>
+                </Fragment>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function barangayOptions(): ServiceSelectOption[] {
+  const toOption = (b: (typeof barangayMicrosites)[number], group: string) => ({
+    value: b.slug,
+    label: `Brgy. ${b.name}`,
+    group,
+  });
+  return [
+    { value: "city-center", label: "Malaybalay City Proper (Poblacion)" },
+    ...barangayMicrosites.filter((b) => b.classification === "Urban").map((b) => toOption(b, "Urban barangays")),
+    ...barangayMicrosites.filter((b) => b.classification === "Rural").map((b) => toOption(b, "Rural barangays")),
+  ];
+}
+
 function BarangayOriginSelect({
   selectedSlug,
   onChange,
@@ -4463,35 +4653,15 @@ function BarangayOriginSelect({
         </div>
       </div>
       <div className="service-origin-controls">
-        <label htmlFor="service-origin-select" className="sr-only">
-          Select Barangay origin
-        </label>
-        <select
+        <ServiceSelect
           id="service-origin-select"
-          className="service-origin-select"
+          className="service-origin-select-wrap"
+          label="Select Barangay origin"
           value={selectedSlug}
-          onChange={(e) => onChange(e.target.value)}
-        >
-          <option value="city-center">Malaybalay City Proper (Poblacion Center)</option>
-          <optgroup label="Urban Barangays (17)">
-            {barangayMicrosites
-              .filter((b) => b.classification === "Urban")
-              .map((b) => (
-                <option key={b.slug} value={b.slug}>
-                  Brgy. {b.name} (Urban · PSGC {b.code})
-                </option>
-              ))}
-          </optgroup>
-          <optgroup label="Rural Barangays (29)">
-            {barangayMicrosites
-              .filter((b) => b.classification === "Rural")
-              .map((b) => (
-                <option key={b.slug} value={b.slug}>
-                  Brgy. {b.name} (Rural · PSGC {b.code})
-                </option>
-              ))}
-          </optgroup>
-        </select>
+          options={barangayOptions()}
+          onChange={onChange}
+          searchPlaceholder="Search barangay…"
+        />
         {onDetectLocation && (
           <button
             type="button"
@@ -4869,33 +5039,27 @@ function ServicesQuickFinder() {
         </div>
       </div>
       <div className="quick-finder-controls">
-        <label>
-          <span>I need a service in:</span>
-          <select
+        <div className="quick-finder-field">
+          <span id="qf-category-label">I need a service in</span>
+          <ServiceSelect
+            id="qf-category"
+            label="Service category"
             value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            {serviceCategories.map((c) => (
-              <option key={c.slug} value={c.slug}>
-                {c.title}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span>My location / Barangay:</span>
-          <select
+            options={serviceCategories.map((c) => ({ value: c.slug, label: c.title }))}
+            onChange={setSelectedCategory}
+          />
+        </div>
+        <div className="quick-finder-field">
+          <span id="qf-barangay-label">My location</span>
+          <ServiceSelect
+            id="qf-barangay"
+            label="My location or barangay"
             value={selectedBarangay}
-            onChange={(e) => setSelectedBarangay(e.target.value)}
-          >
-            <option value="city-center">Malaybalay City Proper (Poblacion)</option>
-            {barangayMicrosites.map((b) => (
-              <option key={b.slug} value={b.slug}>
-                Brgy. {b.name} ({b.classification})
-              </option>
-            ))}
-          </select>
-        </label>
+            options={barangayOptions()}
+            onChange={setSelectedBarangay}
+            searchPlaceholder="Search barangay…"
+          />
+        </div>
       </div>
       {topProvider && (
         <div className="quick-finder-result">
