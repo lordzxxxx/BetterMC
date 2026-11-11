@@ -414,7 +414,7 @@ describe("BetterMC public portal", () => {
       profile.getByRole("link", { name: /0953-459-1777/ }),
     ).toHaveAttribute("href", "tel:09534591777");
     expect(
-      profile.getByText(/mayoral office issuances indexed/i),
+      profile.getByText(/Office-level executive issuances/i),
     ).toBeInTheDocument();
   });
 
@@ -439,6 +439,9 @@ describe("BetterMC public portal", () => {
     ).toHaveAttribute("href", "tel:09945143081");
     expect(councilorProfile.getByText("Quasi-Judicial")).toBeInTheDocument();
     expect(
+      councilorProfile.getByText(/do not identify individual sponsors or authors/i),
+    ).toBeInTheDocument();
+    expect(
       councilorProfile.getByText("Environment and Natural Resources"),
     ).toBeInTheDocument();
     unmount();
@@ -461,6 +464,50 @@ describe("BetterMC public portal", () => {
     expect(
       abcProfile.getByRole("link", { name: /0951-692-1915/ }),
     ).toHaveAttribute("href", "tel:09516921915");
+  });
+
+  it("shows individually sourced city ordinances and House bills under the named officials", () => {
+    const pagalingRender = render(
+      <MemoryRouter
+        initialEntries={[
+          "/government?tab=officials&official=kathleen-cecille-c-pagaling",
+        ]}
+      >
+        <App />
+      </MemoryRouter>,
+    );
+    const pagalingProfile = within(
+      document.querySelector("article.expanded") as HTMLElement,
+    );
+    expect(pagalingProfile.getByText(/Ordinance No\. 1050/)).toBeInTheDocument();
+    expect(
+      pagalingProfile.getByRole("link", { name: /Philippine News Agency report/i }),
+    ).toHaveAttribute("href", expect.stringContaining("edgedavao.net"));
+    expect(pagalingProfile.getByText(/exact approval date/i)).toBeInTheDocument();
+    pagalingRender.unmount();
+
+    const representativeRender = render(
+      <MemoryRouter
+        initialEntries={[
+          "/government?tab=officials&official=jonathan-keith-t-flores",
+        ]}
+      >
+        <App />
+      </MemoryRouter>,
+    );
+    const representativeProfile = within(
+      document.querySelector("article.expanded") as HTMLElement,
+    );
+    expect(
+      representativeProfile.getByText(/House Bill No\. 379/),
+    ).toBeInTheDocument();
+    expect(
+      representativeProfile.getByRole("link", { name: /House Bill No\. 379/i }),
+    ).toHaveAttribute("href", expect.stringContaining("HB00379"));
+    expect(
+      representativeProfile.getByText(/Pending with the House Committee on Health since July 29, 2025/i),
+    ).toBeInTheDocument();
+    representativeRender.unmount();
   });
 
   it("publishes contribution, city contact, Facebook, and BetterGov links in the footer", () => {

@@ -13,7 +13,7 @@ export type Source = {
 export type Official = {
   name: string;
   role: string;
-  group: "Executive" | "Legislative" | "Sectoral";
+  group: "Executive" | "Legislative" | "Sectoral" | "National legislative";
   chairmanships?: string[];
   committeeMemberships?: string[];
   source: Source;
@@ -384,6 +384,148 @@ export const officials: Official[] = [
     source: officialProfile(
       "https://sakata.malaybalaycity.gov.ph/legislative-city-councilor-xiii/",
     ),
+  },
+  {
+    name: "Jonathan Keith T. Flores",
+    role: "District Representative, Bukidnon 2nd District",
+    group: "National legislative",
+    office: {
+      name: "Office of Representative Jonathan Keith T. Flores",
+      scope: "Direct office contact",
+      address: "House of Representatives, Quezon City",
+      phone: "(02) 8931-5786",
+      source: {
+        label: "House of Representatives — Member profile",
+        url: "https://www.congress.gov.ph/house-members/view/J033",
+        verifiedOn: "2026-11-11",
+      },
+    },
+    source: {
+      label: "House of Representatives — Member profile",
+      url: "https://www.congress.gov.ph/house-members/view/J033",
+      verifiedOn: "2026-11-11",
+    },
+  },
+];
+
+export type OfficialRecord = {
+  officialName: string;
+  number: string;
+  title: string;
+  kind: "Ordinance" | "House bill";
+  date: string;
+  status: string;
+  attribution: string;
+  source: Source;
+  relatedSources?: Source[];
+};
+
+const houseBillUrl = (number: string) =>
+  `https://www.congress.gov.ph/legis/results?congress=20&oth_nos=${number.replace(" ", "")}&qrytype=N&signif=NL`;
+
+export const officialRecords: OfficialRecord[] = [
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Ordinance No. 1050",
+    title: "Regulating bamboo materials used for fences, posts, decorations, and construction to reduce mosquito breeding sites",
+    kind: "Ordinance",
+    date: "2025-02-14",
+    status: "The PNA report says the council approved it on a Wednesday; a contemporaneous GMA report gives February 11, 2025. Check the signed ordinance for the exact approval date.",
+    attribution: "Named as sponsor by the Philippine News Agency. The original signed ordinance was not available in the public source reviewed.",
+    source: {
+      label: "Philippine News Agency report republished by Edge Davao",
+      url: "https://edgedavao.net/latest-news/2025/02/malaybalay-city-regulates-bamboo-use-to-help-curb-dengue-cases/",
+      verifiedOn: "2026-11-11",
+    },
+    relatedSources: [{
+      label: "GMA News — Malaybalay to regulate use of bamboo to prevent dengue",
+      url: "https://www.gmanetwork.com/regionaltv/news/106598/malaybalay-to-regulate-use-of-bamboo-to-prevent-dengue/story/",
+      verifiedOn: "2026-11-11",
+    }],
+  },
+  {
+    officialName: "Jonathan Keith T. Flores",
+    number: "House Bill No. 378 (substituted by HB 9390)",
+    title: "Establishing a College of Medicine at Bukidnon State University in Malaybalay City",
+    kind: "House bill",
+    date: "2025-06-30",
+    status: "Substituted by HB 9390. The House approved HB 9390 on third reading on June 2, 2026 and transmitted it to the Senate on June 8, 2026.",
+    attribution: "The House member profile identifies Flores as principal author of HB 378; the House record identifies him among the authors of HB 9390.",
+    source: {
+      label: "House of Representatives — Jonathan Keith T. Flores member record",
+      url: "https://www.congress.gov.ph/house-members/view/J033",
+      verifiedOn: "2026-11-11",
+    },
+  },
+  {
+    officialName: "Jonathan Keith T. Flores",
+    number: "House Bill No. 379",
+    title: "Converting Bukidnon Provincial Medical Center in Malaybalay into Bukidnon Regional Hospital and increasing its bed capacity",
+    kind: "House bill",
+    date: "2025-06-30",
+    status: "Pending with the House Committee on Health since July 29, 2025, according to the official member record.",
+    attribution: "Principal author listed by the House of Representatives.",
+    source: {
+      label: "House of Representatives — Jonathan Keith T. Flores member record",
+      url: houseBillUrl("HB00379"),
+      verifiedOn: "2026-11-11",
+    },
+  },
+  {
+    officialName: "Jonathan Keith T. Flores",
+    number: "House Bill No. 380",
+    title: "Establishing the Malaybalay Multispecialty Hospital",
+    kind: "House bill",
+    date: "2025-06-30",
+    status: "Pending with the House Committee on Health, according to the official member record.",
+    attribution: "Principal author listed by the House of Representatives.",
+    source: {
+      label: "House of Representatives — Jonathan Keith T. Flores member record",
+      url: houseBillUrl("HB00380"),
+      verifiedOn: "2026-11-11",
+    },
+  },
+  {
+    officialName: "Jonathan Keith T. Flores",
+    number: "House Bill No. 723",
+    title: "Reapportioning the legislative districts of Bukidnon",
+    kind: "House bill",
+    date: "2025-07-01",
+    status: "Introduced in the 20th Congress; consult the House record for its current status.",
+    attribution: "Introduced by Representative Jonathan Keith T. Flores, per the official House bill text.",
+    source: {
+      label: "House of Representatives — House Bill No. 723 text",
+      url: "https://docs.congress.hrep.online/legisdocs/basic_20/HB00723.pdf",
+      verifiedOn: "2026-11-11",
+    },
+  },
+  {
+    officialName: "Jonathan Keith T. Flores",
+    number: "House Bill No. 8389",
+    title: "Prohibiting political dynasties in national and local elective offices",
+    kind: "House bill",
+    date: "2026-03-09",
+    status: "Approved by the House on June 3, 2026 and transmitted to the Senate on June 8, 2026.",
+    attribution: "One of the principal authors listed in the official House legislative information system.",
+    source: {
+      label: "House of Representatives — HB 8389 legislative record",
+      url: houseBillUrl("HB08389"),
+      verifiedOn: "2026-11-11",
+    },
+  },
+  {
+    officialName: "Jonathan Keith T. Flores",
+    number: "House Bill No. 9390",
+    title: "Establishing a College of Medicine at Bukidnon State University in Malaybalay City",
+    kind: "House bill",
+    date: "2026-05-25",
+    status: "Approved by the House on third reading on June 2, 2026; transmitted to the Senate on June 8, 2026.",
+    attribution: "Principal author listed by the official House legislative information system with three co-authors.",
+    source: {
+      label: "House of Representatives — HB 9390 legislative record",
+      url: houseBillUrl("HB09390"),
+      verifiedOn: "2026-11-11",
+    },
   },
 ];
 

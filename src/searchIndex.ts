@@ -7,6 +7,7 @@ import {
   gadResources,
   governanceHighlights,
   officials,
+  officialRecords,
   procurementSources,
   publicProjects,
   services,
@@ -144,6 +145,13 @@ export const portalSearchIndex: PortalSearchRecord[] = [
     detail: record.title,
     href: `/legislation/${slugify(record.number)}`,
     keywords: `${record.body} ${record.attribution} ${record.published}`,
+  })),
+  ...officialRecords.map((record) => ({
+    type: `${record.kind} · attributed record`,
+    title: record.number,
+    detail: `${record.officialName} · ${record.title}`,
+    href: `/government?tab=officials&official=${slugify(record.officialName)}`,
+    keywords: `${record.status} ${record.attribution} ${record.date}`,
   })),
   ...disclosures.map((record) => ({
     type: `${record.category} record`,

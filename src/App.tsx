@@ -78,6 +78,7 @@ import {
   governanceHighlights,
   officials,
   officialPortraits,
+  officialRecords,
   procurementSources,
   reportedProcurementSavings,
   publicProjects,
@@ -2607,6 +2608,19 @@ function GovernmentPage() {
                       (record) => record.attributionLevel === "office",
                     )
                   : [];
+              const individualRecords = officialRecords.filter(
+                (record) => record.officialName === selectedOfficial.name,
+              );
+              const councilInstitutionRecords =
+                selectedOfficial.group === "Legislative" ||
+                selectedOfficial.group === "Sectoral" ||
+                selectedOfficial.role === "City Vice Mayor"
+                  ? civicRecords.filter(
+                      (record) =>
+                        record.kind === "Ordinance" &&
+                        record.attributionLevel === "institutional",
+                    )
+                  : [];
               const sharedContact =
                 selectedOfficial.office.scope ===
                 "Shared legislative-office routing";
@@ -2760,66 +2774,81 @@ function GovernmentPage() {
                               </tr>
                             ) : null}
                             <tr>
-                              <th scope="row">Published Measures</th>
+                              <th scope="row">Public record</th>
                               <td>
-                                {officeRecords.length ? (
-                                  <div className="popout-measures-stack">
-                                    <strong className="popout-measures-count">
-                                      {officeRecords.length} mayoral office
-                                      issuances indexed
-                                    </strong>
-                                    <ul className="popout-measures-list">
-                                      {officeRecords
-                                        .slice(0, 3)
-                                        .map((record) => (
-                                          <li key={record.number}>
-                                            <a
-                                              href={record.source.url}
-                                              target="_blank"
-                                              rel="noreferrer"
-                                            >
+                                <div className="official-record-groups">
+                                  {individualRecords.length > 0 && (
+                                    <section>
+                                      <h4>
+                                        Individually attributed · {individualRecords.length}
+                                      </h4>
+                                      <ul className="popout-measures-list">
+                                        {individualRecords.map((record) => (
+                                          <li key={`${record.number}-${record.kind}`}>
+                                            <a href={record.source.url} target="_blank" rel="noreferrer">
                                               <span>
-                                                <strong>{record.number}</strong>{" "}
-                                                — {record.title}
+                                                <strong>{record.number}</strong> — {record.title}
+                                                <small>{record.source.label}. Reported {record.date}. {record.status} {record.attribution} Source reviewed {record.source.verifiedOn}.</small>
                                               </span>
+                                              <ExternalLink aria-hidden="true" />
+                                            </a>
+                                            {record.relatedSources?.length ? (
+                                              <div className="official-record-related-sources">
+                                                {record.relatedSources.map((source) => (
+                                                  <a key={source.url} href={source.url} target="_blank" rel="noreferrer">
+                                                    Also reported by {source.label} <ExternalLink aria-hidden="true" />
+                                                  </a>
+                                                ))}
+                                              </div>
+                                            ) : null}
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </section>
+                                  )}
+                                  {officeRecords.length > 0 && (
+                                    <section>
+                                      <h4>Office-level executive issuances · {officeRecords.length}</h4>
+                                      <ul className="popout-measures-list">
+                                        {officeRecords.map((record) => (
+                                          <li key={record.number}>
+                                            <a href={record.source.url} target="_blank" rel="noreferrer">
+                                              <span><strong>{record.number}</strong> — {record.title}<small>Issued by the Office of the City Mayor; listed as an office act.</small></span>
                                               <ExternalLink aria-hidden="true" />
                                             </a>
                                           </li>
                                         ))}
-                                    </ul>
-                                    {officeRecords.length > 3 && (
-                                      <Link
-                                        className="popout-measures-more"
-                                        to="/government?tab=records"
-                                        onClick={closeModal}
-                                      >
-                                        <span>
-                                          View all {officeRecords.length}{" "}
-                                          published measures
-                                        </span>
-                                        <ArrowRight aria-hidden="true" />
-                                      </Link>
-                                    )}
+                                      </ul>
+                                    </section>
+                                  )}
+                                  {councilInstitutionRecords.length > 0 && (
+                                    <section>
+                                      <h4>City Council measures · {councilInstitutionRecords.length}</h4>
+                                      <p className="popout-measures-note">These are Sangguniang Panlungsod records. The city listings do not identify individual sponsors or authors, so they are not credited as this official’s personal work.</p>
+                                      <ul className="popout-measures-list">
+                                        {councilInstitutionRecords.map((record) => (
+                                          <li key={record.number}>
+                                            <a href={record.source.url} target="_blank" rel="noreferrer">
+                                              <span><strong>{record.number}</strong> — {record.title}<small>Individual author or sponsor not stated in the linked city listing.</small></span>
+                                              <ExternalLink aria-hidden="true" />
+                                            </a>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </section>
+                                  )}
+                                  {individualRecords.length === 0 && officeRecords.length === 0 && councilInstitutionRecords.length === 0 && (
+                                    <p className="popout-measures-note">No individually attributed ordinance, resolution, House bill, or MOA was located in the public sources reviewed. This means the record is not available here; it does not establish that no work was done.</p>
+                                  )}
+                                  <div className="official-record-caveat">
+                                    <strong>MOAs and House bills</strong>
+                                    <p>House bills are filed by national representatives, not city councilors. The city’s public MOA references are institutional and do not identify each elected official as a signatory. BetterMC will show a personal attribution only when the source names that person.</p>
+                                    <a href="https://sakata.malaybalaycity.gov.ph/citizens-charter/" target="_blank" rel="noreferrer">City Citizen’s Charter: MOA processing and records <ExternalLink aria-hidden="true" /></a>
                                   </div>
-                                ) : (
-                                  <div className="popout-measures-stack">
-                                    <p className="popout-measures-note">
-                                      Ordinances and resolutions are published
-                                      institutionally under the Sangguniang
-                                      Panlungsod.
-                                    </p>
-                                    <Link
-                                      className="popout-measures-more"
-                                      to="/government?tab=records"
-                                      onClick={closeModal}
-                                    >
-                                      <span>
-                                        Browse Sangguniang Panlungsod measures
-                                      </span>
-                                      <ArrowRight aria-hidden="true" />
-                                    </Link>
-                                  </div>
-                                )}
+                                  <Link className="popout-measures-more" to="/government?tab=records" onClick={closeModal}>
+                                    <span>Browse city-published measures</span><ArrowRight aria-hidden="true" />
+                                  </Link>
+                                </div>
                               </td>
                             </tr>
                             <tr>

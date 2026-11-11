@@ -1,6 +1,6 @@
 # BetterMC research inventory
 
-Research review date: **2026-11-09 (Asia/Manila)**
+Research review date: **2026-11-11 (Asia/Manila)**
 
 ## Primary official sources reviewed
 
@@ -16,6 +16,7 @@ Research review date: **2026-11-09 (Asia/Manila)**
 | Measures | [Public Announcements](https://sakata.malaybalaycity.gov.ph/category/public-annoucement/) pages 1–2 | Six 2026 executive orders, five 2026 ordinances, and Memorandum Circular No. 38 | Executive orders are attributed to the Mayor's Office, ordinances to the council, and the memorandum remains unattributed because its page does not identify the issuing authority in accessible text. |
 | Projects | [Full Disclosure](https://sakata.malaybalaycity.gov.ph/full-disclosure/) — 2025 Trust Fund Utilization Q1 | Reported costs, cost incurred, progress, and remarks for selected projects | Values are presented as 2025 Q1 reported status, not current completion or personal achievements. The former direct PDF target returned 404 on 2026-11-05, so the live official catalog is used. |
 | Recognition | [National Nutrition Council](https://nnc.gov.ph/mindanao-region/2022-rnac-awardees-41-lgus-bag-circle-of-excellence-award/) and [Philippine News Agency](https://www.pna.gov.ph/articles/1232936) | City-level nutrition recognition and adoption of PRIME-HRM | Recipient scope is explicit; institutional records are not converted into personal awards. |
+| Individual legislative records | [Malaybalay legislative directory](https://sakata.malaybalaycity.gov.ph/legislative/), [PNA report republished by Edge Davao](https://edgedavao.net/latest-news/2025/02/malaybalay-city-regulates-bamboo-use-to-help-curb-dengue-cases/), [GMA Regional TV](https://www.gmanetwork.com/regionaltv/news/106598/malaybalay-to-regulate-use-of-bamboo-to-prevent-dengue/story/), and [House member record for Jonathan Keith T. Flores](https://www.congress.gov.ph/house-members/view/J033) | One contemporaneous report names Councilor Kathleen Pagaling as sponsor of Ordinance 1050; the House record lists Flores’s bills and statuses | Individually attributed records are attached only where the source names the official. Ordinance 1050 reports differ on approval date (PNA says Wednesday; GMA says February 11, 2025); exact date remains unresolved pending signed ordinance. City council listings do not identify individual authors/sponsors, and public MOA references reviewed are institutional rather than named-signatory records. House bills are kept under the district representative, not city officials. |
 | Imagery | User-supplied aerial Malaybalay City Hall photograph | Recognizable aerial City Hall view supplied for the project | A softened, lightened, optimized WebP derivative is used beneath layered hero treatments; the former tourism carousel remains removed. |
 
 ## Technical references
