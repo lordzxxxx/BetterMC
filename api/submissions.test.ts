@@ -57,7 +57,7 @@ describe("Vercel Edge submissions API", () => {
       }),
     );
     await expect(response.json()).resolves.toMatchObject({
-      message: expect.stringContaining("moderator review"),
+      message: expect.stringContaining("sent to the BetterMC desk"),
     });
   });
 

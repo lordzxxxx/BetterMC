@@ -95,8 +95,7 @@ function isAllowedOrigin(request: Request): boolean {
       host.endsWith('.bettermc.ph') ||
       host === 'localhost' ||
       host.endsWith('.localhost') ||
-      host.endsWith('.vercel.app') ||
-      host.endsWith('.pages.dev')
+      host.endsWith('.vercel.app')
     ) {
       return true
     }
@@ -305,7 +304,7 @@ export async function handleSubmission(request: Request): Promise<Response> {
     return json(
       {
         id,
-        message: 'Your submission was saved for moderator review.',
+        message: 'Your submission was sent to the BetterMC desk for review.',
       },
       201,
     )

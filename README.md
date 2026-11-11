@@ -17,7 +17,7 @@ BetterMC is an independent public information and transparency portal for Malayb
 - Scope-labeled BAC procurement links for infrastructure, goods and services, and small-value procurement
 - Official Citizen's Charter and public-service entry points
 - Compact access to every primary portal page from the global navigation
-- Moderated community correction intake with validation, D1 persistence, and rate limiting
+- Community correction intake with shared validation, optional Turnstile verification, and email forwarding through Resend
 - Responsive, keyboard-accessible public interface
 
 Published financial and project figures are labeled with their reporting period and source. A listed document is not treated as proof of legal compliance, current project completion, or individual political credit. Procurement award details remain outside the verified scope of this release.
@@ -26,8 +26,7 @@ Published financial and project figures are labeled with their reporting period 
 
 - React 19, TypeScript strict mode, Vite
 - React Router with URL-backed public record filters
-- Zod validation in the browser and Cloudflare Pages Function
-- Cloudflare D1 schema for community submissions, versioned content, and audit logs
+- Zod validation in the browser and Vercel serverless function
 - Vitest and Playwright
 
 The architecture is informed by [BetterLosBaños](https://github.com/BetterLosBanos/betterlb) and the [BetterGov LGU ecosystem](https://lgu.bettergov.ph/). No Los Baños content is reused as Malaybalay data.
@@ -39,20 +38,21 @@ npm install
 npm run dev
 ```
 
-The public portal works in Vite development. The participation form requires the Cloudflare Pages runtime and a D1 binding:
+The public portal works in Vite development. To run the public submission API locally, use the Vercel CLI and configure the Resend environment variables described in `.env.example`:
 
 ```bash
-npx wrangler d1 create bettermc-production
-# Put the returned database ID in wrangler.toml.
-npx wrangler d1 migrations apply bettermc-production --local
-npx wrangler pages dev dist --d1 DB=bettermc-production
+npm install
+npm run dev
+# In a second terminal, run the Vercel development server when testing /api routes.
+npx vercel dev
 ```
 
-Copy `.env.example` to `.env` for the public Turnstile site key and
-`.dev.vars.example` to `.dev.vars` for the secret used by the Pages Function.
-Production public intake should not be enabled until the matching
-`VITE_TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` values are configured.
-The site key is public; never place the secret in a `VITE_*` variable.
+Configure `RESEND_API_KEY`, `CONTACT_EMAIL`, and `RESEND_FROM` in Vercel for
+submission email forwarding. Turnstile verification is optional; when enabled,
+configure `VITE_TURNSTILE_SITE_KEY` for the browser and `TURNSTILE_SECRET_KEY`
+as a server-only variable. Never put the secret in a `VITE_*` variable.
+Submissions are forwarded by email; this deployment does not provide durable
+submission storage, a moderation queue, or rate limiting.
 
 ## Verification
 
@@ -63,10 +63,10 @@ npm run test:e2e
 npm audit --omit=dev
 ```
 
-`npm run check` runs ESLint, unit/API tests, strict frontend and Pages Function
+`npm run check` runs ESLint, unit/API tests, strict frontend and Vercel API
 type-checking, and the production build. See
 [docs/SECURITY_REVIEW.md](docs/SECURITY_REVIEW.md) for the reviewed controls and
-the deployment steps that still require Cloudflare configuration.
+the deployment steps that still require Vercel configuration.
 
 ## Source and editorial rules
 

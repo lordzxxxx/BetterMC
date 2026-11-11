@@ -10,5 +10,5 @@
     "verbatimModuleSyntax": true,
     "types": ["vitest/globals", "node"]
   },
-  "include": ["api/**/*.ts", "functions/**/*.ts", "src/feedback.ts"]
+  "include": ["api/**/*.ts", "src/feedback.ts"]
 }

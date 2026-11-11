@@ -247,7 +247,7 @@ describe("BetterMC public portal", () => {
     const barangayPicker = screen.getByRole("combobox", {
       name: /Choose a barangay profile/i,
     });
-    expect(barangayPicker).toHaveValue("dalwangan");
+    expect(barangayPicker).toHaveTextContent("Dalwangan");
     expect(screen.getAllByText("Royville C. Pasco").length).toBeGreaterThan(0);
     expect(screen.getAllByText("7,812").length).toBeGreaterThan(0);
     expect(
@@ -255,11 +255,14 @@ describe("BetterMC public portal", () => {
         name: /Barangay overview/i,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText("8 of 46")).toBeInTheDocument();
-    expect(screen.getByText("4.01%")).toBeInTheDocument();
-    expect(
-      screen.getByText(/Latest official count available in 2026/i),
-    ).toBeInTheDocument();
+    expect(screen.queryByText(/Share of city population/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Latest official count available in 2026/i)).not.toBeInTheDocument();
+    const profileSectionOrder = Array.from(
+      document.querySelectorAll(".barangay-profile-main > section"),
+    ).map((section) => section.id);
+    expect(profileSectionOrder.indexOf("leadership")).toBe(
+      profileSectionOrder.indexOf("about") + 1,
+    );
     expect(
       screen.getByRole("link", {
         name: /2024 POPCEN highlights for Malaybalay City/i,
@@ -307,8 +310,12 @@ describe("BetterMC public portal", () => {
         name: /DILG Barangay Officials Directory/i,
       }).length,
     ).toBeGreaterThan(0);
-    fireEvent.change(barangayPicker, { target: { value: "busdi" } });
-    expect(screen.getByRole("heading", { name: "Busdi", level: 1 })).toBeInTheDocument();
+    fireEvent.click(barangayPicker);
+    expect(screen.getByRole("listbox", { name: /Choose a barangay profile/i })).toBeInTheDocument();
+    const barangaySearch = screen.getByRole("searchbox", { name: /Choose a barangay profile search/i });
+    fireEvent.change(barangaySearch, { target: { value: "Cabangahan" } });
+    fireEvent.click(screen.getByRole("option", { name: "Cabangahan" }));
+    expect(screen.getByRole("heading", { name: "Cabangahan", level: 1 })).toBeInTheDocument();
   });
 
   it("indexes searchable 2026 BAC notices without calling them awards", () => {

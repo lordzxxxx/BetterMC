@@ -17787,3 +17787,251 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   .official-committee-columns .popout-table-list li { flex-basis: 100%; }
   .official-profile-sources .popout-table-links { grid-template-columns: 1fr; }
 }
+
+/* Compact barangay profiles: source-first content with less repeated chrome. */
+.barangay-profile-main {
+  padding-top: 0;
+  padding-bottom: 40px;
+}
+.barangay-profile-section {
+  padding: 28px 0;
+  scroll-margin-top: 96px;
+}
+.barangay-about {
+  grid-template-columns: minmax(0, 1.55fr) minmax(260px, 0.75fr);
+  gap: 24px;
+}
+.barangay-about-copy h2 {
+  max-width: none;
+  margin: 5px 0 8px;
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
+  line-height: 1.08;
+}
+.barangay-about-copy > p {
+  max-width: 66ch;
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+.barangay-source-card {
+  gap: 6px;
+  padding: 13px;
+  border-radius: 14px;
+  background: rgba(248, 252, 255, 0.76);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.88), 0 8px 22px rgba(30, 73, 117, 0.055);
+}
+.barangay-source-card > .barangay-icon-tile { display: none; }
+.barangay-source-card > strong { margin-bottom: 1px; font-size: 0.92rem; }
+.barangay-source-card > a { min-height: 30px; line-height: 1.35; }
+.barangay-local-nav .container {
+  gap: 3px;
+  min-height: 46px;
+}
+.barangay-local-nav a {
+  min-height: 34px;
+  padding: 6px 9px;
+  border-radius: 7px;
+  font-size: 0.76rem;
+}
+.barangay-leadership-executive-grid { gap: 9px; margin-bottom: 12px; }
+.barangay-executive-card,
+.barangay-kagawad-card {
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.86);
+}
+.barangay-executive-card { gap: 7px; }
+.barangay-executive-head .barangay-icon-tile { width: 32px; height: 32px; flex-basis: 32px; }
+.barangay-kagawad-grid { gap: 8px; }
+.barangay-disclosure-summary-strip { gap: 7px; }
+.barangay-disclosure-summary-strip > div {
+  padding: 9px 11px;
+  border-radius: 10px;
+  background: rgba(248, 252, 255, 0.64);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.84);
+}
+.barangay-disclosure-summary-strip strong { font-size: 1.02rem; }
+.barangay-disclosure-summary-strip small { font-size: 0.69rem; }
+.barangay-disclosure-controls { gap: 8px; margin-bottom: 10px; }
+.barangay-disclosure-tabs { gap: 5px; }
+.barangay-disclosure-tabs button {
+  min-height: 34px;
+  padding: 6px 10px;
+  border-radius: 7px;
+}
+.barangay-disclosure-grid { gap: 9px; }
+.barangay-disclosure-card {
+  border-radius: 12px;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.9), 0 5px 16px rgba(16, 48, 96, 0.045);
+}
+.barangay-disclosure-card-body { gap: 6px; padding: 12px; }
+.barangay-record-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 9px;
+  color: #5a6f89;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.barangay-record-type {
+  color: #154b99;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.barangay-record-type.is-accomplishments { color: #28704e; }
+.barangay-record-type.is-bids { color: #8e531d; }
+.barangay-record-type.is-projects { color: #5b4a94; }
+.barangay-backup-citations a { border-radius: 6px; }
+.barangay-popout-btn,
+.barangay-bid-popout-btn { border-radius: 7px; }
+
+.barangay-profile-picker {
+  gap: 7px;
+  padding: 3px 7px 3px 10px;
+  border-color: rgba(210, 229, 250, 0.35);
+  border-radius: 9px;
+  background: rgba(8, 32, 69, 0.56);
+}
+.barangay-hero-inline-portal .barangay-main-portal-pill,
+.barangay-hero-inline-portal .barangay-active-subdomain-pill {
+  min-height: 34px;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.barangay-hero-inline-portal .barangay-main-portal-pill:hover,
+.barangay-hero-inline-portal .barangay-main-portal-pill:focus-visible {
+  color: #fff;
+  background: rgba(230, 241, 255, 0.12);
+}
+.barangay-profile-select {
+  flex: 1 1 auto;
+  width: min(260px, 100%);
+}
+.barangay-profile-select .service-select-trigger {
+  min-height: 34px;
+  padding: 0 2px;
+  border: 0;
+  border-radius: 6px;
+  color: #f7fbff;
+  background: transparent;
+  font-size: 0.78rem;
+  box-shadow: none;
+}
+.barangay-profile-select .service-select-trigger:hover,
+.barangay-profile-select .service-select-trigger[aria-expanded="true"] {
+  color: #fff;
+  background: transparent;
+}
+.barangay-profile-select .service-select-trigger:focus-visible {
+  outline: 2px solid #b8ddff;
+  outline-offset: 3px;
+}
+.barangay-profile-select .service-select-trigger svg { color: #d5e8ff; }
+.barangay-profile-select .service-select-menu {
+  top: calc(100% + 8px);
+  width: max(100%, 250px);
+  max-width: min(330px, 88vw);
+  overflow: hidden;
+  border: 1px solid rgba(189, 213, 239, 0.92);
+  border-radius: 12px;
+  background: rgba(247, 251, 255, 0.98);
+  box-shadow: 0 14px 34px rgba(5, 26, 54, 0.24);
+  backdrop-filter: blur(18px) saturate(115%);
+  -webkit-backdrop-filter: blur(18px) saturate(115%);
+}
+.barangay-profile-select .service-select-search {
+  min-height: 40px;
+  padding: 0 12px;
+  border-bottom-color: #d8e5f3;
+  background: rgba(255, 255, 255, 0.86);
+  font-size: 0.84rem;
+}
+.barangay-profile-select .service-select-list {
+  max-height: min(320px, 54vh);
+  padding: 5px;
+  overflow-y: auto;
+}
+.barangay-profile-select .service-select-option {
+  min-height: 36px;
+  padding: 7px 9px;
+  border-radius: 7px;
+  color: #183453;
+  font-size: 0.82rem;
+}
+.barangay-profile-select .service-select-option:hover,
+.barangay-profile-select .service-select-option.is-active {
+  color: #123d7e;
+  background: #e6f1ff;
+}
+.barangay-profile-select .service-select-option.is-selected {
+  color: #124fa7;
+  background: #dcecff;
+  font-weight: 800;
+}
+.barangay-profile-select .service-select-group { padding: 8px 9px 4px; color: #687d96; }
+.barangay-facts div {
+  border: 1px solid rgba(224, 238, 252, 0.88);
+  background: rgba(247, 251, 255, 0.9);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.96), 0 7px 18px rgba(1, 20, 46, 0.1);
+  backdrop-filter: blur(18px) saturate(110%);
+  -webkit-backdrop-filter: blur(18px) saturate(110%);
+}
+.barangay-facts dt { color: #4e6785; }
+.barangay-facts dd { color: #12345f; }
+.barangay-facts small { color: #526c8c; }
+
+@media (max-width: 1024px) {
+  .barangay-about { gap: 16px; }
+  .barangay-profile-section { padding: 24px 0; }
+  .barangay-leadership-executive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .barangay-disclosure-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .barangay-profile-main { padding: 0 16px 28px; }
+  .barangay-profile-section { padding: 20px 0; scroll-margin-top: 76px; }
+  .barangay-about { grid-template-columns: minmax(0, 1fr); }
+  .barangay-about-copy h2 { font-size: clamp(1.55rem, 7vw, 2rem); }
+  .barangay-source-card { margin-top: 2px; }
+  .barangay-local-nav .container { gap: 2px; min-height: 42px; }
+  .barangay-local-nav a { min-height: 32px; padding: 5px 8px; font-size: 0.72rem; }
+  .barangay-leadership-executive-grid { grid-template-columns: 1fr; }
+  .barangay-kagawad-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .barangay-disclosure-summary-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .barangay-disclosure-grid { grid-template-columns: 1fr; }
+  .barangay-profile-picker { width: min(100%, 370px); }
+  .barangay-profile-select { width: 100%; }
+  .barangay-hero-inline-portal {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    align-items: center;
+    gap: 5px 8px;
+  }
+  .barangay-hero-inline-portal .barangay-main-portal-pill,
+  .barangay-hero-inline-portal .barangay-active-subdomain-pill {
+    min-width: 0;
+    min-height: 32px;
+    padding: 4px 2px;
+    font-size: 0.68rem;
+  }
+  .barangay-hero-inline-portal .barangay-active-subdomain-pill strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .barangay-profile-picker {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+  .barangay-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .barangay-facts div:last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 420px) {
+  .barangay-kagawad-grid { grid-template-columns: 1fr; }
+  .barangay-disclosure-summary-strip { grid-template-columns: 1fr 1fr; }
+  .barangay-profile-select .service-select-menu { left: auto; right: 0; }
+}
