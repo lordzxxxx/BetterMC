@@ -240,9 +240,14 @@ describe("BetterMC public portal", () => {
     expect(
       screen.getAllByText(/dalwangan\.bettermalaybalay\.cloud/i).length,
     ).toBeGreaterThan(0);
-    expect(
-      screen.getByRole("link", { name: /Main Portal:\s*BetterMC/i }),
-    ).toHaveAttribute("href", "/");
+    const portalNav = within(screen.getByRole("region", {
+      name: /Dalwangan embedded subdomain and main portal navigation/i,
+    }));
+    expect(portalNav.getByRole("link", { name: /BetterMC Home/i })).toHaveAttribute("href", "/");
+    const barangayPicker = screen.getByRole("combobox", {
+      name: /Choose a barangay profile/i,
+    });
+    expect(barangayPicker).toHaveValue("dalwangan");
     expect(screen.getAllByText("Royville C. Pasco").length).toBeGreaterThan(0);
     expect(screen.getAllByText("7,812").length).toBeGreaterThan(0);
     expect(
@@ -302,6 +307,8 @@ describe("BetterMC public portal", () => {
         name: /DILG Barangay Officials Directory/i,
       }).length,
     ).toBeGreaterThan(0);
+    fireEvent.change(barangayPicker, { target: { value: "busdi" } });
+    expect(screen.getByRole("heading", { name: "Busdi", level: 1 })).toBeInTheDocument();
   });
 
   it("indexes searchable 2026 BAC notices without calling them awards", () => {
@@ -414,7 +421,7 @@ describe("BetterMC public portal", () => {
       profile.getByRole("link", { name: /0953-459-1777/ }),
     ).toHaveAttribute("href", "tel:09534591777");
     expect(
-      profile.getByText(/Office-level executive issuances/i),
+      profile.getByText(/City Mayor’s Office issuances/i),
     ).toBeInTheDocument();
   });
 
@@ -439,8 +446,10 @@ describe("BetterMC public portal", () => {
     ).toHaveAttribute("href", "tel:09945143081");
     expect(councilorProfile.getByText("Quasi-Judicial")).toBeInTheDocument();
     expect(
-      councilorProfile.getByText(/do not identify individual sponsors or authors/i),
+      councilorProfile.getByText(/This profile lists only measures that name this councilor/i),
     ).toBeInTheDocument();
+    expect(councilorProfile.queryByText(/City Council measures ·/i)).not.toBeInTheDocument();
+    expect(councilorProfile.queryByText(/Ordinance No\. 1050/)).not.toBeInTheDocument();
     expect(
       councilorProfile.getByText("Environment and Natural Resources"),
     ).toBeInTheDocument();

@@ -17463,3 +17463,124 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 @media (prefers-reduced-motion: reduce) {
   .noah-advanced-controls > summary .noah-advanced-chevron { transition: none; }
 }
+
+/* Compact, consistent navigation for each barangay microsite. */
+.barangay-hero-inline-portal {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(210px, 260px);
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 16px;
+}
+.barangay-hero-inline-portal .barangay-main-portal-pill,
+.barangay-hero-inline-portal .barangay-active-subdomain-pill {
+  min-height: 40px;
+  padding: 7px 12px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  line-height: 1.25;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.barangay-hero-inline-portal .barangay-main-portal-pill {
+  white-space: nowrap;
+  background: rgba(9, 34, 72, 0.76);
+  border-color: rgba(220, 236, 255, 0.32);
+}
+.barangay-hero-inline-portal .barangay-active-subdomain-pill {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #e8f2ff;
+  background: rgba(9, 34, 72, 0.42);
+  border-color: rgba(220, 236, 255, 0.2);
+}
+.barangay-profile-picker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 34px 0 11px;
+  border: 1px solid rgba(220, 236, 255, 0.32);
+  border-radius: 10px;
+  color: #fff;
+  background: rgba(9, 34, 72, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.barangay-profile-picker > svg:first-child {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  color: #a9d0ff;
+}
+.barangay-profile-picker > svg:last-child {
+  position: absolute;
+  right: 10px;
+  width: 15px;
+  height: 15px;
+  pointer-events: none;
+  color: #cfe2fb;
+}
+.barangay-profile-picker select {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  padding: 6px 0;
+  appearance: none;
+  border: 0;
+  outline-offset: 2px;
+  color: #fff;
+  background: transparent;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.barangay-profile-picker select option { color: #14233c; background: #fff; }
+.barangay-profile-picker:focus-within {
+  border-color: #b9dcff;
+  box-shadow: 0 0 0 3px rgba(107, 177, 255, 0.24);
+}
+@media (max-width: 760px) {
+  .barangay-hero-inline-portal {
+    grid-template-columns: minmax(0, 1fr);
+    width: min(100%, 380px);
+    gap: 7px;
+    margin-bottom: 14px;
+  }
+  .barangay-hero-inline-portal .barangay-main-portal-pill,
+  .barangay-hero-inline-portal .barangay-active-subdomain-pill,
+  .barangay-profile-picker { width: 100%; }
+}
+
+.official-record-intro {
+  max-width: 68ch;
+  margin: 0;
+  color: #51627c;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+.official-record-kind {
+  display: block;
+  color: #637895;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+.official-record-groups .popout-measures-list li a > span {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+.official-record-groups .official-record-caveat {
+  padding: 9px 11px;
+  border-radius: 9px;
+  background: rgba(242, 247, 253, 0.82);
+}
+.official-record-groups .official-record-caveat p { font-size: 0.78rem; }

@@ -2611,16 +2611,14 @@ function GovernmentPage() {
               const individualRecords = officialRecords.filter(
                 (record) => record.officialName === selectedOfficial.name,
               );
-              const councilInstitutionRecords =
-                selectedOfficial.group === "Legislative" ||
-                selectedOfficial.group === "Sectoral" ||
-                selectedOfficial.role === "City Vice Mayor"
-                  ? civicRecords.filter(
-                      (record) =>
-                        record.kind === "Ordinance" &&
-                        record.attributionLevel === "institutional",
-                    )
-                  : [];
+              const attributionNote =
+                selectedOfficial.group === "National legislative"
+                  ? "Only bills and MOUs that name this district representative appear here."
+                  : selectedOfficial.group === "Executive"
+                    ? "Office-issued executive orders are listed separately from personally authored or signed records."
+                    : selectedOfficial.group === "Sectoral"
+                      ? "Sectoral officials are shown only when a public source names them as an author, sponsor, or signatory."
+                      : "City ordinances are enacted by the Sangguniang Panlungsod as a body. This profile lists only measures that name this councilor as an author or sponsor; it does not treat a collective vote as an individual accomplishment.";
               const sharedContact =
                 selectedOfficial.office.scope ===
                 "Shared legislative-office routing";
@@ -2777,18 +2775,19 @@ function GovernmentPage() {
                               <th scope="row">Public record</th>
                               <td>
                                 <div className="official-record-groups">
+                                  <p className="official-record-intro">{attributionNote}</p>
                                   {individualRecords.length > 0 && (
                                     <section>
-                                      <h4>
-                                        Individually attributed · {individualRecords.length}
-                                      </h4>
+                                      <h4>Records naming this official · {individualRecords.length}</h4>
                                       <ul className="popout-measures-list">
                                         {individualRecords.map((record) => (
                                           <li key={`${record.number}-${record.kind}`}>
                                             <a href={record.source.url} target="_blank" rel="noreferrer">
                                               <span>
-                                                <strong>{record.number}</strong> — {record.title}
-                                                <small>{record.source.label}. Reported {record.date}. {record.status} {record.attribution} Source reviewed {record.source.verifiedOn}.</small>
+                                                <strong><span className="official-record-kind">{record.kind}</span>{record.number}</strong>
+                                                <span>{record.title}</span>
+                                                <small>{record.attribution} {record.status}</small>
+                                                <small>{record.source.label} · Reported {record.date} · Reviewed {record.source.verifiedOn}</small>
                                               </span>
                                               <ExternalLink aria-hidden="true" />
                                             </a>
@@ -2808,12 +2807,12 @@ function GovernmentPage() {
                                   )}
                                   {officeRecords.length > 0 && (
                                     <section>
-                                      <h4>Office-level executive issuances · {officeRecords.length}</h4>
+                                      <h4>City Mayor’s Office issuances · {officeRecords.length}</h4>
                                       <ul className="popout-measures-list">
                                         {officeRecords.map((record) => (
                                           <li key={record.number}>
                                             <a href={record.source.url} target="_blank" rel="noreferrer">
-                                              <span><strong>{record.number}</strong> — {record.title}<small>Issued by the Office of the City Mayor; listed as an office act.</small></span>
+                                              <span><strong><span className="official-record-kind">Executive order</span>{record.number}</strong><span>{record.title}</span><small>Issued by the Office of the City Mayor; shown as an office record.</small></span>
                                               <ExternalLink aria-hidden="true" />
                                             </a>
                                           </li>
@@ -2821,29 +2820,12 @@ function GovernmentPage() {
                                       </ul>
                                     </section>
                                   )}
-                                  {councilInstitutionRecords.length > 0 && (
-                                    <section>
-                                      <h4>City Council measures · {councilInstitutionRecords.length}</h4>
-                                      <p className="popout-measures-note">These are Sangguniang Panlungsod records. The city listings do not identify individual sponsors or authors, so they are not credited as this official’s personal work.</p>
-                                      <ul className="popout-measures-list">
-                                        {councilInstitutionRecords.map((record) => (
-                                          <li key={record.number}>
-                                            <a href={record.source.url} target="_blank" rel="noreferrer">
-                                              <span><strong>{record.number}</strong> — {record.title}<small>Individual author or sponsor not stated in the linked city listing.</small></span>
-                                              <ExternalLink aria-hidden="true" />
-                                            </a>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </section>
-                                  )}
-                                  {individualRecords.length === 0 && officeRecords.length === 0 && councilInstitutionRecords.length === 0 && (
-                                    <p className="popout-measures-note">No individually attributed ordinance, resolution, House bill, or MOA was located in the public sources reviewed. This means the record is not available here; it does not establish that no work was done.</p>
+                                  {individualRecords.length === 0 && officeRecords.length === 0 && (
+                                    <p className="popout-measures-note">No personal ordinance, resolution, bill, or MOA attribution was located for {selectedOfficial.name} in the sources reviewed. City-wide records are kept in the legislative archive instead of being repeated across profiles.</p>
                                   )}
                                   <div className="official-record-caveat">
-                                    <strong>MOAs and House bills</strong>
-                                    <p>House bills are filed by national representatives, not city councilors. The city’s public MOA references are institutional and do not identify each elected official as a signatory. BetterMC will show a personal attribution only when the source names that person.</p>
-                                    <a href="https://sakata.malaybalaycity.gov.ph/citizens-charter/" target="_blank" rel="noreferrer">City Citizen’s Charter: MOA processing and records <ExternalLink aria-hidden="true" /></a>
+                                    <strong>Attribution standard</strong>
+                                    <p>BetterMC credits a person only when a cited source names them as author, sponsor, bill author, or signatory. An ordinance passing the council is a collective action; a listed MOA process is not proof of an individual’s signature.</p>
                                   </div>
                                   <Link className="popout-measures-more" to="/government?tab=records" onClick={closeModal}>
                                     <span>Browse city-published measures</span><ArrowRight aria-hidden="true" />
@@ -3245,45 +3227,40 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                   className="barangay-main-portal-pill"
                 >
                   <Landmark aria-hidden="true" />
-                  <span>
-                    Main Portal: <strong>{MAIN_BETTERMC_PORTAL.name}</strong>
-                  </span>
+                  <span><strong>BetterMC Home</strong></span>
                 </a>
               ) : (
                 <Link to="/" className="barangay-main-portal-pill">
                   <Landmark aria-hidden="true" />
-                  <span>
-                    Main Portal: <strong>{MAIN_BETTERMC_PORTAL.name}</strong>
-                  </span>
+                  <span><strong>BetterMC Home</strong></span>
                 </Link>
               )}
-              <span className="barangay-active-subdomain-pill">
+              <span className="barangay-active-subdomain-pill" aria-label={`Current barangay site: ${profile.subdomainHost}`}>
                 <Globe aria-hidden="true" />
                 <strong>{profile.subdomainHost}</strong>
               </span>
-              <select
-                id="barangay-domain-select"
-                aria-label="Switch barangay subdomain"
-                value={profile.slug}
-                onChange={(event) => {
-                  const nextSlug = event.target.value;
-                  if (!nextSlug) {
-                    navigate("/");
-                    return;
-                  }
-                  navigate(
-                    slugOverride
-                      ? `/?subdomain=${nextSlug}`
-                      : `/barangays/${nextSlug}`,
-                  );
-                }}
-              >
-                {barangayMicrosites.map((b) => (
-                  <option key={b.slug} value={b.slug}>
-                    {b.name} ({b.subdomainHost})
-                  </option>
-                ))}
-              </select>
+              <label className="barangay-profile-picker">
+                <MapPin aria-hidden="true" />
+                <span className="sr-only">Choose a barangay profile</span>
+                <select
+                  id="barangay-domain-select"
+                  aria-label="Choose a barangay profile"
+                  value={profile.slug}
+                  onChange={(event) => {
+                    const nextSlug = event.target.value;
+                    navigate(
+                      slugOverride
+                        ? `/?subdomain=${nextSlug}`
+                        : `/barangays/${nextSlug}`,
+                    );
+                  }}
+                >
+                  {barangayMicrosites.map((b) => (
+                    <option key={b.slug} value={b.slug}>{b.name}</option>
+                  ))}
+                </select>
+                <ChevronDown aria-hidden="true" />
+              </label>
             </div>
             <span>Welcome to Barangay {profile.name}</span>
             <h1>{profile.name}</h1>
