@@ -12,7 +12,16 @@
  */
 import { readFileSync } from "node:fs";
 
-const FILES = ["src/data.ts", "src/bidRecords.ts", "src/serviceCatalog.ts"];
+// Keep this list aligned with the public data modules. In particular, the
+// barangay disclosure module carries the source chain for all 46 microsites;
+// omitting it would make a source audit look more complete than it is.
+const FILES = [
+  "src/data.ts",
+  "src/bidRecords.ts",
+  "src/barangayDisclosures.ts",
+  "src/barangayProfiles.ts",
+  "src/serviceCatalog.ts",
+];
 const URL_PATTERN = /https?:\/\/[^\s"'`)<>\\]+/g;
 const SKIP_HOSTS = new Set(["www.w3.org"]);
 const TIMEOUT_MS = 20000;

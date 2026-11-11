@@ -251,7 +251,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -798,7 +798,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -1345,7 +1345,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -1751,7 +1751,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -2345,7 +2345,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -2892,7 +2892,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -3721,7 +3721,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -4174,7 +4174,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -5426,7 +5426,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -6302,7 +6302,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -6755,7 +6755,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -7208,7 +7208,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -7896,7 +7896,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -8349,7 +8349,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -8849,7 +8849,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -9208,7 +9208,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -9755,7 +9755,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -10443,7 +10443,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -11178,7 +11178,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -11725,7 +11725,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -12178,7 +12178,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -12678,7 +12678,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -13319,7 +13319,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -13678,7 +13678,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -14272,7 +14272,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -14819,7 +14819,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -15225,7 +15225,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -15584,7 +15584,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -15990,7 +15990,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -16349,7 +16349,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -16661,7 +16661,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -16973,7 +16973,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -17285,7 +17285,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -17597,7 +17597,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -18567,7 +18567,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -18926,7 +18926,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -19379,7 +19379,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -20067,7 +20067,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -20802,7 +20802,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -21208,7 +21208,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -21661,7 +21661,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -22208,7 +22208,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -22896,7 +22896,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -23490,7 +23490,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -24084,7 +24084,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {
@@ -24396,7 +24396,7 @@ export const barangayFullDisclosures: BarangayFullDisclosureProfile[] = [
         "backupSources": [
           {
             "label": "2025 Annual Budget Report — LBP Form No. 2 (20% Development Fund)",
-            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Annual-Budget-Report-Y-2025_.pdf",
+            "url": "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/Annual-Budget-Report-Y-2025_.pdf",
             "verifiedOn": "2026-11-09"
           },
           {

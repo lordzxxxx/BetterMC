@@ -43,6 +43,14 @@ describe("BetterMC public portal", () => {
       expect(barangay.fullDisclosure.items.length).toBeGreaterThanOrEqual(4);
       expect(barangay.fullDisclosure.bdp2026Budget).toBeGreaterThan(1000000);
       expect(barangay.fullDisclosure.barangayNta2026).toBeGreaterThan(1685420);
+      for (const record of barangay.fullDisclosure.items) {
+        expect(record.barangaySlug).toBe(barangay.slug);
+        expect(record.primarySource.url).toMatch(/^https:\/\//);
+        expect(record.primarySource.label.length).toBeGreaterThan(10);
+        expect(record.backupSources.length).toBeGreaterThan(0);
+        expect(record.summary.length).toBeGreaterThan(80);
+        expect(record.discussion.howToVerify.length).toBeGreaterThan(40);
+      }
       expect(barangay.subdomainHost).toBe(
         `${barangay.slug}.bettermalaybalay.cloud`,
       );

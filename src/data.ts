@@ -1044,7 +1044,7 @@ export const financialSnapshot = {
   ],
   source: {
     label: "2025 Q2 Statement of Receipts and Expenditures",
-    url: "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/01/Q2_Statement_of_Receipts_and_Expenditures_compressed.pdf",
+    url: "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/STATEMENT-OF-RECEIPTS-AND-EXPENDITURES2025-Q2.pdf",
     verifiedOn: VERIFIED_ON,
   } satisfies Source,
 };
