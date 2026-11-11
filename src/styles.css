@@ -17289,3 +17289,218 @@ div.service-category-grid.is-compact > article.service-category-card {
 .government-official-card .official-office-preview {
   margin-top: 2px;
 }
+
+/* Shared GIS toolbar: show location and basemap first; reveal analysis
+   controls only when needed. */
+.noah-clean-gis { gap: 8px; }
+.noah-clean-gis,
+.noah-clean-toolbar,
+.noah-toolbar-section,
+.noah-input-group > *,
+.noah-clean-control { min-width: 0; }
+.noah-clean-toolbar {
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 14px 14px 0 0;
+  box-shadow: none;
+}
+.noah-toolbar-header { padding-bottom: 9px; }
+.noah-toolbar-heading { font-size: 1rem; }
+.noah-section-geo .noah-input-group {
+  grid-template-columns: minmax(180px, 1fr) minmax(200px, 1.1fr) minmax(250px, 0.9fr);
+  gap: 10px;
+}
+.noah-clean-control select,
+.noah-clean-control input[type="date"] {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 42px;
+}
+.noah-advanced-controls {
+  border: 1px solid #dbe5f1;
+  border-radius: 10px;
+  background: #f7f9fc;
+}
+.noah-advanced-controls > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 42px;
+  padding: 0 12px;
+  color: #344661;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+.noah-advanced-controls > summary::-webkit-details-marker { display: none; }
+.noah-advanced-controls > summary > span { display: inline-flex; align-items: center; gap: 8px; }
+.noah-advanced-controls > summary svg { width: 16px; height: 16px; color: #2058c8; }
+.noah-advanced-controls > summary .noah-advanced-chevron { transition: transform 160ms ease; }
+.noah-advanced-controls[open] > summary .noah-advanced-chevron { transform: rotate(180deg); }
+.noah-advanced-controls > summary:focus-visible,
+.noah-clean-gis button:focus-visible,
+.noah-clean-gis select:focus-visible,
+.noah-clean-gis input:focus-visible { outline: 2px solid #1d4ed8; outline-offset: 2px; }
+.noah-advanced-controls-content { display: grid; gap: 10px; padding: 0 10px 10px; }
+.noah-section-layers-perspective {
+  grid-template-columns: minmax(260px, 0.8fr) minmax(320px, 1.2fr);
+  gap: 14px;
+  padding: 12px;
+}
+.noah-section-timeline { padding-top: 10px; }
+.noah-timeline-container { gap: 10px 14px; }
+.noah-clean-map-stage {
+  height: clamp(340px, 48vw, 520px);
+  border-radius: 0;
+}
+.noah-summary-strip {
+  gap: 8px 14px;
+  padding: 9px 14px;
+  border-radius: 0 0 14px 14px;
+  box-shadow: none;
+}
+.noah-summary-swatch { width: 10px; height: 10px; }
+.noah-summary-text strong { font-size: 0.8rem; }
+.noah-summary-text p { margin-top: 1px; font-size: 0.72rem; }
+.noah-summary-inspect-btn { min-height: 38px; padding: 6px 10px; }
+.noah-clean-footer { padding: 8px 12px; border-radius: 10px; box-shadow: none; }
+
+/* Compact service directory and nearest-provider cards. */
+.service-context-strip {
+  display: flex;
+  align-items: center;
+  gap: 12px 22px;
+  margin: 0 0 28px;
+  padding: 12px 16px;
+  border: 1px solid var(--svc-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.76);
+}
+.service-context-strip p { display: grid; gap: 1px; min-width: 0; margin: 0 auto 0 0; }
+.service-context-strip p strong { color: var(--svc-ink); font-size: 0.78rem; }
+.service-context-strip p span { color: var(--svc-ink); font-size: 0.95rem; font-weight: 750; }
+.service-context-strip p small { color: var(--svc-muted); font-size: 0.72rem; }
+.service-context-strip > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 10px;
+  border-left: 1px solid var(--svc-border);
+  color: var(--svc-brand);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.service-context-strip > a:hover { text-decoration: underline; }
+.service-context-strip > a svg { width: 14px; height: 14px; }
+.services-quick-finder-card { margin-bottom: 24px; padding: 18px 20px; border-radius: 14px; }
+.quick-finder-header { gap: 12px; margin-bottom: 14px; }
+.quick-finder-header h2 { margin: 2px 0 3px; font-size: 1.15rem; }
+.quick-finder-header p { max-width: 68ch; font-size: 0.84rem; }
+.quick-finder-controls { gap: 12px; margin-bottom: 14px; }
+.quick-finder-result { align-items: center; gap: 12px 18px; padding: 14px 16px; border-radius: 12px; }
+.quick-finder-result-info h3 { margin: 5px 0 3px; font-size: 1rem; }
+.quick-finder-meta-pill { color: var(--svc-ink); background: var(--svc-tint); border-color: var(--svc-border); font-size: 0.75rem; }
+.quick-finder-primary-btn,
+.quick-finder-secondary-btn { min-height: 42px; padding: 0 12px; font-size: 0.82rem; }
+div.service-category-grid { gap: 10px; }
+div.service-category-grid > article.service-category-card { grid-template-columns: 40px minmax(0, 1fr) 38px; gap: 10px; padding: 13px; border-radius: 12px; }
+div.service-category-grid > article.service-category-card > .service-category-icon { width: 40px; height: 40px; border-radius: 10px; }
+div.service-category-grid .category-card-body h3 { font-size: 0.94rem; }
+div.service-category-grid .category-card-body p { font-size: 0.76rem; -webkit-line-clamp: 2; }
+div.service-category-grid > article.service-category-card > a.category-card-arrow-link { width: 38px; height: 38px; min-width: 38px; min-height: 38px; border-radius: 9px; }
+.service-providers-list { gap: 12px; margin: 16px 0 28px; }
+.provider-card,
+.provider-card.is-nearest-card {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.78fr) minmax(0, 1.22fr);
+  align-items: start;
+  gap: 12px 18px;
+  padding: 16px;
+  border-radius: 12px;
+}
+.provider-card header.provider-card-head { grid-column: 1 / -1; }
+.provider-card .provider-card-meta { margin-bottom: 5px; }
+.provider-card .provider-facts {
+  grid-column: 1;
+  grid-row: 2;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 9px;
+}
+.provider-card .provider-facts .provider-facts-wide { grid-column: auto; padding-top: 8px; }
+.provider-card .provider-transactions-section { grid-column: 2; grid-row: 2; min-width: 0; }
+.provider-card .provider-tx-heading { margin-bottom: 6px; }
+.provider-card li.provider-tx-row { gap: 10px; padding: 9px 11px; }
+.provider-card .provider-tx-title { font-size: 0.84rem; }
+.provider-card .provider-tx-detail { font-size: 0.74rem; }
+.provider-card button.provider-tx-btn { min-height: 40px; padding: 0 11px; }
+.provider-card footer.provider-card-footer { grid-column: 1 / -1; grid-row: 3; padding-top: 9px; }
+.local-service-grid { gap: 10px; }
+.local-service-grid article { border-radius: 12px; }
+
+@media (max-width: 900px) {
+  .noah-section-geo .noah-input-group { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .noah-section-geo .noah-input-group > :last-child { grid-column: 1 / -1; }
+  .noah-section-layers-perspective { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .noah-clean-toolbar { padding: 12px; }
+  .noah-toolbar-heading { font-size: 0.92rem; }
+  .noah-toolbar-meta { width: 100%; }
+  .noah-live-telemetry-badge { max-width: 100%; padding: 5px 9px; font-size: 0.69rem; }
+  .noah-section-geo .noah-input-group { grid-template-columns: 1fr; }
+  .noah-section-geo .noah-input-group > :last-child { grid-column: auto; }
+  .noah-section-layers-perspective { padding: 10px; }
+  .noah-button-row { align-items: stretch; }
+  .noah-layer-toggle { min-height: 40px; justify-content: center; }
+  .noah-timeline-pills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .noah-timeline-pills button { min-height: 40px; white-space: normal; }
+  .noah-clean-map-stage { height: min(440px, 62vh); min-height: 320px; }
+  .noah-summary-strip { padding: 9px 11px; }
+  .noah-summary-inspect-btn { width: auto; }
+  .noah-clean-footer { align-items: flex-start; }
+  .noah-clean-legend { gap: 7px 10px; }
+  .noah-clean-telemetry { font-size: 0.72rem; }
+  .service-context-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; margin-bottom: 20px; padding: 11px 12px; }
+  .service-context-strip p { grid-column: 1 / -1; margin: 0 0 4px; }
+  .service-context-strip > a { min-height: 38px; padding: 0 8px; border-left: 0; border-top: 1px solid var(--svc-border); font-size: 0.75rem; }
+  .services-quick-finder-card { padding: 14px; border-radius: 12px; }
+  .quick-finder-header .service-category-icon { width: 38px; height: 38px; flex: 0 0 38px; }
+  .quick-finder-header h2 { font-size: 1rem; }
+  .quick-finder-header p { font-size: 0.78rem; }
+  .quick-finder-result { padding: 12px; }
+  .quick-finder-address { align-items: flex-start; line-height: 1.4; }
+  .quick-finder-meta { gap: 6px; }
+  .quick-finder-meta-pill { font-size: 0.7rem; padding: 4px 7px; }
+  .quick-finder-result-actions { display: grid; grid-template-columns: 1fr 1fr; width: 100%; gap: 7px; }
+  .quick-finder-result-actions > * { min-width: 0; justify-content: center; text-align: center; }
+  div.service-category-grid > article.service-category-card { grid-template-columns: 38px minmax(0, 1fr) 38px; gap: 9px; padding: 11px; }
+  div.service-category-grid > article.service-category-card > .service-category-icon { width: 38px; height: 38px; }
+  div.service-category-grid .category-card-body p { font-size: 0.73rem; }
+  .provider-card,
+  .provider-card.is-nearest-card { display: flex; gap: 10px; padding: 13px; }
+  .provider-card .provider-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; }
+  .provider-card .provider-facts .provider-facts-wide { grid-column: 1 / -1; }
+  .provider-card li.provider-tx-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+  .provider-card button.provider-tx-btn { width: auto; min-height: 40px; }
+  .provider-card .provider-portal-btn { width: auto; margin-left: auto; justify-content: center; }
+}
+
+@media (max-width: 380px) {
+  .quick-finder-result-actions { grid-template-columns: 1fr; }
+  .provider-card .provider-facts { grid-template-columns: 1fr; }
+  .provider-card .provider-facts .provider-facts-wide { grid-column: auto; }
+  .provider-card li.provider-tx-row { grid-template-columns: 1fr; }
+  .provider-card button.provider-tx-btn { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .noah-advanced-controls > summary .noah-advanced-chevron { transition: none; }
+}

@@ -99,7 +99,7 @@ describe("BetterMC public portal", () => {
       screen.getByRole("heading", { name: /Operating income by source/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: "Open Business and trade guide" }),
+      screen.getByRole("link", { name: "Open guide: Business and trade" }),
     ).toHaveAttribute("href", "/services/business-trade");
     expect(screen.getByText("₱1,188,506,575.00")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: /Reported procurement savings/i }));
@@ -553,17 +553,15 @@ describe("BetterMC public portal", () => {
     expect(
       screen.getByRole("link", { name: /2026 GAD Plan and Budget/i }),
     ).toHaveAttribute("href", expect.stringContaining("GPB-2026.pdf"));
+    expect(screen.getByText("195,046 residents · 46 barangays")).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", {
-        name: /195,046 residents across 46 barangays/i,
-      }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", { name: /Browse all charter editions/i }),
-    ).toHaveAttribute(
-      "href",
-      "https://sakata.malaybalaycity.gov.ph/citizens-charter/",
-    );
+      screen
+        .getAllByRole("link", { name: /Citizen’s Charter/i })
+        .some((link) =>
+          link.getAttribute("href") ===
+          "https://sakata.malaybalaycity.gov.ph/citizens-charter/",
+        ),
+    ).toBe(true);
     unmount();
 
     render(

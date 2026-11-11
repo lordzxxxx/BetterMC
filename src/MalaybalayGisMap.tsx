@@ -6,6 +6,7 @@ import {
   ArrowRight,
   Building2,
   Calendar,
+  ChevronDown,
   Compass,
   ExternalLink,
   LocateFixed,
@@ -13,6 +14,7 @@ import {
   Navigation,
   Plus,
   RotateCcw,
+  SlidersHorizontal,
   Waves,
   X,
 } from "lucide-react";
@@ -1104,6 +1106,12 @@ export default function MalaybalayGisMap({
           </div>
         </div>
 
+        <details className="noah-advanced-controls">
+          <summary>
+            <span><SlidersHorizontal aria-hidden="true" /> Map layers, dates & orientation</span>
+            <ChevronDown aria-hidden="true" className="noah-advanced-chevron" />
+          </summary>
+          <div className="noah-advanced-controls-content">
         {/* Section 2: Layers & 3D Surface Horizon View Controls */}
         <div className="noah-toolbar-section noah-section-layers-perspective">
           {/* Data Layers */}
@@ -1332,6 +1340,8 @@ export default function MalaybalayGisMap({
             </div>
           </div>
         </div>
+          </div>
+        </details>
       </div>
 
       {/* Main Interactive Map Stage (Distraction-Free, Clear Flat Planimetric View with Smooth Swivel) */}

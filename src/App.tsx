@@ -852,8 +852,8 @@ function ServiceCategoryGrid({ compact = false }: { compact?: boolean }) {
           <Link
             to={`/services/${category.slug}`}
             className="category-card-arrow-link"
-            aria-label={`Open ${category.title} guide`}
-            title={`Open ${category.title} guide`}
+            aria-label={`Open guide: ${category.title}`}
+            title={`Open guide: ${category.title}`}
           >
             <ArrowRight aria-hidden="true" />
           </Link>
@@ -5081,8 +5081,7 @@ function ServicesQuickFinder() {
           <span className="eyebrow">Direct to Nearest Provider</span>
           <h2>Find the closest facility & start your transaction</h2>
           <p>
-            Select the service category and your barangay to locate the nearest official counter,
-            statutory processing time, requirements checklist, and e-payment gateways.
+            Choose a service and barangay to compare listed providers, review published transaction details, and open the provider’s map listing.
           </p>
         </div>
       </div>
@@ -5165,47 +5164,26 @@ function ServicesPage() {
         {/* Quick Nearest Provider & Transaction Locator */}
         <ServicesQuickFinder />
 
-        <div className="service-intro-grid">
-          <article className="economic-brief service-scope-card">
-            <span className="eyebrow">Current city context</span>
-            <h2>195,046 residents across 46 barangays</h2>
-            <p>
-              This is the latest official city population available in 2026.
-              It comes from the 2024 POPCEN, refers to July 1, 2024, and was
-              released by PSA on January 15, 2026.
-            </p>
-            <p>
-              Service demand cannot be inferred from population alone. Always
-              confirm requirements, availability, and schedules with the
-              responsible office.
-            </p>
-            <div className="inline-sources">
-              <a
-                href="https://rsso10.psa.gov.ph/content/highlights-population-counts-malaybalay-city-bukidnon-based-2024-census-population"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Verify the PSA release <ExternalLink />
-              </a>
-            </div>
-          </article>
-          <article className="resource-guide">
-            <span className="eyebrow">How to use this page</span>
-            <h2>Find the standard before starting a transaction.</h2>
-            <p>
-              Check the current Citizen’s Charter for requirements, fees,
-              processing times, responsible offices, and complaint channels.
-              Confirm time-sensitive details with the office itself.
-            </p>
-            <a
-              className="button primary"
-              href="https://sakata.malaybalaycity.gov.ph/citizens-charter/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Browse all charter editions <ExternalLink />
-            </a>
-          </article>
+        <div className="service-context-strip">
+          <p>
+            <strong>City context</strong>
+            <span>195,046 residents · 46 barangays</span>
+            <small>2024 POPCEN, released by PSA in 2026</small>
+          </p>
+          <a
+            href="https://rsso10.psa.gov.ph/content/highlights-population-counts-malaybalay-city-bukidnon-based-2024-census-population"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Population source <ExternalLink aria-hidden="true" />
+          </a>
+          <a
+            href="https://sakata.malaybalaycity.gov.ph/citizens-charter/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Citizen’s Charter <ExternalLink aria-hidden="true" />
+          </a>
         </div>
         <div className="service-resource-section service-local-section">
           <SectionHeading
@@ -5246,7 +5224,7 @@ function ServicesPage() {
           >
             Select any category below to locate the nearest service provider in Malaybalay City, review required documentary checklists, and start official online/counter transactions.
           </SectionHeading>
-          <ServiceCategoryGrid />
+          <ServiceCategoryGrid compact />
           <a
             className="section-source-link"
             href="https://bettergov.ph/services"
@@ -5452,7 +5430,7 @@ function ServiceCategoryPage() {
               eyebrow="Nearest service providers"
               title={`Where to transact in Malaybalay for ${category.title.toLowerCase()}`}
             >
-              These official facilities serve residents of {originInfo.label}. Distance and travel times are road-network adjusted. Click any transaction below to prepare your requirements checklist, view step-by-step procedures, and open official portals.
+              Listed providers serving {originInfo.label}, ordered by approximate distance from barangay coordinates. Travel times are estimates; confirm the route and current requirements with the provider. Open a transaction for its checklist and published steps.
             </SectionHeading>
 
             <div className="service-providers-list">
