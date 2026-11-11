@@ -17832,6 +17832,7 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   content: "";
 }
 .official-profile-records .official-record-groups { gap: 9px; }
+.official-profile-records { grid-column: 1 / -1; }
 .official-profile-records .official-record-intro,
 .official-profile-records .popout-measures-note {
   font-size: 0.82rem;
@@ -17851,7 +17852,7 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 }
 .official-records-browse svg { width: 15px; height: 15px; }
 .official-records-browse:hover { text-decoration: underline; text-underline-offset: 3px; }
-.official-profile-sources { display: grid; gap: 9px; background: #f8fbff; }
+.official-profile-sources { display: grid; grid-column: 1 / -1; gap: 9px; background: #f8fbff; }
 .official-profile-sources .popout-table-links a { min-width: 0; overflow-wrap: anywhere; }
 .official-profile-sources .popout-verified-date { margin-top: 0; }
 @media (max-width: 640px) {
