@@ -2689,92 +2689,47 @@ function GovernmentPage() {
                         </p>
                       )}
 
-                      <div className="popout-table-wrap">
-                        <table className="popout-structured-table">
-                          <tbody>
-                            <tr>
-                              <th scope="row">Official Name & Role</th>
-                              <td>
-                                <strong>{selectedOfficial.name}</strong> ·{" "}
-                                {selectedOfficial.role} (
-                                {selectedOfficial.group})
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Assigned Office</th>
-                              <td>
-                                <strong>{selectedOfficial.office.name}</strong>
-                                <span className="popout-scope-badge">
-                                  {selectedOfficial.office.scope}
-                                </span>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Office Address</th>
-                              <td>{selectedOfficial.office.address}</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Published Telephone</th>
-                              <td>
-                                <a
-                                  className="popout-inline-contact"
-                                  href={`tel:${telephoneHref(selectedOfficial.office.phone)}`}
-                                >
-                                  <Phone aria-hidden="true" />{" "}
-                                  <span>{selectedOfficial.office.phone}</span>
-                                </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Published Email</th>
-                              <td>
-                                {selectedOfficial.office.email ? (
-                                  <a
-                                    className="popout-inline-contact"
-                                    href={`mailto:${selectedOfficial.office.email}`}
-                                  >
-                                    <Mail aria-hidden="true" />{" "}
-                                    <span>{selectedOfficial.office.email}</span>
-                                  </a>
-                                ) : (
-                                  <span className="contact-unavailable">
-                                    No direct email published
-                                  </span>
-                                )}
-                              </td>
-                            </tr>
-                            {selectedOfficial.chairmanships?.length ? (
-                              <tr>
-                                <th scope="row">Committee Chairmanships</th>
-                                <td>
-                                  <ul className="popout-table-list">
-                                    {selectedOfficial.chairmanships.map(
-                                      (committee) => (
-                                        <li key={committee}>{committee}</li>
-                                      ),
-                                    )}
-                                  </ul>
-                                </td>
-                              </tr>
-                            ) : null}
-                            {selectedOfficial.committeeMemberships?.length ? (
-                              <tr>
-                                <th scope="row">Committee Memberships</th>
-                                <td>
-                                  <ul className="popout-table-list">
-                                    {selectedOfficial.committeeMemberships.map(
-                                      (committee) => (
-                                        <li key={committee}>{committee}</li>
-                                      ),
-                                    )}
-                                  </ul>
-                                </td>
-                              </tr>
-                            ) : null}
-                            <tr>
-                              <th scope="row">Public record</th>
-                              <td>
-                                <div className="official-record-groups">
+                      <div className="official-profile-layout">
+                        <section className="official-profile-section official-profile-contact" aria-labelledby="official-contact-heading">
+                          <div className="official-profile-section-heading">
+                            <div>
+                              <span className="eyebrow">Contact & role</span>
+                              <h4 id="official-contact-heading">{selectedOfficial.office.name}</h4>
+                            </div>
+                            <span className="popout-scope-badge">{selectedOfficial.office.scope}</span>
+                          </div>
+                          <p className="official-profile-role"><strong>{selectedOfficial.name}</strong><span>{selectedOfficial.role} · {selectedOfficial.group}</span></p>
+                          <address className="official-profile-address">{selectedOfficial.office.address}</address>
+                          <div className="official-profile-contact-links">
+                            <a className="popout-inline-contact" href={`tel:${telephoneHref(selectedOfficial.office.phone)}`}>
+                              <Phone aria-hidden="true" /><span>{selectedOfficial.office.phone}</span>
+                            </a>
+                            {selectedOfficial.office.email ? (
+                              <a className="popout-inline-contact" href={`mailto:${selectedOfficial.office.email}`}>
+                                <Mail aria-hidden="true" /><span>{selectedOfficial.office.email}</span>
+                              </a>
+                            ) : <span className="contact-unavailable">No direct email published</span>}
+                          </div>
+                        </section>
+
+                        {(selectedOfficial.chairmanships?.length || selectedOfficial.committeeMemberships?.length) ? (
+                          <section className="official-profile-section official-profile-committees" aria-labelledby="official-committees-heading">
+                            <div className="official-profile-section-heading">
+                              <div><span className="eyebrow">Legislative assignments</span><h4 id="official-committees-heading">Committee work</h4></div>
+                            </div>
+                            <div className="official-committee-columns">
+                              {selectedOfficial.chairmanships?.length ? <div><h5>Chairperson</h5><ul className="popout-table-list">{selectedOfficial.chairmanships.map((committee) => <li key={committee}>{committee}</li>)}</ul></div> : null}
+                              {selectedOfficial.committeeMemberships?.length ? <div><h5>Member</h5><ul className="popout-table-list">{selectedOfficial.committeeMemberships.map((committee) => <li key={committee}>{committee}</li>)}</ul></div> : null}
+                            </div>
+                          </section>
+                        ) : null}
+
+                        <section className="official-profile-section official-profile-records" aria-labelledby="official-records-heading">
+                          <div className="official-profile-section-heading">
+                            <div><span className="eyebrow">Source-linked activity</span><h4 id="official-records-heading">Public records</h4></div>
+                            <Link className="official-records-browse" to="/government?tab=records" onClick={closeModal}>Browse city records <ArrowRight aria-hidden="true" /></Link>
+                          </div>
+                          <div className="official-record-groups">
                                   <p className="official-record-intro">{attributionNote}</p>
                                   {individualRecords.length > 0 && (
                                     <section>
@@ -2821,21 +2776,17 @@ function GovernmentPage() {
                                     </section>
                                   )}
                                   {individualRecords.length === 0 && officeRecords.length === 0 && (
-                                    <p className="popout-measures-note">No personal ordinance, resolution, bill, or MOA attribution was located for {selectedOfficial.name} in the sources reviewed. City-wide records are kept in the legislative archive instead of being repeated across profiles.</p>
+                                    <p className="popout-measures-note">No individually attributed records for {selectedOfficial.name} were found in the sources reviewed.</p>
                                   )}
                                   <div className="official-record-caveat">
-                                    <strong>Attribution standard</strong>
-                                    <p>BetterMC credits a person only when a cited source names them as author, sponsor, bill author, or signatory. An ordinance passing the council is a collective action; a listed MOA process is not proof of an individual’s signature.</p>
+                                    <strong>How attribution works</strong>
+                                    <p>Only records that name this official as author, sponsor, or signatory are attributed here. Council passage is a collective action.</p>
                                   </div>
-                                  <Link className="popout-measures-more" to="/government?tab=records" onClick={closeModal}>
-                                    <span>Browse city-published measures</span><ArrowRight aria-hidden="true" />
-                                  </Link>
                                 </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Official Sources</th>
-                              <td>
+                        </section>
+
+                        <section className="official-profile-sources" aria-label="Official sources">
+                                <span className="eyebrow">Official sources · reviewed {VERIFIED_ON}</span>
                                 <div className="popout-table-links">
                                   <a
                                     href={selectedOfficial.source.url}
@@ -2860,14 +2811,8 @@ function GovernmentPage() {
                                     <ExternalLink aria-hidden="true" />
                                   </a>
                                 </div>
-                                <small className="popout-verified-date">
-                                  Sources reviewed {VERIFIED_ON}
-                                  {portrait ? ` · ${portrait.note}` : ""}
-                                </small>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                                {portrait ? <small className="popout-verified-date">{portrait.note}</small> : null}
+                        </section>
                       </div>
                     </div>
                   </article>

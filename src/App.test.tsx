@@ -453,6 +453,9 @@ describe("BetterMC public portal", () => {
     expect(
       councilorProfile.getByText("Environment and Natural Resources"),
     ).toBeInTheDocument();
+    expect(councilorProfile.getByRole("region", { name: "Committee work" })).toBeInTheDocument();
+    expect(councilorProfile.getByRole("region", { name: "Public records" })).toBeInTheDocument();
+    expect(councilorProfile.getByRole("link", { name: /Browse city records/i })).toHaveAttribute("href", "/government?tab=records");
     unmount();
 
     render(
