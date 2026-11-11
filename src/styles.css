@@ -1667,9 +1667,9 @@ kbd {
 }
 .people-grid article,
 .barangay-grid article {
-  padding: 24px;
+  padding: 16px 18px;
   border: 1px solid var(--glass-line);
-  border-radius: 22px;
+  border-radius: 16px;
   background: var(--glass);
   box-shadow: 0 14px 35px rgba(35, 91, 169, 0.07);
   backdrop-filter: blur(18px);
@@ -1690,8 +1690,12 @@ kbd {
     "avatar role toggle";
   align-items: center;
   column-gap: 16px;
-  min-height: 92px;
+  min-height: 72px;
 }
+.official-card-copy { min-width: 0; display: grid; gap: 3px; }
+.official-card-copy h3 { margin: 0; font-size: 1.02rem; line-height: 1.2; }
+.official-card-copy p { margin: 0; font-size: 0.84rem; color: var(--muted); }
+.official-office-preview { color: #2459a9; font-size: 0.74rem; font-weight: 700; }
 .official-summary .avatar {
   grid-area: avatar;
   margin: 0;

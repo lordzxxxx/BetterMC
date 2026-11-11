@@ -49,6 +49,8 @@ export const officialPortraits: Record<
   "Julius N. Manghano": { src: "/images/officials/julius-manghano.webp", note: "Portrait reference supplied to BetterMC; rights not independently verified." },
   "Datu Sumbongan": { src: "/images/officials/datu-sumbongan.webp", note: "Portrait reference supplied to BetterMC; rights not independently verified." },
   "Christopher Tortola": { src: "/images/officials/christopher-tortola.webp", note: "Portrait reference supplied to BetterMC; rights not independently verified." },
+  "Jonathan Keith T. Flores": { src: "/images/officials/jonathan-flores.jpg", note: "Portrait reference from GMA News; rights not independently verified." },
+  "Rogelio Neil P. Roque": { src: "/images/officials/rogelio-roque.jpg", note: "Portrait reference from a public Bukidnon government event page; rights not independently verified." },
 };
 
 const cityHallAddress =
@@ -116,6 +118,48 @@ const councilorOffice = (
 });
 
 export const officials: Official[] = [
+  {
+    name: "Jonathan Keith T. Flores",
+    role: "District Representative, Bukidnon 2nd District",
+    group: "National legislative",
+    office: {
+      name: "Office of Representative Jonathan Keith T. Flores",
+      scope: "Direct office contact",
+      address: "House of Representatives, Quezon City",
+      phone: "(02) 8931-5786",
+      source: {
+        label: "House of Representatives — Member profile",
+        url: "https://www.congress.gov.ph/house-members/view/J033",
+        verifiedOn: "2026-11-11",
+      },
+    },
+    source: {
+      label: "House of Representatives — Member profile",
+      url: "https://www.congress.gov.ph/house-members/view/J033",
+      verifiedOn: "2026-11-11",
+    },
+  },
+  {
+    name: "Rogelio Neil P. Roque",
+    role: "Provincial Governor of Bukidnon",
+    group: "Executive",
+    office: {
+      name: "Provincial Governor’s Office",
+      scope: "Direct office contact",
+      address: "Provincial Capitol Compound, Malaybalay City, Bukidnon 8700",
+      phone: "(088) 813-2457",
+      source: {
+        label: "Provincial Government of Bukidnon — Official website",
+        url: "https://bukidnon.gov.ph/",
+        verifiedOn: "2026-11-11",
+      },
+    },
+    source: {
+      label: "Provincial Government of Bukidnon — Official website",
+      url: "https://bukidnon.gov.ph/",
+      verifiedOn: "2026-11-11",
+    },
+  },
   {
     name: "Jay Warren R. Pabillaran",
     role: "City Mayor",
@@ -384,27 +428,6 @@ export const officials: Official[] = [
     source: officialProfile(
       "https://sakata.malaybalaycity.gov.ph/legislative-city-councilor-xiii/",
     ),
-  },
-  {
-    name: "Jonathan Keith T. Flores",
-    role: "District Representative, Bukidnon 2nd District",
-    group: "National legislative",
-    office: {
-      name: "Office of Representative Jonathan Keith T. Flores",
-      scope: "Direct office contact",
-      address: "House of Representatives, Quezon City",
-      phone: "(02) 8931-5786",
-      source: {
-        label: "House of Representatives — Member profile",
-        url: "https://www.congress.gov.ph/house-members/view/J033",
-        verifiedOn: "2026-11-11",
-      },
-    },
-    source: {
-      label: "House of Representatives — Member profile",
-      url: "https://www.congress.gov.ph/house-members/view/J033",
-      verifiedOn: "2026-11-11",
-    },
   },
 ];
 
