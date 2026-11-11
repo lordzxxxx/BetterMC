@@ -1696,6 +1696,30 @@ kbd {
 .official-card-copy h3 { margin: 0; font-size: 1.02rem; line-height: 1.2; }
 .official-card-copy p { margin: 0; font-size: 0.84rem; color: var(--muted); }
 .official-office-preview { color: #2459a9; font-size: 0.74rem; font-weight: 700; }
+.official-profile-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 14px;
+  padding: 4px;
+  border: 1px solid #c8d9ec;
+  border-radius: 12px;
+  background: #f2f7fc;
+}
+.official-profile-tabs button {
+  min-height: 36px;
+  flex: 1;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #526784;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.official-profile-tabs button:hover,
+.official-profile-tabs button:focus-visible { color: #1557bc; background: #e2eefb; outline: none; }
+.official-profile-tabs button.is-active { color: #124da9; background: #fff; box-shadow: 0 1px 4px rgba(30, 75, 130, 0.12); }
 .official-summary .avatar {
   grid-area: avatar;
   margin: 0;

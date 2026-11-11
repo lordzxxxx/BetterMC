@@ -2351,6 +2351,7 @@ function GovernmentPage() {
       ? requestedTab
       : "officials";
   const [query, setQuery] = useState("");
+  const [profileTab, setProfileTab] = useState<"overview" | "records" | "sources">("overview");
   const deferredQuery = useDeferredValue(query.toLowerCase());
   const visibleOfficials = officials.filter((item) =>
     `${item.name} ${item.role}`.toLowerCase().includes(deferredQuery),
@@ -2372,6 +2373,7 @@ function GovernmentPage() {
     if (openOfficial === officialId(name)) next.delete("official");
     else next.set("official", officialId(name));
     setParams(next);
+    setProfileTab("overview");
   };
   const visibleOffices = departments.filter(
     (item) =>
@@ -2676,6 +2678,11 @@ function GovernmentPage() {
                     </div>
 
                     <div className="barangay-popout-body">
+                      <nav className="official-profile-tabs" aria-label="Profile sections">
+                        {([['overview', 'Overview'], ['records', 'Public records'], ['sources', 'Sources']] as const).map(([value, label]) => (
+                          <button key={value} type="button" className={profileTab === value ? "is-active" : ""} aria-current={profileTab === value ? "page" : undefined} onClick={() => setProfileTab(value)}>{label}</button>
+                        ))}
+                      </nav>
                       {sharedContact && (
                         <p className="contact-scope-note">
                           <CircleAlert aria-hidden="true" />
@@ -2708,7 +2715,7 @@ function GovernmentPage() {
                           </div>
                         </section>
 
-                        {(selectedOfficial.chairmanships?.length || selectedOfficial.committeeMemberships?.length) ? (
+                        {profileTab === "overview" && (selectedOfficial.chairmanships?.length || selectedOfficial.committeeMemberships?.length) ? (
                           <section className="official-profile-section official-profile-committees" aria-labelledby="official-committees-heading">
                             <div className="official-profile-section-heading">
                               <div><span className="eyebrow">Legislative assignments</span><h4 id="official-committees-heading">Committee work</h4></div>
@@ -2720,7 +2727,7 @@ function GovernmentPage() {
                           </section>
                         ) : null}
 
-                        <section className="official-profile-section official-profile-records" aria-labelledby="official-records-heading">
+                        {profileTab !== "sources" && <section className="official-profile-section official-profile-records" aria-labelledby="official-records-heading">
                           <div className="official-profile-section-heading">
                             <div><span className="eyebrow">Source-linked activity</span><h4 id="official-records-heading">Public records</h4></div>
                             <Link className="official-records-browse" to="/government?tab=records" onClick={closeModal}>Browse city records <ArrowRight aria-hidden="true" /></Link>
@@ -2775,9 +2782,9 @@ function GovernmentPage() {
                                     <p className="popout-measures-note">No individually attributed records found in the sources reviewed.</p>
                                   )}
                                 </div>
-                        </section>
+                        </section>}
 
-                        <section className="official-profile-sources" aria-label="Official sources">
+                        {profileTab === "sources" && <section className="official-profile-sources" aria-label="Official sources">
                                 <span className="eyebrow">Official sources · reviewed {VERIFIED_ON}</span>
                                 <div className="popout-table-links">
                                   <a
@@ -2798,7 +2805,7 @@ function GovernmentPage() {
                                   </a>
                                 </div>
                                 {portrait ? <small className="popout-verified-date">{portrait.note}</small> : null}
-                        </section>
+                        </section>}
                       </div>
                     </div>
                   </article>
