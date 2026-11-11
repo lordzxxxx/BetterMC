@@ -1,4 +1,4 @@
-import { feedbackSchema } from '../src/feedback'
+import { feedbackSchema } from '../src/feedback.js'
 
 export const config = {
   runtime: 'edge',

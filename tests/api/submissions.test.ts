@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import handler, { POST } from "./submissions";
+import handler, { POST } from "../../api/submissions.js";
 
 const validPayload = {
   category: "correction",
