@@ -49,8 +49,8 @@ export const officialPortraits: Record<
   "Julius N. Manghano": { src: "/images/officials/julius-manghano.webp", note: "Portrait reference supplied to BetterMC; rights not independently verified." },
   "Datu Sumbongan": { src: "/images/officials/datu-sumbongan.webp", note: "Portrait reference supplied to BetterMC; rights not independently verified." },
   "Christopher Tortola": { src: "/images/officials/christopher-tortola.webp", note: "Portrait reference supplied to BetterMC; rights not independently verified." },
-  "Jonathan Keith T. Flores": { src: "/images/officials/jonathan-flores.jpg", note: "Portrait reference from GMA News; rights not independently verified." },
-  "Rogelio Neil P. Roque": { src: "/images/officials/rogelio-roque.jpg", note: "Portrait reference from a public Bukidnon government event page; rights not independently verified." },
+  "Jonathan Keith T. Flores": { src: "/images/officials/flores.jpg", note: "Portrait asset supplied to BetterMC; rights not independently verified." },
+  "Rogelio Neil P. Roque": { src: "/images/officials/roque.jpg", note: "Portrait asset supplied to BetterMC; rights not independently verified." },
 };
 
 const cityHallAddress =
