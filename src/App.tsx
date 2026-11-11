@@ -2776,12 +2776,8 @@ function GovernmentPage() {
                                     </section>
                                   )}
                                   {individualRecords.length === 0 && officeRecords.length === 0 && (
-                                    <p className="popout-measures-note">No individually attributed records for {selectedOfficial.name} were found in the sources reviewed.</p>
+                                    <p className="popout-measures-note">No individually attributed records found in the sources reviewed.</p>
                                   )}
-                                  <div className="official-record-caveat">
-                                    <strong>How attribution works</strong>
-                                    <p>Only records that name this official as author, sponsor, or signatory are attributed here. Council passage is a collective action.</p>
-                                  </div>
                                 </div>
                         </section>
 
@@ -2793,10 +2789,7 @@ function GovernmentPage() {
                                     target="_blank"
                                     rel="noreferrer"
                                   >
-                                    <span>
-                                      Official profile (
-                                      {selectedOfficial.source.label})
-                                    </span>
+                                    <span>Official profile · {selectedOfficial.source.label}</span>
                                     <ExternalLink aria-hidden="true" />
                                   </a>
                                   <a
@@ -2804,10 +2797,7 @@ function GovernmentPage() {
                                     target="_blank"
                                     rel="noreferrer"
                                   >
-                                    <span>
-                                      Published office contact (
-                                      {selectedOfficial.office.source.label})
-                                    </span>
+                                    <span>Office contact · {selectedOfficial.office.source.label}</span>
                                     <ExternalLink aria-hidden="true" />
                                   </a>
                                 </div>

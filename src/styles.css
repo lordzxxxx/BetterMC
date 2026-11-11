@@ -17729,3 +17729,61 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   .official-records-browse { max-width: 42%; text-align: right; }
   .official-profile-contact-links { display: grid; }
 }
+
+/* Compact profile layout: reduce vertical scanning and keep source actions inline. */
+@media (min-width: 761px) {
+  .government-popout-modal { max-height: min(96vh, 900px); }
+  .official-profile-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+  .official-profile-contact,
+  .official-profile-committees { grid-column: 1 / -1; }
+  .official-profile-section,
+  .official-profile-sources { padding: 12px 14px; border-radius: 12px; }
+  .official-profile-section-heading { margin-bottom: 7px; }
+}
+.official-profile-committees .official-profile-section-heading { margin-bottom: 8px; }
+.official-committee-columns { gap: 12px; }
+.official-committee-columns .popout-table-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.official-committee-columns .popout-table-list li {
+  flex: 1 1 145px;
+  padding: 6px 8px 6px 16px;
+  font-size: .75rem;
+  line-height: 1.3;
+}
+.official-committee-columns .popout-table-list li::before { left: 7px; top: 12px; }
+.official-profile-records .official-record-groups { gap: 7px; }
+.official-profile-records .official-record-intro,
+.official-profile-records .popout-measures-note { font-size: .77rem; line-height: 1.38; }
+.official-profile-records .popout-measures-note { color: #334a68; font-weight: 700; }
+.official-profile-sources { gap: 7px; }
+.official-profile-sources .popout-table-links {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5px;
+}
+.official-profile-sources .popout-table-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 38px;
+  padding: 7px 9px;
+  border-radius: 8px;
+  font-size: .73rem;
+  line-height: 1.25;
+}
+.official-profile-sources .popout-table-links a svg { flex: 0 0 15px; }
+.official-profile-records,
+.official-profile-sources { align-self: start; }
+@media (max-width: 760px) {
+  .official-profile-layout { gap: 8px; }
+  .official-profile-section,
+  .official-profile-sources { padding: 10px 11px; }
+  .official-committee-columns { gap: 8px; }
+  .official-committee-columns .popout-table-list { gap: 4px; }
+  .official-committee-columns .popout-table-list li { flex-basis: 100%; }
+  .official-profile-sources .popout-table-links { grid-template-columns: 1fr; }
+}
