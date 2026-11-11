@@ -13,7 +13,6 @@ import {
   Minus,
   Navigation,
   Plus,
-  RotateCcw,
   SlidersHorizontal,
   Waves,
   X,
@@ -83,25 +82,6 @@ const FLOOD_COLORS: Record<"low" | "medium" | "high", string> = {
   medium: "#f97316", // UP Project NOAH Medium (0.5 - 1.5m)
   high: "#dc2626", // UP Project NOAH High (>1.5m)
 };
-
-function getCardinalHeading(bearing: number): string {
-  const normalized = ((bearing % 360) + 360) % 360;
-  if (normalized >= 337.5 || normalized < 22.5) return "N";
-  if (normalized >= 22.5 && normalized < 67.5) return "NE";
-  if (normalized >= 67.5 && normalized < 112.5) return "E";
-  if (normalized >= 112.5 && normalized < 157.5) return "SE";
-  if (normalized >= 157.5 && normalized < 202.5) return "S";
-  if (normalized >= 202.5 && normalized < 247.5) return "SW";
-  if (normalized >= 247.5 && normalized < 292.5) return "W";
-  return "NW";
-}
-
-function getSwivelLabel(bearing: number): string {
-  if (bearing === 0) return "0° (True North)";
-  const cardinal = getCardinalHeading(bearing);
-  if (bearing > 0) return `+${bearing}° E (${cardinal})`;
-  return `${bearing}° W (${cardinal})`;
-}
 
 function resolveHazardLevel(props: {
   level?: "low" | "medium" | "high";
@@ -205,7 +185,6 @@ export default function MalaybalayGisMap({
   const [basemapStyle, setBasemapStyle] = useState<
     "street" | "satellite" | "topo"
   >("topo");
-  const [bearingDeg, setBearingDeg] = useState<number>(0);
   const [zoomLevel, setZoomLevel] = useState<number>(profile ? 13 : 11);
 
   const [showFloodLayer, setShowFloodLayer] = useState<boolean>(true);
@@ -953,7 +932,7 @@ export default function MalaybalayGisMap({
       <div
         className="noah-clean-toolbar"
         role="region"
-        aria-label="Hydrological and flood timeline calendar and GIS orientation controls"
+        aria-label="Malaybalay flood, river, and forecast map controls"
       >
         {/* Card Header & Live Telemetry Status */}
         <div className="noah-toolbar-header">
@@ -1108,12 +1087,12 @@ export default function MalaybalayGisMap({
 
         <details className="noah-advanced-controls">
           <summary>
-            <span><SlidersHorizontal aria-hidden="true" /> Map layers, dates & orientation</span>
+            <span><SlidersHorizontal aria-hidden="true" /> Map layers and dates</span>
             <ChevronDown aria-hidden="true" className="noah-advanced-chevron" />
           </summary>
           <div className="noah-advanced-controls-content">
-        {/* Section 2: Layers & 3D Surface Horizon View Controls */}
-        <div className="noah-toolbar-section noah-section-layers-perspective">
+        {/* Section 2: Map data layer controls */}
+        <div className="noah-toolbar-section noah-section-map-layers">
           {/* Data Layers */}
           <div className="noah-control-block">
             <span className="noah-block-label">Data Layers</span>
@@ -1173,79 +1152,6 @@ export default function MalaybalayGisMap({
             </div>
           </div>
 
-          {/* Map Swivel & Orientation Controls */}
-          <div className="noah-control-block noah-swivel-block">
-            <span className="noah-block-label">
-              Map Swivel & Orientation
-            </span>
-            <div className="noah-swivel-controls">
-              <div
-                className="noah-segmented-group"
-                role="group"
-                aria-label="Swivel presets"
-              >
-                <button
-                  type="button"
-                  className={bearingDeg === -15 ? "is-active" : ""}
-                  onClick={() => setBearingDeg(-15)}
-                  title="Swivel 15° West"
-                >
-                  -15° W
-                </button>
-                <button
-                  type="button"
-                  className={bearingDeg === 0 ? "is-active" : ""}
-                  onClick={() => setBearingDeg(0)}
-                  title="Align to True North (0°)"
-                >
-                  North (0°)
-                </button>
-                <button
-                  type="button"
-                  className={bearingDeg === 15 ? "is-active" : ""}
-                  onClick={() => setBearingDeg(15)}
-                  title="Swivel 15° East"
-                >
-                  +15° E
-                </button>
-              </div>
-
-              {/* Smooth Swivel Slider */}
-              <div className="noah-sliders-row">
-                <label className="noah-slider-item">
-                  <span className="noah-swivel-display">
-                    <Compass
-                      aria-hidden="true"
-                      style={{ transform: `rotate(${-bearingDeg}deg)` }}
-                    />
-                    <span>
-                      Swivel: <strong>{getSwivelLabel(bearingDeg)}</strong>
-                    </span>
-                  </span>
-                  <input
-                    type="range"
-                    min={-30}
-                    max={30}
-                    step={1}
-                    value={bearingDeg}
-                    onChange={(e) => setBearingDeg(Number(e.target.value))}
-                    aria-label="Camera swivel bearing in degrees (-30° to +30°)"
-                  />
-                  {bearingDeg !== 0 && (
-                    <button
-                      type="button"
-                      className="noah-swivel-reset"
-                      onClick={() => setBearingDeg(0)}
-                      title="Reset swivel to True North (0°)"
-                      aria-label="Reset swivel to True North"
-                    >
-                      <RotateCcw aria-hidden="true" />
-                    </button>
-                  )}
-                </label>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Section 3: Hydrology Timeline & Forecast Bar */}
@@ -1344,15 +1250,8 @@ export default function MalaybalayGisMap({
         </details>
       </div>
 
-      {/* Main Interactive Map Stage (Distraction-Free, Clear Flat Planimetric View with Smooth Swivel) */}
-      <div
-        className="barangay-map-card noah-clean-map-stage"
-        style={
-          {
-            "--gis-bearing": `${bearingDeg}deg`,
-          } as React.CSSProperties
-        }
-      >
+      {/* Main interactive map stage. The map remains north-up for consistent reference. */}
+      <div className="barangay-map-card noah-clean-map-stage">
         {mapLoading && (
           <div
             className="map-loading-skeleton"
@@ -1374,10 +1273,10 @@ export default function MalaybalayGisMap({
           }
         />
 
-        {/* Sleek Floating Compact Map Controls (Zoom, Re-center, Compass Swivel Reset) */}
+        {/* Floating map navigation controls */}
         <div
           className="noah-map-controls-stack"
-          aria-label="Map navigation and orientation controls"
+          aria-label="Map navigation controls"
         >
           <button
             type="button"
@@ -1405,20 +1304,6 @@ export default function MalaybalayGisMap({
             title="Center on active barangay or city"
           >
             <LocateFixed aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            className={`noah-control-compass ${bearingDeg !== 0 ? "is-rotated" : ""}`}
-            onClick={() => {
-              setBearingDeg(0);
-            }}
-            aria-label={`Camera swivel: ${bearingDeg}°. Click to reset True North`}
-            title={`Camera swivel: ${bearingDeg}°. Click to reset True North`}
-          >
-            <Compass
-              aria-hidden="true"
-              style={{ transform: `rotate(${-bearingDeg}deg)` }}
-            />
           </button>
         </div>
 

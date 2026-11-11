@@ -232,9 +232,11 @@ describe("BetterMC public portal", () => {
     expect(screen.getByText("Powered by BetterMC")).toBeInTheDocument();
     expect(
       screen.getByRole("region", {
-        name: /Hydrological and flood timeline calendar/i,
+        name: /Malaybalay flood, river, and forecast map controls/i,
       }),
     ).toBeInTheDocument();
+    expect(screen.queryByText(/Map Swivel & Orientation/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/Camera swivel bearing/i)).not.toBeInTheDocument();
     expect(
       screen.getAllByText(/dalwangan\.bettermalaybalay\.cloud/i).length,
     ).toBeGreaterThan(0);

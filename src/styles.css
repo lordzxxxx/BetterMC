@@ -14201,10 +14201,10 @@ body {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
-/* Section 2: Layers & 3D Horizon Perspective */
-.noah-section-layers-perspective {
+/* Section 2: Map data layers */
+.noah-section-map-layers {
   display: grid;
-  grid-template-columns: auto minmax(360px, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px 24px;
   align-items: start;
   padding: 14px 18px;
@@ -14347,94 +14347,6 @@ body {
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
 }
 
-/* Swivel and Orientation controls */
-.noah-swivel-controls,
-.noah-perspective-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.noah-swivel-display {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.noah-swivel-display svg {
-  width: 15px;
-  height: 15px;
-  color: #1d4ed8;
-  flex-shrink: 0;
-  transition: transform 0.2s ease;
-}
-
-.noah-sliders-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px 16px;
-  margin-top: 2px;
-}
-
-.noah-slider-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  background: #ffffff;
-  padding: 6px 12px;
-  border-radius: 9px;
-  border: 1px solid #e2e8f0;
-  font-size: 0.74rem;
-  font-weight: 600;
-  color: #334155;
-}
-
-.noah-slider-item span {
-  white-space: nowrap;
-}
-
-.noah-slider-item strong {
-  color: #1d4ed8;
-  font-weight: 800;
-  min-width: 32px;
-  display: inline-block;
-}
-
-.noah-slider-item input[type="range"] {
-  flex: 1;
-  min-width: 60px;
-  accent-color: #1d4ed8;
-  cursor: pointer;
-}
-
-.noah-swivel-reset {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 5px;
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
-  color: #475569;
-  cursor: pointer;
-  padding: 0;
-  transition: all 0.15s ease;
-  flex-shrink: 0;
-}
-
-.noah-swivel-reset:hover {
-  background: #eff6ff;
-  color: #1d4ed8;
-  border-color: #93c5fd;
-}
-
-.noah-swivel-reset svg {
-  width: 12px;
-  height: 12px;
-}
-
 /* Section 3: Timeline & Forecast Strip */
 .noah-section-timeline {
   padding-top: 12px;
@@ -14533,7 +14445,7 @@ body {
   cursor: pointer;
 }
 
-/* Map Stage — Clean Flat Civic Stage with Smooth Compass Swivel */
+/* Map Stage — north-up civic GIS */
 .noah-clean-map-stage {
   position: relative;
   width: 100%;
@@ -14552,10 +14464,7 @@ body {
   height: 124% !important;
   min-height: 124% !important;
   background: #0f172a !important;
-  transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1);
-  transform-origin: center center;
-  transform: rotate(var(--gis-bearing, 0deg));
-  will-change: transform;
+  transform: none;
 }
 
 /* Hide Leaflet trademark and attribution watermark for an uncluttered civic GIS stage */
@@ -14719,17 +14628,6 @@ body {
   border-bottom: 1px solid rgba(226, 232, 240, 0.85);
   line-height: 1.2;
   user-select: none;
-}
-
-.noah-control-compass svg {
-  transition: transform 0.25s ease;
-  width: 16px;
-  height: 16px;
-}
-
-.noah-control-compass.is-rotated {
-  color: #1d4ed8;
-  background: #eff6ff !important;
 }
 
 /* Integrated Summary Strip (Docked directly beneath map canvas) */
@@ -15073,7 +14971,7 @@ body {
     gap: 10px;
   }
 
-  .noah-section-layers-perspective {
+  .noah-section-map-layers {
     grid-template-columns: 1fr;
     gap: 12px;
     padding: 12px;
@@ -15093,21 +14991,6 @@ body {
 
   .noah-button-row {
     flex-wrap: wrap;
-  }
-
-  .noah-sliders-row {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .noah-slider-item {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .noah-slider-item input[type="range"] {
-    width: 50%;
   }
 
   .noah-timeline-container {
@@ -17345,8 +17228,8 @@ div.service-category-grid.is-compact > article.service-category-card {
 .noah-clean-gis select:focus-visible,
 .noah-clean-gis input:focus-visible { outline: 2px solid #1d4ed8; outline-offset: 2px; }
 .noah-advanced-controls-content { display: grid; gap: 10px; padding: 0 10px 10px; }
-.noah-section-layers-perspective {
-  grid-template-columns: minmax(260px, 0.8fr) minmax(320px, 1.2fr);
+.noah-section-map-layers {
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
   padding: 12px;
 }
@@ -17447,7 +17330,7 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 @media (max-width: 900px) {
   .noah-section-geo .noah-input-group { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .noah-section-geo .noah-input-group > :last-child { grid-column: 1 / -1; }
-  .noah-section-layers-perspective { grid-template-columns: 1fr; }
+  .noah-section-map-layers { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
@@ -17457,7 +17340,7 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   .noah-live-telemetry-badge { max-width: 100%; padding: 5px 9px; font-size: 0.69rem; }
   .noah-section-geo .noah-input-group { grid-template-columns: 1fr; }
   .noah-section-geo .noah-input-group > :last-child { grid-column: auto; }
-  .noah-section-layers-perspective { padding: 10px; }
+  .noah-section-map-layers { padding: 10px; }
   .noah-button-row { align-items: stretch; }
   .noah-layer-toggle { min-height: 40px; justify-content: center; }
   .noah-timeline-pills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
