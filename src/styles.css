@@ -17501,6 +17501,62 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   .provider-card button.provider-tx-btn { width: 100%; }
 }
 
+/* Keep provider details and transactions aligned at the top of the card. */
+.provider-card,
+.provider-card.is-nearest-card {
+  grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
+  align-items: start;
+  column-gap: 20px;
+  row-gap: 12px;
+}
+
+.provider-card .provider-facts {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: 12px 16px;
+}
+
+.provider-card .provider-facts .provider-facts-wide {
+  grid-column: 1 / -1;
+}
+
+.provider-card .provider-transactions-section {
+  align-self: start;
+  min-width: 0;
+  margin: 0;
+}
+
+.provider-card .provider-tx-heading {
+  min-height: 20px;
+  margin: 0 0 8px;
+}
+
+.provider-card footer.provider-card-footer {
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  gap: 10px 16px;
+}
+
+.provider-card .provider-portal-btn {
+  max-width: min(100%, 32rem);
+}
+
+@media (max-width: 820px) {
+  .provider-card,
+  .provider-card.is-nearest-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .provider-card header.provider-card-head,
+  .provider-card .provider-facts,
+  .provider-card .provider-transactions-section,
+  .provider-card footer.provider-card-footer {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .noah-advanced-controls > summary .noah-advanced-chevron { transition: none; }
 }
