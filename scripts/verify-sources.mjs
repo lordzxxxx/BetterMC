@@ -56,9 +56,12 @@ async function check(url) {
     });
     const type = res.headers.get("content-type") ?? "";
     await res.body?.cancel();
-    // Google Drive answers automated clients with 401/403 even for public files,
-    // so those need a manual browser check rather than counting as dead links.
-    const manual = new URL(url).hostname === "drive.google.com" && [401, 403].includes(res.status);
+    // Google Drive may return 401/403 to automated clients and rate-limit a
+    // public file with 429. These outcomes require a browser review; they do
+    // not establish that the cited public link is unavailable.
+    const manual =
+      new URL(url).hostname === "drive.google.com" &&
+      [401, 403, 429].includes(res.status);
     const ok = manual || (res.ok && !(url.endsWith(".pdf") && !type.includes("pdf")));
     return { url, ok, detail: manual ? "MANUAL CHECK (Drive)" : `${res.status} ${type.split(";")[0]}` };
   } catch (error) {

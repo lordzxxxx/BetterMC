@@ -11,6 +11,7 @@ import { civicRecordContext } from "./civicRecordContext";
 
 describe("BetterMC public portal", () => {
   it("provides current population context for all 46 barangay profiles", () => {
+    const disclosureIds = new Set<string>();
     expect(barangayMicrosites).toHaveLength(46);
     expect(
       barangayMicrosites.reduce(
@@ -44,6 +45,8 @@ describe("BetterMC public portal", () => {
       expect(barangay.fullDisclosure.bdp2026Budget).toBeGreaterThan(1000000);
       expect(barangay.fullDisclosure.barangayNta2026).toBeGreaterThan(1685420);
       for (const record of barangay.fullDisclosure.items) {
+        expect(disclosureIds.has(record.id)).toBe(false);
+        disclosureIds.add(record.id);
         expect(record.barangaySlug).toBe(barangay.slug);
         expect(record.primarySource.url).toMatch(/^https:\/\//);
         expect(record.primarySource.label.length).toBeGreaterThan(10);
@@ -78,6 +81,7 @@ describe("BetterMC public portal", () => {
           "/images/malaybalay-city-hall-background.webp",
       ),
     ).toHaveLength(21);
+    expect(disclosureIds.size).toBeGreaterThanOrEqual(46 * 4);
   });
 
   it("renders the independent-platform disclosure and homepage purpose", () => {

@@ -12003,6 +12003,10 @@ body {
   color: #4c6482;
   font-size: 0.79rem;
   line-height: 1.45;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
 
 .barangay-disclosure-metrics {
@@ -12757,8 +12761,8 @@ body {
 .barangay-popout-body {
   overflow-y: auto;
   display: grid;
-  gap: 14px;
-  padding: 18px;
+  gap: 12px;
+  padding: 16px 18px 18px;
 }
 
 .barangay-popout-visual {
@@ -12789,13 +12793,28 @@ body {
 
 .barangay-popout-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
   margin: 0;
-  padding: 12px;
-  border: 1px solid #d7e5f4;
+  overflow: hidden;
+  border: 1px solid #d1e1f1;
   border-radius: 12px;
-  background: #f7fbff;
+  background: rgba(247, 251, 255, 0.82);
+}
+
+.barangay-popout-grid > div {
+  min-width: 0;
+  padding: 11px 12px;
+  border-right: 1px solid #dce8f5;
+  border-bottom: 1px solid #dce8f5;
+}
+
+.barangay-popout-grid > div:nth-child(3n) {
+  border-right: 0;
+}
+
+.barangay-popout-grid > div:nth-last-child(-n + 3) {
+  border-bottom: 0;
 }
 
 .barangay-popout-grid dt {
@@ -12810,6 +12829,50 @@ body {
   color: #102e5a;
   font-size: 0.84rem;
   font-weight: 700;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.barangay-popout-evidence {
+  display: grid;
+  gap: 10px;
+  padding: 13px;
+  border: 1px solid rgba(194, 215, 237, 0.96);
+  border-radius: 14px;
+  background:
+    linear-gradient(130deg, rgba(244, 249, 255, 0.88), rgba(233, 243, 254, 0.62)),
+    rgba(255, 255, 255, 0.72);
+}
+
+.barangay-popout-evidence-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.barangay-popout-evidence-heading > span {
+  color: #1455aa;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.barangay-popout-evidence-heading > p {
+  max-width: 440px;
+  margin: 0;
+  color: #526b8a;
+  font-size: 0.74rem;
+  line-height: 1.4;
+  text-align: right;
+}
+
+.barangay-popout-evidence-note {
+  margin: 0;
+  color: #516b8b;
+  font-size: 0.73rem;
+  line-height: 1.45;
 }
 
 .barangay-popout-discussion {
@@ -12829,6 +12892,32 @@ body {
   color: #3f5878;
   font-size: 0.82rem;
   line-height: 1.55;
+}
+
+.barangay-popout-details {
+  padding: 10px 12px;
+  border: 1px solid #d5e3f2;
+  border-radius: 10px;
+  background: rgba(244, 249, 255, 0.74);
+}
+
+.barangay-popout-details summary {
+  color: #174983;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.barangay-popout-details > p {
+  margin: 10px 0 0;
+  color: #405a7b;
+  font-size: 0.79rem;
+  line-height: 1.52;
+}
+
+.barangay-popout-details > p + p {
+  padding-top: 10px;
+  border-top: 1px solid #dce8f5;
 }
 
 .barangay-popout-sources {
@@ -12961,6 +13050,26 @@ body {
   .barangay-popout-grid,
   .barangay-disclosure-metrics {
     grid-template-columns: 1fr;
+  }
+
+  .barangay-popout-grid > div,
+  .barangay-popout-grid > div:nth-child(3n),
+  .barangay-popout-grid > div:nth-last-child(-n + 3) {
+    border-right: 0;
+    border-bottom: 1px solid #dce8f5;
+  }
+
+  .barangay-popout-grid > div:last-child {
+    border-bottom: 0;
+  }
+
+  .barangay-popout-evidence-heading {
+    display: grid;
+    gap: 5px;
+  }
+
+  .barangay-popout-evidence-heading > p {
+    text-align: left;
   }
 }
 

@@ -3002,6 +3002,22 @@ function formatMalaybalayDateTime(value: string) {
   }).format(new Date(value));
 }
 
+function formatPublishedPeso(amount: number | null) {
+  return amount === null ? "Not published" : formatPeso(amount);
+}
+
+function disclosureAmountLabel(item: BarangayDisclosureItem) {
+  return item.category === "bids"
+    ? "Published award / contract"
+    : "Reported allocation / utilization";
+}
+
+function disclosureEntityLabel(item: BarangayDisclosureItem) {
+  return item.category === "bids"
+    ? "Published implementer / contractor"
+    : "Published implementing office";
+}
+
 function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
   const { slug: routeSlug } = useParams();
   const profile = barangayMicrositeBySlug.get(slugOverride ?? routeSlug ?? "");
@@ -3453,19 +3469,19 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                   <p>{item.summary}</p>
                   <dl className="barangay-disclosure-metrics">
                     <div>
-                      <dt>Approved budget / ABC</dt>
-                      <dd>{formatPeso(item.approvedBudget)}</dd>
+                      <dt>Published budget / ABC</dt>
+                      <dd>{formatPublishedPeso(item.approvedBudget)}</dd>
                     </div>
                     <div>
-                      <dt>Utilized / Contract amount</dt>
-                      <dd>{formatPeso(item.utilizedAmount)}</dd>
+                      <dt>{disclosureAmountLabel(item)}</dt>
+                      <dd>{formatPublishedPeso(item.utilizedAmount)}</dd>
                     </div>
                     <div>
-                      <dt>Reported progress / Stage</dt>
-                      <dd>{item.completionRate}</dd>
+                      <dt>Published status</dt>
+                      <dd>{item.status}</dd>
                     </div>
                     <div>
-                      <dt>Implementing office / published contractor</dt>
+                      <dt>{disclosureEntityLabel(item)}</dt>
                       <dd>{item.implementingOffice}</dd>
                     </div>
                   </dl>
@@ -3820,52 +3836,65 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             <div className="barangay-popout-body">
               {activePopout.kind === "disclosure" && (
                 <>
-                  <div className="barangay-popout-visual">
-                    <img
-                      src={activePopout.item.imageUrl}
-                      alt={activePopout.item.imageCaption}
-                    />
-                    <span>{activePopout.item.imageCaption}</span>
-                  </div>
-                  <dl className="barangay-popout-grid">
-                    <div>
-                      <dt>Reference number</dt>
-                      <dd>{activePopout.item.referenceNumber}</dd>
+                  <section
+                    className="barangay-popout-evidence"
+                    aria-label="Published record details"
+                  >
+                    <div className="barangay-popout-evidence-heading">
+                      <span>Source-linked record</span>
+                      <p>
+                        The fields below reproduce only the amount, status, and
+                        entity information supplied by the cited record.
+                      </p>
                     </div>
-                    <div>
-                      <dt>Disclosure category & period</dt>
-                      <dd>
-                        {activePopout.item.subcategory} ·{" "}
-                        {activePopout.item.period}
-                      </dd>
-                    </div>
-                    <div>
-                      <dt>Approved budget / ABC</dt>
-                      <dd>{formatPeso(activePopout.item.approvedBudget)}</dd>
-                    </div>
-                    <div>
-                      <dt>Utilized / Contract amount</dt>
-                      <dd>{formatPeso(activePopout.item.utilizedAmount)}</dd>
-                    </div>
-                    <div>
-                      <dt>Completion rate / Duration</dt>
-                      <dd>
-                        {activePopout.item.completionRate} (
-                        {activePopout.item.contractDuration})
-                      </dd>
-                    </div>
-                    <div>
-                      <dt>Implementing office / published contractor</dt>
-                      <dd>{activePopout.item.implementingOffice}</dd>
-                    </div>
-                  </dl>
+                    <dl className="barangay-popout-grid">
+                      <div>
+                        <dt>Reference number</dt>
+                        <dd>{activePopout.item.referenceNumber}</dd>
+                      </div>
+                      <div>
+                        <dt>Disclosure category & period</dt>
+                        <dd>
+                          {activePopout.item.subcategory} ·{" "}
+                          {activePopout.item.period}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>Published budget / ABC</dt>
+                        <dd>{formatPublishedPeso(activePopout.item.approvedBudget)}</dd>
+                      </div>
+                      <div>
+                        <dt>{disclosureAmountLabel(activePopout.item)}</dt>
+                        <dd>{formatPublishedPeso(activePopout.item.utilizedAmount)}</dd>
+                      </div>
+                      <div>
+                        <dt>Published status / schedule</dt>
+                        <dd>
+                          {activePopout.item.status}
+                          {activePopout.item.contractDuration
+                            ? ` · ${activePopout.item.contractDuration}`
+                            : ""}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>{disclosureEntityLabel(activePopout.item)}</dt>
+                        <dd>{activePopout.item.implementingOffice}</dd>
+                      </div>
+                    </dl>
+                    <p className="barangay-popout-evidence-note">
+                      Estimated cost, final actual cost, change orders, and a
+                      contractor are shown only when the cited record publishes
+                      them. An omitted field is not inferred by BetterMC.
+                    </p>
+                  </section>
                   <div className="barangay-popout-discussion">
                     <h4>What this public record shows</h4>
                     <p>{activePopout.item.discussion.whatThisRecordShows}</p>
-                    <h4>Budget, procurement & COA audit discussion</h4>
-                    <p>{activePopout.item.discussion.budgetAndAuditContext}</p>
-                    <h4>How to verify independently</h4>
-                    <p>{activePopout.item.discussion.howToVerify}</p>
+                    <details className="barangay-popout-details">
+                      <summary>Audit context and independent verification</summary>
+                      <p>{activePopout.item.discussion.budgetAndAuditContext}</p>
+                      <p>{activePopout.item.discussion.howToVerify}</p>
+                    </details>
                   </div>
                   <div className="barangay-popout-sources">
                     <h4>Primary & backup references</h4>
