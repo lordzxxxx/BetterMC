@@ -65,7 +65,6 @@ import {
   Route,
   Routes,
   useLocation,
-  useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
@@ -691,13 +690,13 @@ function SectionHeading({
   title,
   children,
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   children?: ReactNode;
 }) {
   return (
     <div className="section-heading">
-      <span>{eyebrow}</span>
+      {eyebrow && <span>{eyebrow}</span>}
       <h2>{title}</h2>
       {children && <p>{children}</p>}
     </div>
@@ -2995,9 +2994,16 @@ function formatPeso(amount: number | null) {
   })}`;
 }
 
+function formatMalaybalayDateTime(value: string) {
+  return new Intl.DateTimeFormat("en-PH", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "Asia/Manila",
+  }).format(new Date(value));
+}
+
 function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
   const { slug: routeSlug } = useParams();
-  const navigate = useNavigate();
   const profile = barangayMicrositeBySlug.get(slugOverride ?? routeSlug ?? "");
   const emergencyContacts = departments.filter((office) => office.emergency);
   const [disclosureState, setDisclosureState] = useState<{
@@ -3167,27 +3173,6 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                 <Globe aria-hidden="true" />
                 <strong>{profile.subdomainHost}</strong>
               </span>
-              <div className="barangay-profile-picker">
-                <MapPin aria-hidden="true" />
-                <ServiceSelect
-                  id="barangay-domain-select"
-                  label="Choose a barangay profile"
-                  value={profile.slug}
-                  options={barangayMicrosites.map((barangay) => ({
-                    value: barangay.slug,
-                    label: barangay.name,
-                  }))}
-                  searchPlaceholder="Find a barangay…"
-                  className="barangay-profile-select"
-                  onChange={(nextSlug) => {
-                    navigate(
-                      slugOverride
-                        ? `/?subdomain=${nextSlug}`
-                        : `/barangays/${nextSlug}`,
-                    );
-                  }}
-                />
-              </div>
             </div>
             <span>Welcome to Barangay {profile.name}</span>
             <h1>{profile.name}</h1>
@@ -3284,129 +3269,60 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
 
         <section id="leadership" className="barangay-profile-section">
           <SectionHeading
-            eyebrow="Current published leadership · DILG directory"
-            title={`Who leads Barangay ${profile.name}`}
+            title={`Barangay ${profile.name} officials`}
           >
-            All 10 barangay officials below—the Punong Barangay, 7 Sangguniang
-            Barangay Members (Kagawads), SK Chairperson, and Barangay
-            Secretary—are verified from the DILG Barangay Officials Directory.
-            Click any official card to open their full record, statutory role,
-            and backup citations.
+            Published office contacts are shown where available. Open an
+            official record for role details and the supporting public sources.
           </SectionHeading>
 
-          <div className="barangay-leadership-executive-grid">
+          <div className="barangay-official-grid">
             {[
               roster.punongBarangay,
               roster.skChairperson,
               roster.barangaySecretary,
+              ...roster.sangguniangBarangayMembers,
             ].map((official) => (
-              <article
-                key={official.id}
-                className="barangay-executive-card is-interactive-card"
-                role="button"
-                tabIndex={0}
-                onClick={() => setActivePopout({ kind: "official", official })}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    setActivePopout({ kind: "official", official });
-                  }
-                }}
-              >
-                <div className="barangay-executive-head">
-                  <span className="barangay-icon-tile">
-                    <Users aria-hidden="true" />
-                  </span>
-                  <div className="barangay-executive-role">
-                    <span className="barangay-executive-badge">
+                <article
+                  key={official.id}
+                  className="barangay-official-card"
+                >
+                  <button
+                    type="button"
+                    className="barangay-official-card-main"
+                    onClick={() =>
+                      setActivePopout({ kind: "official", official })
+                    }
+                    aria-label={`Open ${official.name}'s public profile`}
+                  >
+                    <span className="barangay-official-role">
+                      <Users aria-hidden="true" />
                       {official.position}
                     </span>
-                  </div>
-                </div>
-                <div className="barangay-executive-identity">
-                  <h3>{official.name}</h3>
-                </div>
-                <div
-                  className="barangay-official-contacts"
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  {official.phone ? (
-                    <a href={`tel:${telephoneHref(official.phone)}`}>
-                      <Phone aria-hidden="true" />
-                      <span>{official.phone}</span>
-                    </a>
-                  ) : (
-                    <span className="barangay-contact-muted">
-                      No public phone listed
+                    <strong>{official.name}</strong>
+                    <span className="barangay-official-record-link">
+                      View record <ArrowRight aria-hidden="true" />
                     </span>
-                  )}
-                  {official.email && (
-                    <a href={`mailto:${official.email}`}>
-                      <Mail aria-hidden="true" />
-                      <span>{official.email}</span>
-                    </a>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div className="barangay-kagawad-section">
-            <div className="barangay-kagawad-header">
-              <h3>
-                Sangguniang Barangay Members (7 Kagawads) — Barangay{" "}
-                {profile.name}
-              </h3>
-            </div>
-            <div className="barangay-kagawad-grid">
-              {roster.sangguniangBarangayMembers.map((kagawad, idx) => (
-                <article
-                  key={kagawad.id}
-                  className="barangay-kagawad-card is-interactive-card"
-                  role="button"
-                  tabIndex={0}
-                  onClick={() =>
-                    setActivePopout({ kind: "official", official: kagawad })
-                  }
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                      event.preventDefault();
-                      setActivePopout({ kind: "official", official: kagawad });
-                    }
-                  }}
-                >
-                  <div className="barangay-kagawad-top">
-                    <span className="barangay-kagawad-badge">
-                      Kagawad #{idx + 1}
-                    </span>
-                  </div>
-                  <div className="barangay-kagawad-identity">
-                    <h4>{kagawad.name}</h4>
-                  </div>
-                  <div
-                    className="barangay-official-contacts"
-                    onClick={(event) => event.stopPropagation()}
-                  >
-                    {kagawad.phone ? (
-                      <a href={`tel:${telephoneHref(kagawad.phone)}`}>
+                  </button>
+                  <div className="barangay-official-contacts">
+                    {official.phone ? (
+                      <a href={`tel:${telephoneHref(official.phone)}`}>
                         <Phone aria-hidden="true" />
-                        <span>{kagawad.phone}</span>
+                        <span>{official.phone}</span>
                       </a>
                     ) : (
                       <span className="barangay-contact-muted">
-                        No public phone listed
+                        Contact not published
                       </span>
                     )}
-                    {kagawad.email && (
-                      <a href={`mailto:${kagawad.email}`}>
+                    {official.email && (
+                      <a href={`mailto:${official.email}`}>
                         <Mail aria-hidden="true" />
-                        <span>{kagawad.email}</span>
+                        <span>{official.email}</span>
                       </a>
                     )}
                   </div>
                 </article>
               ))}
-            </div>
           </div>
         </section>
 
@@ -3418,11 +3334,10 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             eyebrow="Barangay full disclosure & audit trail"
             title={`Budget, accomplishments, bids, and projects in ${profile.name}`}
           >
-            Source-verified records compiled from DBM FY 2026 National Tax
-            Allotment (LBM No. 92 / RA 7160 Sec. 285 & 287), the City
-            Government Full Disclosure Portal (20% NTA, APP, Bid Results, Trust
-            Fund, SEF, LDRRMF), BAC Malaybalay, PhilGEPS, DILG, and COA. Click
-            any card to open the full discussion and citations.
+            Records are shown only when a cited public source names this
+            barangay. The portal does not infer a contractor, award, actual
+            cost, change order, or completion when the published record does
+            not provide it. Open any record for its source and context.
           </SectionHeading>
 
           <div
@@ -3550,7 +3465,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                       <dd>{item.completionRate}</dd>
                     </div>
                     <div>
-                      <dt>Office / Contractor</dt>
+                      <dt>Implementing office / published contractor</dt>
                       <dd>{item.implementingOffice}</dd>
                     </div>
                   </dl>
@@ -3655,6 +3570,11 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                     <span>{record.stage}</span>
                     <strong>{record.number}</strong>
                     <p>{record.title.replace(/^ITB-2026-\d+\.?\s*/i, "")}</p>
+                    {record.openingAt && (
+                      <small>
+                        Published opening: {formatMalaybalayDateTime(record.openingAt)}
+                      </small>
+                    )}
                     <ExternalLink aria-hidden="true" />
                   </a>
                   <button
@@ -3685,6 +3605,11 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                           <span>{record.stage}</span>
                           <strong>{record.number}</strong>
                           <p>{record.title.replace(/^ITB-2026-\d+\.?\s*/i, "")}</p>
+                          {record.openingAt && (
+                            <small>
+                              Published opening: {formatMalaybalayDateTime(record.openingAt)}
+                            </small>
+                          )}
                           <ExternalLink aria-hidden="true" />
                         </a>
                         <button
@@ -3930,7 +3855,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                       </dd>
                     </div>
                     <div>
-                      <dt>Implementing office / Contractor</dt>
+                      <dt>Implementing office / published contractor</dt>
                       <dd>{activePopout.item.implementingOffice}</dd>
                     </div>
                   </dl>
@@ -4125,6 +4050,14 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                       <dt>Review date</dt>
                       <dd>{BAC_2026_VERIFIED_ON}</dd>
                     </div>
+                    {activePopout.bid.openingAt && (
+                      <div>
+                        <dt>Published opening</dt>
+                        <dd>
+                          {formatMalaybalayDateTime(activePopout.bid.openingAt)}
+                        </dd>
+                      </div>
+                    )}
                   </dl>
                   <div className="barangay-popout-discussion">
                     <h4>What this 2026 BAC notice means</h4>
@@ -4135,6 +4068,16 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                       Committee (BAC) for 2026 procurement and explicitly names
                       Barangay {profile.name}.
                     </p>
+                    {activePopout.bid.openingAt && (
+                      <p>
+                        The BAC index schedules the opening at{" "}
+                        <strong>
+                          {formatMalaybalayDateTime(activePopout.bid.openingAt)}
+                        </strong>
+                        . This is an opening schedule, not evidence of an award
+                        or completed work.
+                      </p>
+                    )}
                     <h4>Why a bidding notice is distinct from an award</h4>
                     <p>
                       Under Republic Act No. 9184, an Invitation to Bid (ITB)

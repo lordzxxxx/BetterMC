@@ -4,10 +4,12 @@ export type BidRecord = {
   url: string;
   barangays: string[];
   stage: "Bidding opportunity" | "Re-bid" | "Negotiated procurement" | "Small value procurement";
+  /** Published BAC opening schedule; omitted when the index does not state one. */
+  openingAt?: string;
 };
 
 export const BAC_2026_SOURCE = "https://sites.google.com/site/malaybalay221/awarded-projects?authuser=0";
-export const BAC_2026_VERIFIED_ON = "2026-11-06";
+export const BAC_2026_VERIFIED_ON = "2026-11-11";
 
 export const bidRecords2026: BidRecord[] = [
   {
@@ -329,7 +331,8 @@ export const bidRecords2026: BidRecord[] = [
     "barangays": [
       "casisang"
     ],
-    "stage": "Re-bid"
+    "stage": "Re-bid",
+    "openingAt": "2026-11-11T08:30:00+08:00"
   },
   {
     "number": "ITB-2026-170",
@@ -338,7 +341,8 @@ export const bidRecords2026: BidRecord[] = [
     "barangays": [
       "silae"
     ],
-    "stage": "Re-bid"
+    "stage": "Re-bid",
+    "openingAt": "2026-11-11T08:30:00+08:00"
   },
   {
     "number": "ITB-2026-170",
@@ -374,7 +378,8 @@ export const bidRecords2026: BidRecord[] = [
     "barangays": [
       "managok"
     ],
-    "stage": "Re-bid"
+    "stage": "Re-bid",
+    "openingAt": "2026-11-11T08:30:00+08:00"
   },
   {
     "number": "ITB-2026-167",
@@ -392,7 +397,8 @@ export const bidRecords2026: BidRecord[] = [
     "barangays": [
       "managok"
     ],
-    "stage": "Re-bid"
+    "stage": "Re-bid",
+    "openingAt": "2026-11-11T08:30:00+08:00"
   },
   {
     "number": "ITB-2026-166",

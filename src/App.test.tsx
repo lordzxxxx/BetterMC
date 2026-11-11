@@ -244,10 +244,9 @@ describe("BetterMC public portal", () => {
       name: /Dalwangan embedded subdomain and main portal navigation/i,
     }));
     expect(portalNav.getByRole("link", { name: /BetterMC Home/i })).toHaveAttribute("href", "/");
-    const barangayPicker = screen.getByRole("combobox", {
-      name: /Choose a barangay profile/i,
-    });
-    expect(barangayPicker).toHaveTextContent("Dalwangan");
+    expect(
+      screen.queryByRole("combobox", { name: /Choose a barangay profile/i }),
+    ).not.toBeInTheDocument();
     expect(screen.getAllByText("Royville C. Pasco").length).toBeGreaterThan(0);
     expect(screen.getAllByText("7,812").length).toBeGreaterThan(0);
     expect(
@@ -281,9 +280,10 @@ describe("BetterMC public portal", () => {
     expect(screen.getAllByText(/ITB-2026-/i).length).toBeGreaterThan(0);
     expect(
       screen.getByRole("heading", {
-        name: /Sangguniang Barangay Members \(7 Kagawads\) — Barangay Dalwangan/i,
+        name: /Barangay Dalwangan officials/i,
       }),
     ).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: /Open .* public profile/i })).toHaveLength(10);
     expect(
       screen.getByRole("heading", {
         name: /Budget, accomplishments, bids, and projects in Dalwangan/i,
@@ -310,12 +310,6 @@ describe("BetterMC public portal", () => {
         name: /DILG Barangay Officials Directory/i,
       }).length,
     ).toBeGreaterThan(0);
-    fireEvent.click(barangayPicker);
-    expect(screen.getByRole("listbox", { name: /Choose a barangay profile/i })).toBeInTheDocument();
-    const barangaySearch = screen.getByRole("searchbox", { name: /Choose a barangay profile search/i });
-    fireEvent.change(barangaySearch, { target: { value: "Cabangahan" } });
-    fireEvent.click(screen.getByRole("option", { name: "Cabangahan" }));
-    expect(screen.getByRole("heading", { name: "Cabangahan", level: 1 })).toBeInTheDocument();
   });
 
   it("indexes searchable 2026 BAC notices without calling them awards", () => {

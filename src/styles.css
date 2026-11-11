@@ -17467,7 +17467,7 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 /* Compact, consistent navigation for each barangay microsite. */
 .barangay-hero-inline-portal {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) minmax(210px, 260px);
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: 8px;
   width: fit-content;
@@ -17887,13 +17887,6 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 .barangay-popout-btn,
 .barangay-bid-popout-btn { border-radius: 7px; }
 
-.barangay-profile-picker {
-  gap: 7px;
-  padding: 3px 7px 3px 10px;
-  border-color: rgba(210, 229, 250, 0.35);
-  border-radius: 9px;
-  background: rgba(8, 32, 69, 0.56);
-}
 .barangay-hero-inline-portal .barangay-main-portal-pill,
 .barangay-hero-inline-portal .barangay-active-subdomain-pill {
   min-height: 34px;
@@ -17908,72 +17901,6 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   color: #fff;
   background: rgba(230, 241, 255, 0.12);
 }
-.barangay-profile-select {
-  flex: 1 1 auto;
-  width: min(260px, 100%);
-}
-.barangay-profile-select .service-select-trigger {
-  min-height: 34px;
-  padding: 0 2px;
-  border: 0;
-  border-radius: 6px;
-  color: #f7fbff;
-  background: transparent;
-  font-size: 0.78rem;
-  box-shadow: none;
-}
-.barangay-profile-select .service-select-trigger:hover,
-.barangay-profile-select .service-select-trigger[aria-expanded="true"] {
-  color: #fff;
-  background: transparent;
-}
-.barangay-profile-select .service-select-trigger:focus-visible {
-  outline: 2px solid #b8ddff;
-  outline-offset: 3px;
-}
-.barangay-profile-select .service-select-trigger svg { color: #d5e8ff; }
-.barangay-profile-select .service-select-menu {
-  top: calc(100% + 8px);
-  width: max(100%, 250px);
-  max-width: min(330px, 88vw);
-  overflow: hidden;
-  border: 1px solid rgba(189, 213, 239, 0.92);
-  border-radius: 12px;
-  background: rgba(247, 251, 255, 0.98);
-  box-shadow: 0 14px 34px rgba(5, 26, 54, 0.24);
-  backdrop-filter: blur(18px) saturate(115%);
-  -webkit-backdrop-filter: blur(18px) saturate(115%);
-}
-.barangay-profile-select .service-select-search {
-  min-height: 40px;
-  padding: 0 12px;
-  border-bottom-color: #d8e5f3;
-  background: rgba(255, 255, 255, 0.86);
-  font-size: 0.84rem;
-}
-.barangay-profile-select .service-select-list {
-  max-height: min(320px, 54vh);
-  padding: 5px;
-  overflow-y: auto;
-}
-.barangay-profile-select .service-select-option {
-  min-height: 36px;
-  padding: 7px 9px;
-  border-radius: 7px;
-  color: #183453;
-  font-size: 0.82rem;
-}
-.barangay-profile-select .service-select-option:hover,
-.barangay-profile-select .service-select-option.is-active {
-  color: #123d7e;
-  background: #e6f1ff;
-}
-.barangay-profile-select .service-select-option.is-selected {
-  color: #124fa7;
-  background: #dcecff;
-  font-weight: 800;
-}
-.barangay-profile-select .service-select-group { padding: 8px 9px 4px; color: #687d96; }
 .barangay-facts div {
   border: 1px solid rgba(224, 238, 252, 0.88);
   background: rgba(247, 251, 255, 0.9);
@@ -17988,7 +17915,7 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 @media (max-width: 1024px) {
   .barangay-about { gap: 16px; }
   .barangay-profile-section { padding: 24px 0; }
-  .barangay-leadership-executive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .barangay-official-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .barangay-disclosure-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) {
@@ -17999,12 +17926,9 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   .barangay-source-card { margin-top: 2px; }
   .barangay-local-nav .container { gap: 2px; min-height: 42px; }
   .barangay-local-nav a { min-height: 32px; padding: 5px 8px; font-size: 0.72rem; }
-  .barangay-leadership-executive-grid { grid-template-columns: 1fr; }
-  .barangay-kagawad-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .barangay-official-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .barangay-disclosure-summary-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .barangay-disclosure-grid { grid-template-columns: 1fr; }
-  .barangay-profile-picker { width: min(100%, 370px); }
-  .barangay-profile-select { width: 100%; }
   .barangay-hero-inline-portal {
     display: grid;
     grid-template-columns: max-content minmax(0, 1fr);
@@ -18023,15 +17947,125 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .barangay-profile-picker {
-    grid-column: 1 / -1;
-    width: 100%;
-  }
   .barangay-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .barangay-facts div:last-child { grid-column: 1 / -1; }
 }
 @media (max-width: 420px) {
-  .barangay-kagawad-grid { grid-template-columns: 1fr; }
+  .barangay-official-grid { grid-template-columns: 1fr; }
   .barangay-disclosure-summary-strip { grid-template-columns: 1fr 1fr; }
   .barangay-profile-select .service-select-menu { left: auto; right: 0; }
+}
+
+/* A single compact roster keeps the same public-office information readable
+   without splitting it into oversized executive and kagawad card groups. */
+.barangay-official-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.barangay-official-card {
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(183, 211, 242, 0.9);
+  border-radius: 12px;
+  background: rgba(250, 253, 255, 0.72);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.86), 0 6px 16px rgba(19, 59, 108, 0.045);
+  backdrop-filter: blur(16px) saturate(112%);
+  -webkit-backdrop-filter: blur(16px) saturate(112%);
+}
+.barangay-official-card-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 5px 8px;
+  width: 100%;
+  min-height: 76px;
+  padding: 11px 12px 9px;
+  border: 0;
+  color: #122b4f;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.barangay-official-card-main:hover { background: rgba(225, 240, 255, 0.52); }
+.barangay-official-card-main:focus-visible {
+  outline: 3px solid #2d7be8;
+  outline-offset: -3px;
+}
+.barangay-official-role {
+  display: inline-flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: #2462bf;
+  font-size: 0.65rem;
+  font-weight: 850;
+  letter-spacing: 0.055em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.barangay-official-role svg { width: 15px; height: 15px; flex: 0 0 15px; }
+.barangay-official-card-main > strong {
+  min-width: 0;
+  overflow: hidden;
+  color: #142d50;
+  font-size: 0.9rem;
+  line-height: 1.28;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.barangay-official-record-link {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  gap: 3px;
+  color: #2764be;
+  font-size: 0.69rem;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+.barangay-official-record-link svg { width: 14px; height: 14px; }
+.barangay-official-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  min-height: 36px;
+  padding: 8px 12px 10px;
+  border-top: 1px solid rgba(202, 220, 240, 0.8);
+  color: #506984;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+.barangay-official-contacts a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  color: #245ebb;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+.barangay-official-contacts a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.barangay-official-contacts svg { width: 14px; height: 14px; flex: 0 0 14px; }
+.barangay-official-contacts .barangay-contact-muted {
+  align-self: center;
+  color: #647993;
+  font-weight: 650;
+}
+@media (max-width: 1024px) {
+  .barangay-official-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .barangay-official-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .barangay-official-card-main { min-height: 80px; padding: 10px; }
+  .barangay-official-card-main > strong { font-size: 0.86rem; white-space: normal; }
+  .barangay-official-record-link { font-size: 0.66rem; }
+  .barangay-official-contacts { min-height: 38px; padding: 7px 10px 9px; font-size: 0.69rem; }
+}
+@media (max-width: 440px) {
+  .barangay-official-grid { grid-template-columns: 1fr; }
+  .barangay-official-card-main { min-height: 72px; }
 }
