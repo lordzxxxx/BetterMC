@@ -18721,6 +18721,98 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   .barangay-disclosure-summary-strip { grid-template-columns: 1fr; }
 }
 
+/* Shared finishing pass for every barangay roster and the footer network. */
+.barangay-official-card-main {
+  align-content: start;
+  min-height: 84px;
+}
+
+.barangay-official-card-main > strong {
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.barangay-official-record-link {
+  align-self: end;
+  min-height: 30px;
+  padding: 6px 0;
+}
+
+.barangay-official-contacts {
+  align-content: flex-start;
+  min-height: 44px;
+  background: rgba(241, 248, 255, 0.52);
+}
+
+.barangay-official-contacts a,
+.barangay-official-contacts .barangay-contact-muted {
+  min-height: 27px;
+  padding: 4px 8px;
+  border: 1px solid #cde0f5;
+  border-radius: 8px;
+  background: rgba(248, 252, 255, 0.76);
+}
+
+.barangay-official-contacts .barangay-contact-muted {
+  border-style: dashed;
+}
+
+.site-footer {
+  background:
+    radial-gradient(520px 220px at 88% 0%, rgba(64, 105, 164, 0.18), transparent 72%),
+    #111416;
+}
+
+.footer-grid {
+  grid-template-columns: minmax(230px, 1.25fr) minmax(170px, 0.85fr) minmax(250px, 1.1fr) minmax(190px, 0.85fr);
+  gap: 26px;
+}
+
+.footer-action-card {
+  max-width: 310px;
+}
+
+.footer-contact-links {
+  gap: 4px 14px;
+}
+
+.bettergov-link {
+  width: fit-content;
+  max-width: 100%;
+  padding: 9px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.bettergov-link:hover,
+.bettergov-link:focus-visible {
+  border-color: rgba(174, 202, 255, 0.55);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.bettergov-link-label {
+  max-width: 92px;
+  line-height: 1.25;
+}
+
+@media (max-width: 760px) {
+  .barangay-official-card-main {
+    min-height: 78px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-action-card {
+    max-width: none;
+  }
+}
+
 /* Phone-only density correction for the primary directory, hero, and GIS.
    These selectors intentionally come after older responsive rules that added
    padding at more than one nested level. */
