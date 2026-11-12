@@ -18817,17 +18817,18 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
    then show the supplied white mark as a separate footer accent below it. */
 .footer-network {
   align-items: flex-start;
+  min-height: 100%;
 }
 
 .footer-network p {
-  max-width: 28ch;
+  max-width: 300px;
   margin-top: 8px;
   line-height: 1.5;
 }
 
 .bettergov-link {
-  width: fit-content;
-  max-width: 100%;
+  width: 100%;
+  max-width: 300px;
   min-height: 48px;
   display: inline-flex !important;
   align-items: center;
@@ -18873,18 +18874,28 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 }
 
 .bettergov-footer-logo {
-  width: 78px;
-  height: 78px;
+  width: 64px;
+  height: 64px;
   display: block;
-  margin-top: 12px;
+  margin-top: auto;
+  padding-top: 12px;
   object-fit: contain;
 }
 
 @media (max-width: 760px) {
+  .footer-network {
+    min-height: auto;
+  }
+
+  .footer-network p {
+    max-width: 34ch;
+  }
+
   .bettergov-footer-logo {
     width: 62px;
     height: 62px;
     margin-top: 9px;
+    padding-top: 0;
   }
 }
 
