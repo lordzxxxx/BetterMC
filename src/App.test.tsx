@@ -59,7 +59,7 @@ describe("BetterMC public portal", () => {
         expect(record.discussion.howToVerify.length).toBeGreaterThan(40);
         if (record.category === "bids") {
           expect(record.utilizedAmount).toBeNull();
-          expect(record.primarySource.label).toContain("FDP Form 10a");
+          expect(record.primarySource.label).toMatch(/FDP Form 10a|PhilGEPS award notice/);
           expect(record.summary).toContain("does not establish");
         }
       }

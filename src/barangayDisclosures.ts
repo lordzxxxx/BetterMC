@@ -1,4 +1,5 @@
 import { type Source } from "./data";
+import { infrastructureAwardRecords, type ProcurementAwardRecord } from "./procurementRecords";
 
 export type BarangayDisclosureCategory =
   | "budget"
@@ -232,6 +233,73 @@ type PublishedBidResultRow = {
   source: Source;
 };
 
+type PublishedPhilgepsAwardRow = {
+  id: string;
+  barangaySlug: string;
+  barangayName: string;
+  record: ProcurementAwardRecord;
+};
+
+const philgepsAwardSource = (record: ProcurementAwardRecord): Source => ({
+  label: `PhilGEPS award notice — ${record.number}`,
+  url: record.sourceUrl,
+  verifiedOn: REVIEWED_ON,
+});
+
+/*
+ * These are award-notice records whose published title names a barangay. A
+ * shared project is intentionally shown on each named barangay profile. The
+ * source index does not publish a complete contractor, payment, or completion
+ * record here, so those fields remain explicitly unavailable.
+ */
+const publishedPhilgepsAwardRows: PublishedPhilgepsAwardRow[] = [
+  { id: "philgeps-itb-2024-012-indalasa", barangaySlug: "indalasa", barangayName: "Indalasa", record: infrastructureAwardRecords[0] },
+  { id: "philgeps-itb-2024-009-caburacanan", barangaySlug: "caburacanan", barangayName: "Caburacanan", record: infrastructureAwardRecords[1] },
+  { id: "philgeps-itb-2024-004-maligaya", barangaySlug: "maligaya", barangayName: "Maligaya", record: infrastructureAwardRecords[2] },
+  { id: "philgeps-itb-2024-010-imbayao", barangaySlug: "imbayao", barangayName: "Imbayao", record: infrastructureAwardRecords[3] },
+  { id: "philgeps-itb-2024-059-can-ayan", barangaySlug: "can-ayan", barangayName: "Can-ayan", record: infrastructureAwardRecords[4] },
+  { id: "philgeps-itb-2024-034-can-ayan", barangaySlug: "can-ayan", barangayName: "Can-ayan", record: infrastructureAwardRecords[5] },
+  { id: "philgeps-itb-2024-058-busdi", barangaySlug: "busdi", barangayName: "Busdi", record: infrastructureAwardRecords[6] },
+  { id: "philgeps-itb-2024-030-casisang", barangaySlug: "casisang", barangayName: "Casisang", record: infrastructureAwardRecords[7] },
+  { id: "philgeps-itb-2024-030-sumpong", barangaySlug: "sumpong", barangayName: "Sumpong", record: infrastructureAwardRecords[7] },
+  { id: "philgeps-itb-2024-020-barangay-1", barangaySlug: "barangay-1", barangayName: "Barangay 1", record: infrastructureAwardRecords[8] },
+  { id: "philgeps-itb-2024-023-aglayan", barangaySlug: "aglayan", barangayName: "Aglayan", record: infrastructureAwardRecords[9] },
+];
+
+function toPhilgepsAwardDisclosureItem(row: PublishedPhilgepsAwardRow): BarangayDisclosureItem {
+  const source = philgepsAwardSource(row.record);
+  return {
+    id: row.id,
+    barangayName: row.barangayName,
+    barangaySlug: row.barangaySlug,
+    category: "bids",
+    subcategory: "PhilGEPS award notice — infrastructure",
+    referenceNumber: `PhilGEPS · ${row.record.number}`,
+    title: row.record.title,
+    period: String(row.record.year),
+    approvedBudget: null,
+    utilizedAmount: null,
+    completionRate: "Not published in the award-notice index",
+    status: "Award notice indexed; payment and completion not established",
+    implementingOffice: "Contractor and award amount not transcribed from the indexed record",
+    contractDuration: "Not published in the indexed record",
+    imageUrl: `/images/barangay-heroes/${row.barangaySlug}.webp`,
+    badgeUrl: `/images/barangays/${row.barangaySlug}.webp`,
+    imageCaption: `${row.barangayName} — PhilGEPS award-notice context`,
+    summary: `The indexed PhilGEPS award notice names ${row.barangayName} in “${row.record.title}.” The linked notice must be opened to verify any contractor, award amount, schedule, payment, or completion details; BetterMC does not infer those fields from the title alone, and this index does not establish completion.`,
+    discussion: {
+      whatThisRecordShows: `This is a source-linked PhilGEPS award notice whose title names ${row.barangayName}. It is an award index entry, not proof that the project was paid for or completed.`,
+      budgetAndAuditContext: "The indexed record does not provide a transcribed approved budget, final contract cost, change order, disbursement, or physical accomplishment figure in this portal.",
+      howToVerify: "Open the primary PhilGEPS notice, then cross-check the City Full Disclosure portal, later BAC records, notices to proceed, disbursement records, and COA audit materials before treating the work as completed.",
+    },
+    primarySource: source,
+    backupSources: [
+      { label: "City of Malaybalay — Full Disclosure portal", url: FDP_HUB_URL, verifiedOn: REVIEWED_ON },
+      { label: "City of Malaybalay — Full Disclosure procurement archive", url: "https://sakata.malaybalaycity.gov.ph/awarded-projects/", verifiedOn: REVIEWED_ON },
+    ],
+  };
+}
+
 /*
  * Direct transcriptions from the City’s FDP Form 10a tables. These forms list
  * an approved budget and bidder outcome, but do not establish a notice-to-
@@ -381,6 +449,13 @@ for (const record of publishedBidResultRows) {
   bidDisclosureByBarangay.set(record.barangaySlug, bucket);
 }
 
+const philgepsDisclosureByBarangay = new Map<string, BarangayDisclosureItem[]>();
+for (const record of publishedPhilgepsAwardRows) {
+  const bucket = philgepsDisclosureByBarangay.get(record.barangaySlug) ?? [];
+  bucket.push(toPhilgepsAwardDisclosureItem(record));
+  philgepsDisclosureByBarangay.set(record.barangaySlug, bucket);
+}
+
 function toProfile(project: PublishedBarangayProject): BarangayFullDisclosureProfile {
   const item: BarangayDisclosureItem = {
     id: `${project.slug}-city-bdp-2026-q1`,
@@ -417,7 +492,11 @@ function toProfile(project: PublishedBarangayProject): BarangayFullDisclosurePro
     bdp2026ProjectTitle: project.title,
     bdp2026Status: project.status,
     historicalSources,
-    items: [item, ...(bidDisclosureByBarangay.get(project.slug) ?? [])],
+    items: [
+      item,
+      ...(bidDisclosureByBarangay.get(project.slug) ?? []),
+      ...(philgepsDisclosureByBarangay.get(project.slug) ?? []),
+    ],
   };
 }
 
