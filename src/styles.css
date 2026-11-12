@@ -18422,6 +18422,14 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   .hero-description-mobile,
   .hero-verification-mobile,
   .independence-label-mobile { display: inline; }
+  .hero-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hero-actions .button,
+  .hero-actions .button:first-child {
+    grid-column: 1;
+    width: 100%;
+  }
   .independence-inner > p .independence-label-mobile {
     display: inline !important;
     margin-left: 0;
