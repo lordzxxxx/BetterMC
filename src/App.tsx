@@ -2491,13 +2491,38 @@ function GovernmentPage() {
         {tab === "records" ? (
           <>
             <SectionHeading
-              eyebrow="Ordinances, executive orders, and memoranda"
-              title="Published measures by the responsible institution"
+              eyebrow="Published measures"
+              title="Ordinances, executive orders, and memorandum circulars"
             >
-              Ordinances are legislative acts of the Sangguniang Panlungsod.
-              Executive orders are mayoral office issuances. A memorandum is
-              assigned only when the source identifies its issuing authority.
+              Browse source-linked measures by issuing institution. Ordinances
+              are collective acts of the Sangguniang Panlungsod; executive
+              orders and memorandum circulars remain attributed to the office
+              or authority named by the source.
             </SectionHeading>
+            <div
+              className="government-record-summary"
+              aria-label="Published measure counts"
+            >
+              {(["Ordinance", "Executive order", "Memorandum circular"] as const).map(
+                (recordKind) => (
+                  <div key={recordKind}>
+                    <strong>
+                      {civicRecords.filter((record) => record.kind === recordKind).length}
+                    </strong>
+                    <span>
+                      {recordKind === "Memorandum circular"
+                        ? "memorandum circular"
+                        : recordKind.toLowerCase()}
+                      {civicRecords.filter((record) => record.kind === recordKind).length === 1 ? "" : "s"}
+                    </span>
+                  </div>
+                ),
+              )}
+              <div className="government-record-summary-total">
+                <strong>{visibleRecords.length}</strong>
+                <span>matching records</span>
+              </div>
+            </div>
             <div className="civic-records">
               {visibleRecords.map((record) => (
                 <article key={record.number}>
@@ -2510,6 +2535,12 @@ function GovernmentPage() {
                   <p>{record.title}</p>
                   <strong>{record.body}</strong>
                   <small>{record.attribution}</small>
+                  <Link
+                    className="civic-record-link"
+                    to={`/legislation/${civicRecordId(record.number)}`}
+                  >
+                    Open BetterMC record <ArrowRight aria-hidden="true" />
+                  </Link>
                   <SourceNote
                     url={record.source.url}
                     date={record.source.verifiedOn}

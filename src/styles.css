@@ -2794,6 +2794,38 @@ kbd {
   grid-template-columns: repeat(2, 1fr);
   gap: 14px;
 }
+.government-record-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: -8px 0 16px;
+}
+.government-record-summary > div {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  min-width: 0;
+  padding: 9px 11px;
+  border: 1px solid rgba(174, 207, 238, 0.85);
+  border-radius: 10px;
+  background: rgba(245, 250, 255, 0.68);
+}
+.government-record-summary strong {
+  color: #173c77;
+  font-size: 1.08rem;
+  font-variant-numeric: tabular-nums;
+}
+.government-record-summary span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #526987;
+  font-size: 0.73rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.government-record-summary-total {
+  background: rgba(226, 240, 255, 0.72) !important;
+}
 .civic-records h2 {
   margin: 16px 0 8px;
   font-size: 1.35rem;
@@ -2810,6 +2842,25 @@ kbd {
   margin-top: 10px;
   color: #667896;
   line-height: 1.45;
+}
+.civic-record-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin-top: 14px;
+  color: var(--green-700);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+.civic-record-link svg {
+  width: 15px;
+  transition: transform 180ms var(--ease-out);
+}
+.civic-record-link:hover svg,
+.civic-record-link:focus-visible svg {
+  transform: translateX(3px);
 }
 .highlight-grid {
   display: grid;
@@ -7213,6 +7264,7 @@ kbd {
   .directory-toolbar { grid-template-columns: 1fr; gap: 10px; }
   .directory-toolbar .tabs { width: 100%; overflow-x: auto; }
   .directory-toolbar .tabs button { flex: 1 0 auto; }
+  .government-record-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .official-summary { grid-template-columns: 42px minmax(0, 1fr); grid-template-areas: "avatar group" "avatar name" "avatar role" "toggle toggle"; row-gap: 2px; }
   .official-summary .avatar { width: 42px; height: 42px; }
   .leader-toggle { width: 100%; margin-top: 12px; }
@@ -7226,6 +7278,10 @@ kbd {
 @media (max-width: 560px) {
   .people-grid { grid-template-columns: 1fr; }
   .people-grid article.expanded { grid-column: auto; }
+  .government-record-summary { grid-template-columns: 1fr 1fr; gap: 6px; margin-top: -4px; }
+  .government-record-summary > div { padding: 8px 9px; }
+  .government-record-summary strong { font-size: 1rem; }
+  .government-record-summary span { font-size: 0.68rem; }
   .directory-toolbar .tabs { gap: 2px; }
   .directory-toolbar .tabs button {
     flex: 0 0 auto;

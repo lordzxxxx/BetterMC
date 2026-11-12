@@ -385,6 +385,14 @@ describe("BetterMC public portal", () => {
       screen.getByText("Ordinance No. 1118, Series of 2026"),
     ).toBeInTheDocument();
     expect(
+      screen.getByRole("heading", {
+        name: /Ordinances, executive orders, and memorandum circulars/i,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByRole("link", { name: /Open BetterMC record/i }).length,
+    ).toBeGreaterThan(0);
+    expect(
       screen.getByRole("heading", { name: /Verified recognition/i }),
     ).toBeInTheDocument();
   });
