@@ -3262,10 +3262,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             </div>
             <span>Welcome to Barangay {profile.name}</span>
             <h1>{profile.name}</h1>
-            <p>
-              {profile.classification} barangay · Malaybalay City.{" "}
-              {profile.description}
-            </p>
+            <p>{profile.description}</p>
             <div className="barangay-hero-actions">
               {profile.phone && (
                 <a
@@ -3337,6 +3334,26 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             <span className="eyebrow">About the barangay</span>
             <h2>Barangay overview</h2>
             <p>{profile.introduction}</p>
+            <p className="barangay-about-detail">{profile.contextSummary}</p>
+            <div className="barangay-about-stat-grid" aria-label="Barangay population context">
+              <div>
+                <span>Population rank</span>
+                <strong>{profile.populationRank} of 46</strong>
+              </div>
+              <div>
+                <span>Share of city population</span>
+                <strong>{profile.cityPopulationShare.toFixed(2)}%</strong>
+              </div>
+            </div>
+            <div className="barangay-about-scope">
+              <span className="barangay-about-scope-icon">
+                <ShieldCheck aria-hidden="true" />
+              </span>
+              <div>
+                <strong>How to read this profile</strong>
+                <span>{profile.recordScope}</span>
+              </div>
+            </div>
           </div>
           <aside className="barangay-source-card">
             <span className="barangay-icon-tile">

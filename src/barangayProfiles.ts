@@ -203,6 +203,8 @@ export type BarangayMicrositeProfile = {
   boundarySource: Source;
   description: string;
   introduction: string;
+  contextSummary: string;
+  recordScope: string;
   populationSummary: string;
   classificationNote: string;
   populationRank: number;
@@ -364,7 +366,9 @@ export const barangayMicrosites: BarangayMicrositeProfile[] = psgcProfiles.map(
       populationReleaseSource,
       boundarySource,
       description: `${psgc.name} is ${article} ${psgc.classification.toLowerCase()} barangay of Malaybalay City with ${formattedPopulation} residents in the latest official census count.`,
-      introduction: `${psgc.name} is one of Malaybalay City’s 46 barangays. The Philippine Statistics Authority classifies it as ${article} ${psgc.classification.toLowerCase()} barangay and recorded ${formattedPopulation} residents in the 2024 Census of Population.`,
+      introduction: `${psgc.name} is ${article} ${psgc.classification.toLowerCase()} barangay in Malaybalay City. The Philippine Statistics Authority’s 2024 Census of Population recorded ${formattedPopulation} residents, placing ${psgc.name} ${ordinal(populationRank)} among the city’s 46 barangays and representing ${cityPopulationShare.toFixed(2)}% of the city total. This profile brings together published leadership, public contacts, disclosure records, projects, services, and map context so residents can check each item against its cited source.`,
+      contextSummary: `The official ${psgc.classification.toLowerCase()} classification is statistical context, not a judgment about service quality or development conditions. Use the sections below to review what has been published for ${psgc.name}, including leadership, contacts, disclosures, and public-service pathways.`,
+      recordScope: `BetterMC attributes a project, budget, or contact to ${psgc.name} only when the cited public source names this barangay. Information that is missing or incomplete in the reviewed sources is marked as not published.`,
       populationSummary: `Based on the same census, ${psgc.name} ranks ${ordinal(populationRank)} by population among the city’s 46 barangays and accounts for ${cityPopulationShare.toFixed(2)}% of Malaybalay’s ${MALAYBALAY_2024_POPULATION.toLocaleString("en-PH")} residents.`,
       classificationNote: `The ${psgc.classification.toLowerCase()} classification is an official statistical category. It is not a rating of local services, infrastructure, or development conditions.`,
       populationRank,

@@ -275,7 +275,7 @@ describe("BetterMC public portal", () => {
         name: /Barangay overview/i,
       }),
     ).toBeInTheDocument();
-    expect(screen.queryByText(/Share of city population/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/Share of city population/i)).toBeInTheDocument();
     expect(screen.queryByText(/Latest official count available in 2026/i)).not.toBeInTheDocument();
     const profileSectionOrder = Array.from(
       document.querySelectorAll(".barangay-profile-main > section"),

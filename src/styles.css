@@ -18899,6 +18899,236 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   }
 }
 
+/* Barangay profile refinement: source-led context and a balanced, touch-safe
+   roster shared by every barangay route. Keep these rules last so they win
+   over the older density passes above. */
+.barangay-about-copy {
+  min-width: 0;
+}
+
+.barangay-about-copy > p {
+  max-width: 70ch;
+}
+
+.barangay-about-copy > .barangay-about-detail {
+  margin-top: 9px;
+  color: #5b6e89;
+  font-size: 0.88rem;
+  line-height: 1.52;
+}
+
+.barangay-about-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-width: 520px;
+  margin-top: 14px;
+}
+
+.barangay-about-stat-grid > div {
+  display: grid;
+  gap: 3px;
+  min-height: 64px;
+  padding: 10px 12px;
+  border: 1px solid rgba(190, 214, 240, 0.92);
+  border-radius: 12px;
+  background: rgba(248, 252, 255, 0.64);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.9);
+}
+
+.barangay-about-stat-grid span {
+  color: #5b7090;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.barangay-about-stat-grid strong {
+  color: #173d78;
+  font-size: 1.05rem;
+  line-height: 1.15;
+}
+
+.barangay-about-scope {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  max-width: 70ch;
+  margin-top: 12px;
+  padding: 11px 12px;
+  border: 1px solid rgba(187, 213, 240, 0.9);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(237, 246, 255, 0.86), rgba(248, 252, 255, 0.64));
+}
+
+.barangay-about-scope-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #c5ddf8;
+  border-radius: 9px;
+  color: #1c60c8;
+  background: #edf6ff;
+}
+
+.barangay-about-scope-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.barangay-about-scope div {
+  display: grid;
+  gap: 3px;
+}
+
+.barangay-about-scope strong {
+  color: #163b72;
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
+.barangay-about-scope div > span {
+  color: #5b6e89;
+  font-size: 0.78rem;
+  line-height: 1.42;
+}
+
+.barangay-official-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
+
+.barangay-official-card {
+  min-height: 0;
+  border-radius: 15px;
+  background: rgba(250, 253, 255, 0.78);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.9), 0 8px 18px rgba(19, 59, 108, 0.055);
+}
+
+.barangay-official-card-main {
+  min-height: 112px;
+  padding: 13px 14px 11px;
+  gap: 8px 10px;
+}
+
+.barangay-official-role {
+  gap: 7px;
+  font-size: 0.62rem;
+  letter-spacing: 0.07em;
+}
+
+.barangay-official-role svg {
+  width: 17px;
+  height: 17px;
+  padding: 3px;
+  border: 1px solid #c6def9;
+  border-radius: 7px;
+  color: #2165c9;
+  background: #edf6ff;
+  box-sizing: content-box;
+}
+
+.barangay-official-card-main > strong {
+  font-size: 0.98rem;
+  line-height: 1.25;
+}
+
+.barangay-official-record-link {
+  min-height: 44px;
+  padding: 8px 9px;
+  border: 1px solid #c1d9f6;
+  border-radius: 9px;
+  color: #1b58b4;
+  background: rgba(244, 249, 255, 0.86);
+}
+
+.barangay-official-record-link:hover,
+.barangay-official-record-link:focus-visible {
+  color: #0f448f;
+  background: #e8f2ff;
+}
+
+.barangay-official-contacts {
+  min-height: 52px;
+  padding: 10px 14px 12px;
+  gap: 6px 8px;
+}
+
+.barangay-official-contacts a,
+.barangay-official-contacts .barangay-contact-muted {
+  min-height: 30px;
+  padding: 5px 8px;
+  border-radius: 8px;
+}
+
+@media (max-width: 1199px) {
+  .barangay-official-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .barangay-about-copy > .barangay-about-detail {
+    font-size: 0.84rem;
+  }
+
+  .barangay-about-stat-grid {
+    max-width: none;
+  }
+
+  .barangay-about-stat-grid > div {
+    min-height: 60px;
+    padding: 9px 10px;
+  }
+
+  .barangay-about-scope {
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .barangay-about-scope-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .barangay-official-grid {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .barangay-official-card-main {
+    min-height: 92px;
+    padding: 12px;
+  }
+
+  .barangay-official-card-main > strong {
+    font-size: 0.94rem;
+  }
+
+  .barangay-official-record-link {
+    min-height: 44px;
+    padding-inline: 8px;
+    font-size: 0.68rem;
+  }
+
+  .barangay-official-contacts {
+    min-height: 48px;
+    padding: 9px 12px 10px;
+  }
+}
+
+@media (max-width: 390px) {
+  .barangay-about-stat-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Phone-only density correction for the primary directory, hero, and GIS.
    These selectors intentionally come after older responsive rules that added
    padding at more than one nested level. */
@@ -18996,4 +19226,66 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   .noah-timeline-pills::-webkit-scrollbar { display: none; }
   .noah-timeline-pills button { flex: 0 0 auto; min-width: 68px; min-height: 38px; padding: 4px 7px; font-size: 0.61rem; }
   .noah-timeline-date-picker label { min-height: 40px; }
+}
+
+/* Final barangay roster overrides: keep the shared card system readable after
+   the portal-wide mobile density rules above. */
+.barangay-official-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.barangay-official-card {
+  border-radius: 15px;
+}
+
+.barangay-official-card-main {
+  min-height: 112px;
+  padding: 13px 14px 11px;
+}
+
+.barangay-official-record-link {
+  min-height: 44px;
+  padding: 8px 9px;
+  border: 1px solid #c1d9f6;
+  border-radius: 9px;
+  background: rgba(244, 249, 255, 0.86);
+}
+
+.barangay-official-contacts {
+  min-height: 52px;
+  padding: 10px 14px 12px;
+}
+
+@media (max-width: 1199px) {
+  .barangay-official-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .barangay-official-grid {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .barangay-official-card-main {
+    min-height: 92px;
+    padding: 12px;
+  }
+
+  .barangay-official-record-link {
+    min-height: 44px;
+  }
+
+  .barangay-official-contacts {
+    min-height: 48px;
+    padding: 9px 12px 10px;
+  }
+}
+
+@media (max-width: 390px) {
+  .barangay-about-stat-grid {
+    grid-template-columns: 1fr;
+  }
 }
