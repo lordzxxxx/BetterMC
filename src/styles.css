@@ -18813,6 +18813,105 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   }
 }
 
+/* BetterGov attribution: keep the source statement readable, then place the
+   supplied mark beneath it as a compact, high-contrast partner link. */
+.footer-network {
+  align-items: flex-start;
+}
+
+.footer-network p {
+  max-width: 28ch;
+  margin-top: 0;
+  line-height: 1.5;
+}
+
+.bettergov-link {
+  width: min(100%, 286px);
+  min-height: 72px;
+  display: grid !important;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px !important;
+  margin-top: 4px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #f4f6fa;
+  text-decoration: none !important;
+}
+
+.bettergov-mark {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.bettergov-logo-image {
+  width: 58px;
+  height: 58px;
+  display: block;
+  object-fit: contain;
+  /* The supplied mark is blue on white. Inverting plus screen blending makes
+     the mark white while allowing the footer background to show through. */
+  filter: grayscale(1) brightness(0) invert(1);
+  mix-blend-mode: screen;
+}
+
+.bettergov-link-copy {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.bettergov-link-copy strong {
+  color: #ffffff;
+  font-size: 0.98rem;
+  letter-spacing: -0.02em;
+}
+
+.bettergov-link-copy span {
+  color: #aeb5c0;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.bettergov-link > svg {
+  width: 15px;
+  color: #aeb5c0;
+}
+
+.bettergov-link:hover,
+.bettergov-link:focus-visible {
+  border-color: rgba(174, 202, 255, 0.62);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+@media (max-width: 760px) {
+  .footer-network p {
+    display: block;
+    max-width: 34ch;
+    margin: 0;
+  }
+
+  .bettergov-link {
+    width: min(100%, 286px);
+    min-height: 64px;
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+  }
+
+  .bettergov-mark,
+  .bettergov-logo-image {
+    width: 48px;
+    height: 48px;
+  }
+}
+
 /* Phone-only density correction for the primary directory, hero, and GIS.
    These selectors intentionally come after older responsive rules that added
    padding at more than one nested level. */
