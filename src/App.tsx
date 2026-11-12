@@ -3385,40 +3385,31 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             aria-label={`${profile.name} full disclosure summary`}
           >
             <div>
-              <span>Combined 2026 BDP allocation</span>
+              <span>2026 City BDP entry</span>
               <strong>{formatPeso(disclosure.bdp2026Budget)}</strong>
               <small>
-                {formatPeso(disclosure.barangay20PctBdf2026)} Brgy 20% BDF (RA
-                7160 Sec. 287) + ₱1.00M City 20% NTA ({disclosure.bdp2026Status})
+                Published in the City’s 2026 Q1 FDP Form 7
               </small>
             </div>
             <div>
-              <span>FY 2026 Statutory Barangay NTA</span>
-              <strong>{formatPeso(disclosure.barangayNta2026)}</strong>
+              <span>Published project</span>
+              <strong>{disclosure.bdp2026ProjectTitle}</strong>
               <small>
-                DBM LBM No. 92 ({profile.population.toLocaleString("en-PH")}{" "}
-                pop.) · 10% SK: {formatPeso(disclosure.skFund2026)} · 5% BDRRMF:{" "}
-                {formatPeso(disclosure.bdrrmf2026)}
+                City Barangay Development Projects section
               </small>
             </div>
             <div>
-              <span>2025 Q4 BDP accomplishment</span>
-              <strong>{disclosure.bdp2025CompletionRate}</strong>
+              <span>Published status</span>
+              <strong>{disclosure.bdp2026Status}</strong>
               <small>
-                {formatPeso(disclosure.bdp2025CostIncurred)} incurred ·{" "}
-                {disclosure.bdp2025Remarks}
+                Read as listed; not a completion confirmation
               </small>
             </div>
             <div>
-              <span>PhilGEPS, BAC & audit citations</span>
-              <strong>
-                {disclosure.philgepsAwardsCount +
-                  disclosure.officialBidResultsCount +
-                  profile.bids.length}{" "}
-                records
-              </strong>
+              <span>Not published in this entry</span>
+              <strong>Final cost, contractor & completion</strong>
               <small>
-                DBM · Full Disclosure · BAC Malaybalay · PhilGEPS · DILG · COA
+                Check later BAC, PhilGEPS, COA, or FDP records
               </small>
             </div>
           </div>
@@ -3674,9 +3665,9 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                 No 2026 BAC notice on the reviewed source page explicitly
                 matched this barangay. See the{" "}
                 <a href="#disclosure">Full Disclosure section above</a> for{" "}
-                {profile.name}’s {formatPeso(disclosure.bdp2026Budget)} combined
-                2026 Barangay Development allocation (20% BDF + City 20% NTA
-                Counterpart), 2025 Q4 accomplishments, and PhilGEPS records.
+                {profile.name}’s {formatPeso(disclosure.bdp2026Budget)}
+                {" "}source-listed City BDP entry. The absence of a matched BAC
+                notice is not evidence that a project was not procured.
               </p>
               <a href={BAC_2026_SOURCE} target="_blank" rel="noreferrer">
                 Check the official BAC page <ExternalLink aria-hidden="true" />

@@ -41,9 +41,8 @@ describe("BetterMC public portal", () => {
       expect(barangay.officialRoster.barangaySecretary.position).toBe(
         "Barangay Secretary",
       );
-      expect(barangay.fullDisclosure.items.length).toBeGreaterThanOrEqual(4);
-      expect(barangay.fullDisclosure.bdp2026Budget).toBeGreaterThan(1000000);
-      expect(barangay.fullDisclosure.barangayNta2026).toBeGreaterThan(1685420);
+      expect(barangay.fullDisclosure.items).toHaveLength(1);
+      expect(barangay.fullDisclosure.bdp2026Budget).toBe(1000000);
       for (const record of barangay.fullDisclosure.items) {
         expect(disclosureIds.has(record.id)).toBe(false);
         disclosureIds.add(record.id);
@@ -81,7 +80,7 @@ describe("BetterMC public portal", () => {
           "/images/malaybalay-city-hall-background.webp",
       ),
     ).toHaveLength(21);
-    expect(disclosureIds.size).toBeGreaterThanOrEqual(46 * 4);
+    expect(disclosureIds.size).toBe(46);
   });
 
   it("renders the independent-platform disclosure and homepage purpose", () => {
