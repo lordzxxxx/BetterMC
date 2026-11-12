@@ -18877,8 +18877,8 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   width: 64px;
   height: 64px;
   display: block;
-  margin-top: auto;
-  padding-top: 12px;
+  margin-top: 14px;
+  padding-top: 0;
   object-fit: contain;
 }
 
