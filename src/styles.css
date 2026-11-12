@@ -18407,3 +18407,94 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   .metrics-grid { grid-template-columns: 1fr; }
   .barangay-disclosure-summary-strip { grid-template-columns: 1fr; }
 }
+
+/* Phone-only density correction for the primary directory, hero, and GIS.
+   These selectors intentionally come after older responsive rules that added
+   padding at more than one nested level. */
+.hero-description-mobile,
+.hero-verification-mobile,
+.independence-label-mobile { display: none; }
+
+@media (max-width: 760px) {
+  .hero-description-desktop,
+  .hero-verification-desktop,
+  .independence-label-desktop { display: none; }
+  .hero-description-mobile,
+  .hero-verification-mobile,
+  .independence-label-mobile { display: inline; }
+  .independence-inner > p .independence-label-mobile {
+    display: inline !important;
+    margin-left: 0;
+    color: var(--green-900);
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.035em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+  .hero-copy > .hero-description { margin: 0; font-size: 0.91rem; line-height: 1.48; }
+  .hero-verification { gap: 7px; margin-top: 2px; font-size: 0.7rem; line-height: 1.35; }
+  .hero-verification svg { width: 16px; height: 16px; flex: 0 0 16px; }
+
+  .people-grid { gap: 8px !important; }
+  .people-grid .official-group-heading { margin: 8px 0 0; padding-bottom: 5px; font-size: 0.68rem; }
+  .people-grid article.government-official-card { padding: 0 !important; border-radius: 12px; }
+  .government-official-card .official-summary {
+    grid-template-columns: 48px minmax(0, 1fr) !important;
+    min-height: 72px;
+    gap: 10px !important;
+    padding: 10px 12px !important;
+  }
+  .government-official-card .avatar { width: 48px !important; height: 48px !important; }
+  .government-official-card .official-card-copy { gap: 1px; }
+  .government-official-card .official-card-copy h3 { font-size: 0.88rem; line-height: 1.18; }
+  .government-official-card .official-role-title { font-size: 0.74rem; line-height: 1.22; }
+  .government-official-card .official-office-preview { margin-top: 1px; font-size: 0.67rem; }
+
+  .government-popout-modal .barangay-popout-header { min-height: 64px; padding: 10px 12px; }
+  .government-popout-modal .barangay-popout-brand { gap: 8px; }
+  .government-popout-modal .is-modal-avatar { width: 40px; height: 40px; }
+  .government-popout-modal .barangay-popout-brand .eyebrow { font-size: 0.57rem; line-height: 1.18; }
+  .government-popout-modal .barangay-popout-brand h3 { margin-top: 2px; font-size: 0.86rem; line-height: 1.16; }
+  .government-popout-modal .barangay-popout-body { gap: 8px; padding: 10px 12px 14px; }
+  .government-popout-modal .official-profile-tabs { margin-bottom: 8px; }
+  .government-popout-modal .official-profile-tabs button { min-height: 40px; font-size: 0.7rem; }
+  .government-popout-modal .official-profile-section-heading { display: block; margin-bottom: 7px; }
+  .government-popout-modal .official-profile-section-heading .popout-scope-badge { display: none; }
+  .government-popout-modal .official-profile-section-heading h4 { font-size: 0.8rem; line-height: 1.25; }
+  .government-popout-modal .official-profile-role { display: grid; gap: 1px; margin-bottom: 6px; font-size: 0.75rem; }
+  .government-popout-modal .official-profile-address { font-size: 0.7rem; line-height: 1.4; }
+  .government-popout-modal .official-profile-contact-links { grid-template-columns: 1fr; gap: 5px; margin-top: 8px; }
+  .government-popout-modal .official-profile-contact-links .popout-inline-contact { font-size: 0.72rem; }
+  .government-popout-modal .official-profile-section { border-radius: 10px; }
+
+  .noah-clean-gis { padding: 10px; gap: 8px; border-radius: 14px; }
+  .noah-clean-toolbar { padding: 10px; gap: 8px; border-radius: 12px; }
+  .noah-toolbar-header { gap: 6px; padding-bottom: 7px; }
+  .noah-toolbar-eyebrow { font-size: 0.59rem; letter-spacing: 0.07em; }
+  .noah-toolbar-heading { font-size: 0.78rem; line-height: 1.22; }
+  .noah-toolbar-meta { width: 100%; gap: 5px; }
+  .noah-live-telemetry-badge,
+  .noah-active-brgy-pill { min-height: 28px; padding: 4px 8px; font-size: 0.6rem; }
+  .noah-section-geo .noah-input-group { gap: 8px; }
+  .noah-clean-control { gap: 4px; }
+  .noah-clean-control span { font-size: 0.61rem; }
+  .noah-clean-control select { min-height: 40px; padding-inline: 10px; font-size: 0.73rem; }
+  .noah-segmented-group { padding: 2px; }
+  .noah-segmented-group button { min-height: 38px; padding-inline: 4px; font-size: 0.64rem; }
+  .noah-advanced-controls { margin-top: 2px; border-radius: 10px; }
+  .noah-advanced-controls > summary { min-height: 42px; padding: 0 10px; font-size: 0.7rem; }
+  .noah-section-map-layers { gap: 9px; padding: 10px; }
+  .noah-block-label,
+  .noah-timeline-sublabel { font-size: 0.59rem; }
+  .noah-button-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .noah-layer-composite { grid-column: 1 / -1; width: 100%; justify-content: space-between; }
+  .noah-layer-toggle { min-height: 40px; justify-content: center; padding: 5px 8px; font-size: 0.65rem; }
+  .noah-timeline-container { gap: 8px; }
+  .noah-timeline-group-historical,
+  .noah-timeline-group-forecast { gap: 5px; }
+  .noah-timeline-pills { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .noah-timeline-pills::-webkit-scrollbar { display: none; }
+  .noah-timeline-pills button { flex: 0 0 auto; min-width: 68px; min-height: 38px; padding: 4px 7px; font-size: 0.61rem; }
+  .noah-timeline-date-picker label { min-height: 40px; }
+}

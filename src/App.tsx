@@ -434,8 +434,13 @@ function Header() {
       <div className="independence-bar">
         <div className="container independence-inner">
           <p>
-            Independent public information platform{" "}
-            <span>Not an official City Government website</span>
+            <span className="independence-label-desktop">
+              Independent public information platform{" "}
+              <span>Not an official City Government website</span>
+            </span>
+            <span className="independence-label-mobile">
+              Independent civic platform
+            </span>
           </p>
           <MalaybalayClock />
         </div>
@@ -956,11 +961,18 @@ function HomePage() {
               Your city. Your information. Your right to know.
             </p>
             <p className="hero-description">
-              BetterMC is an independent civic technology platform making
-              Malaybalay City&apos;s public information more accessible and
-              transparent. Explore government projects, track public funds,
-              access public services, and discover local records across all 46
-              barangays.
+              <span className="hero-description-desktop">
+                BetterMC is an independent civic technology platform making
+                Malaybalay City&apos;s public information more accessible and
+                transparent. Explore government projects, track public funds,
+                access public services, and discover local records across all 46
+                barangays.
+              </span>
+              <span className="hero-description-mobile">
+                An independent civic platform for source-linked projects,
+                public funds, services, and local records across Malaybalay&apos;s
+                46 barangays.
+              </span>
             </p>
             <div className="hero-actions">
               <Link className="button primary" to="/transparency">
@@ -973,11 +985,16 @@ function HomePage() {
             <div className="hero-verification">
               <ShieldCheck />
               <span>
-                Records show their original source and verification date.
-                <strong>
-                  Portal review: November 6, 2026 · finance and disclosure
-                  rechecked November 9
-                </strong>
+                <span className="hero-verification-desktop">
+                  Records show their original source and verification date.
+                  <strong>
+                    Portal review: November 6, 2026 · finance and disclosure
+                    rechecked November 9
+                  </strong>
+                </span>
+                <span className="hero-verification-mobile">
+                  Source-linked records, reviewed regularly.
+                </span>
               </span>
             </div>
           </div>
