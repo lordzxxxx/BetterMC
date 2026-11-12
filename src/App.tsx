@@ -3679,7 +3679,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                       setActivePopout({ kind: "bid", bid: record })
                     }
                   >
-                    Popout discussion & backup links <ArrowRight aria-hidden="true" />
+                    Open record details <ArrowRight aria-hidden="true" />
                   </button>
                 </div>
               ))}
@@ -3714,7 +3714,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                             setActivePopout({ kind: "bid", bid: record })
                           }
                         >
-                          Popout discussion & backup links <ArrowRight aria-hidden="true" />
+                          Open record details <ArrowRight aria-hidden="true" />
                         </button>
                       </div>
                     ))}

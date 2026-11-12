@@ -12376,6 +12376,83 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--barangay-card-border);
+  border-radius: 14px;
+  background: rgba(248, 252, 255, 0.82);
+  box-shadow: var(--barangay-card-shadow), inset 0 1px #ffffff;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.barangay-bid-item-card:hover {
+  border-color: #8cb8e7;
+  box-shadow: 0 10px 24px rgba(25, 76, 132, 0.09), inset 0 1px #ffffff;
+  transform: translateY(-1px);
+}
+
+.barangay-bid-item-card > a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 10px;
+  min-width: 0;
+  padding: 3px 3px 2px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.barangay-bid-item-card > a:focus-visible {
+  outline: 3px solid rgba(36, 102, 204, 0.32);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+.barangay-bid-item-card > a > span {
+  grid-column: 1;
+  color: #1e5ea9;
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.barangay-bid-item-card > a > strong {
+  grid-column: 2;
+  align-self: start;
+  color: #173b69;
+  font-size: 0.72rem;
+  line-height: 1.25;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.barangay-bid-item-card > a > p {
+  grid-column: 1 / -1;
+  margin: 1px 0 0;
+  color: #294d78;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.barangay-bid-item-card > a > small {
+  grid-column: 1 / -1;
+  color: #607b9c;
+  font-size: 0.67rem;
+  line-height: 1.35;
+}
+
+.barangay-bid-item-card > a > svg {
+  display: none;
+}
+
+.barangay-bid-item-card .barangay-bid-popout-btn {
+  min-height: 34px;
+  justify-content: space-between;
+  padding: 7px 10px;
+  border-radius: 9px;
+  font-size: 0.7rem;
+  letter-spacing: 0.01em;
 }
 
 /* Embedded Barangay Subdomain & Main BetterMC Portal Architecture */
