@@ -18813,26 +18813,26 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   }
 }
 
-/* BetterGov attribution: keep the source statement readable, then place the
-   supplied mark beneath it as a compact, high-contrast partner link. */
+/* BetterGov attribution: keep the linked network card above the description,
+   then show the supplied white mark as a separate footer accent below it. */
 .footer-network {
   align-items: flex-start;
 }
 
 .footer-network p {
   max-width: 28ch;
-  margin-top: 0;
+  margin-top: 8px;
   line-height: 1.5;
 }
 
 .bettergov-link {
-  width: min(100%, 286px);
-  min-height: 72px;
-  display: grid !important;
-  grid-template-columns: 58px minmax(0, 1fr) auto;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 48px;
+  display: inline-flex !important;
   align-items: center;
-  gap: 10px !important;
-  margin-top: 4px;
+  gap: 9px !important;
+  margin-top: 0;
   padding: 8px 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 12px;
@@ -18842,48 +18842,10 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 }
 
 .bettergov-mark {
-  width: 58px;
-  height: 58px;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-}
-
-.bettergov-logo-image {
-  width: 58px;
-  height: 58px;
-  display: block;
-  object-fit: contain;
-  /* The supplied mark is blue on white. Inverting plus screen blending makes
-     the mark white while allowing the footer background to show through. */
-  filter: grayscale(1) brightness(0) invert(1);
-  mix-blend-mode: screen;
-}
-
-.bettergov-link-copy {
-  min-width: 0;
-  display: grid;
-  gap: 3px;
-}
-
-.bettergov-link-copy strong {
-  color: #ffffff;
-  font-size: 0.98rem;
-  letter-spacing: -0.02em;
-}
-
-.bettergov-link-copy span {
-  color: #aeb5c0;
-  font-size: 0.65rem;
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.bettergov-link > svg {
-  width: 15px;
-  color: #aeb5c0;
+  width: auto;
+  height: auto;
+  display: inline-flex;
+  overflow: visible;
 }
 
 .bettergov-link:hover,
@@ -18900,15 +18862,29 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   }
 
   .bettergov-link {
-    width: min(100%, 286px);
-    min-height: 64px;
-    grid-template-columns: 48px minmax(0, 1fr) auto;
+    width: fit-content;
+    min-height: 48px;
   }
 
-  .bettergov-mark,
-  .bettergov-logo-image {
-    width: 48px;
-    height: 48px;
+  .bettergov-mark {
+    width: auto;
+    height: auto;
+  }
+}
+
+.bettergov-footer-logo {
+  width: 78px;
+  height: 78px;
+  display: block;
+  margin-top: 12px;
+  object-fit: contain;
+}
+
+@media (max-width: 760px) {
+  .bettergov-footer-logo {
+    width: 62px;
+    height: 62px;
+    margin-top: 9px;
   }
 }
 

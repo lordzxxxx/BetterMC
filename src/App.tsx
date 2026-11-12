@@ -200,15 +200,13 @@ function Brand() {
 function BetterGovMark() {
   return (
     <span className="bettergov-mark" aria-hidden="true">
-      <img
-        className="bettergov-logo-image"
-        src="/bettergov.png"
-        alt=""
-        width="72"
-        height="72"
-        loading="lazy"
-        decoding="async"
-      />
+      <span className="bettergov-mark-icon">
+        <Landmark />
+      </span>
+      <span className="bettergov-mark-copy">
+        <span>Better</span>
+        <strong>Gov</strong>
+      </span>
     </span>
   );
 }
@@ -630,10 +628,6 @@ function Footer() {
           aria-labelledby="civic-network"
         >
           <h2 id="civic-network">Civic network</h2>
-          <p>
-            Source-linked local government information built for public
-            participation.
-          </p>
           <a
             className="bettergov-link"
             href="https://lgu.bettergov.ph/"
@@ -641,12 +635,22 @@ function Footer() {
             rel="noreferrer"
           >
             <BetterGovMark />
-            <span className="bettergov-link-copy">
-              <strong>BetterGov</strong>
-              <span>Powered by BetterGov</span>
-            </span>
+            <span className="bettergov-link-label">Powered by BetterGov</span>
             <ExternalLink aria-hidden="true" />
           </a>
+          <p>
+            Source-linked local government information built for public
+            participation.
+          </p>
+          <img
+            className="bettergov-footer-logo"
+            src="/bettergov-white.png"
+            alt="BetterGov logo"
+            width="78"
+            height="78"
+            loading="lazy"
+            decoding="async"
+          />
         </section>
       </div>
       <div className="container footer-bottom">
