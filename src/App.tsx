@@ -197,6 +197,20 @@ function Brand() {
   );
 }
 
+function BetterGovMark() {
+  return (
+    <span className="bettergov-mark" aria-hidden="true">
+      <span className="bettergov-mark-icon">
+        <Landmark />
+      </span>
+      <span className="bettergov-mark-copy">
+        <span>Better</span>
+        <strong>Gov</strong>
+      </span>
+    </span>
+  );
+}
+
 function MalaybalayClock() {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
@@ -615,13 +629,13 @@ function Footer() {
         >
           <h2 id="civic-network">Civic network</h2>
           <a
-            className="footer-action-card bettergov-link"
+            className="bettergov-link"
             href="https://lgu.bettergov.ph/"
             target="_blank"
             rel="noreferrer"
           >
-            <span>Powered by</span>
-            <strong>BetterGov</strong>
+            <BetterGovMark />
+            <span className="bettergov-link-label">Powered by BetterGov</span>
             <ExternalLink aria-hidden="true" />
           </a>
           <p>
