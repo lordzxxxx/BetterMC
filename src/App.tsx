@@ -3451,13 +3451,15 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             </div>
           </div>
 
-          <aside className="barangay-disclosure-archive" aria-label={`${profile.name} historical procurement archive`}>
+          <aside className="barangay-disclosure-archive" aria-label={`${profile.name} procurement and audit source archive`}>
             <div>
-              <span>Historical source archive</span>
-              <strong>2023–2026 City procurement files</strong>
+              <span>Source archive</span>
+              <strong>2023–2026 procurement and audit context</strong>
               <p>
-                These City documents are available for independent checking. They
-                are not presented as a complete register of completed work.
+                These City and COA documents are available for independent checking.
+                A COA link provides city-wide audit context; it is not a per-project
+                completion register. This archive is not presented as a complete
+                register of every work item.
               </p>
             </div>
             <div className="barangay-disclosure-archive-links">

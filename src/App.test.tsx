@@ -43,7 +43,7 @@ describe("BetterMC public portal", () => {
       );
       expect(barangay.fullDisclosure.items.length).toBeGreaterThanOrEqual(1);
       expect(barangay.fullDisclosure.bdp2026Budget).toBe(1000000);
-      expect(barangay.fullDisclosure.historicalSources).toHaveLength(4);
+      expect(barangay.fullDisclosure.historicalSources.length).toBeGreaterThanOrEqual(4);
       for (const source of barangay.fullDisclosure.historicalSources) {
         expect(source.url).toMatch(/^https:\/\//);
         expect(source.label).toMatch(/2023|2024|2025|2026/);
