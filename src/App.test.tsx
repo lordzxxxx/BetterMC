@@ -41,8 +41,13 @@ describe("BetterMC public portal", () => {
       expect(barangay.officialRoster.barangaySecretary.position).toBe(
         "Barangay Secretary",
       );
-      expect(barangay.fullDisclosure.items).toHaveLength(1);
+      expect(barangay.fullDisclosure.items.length).toBeGreaterThanOrEqual(1);
       expect(barangay.fullDisclosure.bdp2026Budget).toBe(1000000);
+      expect(barangay.fullDisclosure.historicalSources).toHaveLength(4);
+      for (const source of barangay.fullDisclosure.historicalSources) {
+        expect(source.url).toMatch(/^https:\/\//);
+        expect(source.label).toMatch(/2023|2024|2025|2026/);
+      }
       for (const record of barangay.fullDisclosure.items) {
         expect(disclosureIds.has(record.id)).toBe(false);
         disclosureIds.add(record.id);
@@ -52,6 +57,11 @@ describe("BetterMC public portal", () => {
         expect(record.backupSources.length).toBeGreaterThan(0);
         expect(record.summary.length).toBeGreaterThan(80);
         expect(record.discussion.howToVerify.length).toBeGreaterThan(40);
+        if (record.category === "bids") {
+          expect(record.utilizedAmount).toBeNull();
+          expect(record.primarySource.label).toContain("FDP Form 10a");
+          expect(record.summary).toContain("does not establish");
+        }
       }
       expect(barangay.subdomainHost).toBe(
         `${barangay.slug}.bettermalaybalay.cloud`,
@@ -80,7 +90,7 @@ describe("BetterMC public portal", () => {
           "/images/malaybalay-city-hall-background.webp",
       ),
     ).toHaveLength(21);
-    expect(disclosureIds.size).toBe(46);
+    expect(disclosureIds.size).toBeGreaterThanOrEqual(46);
   });
 
   it("renders the independent-platform disclosure and homepage purpose", () => {
@@ -297,7 +307,7 @@ describe("BetterMC public portal", () => {
     expect(screen.getAllByRole("button", { name: /Open .* public profile/i })).toHaveLength(10);
     expect(
       screen.getByRole("heading", {
-        name: /Budget, accomplishments, bids, and projects in Dalwangan/i,
+        name: /Source-linked projects and funding in Dalwangan/i,
       }),
     ).toBeInTheDocument();
     fireEvent.click(

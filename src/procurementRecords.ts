@@ -5,6 +5,40 @@ export type ProcurementAwardRecord = {
   sourceUrl: string;
 };
 
+export type CityProcurementArchiveSource = {
+  label: string;
+  period: string;
+  url: string;
+};
+
+/**
+ * Official City files available for historical checking. These links are an
+ * archive index, not a claim that every file contains a record for every
+ * barangay or that every listed procurement reached completion.
+ */
+export const cityProcurementArchiveSources: CityProcurementArchiveSource[] = [
+  {
+    label: "2023 Annual Procurement Plan",
+    period: "2023",
+    url: "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/ANNUAL-PROCUREMENT-PLAN-2023.xlsx-APP-2023.pdf",
+  },
+  {
+    label: "2024 Q4 Bid Results — Civil Works, Goods, Services and Consulting",
+    period: "2024 Q4",
+    url: "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/BID-RESULTS-ON-CIVIL-WORKS-GOOD-AND-SERVICES-AND-CONSULTING-SERVICES2024-Q4.pdf",
+  },
+  {
+    label: "2025 Q3 Bid Results — Civil Works, Goods, Services and Consulting",
+    period: "2025 Q3",
+    url: "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/BID-RESULTS-ON-CIVIL-WORKS-GOOD-AND-SERVICES-AND-CONSULTING-SERVICES2025-Q3.pdf",
+  },
+  {
+    label: "2026 Q1 Bid Results — Civil Works, Goods, Services and Consulting",
+    period: "2026 Q1",
+    url: "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/BID-RESULTS-ON-CIVIL-WORKS-GOOD-AND-SERVICES-AND-CONSULTING-SERVICES2026-Q1.pdf",
+  },
+];
+
 export const INFRASTRUCTURE_AWARDS_SOURCE =
   "https://sites.google.com/site/malaybalay221/awarded-projects/infrastructure";
 

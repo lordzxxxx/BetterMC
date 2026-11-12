@@ -19,6 +19,7 @@ const FILES = [
   "src/data.ts",
   "src/bidRecords.ts",
   "src/barangayDisclosures.ts",
+  "src/procurementRecords.ts",
   "src/barangayProfiles.ts",
   "src/serviceCatalog.ts",
 ];

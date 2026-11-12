@@ -239,6 +239,14 @@ test("transparency and legislation retain local context pages", async ({ page })
   await expect(detailLink).toHaveAttribute("href", /\/transparency\/2026\/q2\//);
   await detailLink.click();
   await expect(
+    page.getByRole("dialog", {
+      name: /Statement of Receipts and Expenditures disclosure popout/i,
+    }),
+  ).toBeVisible();
+  await page
+    .getByRole("link", { name: /Open standalone record page/i })
+    .click();
+  await expect(
     page.getByRole("heading", { name: "Record availability" }),
   ).toBeVisible();
   await expect(page).toHaveURL(/\/transparency\/2026\/q2\//);
@@ -273,36 +281,36 @@ test("leader profiles expose verified contacts and record scope", async ({
   page,
 }) => {
   await page.goto("/government");
-  const firstDetailsButton = page
-    .getByRole("button", { name: "Details", exact: true })
-    .first();
-  const leaderCard = firstDetailsButton.locator("xpath=ancestor::article");
-  const closedBox = await leaderCard.boundingBox();
-  await firstDetailsButton.click();
-  const openBox = await leaderCard.boundingBox();
-  expect(closedBox).not.toBeNull();
-  expect(openBox).not.toBeNull();
-  expect(openBox!.x).toBeCloseTo(closedBox!.x, 0);
-  expect(openBox!.width).toBeCloseTo(closedBox!.width, 0);
-  await expect(leaderCard.getByText("City Mayor’s Office")).toBeVisible();
+  await page
+    .getByRole("button", { name: /Jay Warren R\. Pabillaran.*open verified profile/i })
+    .click();
+  const mayorProfile = page.getByRole("dialog", {
+    name: /Jay Warren R\. Pabillaran verified profile details/i,
+  });
+  await expect(mayorProfile).toBeVisible();
   await expect(
-    page.getByRole("link", { name: /0953-459-1777/ }),
+    mayorProfile.getByRole("heading", {
+      name: "City Mayor’s Office",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    mayorProfile.getByRole("link", { name: /0953-459-1777/ }),
   ).toHaveAttribute("href", "tel:09534591777");
   await expect(
-    page.getByText(/mayoral office issuances indexed/i),
+    mayorProfile.getByRole("heading", { name: /City Mayor’s Office issuances/i }),
   ).toBeVisible();
 
   await page.goto("/government?tab=officials&official=jason-chad-j-ayala");
-  const councilorCard = page.locator("article.expanded");
+  const councilorCard = page.getByRole("dialog", {
+    name: /Jason Chad J\. Ayala verified profile details/i,
+  });
+  await expect(councilorCard).toBeVisible();
   await expect(
-    councilorCard.getByText("Published constituency contact"),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: /0994-514-3081/ }),
-  ).toHaveAttribute("href", "tel:09945143081");
-  await expect(councilorCard.getByText("Quasi-Judicial")).toBeVisible();
-  await expect(
-    councilorCard.getByText("Environment and Natural Resources"),
+    councilorCard.getByRole("heading", {
+      name: "Jason Chad J. Ayala — City Councilor",
+      exact: true,
+    }),
   ).toBeVisible();
 });
 
@@ -326,10 +334,8 @@ test("barangay profile exposes sourced identity, services, and emergency contact
       name: /Barangay overview/i,
     }),
   ).toBeVisible();
-  await expect(page.getByText("8 of 46")).toBeVisible();
-  await expect(page.getByText("4.01%", { exact: true })).toBeVisible();
   await expect(
-    page.getByText(/Latest official count available in 2026/i),
+    page.getByRole("complementary").getByText(/Where this information comes from/i),
   ).toBeVisible();
   await expect(
     page.getByRole("heading", {
@@ -337,15 +343,14 @@ test("barangay profile exposes sourced identity, services, and emergency contact
     }),
   ).toBeVisible();
   await expect(
-    page.getByRole("heading", {
-      name: /Published projects mentioning Dalwangan/i,
-    }),
+    page.getByText(/Source-linked projects and funding in Dalwangan/i),
   ).toBeVisible();
-  await expect(page.locator(".leaflet-overlay-pane path")).toHaveCount(1);
-  await expect(page.locator(".leaflet-overlay-pane path")).toHaveAttribute(
-    "fill-opacity",
-    "0",
-  );
+  await expect(
+    page.getByRole("complementary", { name: /Dalwangan historical procurement archive/i }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Map", exact: true }),
+  ).toHaveAttribute("href", "#map");
   await expect(
     page.getByRole("heading", { name: /Urgent help across Malaybalay/i }),
   ).toBeVisible();

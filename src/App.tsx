@@ -113,6 +113,7 @@ import {
   type BarangayDisclosureItem,
 } from "./barangayDisclosures";
 import {
+  cityProcurementArchiveSources,
   goodsServicesAwardRecords,
   GOODS_SERVICES_AWARDS_SOURCE,
   infrastructureAwardRecords,
@@ -1633,6 +1634,28 @@ function ProcurementPage() {
           sourceUrl={page.sourceUrl}
         />
 
+        <section className="procurement-archive" aria-labelledby="procurement-archive-title">
+          <div>
+            <span className="eyebrow">Historical City archive</span>
+            <h2 id="procurement-archive-title">Check the original 2023–2026 files</h2>
+            <p>
+              Use these official City disclosures to examine published procurement
+              records across periods. Each file has its own scope; a title or
+              bidder listing is not evidence that work started, was paid, or was
+              completed.
+            </p>
+          </div>
+          <div className="procurement-archive-links">
+            {cityProcurementArchiveSources.map((source) => (
+              <a key={source.url} href={source.url} target="_blank" rel="noreferrer">
+                <span>{source.period}</span>
+                <strong>{source.label}</strong>
+                <ExternalLink aria-hidden="true" />
+              </a>
+            ))}
+          </div>
+        </section>
+
         <div className="procurement-source-ledger">
           <ShieldCheck aria-hidden="true" />
           <div>
@@ -3032,13 +3055,13 @@ function formatPublishedPeso(amount: number | null) {
 
 function disclosureAmountLabel(item: BarangayDisclosureItem) {
   return item.category === "bids"
-    ? "Published award / contract"
+    ? "Published bid amount"
     : "Reported allocation / utilization";
 }
 
 function disclosureEntityLabel(item: BarangayDisclosureItem) {
   return item.category === "bids"
-    ? "Published implementer / contractor"
+    ? "Published bidder outcome"
     : "Published implementing office";
 }
 
@@ -3372,12 +3395,12 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
         >
           <SectionHeading
             eyebrow="Barangay full disclosure & audit trail"
-            title={`Budget, accomplishments, bids, and projects in ${profile.name}`}
+            title={`Source-linked projects and funding in ${profile.name}`}
           >
-            Records are shown only when a cited public source names this
-            barangay. The portal does not infer a contractor, award, actual
-            cost, change order, or completion when the published record does
-            not provide it. Open any record for its source and context.
+            The archive below links the City’s 2023–2026 disclosure files.
+            A record is assigned only when its cited source names this
+            barangay. A procurement result is not treated as work started or
+            completed unless a later source says so.
           </SectionHeading>
 
           <div
@@ -3413,6 +3436,31 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
               </small>
             </div>
           </div>
+
+          <aside className="barangay-disclosure-archive" aria-label={`${profile.name} historical procurement archive`}>
+            <div>
+              <span>Historical source archive</span>
+              <strong>2023–2026 City procurement files</strong>
+              <p>
+                These City documents are available for independent checking. They
+                are not presented as a complete register of completed work.
+              </p>
+            </div>
+            <div className="barangay-disclosure-archive-links">
+              {disclosure.historicalSources.map((source) => (
+                <a
+                  key={source.url}
+                  href={source.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FileCheck2 aria-hidden="true" />
+                  <span>{source.label.replace("City of Malaybalay — ", "")}</span>
+                  <ExternalLink aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+          </aside>
 
           <div className="barangay-disclosure-controls">
             <div
@@ -3472,7 +3520,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                         : item.category === "accomplishments"
                           ? "Accomplishment"
                           : item.category === "bids"
-                            ? "Bid or award"
+                            ? "Bid result"
                             : "Project"}
                     </span>
                     <span>{item.referenceNumber}</span>
@@ -3883,7 +3931,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                         <dd>{formatPublishedPeso(activePopout.item.utilizedAmount)}</dd>
                       </div>
                       <div>
-                        <dt>Published status / schedule</dt>
+                      <dt>Published outcome / schedule</dt>
                         <dd>
                           {activePopout.item.status}
                           {activePopout.item.contractDuration
@@ -3897,9 +3945,10 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                       </div>
                     </dl>
                     <p className="barangay-popout-evidence-note">
-                      Estimated cost, final actual cost, change orders, and a
-                      contractor are shown only when the cited record publishes
-                      them. An omitted field is not inferred by BetterMC.
+                      Estimated cost, final actual cost, change orders, start
+                      dates, completion dates, and a contractor are shown only
+                      when the cited record publishes them. An omitted field is
+                      not inferred by BetterMC.
                     </p>
                   </section>
                   <div className="barangay-popout-discussion">
