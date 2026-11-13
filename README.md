@@ -15,12 +15,13 @@ BetterMC is an independent public information and transparency portal for Malayb
 - Institution-attributed ordinances, mayoral executive issuances, project reports, and verified city recognition
 - Layered, subdued Malaybalay City Hall hero background with readable foreground content
 - Scope-labeled BAC procurement links for infrastructure, goods and services, and small-value procurement
+- Source-matched 2026 DPWH infrastructure records for locations that explicitly name a Malaybalay barangay, with contract stage, published contract cost, contractor, start date, and reported accomplishment kept distinct
 - Official Citizen's Charter and public-service entry points
 - Compact access to every primary portal page from the global navigation
 - Community correction intake with shared validation, optional Turnstile verification, and email forwarding through Resend
 - Responsive, keyboard-accessible public interface
 
-Published financial and project figures are labeled with their reporting period and source. A listed document is not treated as proof of legal compliance, current project completion, or individual political credit. Procurement award details remain outside the verified scope of this release.
+Published financial and project figures are labeled with their reporting period and source. A listed document is not treated as proof of legal compliance, current project completion, payment, or individual political credit. The DPWH ledger is limited to exact location matches returned by the official portal; it is not presented as a complete inventory of all infrastructure affecting Malaybalay.
 
 ## Stack
 

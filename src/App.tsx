@@ -135,6 +135,12 @@ import {
 } from "./serviceCatalog";
 import { MALAYBALAY_CENTROIDS } from "./malaybalayGisData";
 import { civicRecordContext } from "./civicRecordContext";
+import {
+  DPWH_PROJECTS_REVIEWED_ON,
+  DPWH_TRANSPARENCY_PORTAL_URL,
+  dpwhMalaybalayProjects2026,
+  dpwhProjectSourceUrl,
+} from "./dpwhProjects";
 import { searchPortal } from "./searchIndex";
 import { sitePages } from "./sitePages";
 import WeatherPanel from "./WeatherPanel";
@@ -1699,6 +1705,108 @@ function ProcurementPage() {
   );
 }
 
+function DpwhInfrastructureLedger() {
+  const activeContracts = dpwhMalaybalayProjects2026.filter(
+    (project) => project.stage === "active-contract",
+  );
+  const procurementRecords = dpwhMalaybalayProjects2026.filter(
+    (project) => project.stage === "for-procurement",
+  );
+  const publishedContractCost = activeContracts.reduce(
+    (total, project) => total + (project.contractCost ?? 0),
+    0,
+  );
+
+  return (
+    <section className="dpwh-ledger" aria-labelledby="dpwh-ledger-title">
+      <div className="dpwh-ledger-heading">
+        <div>
+          <span className="eyebrow">National infrastructure</span>
+          <h2 id="dpwh-ledger-title">DPWH contracts naming Malaybalay barangays</h2>
+          <p>
+            These records come from the official DPWH Transparency Portal. A
+            contract cost is not an amount paid or a final audited cost, while
+            a “For Procurement” entry is not yet a contract award.
+          </p>
+        </div>
+        <a href={DPWH_TRANSPARENCY_PORTAL_URL} target="_blank" rel="noreferrer">
+          Open DPWH portal <ExternalLink aria-hidden="true" />
+        </a>
+      </div>
+      <dl className="dpwh-ledger-summary">
+        <div>
+          <dt>Exact 2026 matches</dt>
+          <dd>{dpwhMalaybalayProjects2026.length}</dd>
+        </div>
+        <div>
+          <dt>On-going contracts</dt>
+          <dd>{activeContracts.length}</dd>
+        </div>
+        <div>
+          <dt>For procurement</dt>
+          <dd>{procurementRecords.length}</dd>
+        </div>
+        <div>
+          <dt>Published contract cost</dt>
+          <dd>{formatPeso(publishedContractCost)}</dd>
+        </div>
+      </dl>
+      <details className="dpwh-ledger-records">
+        <summary>
+          <span>Review all source-matched DPWH records</span>
+          <small>Checked {DPWH_PROJECTS_REVIEWED_ON}</small>
+          <ChevronDown aria-hidden="true" />
+        </summary>
+        <div className="dpwh-ledger-grid">
+          {dpwhMalaybalayProjects2026.map((project) => (
+            <article key={project.contractId}>
+              <div className="dpwh-ledger-meta">
+                <span>{project.contractId}</span>
+                <span className={project.stage === "active-contract" ? "is-active" : "is-procurement"}>
+                  {project.status}
+                </span>
+              </div>
+              <h3>{project.title}</h3>
+              <p>{project.barangayName} · {project.officialDescription}</p>
+              <dl>
+                <div>
+                  <dt>Contract cost</dt>
+                  <dd>{formatPublishedPeso(project.contractCost)}</dd>
+                </div>
+                <div>
+                  <dt>Contractor</dt>
+                  <dd>{project.contractor ?? "Not yet published"}</dd>
+                </div>
+                <div>
+                  <dt>Portal start date</dt>
+                  <dd>{project.startDate ?? "Not yet published"}</dd>
+                </div>
+                <div>
+                  <dt>Accomplishment</dt>
+                  <dd>
+                    {project.accomplishmentPercent === null
+                      ? "Not applicable"
+                      : `${project.accomplishmentPercent.toLocaleString("en-PH", { maximumFractionDigits: 2 })}%`}
+                  </dd>
+                </div>
+              </dl>
+              <a href={dpwhProjectSourceUrl(project.contractId)} target="_blank" rel="noreferrer">
+                Verify official record <ExternalLink aria-hidden="true" />
+              </a>
+            </article>
+          ))}
+        </div>
+      </details>
+      <p className="dpwh-ledger-audit-note">
+        <ShieldCheck aria-hidden="true" /> COA reports are linked as independent
+        audit context. BetterMC does not relabel DPWH contracts as “COA
+        projects,” and it does not infer completion, payment, or barangay
+        coverage beyond locations explicitly named by the source.
+      </p>
+    </section>
+  );
+}
+
 function TransparencyPage() {
   const [params, setParams] = useSearchParams();
   const year = Number(params.get("year") ?? 2026);
@@ -1772,6 +1880,7 @@ function TransparencyPage() {
             Open official catalog <ExternalLink aria-hidden="true" />
           </a>
         </aside>
+        <DpwhInfrastructureLedger />
         <div className="procurement-sources">
           <SectionHeading
             eyebrow="Procurement records"
@@ -3108,12 +3217,28 @@ function formatPublishedPeso(amount: number | null) {
 }
 
 function disclosureAmountLabel(item: BarangayDisclosureItem) {
+  if (item.sourceKind === "dpwh-contract") return "Portal accomplishment";
+  if (item.sourceKind === "dpwh-procurement") return "Contract value";
   return item.category === "bids"
     ? "Published bid amount"
     : "Reported allocation / utilization";
 }
 
+function disclosureAmountValue(item: BarangayDisclosureItem) {
+  if (item.sourceKind === "dpwh-contract") return item.completionRate;
+  if (item.sourceKind === "dpwh-procurement") return "Not yet published";
+  return formatPublishedPeso(item.utilizedAmount);
+}
+
+function disclosureBudgetLabel(item: BarangayDisclosureItem) {
+  if (item.sourceKind === "dpwh-contract") return "DPWH contract cost";
+  if (item.sourceKind === "dpwh-procurement") return "Contract cost";
+  return "Published budget / ABC";
+}
+
 function disclosureEntityLabel(item: BarangayDisclosureItem) {
+  if (item.sourceKind === "dpwh-contract") return "DPWH / contractor";
+  if (item.sourceKind === "dpwh-procurement") return "Implementing agency / contractor";
   return item.category === "bids"
     ? "Published bidder outcome"
     : "Published implementing office";
@@ -3605,12 +3730,12 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                   <p>{item.summary}</p>
                   <dl className="barangay-disclosure-metrics">
                     <div>
-                      <dt>Published budget / ABC</dt>
+                      <dt>{disclosureBudgetLabel(item)}</dt>
                       <dd>{formatPublishedPeso(item.approvedBudget)}</dd>
                     </div>
                     <div>
                       <dt>{disclosureAmountLabel(item)}</dt>
-                      <dd>{formatPublishedPeso(item.utilizedAmount)}</dd>
+                      <dd>{disclosureAmountValue(item)}</dd>
                     </div>
                     <div>
                       <dt>Published status</dt>
@@ -3996,12 +4121,12 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                         </dd>
                       </div>
                       <div>
-                        <dt>Published budget / ABC</dt>
+                        <dt>{disclosureBudgetLabel(activePopout.item)}</dt>
                         <dd>{formatPublishedPeso(activePopout.item.approvedBudget)}</dd>
                       </div>
                       <div>
                         <dt>{disclosureAmountLabel(activePopout.item)}</dt>
-                        <dd>{formatPublishedPeso(activePopout.item.utilizedAmount)}</dd>
+                        <dd>{disclosureAmountValue(activePopout.item)}</dd>
                       </div>
                       <div>
                       <dt>Published outcome / schedule</dt>

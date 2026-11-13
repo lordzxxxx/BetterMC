@@ -17,6 +17,7 @@ import {
   goodsServicesAwardRecords,
   infrastructureAwardRecords,
 } from "./procurementRecords";
+import { dpwhMalaybalayProjects2026 } from "./dpwhProjects";
 import {
   localServicePathways,
   serviceCategories,
@@ -176,6 +177,16 @@ export const portalSearchIndex: PortalSearchRecord[] = [
         ? "/procurement/small-value-procurement"
         : "/procurement/bidding-opportunities",
     keywords: `${record.barangays.join(" ")} BAC ITB 2026 procurement project`,
+  })),
+  ...dpwhMalaybalayProjects2026.map((project) => ({
+    type:
+      project.stage === "active-contract"
+        ? "DPWH infrastructure contract"
+        : "DPWH project for procurement",
+    title: `${project.contractId} · ${project.title}`,
+    detail: `${project.barangayName} · ${project.status}${project.contractor ? ` · ${project.contractor}` : ""}`,
+    href: `/barangays/${project.barangaySlug}#full-disclosure`,
+    keywords: `${project.officialDescription} ${project.sourceOfFunds ?? ""} DPWH contract cost accomplishment contractor infrastructure taxes`,
   })),
   ...infrastructureAwardRecords.map((record) => ({
     type: "Infrastructure award",

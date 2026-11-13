@@ -1,4 +1,11 @@
 import { type Source } from "./data";
+import {
+  DPWH_PROJECTS_REVIEWED_ON,
+  DPWH_TRANSPARENCY_PORTAL_URL,
+  dpwhMalaybalayProjects2026,
+  dpwhProjectSourceUrl,
+  type DpwhProject,
+} from "./dpwhProjects";
 import { infrastructureAwardRecords, type ProcurementAwardRecord } from "./procurementRecords";
 
 export type BarangayDisclosureCategory =
@@ -35,6 +42,12 @@ export type BarangayDisclosureItem = {
   };
   primarySource: Source;
   backupSources: Source[];
+  sourceKind?:
+    | "city-development"
+    | "city-bid-result"
+    | "philgeps-award"
+    | "dpwh-contract"
+    | "dpwh-procurement";
 };
 
 export type BarangayFullDisclosureProfile = {
@@ -48,7 +61,7 @@ export type BarangayFullDisclosureProfile = {
   items: BarangayDisclosureItem[];
 };
 
-const REVIEWED_ON = "2026-11-12";
+const REVIEWED_ON = "2026-11-13";
 const NTA_Q1_URL =
   "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/20-OF-THE-NATIONAL-TAX-ALLOTMENT-UTILIZATION2026-Q1.pdf";
 const APP_URL =
@@ -60,6 +73,8 @@ const BID_RESULTS_2025_Q3_URL =
   "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/BID-RESULTS-ON-CIVIL-WORKS-GOOD-AND-SERVICES-AND-CONSULTING-SERVICES2025-Q3.pdf";
 const BID_RESULTS_2026_Q1_URL =
   "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/BID-RESULTS-ON-CIVIL-WORKS-GOOD-AND-SERVICES-AND-CONSULTING-SERVICES2026-Q1.pdf";
+const BID_RESULTS_2026_Q2_URL =
+  "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/BID-RESULTS-ON-CIVIL-WORKS-GOOD-AND-SERVICES-AND-CONSULTING-SERVICES2026-Q2.pdf";
 
 const ntaSource: Source = {
   label: "City of Malaybalay — 2026 Q1 20% National Tax Allotment Utilization (FDP Form 7)",
@@ -104,6 +119,16 @@ const historicalSources: Source[] = [
     label: "City of Malaybalay — 2026 Q1 Bid Results (FDP Form 10)",
     url: BID_RESULTS_2026_Q1_URL,
     verifiedOn: REVIEWED_ON,
+  },
+  {
+    label: "City of Malaybalay — 2026 Q2 Bid Results (FDP Form 10)",
+    url: BID_RESULTS_2026_Q2_URL,
+    verifiedOn: REVIEWED_ON,
+  },
+  {
+    label: "DPWH — 2026 Malaybalay infrastructure contracts and procurement-stage records",
+    url: DPWH_TRANSPARENCY_PORTAL_URL,
+    verifiedOn: DPWH_PROJECTS_REVIEWED_ON,
   },
   {
     label: "COA — Malaybalay City Compliance Audit Report 2025 (city-wide context; not a project register)",
@@ -297,6 +322,7 @@ function toPhilgepsAwardDisclosureItem(row: PublishedPhilgepsAwardRow): Barangay
       { label: "City of Malaybalay — Full Disclosure portal", url: FDP_HUB_URL, verifiedOn: REVIEWED_ON },
       { label: "City of Malaybalay — Full Disclosure procurement archive", url: "https://sakata.malaybalaycity.gov.ph/awarded-projects/", verifiedOn: REVIEWED_ON },
     ],
+    sourceKind: "philgeps-award",
   };
 }
 
@@ -439,7 +465,87 @@ function toBidDisclosureItem(row: PublishedBidResultRow): BarangayDisclosureItem
         verifiedOn: REVIEWED_ON,
       },
     ],
+    sourceKind: "city-bid-result",
   };
+}
+
+function formatDpwhPercent(value: number) {
+  return `${value.toLocaleString("en-PH", { maximumFractionDigits: 2 })}%`;
+}
+
+function toDpwhDisclosureItem(project: DpwhProject): BarangayDisclosureItem {
+  const isContract = project.stage === "active-contract";
+  const accomplishment =
+    project.accomplishmentPercent === null
+      ? "Not applicable — still for procurement"
+      : `${formatDpwhPercent(project.accomplishmentPercent)} physical accomplishment reported by DPWH`;
+  const source: Source = {
+    label: `DPWH Transparency Portal — contract ${project.contractId}`,
+    url: dpwhProjectSourceUrl(project.contractId),
+    verifiedOn: DPWH_PROJECTS_REVIEWED_ON,
+  };
+
+  return {
+    id: `dpwh-${project.contractId.toLowerCase()}`,
+    barangayName: project.barangayName,
+    barangaySlug: project.barangaySlug,
+    category: "projects",
+    subcategory: isContract
+      ? "DPWH national infrastructure contract"
+      : "DPWH procurement-stage infrastructure record",
+    referenceNumber: `DPWH · ${project.contractId}`,
+    title: project.title,
+    period: "2026",
+    approvedBudget: project.contractCost,
+    utilizedAmount: null,
+    completionRate: accomplishment,
+    status: isContract
+      ? `${project.status} · ${accomplishment}`
+      : "For Procurement — no contractor, contract cost, or start date published",
+    implementingOffice: project.contractor
+      ? `DPWH · ${project.contractor}`
+      : "DPWH · contractor not yet published",
+    contractDuration: project.startDate
+      ? `Portal start date: ${project.startDate}; completion date not published in the retrieved record`
+      : "No contract schedule published while the record remains for procurement",
+    imageUrl: `/images/barangay-heroes/${project.barangaySlug}.webp`,
+    badgeUrl: `/images/barangays/${project.barangaySlug}.webp`,
+    imageCaption: `${project.barangayName} — DPWH infrastructure record context`,
+    summary: isContract
+      ? `DPWH publishes contract ${project.contractId} for ${project.barangayName} at ${formatPesoForCopy(project.contractCost)} with ${project.contractor} and ${accomplishment.toLowerCase()}. This is a portal status snapshot, not a COA finding or proof of final payment.`
+      : `DPWH lists ${project.contractId} for ${project.barangayName} as “For Procurement.” No contractor, contract cost, start date, payment, or accomplishment is attributed until the official portal publishes it.`,
+    discussion: {
+      whatThisRecordShows: isContract
+        ? `The official DPWH Transparency Portal identifies contract ${project.contractId}, publishes a contract cost of ${formatPesoForCopy(project.contractCost)}, names ${project.contractor}, and reports ${accomplishment.toLowerCase()}.`
+        : `The official DPWH Transparency Portal identifies ${project.contractId} as a proposed 2026 infrastructure record for ${project.barangayName}, but its current stage is “For Procurement.”`,
+      budgetAndAuditContext: isContract
+        ? "DPWH labels the amount as contract cost. It is not presented as the amount paid, final audited cost, or a COA finding. Portal accomplishment can change as DPWH updates the contract record."
+        : "A procurement-stage listing is not a contract award. A zero displayed by a data system at this stage is not treated as a zero-value project; BetterMC leaves the contract value unavailable.",
+      howToVerify: `Open DPWH contract ${project.contractId} in the official Transparency Portal and compare its contractor, contract cost, status, start date, and accomplishment. COA audit reports provide oversight context but are not substituted for the DPWH contract record.`,
+    },
+    primarySource: source,
+    backupSources: [
+      {
+        label: "DPWH Transparency Portal — Malaybalay project search",
+        url: DPWH_TRANSPARENCY_PORTAL_URL,
+        verifiedOn: DPWH_PROJECTS_REVIEWED_ON,
+      },
+      {
+        label: "COA — Malaybalay City Compliance Audit Report 2025 (audit context; not a project register)",
+        url: "https://www.coa.gov.ph/wpfd_file/malaybalay-city-compliance-audit-report-2025/",
+        verifiedOn: REVIEWED_ON,
+      },
+    ],
+    sourceKind: isContract ? "dpwh-contract" : "dpwh-procurement",
+  };
+}
+
+function formatPesoForCopy(amount: number | null) {
+  if (amount === null) return "an unpublished contract cost";
+  return `₱${amount.toLocaleString("en-PH", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
 }
 
 const bidDisclosureByBarangay = new Map<string, BarangayDisclosureItem[]>();
@@ -454,6 +560,13 @@ for (const record of publishedPhilgepsAwardRows) {
   const bucket = philgepsDisclosureByBarangay.get(record.barangaySlug) ?? [];
   bucket.push(toPhilgepsAwardDisclosureItem(record));
   philgepsDisclosureByBarangay.set(record.barangaySlug, bucket);
+}
+
+const dpwhDisclosureByBarangay = new Map<string, BarangayDisclosureItem[]>();
+for (const project of dpwhMalaybalayProjects2026) {
+  const bucket = dpwhDisclosureByBarangay.get(project.barangaySlug) ?? [];
+  bucket.push(toDpwhDisclosureItem(project));
+  dpwhDisclosureByBarangay.set(project.barangaySlug, bucket);
 }
 
 function toProfile(project: PublishedBarangayProject): BarangayFullDisclosureProfile {
@@ -483,6 +596,7 @@ function toProfile(project: PublishedBarangayProject): BarangayFullDisclosurePro
     },
     primarySource: ntaSource,
     backupSources,
+    sourceKind: "city-development",
   };
 
   return {
@@ -496,6 +610,7 @@ function toProfile(project: PublishedBarangayProject): BarangayFullDisclosurePro
       item,
       ...(bidDisclosureByBarangay.get(project.slug) ?? []),
       ...(philgepsDisclosureByBarangay.get(project.slug) ?? []),
+      ...(dpwhDisclosureByBarangay.get(project.slug) ?? []),
     ],
   };
 }
