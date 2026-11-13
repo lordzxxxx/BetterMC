@@ -55,6 +55,30 @@ as a server-only variable. Never put the secret in a `VITE_*` variable.
 Submissions are forwarded by email; this deployment does not provide durable
 submission storage, a moderation queue, or rate limiting.
 
+### The Docker Way Local Development
+
+This method is way safer and easier if Docker is already installed on your machine.
+Make sure to create a copy of `.env.example` and name it `.env` before running the container.
+Set the values of the variables inside `.env`, especially when working with features related to Resend.
+
+#### Build the image and run the container
+
+```bash
+docker build -t bettermc-dev .
+docker run -p 5173:5173 --name bettermc-dev bettermc-dev
+```
+
+#### Run commands inside the container
+
+You can use the `docker exec` to run commands inside the container.
+Example syntax: `docker exec -it [container-name] [command]`
+
+Run the test inside the container:
+
+```bash
+docker exec -it better-mc-dev npm run test
+```
+
 ## Verification
 
 ```bash
