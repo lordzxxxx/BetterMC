@@ -3713,7 +3713,10 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                 <div className="barangay-disclosure-card-body">
                   <div className="barangay-record-meta">
                     <span className={`barangay-record-type is-${item.category}`}>
-                      {item.category === "budget"
+                      {item.sourceKind === "dpwh-contract" ||
+                      item.sourceKind === "dpwh-procurement"
+                        ? "DPWH infrastructure"
+                        : item.category === "budget"
                         ? "Budget"
                         : item.category === "accomplishments"
                           ? "Accomplishment"

@@ -46,6 +46,27 @@ describe("DPWH Malaybalay infrastructure ledger", () => {
     }
   });
 
+  it("publishes every DPWH record exactly once across all barangay profiles", () => {
+    const publishedDpwhIds = [...barangayDisclosureBySlug.values()].flatMap(
+      (profile) =>
+        profile.items
+          .filter(
+            (item) =>
+              item.sourceKind === "dpwh-contract" ||
+              item.sourceKind === "dpwh-procurement",
+          )
+          .map((item) => item.id),
+    );
+
+    expect(publishedDpwhIds).toHaveLength(dpwhMalaybalayProjects2026.length);
+    expect(new Set(publishedDpwhIds).size).toBe(dpwhMalaybalayProjects2026.length);
+    expect(publishedDpwhIds.sort()).toEqual(
+      dpwhMalaybalayProjects2026
+        .map((row) => `dpwh-${row.contractId.toLowerCase()}`)
+        .sort(),
+    );
+  });
+
   it("never relabels DPWH records as COA projects", () => {
     const text = JSON.stringify(dpwhMalaybalayProjects2026).toLowerCase();
     expect(text).not.toContain("coa project");

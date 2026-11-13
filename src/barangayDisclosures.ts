@@ -608,9 +608,9 @@ function toProfile(project: PublishedBarangayProject): BarangayFullDisclosurePro
     historicalSources,
     items: [
       item,
+      ...(dpwhDisclosureByBarangay.get(project.slug) ?? []),
       ...(bidDisclosureByBarangay.get(project.slug) ?? []),
       ...(philgepsDisclosureByBarangay.get(project.slug) ?? []),
-      ...(dpwhDisclosureByBarangay.get(project.slug) ?? []),
     ],
   };
 }
