@@ -106,8 +106,9 @@ describe("BetterMC public portal", () => {
       screen.getByRole("heading", { name: /Welcome to BetterMC/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByLabelText("Uswag Malaybalay"),
+      screen.getByText("Your city. Your information. Your right to know."),
     ).toBeInTheDocument();
+    expect(screen.getByText("Uswag Malaybalay")).toBeInTheDocument();
     expect(
       screen.getByText(/BetterMC is an independent civic technology platform/),
     ).toBeInTheDocument();

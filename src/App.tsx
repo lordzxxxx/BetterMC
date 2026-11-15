@@ -188,7 +188,7 @@ function FacebookIcon({
   );
 }
 
-function Brand() {
+function Brand({ tagline = "Independent public information" }: { tagline?: string }) {
   return (
     <Link className="brand" to="/" aria-label="BetterMC home">
       <span className="brand-assets" aria-hidden="true">
@@ -197,7 +197,7 @@ function Brand() {
       </span>
       <span className="brand-title">
         <strong>Better Malaybalay City</strong>
-        <small>Independent public information</small>
+        <small className="brand-tagline">{tagline}</small>
       </span>
     </Link>
   );
@@ -468,7 +468,7 @@ function Header() {
       </div>
       <header className="site-header">
         <div className="container header-inner">
-          <Brand />
+          <Brand tagline="Uswag Malaybalay" />
           <nav className="desktop-nav" aria-label="Primary navigation">
             {navItems.map((item) => (
               <NavLink key={item.to} to={item.to}>
@@ -987,9 +987,8 @@ function HomePage() {
         <div className="container hero-grid">
           <div className="hero-copy">
             <h1>Welcome to BetterMC.</h1>
-            <p className="hero-tagline" aria-label="Uswag Malaybalay">
-              <span className="hero-tagline-uswag">Uswag</span>{" "}
-              <span>Malaybalay.</span>
+            <p className="hero-tagline">
+              Your city. Your information. Your right to know.
             </p>
             <p className="hero-description">
               <span className="hero-description-desktop">
