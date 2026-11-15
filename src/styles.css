@@ -621,12 +621,6 @@ button {
   color: var(--muted);
   font-size: 0.68rem;
 }
-.site-header .brand-tagline {
-  color: #0d6a4d;
-  font-size: 0.7rem;
-  font-weight: 750;
-  letter-spacing: 0.025em;
-}
 .desktop-nav {
   display: flex;
   align-items: center;
@@ -18900,13 +18894,6 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   .brand img { width: 46px; height: 46px; object-fit: contain; }
   .brand strong { font-size: 1rem; line-height: 1.15; }
   .brand small { display: none; }
-  .site-header .brand-title .brand-tagline {
-    display: block;
-    margin-top: 3px;
-    font-size: 0.62rem;
-    line-height: 1;
-    white-space: nowrap;
-  }
   .menu-button { width: 44px; height: 44px; flex: 0 0 44px; border-radius: 12px; }
   .mobile-nav { top: calc(100% + 6px); right: 14px; left: 14px; width: auto; max-height: min(72dvh, 530px); overflow-y: auto; padding: 8px; border-radius: 16px; }
   .mobile-nav a,

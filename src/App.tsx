@@ -188,7 +188,13 @@ function FacebookIcon({
   );
 }
 
-function Brand({ tagline = "Independent public information" }: { tagline?: string }) {
+function Brand({
+  title = "Better Malaybalay City",
+  subtitle = "Independent public information",
+}: {
+  title?: string;
+  subtitle?: string;
+}) {
   return (
     <Link className="brand" to="/" aria-label="BetterMC home">
       <span className="brand-assets" aria-hidden="true">
@@ -196,8 +202,8 @@ function Brand({ tagline = "Independent public information" }: { tagline?: strin
         <span className="brand-wordmark" />
       </span>
       <span className="brand-title">
-        <strong>Better Malaybalay City</strong>
-        <small className="brand-tagline">{tagline}</small>
+        <strong>{title}</strong>
+        {subtitle ? <small>{subtitle}</small> : null}
       </span>
     </Link>
   );
@@ -468,7 +474,7 @@ function Header() {
       </div>
       <header className="site-header">
         <div className="container header-inner">
-          <Brand tagline="Uswag Malaybalay" />
+          <Brand title="Uswag Malaybalay" subtitle="" />
           <nav className="desktop-nav" aria-label="Primary navigation">
             {navItems.map((item) => (
               <NavLink key={item.to} to={item.to}>
