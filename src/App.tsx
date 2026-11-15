@@ -428,6 +428,7 @@ function FinancialBreakdown() {
 function Header() {
   const [open, setOpen] = useState(false);
   const [pagesOpen, setPagesOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
   const pageAccessRef = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
 
@@ -454,6 +455,17 @@ function Header() {
     return () => window.removeEventListener("pointerdown", closeOutside);
   }, [pagesOpen]);
 
+  useEffect(() => {
+    if (!open) return;
+    const closeOutside = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    window.addEventListener("pointerdown", closeOutside);
+    return () => window.removeEventListener("pointerdown", closeOutside);
+  }, [open]);
+
   return (
     <>
       <a className="skip-link" href="#main">
@@ -473,7 +485,7 @@ function Header() {
           <MalaybalayClock />
         </div>
       </div>
-      <header className="site-header">
+      <header ref={headerRef} className="site-header">
         <div className="container header-inner">
           <Brand title="Uswag Malaybalay" subtitle="" />
           <nav className="desktop-nav" aria-label="Primary navigation">
