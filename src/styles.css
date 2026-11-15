@@ -19523,6 +19523,89 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   }
 }
 
+/* Mobile readability guardrail. Older desktop card rules use ellipses to keep
+   dense grids aligned; phones have one-column space, so preserve names and
+   source context instead of cutting them off. */
+@media (max-width: 760px) {
+  .page-hero h1,
+  .hero-copy h1,
+  .barangay-hero-copy h1,
+  .section-heading h2,
+  .records-preview-section .section-heading h2 {
+    max-width: none;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  .service-category-grid .category-card-body h3,
+  div.service-category-grid > .service-pathway-card .category-card-body h3,
+  .office-preview h3,
+  .government-official-card .official-card-copy h3,
+  .record-main h3,
+  .legislation-records h3,
+  .barangay-disclosure-card h3,
+  .barangay-bid-item-card h3 {
+    overflow: visible;
+    overflow-wrap: anywhere;
+    text-overflow: clip;
+    white-space: normal;
+    -webkit-line-clamp: unset;
+  }
+
+  div.service-category-grid > .service-pathway-card .category-card-body p,
+  .service-category-grid .category-card-body p,
+  .office-preview a,
+  .government-official-card .official-office-preview {
+    display: -webkit-box;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    text-overflow: clip;
+    white-space: normal;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  div.service-category-grid > .service-pathway-card .category-card-body p {
+    display: block;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    -webkit-line-clamp: unset;
+  }
+
+  .service-category-grid .category-card-body,
+  div.service-category-grid > .service-pathway-card .category-card-body,
+  .record-main,
+  .official-card-copy {
+    min-width: 0;
+  }
+
+  .service-resource-tabs button,
+  .tabs > *,
+  .government-tabs > *,
+  .transparency-tabs > *,
+  .legislation-tabs > * {
+    min-height: 44px;
+  }
+
+  .site-footer a,
+  .site-footer p,
+  .footer-contact-links a {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 760px) and (orientation: landscape) {
+  .independence-bar,
+  .independence-inner { min-height: 30px; }
+  .header-inner { min-height: 56px; }
+  .brand img { width: 38px; height: 38px; }
+  .page-hero { padding-block: 22px 20px; }
+  .page-hero h1,
+  .hero-copy h1 { font-size: clamp(2rem, 6vw, 2.75rem); }
+  .mobile-nav { max-height: min(64dvh, 360px); }
+}
+
 /* Services directory: a single card language and progressive disclosure for
    secondary public records keep the primary routes easy to scan. */
 .service-directory-section {
@@ -19901,5 +19984,16 @@ div.service-category-grid > .service-pathway-card > .category-card-arrow-link sv
 @media (max-width: 390px) {
   .barangay-about-stat-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Keep final phone card metadata readable after the legacy density rules. */
+@media (max-width: 760px) {
+  div.service-category-grid > .service-pathway-card .category-card-body p {
+    display: block;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    -webkit-line-clamp: unset;
   }
 }
