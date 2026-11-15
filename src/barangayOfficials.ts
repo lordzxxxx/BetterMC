@@ -21,13 +21,6 @@ export type BarangayOfficialRecord = {
   sourceUrl: string;
 };
 
-export type BarangayTreasurerPublication = {
-  position: "Barangay Treasurer";
-  publicationStatus: "Not published in current DILG directory";
-  sourceUrl: string;
-  verifiedOn: string;
-};
-
 export type BarangayOfficialRoster = {
   barangayName: string;
   barangaySlug: string;
@@ -37,7 +30,6 @@ export type BarangayOfficialRoster = {
   sangguniangBarangayMembers: BarangayOfficialRecord[];
   skChairperson: BarangayOfficialRecord;
   barangaySecretary: BarangayOfficialRecord;
-  barangayTreasurer: BarangayTreasurerPublication;
   officials: BarangayOfficialRecord[];
   fallbackPhone?: string;
   fallbackEmail?: string;
@@ -48,8 +40,6 @@ export const DILG_DIRECTORY_INDEX_SOURCE: Source = {
   url: "https://www.dilg.gov.ph/barangay-officials-directory/index",
   verifiedOn: VERIFIED_ON,
 };
-
-export const DILG_TREASURER_PUBLICATION_VERIFIED_ON = "2026-11-16";
 
 export const CITY_BARANGAY_DIRECTORY_SOURCE: Source = {
   label: "City Government of Malaybalay — List of Barangays",
@@ -100,10 +90,7 @@ export function getOfficialRoleScope(position: BarangayOfficialPosition, baranga
   }
 }
 
-const publishedBarangayOfficialRosters: Omit<
-  BarangayOfficialRoster,
-  "barangayTreasurer"
->[] = [
+export const barangayOfficialRosters: BarangayOfficialRoster[] = [
   {
     "barangayName": "Aglayan",
     "barangaySlug": "aglayan",
@@ -12383,17 +12370,6 @@ const publishedBarangayOfficialRosters: Omit<
     "fallbackPhone": "0985-794-7390"
   }
 ];
-
-export const barangayOfficialRosters: BarangayOfficialRoster[] =
-  publishedBarangayOfficialRosters.map((roster) => ({
-    ...roster,
-    barangayTreasurer: {
-      position: "Barangay Treasurer",
-      publicationStatus: "Not published in current DILG directory",
-      sourceUrl: roster.apiEndpointUrl,
-      verifiedOn: DILG_TREASURER_PUBLICATION_VERIFIED_ON,
-    },
-  }));
 
 export const barangayRosterBySlug = new Map<string, BarangayOfficialRoster>(
   barangayOfficialRosters.map((roster) => [roster.barangaySlug, roster]),
