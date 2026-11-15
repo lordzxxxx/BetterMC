@@ -8,8 +8,22 @@ import {
 } from "./barangayProfiles";
 import { civicRecords, reportedProcurementSavings } from "./data";
 import { civicRecordContext } from "./civicRecordContext";
+import { essentialNationalServices, VERIFIED_SERVICE_PROVIDERS } from "./serviceCatalog";
 
 describe("BetterMC public portal", () => {
+  it("keeps the eight essential national services connected to a local guide", () => {
+    expect(essentialNationalServices.map((service) => service.label)).toEqual([
+      "BIR", "SSS", "PhilHealth", "Pag-IBIG", "PSA", "LTO", "DTI", "GSIS",
+    ]);
+    for (const service of essentialNationalServices) {
+      expect(VERIFIED_SERVICE_PROVIDERS).toContain(service.provider);
+      expect(service.provider.jurisdiction).toMatch(/National Agency/);
+      expect(service.provider.transactions.length).toBeGreaterThan(0);
+      expect(service.provider.onlinePortalUrl).toMatch(/^https:\/\//);
+      expect(service.provider.source.url).toMatch(/^https:\/\//);
+    }
+  });
+
   it("provides current population context for all 46 barangay profiles", () => {
     const disclosureIds = new Set<string>();
     expect(barangayMicrosites).toHaveLength(46);

@@ -123,8 +123,10 @@ import {
 } from "./procurementRecords";
 import {
   betterGovServiceUrl,
+  essentialNationalServices,
   localServicePathways,
   serviceCategories,
+  VERIFIED_SERVICE_PROVIDERS,
   getProvidersForCategory,
   getBarangayOriginCoordinates,
   sanitizeExternalServiceUrl,
@@ -5110,6 +5112,10 @@ function ServicesQuickFinder() {
 
 function ServicesPage() {
   const [allBodiesVisible, setAllBodiesVisible] = useState(false);
+  const guidedTransactionCount = VERIFIED_SERVICE_PROVIDERS.reduce(
+    (total, provider) => total + provider.transactions.length,
+    0,
+  );
   return (
     <>
       <PageHero
@@ -5120,6 +5126,46 @@ function ServicesPage() {
       <section className="section container">
         {/* Quick Nearest Provider & Transaction Locator */}
         <ServicesQuickFinder />
+
+        <div className="service-directory-coverage" aria-label="Service directory coverage">
+          <strong>Source-linked local service directory</strong>
+          <span>
+            {VERIFIED_SERVICE_PROVIDERS.length} providers and service centers · {guidedTransactionCount} resident guides
+          </span>
+          <small>Open a guide to review its local office, published contact, checklist, and official transaction link.</small>
+        </div>
+
+        <section className="service-resource-section service-essentials-section">
+          <SectionHeading
+            eyebrow="National service essentials"
+            title="Start with the agency you need most"
+          >
+            Each shortcut opens the Malaybalay guide with the nearest listed
+            provider, official online channel, requirements, fees, and
+            step-by-step instructions. Confirm current requirements with the
+            responsible agency before travelling or paying.
+          </SectionHeading>
+          <div className="service-essentials-grid">
+            {essentialNationalServices.map(({ label, guide, provider }) => (
+              <Link
+                key={provider.id}
+                className="service-essential-card"
+                to={`/services/${provider.categorySlug}`}
+                aria-label={`Open ${label} guide for Malaybalay residents`}
+              >
+                <span className="service-category-icon">
+                  <ServiceCategoryIcon slug={provider.categorySlug} />
+                </span>
+                <span className="service-essential-copy">
+                  <small>{label}</small>
+                  <strong>{guide}</strong>
+                  <em>{provider.shortName} · Malaybalay guide</em>
+                </span>
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            ))}
+          </div>
+        </section>
 
         <div className="service-context-strip">
           <p>

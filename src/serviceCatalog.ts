@@ -1971,6 +1971,29 @@ export function getProvidersForCategory(
   return ranked;
 }
 
+const essentialNationalServiceDefinitions = [
+  { providerId: "bir-rdo99-malaybalay", label: "BIR", guide: "TIN, tax registration, filing, and e-payment" },
+  { providerId: "sss-malaybalay", label: "SSS", guide: "Membership, contributions, loans, and benefits" },
+  { providerId: "philhealth-malaybalay", label: "PhilHealth", guide: "Membership, MDR updates, Konsulta, and contributions" },
+  { providerId: "pagibig-malaybalay", label: "Pag-IBIG", guide: "Membership, savings, housing, and multi-purpose loans" },
+  { providerId: "psa-bukidnon", label: "PSA", guide: "Birth, marriage, death certificates, and National ID" },
+  { providerId: "lto-malaybalay", label: "LTO", guide: "Driver's licenses, vehicle registration, and LTMS" },
+  { providerId: "dti-bukidnon", label: "DTI", guide: "Business name registration, consumer help, and MSME support" },
+  { providerId: "gsis-malaybalay", label: "GSIS", guide: "Government employee benefits, pensions, and loans" },
+] as const;
+
+export const essentialNationalServices = essentialNationalServiceDefinitions.map(
+  (definition) => {
+    const provider = VERIFIED_SERVICE_PROVIDERS.find(
+      (item) => item.id === definition.providerId,
+    );
+    if (!provider) {
+      throw new Error(`Missing essential service provider: ${definition.providerId}`);
+    }
+    return { ...definition, provider };
+  },
+);
+
 export function getAllRankedProviders(
   originCoords: [number, number] = MALAYBALAY_CITY_CENTER_COORDS,
 ): RankedServiceProvider[] {
