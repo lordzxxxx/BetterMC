@@ -497,7 +497,7 @@ button {
   transform: translateY(-160%);
   border-radius: 6px;
 }
-.skip-link:focus {
+.skip-link:focus-visible {
   transform: translateY(0);
 }
 
@@ -553,8 +553,7 @@ button {
   white-space: nowrap;
 }
 .site-header {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 50;
   background: rgba(239, 247, 255, 0.72);
   border-bottom: 1px solid rgba(255, 255, 255, 0.9);
@@ -18941,7 +18940,7 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   .clock-copy strong { font-size: 0.68rem; }
   .clock-copy span { display: none; }
 
-  .site-header { position: sticky; top: 0; z-index: 80; }
+  .site-header { position: relative; top: auto; z-index: 80; }
   .header-inner { min-height: 64px; gap: 10px; }
   .brand { min-width: 0; gap: 9px; }
   .brand img { width: 46px; height: 46px; object-fit: contain; }
@@ -19521,6 +19520,222 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 @media (max-width: 390px) {
   .barangay-about-stat-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Services directory: a single card language and progressive disclosure for
+   secondary public records keep the primary routes easy to scan. */
+.service-directory-section {
+  margin-top: 30px;
+}
+
+.service-directory-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  margin: 0 0 16px;
+  color: var(--svc-muted);
+  font-size: 0.8rem;
+}
+
+.service-directory-summary span + span::before {
+  content: "·";
+  margin-right: 18px;
+  color: var(--svc-border-strong);
+}
+
+.service-directory-summary a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  color: var(--svc-brand);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.service-directory-summary a:hover,
+.service-directory-summary a:focus-visible {
+  text-decoration: underline;
+}
+
+.service-directory-summary svg {
+  width: 14px;
+  height: 14px;
+}
+
+div.service-category-grid > .service-pathway-card {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 36px;
+  grid-template-rows: auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 0;
+  padding: 16px;
+  overflow: hidden;
+  border: 1px solid var(--svc-border);
+  border-radius: 14px;
+  color: var(--svc-ink);
+  background: var(--svc-surface);
+  text-decoration: none;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+div.service-category-grid > .service-pathway-card:hover,
+div.service-category-grid > .service-pathway-card:focus-visible {
+  border-color: var(--svc-brand);
+  background: var(--svc-tint);
+  outline: 0;
+}
+
+div.service-category-grid > .service-pathway-card > .service-category-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--svc-border);
+  border-radius: 12px;
+  color: var(--svc-brand);
+  background: var(--svc-tint-strong);
+}
+
+div.service-category-grid > .service-pathway-card > .service-category-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 1.9;
+}
+
+div.service-category-grid > .service-pathway-card .category-card-body {
+  min-width: 0;
+}
+
+div.service-category-grid > .service-pathway-card .category-card-body h3 {
+  margin: 0 0 4px;
+  color: var(--svc-ink);
+  font-size: 0.94rem;
+  font-weight: 650;
+  line-height: 1.28;
+}
+
+div.service-category-grid > .service-pathway-card .category-card-body p {
+  margin: 0;
+  overflow: hidden;
+  color: var(--svc-muted);
+  font-size: 0.76rem;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+div.service-category-grid > .service-pathway-card > .category-card-arrow-link {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--svc-border);
+  border-radius: 10px;
+  color: var(--svc-brand);
+  background: var(--svc-surface);
+}
+
+div.service-category-grid > .service-pathway-card:hover > .category-card-arrow-link,
+div.service-category-grid > .service-pathway-card:focus-visible > .category-card-arrow-link {
+  color: #ffffff;
+  border-color: var(--svc-brand);
+  background: var(--svc-brand);
+}
+
+div.service-category-grid > .service-pathway-card > .category-card-arrow-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+.service-resource-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--svc-border);
+}
+
+.service-resource-tabs button {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  color: var(--svc-muted);
+  background: transparent;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.service-resource-tabs button:hover,
+.service-resource-tabs button:focus-visible {
+  color: var(--svc-brand);
+  background: var(--svc-tint);
+}
+
+.service-resource-tabs button[aria-selected="true"] {
+  border-color: var(--svc-border-strong);
+  color: var(--svc-brand);
+  background: var(--svc-tint-strong);
+}
+
+.service-resource-panel {
+  min-height: 204px;
+}
+
+.service-resources-section .section-source-link {
+  margin-top: 14px;
+}
+
+@media (max-width: 640px) {
+  .service-directory-summary {
+    display: grid;
+    gap: 4px;
+  }
+
+  .service-directory-summary span + span::before {
+    content: none;
+    margin: 0;
+  }
+
+  div.service-category-grid > .service-pathway-card {
+    grid-template-columns: 40px minmax(0, 1fr) 44px;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 13px;
+  }
+
+  div.service-category-grid > .service-pathway-card > .service-category-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  div.service-category-grid > .service-pathway-card > .category-card-arrow-link {
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
+  }
+
+  .service-resource-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .service-resource-tabs button {
+    min-height: 44px;
+    padding: 6px 8px;
+    font-size: 0.74rem;
+    line-height: 1.2;
+  }
+
+  .service-resource-panel {
+    min-height: 0;
   }
 }
 

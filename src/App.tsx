@@ -123,7 +123,6 @@ import {
 } from "./procurementRecords";
 import {
   betterGovServiceUrl,
-  essentialNationalServices,
   localServicePathways,
   serviceCategories,
   VERIFIED_SERVICE_PROVIDERS,
@@ -917,6 +916,122 @@ function ServiceCategoryGrid({ compact = false }: { compact?: boolean }) {
             </ul>
           )}
         </article>
+      ))}
+    </div>
+  );
+}
+
+function LocalServicePathwayGrid() {
+  return (
+    <div className="service-category-grid is-compact">
+      {localServicePathways.map((service) => {
+        const content = (
+          <>
+            <span className="service-category-icon">
+              <LocalServiceIcon title={service.title} />
+            </span>
+            <div className="category-card-body">
+              <h3>{service.title}</h3>
+              <p>{service.office}</p>
+            </div>
+            <span className="category-card-arrow-link" aria-hidden="true">
+              {service.external ? <ExternalLink /> : <ArrowRight />}
+            </span>
+          </>
+        );
+
+        return service.external ? (
+          <a
+            key={service.title}
+            className="service-category-card service-pathway-card"
+            href={service.href}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`Open ${service.title}`}
+          >
+            {content}
+          </a>
+        ) : (
+          <Link
+            key={service.title}
+            className="service-category-card service-pathway-card"
+            to={service.href}
+            aria-label={`Open ${service.title}`}
+          >
+            {content}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
+type ServiceResourceTab = "city" | "gad" | "bodies";
+
+function ServiceResourceGrid({ activeTab }: { activeTab: ServiceResourceTab }) {
+  if (activeTab === "city") {
+    return (
+      <div className="service-category-grid is-compact service-resource-grid">
+        {services.map((service) => (
+          <a
+            key={service.title}
+            className="service-category-card service-pathway-card"
+            href={service.url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span className="service-category-icon"><BookOpen aria-hidden="true" /></span>
+            <div className="category-card-body">
+              <h3>{service.title}</h3>
+              <p>{service.office} · checked {service.verifiedOn}</p>
+            </div>
+            <span className="category-card-arrow-link" aria-hidden="true"><ExternalLink /></span>
+          </a>
+        ))}
+      </div>
+    );
+  }
+
+  if (activeTab === "gad") {
+    return (
+      <div className="service-category-grid is-compact service-resource-grid">
+        {gadResources.map((resource) => (
+          <a
+            key={resource.title}
+            className="service-category-card service-pathway-card"
+            href={resource.url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span className="service-category-icon"><FileCheck2 aria-hidden="true" /></span>
+            <div className="category-card-body">
+              <h3>{resource.title}</h3>
+              <p>{resource.kind} · PDF · checked {resource.verifiedOn}</p>
+            </div>
+            <span className="category-card-arrow-link" aria-hidden="true"><ExternalLink /></span>
+          </a>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="service-category-grid is-compact service-resource-grid">
+      {specialBodyOrders.map((body) => (
+        <a
+          key={`${body.number}-${body.title}`}
+          className="service-category-card service-pathway-card"
+          href={body.url}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span className="service-category-icon"><Scale aria-hidden="true" /></span>
+          <div className="category-card-body">
+            <h3>{body.title}</h3>
+            <p>{body.number} · Constituting order</p>
+          </div>
+          <span className="category-card-arrow-link" aria-hidden="true"><ExternalLink /></span>
+        </a>
       ))}
     </div>
   );
@@ -5126,7 +5241,7 @@ function ServicesQuickFinder() {
 }
 
 function ServicesPage() {
-  const [allBodiesVisible, setAllBodiesVisible] = useState(false);
+  const [resourceTab, setResourceTab] = useState<ServiceResourceTab>("city");
   const guidedTransactionCount = VERIFIED_SERVICE_PROVIDERS.reduce(
     (total, provider) => total + provider.transactions.length,
     0,
@@ -5139,199 +5254,90 @@ function ServicesPage() {
         description="Connect directly to nearest service providers across Malaybalay City, complete requirements checklists, and start official online/in-person transactions under the Citizen's Charter and ARTA RA 11032."
       />
       <section className="section container">
-        {/* Quick Nearest Provider & Transaction Locator */}
         <ServicesQuickFinder />
 
-        <div className="service-directory-coverage" aria-label="Service directory coverage">
-          <strong>Source-linked local service directory</strong>
-          <span>
-            {VERIFIED_SERVICE_PROVIDERS.length} providers and service centers · {guidedTransactionCount} resident guides
-          </span>
-          <small>Open a guide to review its local office, published contact, checklist, and official transaction link.</small>
-        </div>
-
-        <section className="service-resource-section service-essentials-section">
+        <section className="service-resource-section service-directory-section">
           <SectionHeading
-            eyebrow="National service essentials"
-            title="Start with the agency you need most"
+            eyebrow="Service directory"
+            title="Find the right service"
           >
-            Each shortcut opens the Malaybalay guide with the nearest listed
-            provider, official online channel, requirements, fees, and
-            step-by-step instructions. Confirm current requirements with the
-            responsible agency before travelling or paying.
+            Choose a category to see the nearest listed provider in Malaybalay,
+            requirements, and official transaction channels. Confirm current
+            requirements with the responsible office before travelling or paying.
           </SectionHeading>
-          <div className="service-essentials-grid">
-            {essentialNationalServices.map(({ label, guide, provider }) => (
-              <Link
-                key={provider.id}
-                className="service-essential-card"
-                to={`/services/${provider.categorySlug}`}
-                aria-label={`Open ${label} guide for Malaybalay residents`}
-              >
-                <span className="service-category-icon">
-                  <ServiceCategoryIcon slug={provider.categorySlug} />
-                </span>
-                <span className="service-essential-copy">
-                  <small>{label}</small>
-                  <strong>{guide}</strong>
-                  <em>{provider.shortName} · Malaybalay guide</em>
-                </span>
-                <ArrowRight aria-hidden="true" />
-              </Link>
-            ))}
+          <div className="service-directory-summary" aria-label="Service directory coverage">
+            <span>{VERIFIED_SERVICE_PROVIDERS.length} providers and service centers</span>
+            <span>{guidedTransactionCount} resident guides</span>
+            <a
+              href="https://sakata.malaybalaycity.gov.ph/citizens-charter/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Citizen’s Charter <ExternalLink aria-hidden="true" />
+            </a>
           </div>
+          <ServiceCategoryGrid compact />
         </section>
 
-        <div className="service-context-strip">
-          <p>
-            <strong>City context</strong>
-            <span>195,046 residents · 46 barangays</span>
-            <small>2024 POPCEN, released by PSA in 2026</small>
-          </p>
-          <a
-            href="https://rsso10.psa.gov.ph/content/highlights-population-counts-malaybalay-city-bukidnon-based-2024-census-population"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Population source <ExternalLink aria-hidden="true" />
-          </a>
-          <a
-            href="https://sakata.malaybalaycity.gov.ph/citizens-charter/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Citizen’s Charter <ExternalLink aria-hidden="true" />
-          </a>
-        </div>
         <div className="service-resource-section service-local-section">
           <SectionHeading
             eyebrow="Malaybalay City services"
-            title="Local starting points"
+            title="City office guides"
           >
-            These pathways identify the responsible city office or official
-            city resource. BetterMC does not accept applications or payments.
+            Start with the responsible city office for permits, records, health,
+            assistance, construction, and emergencies.
           </SectionHeading>
-          <div className="local-service-grid">
-            {localServicePathways.map((service) => (
-              <article key={service.title}>
-                <span className="service-category-icon">
-                  <LocalServiceIcon title={service.title} />
-                </span>
-                <div className="local-service-copy">
-                  <small>{service.office}</small>
-                  <h3>{service.title}</h3>
-                </div>
-                <p>{service.description}</p>
-                {service.external ? (
-                  <a href={service.href} target="_blank" rel="noreferrer">
-                    Open city resource <ExternalLink />
-                  </a>
-                ) : (
-                  <Link to={service.href}>
-                    Open directory <ArrowRight />
-                  </Link>
-                )}
-              </article>
-            ))}
-          </div>
+          <LocalServicePathwayGrid />
         </div>
-        <div className="service-resource-section national-service-section">
+        <div className="service-resource-section service-resources-section">
           <SectionHeading
-            eyebrow="National government services & nearest providers"
-            title="BetterGov categories for Malaybalay residents"
+            eyebrow="Official records"
+            title="Documents and local bodies"
           >
-            Select any category below to locate the nearest service provider in Malaybalay City, review required documentary checklists, and start official online/counter transactions.
+            Open published city resources, Gender and Development documents, and
+            constituting orders from their listed sources.
           </SectionHeading>
-          <ServiceCategoryGrid compact />
+          <div className="service-resource-tabs" role="tablist" aria-label="Official records">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={resourceTab === "city"}
+              onClick={() => setResourceTab("city")}
+            >
+              City resources
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={resourceTab === "gad"}
+              onClick={() => setResourceTab("gad")}
+            >
+              GAD documents
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={resourceTab === "bodies"}
+              onClick={() => setResourceTab("bodies")}
+            >
+              Local bodies
+            </button>
+          </div>
+          <div role="tabpanel" className="service-resource-panel">
+            <ServiceResourceGrid activeTab={resourceTab} />
+          </div>
           <a
             className="section-source-link"
-            href="https://bettergov.ph/services"
+            href={resourceTab === "gad"
+              ? "https://sakata.malaybalaycity.gov.ph/gad-corner/"
+              : resourceTab === "bodies"
+                ? "https://sakata.malaybalaycity.gov.ph/local-special-bodies-and-special-committees/"
+                : "https://sakata.malaybalaycity.gov.ph/citizens-charter/"}
             target="_blank"
             rel="noreferrer"
           >
-            View all services on BetterGov <ExternalLink />
+            View the official source <ExternalLink />
           </a>
-        </div>
-        <SectionHeading
-          eyebrow="Service standards and forms"
-          title="Official resources, ready to open"
-        >
-          Each item opens the City Government source or the document published
-          by that source. BetterMC does not receive or process applications.
-        </SectionHeading>
-        <div className="service-grid">
-          {services.map((service) => (
-            <article key={service.title}>
-              <BookOpen />
-              <span>{service.office}</span>
-              <h2>{service.title}</h2>
-              <p>{service.description}</p>
-              <a
-                className="button secondary"
-                href={service.url}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Open official resource <ExternalLink />
-              </a>
-              <small>Source checked {service.verifiedOn}</small>
-            </article>
-          ))}
-        </div>
-        <div className="service-resource-section">
-          <SectionHeading
-            eyebrow="Gender and Development"
-            title="Plans, reports, and local protective codes"
-          >
-            Direct files are reproduced from the official GAD Corner. The
-            source currently serves some downloads from its staging file host.
-          </SectionHeading>
-          <div className="document-link-grid">
-            {gadResources.map((resource) => (
-              <a key={resource.title} href={resource.url} target="_blank" rel="noreferrer">
-                <FileCheck2 />
-                <span>{resource.kind}</span>
-                <strong>{resource.title}</strong>
-                <small>PDF · checked {resource.verifiedOn}</small>
-                <ExternalLink />
-              </a>
-            ))}
-          </div>
-          <a className="section-source-link" href="https://sakata.malaybalaycity.gov.ph/gad-corner/" target="_blank" rel="noreferrer">
-            Open the complete official GAD Corner <ExternalLink />
-          </a>
-        </div>
-        <div className="service-resource-section">
-          <SectionHeading
-            eyebrow="Local special bodies"
-            title="Boards and committees with source-listed constituting orders"
-          >
-            This is a selected index of readable orders on the official catalog,
-            not a claim that every local body or later amendment is represented.
-          </SectionHeading>
-          <div className={`special-body-grid${allBodiesVisible ? " show-all" : ""}`}>
-            {specialBodyOrders.map((body) => (
-              <a key={`${body.number}-${body.title}`} href={body.url} target="_blank" rel="noreferrer">
-                <span>{body.number}</span>
-                <strong>{body.title}</strong>
-                <ExternalLink />
-              </a>
-            ))}
-          </div>
-          <div className="collection-actions">
-            <button
-              className="button secondary mobile-resource-toggle"
-              type="button"
-              aria-expanded={allBodiesVisible}
-              onClick={() => setAllBodiesVisible((visible) => !visible)}
-            >
-              {allBodiesVisible ? "Show fewer bodies" : "Show all bodies"}
-              <ChevronDown />
-            </button>
-            <a className="section-source-link" href="https://sakata.malaybalaycity.gov.ph/local-special-bodies-and-special-committees/" target="_blank" rel="noreferrer">
-              Open the official catalog <ExternalLink />
-            </a>
-          </div>
         </div>
       </section>
     </>

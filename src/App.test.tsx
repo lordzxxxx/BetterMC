@@ -672,10 +672,14 @@ describe("BetterMC public portal", () => {
         <App />
       </MemoryRouter>,
     );
+    expect(screen.getByRole("tab", { name: "City resources" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    fireEvent.click(screen.getByRole("tab", { name: "GAD documents" }));
     expect(
       screen.getByRole("link", { name: /2026 GAD Plan and Budget/i }),
     ).toHaveAttribute("href", expect.stringContaining("GPB-2026.pdf"));
-    expect(screen.getByText("195,046 residents · 46 barangays")).toBeInTheDocument();
     expect(
       screen
         .getAllByRole("link", { name: /Citizen’s Charter/i })
