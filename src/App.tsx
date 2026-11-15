@@ -4927,7 +4927,16 @@ function ServiceProviderCard({
           <span className="provider-jurisdiction-badge">{provider.jurisdiction}</span>
         </div>
         <h3>{provider.name}</h3>
-        <p className="provider-address">{provider.address}</p>
+        <a
+          className="provider-address provider-address-map"
+          href={provider.googleMapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={`Open pinned map for ${provider.name}`}
+        >
+          <MapPin aria-hidden="true" />
+          <span>{provider.address}</span>
+        </a>
       </header>
 
       <dl className="provider-facts">
@@ -5006,7 +5015,7 @@ function ServiceProviderCard({
           rel="noopener noreferrer"
           title={`View ${provider.name} on Google Maps`}
         >
-          View on Google Maps
+          Open pinned map
         </a>
         <a
           className="provider-portal-btn"
@@ -5074,10 +5083,16 @@ function ServicesQuickFinder() {
               Nearest Match
             </span>
             <h3>{topProvider.name}</h3>
-            <p className="quick-finder-address">
+            <a
+              className="quick-finder-address provider-address-map"
+              href={topProvider.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`Open pinned map for ${topProvider.name}`}
+            >
               <MapPin aria-hidden="true" />
               <span>{topProvider.address} · {topProvider.hours}</span>
-            </p>
+            </a>
             <div className="quick-finder-meta">
               <span className="quick-finder-meta-pill">
                 <MapPin aria-hidden="true" />
@@ -5100,7 +5115,7 @@ function ServicesQuickFinder() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span>View on Google Maps</span>
+              <span>Open pinned map</span>
               <ExternalLink aria-hidden="true" />
             </a>
           </div>

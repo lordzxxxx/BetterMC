@@ -118,12 +118,17 @@ export function estimateTravelMinutes(distanceKm: number): number {
 }
 
 /**
- * Google Maps place search for a provider. Searching by establishment name and
- * full street address opens the exact listing (building/office pin, address,
- * photos, hours) rather than a bare coordinate.
+ * Google Maps pin for a provider. Coordinates are intentional: an office-name
+ * search can return a similarly named office in a different municipality.
  */
-export function buildGoogleMapsPlaceUrl(name: string, address: string): string {
-  const query = encodeURIComponent(`${name}, ${address}`);
+export function buildGoogleMapsPlaceUrl(
+  coordinates: [number, number],
+): string {
+  const [latitude, longitude] = coordinates;
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+    throw new Error("A service provider needs valid map coordinates");
+  }
+  const query = encodeURIComponent(`${latitude},${longitude}`);
   return `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
 
@@ -1959,7 +1964,7 @@ export function getProvidersForCategory(
         ...provider,
         distanceKm,
         estimatedDriveMinutes: estimateTravelMinutes(distanceKm),
-        googleMapsUrl: buildGoogleMapsPlaceUrl(provider.name, provider.address),
+        googleMapsUrl: buildGoogleMapsPlaceUrl(provider.coordinates),
         isNearest: false,
       };
     })
@@ -2008,7 +2013,7 @@ export function getAllRankedProviders(
       ...provider,
       distanceKm,
       estimatedDriveMinutes: estimateTravelMinutes(distanceKm),
-      googleMapsUrl: buildGoogleMapsPlaceUrl(provider.name, provider.address),
+        googleMapsUrl: buildGoogleMapsPlaceUrl(provider.coordinates),
       isNearest: false,
     };
   }).sort((a, b) => a.distanceKm - b.distanceKm);

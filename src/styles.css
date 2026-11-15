@@ -16146,6 +16146,14 @@ body {
   flex-shrink: 0;
   margin-top: 3px;
 }
+.provider-address-map {
+  color: #285f9f;
+  text-decoration: none;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.provider-address-map:hover,
+.provider-address-map:focus-visible { color: #123f79; text-decoration: underline; }
 
 .provider-badges-row {
   display: flex;
@@ -17796,6 +17804,9 @@ div.service-category-grid.is-compact > article.service-category-card {
   display: block;
   width: 100%;
   max-width: none;
+}
+.provider-card header.provider-card-head > .provider-address-map {
+  display: inline-flex;
 }
 
 /* ==========================================================================

@@ -8,7 +8,11 @@ import {
 } from "./barangayProfiles";
 import { civicRecords, reportedProcurementSavings } from "./data";
 import { civicRecordContext } from "./civicRecordContext";
-import { essentialNationalServices, VERIFIED_SERVICE_PROVIDERS } from "./serviceCatalog";
+import {
+  buildGoogleMapsPlaceUrl,
+  essentialNationalServices,
+  VERIFIED_SERVICE_PROVIDERS,
+} from "./serviceCatalog";
 
 describe("BetterMC public portal", () => {
   it("keeps the eight essential national services connected to a local guide", () => {
@@ -21,6 +25,18 @@ describe("BetterMC public portal", () => {
       expect(service.provider.transactions.length).toBeGreaterThan(0);
       expect(service.provider.onlinePortalUrl).toMatch(/^https:\/\//);
       expect(service.provider.source.url).toMatch(/^https:\/\//);
+    }
+  });
+
+  it("opens provider maps as exact coordinate pins", () => {
+    for (const provider of VERIFIED_SERVICE_PROVIDERS) {
+      const mapUrl = new URL(buildGoogleMapsPlaceUrl(provider.coordinates));
+      expect(mapUrl.origin).toBe("https://www.google.com");
+      expect(mapUrl.pathname).toBe("/maps/search/");
+      expect(mapUrl.searchParams.get("api")).toBe("1");
+      expect(mapUrl.searchParams.get("query")).toBe(
+        `${provider.coordinates[0]},${provider.coordinates[1]}`,
+      );
     }
   });
 
