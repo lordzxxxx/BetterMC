@@ -629,6 +629,20 @@ describe("BetterMC public portal", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 
+  it("keeps closed mobile navigation out of keyboard interaction", () => {
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
+
+    const menu = document.getElementById("mobile-navigation");
+    expect(menu).toHaveAttribute("inert");
+
+    fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
+    expect(menu).not.toHaveAttribute("inert");
+  });
+
   it("submits participation feedback and resets form without errors", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
       new Response(

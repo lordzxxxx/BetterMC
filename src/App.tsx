@@ -535,6 +535,7 @@ function Header() {
           id="mobile-navigation"
           className={`mobile-nav-shell ${open ? "is-open" : ""}`}
           aria-hidden={!open}
+          inert={!open}
         >
           <nav className="mobile-nav" aria-label="Mobile navigation">
             {sitePages.map((item) => (
