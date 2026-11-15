@@ -3536,11 +3536,35 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
           <SectionHeading
             title={`Barangay ${profile.name} officials`}
           >
-            Published office contacts are shown where available. Open an
-            official record for role details and the supporting public sources.
+            Published office contacts are shown where available. The current
+            DILG directory does not publish a Barangay Treasurer name or
+            contact for this barangay; use the source link below and confirm
+            with the barangay hall before relying on an appointment.
           </SectionHeading>
 
           <div className="barangay-official-grid">
+            <article className="barangay-official-card barangay-official-card-static">
+              <div className="barangay-official-card-static-main">
+                <span className="barangay-official-role">
+                  <WalletCards aria-hidden="true" />
+                  {roster.barangayTreasurer.position}
+                </span>
+                <strong>{roster.barangayTreasurer.publicationStatus}</strong>
+                <span className="barangay-official-status-detail">
+                  No name, telephone, or email is in the live DILG record.
+                </span>
+              </div>
+              <div className="barangay-official-contacts">
+                <a
+                  href={roster.barangayTreasurer.sourceUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Check DILG record · {roster.barangayTreasurer.verifiedOn}
+                  <ExternalLink aria-hidden="true" />
+                </a>
+              </div>
+            </article>
             {[
               roster.punongBarangay,
               roster.skChairperson,

@@ -18785,6 +18785,22 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   outline: 3px solid #2d7be8;
   outline-offset: -3px;
 }
+.barangay-official-card-static-main {
+  display: grid;
+  gap: 5px;
+  min-height: 76px;
+  padding: 11px 12px 9px;
+}
+.barangay-official-card-static-main > strong {
+  color: #142d50;
+  font-size: 0.9rem;
+  line-height: 1.28;
+}
+.barangay-official-status-detail {
+  color: #506984;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
 .barangay-official-role {
   display: inline-flex;
   grid-column: 1 / -1;

@@ -41,6 +41,15 @@ describe("BetterMC public portal", () => {
       expect(barangay.officialRoster.barangaySecretary.position).toBe(
         "Barangay Secretary",
       );
+      expect(barangay.officialRoster.barangayTreasurer.position).toBe(
+        "Barangay Treasurer",
+      );
+      expect(barangay.officialRoster.barangayTreasurer.publicationStatus).toBe(
+        "Not published in current DILG directory",
+      );
+      expect(barangay.officialRoster.barangayTreasurer.sourceUrl).toBe(
+        barangay.officialRoster.apiEndpointUrl,
+      );
       expect(barangay.fullDisclosure.items.length).toBeGreaterThanOrEqual(1);
       expect(barangay.fullDisclosure.bdp2026Budget).toBe(1000000);
       expect(barangay.fullDisclosure.historicalSources.length).toBeGreaterThanOrEqual(4);
