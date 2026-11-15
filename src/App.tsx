@@ -987,8 +987,9 @@ function HomePage() {
         <div className="container hero-grid">
           <div className="hero-copy">
             <h1>Welcome to BetterMC.</h1>
-            <p className="hero-tagline">
-              Your city. Your information. Your right to know.
+            <p className="hero-tagline" aria-label="Uswag Malaybalay">
+              <span className="hero-tagline-uswag">Uswag</span>{" "}
+              <span>Malaybalay.</span>
             </p>
             <p className="hero-description">
               <span className="hero-description-desktop">

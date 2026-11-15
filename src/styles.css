@@ -809,6 +809,33 @@ button {
   letter-spacing: -0.015em;
   color: #123e9b;
 }
+.hero-tagline-uswag {
+  display: inline-block;
+  color: #0d6a4d;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  animation: hero-uswag-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) both,
+    hero-uswag-glow 4.8s ease-in-out 1.2s infinite;
+}
+@keyframes hero-uswag-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes hero-uswag-glow {
+  0%,
+  100% {
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+  50% {
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8),
+      0 5px 18px rgba(27, 140, 97, 0.2);
+  }
+}
 .hero-description {
   max-width: 650px;
   margin: 0;
@@ -9424,6 +9451,9 @@ kbd {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-tagline-uswag {
+    animation: none;
+  }
   .barangay-site .button,
   .barangay-grid article,
   .barangay-profile-link {
