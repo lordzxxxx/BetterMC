@@ -641,6 +641,13 @@ describe("BetterMC public portal", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
     expect(menu).not.toHaveAttribute("inert");
+
+    fireEvent.pointerDown(document.body);
+    expect(menu).toHaveAttribute("inert");
+    expect(screen.getByRole("button", { name: /open menu/i })).toHaveAttribute(
+      "aria-expanded",
+      "false",
+    );
   });
 
   it("submits participation feedback and resets form without errors", async () => {
