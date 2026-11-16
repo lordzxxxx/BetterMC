@@ -2,6 +2,7 @@ import { z } from "zod";
 import { portalSearchIndex } from "./searchIndex";
 
 export type KuyaMacSource = {
+  type: string;
   title: string;
   detail: string;
   href: string;
@@ -17,7 +18,7 @@ const promptInjectionPattern = /\b(ignore|reveal|show|print|repeat|extract)\b.{0
 const offTopicPattern = /\b(write|make|generate|solve|create)\b.{0,80}\b(essay|poem|story|code|homework|recipe|travel plan)\b/i;
 
 const stopWords = new Set([
-  "about", "after", "ang", "and", "are", "asa", "can", "city", "does", "for", "from", "how", "is", "it", "mga", "ng", "of", "on", "sa", "the", "to", "unsa", "what", "where", "which", "who", "with", "you",
+  "about", "after", "ang", "and", "are", "asa", "can", "city", "does", "find", "for", "from", "how", "information", "is", "it", "mga", "need", "ng", "of", "on", "please", "sa", "the", "to", "unsa", "what", "where", "which", "who", "with", "you",
 ]);
 
 function tokens(value: string): string[] {
@@ -45,9 +46,16 @@ export function retrieveKuyaMacSources(message: string, limit = 5): KuyaMacSourc
   return portalSearchIndex
     .map((record) => {
       const title = record.title.toLocaleLowerCase("en-PH");
-      const haystack = `${record.title} ${record.detail} ${record.keywords ?? ""}`.toLocaleLowerCase("en-PH");
+      const detail = record.detail.toLocaleLowerCase("en-PH");
+      const keywords = (record.keywords ?? "").toLocaleLowerCase("en-PH");
+      const type = record.type.toLocaleLowerCase("en-PH");
       const score = [...queryTokens].reduce(
-        (total, token) => total + (title.includes(token) ? 4 : haystack.includes(token) ? 1 : 0),
+        (total, token) => total
+          + (title.includes(token) ? 8 : 0)
+          + (title === token ? 24 : 0)
+          + (keywords.includes(token) ? 3 : 0)
+          + (detail.includes(token) ? 2 : 0)
+          + (type.includes(token) ? 1 : 0),
         0,
       );
       return { record, score };
@@ -56,6 +64,7 @@ export function retrieveKuyaMacSources(message: string, limit = 5): KuyaMacSourc
     .sort((a, b) => b.score - a.score || a.record.title.localeCompare(b.record.title))
     .slice(0, limit)
     .map(({ record }) => ({
+      type: record.type,
       title: record.title,
       detail: record.detail,
       href: record.href,
@@ -66,8 +75,9 @@ export function kuyaMacFallbackAnswer(message: string, sources: KuyaMacSource[])
   if (greetingPattern.test(message)) {
     return "Maayong adlaw! Ako si Kuya MAC, ang imohang AI Companion.";
   }
-  if (sources.length > 0) {
-    return "Mao ni ang mga na-verify nga BetterMC records nga pinakaduol sa imong pangutana. Ablihi ang source para sa full context, publication details, ug verification notes.";
+  const primarySource = sources[0];
+  if (primarySource) {
+    return `Pinakarelevant nga BetterMC record: ${primarySource.title}.\n\n${primarySource.detail}\n\nAblihi ang record sa ubos para sa kumpletong detalye ug source context.`;
   }
   return "Wala koy verified BetterMC record para ana. Makapangutana ka bahin sa Malaybalay public services, barangays, offices, officials, public records, maps, o unsaon paggamit sa BetterMC.";
 }

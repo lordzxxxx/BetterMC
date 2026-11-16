@@ -15,6 +15,7 @@ const suggestions = [
   "Asa ang akong barangay profile?",
   "Unsa ang emergency contacts sa Malaybalay?",
 ];
+const MAX_VISIBLE_SOURCES = 3;
 
 const welcome: Message = {
   id: "welcome",
@@ -31,6 +32,7 @@ export function KuyaMac() {
   const [retryMessage, setRetryMessage] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const panelId = useId();
+  const errorId = `${panelId}-error`;
 
   useEffect(() => {
     if (!open) return;
@@ -86,7 +88,7 @@ export function KuyaMac() {
         <section className="kuya-mac-panel" id={panelId} aria-label="Kuya MAC conversation">
           <header className="kuya-mac-header">
             <span className="kuya-mac-avatar" aria-hidden="true"><Bot /></span>
-            <span><strong>Kuya MAC</strong><small>Malaybalay AI Companion</small></span>
+            <strong>Kuya MAC</strong>
             <button className="kuya-mac-close" type="button" onClick={() => setOpen(false)} aria-label="Close Kuya MAC"><X aria-hidden="true" /></button>
           </header>
           <div className="kuya-mac-disclaimer">Independent BetterMC guide — not a City Government representative. Answers use available public records.</div>
@@ -97,8 +99,12 @@ export function KuyaMac() {
                 {message.sources && message.sources.length > 0 && (
                   <div className="kuya-mac-sources">
                     <span>Related BetterMC records</span>
-                    {message.sources.map((source) => (
-                      <Link key={source.href} to={source.href} onClick={() => setOpen(false)}><strong>{source.title}</strong><small>{source.detail}</small></Link>
+                    {message.sources.slice(0, MAX_VISIBLE_SOURCES).map((source) => (
+                      <Link key={source.href} to={source.href} onClick={() => setOpen(false)}>
+                        <span>{source.type}</span>
+                        <strong>{source.title}</strong>
+                        <small>{source.detail}</small>
+                      </Link>
                     ))}
                   </div>
                 )}
@@ -111,11 +117,11 @@ export function KuyaMac() {
           </div>
           <form className="kuya-mac-form" onSubmit={onSubmit}>
             <label className="sr-only" htmlFor={`${panelId}-input`}>Ask Kuya MAC</label>
-            <input ref={inputRef} id={`${panelId}-input`} value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Pangutana kang Kuya MAC…" maxLength={1200} disabled={pending} autoComplete="off" />
+            <input ref={inputRef} id={`${panelId}-input`} value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Pangutana kang Kuya MAC…" maxLength={1200} disabled={pending} autoComplete="off" aria-describedby={error ? errorId : undefined} />
             <button type="submit" disabled={!draft.trim() || pending} aria-label="Send question"><ArrowUp aria-hidden="true" /></button>
           </form>
           {error && (
-            <div className="kuya-mac-error" role="alert">
+            <div className="kuya-mac-error" id={errorId} role="alert">
               <p>{error}</p>
               {retryMessage && <button type="button" onClick={() => void send(retryMessage, false)} disabled={pending}>Try again</button>}
             </div>
