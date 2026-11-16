@@ -38,6 +38,6 @@ describe("Kuya MAC retrieval guardrails", () => {
   it("prioritizes an exact public transaction over a broad directory guide", () => {
     const records = retrieveKuyaMacSources("Unsaon pagkuha og birth certificate?");
     expect(records[0]?.title).toContain("PSA Birth");
-    expect(records).toHaveLength(3);
+    expect(records).toHaveLength(1);
   });
 });

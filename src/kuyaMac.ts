@@ -49,9 +49,9 @@ export function retrieveKuyaMacSources(message: string, limit = 3): KuyaMacSourc
       const detail = record.detail.toLocaleLowerCase("en-PH");
       const keywords = (record.keywords ?? "").toLocaleLowerCase("en-PH");
       const type = record.type.toLocaleLowerCase("en-PH");
-      const haystack = `${title} ${detail} ${keywords} ${type}`;
+      const visibleRecordText = `${title} ${detail}`;
       const titleMatches = [...queryTokens].filter((token) => title.includes(token)).length;
-      const matchedTerms = [...queryTokens].filter((token) => haystack.includes(token)).length;
+      const visibleMatchedTerms = [...queryTokens].filter((token) => visibleRecordText.includes(token)).length;
       const score = [...queryTokens].reduce(
         (total, token) => total
           + (title.includes(token) ? 8 : 0)
@@ -61,9 +61,9 @@ export function retrieveKuyaMacSources(message: string, limit = 3): KuyaMacSourc
           + (type.includes(token) ? 1 : 0),
         0,
       ) + (titleMatches >= 2 ? 16 : 0);
-      return { record, score, matchedTerms };
+      return { record, score, visibleMatchedTerms };
     })
-    .filter(({ score, matchedTerms }) => score > 0 && (queryTokens.size < 2 || matchedTerms >= 2))
+    .filter(({ score, visibleMatchedTerms }) => score > 0 && (queryTokens.size < 2 || visibleMatchedTerms >= 2))
     .sort((a, b) => b.score - a.score || a.record.title.localeCompare(b.record.title));
 
   const minimumScore = Math.max(3, Math.ceil((rankedRecords[0]?.score ?? 0) * 0.35));
