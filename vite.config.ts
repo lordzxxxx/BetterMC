@@ -2,6 +2,15 @@ import { defineConfig } from 'vitest/config'
 import { loadEnv, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 
+function escapeHtml(value: unknown): string {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
 function devSubmissionsApiPlugin(env: Record<string, string>): Plugin {
   return {
     name: 'dev-submissions-api',
@@ -21,6 +30,11 @@ function devSubmissionsApiPlugin(env: Record<string, string>): Plugin {
         req.on('end', async () => {
           try {
             const data = JSON.parse(body)
+            const category = escapeHtml(data.category)
+            const subject = escapeHtml(data.subject)
+            const email = escapeHtml(data.email || 'Not provided')
+            const sourceUrl = escapeHtml(data.sourceUrl || 'None listed')
+            const details = escapeHtml(data.details)
             const apiKey = env.RESEND_API_KEY || process.env.RESEND_API_KEY
             const contactEmail =
               env.CONTACT_EMAIL || process.env.CONTACT_EMAIL || 'bettermc.org@gmail.com'
@@ -45,14 +59,14 @@ function devSubmissionsApiPlugin(env: Record<string, string>): Plugin {
                       <h2 style="margin: 0; font-size: 18px;">BetterMC Community Desk Submission (Dev Server)</h2>
                     </div>
                     <table style="width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px;">
-                      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: 600; width: 140px; color: #475569;">Category</td><td style="padding: 8px 0;">${data.category}</td></tr>
-                      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: 600; color: #475569;">Subject</td><td style="padding: 8px 0; font-weight: 600;">${data.subject}</td></tr>
-                      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: 600; color: #475569;">Submitter Email</td><td style="padding: 8px 0;">${data.email || 'Not provided'}</td></tr>
-                      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: 600; color: #475569;">Source URL</td><td style="padding: 8px 0;">${data.sourceUrl || 'None listed'}</td></tr>
+                      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: 600; width: 140px; color: #475569;">Category</td><td style="padding: 8px 0;">${category}</td></tr>
+                      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: 600; color: #475569;">Subject</td><td style="padding: 8px 0; font-weight: 600;">${subject}</td></tr>
+                      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: 600; color: #475569;">Submitter Email</td><td style="padding: 8px 0;">${email}</td></tr>
+                      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: 600; color: #475569;">Source URL</td><td style="padding: 8px 0;">${sourceUrl}</td></tr>
                     </table>
                     <div style="margin-top: 16px;">
                       <p style="font-weight: 600; color: #475569; margin-bottom: 6px;">Details / Evidence Provided:</p>
-                      <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; font-size: 14px; white-space: pre-wrap; line-height: 1.5;">${data.details}</div>
+                      <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; font-size: 14px; white-space: pre-wrap; line-height: 1.5;">${details}</div>
                     </div>
                   </div>`,
                 }),

@@ -19,6 +19,7 @@ BetterMC is an independent public information and transparency portal for Malayb
 - Official Citizen's Charter and public-service entry points
 - Compact access to every primary portal page from the global navigation
 - Community correction intake with shared validation, optional Turnstile verification, and email forwarding through Resend
+- Kuya MAC, a source-first Malaybalay civic-information guide with server-side scope controls and direct BetterMC record links
 - Responsive, keyboard-accessible public interface
 
 Published financial and project figures are labeled with their reporting period and source. A listed document is not treated as proof of legal compliance, current project completion, payment, or individual political credit. The DPWH ledger is limited to exact location matches returned by the official portal; it is not presented as a complete inventory of all infrastructure affecting Malaybalay.
@@ -53,7 +54,14 @@ submission email forwarding. Turnstile verification is optional; when enabled,
 configure `VITE_TURNSTILE_SITE_KEY` for the browser and `TURNSTILE_SECRET_KEY`
 as a server-only variable. Never put the secret in a `VITE_*` variable.
 Submissions are forwarded by email; this deployment does not provide durable
-submission storage, a moderation queue, or rate limiting.
+submission storage or a moderation queue. The endpoint has a per-instance
+fixed-window limit; production should also use an edge/WAF rate limit.
+
+Kuya MAC can retrieve from the versioned BetterMC index without an external AI
+provider. Model-written multilingual summaries require the server-only
+`KUYA_MAC_OPENAI_API_KEY` and `KUYA_MAC_OPENAI_MODEL` Vercel variables; see
+[Kuya MAC operations](docs/KUYA_MAC.md). Do not expose either value through a
+`VITE_` variable.
 
 ## Verification
 

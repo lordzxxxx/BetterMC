@@ -9,6 +9,9 @@ const TURNSTILE_TIMEOUT_MS = 5_000
 const RESEND_TIMEOUT_MS = 10_000
 const DEFAULT_CONTACT_EMAIL = 'bettermc.org@gmail.com'
 const DEFAULT_RESEND_FROM = 'BetterMC Desk <onboarding@resend.dev>'
+const RATE_LIMIT_WINDOW_MS = 60_000
+const RATE_LIMIT_MAX_REQUESTS = 8
+const recentRequests = new Map<string, number[]>()
 
 function json(body: unknown, status = 200): Response {
   return Response.json(body, {
@@ -95,7 +98,7 @@ function isAllowedOrigin(request: Request): boolean {
       host.endsWith('.bettermc.ph') ||
       host === 'localhost' ||
       host.endsWith('.localhost') ||
-      host.endsWith('.vercel.app')
+      /^(bettermc|bettermalaybalay)(-[a-z0-9-]+)?\.vercel\.app$/.test(host)
     ) {
       return true
     }
@@ -103,6 +106,18 @@ function isAllowedOrigin(request: Request): boolean {
   } catch {
     return false
   }
+}
+
+function underRateLimit(request: Request): boolean {
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown'
+  const now = Date.now()
+  const recent = (recentRequests.get(ip) ?? []).filter(
+    (timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS,
+  )
+  if (recent.length >= RATE_LIMIT_MAX_REQUESTS) return false
+  recent.push(now)
+  recentRequests.set(ip, recent)
+  return true
 }
 
 interface ResendPayload {
@@ -228,6 +243,9 @@ export async function handleSubmission(request: Request): Promise<Response> {
   try {
     if (!isAllowedOrigin(request)) {
       return json({ message: 'Cross-site submissions are not accepted.' }, 403)
+    }
+    if (!underRateLimit(request)) {
+      return json({ message: 'Too many submissions. Please try again in a minute.' }, 429)
     }
     if (!request.headers.get('content-type')?.includes('application/json')) {
       return json({ message: 'Expected a JSON request.' }, 415)

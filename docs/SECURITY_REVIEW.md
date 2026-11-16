@@ -17,7 +17,7 @@ This is a repository-level review of the Vercel deployment configuration, browse
 
 ## Known limitations
 
-- The endpoint forwards email but does not persist submissions or enforce a rate limit. Email forwarding is not a moderation queue or an auditable case-management system.
+- The endpoint forwards email rather than persisting submissions. It has a per-instance fixed-window limit; configure a Vercel WAF or edge rate limit for protection shared across serverless instances. Email forwarding is not a moderation queue or an auditable case-management system.
 - Turnstile is an optional Cloudflare service used only for bot verification; it does not host or deploy the site.
 - CSP permits the external tile, image, and Turnstile providers required by the current interface. Review this list if providers change.
 - Production headers and environment values must be verified on the deployed Vercel domain.

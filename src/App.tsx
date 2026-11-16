@@ -147,6 +147,7 @@ import { sitePages } from "./sitePages";
 import WeatherPanel from "./WeatherPanel";
 import MalaybalayGisMap from "./MalaybalayGisMap";
 import TurnstileWidget from "./TurnstileWidget";
+import { KuyaMac } from "./KuyaMacWidget";
 import {
   feedbackSchema,
   requestTypeOptions,
@@ -160,6 +161,43 @@ const navItems = [
   { label: "Public services", to: "/services" },
   { label: "Participate", to: "/participate" },
 ];
+
+const pageMetadata: Record<string, { title: string; description: string }> = {
+  "/": {
+    title: "BetterMC — Malaybalay public information",
+    description: "Independent, source-linked civic information for Malaybalay City and its 46 barangays.",
+  },
+  "/transparency": {
+    title: "Transparency records | BetterMC",
+    description: "Browse source-linked Malaybalay disclosure, finance, procurement, and public-record context.",
+  },
+  "/government": {
+    title: "Government directory | BetterMC",
+    description: "Find published Malaybalay offices, officials, hotlines, and source-linked civic records.",
+  },
+  "/barangays": {
+    title: "Malaybalay barangays | BetterMC",
+    description: "Explore source-linked profiles for all 46 Malaybalay barangays.",
+  },
+  "/services": {
+    title: "Public services guide | BetterMC",
+    description: "Find city and national public-service pathways, requirements, and verified provider links.",
+  },
+  "/participate": {
+    title: "Participate and suggest corrections | BetterMC",
+    description: "Help improve BetterMC with source-backed corrections, documents, and broken-link reports.",
+  },
+  "/about": {
+    title: "About and methodology | BetterMC",
+    description: "Learn how BetterMC verifies, attributes, and presents Malaybalay public information.",
+  },
+};
+
+function updateDocumentMeta(name: string, content: string, property = false) {
+  const selector = property ? `meta[property="${name}"]` : `meta[name="${name}"]`;
+  const element = document.head.querySelector<HTMLMetaElement>(selector);
+  if (element) element.content = content;
+}
 
 const telephoneHref = (value?: string) =>
   value?.split(/\s*(?:\/|\|)\s*/)[0].replace(/[^+\d]/g, "") ?? "";
@@ -708,11 +746,22 @@ function Layout({ children }: { children: ReactNode }) {
     }
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [pathname, hash]);
+  useEffect(() => {
+    const metadata = pageMetadata[pathname] ?? pageMetadata["/"];
+    const canonical = `${window.location.origin}${pathname}`;
+    document.title = metadata.title;
+    updateDocumentMeta("description", metadata.description);
+    updateDocumentMeta("og:title", metadata.title, true);
+    updateDocumentMeta("og:description", metadata.description, true);
+    updateDocumentMeta("og:url", canonical, true);
+    document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.setAttribute("href", canonical);
+  }, [pathname]);
   return (
     <>
       <Header />
       <main id="main">{children}</main>
       <Footer />
+      <KuyaMac />
     </>
   );
 }
