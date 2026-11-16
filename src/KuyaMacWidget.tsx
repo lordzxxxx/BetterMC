@@ -42,10 +42,12 @@ export function KuyaMac() {
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [open]);
 
-  async function send(message: string) {
+  async function send(message: string, addUserMessage = true) {
     const content = message.trim();
     if (!content || pending) return;
-    setMessages((current) => [...current, { id: crypto.randomUUID(), role: "user", content }]);
+    if (addUserMessage) {
+      setMessages((current) => [...current, { id: crypto.randomUUID(), role: "user", content }]);
+    }
     setDraft("");
     setError(null);
     setRetryMessage(null);
@@ -115,7 +117,7 @@ export function KuyaMac() {
           {error && (
             <div className="kuya-mac-error" role="alert">
               <p>{error}</p>
-              {retryMessage && <button type="button" onClick={() => void send(retryMessage)} disabled={pending}>Try again</button>}
+              {retryMessage && <button type="button" onClick={() => void send(retryMessage, false)} disabled={pending}>Try again</button>}
             </div>
           )}
         </section>
