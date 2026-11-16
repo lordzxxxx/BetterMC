@@ -28,6 +28,7 @@ export function KuyaMac() {
   const [messages, setMessages] = useState<Message[]>([welcome]);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [retryMessage, setRetryMessage] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const panelId = useId();
 
@@ -47,6 +48,7 @@ export function KuyaMac() {
     setMessages((current) => [...current, { id: crypto.randomUUID(), role: "user", content }]);
     setDraft("");
     setError(null);
+    setRetryMessage(null);
     setPending(true);
     try {
       const response = await fetch("/api/kuya-mac", {
@@ -61,7 +63,11 @@ export function KuyaMac() {
       if (!response.ok || !answer) throw new Error(result.message || "Kuya MAC is unavailable right now.");
       setMessages((current) => [...current, { id: crypto.randomUUID(), role: "assistant", content: answer, sources: result.sources }]);
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : "Kuya MAC is unavailable right now.");
+      const detail = requestError instanceof Error ? requestError.message : "";
+      setError(detail === "Failed to fetch"
+        ? "Unable to reach Kuya MAC right now. Check your connection and try again."
+        : detail || "Kuya MAC is unavailable right now. Please try again.");
+      setRetryMessage(content);
     } finally {
       setPending(false);
     }
@@ -106,7 +112,12 @@ export function KuyaMac() {
             <input ref={inputRef} id={`${panelId}-input`} value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Pangutana kang Kuya MAC…" maxLength={1200} disabled={pending} autoComplete="off" />
             <button type="submit" disabled={!draft.trim() || pending} aria-label="Send question"><ArrowUp aria-hidden="true" /></button>
           </form>
-          {error && <p className="kuya-mac-error" role="alert">{error}</p>}
+          {error && (
+            <div className="kuya-mac-error" role="alert">
+              <p>{error}</p>
+              {retryMessage && <button type="button" onClick={() => void send(retryMessage)} disabled={pending}>Try again</button>}
+            </div>
+          )}
         </section>
       )}
       <button className="kuya-mac-launcher" type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-controls={open ? panelId : undefined}>

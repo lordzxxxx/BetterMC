@@ -20083,7 +20083,10 @@ div.service-category-grid > .service-pathway-card > .category-card-arrow-link sv
 .kuya-mac-form input { min-width: 0; flex: 1; min-height: 42px; padding: 0 11px; border: 1px solid #b8cce8; border-radius: 10px; color: #172a48; font: inherit; font-size: .82rem; }
 .kuya-mac-form button { width: 42px; height: 42px; display: grid; place-items: center; border: 0; border-radius: 10px; background: var(--green-900); color: #fff; }
 .kuya-mac-form button:disabled, .kuya-mac-suggestions button:disabled { cursor: not-allowed; opacity: .55; }
-.kuya-mac-error { margin: 0; padding: 0 13px 12px; color: #a42032; font-size: .74rem; }
+.kuya-mac-error { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0; padding: 0 13px 12px; color: #a42032; font-size: .74rem; line-height: 1.4; }
+.kuya-mac-error p { margin: 0; }
+.kuya-mac-error button { min-height: 36px; flex: none; padding: 6px 9px; border: 1px solid #c8808a; border-radius: 8px; color: #8a1c2a; background: #fff; font: inherit; font-weight: 700; }
+.kuya-mac-error button:hover, .kuya-mac-error button:focus-visible { border-color: #a42032; background: #fff4f4; }
 @media (max-width: 760px) {
   .kuya-mac { right: 14px; bottom: 14px; }
   .kuya-mac-panel { width: min(100vw - 28px, 430px); }
