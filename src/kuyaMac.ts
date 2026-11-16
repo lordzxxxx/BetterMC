@@ -39,29 +39,34 @@ export function isKuyaMacTopic(message: string): boolean {
   return greetingPattern.test(message) || civicTerms.test(message) || retrieveKuyaMacSources(message).length > 0;
 }
 
-export function retrieveKuyaMacSources(message: string, limit = 5): KuyaMacSource[] {
+export function retrieveKuyaMacSources(message: string, limit = 3): KuyaMacSource[] {
   const queryTokens = new Set(tokens(message));
   if (queryTokens.size === 0) return [];
 
-  return portalSearchIndex
+  const rankedRecords = portalSearchIndex
     .map((record) => {
       const title = record.title.toLocaleLowerCase("en-PH");
       const detail = record.detail.toLocaleLowerCase("en-PH");
       const keywords = (record.keywords ?? "").toLocaleLowerCase("en-PH");
       const type = record.type.toLocaleLowerCase("en-PH");
+      const titleMatches = [...queryTokens].filter((token) => title.includes(token)).length;
       const score = [...queryTokens].reduce(
         (total, token) => total
           + (title.includes(token) ? 8 : 0)
-          + (title === token ? 24 : 0)
+          + (title === token ? 48 : 0)
           + (keywords.includes(token) ? 3 : 0)
           + (detail.includes(token) ? 2 : 0)
           + (type.includes(token) ? 1 : 0),
         0,
-      );
+      ) + (titleMatches >= 2 ? 16 : 0);
       return { record, score };
     })
     .filter(({ score }) => score > 0)
-    .sort((a, b) => b.score - a.score || a.record.title.localeCompare(b.record.title))
+    .sort((a, b) => b.score - a.score || a.record.title.localeCompare(b.record.title));
+
+  const minimumScore = Math.max(3, Math.ceil((rankedRecords[0]?.score ?? 0) * 0.35));
+  return rankedRecords
+    .filter(({ score }) => score >= minimumScore)
     .slice(0, limit)
     .map(({ record }) => ({
       type: record.type,

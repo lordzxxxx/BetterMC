@@ -34,4 +34,10 @@ describe("Kuya MAC retrieval guardrails", () => {
     expect(kuyaMacFallbackAnswer("Unsa ang emergency contacts sa Malaybalay?", records)).toContain("Emergency contacts");
     expect(records).toHaveLength(3);
   });
+
+  it("prioritizes an exact public transaction over a broad directory guide", () => {
+    const records = retrieveKuyaMacSources("Unsaon pagkuha og birth certificate?");
+    expect(records[0]?.title).toContain("PSA Birth");
+    expect(records).toHaveLength(3);
+  });
 });
