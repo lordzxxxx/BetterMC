@@ -40,12 +40,10 @@ No critical client-side secret exposure, DOM-XSS sink, dynamic-code execution, o
 - `api/submissions.ts:278-285` validates public input with the shared Zod schema.
 - `api/submissions.ts:144-150` escapes email-bound values before HTML rendering.
 - `vercel.json:20-47` configures CSP, clickjacking defenses, referrer policy, capability restrictions, and HSTS.
-- `api/kuya-mac.ts` enforces POST-only, same-origin, size-limited, schema-validated, rate-limited civic-only directory requests.
-- Kuya MAC has no external model provider, chatbot API key, or tool access; it returns only retrieval results from the versioned BetterMC index.
 
 ## Required production verification
 
 1. Configure the server-only environment variables listed in `.env.example`; do not use a `VITE_` prefix for secrets.
-2. Add edge/WAF rate limits for `/api/submissions` and `/api/kuya-mac`.
+2. Add edge/WAF rate limits for `/api/submissions`.
 3. Verify live response headers, API behavior, and Vercel environment configuration after deployment.
-4. Re-run `npm run check`, `npm audit --omit=dev`, and the assistant security/refusal tests after data or endpoint changes.
+4. Re-run `npm run check` and `npm audit --omit=dev` after data or endpoint changes.

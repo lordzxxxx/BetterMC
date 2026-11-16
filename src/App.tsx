@@ -147,7 +147,6 @@ import { sitePages } from "./sitePages";
 import WeatherPanel from "./WeatherPanel";
 import MalaybalayGisMap from "./MalaybalayGisMap";
 import TurnstileWidget from "./TurnstileWidget";
-import { KuyaMac } from "./KuyaMacWidget";
 import {
   feedbackSchema,
   requestTypeOptions,
@@ -761,7 +760,6 @@ function Layout({ children }: { children: ReactNode }) {
       <Header />
       <main id="main">{children}</main>
       <Footer />
-      <KuyaMac />
     </>
   );
 }
