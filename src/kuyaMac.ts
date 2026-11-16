@@ -18,7 +18,7 @@ const promptInjectionPattern = /\b(ignore|reveal|show|print|repeat|extract)\b.{0
 const offTopicPattern = /\b(write|make|generate|solve|create)\b.{0,80}\b(essay|poem|story|code|homework|recipe|travel plan)\b/i;
 
 const stopWords = new Set([
-  "about", "after", "ang", "and", "are", "asa", "can", "city", "does", "find", "for", "from", "how", "information", "is", "it", "mga", "need", "ng", "of", "on", "please", "sa", "the", "to", "unsa", "what", "where", "which", "who", "with", "you",
+  "about", "after", "ang", "and", "are", "asa", "can", "city", "does", "find", "for", "from", "how", "information", "is", "it", "mga", "need", "ng", "of", "on", "pagkuha", "please", "sa", "the", "to", "unsa", "what", "where", "which", "who", "with", "you",
 ]);
 
 function tokens(value: string): string[] {
@@ -49,7 +49,9 @@ export function retrieveKuyaMacSources(message: string, limit = 3): KuyaMacSourc
       const detail = record.detail.toLocaleLowerCase("en-PH");
       const keywords = (record.keywords ?? "").toLocaleLowerCase("en-PH");
       const type = record.type.toLocaleLowerCase("en-PH");
+      const haystack = `${title} ${detail} ${keywords} ${type}`;
       const titleMatches = [...queryTokens].filter((token) => title.includes(token)).length;
+      const matchedTerms = [...queryTokens].filter((token) => haystack.includes(token)).length;
       const score = [...queryTokens].reduce(
         (total, token) => total
           + (title.includes(token) ? 8 : 0)
@@ -59,9 +61,9 @@ export function retrieveKuyaMacSources(message: string, limit = 3): KuyaMacSourc
           + (type.includes(token) ? 1 : 0),
         0,
       ) + (titleMatches >= 2 ? 16 : 0);
-      return { record, score };
+      return { record, score, matchedTerms };
     })
-    .filter(({ score }) => score > 0)
+    .filter(({ score, matchedTerms }) => score > 0 && (queryTokens.size < 2 || matchedTerms >= 2))
     .sort((a, b) => b.score - a.score || a.record.title.localeCompare(b.record.title));
 
   const minimumScore = Math.max(3, Math.ceil((rankedRecords[0]?.score ?? 0) * 0.35));
