@@ -9,16 +9,6 @@ export type KuyaMacSource = {
 
 export const kuyaMacRequestSchema = z.object({
   message: z.string().trim().min(1).max(1_200),
-  history: z
-    .array(
-      z.object({
-        role: z.enum(["user", "assistant"]),
-        content: z.string().trim().min(1).max(1_200),
-      }),
-    )
-    .max(6)
-    .optional()
-    .default([]),
 });
 
 const greetingPattern = /^(hi|hello|hey|maayong (buntag|hapon|gabi|adlaw)|kumusta|musta|good (morning|afternoon|evening)|magandang (umaga|hapon|gabi))\b/i;
@@ -74,7 +64,7 @@ export function retrieveKuyaMacSources(message: string, limit = 5): KuyaMacSourc
 
 export function kuyaMacFallbackAnswer(message: string, sources: KuyaMacSource[]): string {
   if (greetingPattern.test(message)) {
-    return "Maayong adlaw! Ako si Kuya MAC, ang independent Malaybalay AI Companion sa BetterMC. Pwede ko motabang sa verified public information, serbisyo, barangay, opisina, ug public records.";
+    return "Maayong adlaw! Ako si Kuya MAC, ang imohang AI Companion.";
   }
   if (sources.length > 0) {
     return "Mao ni ang mga na-verify nga BetterMC records nga pinakaduol sa imong pangutana. Ablihi ang source para sa full context, publication details, ug verification notes.";

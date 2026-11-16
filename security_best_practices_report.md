@@ -40,8 +40,8 @@ No critical client-side secret exposure, DOM-XSS sink, dynamic-code execution, o
 - `api/submissions.ts:278-285` validates public input with the shared Zod schema.
 - `api/submissions.ts:144-150` escapes email-bound values before HTML rendering.
 - `vercel.json:20-47` configures CSP, clickjacking defenses, referrer policy, capability restrictions, and HSTS.
-- `api/kuya-mac.ts:115-151` enforces POST-only, same-origin, size-limited, schema-validated, rate-limited civic-only requests before an optional server-side model call.
-- `api/kuya-mac.ts:85-111` supplies a constrained retrieval context, disables provider storage, sets a timeout, and never places the model credential in browser code.
+- `api/kuya-mac.ts` enforces POST-only, same-origin, size-limited, schema-validated, rate-limited civic-only directory requests.
+- Kuya MAC has no external model provider, chatbot API key, or tool access; it returns only retrieval results from the versioned BetterMC index.
 
 ## Required production verification
 

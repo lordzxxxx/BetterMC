@@ -19,7 +19,7 @@ const suggestions = [
 const welcome: Message = {
   id: "welcome",
   role: "assistant",
-  content: "Maayong adlaw! Ako si Kuya MAC, ang Malaybalay AI Companion. Pangutana sa BetterMC public records, serbisyo, barangay, opisina, ug mapa.",
+  content: "Maayong adlaw! Ako si Kuya MAC, ang imohang AI Companion.",
 };
 
 export function KuyaMac() {
@@ -44,8 +44,7 @@ export function KuyaMac() {
   async function send(message: string) {
     const content = message.trim();
     if (!content || pending) return;
-    const nextMessages = [...messages, { id: crypto.randomUUID(), role: "user" as const, content }];
-    setMessages(nextMessages);
+    setMessages((current) => [...current, { id: crypto.randomUUID(), role: "user", content }]);
     setDraft("");
     setError(null);
     setPending(true);
@@ -55,7 +54,6 @@ export function KuyaMac() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: content,
-          history: nextMessages.slice(-5, -1).map(({ role, content: messageContent }) => ({ role, content: messageContent })),
         }),
       });
       const result = (await response.json()) as { answer?: string; message?: string; sources?: KuyaMacSource[] };

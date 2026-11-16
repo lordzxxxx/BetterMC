@@ -57,11 +57,8 @@ Submissions are forwarded by email; this deployment does not provide durable
 submission storage or a moderation queue. The endpoint has a per-instance
 fixed-window limit; production should also use an edge/WAF rate limit.
 
-Kuya MAC can retrieve from the versioned BetterMC index without an external AI
-provider. Model-written multilingual summaries require the server-only
-`KUYA_MAC_OPENAI_API_KEY` and `KUYA_MAC_OPENAI_MODEL` Vercel variables; see
-[Kuya MAC operations](docs/KUYA_MAC.md). Do not expose either value through a
-`VITE_` variable.
+Kuya MAC retrieves matching, versioned BetterMC records without an external AI
+provider or chatbot API credential. See [Kuya MAC operations](docs/KUYA_MAC.md).
 
 ## Verification
 
