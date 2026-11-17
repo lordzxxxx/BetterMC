@@ -147,6 +147,7 @@ import {
   documentGuides,
   educationOffices,
   educationInstitutions,
+  schoolSlugFromHostname,
   type EducationInstitution,
   ordinanceResearchNotice,
   type EducationLevel,
@@ -2569,6 +2570,17 @@ function educationSummary(item: EducationInstitution) {
   return `The reviewed ${item.source.type.toLowerCase()} lists this institution in ${location}, with ${item.levels.join(", ").toLowerCase()} offerings recorded for the directory.`;
 }
 
+function SchoolLogo({ item }: { item: EducationInstitution }) {
+  if (item.logoUrl) {
+    return <img className="education-school-logo" src={item.logoUrl} alt={`${item.name} logo`} loading="lazy" />;
+  }
+  return (
+    <div className="education-school-logo education-school-logo-fallback" aria-label={`${item.name} logo unavailable`}>
+      <GraduationCap aria-hidden="true" />
+    </div>
+  );
+}
+
 function EducationDirectoryPage() {
   const [params, setParams] = useSearchParams();
   const [query, setQuery] = useState(params.get("q") ?? "");
@@ -2606,7 +2618,7 @@ function EducationDirectoryPage() {
       </div>
       <div className="results-summary"><strong>{records.length} matching institution{records.length === 1 ? "" : "s"}</strong><span>Last reviewed 17 November 2026</span>{activeFilters.length > 0 && <><span className="filter-summary">Filters: {activeFilters.join(" · ")}</span><button className="text-button" type="button" onClick={clearFilters}>Clear all</button></>}</div>
       <div className="civic-card-grid">
-        {records.map((item) => <article className="civic-record-card education-directory-card" key={item.slug}><div className="education-card-icon"><GraduationCap aria-hidden="true" /></div><h2>{item.name}</h2><p className="education-card-intro">{educationSummary(item)}</p><dl><div><dt>Education offered</dt><dd>{item.levels.join(" · ")}</dd></div><div><dt>Location</dt><dd>{item.address}</dd></div>{item.schoolId && <div><dt>School ID</dt><dd>{item.schoolId}</dd></div>}{item.programmes?.length ? <div><dt>Published programmes</dt><dd>{item.programmes.join(", ")}</dd></div> : null}</dl><div className="civic-card-actions"><Link to={`/education/${item.slug}`}>View school details <ArrowRight aria-hidden="true" /></Link><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Directions <ExternalLink aria-hidden="true" /></a></div></article>)}
+        {records.map((item) => <article className="civic-record-card education-directory-card" key={item.slug}><SchoolLogo item={item} /><div className="education-card-status">{item.status}{item.classification ? ` · ${item.classification}` : ""}</div><h2>{item.name}</h2><p className="education-card-intro">{educationSummary(item)}</p><dl><div><dt>Education offered</dt><dd>{item.levels.join(" · ")}</dd></div><div><dt>Location</dt><dd>{item.address}</dd></div>{item.schoolId && <div><dt>School ID</dt><dd>{item.schoolId}</dd></div>}{item.programmes?.length ? <div><dt>Published programmes</dt><dd>{item.programmes.join(", ")}</dd></div> : null}</dl><div className="civic-card-actions"><Link to={`/education/${item.slug}`}>View school details <ArrowRight aria-hidden="true" /></Link><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Directions <ExternalLink aria-hidden="true" /></a></div></article>)}
       </div>
       {!records.length && <div className="empty-state" role="status"><Search aria-hidden="true" /><strong>No source-linked institution matches these filters</strong><p>Try another school name or ID, or clear the current filters.</p><button className="button secondary" type="button" onClick={clearFilters}>Clear all filters</button></div>}
     </section>
@@ -2620,9 +2632,9 @@ function EducationOfficesPage() {
   })}</section></>;
 }
 
-function EducationProfilePage() {
+function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) {
   const { slug } = useParams<{ slug: string }>();
-  const item = educationInstitutions.find((entry) => entry.slug === slug);
+  const item = educationInstitutions.find((entry) => entry.slug === (slugOverride ?? slug));
   if (!item) return <NotFoundPage />;
   return <>
     <PageHero eyebrow="School profile" title={item.name} description={item.levels.join(" · ")} compact>
@@ -2631,6 +2643,7 @@ function EducationProfilePage() {
     <section className="section container civic-detail-layout">
       <article className="civic-detail-main">
         <section className="education-profile-intro">
+          <SchoolLogo item={item} />
           <span className="eyebrow">About this school</span>
           <h2>At a glance</h2>
           <p>{educationSummary(item)}</p>
@@ -2640,8 +2653,10 @@ function EducationProfilePage() {
           <div><dt>Address</dt><dd>{item.address}</dd></div>
           <div><dt>Barangay</dt><dd>{item.barangay ?? "Not published in the reviewed source"}</dd></div>
           <div><dt>School head / key officers</dt><dd>{item.leadership ?? "Not published in the reviewed source"}</dd></div>
+          <div><dt>Classification</dt><dd>{item.classification ?? item.type}</dd></div>
           <div><dt>Programmes and grade levels</dt><dd>{item.programmes?.join(", ") ?? item.levels.join(", ")}</dd></div>
           <div><dt>Official communication</dt><dd>{item.contacts?.join(" · ") ?? "Not published in the reviewed source"}</dd></div>
+          <div><dt>School subdomain</dt><dd>{item.subdomainHost ?? "Generated after registry verification"}</dd></div>
         </dl>
         <section className="education-profile-section">
           <span className="eyebrow">Announcements and official channels</span>
@@ -2658,8 +2673,11 @@ function EducationProfilePage() {
       </article>
       <aside className="legislation-source-card">
         <MapPin aria-hidden="true" /><span className="eyebrow">Source ledger</span><h2>Confirm before visiting</h2>
+        <SchoolLogo item={item} />
+        <p className="source-availability-note">Logo status: {item.logoStatus ?? "Unavailable"}. BetterMC does not substitute another institution’s mark.</p>
         <p>The map opens a Google Maps search using the source-listed address. BetterMC does not claim an exact pin where none was published by the institution or agency.</p>
         <a className="button primary" href={item.source.url} target="_blank" rel="noreferrer">Open source listing <ExternalLink aria-hidden="true" /></a>
+        {item.subdomainHost && <a className="button secondary" href={`https://${item.subdomainHost}`} target="_blank" rel="noreferrer">Open school subdomain <ExternalLink aria-hidden="true" /></a>}
         {item.officialLinks?.map((link) => <a className="civic-source-link" key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.label} <ExternalLink aria-hidden="true" /></a>)}
         <p className="source-availability-note">{item.source.label} · {item.source.type} · reviewed {item.source.verifiedOn}</p>
       </aside>
@@ -6323,6 +6341,10 @@ export default function App() {
     typeof window === "undefined"
       ? barangaySlugFromHostname("", location.search)
       : barangaySlugFromHostname(window.location.hostname, location.search);
+  const schoolSubdomainSlug =
+    typeof window === "undefined"
+      ? schoolSlugFromHostname("", location.search)
+      : schoolSlugFromHostname(window.location.hostname, location.search);
   return (
     <Layout>
       <Routes>
@@ -6331,6 +6353,8 @@ export default function App() {
           element={
             subdomainSlug ? (
               <BarangayProfilePage slugOverride={subdomainSlug} />
+            ) : schoolSubdomainSlug ? (
+              <EducationProfilePage slugOverride={schoolSubdomainSlug} />
             ) : (
               <HomePage />
             )

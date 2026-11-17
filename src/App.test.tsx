@@ -13,7 +13,7 @@ import {
   essentialNationalServices,
   VERIFIED_SERVICE_PROVIDERS,
 } from "./serviceCatalog";
-import { documentGuides, educationInstitutions } from "./civicDirectories";
+import { documentGuides, educationInstitutions, schoolSlugFromHostname } from "./civicDirectories";
 
 describe("BetterMC public portal", () => {
   it("keeps source-led education and document routes available without inventing missing details", () => {
@@ -46,6 +46,23 @@ describe("BetterMC public portal", () => {
     expect(screen.getByRole("heading", { name: "Bangcud Central School" })).toBeInTheDocument();
     expect(screen.getByText("126558")).toBeInTheDocument();
     expect(screen.getByText(/Purok 2, Sayre Highway, Bangcud/)).toBeInTheDocument();
+  });
+
+  it("keeps the supplied school inventory searchable without duplicate slugs", () => {
+    const requiredNames = [
+      "Airport Village Elementary School",
+      "Malaybalay City Central School",
+      "Candiisan Integrated School",
+      "Lunokan Integrated School",
+      "Bukidnon State University Elementary School Laboratory",
+      "Imbayao National High School",
+    ];
+    for (const name of requiredNames) {
+      expect(educationInstitutions.some((school) => school.name === name)).toBe(true);
+    }
+    expect(new Set(educationInstitutions.map((school) => school.slug)).size).toBe(educationInstitutions.length);
+    expect(schoolSlugFromHostname("bangcud-central-school.bettermalaybalay.cloud")).toBe("bangcud-central-school");
+    expect(schoolSlugFromHostname("not-a-school.bettermalaybalay.cloud")).toBeNull();
   });
 
   it("links every barangay profile to its document-service page", () => {

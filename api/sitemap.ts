@@ -1,10 +1,11 @@
 import { barangayMicrosites } from "../src/barangayProfiles.js";
 import { serviceCategories } from "../src/serviceCatalog.js";
+import { educationInstitutions } from "../src/civicDirectories.js";
 
 export const config = { runtime: "edge" };
 
 const SITE_URL = "https://www.bettermalaybalay.cloud";
-const staticPaths = ["/", "/transparency", "/government", "/legislation", "/procurement/bidding-opportunities", "/barangays", "/services", "/participate", "/about"];
+const staticPaths = ["/", "/transparency", "/government", "/legislation", "/education", "/education/offices", "/procurement/bidding-opportunities", "/barangays", "/services", "/participate", "/about"];
 
 function escapeXml(value: string): string {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
@@ -15,6 +16,7 @@ export default function handler(): Response {
     ...staticPaths,
     ...serviceCategories.map((category) => `/services/${category.slug}`),
     ...barangayMicrosites.map((barangay) => `/barangays/${barangay.slug}`),
+    ...educationInstitutions.map((school) => `/education/${school.slug}`),
   ];
   const urls = [...new Set(paths)]
     .map((path) => `<url><loc>${escapeXml(`${SITE_URL}${path}`)}</loc><changefreq>weekly</changefreq></url>`)

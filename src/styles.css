@@ -19140,6 +19140,10 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 .education-directory-card h2 { max-width: calc(100% - 48px); font-size: 1.1rem; }
 .education-card-icon { display: grid; position: absolute; top: 19px; right: 19px; width: 36px; height: 36px; place-items: center; border: 1px solid #bdd6f4; border-radius: 10px; background: #edf6ff; color: #1453ad; }
 .education-card-icon svg { width: 18px; height: 18px; }
+.education-school-logo { display: block; width: 48px; height: 48px; object-fit: contain; border-radius: 12px; border: 1px solid #c1d9f6; background: #f5f9ff; }
+.education-school-logo-fallback { display: grid; place-items: center; color: #1859b5; }
+.education-school-logo-fallback svg { width: 22px; height: 22px; }
+.education-card-status { color: #536987; font-size: .78rem; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; }
 .education-card-intro { display: -webkit-box; overflow: hidden; color: #405675 !important; font-size: .9rem; line-height: 1.5 !important; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
 .education-directory-card dl { gap: 10px; padding-top: 2px; border-top: 1px solid #e0eaf6; }
 .education-directory-card dl div { padding-top: 10px; }

@@ -3,7 +3,7 @@ import type { Source } from "./data";
 export type EducationLevel = "Preschool" | "Kindergarten" | "Elementary" | "Junior high" | "Senior high" | "Integrated school" | "Technical-vocational" | "College / university";
 export type InstitutionType = "Public" | "Private" | "State university" | "Technical-vocational";
 export type VerificationStatus = "Verified" | "Partially Verified" | "Awaiting Verification" | "Community Reported" | "Inactive or Closed";
-export type SourceType = "Government directory" | "Institutional website" | "Official school channel";
+export type SourceType = "Government directory" | "Institutional website" | "Official school channel" | "Research inventory";
 
 export type RecordSource = Source & { type: SourceType };
 export type SchoolAnnouncementConfig = {
@@ -24,12 +24,17 @@ export type EducationInstitution = {
   barangay?: string;
   address: string;
   type: InstitutionType;
+  classification?: string;
   levels: EducationLevel[];
   description?: string;
   leadership?: string;
   contacts?: string[];
   programmes?: string[];
   officialLinks?: Array<{ label: string; url: string }>;
+  logoUrl?: string;
+  logoSource?: RecordSource;
+  logoStatus?: "Verified" | "Unavailable" | "Pending verification";
+  subdomainHost?: string;
   announcements: SchoolAnnouncementConfig;
   transport: TransportAccess;
   source: RecordSource;
@@ -54,6 +59,12 @@ export const depedInventorySource: RecordSource = {
   url: "https://nid.deped.gov.ph/public-dashboard/region/Region%20X/division/Malaybalay%20City",
   verifiedOn: reviewedOn,
   type: "Government directory",
+};
+const researchInventorySource: RecordSource = {
+  label: "BetterMC research inventory — individual DepEd confirmation pending",
+  url: depedInventorySource.url,
+  verifiedOn: reviewedOn,
+  type: "Research inventory",
 };
 export const chedSource: RecordSource = {
   label: "CHED HEIDA — Higher Education Institution Directory",
@@ -107,7 +118,7 @@ const publicBasicSchools: Array<[string, string, string, string, string | undefi
   ["bulonay-elementary-school", "Bulonay Elementary School", "501190", "Fortich Street, Malaybalay City", "Barangay 3", ["Elementary"]],
   ["cabagahan-elementary-school", "Cabagahan Elementary School", "126561", "Purok 1, Cabangahan, Malaybalay City", "Cabangahan", ["Elementary"]],
   ["capitan-angel-integrated-school", "Capitan Angel Integrated School", "501189", "Purok 1, Capitan Angel, Malaybalay City", "Capitan Angel", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
-  ["candisaan-integrated-school", "Candisaan Integrated School", "501195", "Candisaan, Can-ayan, Malaybalay City", "Can-ayan", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
+  ["candiisan-integrated-school", "Candiisan Integrated School", "501195", "Candiisan, Can-ayan, Malaybalay City", "Can-ayan", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
   ["kibalabag-integrated-school", "Kibalabag Integrated School", "501188", "Purok 3, Kibalabag, Malaybalay City", "Kibalabag", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
   ["maligaya-integrated-school", "Maligaya Integrated School", "501583", "Malubog, San Jose, Malaybalay City", "San Jose", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
   ["mapulo-elementary-school", "Mapulo Elementary School", "126548", "Mapulo, Malaybalay City", "Mapulo", ["Elementary"]],
@@ -139,7 +150,7 @@ const recognizedPrivateBasicSchools: Array<[string, string, EducationLevel[]]> =
   ["sunbeam-christian-academy", "Sunbeam Christian Academy of Bangcud Inc.", ["Preschool", "Elementary"]],
 ];
 
-export const educationInstitutions: EducationInstitution[] = [
+const educationInstitutionSeed: EducationInstitution[] = [
   ...publicHighSchools.map(([slug, name, schoolId, address, levels]) => ({
     slug, name, schoolId, address, type: "Public" as const, levels, source: depedSchoolSource, status: "Verified" as const, announcements: defaultAnnouncement, transport: schoolTransport(address),
   })),
@@ -205,6 +216,137 @@ export const educationInstitutions: EducationInstitution[] = [
   }
   return institution;
 }) as EducationInstitution[];
+
+type InventorySchool = {
+  slug: string;
+  name: string;
+  schoolId?: string;
+  type: InstitutionType;
+  levels: EducationLevel[];
+  classification?: string;
+};
+
+const inventorySchool = (
+  slug: string,
+  name: string,
+  type: InstitutionType,
+  levels: EducationLevel[],
+  schoolId?: string,
+  classification?: string,
+): InventorySchool => ({ slug, name, type, levels, schoolId, classification });
+
+/**
+ * Supplied inventory entries that are not yet individually confirmed in a
+ * current DepEd record. They remain searchable and linkable, but are clearly
+ * marked as awaiting verification instead of being presented as confirmed.
+ */
+const pendingSchoolInventory: InventorySchool[] = [
+  inventorySchool("linabo-central-school", "Linabo Central School", "Public", ["Elementary"], "126544", "Central school"),
+  inventorySchool("malaybalay-city-central-school", "Malaybalay City Central School", "Public", ["Elementary"], "126586", "Central school"),
+  inventorySchool("managok-central-school", "Managok Central School", "Public", ["Elementary"], "126547", "Central school"),
+  inventorySchool("airport-village-elementary-school", "Airport Village Elementary School", "Public", ["Elementary"], "126574"),
+  inventorySchool("balangbang-elementary-school", "Balangbang Elementary School", "Public", ["Elementary"], "126535"),
+  inventorySchool("barangay-9-elementary-school", "Barangay 9 Elementary School", "Public", ["Elementary"], "199510"),
+  inventorySchool("bct-elementary-school", "BCT Elementary School", "Public", ["Elementary"], "126576"),
+  inventorySchool("caburacanan-elementary-school", "Caburacanan Elementary School", "Public", ["Elementary"], "126537"),
+  inventorySchool("dapulan-elementary-school", "Dapulan Elementary School", "Public", ["Elementary"], "126563"),
+  inventorySchool("dumayas-elementary-school", "Dumayas Elementary School", "Public", ["Elementary"], "126539"),
+  inventorySchool("imbayao-elementary-school", "Imbayao Elementary School", "Public", ["Elementary"], "126581"),
+  inventorySchool("incalbog-elementary-school", "Incalbog Elementary School", "Public", ["Elementary"], "103677"),
+  inventorySchool("indalasa-elementary-school", "Indalasa Elementary School", "Public", ["Elementary"], "126540"),
+  inventorySchool("isabela-ayala-gonzales-elementary-school", "Isabela Ayala Gonzales Elementary School", "Public", ["Elementary"], "126568"),
+  inventorySchool("kulaman-elementary-school", "Kulaman Elementary School", "Public", ["Elementary"], "126541"),
+  inventorySchool("lalawan-elementary-school", "Lalawan Elementary School", "Public", ["Elementary"], "126542"),
+  inventorySchool("langasihan-elementary-school", "Langasihan Elementary School", "Public", ["Elementary"], "126543"),
+  inventorySchool("macote-elementary-school", "Macote Elementary School", "Public", ["Elementary"], "126566"),
+  inventorySchool("pighalugan-elementary-school", "Pighalugan Elementary School", "Public", ["Elementary"], "103629"),
+  inventorySchool("san-jose-elementary-school", "San Jose Elementary School", "Public", ["Elementary"], "126591"),
+  inventorySchool("san-martin-elementary-school", "San Martin Elementary School", "Public", ["Elementary"]),
+  inventorySchool("san-martin-sinanglanan-elementary-school", "San Martin-Sinanglanan Elementary School", "Public", ["Elementary"], "126571"),
+  inventorySchool("san-roque-elementary-school", "San Roque Elementary School", "Public", ["Elementary"]),
+  inventorySchool("sawaga-elementary-school", "Sawaga Elementary School", "Public", ["Elementary"]),
+  inventorySchool("sta-ana-elementary-school", "Sta. Ana Elementary School", "Public", ["Elementary"], "126592"),
+  inventorySchool("tag-ilanao-elementary-school", "Tag-ilanao Elementary School", "Public", ["Elementary"], "126594"),
+  inventorySchool("tamogawe-elementary-school", "Tamogawe Elementary School", "Public", ["Elementary"], "137297"),
+  inventorySchool("tintinaan-elementary-school", "Tintinaan Elementary School", "Public", ["Elementary"], "126595"),
+  inventorySchool("can-ayan-integrated-school", "Can-ayan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "500245", "Integrated school"),
+  inventorySchool("candiisan-integrated-school", "Candiisan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "501195", "Integrated school"),
+  inventorySchool("capitan-juan-integrated-school", "Capitan Juan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], undefined, "Integrated school"),
+  inventorySchool("casisang-central-integrated-school", "Casisang Central Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "501580", "Integrated school"),
+  inventorySchool("kilap-agan-integrated-school", "Kilap-agan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "501579", "Integrated school"),
+  inventorySchool("mabuhay-integrated-school", "Mabuhay Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "501852", "Integrated school"),
+  inventorySchool("magsaysay-integrated-school", "Magsaysay Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "501190", "Integrated school"),
+  inventorySchool("manalog-integrated-school", "Manalog Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "501854", "Integrated school"),
+  inventorySchool("mapayag-integrated-school", "Mapayag Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "501853", "Integrated school"),
+  inventorySchool("pigpamulahan-integrated-school", "Pigpamulahan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "502740", "Integrated school"),
+  inventorySchool("san-roque-integrated-school", "San Roque Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "502738", "Integrated school"),
+  inventorySchool("simaya-integrated-school", "Simaya Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "501582", "Integrated school"),
+  inventorySchool("tuburan-integrated-school", "Tuburan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "501581", "Integrated school"),
+  inventorySchool("busdi-integrated-school", "Busdi Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "500409", "Integrated school"),
+  inventorySchool("kilap-agan-integrated-school", "Kilap-agan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "501579", "Integrated school"),
+  inventorySchool("lunokan-integrated-school", "Lunokan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "502744", "Integrated school"),
+  inventorySchool("bukidnon-state-university-elementary-laboratory", "Bukidnon State University Elementary School Laboratory", "State university", ["Elementary"], undefined, "University laboratory school"),
+  inventorySchool("lalawan-sda-elementary-school", "Lalawan SDA Elementary School", "Private", ["Elementary"], undefined),
+  inventorySchool("san-isidro-college-grade-school", "San Isidro College Grade School Department", "Private", ["Elementary"], undefined, "College grade school department"),
+  inventorySchool("bukidnon-state-university-secondary-laboratory", "Bukidnon State University Secondary School Laboratory", "State university", ["Junior high", "Senior high"], undefined, "University laboratory school"),
+  inventorySchool("imbayao-national-high-school", "Imbayao National High School", "Public", ["Junior high", "Senior high"], "325503"),
+  inventorySchool("lalawan-national-high-school", "Lalawan National High School", "Public", ["Junior high", "Senior high"], "325501"),
+  inventorySchool("luyungan-high-school", "Luyungan High School", "Public", ["Junior high", "Senior high"], "300507"),
+  inventorySchool("patpat-national-high-school", "Patpat National High School", "Public", ["Junior high", "Senior high"], "306338"),
+].filter((item, index, items) => items.findIndex((candidate) => candidate.slug === item.slug) === index);
+
+const existingSchoolBySlug = new Map(educationInstitutionSeed.map((school) => [school.slug, school]));
+for (const candidate of pendingSchoolInventory) {
+  const existing = existingSchoolBySlug.get(candidate.slug);
+  if (existing) {
+    existing.levels = [...new Set([...existing.levels, ...candidate.levels])];
+    existing.classification ??= candidate.classification;
+    existing.schoolId ??= candidate.schoolId;
+    continue;
+  }
+  const address = "Address not confirmed in the reviewed sources";
+  existingSchoolBySlug.set(candidate.slug, {
+    ...candidate,
+    address,
+    source: researchInventorySource,
+    status: "Awaiting Verification",
+    announcements: defaultAnnouncement,
+    transport: schoolTransport(`${candidate.name}, Malaybalay City`),
+    description: "This institution was included from the supplied Malaybalay school inventory and is awaiting individual confirmation against a current official record.",
+    logoStatus: "Pending verification",
+  });
+}
+
+const schoolSubdomainHost = (slug: string) => `${slug}.bettermalaybalay.cloud`;
+export const educationInstitutions: EducationInstitution[] = [...existingSchoolBySlug.values()].map((school) => ({
+  ...school,
+  logoStatus: school.logoStatus ?? (school.logoUrl ? "Verified" : "Unavailable"),
+  subdomainHost: schoolSubdomainHost(school.slug),
+}));
+export const educationInstitutionBySlug = new Map(educationInstitutions.map((school) => [school.slug, school]));
+
+export function schoolSlugFromHostname(hostname: string, search = "") {
+  if (search) {
+    const params = new URLSearchParams(search);
+    const requested = (params.get("school") ?? params.get("schoolSubdomain") ?? "")
+      .trim()
+      .toLowerCase();
+    if (requested && educationInstitutionBySlug.has(requested)) return requested;
+  }
+  const normalized = hostname.toLowerCase().split(":")[0];
+  const suffixes = [
+    ".bettermalaybalay.cloud",
+    ".bettermc.ph",
+    ".bettergov.org",
+    ".bettermalaybalay.com",
+    ".vercel.app",
+    ".localhost",
+  ];
+  const suffix = suffixes.find((candidate) => normalized.endsWith(candidate));
+  if (!suffix) return null;
+  const slug = normalized.slice(0, -suffix.length);
+  return slug && slug !== "www" && educationInstitutionBySlug.has(slug) ? slug : null;
+}
 
 export type EducationOffice = {
   slug: string;
