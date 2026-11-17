@@ -2476,6 +2476,16 @@ function DisclosureDetailPage() {
 
 type LegislationFilter = "All" | CivicRecord["kind"];
 
+const officialLegislationSlug = (name: string) => name.normalize("NFKD").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+function LegislativeOfficialPage() {
+  const { slug } = useParams<{ slug: string }>();
+  const official = officials.find((person) => officialLegislationSlug(person.name) === slug);
+  if (!official) return <NotFoundPage />;
+  const portrait = officialPortraits[official.name];
+  return <><PageHero eyebrow="Government directory" title={official.name} description={official.role} compact><Link className="page-hero-backlink" to="/legislation">Return to legislative records <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-detail-layout"><article className="civic-detail-main"><section className="education-profile-intro"><span className="eyebrow">Public profile</span><h2>Government service</h2><p>{official.name} is listed as {official.role.toLowerCase()} in the BetterMC government directory. The linked public source provides the position and available office information.</p></section><dl className="legislation-detail-facts"><div><dt>Position</dt><dd>{official.role}</dd></div><div><dt>Office</dt><dd>{official.office.name}</dd></div><div><dt>Legislative term</dt><dd>Not established from the reviewed profile source</dd></div></dl><section className="education-profile-section"><span className="eyebrow">Legislative research</span><h2>City measure attribution</h2><p>No Malaybalay city ordinance or resolution is individually attributed to this person in BetterMC’s reviewed measure index.</p><p>Institutional publications and measures passed by the council are assigned to a person only when an official document names their role. This index does not establish the full extent of their legislative work.</p></section></article><aside className="legislation-source-card">{portrait && <img className="legislative-official-portrait" src={portrait.src} alt={`Portrait of ${official.name}`} />}<span className="eyebrow">Source ledger</span><h2>Review the public listing</h2><a className="button primary" href={official.source.url} target="_blank" rel="noreferrer">Open official profile <ExternalLink aria-hidden="true" /></a><p className="source-availability-note">{official.source.label} · reviewed {official.source.verifiedOn}</p></aside></section></>;
+}
+
 function educationSummary(item: EducationInstitution) {
   if (item.description) return item.description;
   const location = item.barangay ? `Barangay ${item.barangay}` : item.address.startsWith("Address not published") ? "Malaybalay City" : item.address;
@@ -2725,6 +2735,12 @@ function LegislationPage() {
             </article>
           ))}
         </div>
+        <section className="legislative-roster" aria-labelledby="legislative-roster-title">
+          <h2 id="legislative-roster-title">People in the government directory</h2>
+          <p>Open an individual profile to review the published position and the current state of legislative attribution research.</p>
+          <div className="legislative-roster-grid">{officials.map((person) => <Link key={person.name} to={`/legislation/officials/${officialLegislationSlug(person.name)}`}><strong>{person.name}</strong><span>{person.role}</span><ArrowRight aria-hidden="true" /></Link>)}</div>
+        </section>
+        <section className="legislative-budget-note" aria-labelledby="budget-2027-title"><span className="eyebrow">Supplied announcement · awaiting official source</span><h2 id="budget-2027-title">Proposed 2027 Annual Budget</h2><p>The supplied announcement says the City Government held a hearing at the SP Session Hall, led by the finance committee chair with fellow council members, department heads, staff, and the secretariat. The hearing date, proposal amount, documents, and final approval status have not been verified against a city publication.</p><p>This describes a proposed budget hearing, not an approved annual budget.</p></section>
         {!records.length && (
           <div className="empty-state" role="status">
             <Search aria-hidden="true" />
@@ -6215,6 +6231,7 @@ export default function App() {
           element={<DisclosureDetailPage />}
         />
         <Route path="/legislation" element={<LegislationPage />} />
+        <Route path="/legislation/officials/:slug" element={<LegislativeOfficialPage />} />
         <Route path="/legislation/:slug" element={<LegislationDetailPage />} />
         <Route path="/education" element={<EducationDirectoryPage />} />
         <Route path="/education/offices" element={<EducationOfficesPage />} />
