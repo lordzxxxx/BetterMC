@@ -19118,7 +19118,7 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 /* Source-led public directories. These reuse the portal's restrained card
    system while keeping filters and document actions practical on a phone. */
 .civic-directory-page { display: grid; gap: 20px; }
-.civic-directory-toolbar { display: grid; grid-template-columns: minmax(220px, 2fr) repeat(3, minmax(150px, 1fr)); gap: 12px; align-items: end; padding: 16px; border: 1px solid #c9d9ea; border-radius: 16px; background: rgba(255, 255, 255, .76); }
+.civic-directory-toolbar { display: grid; grid-template-columns: minmax(280px, 2fr) repeat(5, minmax(0, 1fr)); gap: 12px; align-items: end; padding: 16px; border: 1px solid #c9d9ea; border-radius: 16px; background: rgba(255, 255, 255, .76); }
 .civic-directory-toolbar > label:not(.directory-search) { display: grid; gap: 6px; color: #405675; font-size: .75rem; font-weight: 750; }
 .civic-directory-toolbar select { min-height: 44px; width: 100%; border: 1px solid #bcd2ef; border-radius: 10px; padding: 0 10px; background: #fff; color: var(--ink); font: inherit; }
 .civic-card-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
