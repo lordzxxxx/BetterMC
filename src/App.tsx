@@ -763,7 +763,12 @@ function Layout({ children }: { children: ReactNode }) {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [pathname, hash]);
   useEffect(() => {
-    const metadata = pageMetadata[pathname] ?? pageMetadata["/"];
+    const educationProfile = pathname.startsWith("/education/")
+      ? educationInstitutions.find((institution) => pathname === `/education/${institution.slug}`)
+      : undefined;
+    const metadata = educationProfile
+      ? { ...pageMetadata["/education"], title: `${educationProfile.name} | BetterMC` }
+      : pageMetadata[pathname] ?? pageMetadata["/"];
     const canonical = `${window.location.origin}${pathname}`;
     document.title = metadata.title;
     updateDocumentMeta("description", metadata.description);
@@ -2524,12 +2529,6 @@ function EducationOfficesPage() {
 function EducationProfilePage() {
   const { slug } = useParams<{ slug: string }>();
   const item = educationInstitutions.find((entry) => entry.slug === slug);
-  useEffect(() => {
-    if (!item) return;
-    const previousTitle = document.title;
-    document.title = `${item.name} | BetterMC`;
-    return () => { document.title = previousTitle; };
-  }, [item]);
   if (!item) return <NotFoundPage />;
   return <><PageHero eyebrow={item.type} title={item.name} description={`${item.levels.join(", ")} · ${item.status}`} compact><Link className="page-hero-backlink" to="/education">Return to education directory <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-detail-layout"><article className="civic-detail-main"><section className="education-profile-intro"><span className="eyebrow">About this institution</span><h2>Source-backed school information</h2><p>{item.description ?? "This profile preserves only information supported by the cited source. Background, mission, school history, staff, and programme details are added when the institution or an education authority publishes them."}</p></section><dl className="legislation-detail-facts"><div><dt>School ID</dt><dd>{item.schoolId ?? "Not published in the reviewed source"}</dd></div><div><dt>Address</dt><dd>{item.address}</dd></div><div><dt>Barangay</dt><dd>{item.barangay ?? "Not published in the reviewed source"}</dd></div><div><dt>School head / key officers</dt><dd>{item.leadership ?? "Not published in the reviewed source"}</dd></div><div><dt>Programmes and grade levels</dt><dd>{item.programmes?.join(", ") ?? item.levels.join(", ")}</dd></div><div><dt>Official communication</dt><dd>{item.contacts?.join(" · ") ?? "Not published in the reviewed source"}</dd></div></dl><section className="education-profile-section"><span className="eyebrow">Announcements and official channels</span><h2>{item.announcements.mode}</h2><p>{item.announcements.mode === "Not configured" ? "No official Facebook page or announcement feed has been independently configured for this institution. BetterMC does not scrape private or restricted social content." : "Use the published official channel for enrolment, admissions, suspensions, scholarships, and calendar updates."}</p>{item.announcements.externalUrl && <a className="button secondary" href={item.announcements.externalUrl} target="_blank" rel="noreferrer">Open official channel <ExternalLink aria-hidden="true" /></a>}</section><section className="education-profile-section"><span className="eyebrow">Transportation and accessibility</span><h2>{item.transport.status === "Verified" ? "Published access information" : "Transport information not yet verified"}</h2><p>{item.transport.note}</p><a className="button secondary" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Open map search <ExternalLink aria-hidden="true" /></a></section></article><aside className="legislation-source-card"><MapPin aria-hidden="true" /><span className="eyebrow">Source ledger</span><h2>Confirm before visiting</h2><p>The map opens a Google Maps search using the source-listed address. BetterMC does not claim an exact pin where none was published by the institution or agency.</p><a className="button primary" href={item.source.url} target="_blank" rel="noreferrer">Open source listing <ExternalLink aria-hidden="true" /></a>{item.officialLinks?.map((link) => <a className="civic-source-link" key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.label} <ExternalLink aria-hidden="true" /></a>)}<p className="source-availability-note">{item.source.label} · {item.source.type} · reviewed {item.source.verifiedOn}</p></aside></section></>;
 }
