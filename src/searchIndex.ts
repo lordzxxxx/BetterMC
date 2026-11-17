@@ -23,6 +23,7 @@ import {
   serviceCategories,
   VERIFIED_SERVICE_PROVIDERS,
 } from "./serviceCatalog";
+import { documentGuides, educationInstitutions } from "./civicDirectories";
 
 export type PortalSearchRecord = {
   type: string;
@@ -105,6 +106,34 @@ const staticPages: PortalSearchRecord[] = [
 
 export const portalSearchIndex: PortalSearchRecord[] = [
   ...staticPages,
+  {
+    type: "Directory",
+    title: "Education directory",
+    detail: "Source-listed schools, higher education institutions, and technical-vocational providers",
+    href: "/education",
+    keywords: "school DepEd school ID college university TESDA preschool elementary junior senior high",
+  },
+  {
+    type: "Guide",
+    title: "One-stop document guide",
+    detail: "Combine source-linked document-service starting checklists",
+    href: "/documents",
+    keywords: "barangay clearance certificate civil registry requirements forms fees processing time",
+  },
+  ...educationInstitutions.map((school) => ({
+    type: "Education institution",
+    title: school.name,
+    detail: `${school.type} · ${school.address}`,
+    href: `/education/${school.slug}`,
+    keywords: `${school.schoolId ?? ""} ${school.barangay ?? ""} ${school.levels.join(" ")}`,
+  })),
+  ...documentGuides.map((guide) => ({
+    type: "Document guide",
+    title: guide.title,
+    detail: `${guide.office} · ${guide.status}`,
+    href: "/documents",
+    keywords: `${guide.scope} ${guide.requirements.join(" ")} ${guide.steps.join(" ")}`,
+  })),
   ...officials.map((official) => ({
     type: "Official",
     title: official.name,

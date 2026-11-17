@@ -13,8 +13,27 @@ import {
   essentialNationalServices,
   VERIFIED_SERVICE_PROVIDERS,
 } from "./serviceCatalog";
+import { documentGuides, educationInstitutions } from "./civicDirectories";
 
 describe("BetterMC public portal", () => {
+  it("keeps source-led education and document routes available without inventing missing details", () => {
+    expect(educationInstitutions.length).toBeGreaterThan(10);
+    for (const institution of educationInstitutions) {
+      expect(institution.source.url).toMatch(/^https:\/\//);
+      expect(institution.address).toContain("Malaybalay");
+    }
+    expect(documentGuides).toHaveLength(3);
+    expect(documentGuides.some((guide) => guide.scope === "Barangay")).toBe(true);
+    render(<MemoryRouter initialEntries={["/education/bukidnon-state-university"]}><App /></MemoryRouter>);
+    expect(screen.getByRole("heading", { name: "Bukidnon State University" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Open map search/i })).toHaveAttribute("href", expect.stringContaining("google.com/maps/search"));
+  });
+
+  it("links every barangay profile to its document-service page", () => {
+    render(<MemoryRouter initialEntries={["/barangays/aglayan"]}><App /></MemoryRouter>);
+    expect(screen.getByRole("link", { name: /Open Barangay Aglayan document guide/i })).toHaveAttribute("href", "/documents/barangays/aglayan");
+  });
+
   it("keeps the eight essential national services connected to a local guide", () => {
     expect(essentialNationalServices.map((service) => service.label)).toEqual([
       "BIR", "SSS", "PhilHealth", "Pag-IBIG", "PSA", "LTO", "DTI", "GSIS",

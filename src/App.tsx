@@ -143,6 +143,13 @@ import {
   dpwhProjectSourceUrl,
 } from "./dpwhProjects";
 import { searchPortal } from "./searchIndex";
+import {
+  documentGuides,
+  educationInstitutions,
+  ordinanceResearchNotice,
+  type EducationLevel,
+  type InstitutionType,
+} from "./civicDirectories";
 import { sitePages } from "./sitePages";
 import WeatherPanel from "./WeatherPanel";
 import MalaybalayGisMap from "./MalaybalayGisMap";
@@ -157,6 +164,7 @@ const navItems = [
   { label: "Transparency", to: "/transparency" },
   { label: "Government", to: "/government" },
   { label: "Barangays", to: "/barangays" },
+  { label: "Education", to: "/education" },
   { label: "Public services", to: "/services" },
   { label: "Participate", to: "/participate" },
 ];
@@ -177,6 +185,14 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
   "/barangays": {
     title: "Malaybalay barangays | BetterMC",
     description: "Explore source-linked profiles for all 46 Malaybalay barangays.",
+  },
+  "/education": {
+    title: "Education directory | BetterMC",
+    description: "Source-linked Malaybalay education listings with clear record-verification status.",
+  },
+  "/documents": {
+    title: "Document guide | BetterMC",
+    description: "Source-linked starting points for Malaybalay document services and forms.",
   },
   "/services": {
     title: "Public services guide | BetterMC",
@@ -2453,6 +2469,78 @@ function DisclosureDetailPage() {
 
 type LegislationFilter = "All" | CivicRecord["kind"];
 
+function EducationDirectoryPage() {
+  const [params, setParams] = useSearchParams();
+  const [query, setQuery] = useState(params.get("q") ?? "");
+  const deferredQuery = useDeferredValue(query.trim().toLowerCase());
+  const type = params.get("type") ?? "all";
+  const level = params.get("level") ?? "all";
+  const barangay = params.get("barangay") ?? "all";
+  const types = [...new Set(educationInstitutions.map((item) => item.type))] as InstitutionType[];
+  const levels = [...new Set(educationInstitutions.flatMap((item) => item.levels))] as EducationLevel[];
+  const barangays = [...new Set(educationInstitutions.flatMap((item) => item.barangay ? [item.barangay] : []))].sort();
+  const records = educationInstitutions.filter((item) => {
+    const matchesQuery = !deferredQuery || `${item.name} ${item.schoolId ?? ""} ${item.address}`.toLowerCase().includes(deferredQuery);
+    return matchesQuery && (type === "all" || item.type === type) && (level === "all" || item.levels.includes(level as EducationLevel)) && (barangay === "all" || item.barangay === barangay);
+  });
+  const updateFilter = (key: string, value: string) => {
+    const next = new URLSearchParams(params);
+    if (value === "all") next.delete(key); else next.set(key, value);
+    setParams(next, { replace: true });
+  };
+  return <>
+    <PageHero eyebrow="Education directory" title="Find source-listed schools and learning institutions." description="This directory is built from published DepEd, CHED, and TESDA listings. A listing is not a claim that every operating institution or school-level detail has been independently verified." compact />
+    <section className="section container civic-directory-page">
+      <div className="data-notice"><CircleAlert aria-hidden="true" /><div><strong>Coverage is being verified, not assumed complete</strong><p>Officer names, programmes, direct contacts, and exact map pins appear only when published by an authoritative source. Use the cited record and institution’s official channel to confirm enrolment and current operations.</p></div></div>
+      <div className="civic-directory-toolbar">
+        <label className="directory-search"><span className="sr-only">Search schools by name, ID, or address</span><Search aria-hidden="true" /><input value={query} onChange={(event) => { setQuery(event.target.value); const next = new URLSearchParams(params); if (event.target.value) next.set("q", event.target.value); else next.delete("q"); setParams(next, { replace: true }); }} placeholder="Search school name, ID, or address" /></label>
+        <label>Institution type<select value={type} onChange={(event) => updateFilter("type", event.target.value)}><option value="all">All types</option>{types.map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
+        <label>Level<select value={level} onChange={(event) => updateFilter("level", event.target.value)}><option value="all">All levels</option>{levels.map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
+        <label>Barangay<select value={barangay} onChange={(event) => updateFilter("barangay", event.target.value)}><option value="all">All barangays</option>{barangays.map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
+      </div>
+      <p className="results-summary"><strong>{records.length} source-listed institutions</strong><span>Last reviewed 17 November 2026</span></p>
+      <div className="civic-card-grid">
+        {records.map((item) => <article className="civic-record-card" key={item.slug}><div className="record-meta"><span>{item.type}</span><span>{item.status}</span></div><h2>{item.name}</h2><p className="civic-levels">{item.levels.join(" · ")}</p><dl><div><dt>School ID</dt><dd>{item.schoolId ?? "Not published in the reviewed listing"}</dd></div><div><dt>Address</dt><dd>{item.address}</dd></div><div><dt>School head / programmes</dt><dd>{item.leadership ?? item.programmes?.join(", ") ?? "Not published in the reviewed listing"}</dd></div></dl><div className="civic-card-actions"><Link to={`/education/${item.slug}`}>Open profile <ArrowRight aria-hidden="true" /></Link><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.address)}`} target="_blank" rel="noreferrer">Open map search <ExternalLink aria-hidden="true" /></a></div></article>)}
+      </div>
+      {!records.length && <div className="empty-state" role="status"><Search aria-hidden="true" /><strong>No source-listed institution matches these filters</strong><p>Clear a filter or search with a different school name or ID.</p></div>}
+    </section>
+  </>;
+}
+
+function EducationProfilePage() {
+  const { slug } = useParams<{ slug: string }>();
+  const item = educationInstitutions.find((entry) => entry.slug === slug);
+  if (!item) return <NotFoundPage />;
+  return <><PageHero eyebrow={item.type} title={item.name} description={`${item.levels.join(", ")} · ${item.status}`} compact><Link className="page-hero-backlink" to="/education">Return to education directory <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-detail-layout"><article className="civic-detail-main"><dl className="legislation-detail-facts"><div><dt>School ID</dt><dd>{item.schoolId ?? "Not published in the reviewed listing"}</dd></div><div><dt>Address</dt><dd>{item.address}</dd></div><div><dt>School head / key officers</dt><dd>{item.leadership ?? "Not published in the reviewed listing"}</dd></div><div><dt>Programmes and grade levels</dt><dd>{item.programmes?.join(", ") ?? item.levels.join(", ")}</dd></div><div><dt>Official communication</dt><dd>{item.contacts?.join(" · ") ?? "Not published in the reviewed listing"}</dd></div></dl></article><aside className="legislation-source-card"><MapPin aria-hidden="true" /><span className="eyebrow">Source ledger</span><h2>Confirm before visiting</h2><p>The map opens a Google Maps search using the source-listed address. BetterMC does not claim an exact pin where none was published by the institution or agency.</p><a className="button secondary" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.address)}`} target="_blank" rel="noreferrer">Open map search <ExternalLink aria-hidden="true" /></a><a className="button primary" href={item.source.url} target="_blank" rel="noreferrer">Open source listing <ExternalLink aria-hidden="true" /></a><p className="source-availability-note">{item.source.label} · reviewed {item.source.verifiedOn}</p></aside></section></>;
+}
+
+function checklistImage(title: string, items: string[]) {
+  const escaped = (value: string) => value.replace(/[&<>]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[character] ?? character);
+  const lines = items.map((item, index) => `<text x="56" y="${116 + index * 38}" font-size="18" fill="#172b49">□ ${escaped(item)}</text>`).join("");
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="${Math.max(220, 150 + items.length * 38)}" viewBox="0 0 1200 ${Math.max(220, 150 + items.length * 38)}"><rect width="100%" height="100%" fill="#f7fbff"/><text x="56" y="64" font-size="30" font-weight="700" fill="#123e9b">${escaped(title)}</text><text x="56" y="92" font-size="16" fill="#56647b">BetterMC checklist — confirm current requirements with the issuing office.</text>${lines}</svg>`;
+}
+
+function DocumentGuidePage() {
+  const [selected, setSelected] = useState<string[]>([]);
+  const selectedGuides = documentGuides.filter((guide) => selected.includes(guide.slug));
+  const checklist = selectedGuides.flatMap((guide) => guide.requirements.map((requirement) => `${guide.title}: ${requirement}`));
+  const downloadImage = () => { const blob = new Blob([checklistImage("My BetterMC document checklist", checklist)], { type: "image/svg+xml" }); const url = URL.createObjectURL(blob); const anchor = document.createElement("a"); anchor.href = url; anchor.download = "bettermc-document-checklist.svg"; anchor.click(); URL.revokeObjectURL(url); };
+  return <><PageHero eyebrow="One-stop document guide" title="Build a verified starting checklist." description="Select services to combine their published starting requirements. The issuing office remains authoritative for current forms, fees, and release times." compact />
+    <section className="section container civic-directory-page"><div className="civic-card-grid">{documentGuides.map((guide) => { const active = selected.includes(guide.slug); return <article className="civic-record-card" key={guide.slug}><div className="record-meta"><span>{guide.scope}</span><span>{guide.status}</span></div><h2>{guide.title}</h2><p>{guide.office}</p><dl><div><dt>Fees</dt><dd>{guide.fees}</dd></div><div><dt>Processing time</dt><dd>{guide.processingTime}</dd></div></dl><ol className="civic-steps">{guide.steps.map((step) => <li key={step}>{step}</li>)}</ol><button className="button secondary" type="button" aria-pressed={active} onClick={() => setSelected((current) => active ? current.filter((value) => value !== guide.slug) : [...current, guide.slug])}>{active ? "Remove from checklist" : "Add to checklist"}</button><a className="civic-source-link" href={guide.source.url} target="_blank" rel="noreferrer">Open official reference <ExternalLink aria-hidden="true" /></a></article>; })}</div>
+      <aside className="document-checklist" aria-live="polite"><div><span className="eyebrow">Custom checklist</span><h2>{selectedGuides.length ? `${selectedGuides.length} selected service${selectedGuides.length === 1 ? "" : "s"}` : "Select a service to begin"}</h2></div>{checklist.length ? <ul>{checklist.map((item) => <li key={item}><Check aria-hidden="true" />{item}</li>)}</ul> : <p>Choose one or more services above; only source-published starting requirements are included.</p>}<div className="civic-card-actions"><button className="button primary" disabled={!checklist.length} type="button" onClick={() => window.print()}>Print / save as PDF <Printer aria-hidden="true" /></button><button className="button secondary" disabled={!checklist.length} type="button" onClick={downloadImage}>Download image <FileText aria-hidden="true" /></button></div></aside>
+      <div className="data-notice"><CircleAlert aria-hidden="true" /><div><strong>All 46 barangay document pages are available through their existing profiles</strong><p>Each profile now links to a consistent document-service brief. Barangay-specific fees, forms, and release times are intentionally marked for confirmation unless published by that exact issuing office.</p></div></div>
+    </section></>;
+}
+
+function BarangayDocumentPage() {
+  const { slug } = useParams<{ slug: string }>();
+  const profile = barangayMicrositeBySlug.get(slug ?? "");
+  if (!profile) return <NotFoundPage />;
+  const guide = documentGuides.find((item) => item.slug === "barangay-certificates-and-clearances");
+  if (!guide) return <NotFoundPage />;
+  return <><PageHero eyebrow="Barangay document service" title={`Barangay ${profile.name} document guide`} description="A source-led starting point; confirm requirements and fees with the issuing Barangay Hall." compact><Link className="page-hero-backlink" to={`/barangays/${profile.slug}`}>Return to barangay profile <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-detail-layout"><article className="civic-detail-main"><h2>Certificates and clearances</h2><p>{guide.requirements[0]}</p><ol className="civic-steps">{guide.steps.map((step) => <li key={step}>{step}</li>)}</ol><dl className="legislation-detail-facts"><div><dt>Issuing office</dt><dd>Barangay {profile.name} Hall</dd></div><div><dt>Fee and processing time</dt><dd>Not published as a citywide standard; confirm directly with Barangay {profile.name}.</dd></div><div><dt>Official contact</dt><dd>{profile.phone ?? profile.email ?? "No direct contact was published in the reviewed directory."}</dd></div></dl></article><aside className="legislation-source-card"><FileCheck2 aria-hidden="true" /><span className="eyebrow">Official reference</span><h2>Confirm the local procedure</h2><p>BetterMC does not publish a template, fee, or release time for this barangay without a matching official source.</p><a className="button primary" href={guide.source.url} target="_blank" rel="noreferrer">Open barangay directory <ExternalLink aria-hidden="true" /></a></aside></section></>;
+}
+
 function LegislationPage() {
   const [params, setParams] = useSearchParams();
   const requestedKind = params.get("kind");
@@ -2501,6 +2589,11 @@ function LegislationPage() {
               BetterMC attributes a measure to an individual only when the
               reviewed official source names that author or sponsor. Otherwise,
               the responsible office or legislative institution is shown.
+            </p>
+            <p>
+              <a href={ordinanceResearchNotice.source.url} target="_blank" rel="noreferrer">
+                Review the official publication archive <ExternalLink aria-hidden="true" />
+              </a>. {ordinanceResearchNotice.note}
             </p>
           </div>
         </div>
@@ -2627,6 +2720,13 @@ function LegislationDetailPage() {
             <span className="eyebrow">Plain-language summary</span>
             <h2>What this published measure does</h2>
             <p>{context.summary}</p>
+          </section>
+
+          <section className="legislation-language-note" aria-label="Language availability">
+            <h3>English, Filipino, and Bisaya access</h3>
+            <p><strong>English:</strong> The source-linked summary above is BetterMC’s reading aid, not the legal text.</p>
+            <p><strong>Filipino:</strong> Wala pang napatunayang opisyal na payak na salin sa Filipino para sa rekord na ito.</p>
+            <p><strong>Bisaya:</strong> Wala pay napamatud-ang opisyal nga yano nga hubad sa Binisaya alang niini nga rekord.</p>
           </section>
 
           <div className="legislation-explanation-grid">
@@ -4139,6 +4239,9 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             Availability, documents, fees, and schedules can vary. Confirm
             directly with the barangay before travelling.
           </SectionHeading>
+          <Link className="button secondary barangay-document-link" to={`/documents/barangays/${profile.slug}`}>
+            Open Barangay {profile.name} document guide <ArrowRight aria-hidden="true" />
+          </Link>
           <div className="barangay-services-grid">
             {profile.serviceAreas.map((service) => (
               <article key={service.title}>
@@ -6047,6 +6150,10 @@ export default function App() {
         />
         <Route path="/legislation" element={<LegislationPage />} />
         <Route path="/legislation/:slug" element={<LegislationDetailPage />} />
+        <Route path="/education" element={<EducationDirectoryPage />} />
+        <Route path="/education/:slug" element={<EducationProfilePage />} />
+        <Route path="/documents" element={<DocumentGuidePage />} />
+        <Route path="/documents/barangays/:slug" element={<BarangayDocumentPage />} />
         <Route path="/government" element={<GovernmentPage />} />
         <Route path="/barangays" element={<BarangaysPage />} />
         <Route path="/barangays/:slug" element={<BarangayProfilePage />} />
