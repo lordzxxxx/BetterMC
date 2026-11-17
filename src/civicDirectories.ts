@@ -144,7 +144,7 @@ const recognizedPrivateBasicSchools: Array<[string, string, EducationLevel[]]> =
   ["mindanao-arts-technological-institute", "Mindanao Arts & Technological Institute, Inc.", ["Preschool", "Elementary", "Junior high"]],
   ["saint-isidore-high-school", "Saint Isidore High School", ["Elementary", "Junior high", "Senior high"]],
   ["san-isidro-college", "San Isidro College", ["Preschool", "Elementary", "Junior high"]],
-  ["st-isidore-academy-sinanglanan", "St. Isidore Academy of Bukidnon, Inc. Sinanglanan", ["Elementary", "Junior high"]],
+  ["st-isidore-academy-sinanglanan", "St. Isidore Academy of Bukidnon, Inc.", ["Elementary", "Junior high"]],
   ["st-johns-school-malaybalay", "St. John’s School of Malaybalay City, Inc.", ["Preschool", "Elementary"]],
   ["st-michael-high-school", "St. Michael High School Inc.", ["Junior high"]],
   ["sunbeam-christian-academy", "Sunbeam Christian Academy of Bangcud Inc.", ["Preschool", "Elementary"]],
