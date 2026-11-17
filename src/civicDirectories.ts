@@ -49,6 +49,12 @@ export const depedMasterlistSource: RecordSource = {
   verifiedOn: reviewedOn,
   type: "Government directory",
 };
+export const depedInventorySource: RecordSource = {
+  label: "Department of Education — National Inventory Dashboard, Malaybalay City",
+  url: "https://nid.deped.gov.ph/public-dashboard/region/Region%20X/division/Malaybalay%20City",
+  verifiedOn: reviewedOn,
+  type: "Government directory",
+};
 export const chedSource: RecordSource = {
   label: "CHED HEIDA — Higher Education Institution Directory",
   url: "https://heida.ched.gov.ph/hei-directory/10?page=1",
@@ -138,6 +144,24 @@ export const educationInstitutions: EducationInstitution[] = [
     slug, name, schoolId, address, type: "Public" as const, levels, source: depedSchoolSource, status: "Verified" as const, announcements: defaultAnnouncement, transport: schoolTransport(address),
   })),
   ...publicBasicSchools.map(([slug, name, schoolId, address, barangay, levels]) => ({ slug, name, schoolId, address, barangay, type: "Public" as const, levels, source: depedMasterlistSource, status: "Partially Verified" as const, announcements: defaultAnnouncement, transport: schoolTransport(address) })),
+  {
+    slug: "bangcud-central-school",
+    name: "Bangcud Central School",
+    schoolId: "126558",
+    barangay: "Bangcud",
+    address: "Purok 2, Sayre Highway, Bangcud, Malaybalay City",
+    type: "Public",
+    levels: ["Elementary"],
+    description:
+      "DepEd lists Bangcud Central School as a public elementary school in Malaybalay City. Its older address listing uses the name Bangcud CES and places it along Sayre Highway in Purok 2, Bangcud.",
+    officialLinks: [
+      { label: "DepEd school address masterlist", url: depedMasterlistSource.url },
+    ],
+    announcements: defaultAnnouncement,
+    transport: schoolTransport("Bangcud Central School, Purok 2, Sayre Highway, Bangcud, Malaybalay City"),
+    source: depedInventorySource,
+    status: "Partially Verified",
+  },
   { slug: "kalasungay-central-school", name: "Kalasungay Central School", schoolId: "126582", barangay: "Kalasungay", address: "Purok 2, Kalasungay, Malaybalay City", type: "Public", levels: ["Elementary"], source: depedMasterlistSource, status: "Partially Verified", announcements: defaultAnnouncement, transport: schoolTransport("Purok 2, Kalasungay, Malaybalay City") },
   { slug: "natid-asan-elementary-school", name: "Natid-asan Elementary School", schoolId: "126588", barangay: "Dalwangan", address: "New Look, Dalwangan, Malaybalay City", type: "Public", levels: ["Elementary"], source: depedMasterlistSource, status: "Partially Verified", announcements: defaultAnnouncement, transport: schoolTransport("Natid-asan Elementary School, Dalwangan, Malaybalay City") },
   ...([

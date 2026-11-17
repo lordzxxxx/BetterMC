@@ -30,6 +30,24 @@ describe("BetterMC public portal", () => {
     expect(screen.getByRole("link", { name: /Open map search/i })).toHaveAttribute("href", expect.stringContaining("google.com/maps/search"));
   });
 
+  it("finds Bangcud Central School and opens its sourced profile", async () => {
+    const school = educationInstitutions.find((item) => item.slug === "bangcud-central-school");
+    expect(school?.schoolId).toBe("126558");
+    expect(educationInstitutions.filter((item) => item.schoolId === "126558")).toHaveLength(1);
+
+    const directory = render(<MemoryRouter initialEntries={["/education"]}><App /></MemoryRouter>);
+    fireEvent.change(screen.getByPlaceholderText("Search school name, ID, or address"), {
+      target: { value: "Bangcud Central School" },
+    });
+    expect(await screen.findByRole("heading", { name: "Bangcud Central School" })).toBeInTheDocument();
+    directory.unmount();
+
+    render(<MemoryRouter initialEntries={["/education/bangcud-central-school"]}><App /></MemoryRouter>);
+    expect(screen.getByRole("heading", { name: "Bangcud Central School" })).toBeInTheDocument();
+    expect(screen.getByText("126558")).toBeInTheDocument();
+    expect(screen.getByText(/Purok 2, Sayre Highway, Bangcud/)).toBeInTheDocument();
+  });
+
   it("links every barangay profile to its document-service page", () => {
     render(<MemoryRouter initialEntries={["/barangays/aglayan"]}><App /></MemoryRouter>);
     expect(screen.getByRole("link", { name: /Open Barangay Aglayan document guide/i })).toHaveAttribute("href", "/documents/barangays/aglayan");
