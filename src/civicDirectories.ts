@@ -92,6 +92,7 @@ const schoolTransport = (address: string): TransportAccess => ({
   note: "No official route, fare, terminal, or regular transport-service information was located for this destination. Open the map search and confirm local transport options before travel.",
   mapQuery: address,
 });
+const BUKSU_CAMPUS_ADDRESS = "Casisang, 44J8+JCW, University Road, Malaybalay City, 8700 Bukidnon";
 
 const publicHighSchools: Array<[string, string, string, string, EducationLevel[]]> = [
   ["bangcud-national-high-school", "Bangcud National High School", "303946", "Bangcud, Malaybalay City", ["Junior high", "Senior high"]],
@@ -182,7 +183,7 @@ const educationInstitutionSeed: EducationInstitution[] = [
   ] as const).map(([slug, name, schoolId, barangay, address]) => ({ slug, name, schoolId, barangay, address, type: "Public" as const, levels: ["Elementary" as const], source: depedMasterlistSource, status: "Partially Verified" as const, announcements: defaultAnnouncement, transport: schoolTransport(address) })),
   { slug: "patpat-elementary-school", name: "Patpat Elementary School", schoolId: "126590", barangay: "Patpat", address: "Purok 3, Patpat, Malaybalay City", type: "Public", levels: ["Elementary"], source: depedMasterlistSource, status: "Partially Verified", announcements: defaultAnnouncement, transport: schoolTransport("Purok 3, Patpat, Malaybalay City") },
   ...recognizedPrivateBasicSchools.map(([slug, name, levels]) => ({ slug, name, address: "Address not published in the reviewed government recognition list", type: "Private" as const, levels, source: depedRecognizedPrivateSource, status: "Partially Verified" as const, announcements: defaultAnnouncement, transport: schoolTransport(`${name}, Malaybalay City`) })),
-  { slug: "bukidnon-state-university", name: "Bukidnon State University", address: "Malaybalay City, Bukidnon", type: "State university", levels: ["College / university"], contacts: ["(088) 813-2717", "(088) 221-2196", "presoffice@bsc.edu.ph"], source: chedSource, status: "Verified", announcements: { mode: "External official channel", externalUrl: "https://buksu.edu.ph/" }, transport: schoolTransport("Bukidnon State University, Malaybalay City") },
+  { slug: "bukidnon-state-university", name: "Bukidnon State University", address: BUKSU_CAMPUS_ADDRESS, type: "State university", levels: ["College / university"], contacts: ["(088) 813-2717", "(088) 221-2196", "presoffice@bsc.edu.ph"], source: chedSource, status: "Verified", announcements: { mode: "External official channel", externalUrl: "https://buksu.edu.ph/" }, transport: schoolTransport(`Bukidnon State University, ${BUKSU_CAMPUS_ADDRESS}`) },
   { slug: "camilo-adrales-technical-school", name: "Camilo Adrales Technical School Training and Assessment Center, Inc.", barangay: "San Jose", address: "Purok 5, Barangay San Jose, Malaybalay City, Bukidnon", type: "Technical-vocational", levels: ["Technical-vocational"], source: tesdaSource, status: "Verified", announcements: defaultAnnouncement, transport: schoolTransport("Purok 5, Barangay San Jose, Malaybalay City, Bukidnon") },
 ].map((institution) => {
   if (institution.slug === "apc") {
@@ -296,6 +297,10 @@ const pendingSchoolInventory: InventorySchool[] = [
 ].filter((item, index, items) => items.findIndex((candidate) => candidate.slug === item.slug) === index);
 
 const existingSchoolBySlug = new Map(educationInstitutionSeed.map((school) => [school.slug, school]));
+const schoolAddressOverrides = new Map([
+  ["bukidnon-state-university-elementary-laboratory", BUKSU_CAMPUS_ADDRESS],
+  ["bukidnon-state-university-secondary-laboratory", BUKSU_CAMPUS_ADDRESS],
+]);
 for (const candidate of pendingSchoolInventory) {
   const existing = existingSchoolBySlug.get(candidate.slug);
   if (existing) {
@@ -305,13 +310,14 @@ for (const candidate of pendingSchoolInventory) {
     continue;
   }
   const address = "Address not confirmed in the reviewed sources";
+  const addressOverride = schoolAddressOverrides.get(candidate.slug);
   existingSchoolBySlug.set(candidate.slug, {
     ...candidate,
-    address,
+    address: addressOverride ?? address,
     source: researchInventorySource,
     status: "Awaiting Verification",
     announcements: defaultAnnouncement,
-    transport: schoolTransport(`${candidate.name}, Malaybalay City`),
+    transport: schoolTransport(`${candidate.name}, ${addressOverride ?? "Malaybalay City"}`),
     description: "This institution was included from the supplied Malaybalay school inventory and is awaiting individual confirmation against a current official record.",
     logoStatus: "Pending verification",
   });

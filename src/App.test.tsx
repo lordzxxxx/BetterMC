@@ -65,6 +65,14 @@ describe("BetterMC public portal", () => {
     expect(schoolSlugFromHostname("not-a-school.bettermalaybalay.cloud")).toBeNull();
   });
 
+  it("uses the supplied BukSU campus address without status badges", () => {
+    render(<MemoryRouter initialEntries={["/education?q=Bukidnon%20State%20University%20Elementary"]}><App /></MemoryRouter>);
+    const card = screen.getByRole("article");
+    expect(card).toHaveTextContent("Casisang, 44J8+JCW, University Road, Malaybalay City, 8700 Bukidnon");
+    expect(card).not.toHaveTextContent("Awaiting Verification");
+    expect(card).not.toHaveTextContent("Verified");
+  });
+
   it("links every barangay profile to its document-service page", () => {
     render(<MemoryRouter initialEntries={["/barangays/aglayan"]}><App /></MemoryRouter>);
     expect(screen.getByRole("link", { name: /Open Barangay Aglayan document guide/i })).toHaveAttribute("href", "/documents/barangays/aglayan");
