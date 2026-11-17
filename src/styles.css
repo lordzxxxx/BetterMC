@@ -19145,6 +19145,16 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 .document-checklist li { display: flex; gap: 8px; align-items: flex-start; color: #29415f; line-height: 1.42; }
 .document-checklist li svg { width: 17px; flex: 0 0 17px; margin-top: 2px; color: #185bc0; }
 .barangay-document-link { margin: 0 0 14px; }
+.education-category-summary { display: flex; flex-wrap: wrap; gap: 9px; }
+.education-category-summary button { display: grid; min-height: 68px; min-width: 142px; gap: 2px; padding: 11px 13px; border: 1px solid #c1d9f6; border-radius: 12px; background: rgba(255,255,255,.72); color: #29415f; text-align: left; transition: background .16s var(--ease-out), border-color .16s var(--ease-out); }
+.education-category-summary button[aria-pressed="true"] { border-color: #175bb4; background: #edf6ff; color: #123e9b; }
+.education-category-summary strong { font-size: 1.1rem; }
+.education-category-summary span { font-size: .73rem; font-weight: 750; }
+.filter-summary { color: #315b90; }
+.text-button { min-height: 36px; border: 0; padding: 0; background: transparent; color: #124ba6; font: inherit; font-weight: 750; text-decoration: underline; text-underline-offset: 3px; }
+.education-profile-intro, .education-profile-section { display: grid; gap: 9px; padding-bottom: 22px; margin-bottom: 22px; border-bottom: 1px solid #d8e0ee; }
+.education-profile-intro h2, .education-profile-section h2, .education-profile-intro p, .education-profile-section p { margin: 0; }
+.education-profile-intro p, .education-profile-section p { color: #405675; line-height: 1.55; }
 .legislation-language-note { display: grid; gap: 7px; padding: 16px 18px; border-left: 3px solid #78a7df; border-radius: 0 12px 12px 0; background: #f3f8ff; }
 .legislation-language-note h3, .legislation-language-note p { margin: 0; }
 .legislation-language-note p { color: #3d526e; line-height: 1.48; }

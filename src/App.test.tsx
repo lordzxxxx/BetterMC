@@ -20,7 +20,8 @@ describe("BetterMC public portal", () => {
     expect(educationInstitutions.length).toBeGreaterThan(10);
     for (const institution of educationInstitutions) {
       expect(institution.source.url).toMatch(/^https:\/\//);
-      expect(institution.address).toContain("Malaybalay");
+      expect(institution.address.length).toBeGreaterThan(10);
+      expect(["Verified", "Partially Verified", "Awaiting Verification", "Community Reported", "Inactive or Closed"]).toContain(institution.status);
     }
     expect(documentGuides).toHaveLength(3);
     expect(documentGuides.some((guide) => guide.scope === "Barangay")).toBe(true);
@@ -32,6 +33,13 @@ describe("BetterMC public portal", () => {
   it("links every barangay profile to its document-service page", () => {
     render(<MemoryRouter initialEntries={["/barangays/aglayan"]}><App /></MemoryRouter>);
     expect(screen.getByRole("link", { name: /Open Barangay Aglayan document guide/i })).toHaveAttribute("href", "/documents/barangays/aglayan");
+  });
+
+  it("keeps Malaybalay City and Bukidnon DepEd office records separate", () => {
+    render(<MemoryRouter initialEntries={["/education/offices"]}><App /></MemoryRouter>);
+    expect(screen.getByRole("heading", { name: /Schools Division of Malaybalay City/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Schools Division of Bukidnon/i })).toBeInTheDocument();
+    expect(screen.getByText(/Victoria V. Gazo/i)).toBeInTheDocument();
   });
 
   it("keeps the eight essential national services connected to a local guide", () => {

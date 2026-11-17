@@ -23,7 +23,7 @@ import {
   serviceCategories,
   VERIFIED_SERVICE_PROVIDERS,
 } from "./serviceCatalog";
-import { documentGuides, educationInstitutions } from "./civicDirectories";
+import { documentGuides, educationInstitutions, educationOffices } from "./civicDirectories";
 
 export type PortalSearchRecord = {
   type: string;
@@ -126,6 +126,13 @@ export const portalSearchIndex: PortalSearchRecord[] = [
     detail: `${school.type} · ${school.address}`,
     href: `/education/${school.slug}`,
     keywords: `${school.schoolId ?? ""} ${school.barangay ?? ""} ${school.levels.join(" ")}`,
+  })),
+  ...educationOffices.map((office) => ({
+    type: "Education office",
+    title: office.name,
+    detail: office.jurisdiction,
+    href: "/education/offices",
+    keywords: `${office.address} ${office.contacts.join(" ")} ${office.officials.map((official) => official.name).join(" ")}`,
   })),
   ...documentGuides.map((guide) => ({
     type: "Document guide",
