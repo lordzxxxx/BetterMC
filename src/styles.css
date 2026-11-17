@@ -19119,8 +19119,14 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
    system while keeping filters and document actions practical on a phone. */
 .civic-directory-page { display: grid; gap: 20px; }
 .civic-directory-toolbar { display: grid; grid-template-columns: minmax(280px, 2fr) repeat(5, minmax(0, 1fr)); gap: 12px; align-items: end; padding: 16px; border: 1px solid #c9d9ea; border-radius: 16px; background: rgba(255, 255, 255, .76); }
-.civic-directory-toolbar > label:not(.directory-search) { display: grid; gap: 6px; color: #405675; font-size: .75rem; font-weight: 750; }
+.civic-directory-toolbar > label { display: grid; gap: 6px; min-width: 0; color: #405675; font-size: .75rem; font-weight: 750; }
 .civic-directory-toolbar select { min-height: 44px; width: 100%; border: 1px solid #bcd2ef; border-radius: 10px; padding: 0 10px; background: #fff; color: var(--ink); font: inherit; }
+.civic-directory-toolbar .civic-directory-search { max-width: none; align-items: stretch; margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; overflow: visible; }
+.civic-directory-toolbar .directory-search-control { display: flex; min-height: 44px; align-items: center; gap: 10px; padding: 0 14px; border: 1px solid #bcd2ef; border-radius: 10px; background: #fff; transition: border-color .16s var(--ease-out), box-shadow .16s var(--ease-out); }
+.civic-directory-toolbar .directory-search-control svg { width: 18px; flex: 0 0 18px; color: var(--muted); }
+.civic-directory-toolbar .directory-search-control input { min-height: 42px; padding: 0 !important; border: 0 !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; font-size: .9rem; }
+.civic-directory-toolbar .civic-directory-search:focus-within { background: transparent; box-shadow: none; }
+.civic-directory-toolbar .civic-directory-search:focus-within .directory-search-control { border-color: var(--green-900); box-shadow: 0 0 0 3px rgba(18, 62, 155, .14); }
 .civic-card-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .civic-record-card { display: flex; min-width: 0; flex-direction: column; gap: 12px; padding: 20px; border: 1px solid #c1d9f6; border-radius: 16px; background: rgba(250, 253, 255, .9); box-shadow: 0 10px 28px rgba(44, 103, 161, .06); }
 .civic-record-card h2 { margin: 0; font-size: 1.05rem; line-height: 1.25; }
