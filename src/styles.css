@@ -19130,6 +19130,14 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 .civic-record-card dt { color: #547095; font-size: .68rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
 .civic-record-card dd { margin: 0; color: #29415f; font-size: .86rem; line-height: 1.45; }
 .civic-levels { color: #174da9 !important; font-weight: 700; }
+.education-directory-card { position: relative; gap: 14px; padding: 22px; }
+.education-directory-card h2 { max-width: calc(100% - 48px); font-size: 1.1rem; }
+.education-card-icon { display: grid; position: absolute; top: 19px; right: 19px; width: 36px; height: 36px; place-items: center; border: 1px solid #bdd6f4; border-radius: 10px; background: #edf6ff; color: #1453ad; }
+.education-card-icon svg { width: 18px; height: 18px; }
+.education-card-intro { display: -webkit-box; overflow: hidden; color: #405675 !important; font-size: .9rem; line-height: 1.5 !important; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.education-directory-card dl { gap: 10px; padding-top: 2px; border-top: 1px solid #e0eaf6; }
+.education-directory-card dl div { padding-top: 10px; }
+.education-directory-card .civic-card-actions { padding-top: 2px; border-top: 1px solid #e0eaf6; }
 .civic-card-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
 .civic-card-actions a, .civic-source-link { display: inline-flex; min-height: 44px; align-items: center; gap: 6px; color: #124ba6; font-size: .84rem; font-weight: 750; }
 .civic-card-actions svg, .civic-source-link svg { width: 15px; height: 15px; }
@@ -19159,7 +19167,7 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 .legislation-language-note h3, .legislation-language-note p { margin: 0; }
 .legislation-language-note p { color: #3d526e; line-height: 1.48; }
 @media (max-width: 1050px) { .civic-directory-toolbar { grid-template-columns: repeat(2, minmax(0, 1fr)); } .civic-directory-toolbar .directory-search { grid-column: 1 / -1; } .civic-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 700px) { .civic-directory-page { gap: 14px; } .civic-directory-toolbar, .civic-card-grid, .civic-detail-layout { grid-template-columns: 1fr; } .civic-directory-toolbar { padding: 12px; gap: 10px; } .civic-directory-toolbar .directory-search { grid-column: auto; } .civic-record-card { padding: 16px; border-radius: 14px; } .civic-card-actions { display: grid; } .civic-card-actions a, .civic-card-actions button { width: 100%; justify-content: center; } .civic-detail-main { padding: 18px; } .document-checklist { padding: 16px; } }
+@media (max-width: 700px) { .civic-directory-page { gap: 14px; } .civic-directory-toolbar, .civic-card-grid, .civic-detail-layout { grid-template-columns: 1fr; } .civic-directory-toolbar { padding: 12px; gap: 10px; } .civic-directory-toolbar .directory-search { grid-column: auto; } .civic-record-card { padding: 16px; border-radius: 14px; } .education-directory-card { padding: 18px; } .education-card-icon { top: 15px; right: 15px; } .civic-card-actions { display: grid; } .civic-card-actions a, .civic-card-actions button { width: 100%; justify-content: center; } .civic-detail-main { padding: 18px; } .document-checklist { padding: 16px; } }
 @media print { .site-header, .site-footer, .hero, .civic-directory-toolbar, .civic-card-grid, .data-notice, .breadcrumb, .feedback-fab { display: none !important; } .document-checklist { border: 0; background: #fff; } }
 
 /* Shared finishing pass for every barangay roster and the footer network. */

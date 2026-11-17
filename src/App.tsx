@@ -147,6 +147,7 @@ import {
   documentGuides,
   educationOffices,
   educationInstitutions,
+  type EducationInstitution,
   ordinanceResearchNotice,
   type EducationLevel,
   type InstitutionType,
@@ -2475,6 +2476,12 @@ function DisclosureDetailPage() {
 
 type LegislationFilter = "All" | CivicRecord["kind"];
 
+function educationSummary(item: EducationInstitution) {
+  if (item.description) return item.description;
+  const location = item.barangay ? `Barangay ${item.barangay}` : item.address.startsWith("Address not published") ? "Malaybalay City" : item.address;
+  return `The reviewed ${item.source.type.toLowerCase()} lists this institution in ${location}, with ${item.levels.join(", ").toLowerCase()} offerings recorded for the directory.`;
+}
+
 function EducationDirectoryPage() {
   const [params, setParams] = useSearchParams();
   const [query, setQuery] = useState(params.get("q") ?? "");
@@ -2499,12 +2506,9 @@ function EducationDirectoryPage() {
   };
   const clearFilters = () => { setQuery(""); setParams({}, { replace: true }); };
   const activeFilters = [type !== "all" ? type : null, level !== "all" ? level : null, barangay !== "all" ? barangay : null, programme !== "all" ? programme : null, query ? `“${query}”` : null].filter(Boolean);
-  const categoryCounts = types.map((value) => ({ value, count: educationInstitutions.filter((item) => item.type === value).length }));
   return <>
-    <PageHero eyebrow="Education directory" title="Find source-linked schools and learning institutions." description="Search a growing registry of Malaybalay public, private, higher-education, and technical-vocational institutions. Each profile preserves its own source and verification status." compact />
+    <PageHero eyebrow="Education directory" title="Find schools and learning institutions." description="Search by school name, ID, educational level, or barangay, then open a school page for its recorded location, learning levels, public contact details, and source links." compact />
     <section className="section container civic-directory-page">
-      <div className="data-notice"><CircleAlert aria-hidden="true" /><div><strong>{educationInstitutions.length} source-linked institutions; coverage remains under verification</strong><p>DepEd’s historical count is a completeness benchmark, not a current count. School officers, programmes, contacts, routes, and exact pins are included only where a named public or institutional source supports them.</p><Link to="/education/offices">View DepEd division office profiles <ArrowRight aria-hidden="true" /></Link></div></div>
-      <div className="education-category-summary" aria-label="Institution counts by type">{categoryCounts.map(({ value, count }) => <button type="button" key={value} aria-pressed={type === value} onClick={() => updateFilter("type", type === value ? "all" : value)}><strong>{count}</strong><span>{value}</span></button>)}</div>
       <div className="civic-directory-toolbar">
         <label className="directory-search"><span className="sr-only">Search schools by name, ID, or address</span><Search aria-hidden="true" /><input value={query} onChange={(event) => { setQuery(event.target.value); const next = new URLSearchParams(params); if (event.target.value) next.set("q", event.target.value); else next.delete("q"); setParams(next, { replace: true }); }} placeholder="Search school name, ID, or address" /></label>
         <label>Institution type<select value={type} onChange={(event) => updateFilter("type", event.target.value)}><option value="all">All types</option>{types.map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
@@ -2515,7 +2519,7 @@ function EducationDirectoryPage() {
       </div>
       <div className="results-summary"><strong>{records.length} matching institution{records.length === 1 ? "" : "s"}</strong><span>Last reviewed 17 November 2026</span>{activeFilters.length > 0 && <><span className="filter-summary">Filters: {activeFilters.join(" · ")}</span><button className="text-button" type="button" onClick={clearFilters}>Clear all</button></>}</div>
       <div className="civic-card-grid">
-        {records.map((item) => <article className="civic-record-card" key={item.slug}><div className="record-meta"><span>{item.type}</span><span>{item.status}</span></div><h2>{item.name}</h2><p className="civic-levels">{item.levels.join(" · ")}</p><dl><div><dt>School ID</dt><dd>{item.schoolId ?? "Not published in the reviewed source"}</dd></div><div><dt>Location</dt><dd>{item.address}</dd></div>{item.programmes?.length ? <div><dt>Published programmes</dt><dd>{item.programmes.join(", ")}</dd></div> : null}</dl><div className="civic-card-actions"><Link to={`/education/${item.slug}`}>Open profile <ArrowRight aria-hidden="true" /></Link><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Open map search <ExternalLink aria-hidden="true" /></a></div></article>)}
+        {records.map((item) => <article className="civic-record-card education-directory-card" key={item.slug}><div className="education-card-icon"><GraduationCap aria-hidden="true" /></div><h2>{item.name}</h2><p className="education-card-intro">{educationSummary(item)}</p><dl><div><dt>Education offered</dt><dd>{item.levels.join(" · ")}</dd></div><div><dt>Location</dt><dd>{item.address}</dd></div>{item.schoolId && <div><dt>School ID</dt><dd>{item.schoolId}</dd></div>}{item.programmes?.length ? <div><dt>Published programmes</dt><dd>{item.programmes.join(", ")}</dd></div> : null}</dl><div className="civic-card-actions"><Link to={`/education/${item.slug}`}>View school details <ArrowRight aria-hidden="true" /></Link><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Directions <ExternalLink aria-hidden="true" /></a></div></article>)}
       </div>
       {!records.length && <div className="empty-state" role="status"><Search aria-hidden="true" /><strong>No source-linked institution matches these filters</strong><p>Try another school name or ID, or clear the current filters.</p><button className="button secondary" type="button" onClick={clearFilters}>Clear all filters</button></div>}
     </section>
@@ -2533,7 +2537,47 @@ function EducationProfilePage() {
   const { slug } = useParams<{ slug: string }>();
   const item = educationInstitutions.find((entry) => entry.slug === slug);
   if (!item) return <NotFoundPage />;
-  return <><PageHero eyebrow={item.type} title={item.name} description={`${item.levels.join(", ")} · ${item.status}`} compact><Link className="page-hero-backlink" to="/education">Return to education directory <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-detail-layout"><article className="civic-detail-main"><section className="education-profile-intro"><span className="eyebrow">About this institution</span><h2>Source-backed school information</h2><p>{item.description ?? "This profile preserves only information supported by the cited source. Background, mission, school history, staff, and programme details are added when the institution or an education authority publishes them."}</p></section><dl className="legislation-detail-facts"><div><dt>School ID</dt><dd>{item.schoolId ?? "Not published in the reviewed source"}</dd></div><div><dt>Address</dt><dd>{item.address}</dd></div><div><dt>Barangay</dt><dd>{item.barangay ?? "Not published in the reviewed source"}</dd></div><div><dt>School head / key officers</dt><dd>{item.leadership ?? "Not published in the reviewed source"}</dd></div><div><dt>Programmes and grade levels</dt><dd>{item.programmes?.join(", ") ?? item.levels.join(", ")}</dd></div><div><dt>Official communication</dt><dd>{item.contacts?.join(" · ") ?? "Not published in the reviewed source"}</dd></div></dl><section className="education-profile-section"><span className="eyebrow">Announcements and official channels</span><h2>{item.announcements.mode}</h2><p>{item.announcements.mode === "Not configured" ? "No official Facebook page or announcement feed has been independently configured for this institution. BetterMC does not scrape private or restricted social content." : "Use the published official channel for enrolment, admissions, suspensions, scholarships, and calendar updates."}</p>{item.announcements.externalUrl && <a className="button secondary" href={item.announcements.externalUrl} target="_blank" rel="noreferrer">Open official channel <ExternalLink aria-hidden="true" /></a>}</section><section className="education-profile-section"><span className="eyebrow">Transportation and accessibility</span><h2>{item.transport.status === "Verified" ? "Published access information" : "Transport information not yet verified"}</h2><p>{item.transport.note}</p><a className="button secondary" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Open map search <ExternalLink aria-hidden="true" /></a></section></article><aside className="legislation-source-card"><MapPin aria-hidden="true" /><span className="eyebrow">Source ledger</span><h2>Confirm before visiting</h2><p>The map opens a Google Maps search using the source-listed address. BetterMC does not claim an exact pin where none was published by the institution or agency.</p><a className="button primary" href={item.source.url} target="_blank" rel="noreferrer">Open source listing <ExternalLink aria-hidden="true" /></a>{item.officialLinks?.map((link) => <a className="civic-source-link" key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.label} <ExternalLink aria-hidden="true" /></a>)}<p className="source-availability-note">{item.source.label} · {item.source.type} · reviewed {item.source.verifiedOn}</p></aside></section></>;
+  return <>
+    <PageHero eyebrow="School profile" title={item.name} description={item.levels.join(" · ")} compact>
+      <Link className="page-hero-backlink" to="/education">Return to education directory <ArrowRight aria-hidden="true" /></Link>
+    </PageHero>
+    <section className="section container civic-detail-layout">
+      <article className="civic-detail-main">
+        <section className="education-profile-intro">
+          <span className="eyebrow">About this school</span>
+          <h2>At a glance</h2>
+          <p>{educationSummary(item)}</p>
+        </section>
+        <dl className="legislation-detail-facts">
+          <div><dt>School ID</dt><dd>{item.schoolId ?? "Not published in the reviewed source"}</dd></div>
+          <div><dt>Address</dt><dd>{item.address}</dd></div>
+          <div><dt>Barangay</dt><dd>{item.barangay ?? "Not published in the reviewed source"}</dd></div>
+          <div><dt>School head / key officers</dt><dd>{item.leadership ?? "Not published in the reviewed source"}</dd></div>
+          <div><dt>Programmes and grade levels</dt><dd>{item.programmes?.join(", ") ?? item.levels.join(", ")}</dd></div>
+          <div><dt>Official communication</dt><dd>{item.contacts?.join(" · ") ?? "Not published in the reviewed source"}</dd></div>
+        </dl>
+        <section className="education-profile-section">
+          <span className="eyebrow">Announcements and official channels</span>
+          <h2>{item.announcements.mode}</h2>
+          <p>{item.announcements.mode === "Not configured" ? "No official Facebook page or announcement feed has been independently configured for this institution. BetterMC does not scrape private or restricted social content." : "Use the published official channel for enrolment, admissions, suspensions, scholarships, and calendar updates."}</p>
+          {item.announcements.externalUrl && <a className="button secondary" href={item.announcements.externalUrl} target="_blank" rel="noreferrer">Open official channel <ExternalLink aria-hidden="true" /></a>}
+        </section>
+        <section className="education-profile-section">
+          <span className="eyebrow">Transportation and accessibility</span>
+          <h2>{item.transport.status === "Verified" ? "Published access information" : "Transport information not yet verified"}</h2>
+          <p>{item.transport.note}</p>
+          <a className="button secondary" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Open map search <ExternalLink aria-hidden="true" /></a>
+        </section>
+      </article>
+      <aside className="legislation-source-card">
+        <MapPin aria-hidden="true" /><span className="eyebrow">Source ledger</span><h2>Confirm before visiting</h2>
+        <p>The map opens a Google Maps search using the source-listed address. BetterMC does not claim an exact pin where none was published by the institution or agency.</p>
+        <a className="button primary" href={item.source.url} target="_blank" rel="noreferrer">Open source listing <ExternalLink aria-hidden="true" /></a>
+        {item.officialLinks?.map((link) => <a className="civic-source-link" key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.label} <ExternalLink aria-hidden="true" /></a>)}
+        <p className="source-availability-note">{item.source.label} · {item.source.type} · reviewed {item.source.verifiedOn}</p>
+      </aside>
+    </section>
+  </>;
 }
 
 function checklistImage(title: string, items: string[]) {
