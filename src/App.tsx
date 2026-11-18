@@ -98,8 +98,6 @@ import {
   legislativeHearingRecords,
   newsletterUpdates,
   OFFICIAL_BAC_FB_URL,
-  OFFICIAL_BAC_VIDEOS_URL,
-  OFFICIAL_CITY_VIDEOS_URL,
   PUBLIC_INFO_REVIEWED_ON,
   type NewsCardCategory,
   type LegislativeHearingRecord,
@@ -173,6 +171,7 @@ import {
   type InstitutionType,
 } from "./civicDirectories";
 import { sitePages } from "./sitePages";
+import { serviceProviderLogos } from "./serviceProviderLogos";
 import WeatherPanel from "./WeatherPanel";
 import MalaybalayGisMap from "./MalaybalayGisMap";
 import TurnstileWidget from "./TurnstileWidget";
@@ -183,12 +182,13 @@ import {
 } from "./feedback";
 
 const navItems = [
-  { label: "Transparency", to: "/transparency" },
-  { label: "Government", to: "/government" },
+  { label: "Services", to: "/services" },
   { label: "Barangays", to: "/barangays" },
   { label: "Education", to: "/education" },
-  { label: "Public services", to: "/services" },
-  { label: "Participate", to: "/participate" },
+  { label: "Government", to: "/government" },
+  { label: "Legislation", to: "/legislation" },
+  { label: "Procurement", to: "/procurement/bidding-opportunities" },
+  { label: "Transparency", to: "/transparency" },
 ];
 
 const pageMetadata: Record<string, { title: string; description: string }> = {
@@ -637,7 +637,8 @@ function Header() {
           inert={!open}
         >
           <nav className="mobile-nav" aria-label="Mobile navigation">
-            {sitePages.map((item) => (
+            <div className="mobile-nav-primary">
+            {[sitePages[0], ...navItems].map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -647,6 +648,15 @@ function Header() {
                 <ArrowRight />
               </NavLink>
             ))}
+            </div>
+            <details className="mobile-nav-more">
+              <summary>More sections <ChevronDown aria-hidden="true" /></summary>
+              <div>
+                {sitePages.filter((item) => item.to !== "/" && !navItems.some((primary) => primary.to === item.to)).map((item) => (
+                  <NavLink key={item.to} to={item.to} onClick={() => setOpen(false)}>{item.label}<ArrowRight aria-hidden="true" /></NavLink>
+                ))}
+              </div>
+            </details>
           </nav>
         </div>
       </header>
@@ -2191,29 +2201,6 @@ function CivicRecordingPage() {
   return <><PageHero eyebrow={recording.category} title={recording.title} description={`Original recording published by ${recording.publisher}.`} compact><Link className="page-hero-backlink" to={back}><ArrowLeft aria-hidden="true" /> Return to recordings</Link></PageHero><section className="section container civic-recording-detail"><CivicRecordingContent recording={recording} /><p className="source-availability-note">Source link reviewed 18 November 2026. Playback availability is controlled by Facebook.</p></section></>;
 }
 
-function OfficialVideoChannels({ includeBac = false }: { includeBac?: boolean }) {
-  const channels = [
-    { label: "City Government videos", url: OFFICIAL_CITY_VIDEOS_URL },
-    ...(includeBac ? [{ label: "BAC LGU Malaybalay videos", url: OFFICIAL_BAC_VIDEOS_URL }] : []),
-  ];
-  return (
-    <section className="official-video-channels" aria-label="Official video libraries">
-      <div>
-        <span className="eyebrow">Original video sources</span>
-        <h3>Browse official recordings</h3>
-        <p>Open the City Government and BAC video libraries for recordings published by those offices.</p>
-      </div>
-      <div className="official-video-channel-links">
-        {channels.map((channel) => (
-          <a key={channel.url} href={channel.url} target="_blank" rel="noopener noreferrer">
-            {channel.label}<ExternalLink aria-hidden="true" />
-          </a>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 type ProcurementDisplayRecord = {
   number: string;
   title: string;
@@ -2305,34 +2292,50 @@ function ProcurementRecordIndex({
   records: ProcurementDisplayRecord[];
   sourceUrl: string;
 }) {
+  const cardTitle = (title: string, barangays: string[] = []) => {
+    const text = title.replace(/^ITB-\d{4}-\d+\.?\s*/i, "");
+    if (text !== text.toUpperCase()) return text;
+    const readable = text.toLocaleLowerCase("en-PH")
+      .replace(/^\p{L}/u, (letter) => letter.toLocaleUpperCase("en-PH"))
+      .replace(/\b(malaybalay|malayabalay|bukidnon|brgy|ceemd|mcgwss|city|purok)\b/gi, (word) =>
+        ({ malaybalay: "Malaybalay", malayabalay: "Malaybalay", bukidnon: "Bukidnon", brgy: "Brgy", ceemd: "CEEMD", mcgwss: "MCGWSS", city: "City", purok: "Purok" })[word.toLowerCase()] ?? word,
+      );
+    return [...new Set([...barangayMicrosites.map((item) => item.name), ...barangays])].reduce((result, barangay) => {
+      const escaped = barangay.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      return result.replace(new RegExp(`\\b${escaped}\\b`, "gi"), barangay);
+    }, readable).replace(/\bcaburcanan\b/gi, "Caburacanan");
+  };
   const [query, setQuery] = useState("");
   const [stage, setStage] = useState("All");
-  const [expanded, setExpanded] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(9);
   const [openRecord, setOpenRecord] = useState<ProcurementDisplayRecord | null>(null);
   const normalizedQuery = query.trim().toLowerCase();
   const filtered = records.filter((record) =>
     (stage === "All" || record.stage === stage) && `${record.number} ${record.title} ${record.stage} ${record.year} ${(record.barangays ?? []).join(" ")}`
       .toLowerCase().includes(normalizedQuery),
   );
-  const visible = expanded || normalizedQuery || stage !== "All" ? filtered : filtered.slice(0, 16);
+  const visible = filtered.slice(0, visibleCount);
 
   return (
     <div className="procurement-index">
       <div className="procurement-index-head">
         <div>
           <span className="eyebrow">Source-linked records</span>
-          <h2>Search this procurement page</h2>
+          <h2>Find a bidding record</h2>
         </div>
-        <label className="hearing-filter-field"><span>Search records</span><span className="procurement-search">
+      </div>
+      <div className="procurement-index-filters">
+        <label className="hearing-filter-field procurement-query-field"><span>Search records</span><span className="procurement-search">
           <Search aria-hidden="true" />
           <input
             value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search project, office, barangay, or ITB number"
+            onChange={(event) => { setQuery(event.target.value); setVisibleCount(9); }}
+            placeholder="Project, office, barangay, or ITB"
           />
         </span></label>
+        <label className="hearing-filter-field"><span>Procurement stage</span><select value={stage} onChange={(event) => { setStage(event.target.value); setVisibleCount(9); }}><option value="All">All stages</option>{[...new Set(records.map((record) => record.stage))].map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
+        {(query || stage !== "All") && <button type="button" className="hearing-clear-filters" onClick={() => { setQuery(""); setStage("All"); setVisibleCount(9); }}>Clear filters</button>}
       </div>
-      <div className="procurement-index-filters"><label className="hearing-filter-field"><span>Procurement stage</span><select value={stage} onChange={(event) => setStage(event.target.value)}><option value="All">All stages</option>{[...new Set(records.map((record) => record.stage))].map((value) => <option key={value} value={value}>{value}</option>)}</select></label>{(query || stage !== "All") && <button type="button" className="hearing-clear-filters" onClick={() => { setQuery(""); setStage("All"); }}>Clear filters</button>}</div>
       <div className="procurement-count" role="status">
         <strong>{filtered.length}</strong> matching records · source reviewed {BAC_2026_VERIFIED_ON}
       </div>
@@ -2346,21 +2349,20 @@ function ProcurementRecordIndex({
           >
             <span>{record.stage}</span>
             <strong>{record.number}</strong>
-            <p>{record.title.replace(/^ITB-\d{4}-\d+\.?\s*/i, "")}</p>
-            <ArrowRight aria-hidden="true" />
+            <p>{cardTitle(record.title, record.barangays)}</p>
+            <span className="bid-record-card-action">View record <ArrowRight aria-hidden="true" /></span>
           </button>
         ))}
       </div>
       {!filtered.length && <div className="empty-state" role="status">No procurement records match these filters.</div>}
-      {!normalizedQuery && stage === "All" && filtered.length > 16 && (
+      {filtered.length > visibleCount && (
         <button
           className="bid-record-toggle"
           type="button"
-          aria-expanded={expanded}
-          onClick={() => setExpanded((value) => !value)}
+          onClick={() => setVisibleCount((count) => count + 9)}
         >
-          {expanded ? "Show fewer records" : `Show all ${filtered.length} records`}
-          <ChevronDown aria-hidden="true" />
+          Show more records · {filtered.length - visibleCount} remaining
+          <ArrowRight aria-hidden="true" />
         </button>
       )}
       <a
@@ -2460,7 +2462,6 @@ function BacLivestreamMonitoringPage() {
 
         </div>
 
-        <OfficialVideoChannels includeBac />
 
         <div className="data-notice bac-limitation-notice">
           <CircleAlert aria-hidden="true" />
@@ -3848,7 +3849,6 @@ function LegislativeHearingsPage() {
           <NavLink to="/procurement/livestreams">BAC recordings</NavLink>
         </nav>
         <CivicRecordingsSection category="hearing" />
-        <OfficialVideoChannels />
 
         <div className="legislation-toolbar hearings-toolbar">
           <label className="hearing-filter-field"><span>Search</span><span className="directory-search">
@@ -6620,10 +6620,16 @@ function ServiceProviderCard({
   onStartTransaction: (tx: ServiceTransactionOption) => void;
 }) {
   const sanitizedPortalUrl = sanitizeExternalServiceUrl(provider.onlinePortalUrl);
+  const logo = serviceProviderLogos[provider.id];
+  const [mobileExpanded, setMobileExpanded] = useState(false);
 
   return (
-    <article className={`provider-card${provider.isNearest ? " is-nearest-card" : ""}`}>
+    <article className={`provider-card${provider.isNearest ? " is-nearest-card" : ""}${mobileExpanded ? " is-mobile-expanded" : ""}`}>
       <header className="provider-card-head">
+        <span className={`provider-logo${logo ? " has-logo" : ""}`} aria-hidden="true">
+          {logo ? <img src={logo.image} alt="" loading="lazy" decoding="async" /> : <Landmark />}
+        </span>
+        <div className="provider-card-identity">
         <div className="provider-card-meta">
           {provider.isNearest && (
             <span className="provider-nearest-badge">Nearest Provider</span>
@@ -6644,9 +6650,15 @@ function ServiceProviderCard({
           <MapPin aria-hidden="true" />
           <span>{provider.address}</span>
         </a>
+        </div>
       </header>
 
-      <dl className="provider-facts">
+      <button type="button" className="provider-mobile-toggle" aria-expanded={mobileExpanded} aria-controls={`provider-facts-${provider.id} provider-transactions-${provider.id} provider-footer-${provider.id}`} onClick={() => setMobileExpanded((value) => !value)}>
+        {mobileExpanded ? "Hide details" : `View contacts and ${provider.transactions.length} services`}
+        <ChevronDown aria-hidden="true" />
+      </button>
+
+      <dl className="provider-facts" id={`provider-facts-${provider.id}`}>
         <div>
           <dt>Hours</dt>
           <dd>{provider.hours}</dd>
@@ -6679,7 +6691,7 @@ function ServiceProviderCard({
         </div>
       </dl>
 
-      <section className="provider-transactions-section" aria-label="Official transactions">
+      <section className="provider-transactions-section" id={`provider-transactions-${provider.id}`} aria-label="Official transactions">
         <h4 className="provider-tx-heading">
           Transactions <span>{provider.transactions.length}</span>
         </h4>
@@ -6714,7 +6726,7 @@ function ServiceProviderCard({
         </ul>
       </section>
 
-      <footer className="provider-card-footer">
+      <footer className="provider-card-footer" id={`provider-footer-${provider.id}`}>
         <a
           className="provider-link"
           href={provider.googleMapsUrl}

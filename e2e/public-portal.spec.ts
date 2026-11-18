@@ -406,10 +406,13 @@ test("procurement sources preserve record scope", async ({ page }) => {
     }),
   ).toBeVisible();
   await expect(
-    page.getByRole("button", { name: /Show all 212 records/i }),
+    page.getByRole("button", { name: /Show more records/i }),
   ).toBeVisible();
+  await expect(page.locator(".bid-record-list button")).toHaveCount(9);
+  await page.getByRole("button", { name: /Show more records/i }).click();
+  await expect(page.locator(".bid-record-list button")).toHaveCount(18);
   await page
-    .getByPlaceholder(/Search project, office, barangay, or ITB number/i)
+    .getByPlaceholder(/Project, office, barangay, or ITB/i)
     .fill("Cabangahan");
   await expect(page.locator(".procurement-count")).not.toContainText(
     "212 matching records",
@@ -430,6 +433,19 @@ test("procurement sources preserve record scope", async ({ page }) => {
   await expect(
     page.getByText(/does not by itself prove payment/i),
   ).toBeVisible();
+});
+
+test("mobile service cards keep details available without a long initial list", async ({ page }) => {
+  test.skip((page.viewportSize()?.width ?? 1000) > 640);
+  await page.goto("/services/business-trade");
+  const firstProvider = page.locator(".provider-card").first();
+  const toggle = firstProvider.locator(".provider-mobile-toggle");
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  await expect(firstProvider.locator(".provider-transactions-section")).toBeHidden();
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
+  await expect(firstProvider.locator(".provider-transactions-section")).toBeVisible();
+  await expect.poll(() => firstProvider.locator(".provider-logo img").evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
 });
 
 test("directory filters reach emergency contacts", async ({ page }) => {
@@ -465,7 +481,10 @@ test("global page access remains complete and responsive", async ({
     await expect(allPages.getByRole("link", { name: "BAC recordings" })).toHaveAttribute("href", "/procurement/livestreams");
   } else {
     await page.getByRole("button", { name: "Open menu" }).click();
-    await expect(page.locator("#mobile-navigation").getByRole("link")).toHaveCount(13);
+    const mobileNavigation = page.locator("#mobile-navigation");
+    await expect(mobileNavigation.getByRole("link")).toHaveCount(8);
+    await mobileNavigation.getByText("More sections").click();
+    await expect(mobileNavigation.getByRole("link")).toHaveCount(13);
     await page.getByRole("button", { name: "Close menu" }).click();
   }
 
@@ -511,11 +530,12 @@ test("BAC recording, ordinance text, and weather guidance keep their source boun
   await expect(page.getByRole("link", { name: /PAGASA flood bulletins/ })).toHaveAttribute("href", "https://pagasa.dost.gov.ph/flood");
 });
 
-test("procurement navigation and official video libraries are accessible", async ({ page }) => {
+test("procurement navigation and original recording sources are accessible", async ({ page }) => {
   await page.goto("/procurement/livestreams");
-  const videoSources = page.getByRole("region", { name: "Official video libraries" });
-  await expect(videoSources.getByRole("link", { name: "City Government videos" })).toHaveAttribute("href", /facebook\.com\/profile\.php\?id=100063747444247/);
-  await expect(videoSources.getByRole("link", { name: "BAC LGU Malaybalay videos" })).toHaveAttribute("href", "https://www.facebook.com/bacmalaybalay/videos/");
+  await expect(page.getByRole("region", { name: "Official video libraries" })).toHaveCount(0);
+  await page.locator(".civic-recording-card button").first().click();
+  await expect(page.getByRole("link", { name: /Original video/i }).first()).toHaveAttribute("href", /facebook\.com/);
+  await page.getByRole("button", { name: "Close record" }).click();
 
   if ((page.viewportSize()?.width ?? 1000) <= 760) {
     const tab = page.getByRole("navigation", { name: "Quick mobile app navigation" }).getByRole("link", { name: "Procurement" });
@@ -527,7 +547,7 @@ test("procurement navigation and official video libraries are accessible", async
   }
 
   await page.goto("/hearings");
-  const hearingSources = page.getByRole("region", { name: "Official video libraries" });
-  await expect(hearingSources.getByRole("link", { name: "City Government videos" })).toBeVisible();
-  await expect(hearingSources.getByRole("link", { name: "BAC LGU Malaybalay videos" })).toHaveCount(0);
+  await expect(page.getByRole("region", { name: "Official video libraries" })).toHaveCount(0);
+  await page.locator(".civic-recording-card button").first().click();
+  await expect(page.getByRole("link", { name: /Original video/i }).first()).toHaveAttribute("href", /facebook\.com/);
 });
