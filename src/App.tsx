@@ -513,12 +513,26 @@ function FinancialBreakdown() {
   );
 }
 
+function isFromTransparencyState(state: unknown): boolean {
+  return (
+    typeof state === "object" &&
+    state !== null &&
+    "fromTransparency" in state &&
+    (state as { fromTransparency?: unknown }).fromTransparency === true
+  );
+}
+
+function transparencyOriginState(pathname: string) {
+  return pathname === "/transparency" ? { fromTransparency: true } : undefined;
+}
+
 function Header() {
   const [open, setOpen] = useState(false);
   const [pagesOpen, setPagesOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const pageAccessRef = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
+  const navState = transparencyOriginState(pathname);
 
   useEffect(() => {
     if (!open && !pagesOpen) return;
@@ -578,7 +592,7 @@ function Header() {
           <Brand title="Uswag Malaybalay" subtitle="" />
           <nav className="desktop-nav" aria-label="Primary navigation">
             {navItems.map((item) => (
-              <NavLink key={item.to} to={item.to}>
+              <NavLink key={item.to} to={item.to} state={navState}>
                 {item.label}
               </NavLink>
             ))}
@@ -612,6 +626,7 @@ function Header() {
                     className={pathname === page.to ? "is-active" : undefined}
                     aria-current={pathname === page.to ? "page" : undefined}
                     to={page.to}
+                    state={navState}
                     onClick={() => setPagesOpen(false)}
                   >
                     <span><strong>{page.label}</strong><small>{page.description}</small></span>
@@ -643,6 +658,7 @@ function Header() {
               <NavLink
                 key={item.to}
                 to={item.to}
+                state={navState}
                 onClick={() => setOpen(false)}
               >
                 {item.label}
@@ -654,7 +670,7 @@ function Header() {
               <summary>More sections <ChevronDown aria-hidden="true" /></summary>
               <div>
                 {sitePages.filter((item) => item.to !== "/" && !navItems.some((primary) => primary.to === item.to)).map((item) => (
-                  <NavLink key={item.to} to={item.to} onClick={() => setOpen(false)}>{item.label}<ArrowRight aria-hidden="true" /></NavLink>
+                  <NavLink key={item.to} to={item.to} state={navState} onClick={() => setOpen(false)}>{item.label}<ArrowRight aria-hidden="true" /></NavLink>
                 ))}
               </div>
             </details>
@@ -666,6 +682,8 @@ function Header() {
 }
 
 function Footer() {
+  const { pathname } = useLocation();
+  const navState = transparencyOriginState(pathname);
   return (
     <footer className="site-footer">
       <section className="container footer-transparency-promise" aria-labelledby="footer-transparency-title">
@@ -704,8 +722,8 @@ function Footer() {
           <Link to="/about">About & methodology</Link>
           <Link to="/transparency">Transparency records</Link>
           <Link to="/budget">Budget transparency</Link>
-          <Link to="/hearings">Legislative hearings</Link>
-          <Link to="/procurement/livestreams">Procurement and BAC recordings</Link>
+          <Link to="/hearings" state={navState}>Legislative hearings</Link>
+          <Link to="/procurement/livestreams" state={navState}>Procurement and BAC recordings</Link>
           <Link to="/participate">Submit a correction</Link>
           <a
             className="footer-icon-link"
@@ -824,6 +842,7 @@ function Footer() {
 
 function MobileAppTabBar() {
   const { pathname } = useLocation();
+  const navState = transparencyOriginState(pathname);
   return (
     <nav className="mobile-bottom-app-bar" aria-label="Quick mobile app navigation">
       <NavLink to="/" end>
@@ -834,7 +853,7 @@ function MobileAppTabBar() {
         <BarChart3 aria-hidden="true" />
         <span>Budget</span>
       </NavLink>
-      <NavLink to="/hearings">
+      <NavLink to="/hearings" state={navState}>
         <Scale aria-hidden="true" />
         <span>Hearings</span>
       </NavLink>
@@ -984,6 +1003,8 @@ function GlobalSearch() {
   const deferredQuery = useDeferredValue(query);
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsId = useId();
+  const { pathname } = useLocation();
+  const navState = transparencyOriginState(pathname);
   const results = useMemo(() => {
     return searchPortal(deferredQuery);
   }, [deferredQuery]);
@@ -1043,6 +1064,7 @@ function GlobalSearch() {
               <Link
                 key={`${result.href}-${result.type}-${result.title}`}
                 to={result.href}
+                state={navState}
                 onClick={() => setQuery("")}
               >
                 <small>{result.type}</small>
@@ -2230,6 +2252,7 @@ function CivicRecordingsSection({ category }: { category: "hearing" | "procureme
   const [openId, setOpenId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [type, setType] = useState("All");
+  const location = useLocation();
   const records = civicRecordings.filter((recording) =>
     category === "procurement" ? recording.category === "BAC meeting" : recording.category !== "BAC meeting",
   );
@@ -2248,16 +2271,17 @@ function CivicRecordingsSection({ category }: { category: "hearing" | "procureme
       <CivicRecordingCard key={recording.id} recording={recording} onOpen={() => setOpenId(recording.id)} />,
     )}</div>
     {!filtered.length && <p className="empty-state" role="status">No recordings match these filters.</p>}
-    {active && <RecordDialog title={active.title} onClose={() => setOpenId(null)}><CivicRecordingContent recording={active} /><div className="record-dialog-links"><Link to={`/recordings/${active.id}`} onClick={() => setOpenId(null)}>Open permanent page <ArrowRight aria-hidden="true" /></Link></div></RecordDialog>}
+    {active && <RecordDialog title={active.title} onClose={() => setOpenId(null)}><CivicRecordingContent recording={active} /><div className="record-dialog-links"><Link to={`/recordings/${active.id}`} state={location.state} onClick={() => setOpenId(null)}>Open permanent page <ArrowRight aria-hidden="true" /></Link></div></RecordDialog>}
   </section>;
 }
 
 function CivicRecordingPage() {
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
   const recording = civicRecordings.find((item) => item.id === id);
   if (!recording) return <NotFoundPage />;
   const back = recording.category === "BAC meeting" ? "/procurement/livestreams" : "/hearings";
-  return <><PageHero eyebrow={recording.category} title={recording.title} description={`Original recording published by ${recording.publisher}.`} compact><Link className="page-hero-backlink" to={back}><ArrowLeft aria-hidden="true" /> Return to recordings</Link></PageHero><section className="section container civic-recording-detail"><CivicRecordingContent recording={recording} /><p className="source-availability-note">Source link reviewed 18 November 2026. Playback availability is controlled by Facebook.</p></section></>;
+  return <><PageHero eyebrow={recording.category} title={recording.title} description={`Original recording published by ${recording.publisher}.`} compact><Link className="page-hero-backlink" to={back} state={location.state}><ArrowLeft aria-hidden="true" /> Return to recordings</Link></PageHero><section className="section container civic-recording-detail"><CivicRecordingContent recording={recording} /><p className="source-availability-note">Source link reviewed 18 November 2026. Playback availability is controlled by Facebook.</p></section></>;
 }
 
 type ProcurementDisplayRecord = {
@@ -2445,6 +2469,9 @@ function ProcurementRecordIndex({
 }
 
 function BacLivestreamMonitoringPage() {
+  const location = useLocation();
+  const fromTransparency = isFromTransparencyState(location.state);
+  const preservedState = fromTransparency ? { fromTransparency: true } : undefined;
   const [query, setQuery] = useState("");
   const [openEntryId, setOpenEntryId] = useState<string | null>(null);
   const activeEntry = bacLivestreamEntries.find((item) => item.id === openEntryId);
@@ -2476,10 +2503,16 @@ function BacLivestreamMonitoringPage() {
         description="Review published bid documents and outcomes. Recordings appear here when a direct, playable source is verified."
         className="hearings-hero"
         compact
-      />
+      >
+        {fromTransparency && (
+          <Link className="page-hero-backlink" to="/transparency">
+            <ArrowLeft aria-hidden="true" /> Back to Transparency
+          </Link>
+        )}
+      </PageHero>
       <section className="section container procurement-page bac-livestream-page">
         <nav className="procurement-page-nav" aria-label="Procurement record types">
-          <NavLink to="/procurement/livestreams">
+          <NavLink to="/procurement/livestreams" state={preservedState}>
             BAC records &amp; recordings
           </NavLink>
           {procurementSources.map((source) => (
@@ -2604,7 +2637,7 @@ function BacLivestreamMonitoringPage() {
           <dl className="record-dialog-facts"><div><dt>Reference</dt><dd>{activeEntry.referenceCode}</dd></div><div><dt>Responsible offices</dt><dd>{activeEntry.participatingAgencyOrBarangay}</dd></div><div><dt>Bidder listed</dt><dd>{activeEntry.identifiedContractorOrBidder}</dd></div><div><dt>Approved Budget for the Contract</dt><dd>{formatBudget(activeEntry.proposedBudgetAbc)}</dd></div></dl>
           <p>{activeEntry.approvedAmountNote}</p>
           <p className="record-dialog-note">{activeEntry.videoUrl ? "The recording's spoken content has not been reviewed or transcribed. The procurement information above is based on separate published records." : "No video or reviewed verbatim transcript is attached to this procurement record."}</p>
-          <div className="record-dialog-links"><Link to={`/procurement/livestreams/${activeEntry.id}`} onClick={() => setOpenEntryId(null)}>Open permanent page <ArrowRight aria-hidden="true" /></Link><a href={activeEntry.sourceUrl} target="_blank" rel="noopener noreferrer">{activeEntry.sourceLabel} <ExternalLink aria-hidden="true" /></a></div>
+          <div className="record-dialog-links"><Link to={`/procurement/livestreams/${activeEntry.id}`} state={location.state} onClick={() => setOpenEntryId(null)}>Open permanent page <ArrowRight aria-hidden="true" /></Link><a href={activeEntry.sourceUrl} target="_blank" rel="noopener noreferrer">{activeEntry.sourceLabel} <ExternalLink aria-hidden="true" /></a></div>
         </RecordDialog>}
       </section>
     </>
@@ -3117,8 +3150,8 @@ function TransparencyPage() {
         <nav className="procurement-page-nav" aria-label="Transparency and budget sections">
           <NavLink to="/transparency" end>Full Disclosure Catalog</NavLink>
           <NavLink to="/budget">Budget Transparency Hub</NavLink>
-          <NavLink to="/procurement/livestreams">BAC Livestreams &amp; Bidding</NavLink>
-          <NavLink to="/hearings">Legislative &amp; Budget Hearings</NavLink>
+          <NavLink to="/procurement/livestreams" state={{ fromTransparency: true }}>BAC Livestreams &amp; Bidding</NavLink>
+          <NavLink to="/hearings" state={{ fromTransparency: true }}>Legislative &amp; Budget Hearings</NavLink>
         </nav>
         <div className="data-notice">
           <CircleAlert />
@@ -3815,6 +3848,7 @@ function BarangayDocumentPage() {
 
 function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" }) {
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
   const hearing = kind === "hearing" ? legislativeHearingRecords.find((item) => item.id === id) : undefined;
   const procurement = kind === "procurement" ? bacLivestreamEntries.find((item) => item.id === id) : undefined;
   if (!hearing && !procurement) return <NotFoundPage />;
@@ -3825,7 +3859,7 @@ function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" 
   const back = hearing ? "/hearings" : "/procurement/livestreams";
   return <>
     <PageHero eyebrow={hearing ? "Legislative record" : "BAC procurement record"} title={title} description="Review the available source, record context, and verification limits." compact>
-      <Link className="page-hero-backlink" to={back}><ArrowLeft aria-hidden="true" /> Return to records</Link>
+      <Link className="page-hero-backlink" to={back} state={location.state}><ArrowLeft aria-hidden="true" /> Return to records</Link>
     </PageHero>
     <section className="section container proceeding-detail">
       <article className="proceeding-detail-main">
@@ -3868,6 +3902,9 @@ function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" 
 }
 
 function LegislativeHearingsPage() {
+  const location = useLocation();
+  const fromTransparency = isFromTransparencyState(location.state);
+  const preservedState = fromTransparency ? { fromTransparency: true } : undefined;
   const [sessionFilter, setSessionFilter] = useState<
     "All" | LegislativeHearingRecord["sessionType"]
   >("All");
@@ -3895,17 +3932,23 @@ function LegislativeHearingsPage() {
         description="Watch Malaybalay City Council proceedings and public consultations. Browse BAC recordings in the procurement section."
         className="hearings-hero"
         compact
-      />
+      >
+        {fromTransparency && (
+          <Link className="page-hero-backlink" to="/transparency">
+            <ArrowLeft aria-hidden="true" /> Back to Transparency
+          </Link>
+        )}
+      </PageHero>
       <section className="section container legislation-page hearings-page">
         <nav className="procurement-page-nav" aria-label="Public record sections">
           <NavLink to="/legislation" end>
             Published ordinances &amp; executive issuances
           </NavLink>
-          <NavLink to="/hearings">
+          <NavLink to="/hearings" state={preservedState}>
             Legislative sessions &amp; public hearings
           </NavLink>
           <NavLink to="/budget">Budget transparency</NavLink>
-          <NavLink to="/procurement/livestreams">BAC recordings</NavLink>
+          <NavLink to="/procurement/livestreams" state={preservedState}>BAC recordings</NavLink>
         </nav>
         <CivicRecordingsSection category="hearing" />
 
@@ -3948,7 +3991,7 @@ function LegislativeHearingsPage() {
           <h3>Measures mentioned</h3><ul>{activeHearing.ordinancesAndResolutions.map((item) => <li key={item}>{item}</li>)}</ul>
           <h3>Recording and transcript</h3><p className="record-dialog-note">No direct recording or reviewed verbatim transcript has been attached to this specific hearing. The listed source may be a publication or general archive rather than a video.</p>
           <h3>Verification</h3><p>{activeHearing.verificationNotes}</p>
-          <div className="record-dialog-links"><Link to={`/hearings/${activeHearing.id}`} onClick={() => setOpenHearingId(null)}>Open permanent page <ArrowRight aria-hidden="true" /></Link><a href={activeHearing.sourceUrl} target="_blank" rel="noopener noreferrer">{activeHearing.sourceLabel} <ExternalLink aria-hidden="true" /></a>{activeHearing.recordingOrReferenceUrl && <a href={activeHearing.recordingOrReferenceUrl} target="_blank" rel="noopener noreferrer">{activeHearing.recordingOrReferenceLabel ?? "Related reference"} <ExternalLink aria-hidden="true" /></a>}</div>
+          <div className="record-dialog-links"><Link to={`/hearings/${activeHearing.id}`} state={location.state} onClick={() => setOpenHearingId(null)}>Open permanent page <ArrowRight aria-hidden="true" /></Link><a href={activeHearing.sourceUrl} target="_blank" rel="noopener noreferrer">{activeHearing.sourceLabel} <ExternalLink aria-hidden="true" /></a>{activeHearing.recordingOrReferenceUrl && <a href={activeHearing.recordingOrReferenceUrl} target="_blank" rel="noopener noreferrer">{activeHearing.recordingOrReferenceLabel ?? "Related reference"} <ExternalLink aria-hidden="true" /></a>}</div>
         </RecordDialog>}
       </section>
     </>

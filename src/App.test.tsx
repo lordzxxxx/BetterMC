@@ -1126,4 +1126,76 @@ describe("BetterMC public portal", () => {
       "https://www.facebook.com/profile.php?id=100080935946632",
     );
   });
+
+  it("displays Back to Transparency on /procurement/livestreams and /hearings only when navigated from /transparency", () => {
+    const directBac = render(
+      <MemoryRouter initialEntries={["/procurement/livestreams"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(
+      screen.queryByRole("link", { name: /Back to Transparency/i }),
+    ).not.toBeInTheDocument();
+    directBac.unmount();
+
+    const directHearings = render(
+      <MemoryRouter initialEntries={["/hearings"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(
+      screen.queryByRole("link", { name: /Back to Transparency/i }),
+    ).not.toBeInTheDocument();
+    directHearings.unmount();
+
+    render(
+      <MemoryRouter initialEntries={["/transparency"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    fireEvent.click(
+      screen.getByRole("link", { name: /BAC Livestreams & Bidding/i }),
+    );
+    expect(
+      screen.getByRole("heading", {
+        name: /BAC bidding records and recordings/i,
+      }),
+    ).toBeInTheDocument();
+    const backFromBac = screen.getByRole("link", {
+      name: /Back to Transparency/i,
+    });
+    expect(backFromBac).toHaveAttribute("href", "/transparency");
+
+    fireEvent.click(backFromBac);
+    expect(
+      screen.getByRole("heading", {
+        name: /Public records, with their context intact/i,
+      }),
+    ).toBeInTheDocument();
+
+    fireEvent.click(
+      screen.getByRole("link", { name: /Legislative & Budget Hearings/i }),
+    );
+    expect(
+      screen.getByRole("heading", { name: /Hearings and sessions/i }),
+    ).toBeInTheDocument();
+    const backFromHearings = screen.getByRole("link", {
+      name: /Back to Transparency/i,
+    });
+    expect(backFromHearings).toHaveAttribute("href", "/transparency");
+
+    fireEvent.click(screen.getByRole("link", { name: "BAC recordings" }));
+    expect(
+      screen.getByRole("link", { name: /Back to Transparency/i }),
+    ).toHaveAttribute("href", "/transparency");
+
+    fireEvent.click(
+      screen.getByRole("link", { name: /Back to Transparency/i }),
+    );
+    expect(
+      screen.getByRole("heading", {
+        name: /Public records, with their context intact/i,
+      }),
+    ).toBeInTheDocument();
+  });
 });
