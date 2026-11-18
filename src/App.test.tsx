@@ -71,6 +71,11 @@ describe("BetterMC public portal", () => {
     expect(new Set(hosts).size).toBe(educationInstitutions.length);
   });
 
+  it("does not expose the removed Babahag school record", () => {
+    expect(educationInstitutions.some((school) => school.slug === "babahag-elementary-school")).toBe(false);
+    expect(schoolSlugFromHostname("babahag-elementary-school.bettermalaybalay.cloud")).toBeNull();
+  });
+
   it("uses the supplied BukSU campus address without status badges", () => {
     render(<MemoryRouter initialEntries={["/education?q=Bukidnon%20State%20University%20Elementary"]}><App /></MemoryRouter>);
     const card = screen.getByRole("article");

@@ -114,7 +114,6 @@ const publicBasicSchools: Array<[string, string, string, string, string | undefi
   ["aglayan-central-school", "Aglayan Central School", "126577", "Purok 3, Aglayan, Malaybalay City", "Aglayan", ["Elementary"]],
   ["baganao-elementary-school", "Baganao Elementary School", "126575", "Sitio Bagnao, Kibalabag, Malaybalay City", "Kibalabag", ["Elementary"]],
   ["bagong-silang-elementary-school", "Bagong Silang Elementary School", "126543", "Purok 6, Bagong Silang, Malaybalay City", "Maligaya", ["Elementary"]],
-  ["babahag-elementary-school", "Babahag Elementary School", "501585", "Purok 7, Laguitas, Malaybalay City", "Laguitas", ["Elementary"]],
   ["bendolan-elementary-school", "Bendolan Elementary School", "126559", "Purok 3, Bendolan, Malaybalay City", "Magsaysay", ["Elementary"]],
   ["bulonay-elementary-school", "Bulonay Elementary School", "501190", "Fortich Street, Malaybalay City", "Barangay 3", ["Elementary"]],
   ["cabagahan-elementary-school", "Cabagahan Elementary School", "126561", "Purok 1, Cabangahan, Malaybalay City", "Cabangahan", ["Elementary"]],

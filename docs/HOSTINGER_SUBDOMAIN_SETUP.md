@@ -25,7 +25,7 @@ that host to the matching school profile.
 
 While the domain uses Vercel nameservers, DNS records entered in Hostinger's
 DNS zone are not authoritative. The live wildcard must be maintained in Vercel
-DNS. The existing wildcard has been checked against all 107 school profile
+DNS. The existing wildcard has been checked against all current school profile
 hosts and each returned HTTP 200 over HTTPS.
 
 ## If DNS must be moved back to Hostinger
