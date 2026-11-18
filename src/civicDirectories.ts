@@ -270,7 +270,6 @@ const pendingSchoolInventory: InventorySchool[] = [
   inventorySchool("tintinaan-elementary-school", "Tintinaan Elementary School", "Public", ["Elementary"], "126595"),
   inventorySchool("can-ayan-integrated-school", "Can-ayan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "500245", "Integrated school"),
   inventorySchool("candiisan-integrated-school", "Candiisan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "501195", "Integrated school"),
-  inventorySchool("capitan-juan-integrated-school", "Capitan Juan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], undefined, "Integrated school"),
   inventorySchool("casisang-central-integrated-school", "Casisang Central Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "501580", "Integrated school"),
   inventorySchool("kilap-agan-integrated-school", "Kilap-agan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "501579", "Integrated school"),
   inventorySchool("mabuhay-integrated-school", "Mabuhay Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "501852", "Integrated school"),
