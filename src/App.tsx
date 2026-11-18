@@ -843,9 +843,14 @@ function Layout({ children }: { children: ReactNode }) {
     const educationProfile = pathname.startsWith("/education/")
       ? educationInstitutions.find((institution) => pathname === `/education/${institution.slug}`)
       : undefined;
-    const metadata = educationProfile
-      ? { ...pageMetadata["/education"], title: `${educationProfile.name} | BetterMC` }
-      : pageMetadata[pathname] ?? pageMetadata["/"];
+    const recording = pathname.startsWith("/recordings/")
+      ? civicRecordings.find((item) => pathname === `/recordings/${item.id}`)
+      : undefined;
+    const metadata = recording
+      ? { title: `${recording.title} | BetterMC`, description: `${recording.category} video published by ${recording.publisher}. Watch the source recording and check its original Facebook page.` }
+      : educationProfile
+        ? { ...pageMetadata["/education"], title: `${educationProfile.name} | BetterMC` }
+        : pageMetadata[pathname] ?? pageMetadata["/"];
     const canonical = `${window.location.origin}${pathname}`;
     document.title = metadata.title;
     updateDocumentMeta("description", metadata.description);

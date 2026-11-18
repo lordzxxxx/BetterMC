@@ -10,6 +10,7 @@ test("council recording card opens its source-linked video and permanent page", 
   await expect(dialog.locator("iframe")).toHaveAttribute("src", /1139814078783195/);
   await dialog.getByRole("link", { name: /Open permanent page/i }).click();
   await expect(page).toHaveURL(/\/recordings\/1139814078783195$/);
+  await expect(page).toHaveTitle(/70th Regular Session · 10th Sangguniang Panlungsod \| BetterMC/);
   await expect(page.getByRole("link", { name: /Return to recordings/i })).toHaveAttribute("href", "/hearings");
 });
 
