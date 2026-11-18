@@ -23,6 +23,8 @@
 - The Facebook player may require Facebook access or may change availability. Loading an embed is not proof that playback succeeds for every visitor.
 - Other indexed hearing and procurement documents still lack a verified matching video URL. BetterMC does not attach a general Facebook page as if it were a specific recording, or attach a BAC video to an unrelated bid result.
 - No reviewed verbatim transcript or discussion summary exists for these thirteen recordings. Procurement amounts and outcomes shown on BetterMC derive from separately linked disclosure documents, not an unreviewed recording.
+- The recording pages now show a short English guide grounded in each publisher's public post. Four City BAC posts link price schedule folders described by the publisher as materials for pre-bid conferences; the folder links were checked for availability. These guides describe source context, not what individual speakers said.
+- The transcript panel supports reviewed, timestamped segments with search, copy, and TXT download once source audio or an official transcript has been checked. No segments are published for the thirteen recordings because their public posts provide neither a complete transcript nor reviewable spoken content through the available access path. The panel says this directly instead of displaying invented dialogue, key messages, or decisions.
 - These are the publicly visible recordings found and checked in this pass, not a complete historical archive. Additional videos and transcripts require individual permalink checks and authorized audio or transcript access.
 
 ## Primary links
