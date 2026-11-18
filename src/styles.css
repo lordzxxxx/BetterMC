@@ -21565,3 +21565,47 @@ pre {
   .official-video-channels { flex-direction: column; align-items: stretch; padding: 16px; }
   .official-video-channel-links { display: grid; grid-template-columns: minmax(0,1fr); }
 }
+
+/* Source-linked recording library shared by council and BAC pages. */
+.civic-recordings { display: grid; gap: 16px; min-width: 0; }
+.civic-recordings-heading { display: flex; justify-content: space-between; align-items: end; gap: 16px; }
+.civic-recordings-heading h2 { margin: 5px 0 3px; color: #10213b; font-size: clamp(1.4rem,2.4vw,2rem); line-height: 1.15; }
+.civic-recordings-heading p { margin: 0; color: #536780; font-size: .9rem; }
+.civic-recordings-heading > strong { flex: none; color: #536780; font-size: .82rem; font-weight: 600; }
+.civic-recordings-filters { display: flex; align-items: end; flex-wrap: wrap; gap: 10px; padding: 14px; border: 1px solid #cad9e9; border-radius: 12px; background: #fff; }
+.civic-recordings-filters label { display: grid; flex: 1 1 260px; min-width: 0; gap: 6px; color: #314968; font-size: .78rem; font-weight: 650; }
+.civic-recordings-filters label + label { flex: 0 1 230px; }
+.civic-recordings-filters input, .civic-recordings-filters select { width: 100%; min-width: 0; height: 44px; padding: 0 12px; border: 1px solid #aec7e4; border-radius: 8px; background: #fff; color: #172b49; font: inherit; font-size: .9rem; }
+.civic-recordings-filters button { height: 44px; padding: 0 14px; border: 1px solid #aec7e4; border-radius: 8px; background: #fff; color: #164c9b; font: inherit; font-size: .83rem; font-weight: 650; cursor: pointer; }
+.civic-recordings-filters :is(input,select,button):focus-visible, .civic-recording-card button:focus-visible { outline: 3px solid #78a8e5; outline-offset: 2px; }
+.civic-recordings-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; }
+.civic-recording-card { min-width: 0; overflow: hidden; border: 1px solid #cad9e9; border-radius: 12px; background: #fff; }
+.civic-recording-card button { display: grid; grid-template-rows: auto 1fr; width: 100%; height: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.civic-recording-card button:hover .civic-recording-action { text-decoration: underline; }
+.civic-recording-image { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; background: #dce6f2; }
+.civic-recording-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.civic-recording-play { position: absolute; top: 50%; left: 50%; display: grid; place-items: center; width: 48px; height: 48px; transform: translate(-50%,-50%); border-radius: 50%; background: #fff; color: #164c9b; box-shadow: 0 2px 12px #07162e55; }
+.civic-recording-duration { position: absolute; right: 10px; bottom: 10px; padding: 3px 6px; border-radius: 4px; background: #10213be0; color: #fff; font-size: .75rem; font-variant-numeric: tabular-nums; }
+.civic-recording-body { display: flex; flex-direction: column; gap: 7px; min-height: 155px; padding: 15px; }
+.civic-recording-body small { color: #1b56a6; font-size: .72rem; font-weight: 700; }
+.civic-recording-body > strong { color: #10213b; font-size: 1rem; line-height: 1.3; }
+.civic-recording-body > span:not(.civic-recording-action) { color: #566b84; font-size: .82rem; }
+.civic-recording-action { display: inline-flex; align-items: center; gap: 5px; margin-top: auto; color: #164c9b; font-size: .84rem; font-weight: 700; }
+.civic-recording-action svg { width: 15px; height: 15px; }
+.civic-recording-detail { max-width: 1050px; margin-inline: auto; padding: 22px; border: 1px solid #cad9e9; border-radius: 14px; background: #fff; }
+.civic-recording-detail .record-video { margin-top: 12px; }
+.bac-livestream-page .bac-livestream-top-grid { grid-template-columns: minmax(0,1fr); }
+@media (max-width: 1050px) { .civic-recordings-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 650px) {
+  .hearings-page .procurement-page-nav,
+  .bac-livestream-page .procurement-page-nav { display: flex; flex-wrap: nowrap; gap: 6px; width: 100%; overflow-x: auto; padding: 4px 2px 8px; scrollbar-width: thin; scroll-snap-type: x proximity; }
+  .hearings-page .procurement-page-nav a,
+  .bac-livestream-page .procurement-page-nav a { flex: 0 0 auto; width: auto; max-width: 230px; min-height: 40px; padding: 8px 12px; text-align: left; scroll-snap-align: start; }
+  .civic-recordings-heading { align-items: start; }
+  .civic-recordings-heading > strong { padding-top: 4px; }
+  .civic-recordings-filters { padding: 12px; }
+  .civic-recordings-filters label, .civic-recordings-filters label + label { flex-basis: 100%; }
+  .civic-recordings-grid { grid-template-columns: minmax(0,1fr); }
+  .civic-recording-body { min-height: 0; }
+  .civic-recording-detail { padding: 15px; }
+}

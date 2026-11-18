@@ -15,12 +15,15 @@
 
 ## Recordings and transcripts
 
-- The BAC meeting dated 18 November 2026 has one directly identified Facebook video URL. Its local thumbnail was obtained from the video page's public Open Graph image. The source page and a click-to-load Facebook embed remain available.
+- Thirteen distinct public video permalinks were inspected: five full 10th Sangguniang Panlungsod regular sessions on [Vice Mayor Marabe's video page](https://www.facebook.com/estelitolitoymarabe/videos/), five BAC meetings and one media forum on the [City Government video page](https://www.facebook.com/profile.php?id=100063747444247&sk=videos), one BAC meeting on the [BAC office video page](https://www.facebook.com/bacmalaybalay/videos/), and one public discussion on [Mayor Pabillaran's video page](https://www.facebook.com/mayorwarrenpabillaran/videos/). Each has its own BetterMC card and permanent page. The original URLs are in `src/civicRecordings.ts`.
+- The video thumbnails were obtained from each public video's Open Graph metadata and stored locally at 960 × 540 pixels. Each card links to its exact source. The Facebook embed loads only when a visitor chooses to play it.
+- The five council session dates were read from the dates printed in the publisher's video preview image: 70th (17 November), 69th (10 November), 68th (3 November), 67th (27 October), and 66th (20 October 2026). An event date is not inferred for City videos whose visible title does not state it.
+- The user's additional share links were resolved and deduplicated by underlying video ID. The duplicate BAC post permalink was reviewed as a post, not presented as another recording.
 - BetterMC now links directly to the City Government and BAC LGU Malaybalay video libraries from the hearings and procurement sections. These are official publishing channels; the links are browsable even when a particular recording has not yet been indexed as its own BetterMC record.
 - The Facebook player may require Facebook access or may change availability. Loading an embed is not proof that playback succeeds for every visitor.
-- Other indexed hearing and procurement records do not have verified direct video URLs. BetterMC does not attach a general Facebook page as if it were a specific recording.
-- No reviewed verbatim transcript exists for the indexed BAC recording or the local hearing entries. Procurement amounts and outcomes shown on BetterMC derive from separately linked disclosure documents, not an unreviewed recording.
-- Public Facebook search did not establish a complete archive. Additional videos and transcripts require individually verified permalinks and authorized audio or transcript access.
+- Other indexed hearing and procurement documents still lack a verified matching video URL. BetterMC does not attach a general Facebook page as if it were a specific recording, or attach a BAC video to an unrelated bid result.
+- No reviewed verbatim transcript or discussion summary exists for these thirteen recordings. Procurement amounts and outcomes shown on BetterMC derive from separately linked disclosure documents, not an unreviewed recording.
+- These are the publicly visible recordings found and checked in this pass, not a complete historical archive. Additional videos and transcripts require individual permalink checks and authorized audio or transcript access.
 
 ## Primary links
 

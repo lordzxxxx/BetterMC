@@ -105,6 +105,7 @@ import {
   type LegislativeHearingRecord,
   type BudgetAllocationItem,
 } from "./publicInformation";
+import { civicRecordings, type CivicRecording } from "./civicRecordings";
 import {
   barangayMicrositeBySlug,
   barangayMicrosites,
@@ -2057,6 +2058,74 @@ function FacebookVideo({ url, title, poster }: { url: string; title: string; pos
   </div>;
 }
 
+function recordingDateLabel(recording: CivicRecording) {
+  if (recording.eventDate) return recording.eventDate;
+  if (recording.publishedDate) return `Published ${recording.publishedDate}`;
+  return "Date unavailable";
+}
+
+function CivicRecordingContent({ recording }: { recording: CivicRecording }) {
+  return <>
+    <p className="record-dialog-meta">{recording.category} · {recordingDateLabel(recording)}{recording.duration ? ` · ${recording.duration}` : ""}</p>
+    <FacebookVideo url={recording.sourceUrl} title={recording.title} poster={recording.poster} />
+    <p>{recording.description}</p>
+    <p className="record-dialog-note">BetterMC has not published a reviewed transcript or discussion summary for this recording. Open the original video to hear the full session; no outcome is inferred from its title.</p>
+    <div className="record-dialog-links"><a href={recording.sourceUrl} target="_blank" rel="noopener noreferrer">Original video on Facebook <ExternalLink aria-hidden="true" /></a></div>
+  </>;
+}
+
+function CivicRecordingCard({ recording, onOpen }: { recording: CivicRecording; onOpen: () => void }) {
+  return <article className="civic-recording-card">
+    <button type="button" onClick={onOpen} aria-label={`Open ${recording.title}`}>
+      <span className="civic-recording-image">
+        <img src={recording.poster} alt="" loading="lazy" decoding="async" />
+        <span className="civic-recording-play" aria-hidden="true">▶</span>
+        {recording.duration && <span className="civic-recording-duration">{recording.duration}</span>}
+      </span>
+      <span className="civic-recording-body">
+        <small>{recording.category} · {recordingDateLabel(recording)}</small>
+        <strong>{recording.title}</strong>
+        <span>{recording.publisher}</span>
+        <span className="civic-recording-action">Watch recording <ArrowRight aria-hidden="true" /></span>
+      </span>
+    </button>
+  </article>;
+}
+
+function CivicRecordingsSection({ category }: { category: "hearing" | "procurement" }) {
+  const [openId, setOpenId] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+  const [type, setType] = useState("All");
+  const records = civicRecordings.filter((recording) =>
+    category === "procurement" ? recording.category === "BAC meeting" : recording.category !== "BAC meeting",
+  );
+  const types = [...new Set(records.map((recording) => recording.category))];
+  const filtered = records.filter((recording) =>
+    (type === "All" || recording.category === type) &&
+    `${recording.title} ${recording.publisher} ${recording.description}`
+      .toLowerCase()
+      .includes(query.trim().toLowerCase()),
+  );
+  const active = records.find((recording) => recording.id === openId);
+  return <section className="civic-recordings" aria-labelledby={`${category}-recordings-heading`}>
+    <div className="civic-recordings-heading"><div><span className="eyebrow">Original recordings</span><h2 id={`${category}-recordings-heading`}>{category === "procurement" ? "BAC meeting videos" : "Council sessions and city recordings"}</h2><p>Watch recordings on their own BetterMC page or open the original publisher’s video.</p></div><strong>{filtered.length} videos</strong></div>
+    <div className="civic-recordings-filters"><label><span>Search videos</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search recording title" /></label>{types.length > 1 && <label><span>Type</span><select value={type} onChange={(event) => setType(event.target.value)}><option value="All">All recordings</option>{types.map((item) => <option key={item}>{item}</option>)}</select></label>}{(query || type !== "All") && <button type="button" onClick={() => { setQuery(""); setType("All"); }}>Clear</button>}</div>
+    <div className="civic-recordings-grid">{filtered.map((recording) =>
+      <CivicRecordingCard key={recording.id} recording={recording} onOpen={() => setOpenId(recording.id)} />,
+    )}</div>
+    {!filtered.length && <p className="empty-state" role="status">No recordings match these filters.</p>}
+    {active && <RecordDialog title={active.title} onClose={() => setOpenId(null)}><CivicRecordingContent recording={active} /><div className="record-dialog-links"><Link to={`/recordings/${active.id}`} onClick={() => setOpenId(null)}>Open permanent page <ArrowRight aria-hidden="true" /></Link></div></RecordDialog>}
+  </section>;
+}
+
+function CivicRecordingPage() {
+  const { id } = useParams<{ id: string }>();
+  const recording = civicRecordings.find((item) => item.id === id);
+  if (!recording) return <NotFoundPage />;
+  const back = recording.category === "BAC meeting" ? "/procurement/livestreams" : "/hearings";
+  return <><PageHero eyebrow={recording.category} title={recording.title} description={`Original recording published by ${recording.publisher}.`} compact><Link className="page-hero-backlink" to={back}><ArrowLeft aria-hidden="true" /> Return to recordings</Link></PageHero><section className="section container civic-recording-detail"><CivicRecordingContent recording={recording} /><p className="source-availability-note">Source link reviewed 18 November 2026. Playback availability is controlled by Facebook.</p></section></>;
+}
+
 function OfficialVideoChannels({ includeBac = false }: { includeBac?: boolean }) {
   const channels = [
     { label: "City Government videos", url: OFFICIAL_CITY_VIDEOS_URL },
@@ -2261,7 +2330,7 @@ function BacLivestreamMonitoringPage() {
       `${entry.referenceCode} ${entry.projectName} ${entry.participatingAgencyOrBarangay} ${entry.identifiedContractorOrBidder} ${entry.procurementStatus}`
         .toLowerCase()
         .includes(deferredQuery);
-    return matchesQuery;
+    return matchesQuery && !entry.videoUrl;
   });
 
   const formatBudget = (value: number | null) =>
@@ -2279,6 +2348,7 @@ function BacLivestreamMonitoringPage() {
         eyebrow="BAC LGU Malaybalay · Procurement records"
         title="BAC bidding records and recordings"
         description="Review published bid documents and outcomes. Recordings appear here when a direct, playable source is verified."
+        className="hearings-hero"
         compact
       />
       <section className="section container procurement-page bac-livestream-page">
@@ -2292,6 +2362,8 @@ function BacLivestreamMonitoringPage() {
             </NavLink>
           ))}
         </nav>
+
+        <CivicRecordingsSection category="procurement" />
 
         <div className="bac-livestream-top-grid">
           <article className="bac-livestream-overview-card">
@@ -2321,15 +2393,6 @@ function BacLivestreamMonitoringPage() {
             <p className="bac-report-snapshot-note">These reports are an earlier source review. Their Facebook access note predates the verified video link shown here; no transcript has been added to them.</p>
           </article>
 
-          <aside className="bac-livestream-embed-card">
-            <div className="bac-embed-header">
-              <div>
-                <span className="eyebrow">Verified Facebook recording</span>
-                <h3>BAC meeting · 18 November 2026</h3>
-              </div>
-            </div>
-            <FacebookVideo url={bacLivestreamSummary.verifiedVideoUrl} title="BAC meeting, 18 November 2026" poster="/images/bac-meeting-2026-11-18.jpg" />
-          </aside>
         </div>
 
         <OfficialVideoChannels includeBac />
@@ -3704,12 +3767,12 @@ function LegislativeHearingsPage() {
       <PageHero
         eyebrow="City Council records"
         title="Hearings and sessions"
-        description="Browse Malaybalay City Council proceedings and source-linked public consultations. National budget briefings appear only as related context."
+        description="Watch Malaybalay City Council proceedings and public consultations. Browse BAC recordings in the procurement section."
         className="hearings-hero"
         compact
       />
       <section className="section container legislation-page hearings-page">
-        <nav className="procurement-page-nav" aria-label="Legislative sections">
+        <nav className="procurement-page-nav" aria-label="Public record sections">
           <NavLink to="/legislation" end>
             Published ordinances &amp; executive issuances
           </NavLink>
@@ -3717,9 +3780,9 @@ function LegislativeHearingsPage() {
             Legislative sessions &amp; public hearings
           </NavLink>
           <NavLink to="/budget">Budget transparency</NavLink>
+          <NavLink to="/procurement/livestreams">BAC recordings</NavLink>
         </nav>
-
-        <p className="hearings-intro">City Council proceedings and referenced national briefings are listed here. <Link to="/procurement/livestreams">Browse BAC procurement records</Link> separately.</p>
+        <CivicRecordingsSection category="hearing" />
         <OfficialVideoChannels />
 
         <div className="legislation-toolbar hearings-toolbar">
@@ -7453,6 +7516,7 @@ export default function App() {
         <Route path="/transparency" element={<TransparencyPage />} />
         <Route path="/budget" element={<BudgetTransparencyPage />} />
         <Route path="/hearings" element={<LegislativeHearingsPage />} />
+        <Route path="/recordings/:id" element={<CivicRecordingPage />} />
         <Route path="/hearings/:id" element={<PublicProceedingDetailPage kind="hearing" />} />
         <Route path="/procurement/livestreams" element={<BacLivestreamMonitoringPage />} />
         <Route path="/procurement/livestreams/:id" element={<PublicProceedingDetailPage kind="procurement" />} />
