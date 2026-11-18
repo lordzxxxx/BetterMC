@@ -10634,7 +10634,8 @@ kbd {
 
 .procurement-page-nav {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  justify-content: center;
   gap: 8px;
   padding: 8px;
   border: 1px solid var(--civic-material-border);
@@ -10643,6 +10644,10 @@ kbd {
   box-shadow: var(--civic-shadow);
   backdrop-filter: blur(18px) saturate(118%);
   -webkit-backdrop-filter: blur(18px) saturate(118%);
+}
+
+.procurement-page-nav[aria-label="Transparency and budget sections"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .procurement-page-nav a {
@@ -21380,6 +21385,13 @@ pre {
     scrollbar-width: none;
   }
 
+  .procurement-page-nav[aria-label="Transparency and budget sections"] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow-x: visible;
+    padding-bottom: 8px;
+  }
+
   .procurement-page-nav::-webkit-scrollbar {
     display: none;
   }
@@ -21387,6 +21399,11 @@ pre {
   .procurement-page-nav a {
     flex: 0 0 auto;
     white-space: nowrap;
+  }
+
+  .procurement-page-nav[aria-label="Transparency and budget sections"] a {
+    white-space: normal;
+    text-align: center;
   }
 
   .bac-entries-table-wrap {
