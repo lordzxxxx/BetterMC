@@ -3612,7 +3612,7 @@ kbd {
 .footer-transparency-promise {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
   align-items: center;
   gap: 32px;
   margin-bottom: 34px;
@@ -3622,44 +3622,61 @@ kbd {
   background: rgba(255, 255, 255, 0.055);
 }
 .footer-transparency-promise > div:first-child {
-  text-align: center;
+  display: grid;
+  gap: 6px;
+  text-align: left;
 }
-.footer-transparency-promise .eyebrow { color: #aecaff; }
+.footer-transparency-promise .eyebrow {
+  margin: 0;
+  color: #aecaff;
+}
 .footer-transparency-promise h2 {
-  max-width: 620px;
-  margin: 7px auto 6px;
+  max-width: 640px;
+  margin: 0;
   color: #fff;
-  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  font-size: clamp(1.15rem, 1.85vw, 1.45rem);
   line-height: 1.25;
+  text-wrap: balance;
 }
 .footer-transparency-promise p {
   max-width: 680px;
-  margin: 0 auto;
+  margin: 0;
   color: #c5d3e8;
   line-height: 1.55;
+  text-wrap: pretty;
 }
 .footer-transparency-promise dl {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  align-items: stretch;
+  gap: 12px;
   margin: 0;
   text-align: center;
 }
 .footer-transparency-promise dl > div {
   min-width: 0;
-  padding: 14px;
+  display: grid;
+  grid-template-rows: minmax(2.7em, auto) auto;
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
+  padding: 16px 14px;
   border: 1px solid rgba(206, 223, 248, 0.2);
   border-radius: 12px;
   background: rgba(8, 24, 49, 0.32);
 }
 .footer-transparency-promise dt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #c9d8ed;
   font-size: 0.74rem;
   font-weight: 700;
   line-height: 1.35;
+  text-wrap: balance;
 }
 .footer-transparency-promise dd {
-  margin: 5px 0 0;
+  margin: 0;
   color: #fff;
   font-size: clamp(1.35rem, 2vw, 1.8rem);
   font-weight: 800;
