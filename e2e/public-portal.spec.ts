@@ -382,6 +382,24 @@ test("footer publishes civic contribution and verified city channels", async ({
   await expect(
     page.getByRole("link", { name: /Powered by\s*BetterGov/i }),
   ).toHaveAttribute("href", "https://lgu.bettergov.ph/");
+  await expect(page.getByText("Cost of This Website")).toBeVisible();
+  await expect(page.getByText("Cost to the People of Malaybalay")).toBeVisible();
+  await expect(page.getByText("₱0")).toHaveCount(2);
+});
+
+test("transparency cross-section links preserve the previous route", async ({ page }) => {
+  await page.goto("/transparency");
+
+  await page.getByRole("link", { name: "BAC Livestreams & Bidding" }).click();
+  await expect(page).toHaveURL(/\/procurement\/livestreams$/);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/transparency$/);
+
+  await page.getByRole("link", { name: "Legislative & Budget Hearings" }).click();
+  await expect(page).toHaveURL(/\/hearings$/);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/transparency$/);
+  await expect(page.getByText("Published record does not always mean named authorship")).toHaveCount(0);
 });
 
 test("procurement sources preserve record scope", async ({ page }) => {

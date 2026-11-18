@@ -6,6 +6,7 @@ import {
   ReactNode,
   useDeferredValue,
   useEffect,
+  useLayoutEffect,
   useId,
   useMemo,
   useRef,
@@ -67,6 +68,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigationType,
   useParams,
   useSearchParams,
 } from "react-router-dom";
@@ -166,7 +168,6 @@ import {
   educationInstitutions,
   schoolSlugFromHostname,
   type EducationInstitution,
-  ordinanceResearchNotice,
   type EducationLevel,
   type InstitutionType,
 } from "./civicDirectories";
@@ -667,6 +668,23 @@ function Header() {
 function Footer() {
   return (
     <footer className="site-footer">
+      <section className="container footer-transparency-promise" aria-labelledby="footer-transparency-title">
+        <div>
+          <span className="eyebrow">Independent civic commitment</span>
+          <h2 id="footer-transparency-title">Transparent public information should be accessible to everyone.</h2>
+          <p>Public information and better services should be done right. BetterMC is just doing it better.</p>
+        </div>
+        <dl aria-label="Website cost statement">
+          <div>
+            <dt>Cost of This Website</dt>
+            <dd>₱0</dd>
+          </div>
+          <div>
+            <dt>Cost to the People of Malaybalay</dt>
+            <dd>₱0</dd>
+          </div>
+        </dl>
+      </section>
       <div className="container footer-grid">
         <section className="footer-intro" aria-labelledby="footer-purpose">
           <Brand />
@@ -837,8 +855,33 @@ function MobileAppTabBar() {
 }
 
 function Layout({ children }: { children: ReactNode }) {
-  const { pathname, hash } = useLocation();
-  useEffect(() => {
+  const { pathname, search, hash } = useLocation();
+  const navigationType = useNavigationType();
+  const scrollPositions = useRef(new Map<string, number>());
+  const locationKey = `${pathname}${search}`;
+
+  useLayoutEffect(() => {
+    const saveScrollPosition = () => {
+      scrollPositions.current.set(locationKey, window.scrollY);
+    };
+    const saveBeforeLinkNavigation = (event: PointerEvent | KeyboardEvent) => {
+      if (event instanceof KeyboardEvent && event.key !== "Enter") return;
+      if ((event.target as Element | null)?.closest("a[href]")) {
+        saveScrollPosition();
+      }
+    };
+    window.addEventListener("scroll", saveScrollPosition, { passive: true });
+    window.addEventListener("pointerdown", saveBeforeLinkNavigation, true);
+    window.addEventListener("keydown", saveBeforeLinkNavigation, true);
+    return () => {
+      saveScrollPosition();
+      window.removeEventListener("scroll", saveScrollPosition);
+      window.removeEventListener("pointerdown", saveBeforeLinkNavigation, true);
+      window.removeEventListener("keydown", saveBeforeLinkNavigation, true);
+    };
+  }, [locationKey]);
+
+  useLayoutEffect(() => {
     if (hash) {
       window.requestAnimationFrame(() =>
         document
@@ -847,8 +890,24 @@ function Layout({ children }: { children: ReactNode }) {
       );
       return;
     }
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, [pathname, hash]);
+    const previousPosition = navigationType === "POP"
+      ? scrollPositions.current.get(locationKey)
+      : undefined;
+    if (previousPosition !== undefined) {
+      let secondFrame = 0;
+      const firstFrame = window.requestAnimationFrame(() => {
+        window.scrollTo({ top: previousPosition, left: 0, behavior: "instant" });
+        secondFrame = window.requestAnimationFrame(() => {
+          window.scrollTo({ top: previousPosition, left: 0, behavior: "instant" });
+        });
+      });
+      return () => {
+        window.cancelAnimationFrame(firstFrame);
+        window.cancelAnimationFrame(secondFrame);
+      };
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [hash, locationKey, navigationType]);
   useEffect(() => {
     const educationProfile = pathname.startsWith("/education/")
       ? educationInstitutions.find((institution) => pathname === `/education/${institution.slug}`)
@@ -3949,22 +4008,6 @@ function LegislationPage() {
               </div>
             ),
           )}
-        </div>
-        <div className="data-notice">
-          <CircleAlert aria-hidden="true" />
-          <div>
-            <strong>Published record does not always mean named authorship</strong>
-            <p>
-              BetterMC attributes a measure to an individual only when the
-              reviewed official source names that author or sponsor. Otherwise,
-              the responsible office or legislative institution is shown.
-            </p>
-            <p>
-              <a href={ordinanceResearchNotice.source.url} target="_blank" rel="noreferrer">
-                Review the official publication archive <ExternalLink aria-hidden="true" />
-              </a>. {ordinanceResearchNotice.note}
-            </p>
-          </div>
         </div>
         <div className="legislation-toolbar">
           <label className="directory-search">

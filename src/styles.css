@@ -432,6 +432,7 @@
 }
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 body {
   margin: 0;
@@ -449,7 +450,7 @@ body {
       transparent 34rem
     ),
     linear-gradient(135deg, #f7fbff 0%, #eaf5ff 50%, #f8fcff 100%);
-  background-attachment: fixed;
+  background-attachment: scroll;
 }
 button,
 input,
@@ -3608,6 +3609,62 @@ kbd {
   background: rgba(91, 135, 193, 0.12);
   filter: blur(46px);
 }
+.footer-transparency-promise {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 34px;
+  padding: 24px 28px;
+  border: 1px solid rgba(178, 207, 248, 0.28);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.055);
+}
+.footer-transparency-promise > div:first-child {
+  text-align: center;
+}
+.footer-transparency-promise .eyebrow { color: #aecaff; }
+.footer-transparency-promise h2 {
+  max-width: 620px;
+  margin: 7px auto 6px;
+  color: #fff;
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  line-height: 1.25;
+}
+.footer-transparency-promise p {
+  max-width: 680px;
+  margin: 0 auto;
+  color: #c5d3e8;
+  line-height: 1.55;
+}
+.footer-transparency-promise dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  text-align: center;
+}
+.footer-transparency-promise dl > div {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(206, 223, 248, 0.2);
+  border-radius: 12px;
+  background: rgba(8, 24, 49, 0.32);
+}
+.footer-transparency-promise dt {
+  color: #c9d8ed;
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.footer-transparency-promise dd {
+  margin: 5px 0 0;
+  color: #fff;
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1;
+}
 .site-footer .brand-main,
 .site-footer .brand-wordmark {
   background: white;
@@ -4025,9 +4082,6 @@ kbd {
 }
 
 .search-results-count {
-  position: sticky;
-  top: 0;
-  z-index: 1;
   padding: 8px 13px !important;
   border-bottom: 1px solid #e1eaf5;
   color: #5c708d !important;
@@ -19343,6 +19397,17 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 }
 
 @media (max-width: 760px) {
+  .footer-transparency-promise {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-bottom: 24px;
+    padding: 20px;
+  }
+
+  .footer-transparency-promise dl > div {
+    padding: 12px;
+  }
+
   .barangay-official-card-main {
     min-height: 78px;
   }
@@ -21420,7 +21485,7 @@ pre {
 .procurement-index .bid-record-list button svg { grid-column: 2; grid-row: 1 / 3; width: 16px; height: 16px; color: #2155a1; }
 .record-dialog-backdrop { position: fixed; inset: 0; z-index: 500; display: grid; place-items: center; padding: 20px; background: rgba(8,22,44,.72); }
 .record-dialog { width: min(100%,840px); max-height: min(88vh,940px); overflow: auto; overscroll-behavior: contain; border: 1px solid #c7d8e8; border-radius: 16px; background: #fff; color: #172b49; box-shadow: 0 24px 70px rgba(5,20,45,.28); }
-.record-dialog-head { position: sticky; top: 0; z-index: 2; display: flex; align-items: start; justify-content: space-between; gap: 16px; padding: 18px 22px; border-bottom: 1px solid #e0e8f0; background: #fff; }
+.record-dialog-head { display: flex; align-items: start; justify-content: space-between; gap: 16px; padding: 18px 22px; border-bottom: 1px solid #e0e8f0; background: #fff; }
 .record-dialog-head h2 { margin: 0; font-size: clamp(1.1rem,2.5vw,1.5rem); font-weight: 700; line-height: 1.32; }
 .record-dialog-head button { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid #d2dce8; border-radius: 9px; background: #fff; color: #172b49; cursor: pointer; }
 .record-dialog-head button svg { width: 20px; height: 20px; }

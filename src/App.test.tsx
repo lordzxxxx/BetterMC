@@ -766,6 +766,9 @@ describe("BetterMC public portal", () => {
     expect(
       screen.getByRole("link", { name: /Powered by\s*BetterGov/i }),
     ).toHaveAttribute("href", "https://lgu.bettergov.ph/");
+    expect(screen.getByText("Cost of This Website")).toBeInTheDocument();
+    expect(screen.getByText("Cost to the People of Malaybalay")).toBeInTheDocument();
+    expect(screen.getAllByText("₱0")).toHaveLength(2);
   });
 
   it("uses an accessible request-type menu with keyboard selection", () => {
