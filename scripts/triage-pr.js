@@ -18,7 +18,7 @@
  * Writes `labels` to $GITHUB_OUTPUT and a comment body to $COMMENT_FILE.
  */
 
-const fs = require('fs');
+import fs from 'node:fs';
 
 const START_MARKER = '<!-- SYNC_LGU_TABLE_START -->';
 const END_MARKER = '<!-- SYNC_LGU_TABLE_END -->';
