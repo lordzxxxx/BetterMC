@@ -21307,3 +21307,14 @@ pre {
   }
 }
 
+.proceeding-detail { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(260px, .8fr); gap: 1.25rem; align-items: start; }
+.proceeding-detail-main, .proceeding-detail-source { min-width: 0; padding: clamp(1.25rem, 3vw, 2rem); background: #fff; border: 1px solid #c8d8ed; border-radius: 1rem; }
+.proceeding-detail-main h2, .proceeding-detail-source h2 { margin: .5rem 0 1rem; }
+.proceeding-detail-main h3 { margin: 1.5rem 0 .5rem; }
+.proceeding-detail-main li { margin: .4rem 0; }
+.proceeding-detail-source { display: grid; gap: .75rem; overflow-wrap: anywhere; }
+.proceeding-detail-source a:not(.button) { color: #17449d; }
+.proceeding-note { padding: 1rem; border-left: 3px solid #235bc1; background: #f1f6fd; }
+.hearing-record-link { display: inline-flex; align-items: center; gap: .35rem; margin: .5rem 0 1rem; color: #17449d; }
+.hearing-record-link svg, .bac-entries-table a svg { width: 1rem; height: 1rem; }
+@media (max-width: 780px) { .proceeding-detail { grid-template-columns: minmax(0, 1fr); } }

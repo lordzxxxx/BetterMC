@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import App from "./App";
+import { legislativeHearingRecords, bacLivestreamEntries } from "./publicInformation";
 import {
   barangayMicrosites,
   barangaySlugFromHostname,
@@ -26,6 +27,19 @@ import {
 } from "./civicDirectories";
 
 describe("BetterMC public portal", () => {
+  it("opens separate sourced detail pages for legislative and BAC records", () => {
+    const hearing = legislativeHearingRecords[0];
+    const hearingView = render(<MemoryRouter initialEntries={[`/hearings/${hearing.id}`]}><App /></MemoryRouter>);
+    expect(screen.getByRole("heading", { name: hearing.title })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Official City Government of Malaybalay Facebook Page/i })).toHaveAttribute("href", hearing.sourceUrl);
+    expect(screen.getByText(/No independently accessible recording or reviewed transcript/)).toBeInTheDocument();
+    hearingView.unmount();
+
+    const procurement = bacLivestreamEntries[0];
+    render(<MemoryRouter initialEntries={[`/procurement/livestreams/${procurement.id}`]}><App /></MemoryRouter>);
+    expect(screen.getByRole("heading", { name: procurement.projectName })).toBeInTheDocument();
+    expect(screen.getByText(procurement.referenceCode)).toBeInTheDocument();
+  });
   it("keeps source-led education and document routes available without inventing missing details", () => {
     expect(educationInstitutions.length).toBeGreaterThan(10);
     for (const institution of educationInstitutions) {

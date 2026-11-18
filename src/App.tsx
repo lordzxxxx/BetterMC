@@ -2509,6 +2509,7 @@ function BacLivestreamMonitoringPage() {
                   <td>
                     <strong>{entry.referenceCode}</strong>
                     <small>{entry.activityType}</small>
+                    <Link to={`/procurement/livestreams/${entry.id}`}>View record <ArrowRight aria-hidden="true" /></Link>
                   </td>
                   <td>
                     <strong>{entry.projectName}</strong>
@@ -3753,6 +3754,53 @@ function BarangayDocumentPage() {
   return <><PageHero eyebrow="Barangay document service" title={`Barangay ${profile.name} document guide`} description="A source-led starting point; confirm requirements and fees with the issuing Barangay Hall." compact><Link className="page-hero-backlink" to={`/barangays/${profile.slug}`}>Return to barangay profile <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-detail-layout"><article className="civic-detail-main"><h2>Certificates and clearances</h2><p>{guide.requirements[0]}</p><ol className="civic-steps">{guide.steps.map((step) => <li key={step}>{step}</li>)}</ol><dl className="legislation-detail-facts"><div><dt>Issuing office</dt><dd>Barangay {profile.name} Hall</dd></div><div><dt>Fee and processing time</dt><dd>Not published as a citywide standard; confirm directly with Barangay {profile.name}.</dd></div><div><dt>Official contact</dt><dd>{profile.phone ?? profile.email ?? "No direct contact was published in the reviewed directory."}</dd></div></dl></article><aside className="legislation-source-card"><FileCheck2 aria-hidden="true" /><span className="eyebrow">Official reference</span><h2>Confirm the local procedure</h2><p>BetterMC does not publish a template, fee, or release time for this barangay without a matching official source.</p><a className="button primary" href={guide.source.url} target="_blank" rel="noreferrer">Open barangay directory <ExternalLink aria-hidden="true" /></a></aside></section></>;
 }
 
+function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" }) {
+  const { id } = useParams<{ id: string }>();
+  const hearing = kind === "hearing" ? legislativeHearingRecords.find((item) => item.id === id) : undefined;
+  const procurement = kind === "procurement" ? bacLivestreamEntries.find((item) => item.id === id) : undefined;
+  if (!hearing && !procurement) return <NotFoundPage />;
+
+  const title = hearing?.title ?? procurement?.projectName ?? "";
+  const sourceUrl = hearing?.sourceUrl ?? procurement?.sourceUrl ?? "";
+  const sourceLabel = hearing?.sourceLabel ?? procurement?.sourceLabel ?? "Original source";
+  const back = hearing ? "/hearings" : "/procurement/livestreams";
+  return <>
+    <PageHero eyebrow={hearing ? "Legislative record" : "BAC procurement record"} title={title} description="Review the available source, record context, and verification limits." compact>
+      <Link className="page-hero-backlink" to={back}>Return to records <ArrowRight aria-hidden="true" /></Link>
+    </PageHero>
+    <section className="section container proceeding-detail">
+      <article className="proceeding-detail-main">
+        <span className="eyebrow">{hearing?.sessionType ?? procurement?.activityType}</span>
+        <h2>What the available record says</h2>
+        {hearing ? <>
+          <p>{hearing.statementsAndDecisions}</p>
+          <h3>Topics recorded in the source summary</h3>
+          <ul>{hearing.agendaItems.map((item) => <li key={item}>{item}</li>)}</ul>
+          <p className="proceeding-note">{hearing.verificationNotes}</p>
+        </> : <>
+          <p>{procurement?.procurementStatus}</p>
+          <dl className="legislation-detail-facts">
+            <div><dt>Reference</dt><dd>{procurement?.referenceCode}</dd></div>
+            <div><dt>Office or barangay</dt><dd>{procurement?.participatingAgencyOrBarangay}</dd></div>
+            <div><dt>Schedule or period</dt><dd>{procurement?.scheduleOrPeriod}</dd></div>
+            <div><dt>Approved Budget for the Contract</dt><dd>{procurement?.proposedBudgetAbc == null ? "Not available in this record" : new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP" }).format(procurement.proposedBudgetAbc)}</dd></div>
+          </dl>
+          <p className="proceeding-note">{procurement?.approvedAmountNote}</p>
+        </>}
+        <h3>Recording and transcript</h3>
+        <p>No independently accessible recording or reviewed transcript is attached to this record. Video playback, timestamp seeking, and transcript downloads will appear only after the source material has been obtained and checked.</p>
+      </article>
+      <aside className="proceeding-detail-source">
+        <span className="eyebrow">Source and status</span>
+        <h2>Check the original</h2>
+        <p>{hearing?.verificationStatus ?? procurement?.verificationCategory}</p>
+        <a className="button secondary" href={sourceUrl} target="_blank" rel="noopener noreferrer">{sourceLabel} <ExternalLink aria-hidden="true" /></a>
+        {hearing?.recordingOrReferenceUrl && <a href={hearing.recordingOrReferenceUrl} target="_blank" rel="noopener noreferrer">{hearing.recordingOrReferenceLabel ?? "Related reference"} <ExternalLink aria-hidden="true" /></a>}
+      </aside>
+    </section>
+  </>;
+}
+
 function LegislativeHearingsPage() {
   const [sessionFilter, setSessionFilter] = useState<
     "All" | LegislativeHearingRecord["sessionType"]
@@ -3877,6 +3925,7 @@ function LegislativeHearingsPage() {
                 </span>
               </div>
               <h2>{hearing.title}</h2>
+              <Link className="hearing-record-link" to={`/hearings/${hearing.id}`}>View record <ArrowRight aria-hidden="true" /></Link>
               <dl className="hearing-meta-dl">
                 <div>
                   <dt>Committee / Legislative Body</dt>
@@ -7631,7 +7680,9 @@ export default function App() {
         <Route path="/transparency" element={<TransparencyPage />} />
         <Route path="/budget" element={<BudgetTransparencyPage />} />
         <Route path="/hearings" element={<LegislativeHearingsPage />} />
+        <Route path="/hearings/:id" element={<PublicProceedingDetailPage kind="hearing" />} />
         <Route path="/procurement/livestreams" element={<BacLivestreamMonitoringPage />} />
+        <Route path="/procurement/livestreams/:id" element={<PublicProceedingDetailPage kind="procurement" />} />
         <Route path="/procurement/:category" element={<ProcurementPage />} />
         <Route
           path="/transparency/:year/:quarter/:slug"

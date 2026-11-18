@@ -1,6 +1,7 @@
 import { barangayMicrosites } from "../src/barangayProfiles.js";
 import { serviceCategories } from "../src/serviceCatalog.js";
 import { educationInstitutions } from "../src/civicDirectories.js";
+import { legislativeHearingRecords, bacLivestreamEntries } from "../src/publicInformation.js";
 
 export const config = { runtime: "edge" };
 
@@ -17,6 +18,8 @@ export default function handler(): Response {
     ...serviceCategories.map((category) => `/services/${category.slug}`),
     ...barangayMicrosites.map((barangay) => `/barangays/${barangay.slug}`),
     ...educationInstitutions.map((school) => `/education/${school.slug}`),
+    ...legislativeHearingRecords.map((record) => `/hearings/${record.id}`),
+    ...bacLivestreamEntries.map((record) => `/procurement/livestreams/${record.id}`),
   ];
   const urls = [...new Set(paths)]
     .map((path) => `<url><loc>${escapeXml(`${SITE_URL}${path}`)}</loc><changefreq>weekly</changefreq></url>`)
