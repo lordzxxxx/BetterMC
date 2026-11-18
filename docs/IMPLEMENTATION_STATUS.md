@@ -1,10 +1,18 @@
 # BetterMC implementation status
 
-Updated: **2026-11-11**
+Updated: **2026-11-18**
 
 ## Implemented
 
-- Responsive Vite/React portal with dedicated home, transparency, government, barangay, service, procurement, legislative, and participation routes.
+- Responsive Vite/React portal with dedicated home, transparency, budget (`/budget`), legislative hearings (`/hearings`), BAC livestream & procurement (`/procurement/livestreams`), government, barangay, education (`/education`), document guide (`/documents`), service, and participation routes.
+- First-time visitor welcome card with persistent `localStorage` dismissal and reopen control, plus a mobile app-like bottom navigation bar (`MobileAppTabBar`).
+- Homepage newsletter-style news & updates section with category tabs (`City Announcements`, `Resolutions & Ordinances`, `Council & Legislative`, `Hearings & Sessions`, `Procurement & Bidding`, `Public Advisories`) and in-depth civic discussion cards.
+- Dedicated BAC LGU Malaybalay Livestream Monitoring & Documentation hub (`/procurement/livestreams`) kept separate from legislative hearings, providing downloadable `.docx` and `.txt` documentation (`docs/BAC_LGU_MALAYBALAY_LIVESTREAM_DOCUMENTATION.docx` and `.txt`), on-demand Facebook Page plugin, documented platform access boundaries, and confirmed FDP Form 10a bidding outcomes.
+- Dedicated Legislative Sessions & Public Hearings section (`/hearings`) referencing `https://budget.bettergov.ph/hearings` alongside 10th Sangguniang Panlungsod sessions, committee hearings, and public consultations.
+- Dedicated Government Budget Transparency section (`/budget`) referencing `https://budget.bettergov.ph/hgab/2027/overview` with clear fiscal-year and jurisdictional separation between Malaybalay City local funds and national FY 2027 HGAB (HB 10858) line items.
+- Official Facebook pages (`<FacebookIcon />`) attached to 11 verified council and government official profiles, with 5 numeric `profile.php?id=` links explicitly flagged in the identity verification ledger rather than guessed by list order.
+- Complete localized addresses and barangay mappings across all Malaybalay City schools and DepEd division offices in `src/civicDirectories.ts`.
+- BetterGov.PH Kapwa typography (`Inter` loaded non-blocking via `index.html`) and over 1.4 MB of public image asset optimization.
 - Source-linked public records and current population figures labeled with their official reference period and release date.
 - Shared profiles for all 46 barangays, including overview, leadership, source references, procurement/disclosure records, maps, services, contacts, and emergency links.
 - Barangay leadership appears directly after the overview; the section navigation follows the same order.

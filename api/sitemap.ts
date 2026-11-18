@@ -5,7 +5,7 @@ import { educationInstitutions } from "../src/civicDirectories.js";
 export const config = { runtime: "edge" };
 
 const SITE_URL = "https://www.bettermalaybalay.cloud";
-const staticPaths = ["/", "/transparency", "/government", "/legislation", "/education", "/education/offices", "/procurement/bidding-opportunities", "/barangays", "/services", "/participate", "/about"];
+const staticPaths = ["/", "/transparency", "/budget", "/hearings", "/government", "/legislation", "/education", "/education/offices", "/procurement/livestreams", "/procurement/bidding-opportunities", "/barangays", "/services", "/participate", "/about"];
 
 function escapeXml(value: string): string {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");

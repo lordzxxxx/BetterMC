@@ -1,0 +1,241 @@
+================================================================================
+BAC LGU MALAYBALAY LIVESTREAM MONITORING, BIDDING ACTIVITIES, AND
+PROCUREMENT TRANSPARENCY DOCUMENTATION
+================================================================================
+
+Platform: BetterMC (Better Malaybalay City — Independent Public Information Portal)
+Document Reference: BMC-BAC-DOC-2026-11
+Review & Documentation Date: November 18, 2026 (Asia/Manila)
+Responsible LGU Body: Bids and Awards Committee (BAC) — City Government of Malaybalay
+BAC Secretariat Contact: 0967-016-9677 | bacmalaybalay@gmail.com
+Location: New City Hall, National Highway, Barangay Casisang, Malaybalay City, 8700 Bukidnon
+
+--------------------------------------------------------------------------------
+1. ORIGINAL SOURCE LINKS & SUPPORTING REFERENCES
+--------------------------------------------------------------------------------
+1.1 Official BAC LGU Malaybalay Facebook Page:
+    https://www.facebook.com/bacmalaybalay
+
+1.2 Referenced BAC Facebook Discussion / Comment Permalink:
+    https://www.facebook.com/bacmalaybalay?comment_id=Y29tbWVudDoxNjQxNTA4MTI0NDIwNjUxXzk3OTA3MDEwODE3NTExNg%3D%3D
+    - Base64 Decoded Identifier: comment:1641508124420651_979070108175116
+    - Target Facebook Post / Livestream ID: 1641508124420651
+    - Target Comment Thread ID: 979070108175116
+
+1.3 Official City Government of Malaybalay Facebook Page (Primary Live Broadcast Hub):
+    https://www.facebook.com/profile.php?id=100063747444247
+
+1.4 Official City BAC Procurement & Bidding Opportunity Portal:
+    https://sites.google.com/site/malaybalay221/awarded-projects?authuser=0
+    - Infrastructure Awards: https://sites.google.com/site/malaybalay221/awarded-projects/infrastructure
+    - Goods & Services Awards: https://sites.google.com/site/malaybalay221/awarded-projects/goods-and-services
+    - Small Value Procurement (SVP): https://sites.google.com/site/malaybalay221/awarded-projects/svp-small-value-procurement
+
+1.5 City Government of Malaybalay Full Disclosure Portal & Bid Results (FDP Form 10a):
+    - Full Disclosure Index: https://sakata.malaybalaycity.gov.ph/full-disclosure/
+    - 2026 Annual Procurement Plan (APP): https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf
+    - 2026 Q2 Bid Results (FDP Form 10a): https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/BID-RESULTS-ON-CIVIL-WORKS-GOOD-AND-SERVICES-AND-CONSULTING-SERVICES2026-Q2.pdf
+    - 2026 Q1 Bid Results (FDP Form 10a): https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/BID-RESULTS-ON-CIVIL-WORKS-GOOD-AND-SERVICES-AND-CONSULTING-SERVICES2026-Q1.pdf
+    - 2025 Q3 Bid Results (FDP Form 10a): https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/BID-RESULTS-ON-CIVIL-WORKS-GOOD-AND-SERVICES-AND-CONSULTING-SERVICES2025-Q3.pdf
+    - 2024 Q4 Bid Results (FDP Form 10a): https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/BID-RESULTS-ON-CIVIL-WORKS-GOOD-AND-SERVICES-AND-CONSULTING-SERVICES2024-Q4.pdf
+
+1.6 Independent Media & Audit References:
+    - Philippine Daily Inquirer (Procurement Livestreaming & Savings Report): https://newsinfo.inquirer.net/2172582/transparency-pays-for-malaybalay-city/amp
+    - Coverstory.ph (Open Governance & Livestreamed Bidding Analysis): https://coverstory.ph/
+    - PhilGEPS Award Notices Archive: https://notices.philgeps.gov.ph/
+
+--------------------------------------------------------------------------------
+2. METHODOLOGY, VERIFICATION STANDARDS & PLATFORM ACCESS LIMITATIONS
+--------------------------------------------------------------------------------
+2.1 Strict Non-Fabrication Policy:
+    This documentation adheres strictly to BetterMC's evidentiary standard: no project
+    names, bidder identities, proposed budgets, approved amounts, livestream timestamps,
+    or spoken statements are fabricated or inferred. Every entry below is categorized as:
+    [CONFIRMED] — Verified directly from published City BAC / FDP / PhilGEPS records.
+    [REPORTED DISCUSSION / STATEMENT] — Attributed to named public officials or
+        independent news reports covering BAC livestreamed proceedings.
+    [REQUIRES VERIFICATION / ACCESS LIMITATION] — Details gated by platform login walls
+        or not yet published in signed procurement documents.
+
+2.2 Documented Livestream Access Limitation:
+    - Direct unauthenticated inspection of https://www.facebook.com/bacmalaybalay and
+      permalink ?comment_id=Y29tbWVudDoxNjQxNTA4MTI0NDIwNjUxXzk3OTA3MDEwODE3NTExNg%3D%3D
+      (Post/Video ID 1641508124420651, Comment ID 979070108175116) encounters Meta's
+      authentication wall for archived video playback and comment-thread expansion.
+    - Furthermore, the local automated browser environment reported DevToolsActivePort
+      unavailable during unauthenticated session probing.
+    - Consequently, rather than inventing verbatim spoken dialogue or guessing internal
+      video timestamps, this report documents the exact post/comment identifiers and
+      cross-references the BAC's published Invitations to Bid (ITBs), Pre-Bid and Bid
+      Opening schedules, and FDP Form 10a Bid Results that record the official outcomes
+      of those livestreamed BAC sessions.
+
+--------------------------------------------------------------------------------
+3. SUMMARY OF LIVESTREAMED BAC PROCEEDINGS & POLICY DISCUSSIONS
+--------------------------------------------------------------------------------
+3.1 Institutional Mandate for Livestreamed Bidding [CONFIRMED & REPORTED]:
+    - Under an administrative directive issued by City Mayor Jay Warren R. Pabillaran
+      in mid-2022 and maintained through 2025–2026, all Bids and Awards Committee (BAC)
+      proceedings—including Pre-Procurement Conferences, Pre-Bid Conferences, Eligibility
+      Checks, Opening of Bids, and Post-Qualification announcements—are mandated to be
+      broadcast live on Facebook via the BAC LGU Malaybalay page (facebook.com/bacmalaybalay)
+      and the Official City Government of Malaybalay page (profile.php?id=100063747444247),
+      and cataloged under the City website's 'FB LIVE of Public Bidding Archive'.
+    - Participating Agencies & Offices in BAC Proceedings:
+      * Bids and Awards Committee (BAC), BAC Secretariat, and Technical Working Group (TWG)
+      * City Engineering Office (CEO) — civil works, road concreting, multi-purpose
+        buildings, water systems, school buildings, and drainage projects
+      * City General Services Office (CGSO) — equipment, vehicles, and supply consolidation
+      * City Health Office (CHO) & CDRRMO — medicines, laboratory supplies, rescue vehicles
+      * City Mayor's Office (CMO) & CEEDMO-MCGWSS — heavy equipment and barangay support
+      * DepEd Schools Division of Malaybalay City & 46 Barangay Councils (end-user units)
+
+3.2 Reported Fiscal Impact Discussed by City Leadership [REPORTED DISCUSSION]:
+    - According to statements by Mayor Jay Warren R. Pabillaran reported by the
+      Philippine Daily Inquirer and Coverstory.ph, livestreaming BAC bidding sessions
+      increased bidder participation and competitive pricing, generating reported
+      cumulative procurement savings of PHP 361,870,000.00 from mid-2022 through 2025:
+      * Mid-2022 through 2024 reported savings: PHP 241,920,000.00
+      * Full-year 2025 reported savings: PHP 119,950,000.00
+    - City officials stated that funds saved from competitive bidding were reallocated
+      through supplemental appropriations to support:
+      * 24/7 antivenom serum availability and mobile health clinics
+      * Resettlement and housing support for disaster-affected families
+      * Annual educational scholarships for more than 400 students
+      * Year-round hiring of professional firefighters and emergency responders
+    - Verification Note: BetterMC distinguishes this reported procurement-savings
+      statement (difference between Approved Budget for the Contract [ABC] and winning
+      bid prices) from accounting 'net operating balance' or audited cash on hand.
+
+--------------------------------------------------------------------------------
+4. CONFIRMED 2026 Q1 BAC BIDDING OUTCOMES (FDP FORM 10a — CIVIL WORKS)
+--------------------------------------------------------------------------------
+Source: City of Malaybalay 2026 Q1 Bid Results on Civil Works, Goods and Services,
+and Consulting Services (FDP Form 10a) — Verified on 2026-11-13.
+Note: The source table confirms the Reference Number, Project Name, Barangay,
+Approved Budget for the Contract (ABC), and Winning Bidder. Final contract award
+amounts and Notice to Proceed (NTP) dates require verification in individual award
+notices.
+
+1. Ref No. 2026-013 | Concreting of Road (Brgy. Apo Macote)
+   - Proposed Budget (ABC): PHP 29,999,989.75
+   - Identified Winning Bidder: RRN Construction & Development Corporation
+   - Procurement Status: Winning bidder listed in 2026 Q1 FDP Form 10a
+
+2. Ref No. 2026-012 | Concreting of Road (Brgy. Bangcud)
+   - Proposed Budget (ABC): PHP 9,999,566.07
+   - Identified Winning Bidder: Mamawag Construction
+   - Procurement Status: Winning bidder listed in 2026 Q1 FDP Form 10a
+
+3. Ref No. 2026-022 | Construction of Covered Court, Purok 6 (Brgy. Kalasungay)
+   - Proposed Budget (ABC): PHP 6,000,000.00
+   - Identified Winning Bidder: Khim Construction
+   - Procurement Status: Winning bidder listed in 2026 Q1 FDP Form 10a
+
+4. Ref No. 2026-026 | Concreting of Road Section to Flores Village Subdivision (Brgy. Linabo)
+   - Proposed Budget (ABC): PHP 6,000,000.00
+   - Identified Winning Bidder: Mamawag Construction
+   - Procurement Status: Winning bidder listed in 2026 Q1 FDP Form 10a
+
+5. Ref No. 2026-024 | Concreting of Road Section, Purok 1 (Brgy. Laguitas)
+   - Proposed Budget (ABC): PHP 5,000,000.00
+   - Identified Winning Bidder: Mamawag Construction
+   - Procurement Status: Winning bidder listed in 2026 Q1 FDP Form 10a
+
+6. Ref No. 2026-023 | Construction of 1-Storey 2-Classroom Building at Magsaysay ES (Brgy. Magsaysay)
+   - Proposed Budget (ABC): PHP 3,770,000.00
+   - Identified Winning Bidder: ARMJVJ Construction Services
+   - Procurement Status: Winning bidder listed in 2026 Q1 FDP Form 10a
+
+7. Ref No. 2026-037 | Construction of Concrete Perimeter Fence at Health Center — SVP (Brgy. San Jose)
+   - Proposed Budget (ABC): PHP 1,000,000.00
+   - Identified Winning Bidder: Ragambo Corporation
+   - Procurement Status: Winning bidder listed in 2026 Q1 FDP Form 10a
+
+8. Ref No. 2026-038 | Improvement of Covered Court — SVP (Brgy. Capitan Angel)
+   - Proposed Budget (ABC): PHP 1,000,000.00
+   - Identified Winning Bidder: Hexus Construction
+   - Procurement Status: Winning bidder listed in 2026 Q1 FDP Form 10a
+
+9. Ref No. 2026-039 | Improvement of Multi-Purpose Building — SVP (Brgy. St. Peter)
+   - Proposed Budget (ABC): PHP 1,000,000.00
+   - Identified Winning Bidder: Hexus Construction
+   - Procurement Status: Winning bidder listed in 2026 Q1 FDP Form 10a
+
+10. Ref No. 2026-006 | Completion of Perimeter Fence at Barangay Plaza — SVP (Brgy. Zamboanguita)
+    - Proposed Budget (ABC): PHP 999,931.89
+    - Identified Winning Bidder: Hexus Construction
+    - Procurement Status: Winning bidder listed in 2026 Q1 FDP Form 10a
+
+11. Ref No. 2026-041 | Improvement of Drainage System, Purok 7 — SVP (Brgy. Cabangahan)
+    - Proposed Budget (ABC): PHP 549,532.43
+    - Identified Winning Bidder: Maryam Construction
+    - Procurement Status: Winning bidder listed in 2026 Q1 FDP Form 10a
+
+12. Ref No. 2026-019 | Construction of Basketball Goal, Purok Green Valley — SVP (Brgy. Dalwangan)
+    - Proposed Budget (ABC): PHP 300,000.00
+    - Identified Winning Bidder: Hexus Construction
+    - Procurement Status: Winning bidder listed in 2026 Q1 FDP Form 10a
+
+--------------------------------------------------------------------------------
+5. CONFIRMED 2025 Q3 & 2024 Q4 BAC BIDDING OUTCOMES (HIGHLIGHTED RECORDS)
+--------------------------------------------------------------------------------
+5.1 Highlighted 2025 Q3 Bid Results (FDP Form 10a):
+    - Ref No. 2025-173 | Liga Building Extension (Brgy. Sumpong) | ABC: PHP 4,999,988.84 | Bidder: Trivium Construction and Supply Corporation
+    - Ref No. 2025-128 | Construction of Laguitas Elementary School Stage (Brgy. Laguitas) | ABC: PHP 4,581,627.83 | Bidder: Khim Construction
+    - Ref No. 2025-134 | Improvement of Multi-Purpose (Administration) Building — Re-bid (Brgy. Imbayao) | ABC: PHP 3,125,625.79 | Bidder: Pagadian Aggregates & Marketing
+    - Ref No. 2025-129 | Construction of MP Building (Brgy. Silae) | ABC: PHP 2,500,000.00 | Bidder: Trismegistus Construction
+    - Ref No. 2025-138 | Improvement of Covered Court (Brgy. Bangcud) | ABC: PHP 2,121,487.05 | Bidder: DomeralD Construction and Supply
+    - Ref No. 2025-139 | Construction of IP Tulogan (Brgy. Caburacanan) | ABC: PHP 2,000,000.00 | Bidder: SOV Builders and Construction Supply Corp.
+    - Ref No. 2025-170 | Renovation of Malaybalay City Animal Breeding Center (Brgy. Casisang) | ABC: PHP 1,997,811.21 | Bidder: Trivium Construction and Supply Corporation
+    - Ref No. 2025-137 | Construction of Purok Center at Sitio Cabacungan (Brgy. Linabo) | ABC: PHP 1,800,000.00 | Bidder: Doydora Enterprises
+
+5.2 Highlighted 2024 Q4 Bid Results & Procurement Status Variations (FDP Form 10a):
+    - Ref No. 2024-086 | Construction of Multi-Purpose Building, Phase I (Re-bid), Purok 17 (Brgy. Casisang) | ABC: PHP 50,000,000.00 | Status: Bid-result row published; bidder outcome not shown in source row
+    - Ref No. 2024-166 | Completion of Multi-Purpose Building (Malaybalay City Health), Phase 4 (Brgy. 1) | ABC: PHP 30,000,000.00 | Bidder: L & L Construction | Status: Winning bidder listed
+    - Ref No. 2024-220 | Road Concreting at Miglamin National High School (Brgy. Miglamin) | ABC: PHP 7,996,920.18 | Status: Bid-result row published; bidder outcome not shown
+    - Ref No. 2024-193 | Construction of Multi-Purpose Building (Brgy. 2) | ABC: PHP 7,500,000.00 | Bidder: E & H Construction and Supply
+    - Ref No. 2024-216 | Construction of Drainage System and Pathway (Brgy. 6) | ABC: PHP 5,141,403.26 | Status: Project cancelled in City bid-results form
+    - Ref No. 2024-207 | Road Construction/Concreting to Elementary School Paiwaig (Brgy. Linabo) | ABC: PHP 5,000,000.00 | Bidder: RBA-ALZ Construction Services
+    - Ref No. 2024-173 to 2024-176 | Construction of Multi-Purpose Commodity Sheds (Lots 1–4: Brgys. Manalog, Capitan Angel, San Martin, Miglamin) | ABCs: PHP 602,855.18 to PHP 633,425.91 | Status: Waiting for Sangguniang Panlungsod resolution
+    - Ref No. 2024-217 & 2024-233 | FMR Rehabilitation (Brgy. Manalog, PHP 1,991,203.45) & Access Road for Aglayan NHS (Brgy. Aglayan, PHP 1,007,642.36) | Status: First failure / no bidder in City bid-results form
+
+--------------------------------------------------------------------------------
+6. CONFIRMED 2026 INVITATIONS TO BID (ITB) & GOODS/SERVICES PROCUREMENT
+--------------------------------------------------------------------------------
+6.1 Latest 2026 Invitations to Bid Indexed from Official BAC Portal (212 Notices):
+    - ITB-2026-206: Rehabilitation/Improvement of Water System Level II at Brgy. Caburacanan (Bidding opportunity)
+    - ITB-2026-205: Concreting of Farm to Market Road at Purok 8, Brgy. Managok (Bidding opportunity)
+    - ITB-2026-204: Concreting of Farm to Market Road at Purok 9, Brgy. Simaya (Bidding opportunity)
+    - ITB-2026-203: Concreting of Farm to Market Road at Brgy. San Martin (Bidding opportunity)
+    - ITB-2026-202: Water System Drilling (SVP) at Purok 1, Brgy. Sinanglanan (Small value procurement)
+    - ITB-2026-200: Procurement of 1 Unit Brand New Crawler Excavator with Hydraulic Breaker Line, CEEDMO-MCGWSS (Bidding opportunity)
+    - ITB-2026-199: Improvement of Covered Court at Brgy. Bangcud (Bidding opportunity)
+    - ITB-2026-198: Construction/Concreting of Road at Purok 17, Brgy. Casisang (Bidding opportunity)
+    - ITB-2026-197: Purchase of Patient Transport Vehicle for Barangay 8, City Mayor's Office (Bidding opportunity)
+    - ITB-2026-196: Construction of 1-Storey, 2-Classroom with Bundled School Furniture at Cabangahan ES (Bidding opportunity)
+    - ITB-2026-195: Construction of 1-Storey, 4-Classroom with Bundled School Furniture at Linabo Central School (Bidding opportunity)
+    - ITB-2026-194: Construction of 1-Storey, 3-Classroom with Bundled School Furniture at Kalasungay Central School (Bidding opportunity)
+    - ITB-2026-192: Construction of 1-Storey, 2-Classroom with Bundled School Furniture at Sawaga ES, Brgy. Violeta (Bidding opportunity)
+    - ITB-2026-190: Hatchery Project for Inland Fish Production at Brgy. Violeta (Bidding opportunity)
+
+6.2 Confirmed PhilGEPS Goods & Services Award Notices:
+    - ITB-2024-136: Purchase of medicines, laboratory supplies, and other supplies for Q3–Q4 consolidation, City Health Office (PhilGEPS RefID 11120501)
+    - ITB-2024-006: Procurement of a sub-compact utility tractor with loader and mower attachment for CGSO maintenance, City Mayor's Office (PhilGEPS AwardID 5293093)
+    - ITB-2024-156: Purchase of various medicines, CDRRMO (PhilGEPS AwardID 5292717)
+    - ITB-2024-141: Purchase of 3,181 packs of rice for City Government employees, City Mayor's Office (PhilGEPS AwardID 5290371)
+
+--------------------------------------------------------------------------------
+7. ITEMS REQUIRING FURTHER VERIFICATION
+--------------------------------------------------------------------------------
+1. Verbatim audio transcripts and exact minute-by-minute timestamps for Facebook Live
+   broadcasts on https://www.facebook.com/bacmalaybalay (including Post ID
+   1641508124420651 / Comment ID 979070108175116) require authenticated Facebook
+   access or official signed BAC Minutes of Bid Opening.
+2. Exact contract award prices for 2026 Q1 FDP Form 10a entries (where the published
+   summary table provides the ABC and winning bidder name) require verification against
+   individual Notices of Award (NOA).
+3. Physical completion percentages, variation orders, and final COA-audited
+   disbursements for 2025–2026 BAC-bid projects remain subject to quarterly utilization
+   and COA compliance audit releases.
+================================================================================

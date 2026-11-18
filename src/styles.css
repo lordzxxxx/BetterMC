@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap");
-
+/* BetterGov.PH Kapwa Typography System (Inter loaded non-blocking via index.html) */
 .official-record-groups { display: grid; gap: 16px; }
 .official-record-groups section { display: grid; gap: 7px; }
 .official-record-groups h4 { margin: 0; color: #28456d; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
@@ -21,11 +20,15 @@
 }
 
 :root {
-  font-family: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --font-kapwa-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  --font-kapwa-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--font-kapwa-sans);
   color: #101d35;
   background: #ffffff;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   --green-950: #071a3d;
   --green-900: #123e9b;
   --green-800: #164fbf;
@@ -20143,3 +20146,1164 @@ div.service-category-grid > .service-pathway-card > .category-card-arrow-link sv
     -webkit-line-clamp: unset;
   }
 }
+
+/* ==========================================================================
+   BetterGov.PH Typography, Welcome Experience, News & Discussion Cards,
+   Legislative Hearings, Budget Transparency, BAC Livestream Hub, Official
+   Facebook Badges, and Desktop vs. Mobile App-Like Experience
+   ========================================================================== */
+
+body,
+button,
+input,
+select,
+textarea,
+table {
+  font-family: var(--font-kapwa-sans);
+}
+
+code,
+kbd,
+pre {
+  font-family: var(--font-kapwa-mono);
+}
+
+/* First-Time Visitor Welcome Card */
+.first-time-welcome-section {
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+.welcome-reopen-strip {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.welcome-reopen-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 6px 14px;
+  border: 1px solid #bfd7f0;
+  border-radius: 999px;
+  background: #f4f9ff;
+  color: #123e9b;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.welcome-reopen-btn:hover {
+  background: #e6f2ff;
+  border-color: #93bce8;
+}
+
+.welcome-reopen-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.welcome-card {
+  display: grid;
+  gap: 20px;
+  padding: 28px 30px;
+  border: 1px solid #bdd6f0;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #f5faff 0%, #ebf4ff 100%);
+  box-shadow: 0 14px 36px rgba(18, 62, 155, 0.07), inset 0 1px 0 #ffffff;
+}
+
+.welcome-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.welcome-card-header h2 {
+  margin: 6px 0 8px;
+  color: #0f2547;
+  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.22;
+}
+
+.welcome-card-header p {
+  max-width: 780px;
+  margin: 0;
+  color: #3b506b;
+  font-size: 0.95rem;
+  line-height: 1.58;
+}
+
+.welcome-dismiss-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid #c3d8ee;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #2c4668;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.welcome-dismiss-btn:hover {
+  background: #eef6ff;
+  border-color: #94b8e0;
+}
+
+.welcome-dismiss-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.welcome-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.welcome-pillar-card {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 18px;
+  align-items: start;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #cde0f4;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #102444;
+  text-decoration: none;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.welcome-pillar-card:hover {
+  transform: translateY(-2px);
+  border-color: #7eaee2;
+  box-shadow: 0 10px 24px rgba(18, 62, 155, 0.08);
+}
+
+.welcome-pillar-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: #e6f1ff;
+  color: #123e9b;
+}
+
+.welcome-pillar-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.welcome-pillar-card strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #0f2547;
+  font-size: 0.93rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.welcome-pillar-card p {
+  margin: 0;
+  color: #4b607c;
+  font-size: 0.81rem;
+  line-height: 1.48;
+}
+
+.welcome-pillar-card > svg {
+  width: 16px;
+  height: 16px;
+  margin-top: 4px;
+  color: #1d5fd1;
+}
+
+/* Homepage News, Updates, and Discussion Cards */
+.home-news-section {
+  display: grid;
+  gap: 24px;
+}
+
+.home-news-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 18px;
+}
+
+.home-news-header h2 {
+  margin: 6px 0 8px;
+  color: #0f2547;
+  font-size: clamp(1.55rem, 2.6vw, 2.2rem);
+  letter-spacing: -0.03em;
+}
+
+.home-news-header p {
+  max-width: 760px;
+  margin: 0;
+  color: #465b78;
+  font-size: 0.96rem;
+  line-height: 1.58;
+}
+
+.home-official-monitors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.official-fb-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid #c3d9f2;
+  border-radius: 999px;
+  background: #f5f9ff;
+  color: #133c8a;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.official-fb-pill:hover {
+  background: #e6f1ff;
+  border-color: #8cb6e6;
+}
+
+.official-fb-pill svg:last-child {
+  width: 14px;
+  height: 14px;
+}
+
+.news-category-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.news-category-filter-bar button {
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid #c9dcef;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #2b4466;
+  font-size: 0.83rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.news-category-filter-bar button:hover {
+  background: #eff6ff;
+  border-color: #93bce8;
+}
+
+.news-category-filter-bar button.is-active {
+  background: #123e9b;
+  border-color: #123e9b;
+  color: #ffffff;
+}
+
+.newsletter-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.newsletter-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px 24px;
+  border: 1px solid #c7dbf0;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(16, 43, 83, 0.05);
+}
+
+.newsletter-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.newsletter-category-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eaf3ff;
+  color: #123e9b;
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.newsletter-verification-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.newsletter-verification-tag.is-confirmed {
+  background: #e3f7ec;
+  color: #0d6838;
+}
+
+.newsletter-verification-tag.is-verified {
+  background: #e6f2ff;
+  color: #1449a6;
+}
+
+.newsletter-verification-tag.is-pending {
+  background: #fff4df;
+  color: #8f5300;
+}
+
+.newsletter-card h3 {
+  margin: 0;
+  color: #0f2547;
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.34;
+}
+
+.newsletter-card p {
+  margin: 0;
+  color: #3f5470;
+  font-size: 0.91rem;
+  line-height: 1.56;
+}
+
+.newsletter-card-facts {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.4fr) minmax(0, 0.6fr);
+  gap: 12px;
+  margin: 2px 0 0;
+  padding: 12px 14px;
+  border: 1px solid #dce9f7;
+  border-radius: 12px;
+  background: #f8fbff;
+}
+
+.newsletter-card-facts dt {
+  color: #5b718f;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.newsletter-card-facts dd {
+  margin: 3px 0 0;
+  color: #162f54;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.38;
+}
+
+.newsletter-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.newsletter-primary-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #123e9b;
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.newsletter-primary-link svg,
+.newsletter-source-link svg:last-child {
+  width: 15px;
+  height: 15px;
+}
+
+.newsletter-source-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #365680;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Discussion Cards */
+.discussion-cards-block {
+  display: grid;
+  gap: 18px;
+  margin-top: 12px;
+  padding: 26px 28px;
+  border: 1px solid #bfd6ee;
+  border-radius: 22px;
+  background: #f4f9ff;
+}
+
+.discussion-cards-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.discussion-cards-heading h3 {
+  margin: 6px 0 6px;
+  color: #0f2547;
+  font-size: clamp(1.3rem, 2.1vw, 1.7rem);
+  font-weight: 700;
+}
+
+.discussion-cards-heading p {
+  max-width: 720px;
+  margin: 0;
+  color: #425875;
+  font-size: 0.92rem;
+  line-height: 1.54;
+}
+
+.discussion-quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.discussion-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.discussion-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px;
+  border: 1px solid #c9ddf2;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 8px 22px rgba(16, 43, 83, 0.05);
+}
+
+.discussion-card-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 0.74rem;
+}
+
+.discussion-category {
+  color: #123e9b;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.discussion-date {
+  color: #5b718f;
+  font-weight: 600;
+}
+
+.discussion-card h4 {
+  margin: 0;
+  color: #0f2547;
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.34;
+}
+
+.discussion-section {
+  display: grid;
+  gap: 4px;
+}
+
+.discussion-section strong {
+  color: #1e3a63;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.discussion-section p {
+  margin: 0;
+  color: #3f5470;
+  font-size: 0.86rem;
+  line-height: 1.52;
+}
+
+.discussion-section ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #334a68;
+  font-size: 0.84rem;
+  line-height: 1.48;
+  display: grid;
+  gap: 5px;
+}
+
+.discussion-verification-box {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 8px;
+  padding: 11px 12px;
+  border: 1px solid #cfe1f5;
+  border-radius: 12px;
+  background: #f5f9ff;
+}
+
+.discussion-verification-box svg {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  color: #123e9b;
+}
+
+.discussion-verification-box p {
+  margin: 0;
+  color: #2f4767;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.discussion-card-footer {
+  display: grid;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.discussion-sources-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+
+.discussion-sources-row a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #2a4e82;
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.discussion-sources-row a svg:last-child {
+  width: 13px;
+  height: 13px;
+}
+
+/* BAC Livestream Monitoring & Budget Transparency Tables */
+.bac-livestream-top-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+  gap: 18px;
+  margin: 20px 0;
+}
+
+.bac-livestream-overview-card,
+.bac-livestream-embed-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  border: 1px solid #c5daf0;
+  border-radius: 18px;
+  background: #f8fbff;
+}
+
+.bac-livestream-overview-card h2,
+.bac-livestream-embed-card h3 {
+  margin: 4px 0 0;
+  color: #0f2547;
+}
+
+.bac-doc-downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.bac-source-links-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.bac-embed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.bac-embed-placeholder {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px dashed #b4cfe9;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.bac-embed-placeholder p {
+  margin: 0;
+  color: #425875;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.bac-verification-tiers-grid,
+.budget-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+
+.budget-kpi-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.bac-tier-card,
+.budget-kpi-card {
+  display: grid;
+  gap: 8px;
+  padding: 20px;
+  border: 1px solid #c9ddf2;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.bac-tier-card h3,
+.budget-kpi-card strong {
+  margin: 0;
+  color: #0f2547;
+  font-size: 1.15rem;
+}
+
+.budget-kpi-card strong {
+  font-size: 1.38rem;
+  color: #123e9b;
+}
+
+.bac-tier-card p,
+.budget-kpi-card p {
+  margin: 0;
+  color: #435975;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.bac-entries-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 16px 0 28px;
+  border: 1px solid #c7dcf1;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.bac-entries-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.87rem;
+}
+
+.bac-entries-table th {
+  padding: 14px 16px;
+  background: #eff6ff;
+  border-bottom: 1px solid #c7dcf1;
+  color: #173561;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.bac-entries-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e3eef9;
+  vertical-align: top;
+  color: #243b5a;
+  line-height: 1.45;
+}
+
+.bac-entries-table tr:last-child td {
+  border-bottom: none;
+}
+
+.bac-entries-table td strong {
+  display: block;
+  color: #0f2547;
+  font-weight: 600;
+}
+
+.bac-entries-table td small {
+  display: block;
+  margin-top: 4px;
+  color: #566c89;
+  font-size: 0.77rem;
+}
+
+.table-source-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  color: #123e9b;
+  font-size: 0.79rem;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.table-source-link svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* Legislative Hearings Page */
+.hearings-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 16px;
+}
+
+.hearing-detail-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  border: 1px solid #c7dbf0;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(16, 43, 83, 0.05);
+}
+
+.hearing-detail-card h2 {
+  margin: 0;
+  color: #0f2547;
+  font-size: 1.18rem;
+  line-height: 1.32;
+}
+
+.hearing-meta-dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid #dce9f7;
+  border-radius: 12px;
+  background: #f8fbff;
+}
+
+.hearing-meta-dl dt {
+  color: #59708e;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.hearing-meta-dl dd {
+  margin: 3px 0 0;
+  color: #152e52;
+  font-size: 0.83rem;
+  font-weight: 600;
+}
+
+.hearing-agenda-box h3,
+.hearing-measures-box h3,
+.hearing-statements-box h3 {
+  margin: 0 0 6px;
+  color: #1d3a63;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hearing-agenda-box ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #344b69;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  display: grid;
+  gap: 5px;
+}
+
+.hearing-measure-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.hearing-measure-pill {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #c5daf1;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #123e9b;
+  font-size: 0.79rem;
+  font-weight: 600;
+}
+
+.hearing-statements-box p {
+  margin: 0;
+  color: #344b69;
+  font-size: 0.87rem;
+  line-height: 1.52;
+}
+
+.hearing-statements-box small {
+  display: block;
+  margin-top: 6px;
+  color: #5b718f;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+/* Official Facebook Badges & Supplied Facebook Verification Ledger */
+.official-card-fb-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin-top: 4px;
+  padding: 3px 9px;
+  border: 1px solid #c5dbf4;
+  border-radius: 999px;
+  background: #f2f8ff;
+  color: #123e9b;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.official-card-fb-pending {
+  display: inline-block;
+  margin-top: 4px;
+  color: #657a96;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.official-fb-inline-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #123e9b;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.official-fb-inline-link svg:last-child {
+  width: 14px;
+  height: 14px;
+}
+
+.supplied-fb-verification-ledger {
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+  padding: 22px 24px;
+  border: 1px solid #c7dcf1;
+  border-radius: 18px;
+  background: #f7fbff;
+}
+
+.supplied-fb-ledger-header {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.supplied-fb-ledger-header > svg {
+  width: 22px;
+  height: 22px;
+  margin-top: 4px;
+  color: #123e9b;
+}
+
+.supplied-fb-ledger-header h3 {
+  margin: 4px 0 6px;
+  color: #0f2547;
+  font-size: 1.08rem;
+}
+
+.supplied-fb-ledger-header p {
+  margin: 0;
+  color: #425875;
+  font-size: 0.87rem;
+  line-height: 1.54;
+}
+
+.supplied-fb-ledger-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.supplied-fb-ledger-card {
+  display: grid;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 1px solid #d2e3f5;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.supplied-fb-ledger-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.supplied-fb-ledger-card p {
+  margin: 0;
+  color: #49607e;
+  font-size: 0.79rem;
+  line-height: 1.45;
+}
+
+/* Mobile Bottom App Navigation Bar (Hidden on Desktop, Shown on Mobile) */
+.mobile-bottom-app-bar {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .welcome-pillars-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .discussion-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .bac-livestream-top-grid,
+  .hearings-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .budget-kpi-grid,
+  .bac-verification-tiers-grid,
+  .supplied-fb-ledger-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  body {
+    padding-bottom: 68px;
+  }
+
+  .mobile-bottom-app-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    height: 64px;
+    padding: 4px 6px env(safe-area-inset-bottom, 4px);
+    border-top: 1px solid #c5daf0;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 -6px 20px rgba(15, 37, 71, 0.08);
+  }
+
+  .mobile-bottom-app-bar a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-height: 48px;
+    border-radius: 10px;
+    color: #4c6280;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .mobile-bottom-app-bar a svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .mobile-bottom-app-bar a.active {
+    color: #123e9b;
+    background: #edf5ff;
+    font-weight: 700;
+  }
+
+  .welcome-card {
+    padding: 18px 16px;
+    border-radius: 16px;
+  }
+
+  .welcome-card-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .welcome-pillars-grid,
+  .newsletter-cards-grid,
+  .budget-kpi-grid,
+  .bac-verification-tiers-grid,
+  .supplied-fb-ledger-grid,
+  .hearing-meta-dl {
+    grid-template-columns: 1fr;
+  }
+
+  .news-category-filter-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .news-category-filter-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .news-category-filter-bar button {
+    flex: 0 0 auto;
+  }
+
+  .discussion-cards-block {
+    padding: 18px 16px;
+    border-radius: 16px;
+  }
+
+  .newsletter-card,
+  .discussion-card,
+  .hearing-detail-card,
+  .bac-livestream-overview-card,
+  .bac-livestream-embed-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .newsletter-card-facts {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .budget-transparency-page,
+  .bac-livestream-page,
+  .hearings-page,
+  .civic-directory-page,
+  .budget-explorer-section,
+  .budget-visual-section,
+  .bac-livestream-top-grid > *,
+  .hearings-cards-grid > *,
+  .civic-card-grid > *,
+  .data-notice,
+  .data-notice > div {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .procurement-page-nav {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .procurement-page-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .procurement-page-nav a {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .bac-entries-table-wrap {
+    border: none;
+    background: transparent;
+    overflow-x: visible;
+  }
+
+  .bac-entries-table,
+  .bac-entries-table thead,
+  .bac-entries-table tbody,
+  .bac-entries-table tr,
+  .bac-entries-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .bac-entries-table thead {
+    display: none;
+  }
+
+  .bac-entries-table tbody {
+    display: grid;
+    gap: 12px;
+  }
+
+  .bac-entries-table tr {
+    padding: 14px;
+    border: 1px solid #c7dcf1;
+    border-radius: 14px;
+    background: #ffffff;
+  }
+
+  .bac-entries-table td {
+    padding: 6px 0;
+    border-bottom: 1px solid #eef5fc;
+  }
+
+  .bac-entries-table td:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+

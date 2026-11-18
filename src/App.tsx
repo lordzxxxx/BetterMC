@@ -83,10 +83,27 @@ import {
   publicProjects,
   services,
   specialBodyOrders,
+  unmatchedSuppliedFacebookProfiles,
   type CivicRecord,
   type Disclosure,
   VERIFIED_ON,
 } from "./data";
+import {
+  bacLivestreamEntries,
+  bacLivestreamSummary,
+  BETTERGOV_HEARINGS_URL,
+  BETTERGOV_HGAB_2027_URL,
+  budgetTransparencyAllocations,
+  civicDiscussionCards,
+  legislativeHearingRecords,
+  newsletterUpdates,
+  OFFICIAL_BAC_FB_URL,
+  OFFICIAL_CITY_FB_URL,
+  PUBLIC_INFO_REVIEWED_ON,
+  type NewsCardCategory,
+  type LegislativeHearingRecord,
+  type BudgetAllocationItem,
+} from "./publicInformation";
 import {
   barangayMicrositeBySlug,
   barangayMicrosites,
@@ -208,6 +225,18 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
   "/about": {
     title: "About and methodology | BetterMC",
     description: "Learn how BetterMC verifies, attributes, and presents Malaybalay public information.",
+  },
+  "/budget": {
+    title: "Budget transparency | BetterMC",
+    description: "Explore Malaybalay City budget allocations by sector and program alongside BetterGov.PH FY 2027 HGAB references.",
+  },
+  "/hearings": {
+    title: "Legislative hearings & sessions | BetterMC",
+    description: "Review Malaybalay City Council sessions, committee hearings, agendas, and BetterGov.PH hearing references.",
+  },
+  "/procurement/livestreams": {
+    title: "BAC LGU Malaybalay livestreams & bidding documentation | BetterMC",
+    description: "Monitor BAC LGU Malaybalay procurement livestreams, confirmed FDP Form 10a bidding results, and downloadable .docx/.txt documentation.",
   },
 };
 
@@ -644,6 +673,9 @@ function Footer() {
           <h2>Explore BetterMC</h2>
           <Link to="/about">About & methodology</Link>
           <Link to="/transparency">Transparency records</Link>
+          <Link to="/budget">Budget transparency</Link>
+          <Link to="/hearings">Legislative hearings</Link>
+          <Link to="/procurement/livestreams">BAC livestreams & bidding</Link>
           <Link to="/participate">Submit a correction</Link>
           <a
             className="footer-icon-link"
@@ -653,6 +685,15 @@ function Footer() {
           >
             <FacebookIcon />
             BetterMC on Facebook
+          </a>
+          <a
+            className="footer-icon-link"
+            href={OFFICIAL_BAC_FB_URL}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FacebookIcon />
+            BAC LGU Malaybalay Facebook
           </a>
           <a
             className="footer-icon-link"
@@ -751,6 +792,33 @@ function Footer() {
   );
 }
 
+function MobileAppTabBar() {
+  return (
+    <nav className="mobile-bottom-app-bar" aria-label="Quick mobile app navigation">
+      <NavLink to="/" end>
+        <House aria-hidden="true" />
+        <span>Home</span>
+      </NavLink>
+      <NavLink to="/budget">
+        <BarChart3 aria-hidden="true" />
+        <span>Budget</span>
+      </NavLink>
+      <NavLink to="/hearings">
+        <Scale aria-hidden="true" />
+        <span>Hearings</span>
+      </NavLink>
+      <NavLink to="/procurement/livestreams">
+        <BriefcaseBusiness aria-hidden="true" />
+        <span>BAC Live</span>
+      </NavLink>
+      <NavLink to="/services">
+        <Compass aria-hidden="true" />
+        <span>Services</span>
+      </NavLink>
+    </nav>
+  );
+}
+
 function Layout({ children }: { children: ReactNode }) {
   const { pathname, hash } = useLocation();
   useEffect(() => {
@@ -784,6 +852,7 @@ function Layout({ children }: { children: ReactNode }) {
       <Header />
       <main id="main">{children}</main>
       <Footer />
+      <MobileAppTabBar />
     </>
   );
 }
@@ -1173,6 +1242,371 @@ function disclosureSlug(title: string) {
     .replace(/(^-|-$)/g, "");
 }
 
+function FirstTimeWelcomeCard() {
+  const [dismissed, setDismissed] = useState<boolean>(() => {
+    try {
+      return typeof window !== "undefined" && window.localStorage.getItem("bettermc_welcome_dismissed_v1") === "1";
+    } catch {
+      return false;
+    }
+  });
+
+  const handleDismiss = () => {
+    setDismissed(true);
+    try {
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("bettermc_welcome_dismissed_v1", "1");
+      }
+    } catch {
+      // ignore storage errors
+    }
+  };
+
+  if (dismissed) {
+    return (
+      <div className="container welcome-reopen-strip">
+        <button
+          type="button"
+          className="welcome-reopen-btn"
+          onClick={() => {
+            setDismissed(false);
+            try {
+              window.localStorage.removeItem("bettermc_welcome_dismissed_v1");
+            } catch {
+              // ignore
+            }
+          }}
+        >
+          <Compass aria-hidden="true" />
+          <span>Show first-time visitor guide</span>
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <section
+      className="container first-time-welcome-section"
+      aria-labelledby="welcome-guide-heading"
+    >
+      <div className="welcome-card">
+        <div className="welcome-card-header">
+          <div>
+            <span className="eyebrow">First-time visitor guide · Public transparency platform</span>
+            <h2 id="welcome-guide-heading">
+              How to navigate Malaybalay City&apos;s public records on BetterMC
+            </h2>
+            <p>
+              BetterMC organizes verified public documents, legislative actions,
+              procurement notices, and budget disclosures across all 46 barangays.
+              Every record preserves its original government source and verification date.
+            </p>
+          </div>
+          <button
+            type="button"
+            className="welcome-dismiss-btn"
+            aria-label="Dismiss welcome guide"
+            onClick={handleDismiss}
+          >
+            <X aria-hidden="true" />
+            <span>Dismiss</span>
+          </button>
+        </div>
+        <div className="welcome-pillars-grid">
+          <Link to="/hearings" className="welcome-pillar-card">
+            <span className="welcome-pillar-icon">
+              <Scale aria-hidden="true" />
+            </span>
+            <div>
+              <strong>Legislative Sessions &amp; Hearings</strong>
+              <p>
+                Track 10th Sangguniang Panlungsod sessions, committee agendas,
+                public consultations, and BetterGov.PH hearing references.
+              </p>
+            </div>
+            <ArrowRight aria-hidden="true" />
+          </Link>
+          <Link to="/procurement/livestreams" className="welcome-pillar-card">
+            <span className="welcome-pillar-icon">
+              <BriefcaseBusiness aria-hidden="true" />
+            </span>
+            <div>
+              <strong>BAC Procurement &amp; Livestreams</strong>
+              <p>
+                Review BAC LGU Malaybalay livestream documentation (.docx &amp; .txt),
+                212 active ITBs, and FDP Form 10a bidding outcomes.
+              </p>
+            </div>
+            <ArrowRight aria-hidden="true" />
+          </Link>
+          <Link to="/budget" className="welcome-pillar-card">
+            <span className="welcome-pillar-icon">
+              <BarChart3 aria-hidden="true" />
+            </span>
+            <div>
+              <strong>Budget Transparency</strong>
+              <p>
+                Explore sectoral spending, 20% NTA barangay projects, and
+                BetterGov.PH FY 2027 HGAB budget comparisons.
+              </p>
+            </div>
+            <ArrowRight aria-hidden="true" />
+          </Link>
+          <a href="#news-and-updates" className="welcome-pillar-card">
+            <span className="welcome-pillar-icon">
+              <FileText aria-hidden="true" />
+            </span>
+            <div>
+              <strong>News, Ordinances &amp; Discussions</strong>
+              <p>
+                Read verified city announcements, newly enacted ordinances, and
+                in-depth public discussion cards with source links.
+              </p>
+            </div>
+            <ArrowRight aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const newsCategoryOptions: Array<"All" | NewsCardCategory> = [
+  "All",
+  "City Announcements",
+  "Resolutions & Ordinances",
+  "Council & Legislative",
+  "Hearings & Sessions",
+  "Procurement & Bidding",
+  "Public Advisories",
+];
+
+function HomeNewsAndDiscussionsSection() {
+  const [selectedCategory, setSelectedCategory] = useState<"All" | NewsCardCategory>("All");
+  const filteredNews =
+    selectedCategory === "All"
+      ? newsletterUpdates
+      : newsletterUpdates.filter((item) => item.category === selectedCategory);
+
+  return (
+    <section
+      className="section container home-news-section"
+      id="news-and-updates"
+      aria-labelledby="home-news-heading"
+    >
+      <div className="home-news-header">
+        <div>
+          <span className="eyebrow">Public information &amp; civic updates</span>
+          <h2 id="home-news-heading">
+            Latest news, ordinances, hearings, and procurement updates
+          </h2>
+          <p>
+            Verified updates from the City Government of Malaybalay, the 10th
+            Sangguniang Panlungsod, and the Bids and Awards Committee (BAC).
+            Social media posts are never treated as enacted law without an
+            official publication record.
+          </p>
+        </div>
+        <div className="home-official-monitors">
+          <a
+            href={OFFICIAL_CITY_FB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="official-fb-pill"
+          >
+            <FacebookIcon size={16} />
+            <span>City Government of Malaybalay FB</span>
+            <ExternalLink aria-hidden="true" />
+          </a>
+          <a
+            href={OFFICIAL_BAC_FB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="official-fb-pill"
+          >
+            <FacebookIcon size={16} />
+            <span>BAC LGU Malaybalay FB</span>
+            <ExternalLink aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+
+      <div
+        className="news-category-filter-bar"
+        role="tablist"
+        aria-label="Filter public information updates by category"
+      >
+        {newsCategoryOptions.map((category) => (
+          <button
+            key={category}
+            type="button"
+            role="tab"
+            aria-selected={selectedCategory === category}
+            className={selectedCategory === category ? "is-active" : ""}
+            onClick={() => setSelectedCategory(category)}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <div className="newsletter-cards-grid">
+        {filteredNews.map((card) => (
+          <article key={card.id} className="newsletter-card">
+            <div className="newsletter-card-meta">
+              <span className="newsletter-category-tag">{card.category}</span>
+              <span
+                className={`newsletter-verification-tag ${
+                  card.verificationStatus === "Confirmed Official Record"
+                    ? "is-confirmed"
+                    : card.verificationStatus === "Verified Public Announcement"
+                      ? "is-verified"
+                      : "is-pending"
+                }`}
+              >
+                {card.verificationStatus}
+              </span>
+            </div>
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+            <dl className="newsletter-card-facts">
+              <div>
+                <dt>Published / Period</dt>
+                <dd>{card.publishedDate}</dd>
+              </div>
+              <div>
+                <dt>Source Attribution</dt>
+                <dd>{card.sourceAttribution}</dd>
+              </div>
+            </dl>
+            <div className="newsletter-card-actions">
+              <Link to={card.internalRoute} className="newsletter-primary-link">
+                <span>Read full context</span>
+                <ArrowRight aria-hidden="true" />
+              </Link>
+              <a
+                href={card.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="newsletter-source-link"
+              >
+                {card.sourceUrl.includes("facebook.com") ? (
+                  <FacebookIcon size={14} />
+                ) : null}
+                <span>Official source</span>
+                <ExternalLink aria-hidden="true" />
+              </a>
+              {card.secondarySourceUrl && (
+                <a
+                  href={card.secondarySourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="newsletter-source-link"
+                >
+                  {card.secondarySourceUrl.includes("facebook.com") ? (
+                    <FacebookIcon size={14} />
+                  ) : null}
+                  <span>{card.secondarySourceLabel ?? "Reference"}</span>
+                  <ExternalLink aria-hidden="true" />
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="discussion-cards-block" id="civic-discussions">
+        <div className="discussion-cards-heading">
+          <div>
+            <span className="eyebrow">In-depth public context</span>
+            <h3>Government discussion &amp; policy analysis cards</h3>
+            <p>
+              Context briefs explaining the background, key points, public
+              implications, and verification boundaries of major Malaybalay
+              governance discussions.
+            </p>
+          </div>
+          <div className="discussion-quick-links">
+            <Link className="button secondary" to="/hearings">
+              Legislative hearings <ArrowRight aria-hidden="true" />
+            </Link>
+            <Link className="button secondary" to="/procurement/livestreams">
+              BAC livestream hub <ArrowRight aria-hidden="true" />
+            </Link>
+            <Link className="button secondary" to="/budget">
+              Budget transparency <ArrowRight aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+
+        <div className="discussion-cards-grid">
+          {civicDiscussionCards.map((discussion) => (
+            <article key={discussion.id} className="discussion-card">
+              <div className="discussion-card-top">
+                <span className="discussion-category">{discussion.category}</span>
+                <span className="discussion-date">{discussion.publishedDate}</span>
+              </div>
+              <h4>{discussion.title}</h4>
+              <div className="discussion-section">
+                <strong>Background</strong>
+                <p>{discussion.background}</p>
+              </div>
+              <div className="discussion-section">
+                <strong>Key points</strong>
+                <ul>
+                  {discussion.keyPoints.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="discussion-section">
+                <strong>Implications for residents</strong>
+                <p>{discussion.implications}</p>
+              </div>
+              <div className="discussion-verification-box">
+                <ShieldCheck aria-hidden="true" />
+                <p>{discussion.verificationNote}</p>
+              </div>
+              <div className="discussion-card-footer">
+                <Link className="button primary" to={discussion.internalRoute}>
+                  Open dedicated section <ArrowRight aria-hidden="true" />
+                </Link>
+                <div className="discussion-sources-row">
+                  <a
+                    href={discussion.primarySource.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {discussion.primarySource.url.includes("facebook.com") ? (
+                      <FacebookIcon size={14} />
+                    ) : null}
+                    <span>{discussion.primarySource.label}</span>
+                    <ExternalLink aria-hidden="true" />
+                  </a>
+                  {discussion.supportingSources.map((source) => (
+                    <a
+                      key={source.url}
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {source.url.includes("facebook.com") ? (
+                        <FacebookIcon size={14} />
+                      ) : null}
+                      <span>{source.label}</span>
+                      <ExternalLink aria-hidden="true" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function HomePage() {
   const [financeFocus, setFinanceFocus] = useState<
     "income" | "spending" | "balance" | "savings" | null
@@ -1277,7 +1711,9 @@ function HomePage() {
           </div>
         </div>
       </section>
+      <FirstTimeWelcomeCard />
       <WeatherPanel />
+      <HomeNewsAndDiscussionsSection />
       <section className="section container city-overview" id="about-malaybalay">
         <div className="city-overview-copy">
           <span className="eyebrow">About Malaybalay City</span>
@@ -1813,8 +2249,315 @@ function ProcurementRecordIndex({
   );
 }
 
+function BacLivestreamMonitoringPage() {
+  const [query, setQuery] = useState("");
+  const [tierFilter, setTierFilter] = useState<string>("All");
+  const [showFbEmbed, setShowFbEmbed] = useState(false);
+  const deferredQuery = useDeferredValue(query.trim().toLowerCase());
+
+  const filteredEntries = bacLivestreamEntries.filter((entry) => {
+    const matchesTier =
+      tierFilter === "All" || entry.verificationCategory === tierFilter;
+    const matchesQuery =
+      !deferredQuery ||
+      `${entry.referenceCode} ${entry.projectName} ${entry.participatingAgencyOrBarangay} ${entry.identifiedContractorOrBidder} ${entry.procurementStatus}`
+        .toLowerCase()
+        .includes(deferredQuery);
+    return matchesTier && matchesQuery;
+  });
+
+  const formatBudget = (value: number | null) =>
+    value === null
+      ? "See linked packet / source"
+      : new Intl.NumberFormat("en-PH", {
+          style: "currency",
+          currency: "PHP",
+          minimumFractionDigits: 2,
+        }).format(value);
+
+  return (
+    <>
+      <PageHero
+        eyebrow="BAC LGU Malaybalay · Separate procurement & livestream hub"
+        title="BAC Livestream Monitoring, Bidding Discussions & Documentation"
+        description="Dedicated procurement transparency section for the Bids and Awards Committee (BAC) of the City Government of Malaybalay. Kept strictly separate from Sangguniang Panlungsod legislative hearings."
+        compact
+      />
+      <section className="section container procurement-page bac-livestream-page">
+        <nav className="procurement-page-nav" aria-label="Procurement record types">
+          <NavLink to="/procurement/livestreams">
+            BAC livestreams &amp; documentation
+          </NavLink>
+          {procurementSources.map((source) => (
+            <NavLink key={source.path} to={source.path}>
+              {source.title}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="bac-livestream-top-grid">
+          <article className="bac-livestream-overview-card">
+            <span className="eyebrow">Official sources &amp; downloadable reports</span>
+            <h2>BAC LGU Malaybalay Livestream Documentation (.docx &amp; .txt)</h2>
+            <p>
+              Comprehensive documentation of BAC LGU Malaybalay livestreamed
+              bidding discussions, 2026 Q1 / 2025 Q3 / 2024 Q4 FDP Form 10a
+              bidding outcomes, 212 active 2026 Invitations to Bid, and verified
+              source references.
+            </p>
+            <div className="bac-doc-downloads">
+              <a
+                className="button primary"
+                href={bacLivestreamSummary.docxDownloadPath}
+                download="BAC_LGU_MALAYBALAY_LIVESTREAM_DOCUMENTATION.docx"
+              >
+                <FileText aria-hidden="true" />
+                <span>Download Word Report (.docx)</span>
+              </a>
+              <a
+                className="button secondary"
+                href={bacLivestreamSummary.txtDownloadPath}
+                download="BAC_LGU_MALAYBALAY_LIVESTREAM_DOCUMENTATION.txt"
+              >
+                <FileCheck2 aria-hidden="true" />
+                <span>Download Plain-Text Report (.txt)</span>
+              </a>
+            </div>
+            <div className="bac-source-links-bar">
+              <a
+                href={bacLivestreamSummary.officialPageUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="official-fb-pill"
+              >
+                <FacebookIcon size={16} />
+                <span>BAC LGU Malaybalay FB Page</span>
+                <ExternalLink aria-hidden="true" />
+              </a>
+              <a
+                href={bacLivestreamSummary.referencedCommentUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="official-fb-pill"
+              >
+                <FacebookIcon size={16} />
+                <span>Referenced Post 1641508124420651 / Comment 979070108175116</span>
+                <ExternalLink aria-hidden="true" />
+              </a>
+              <a
+                href={bacLivestreamSummary.cityFbLiveHubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="official-fb-pill"
+              >
+                <FacebookIcon size={16} />
+                <span>City Government of Malaybalay FB Live Hub</span>
+                <ExternalLink aria-hidden="true" />
+              </a>
+            </div>
+          </article>
+
+          <aside className="bac-livestream-embed-card">
+            <div className="bac-embed-header">
+              <div>
+                <span className="eyebrow">Official video &amp; page plugin</span>
+                <h3>BAC LGU Malaybalay Facebook Stream</h3>
+              </div>
+              <button
+                type="button"
+                className="button secondary bac-embed-toggle"
+                onClick={() => setShowFbEmbed((current) => !current)}
+              >
+                {showFbEmbed ? "Hide embedded player" : "Load Facebook Page plugin"}
+              </button>
+            </div>
+            {showFbEmbed ? (
+              <div className="bac-fb-iframe-wrap">
+                <iframe
+                  title="BAC LGU Malaybalay Official Facebook Page Plugin"
+                  src={`https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(
+                    OFFICIAL_BAC_FB_URL,
+                  )}&tabs=timeline,videos&width=500&height=420&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false`}
+                  width="500"
+                  height="420"
+                  style={{ border: "none", overflow: "hidden", width: "100%" }}
+                  scrolling="no"
+                  frameBorder="0"
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  loading="lazy"
+                />
+              </div>
+            ) : (
+              <div className="bac-embed-placeholder">
+                <p>
+                  To protect page performance and privacy, the third-party Meta
+                  page plugin loads on demand. Note that Meta requires an
+                  authenticated Facebook session to play archived livestream
+                  recordings or expand comment permalinks.
+                </p>
+                <div className="bac-embed-placeholder-links">
+                  <a
+                    href={OFFICIAL_BAC_FB_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="button secondary"
+                  >
+                    <FacebookIcon size={16} />
+                    <span>Open facebook.com/bacmalaybalay</span>
+                    <ExternalLink aria-hidden="true" />
+                  </a>
+                </div>
+              </div>
+            )}
+          </aside>
+        </div>
+
+        <div className="data-notice bac-limitation-notice">
+          <CircleAlert aria-hidden="true" />
+          <div>
+            <strong>
+              Strict accuracy &amp; documented livestream access boundary
+            </strong>
+            <p>{bacLivestreamSummary.accessLimitationNotice}</p>
+          </div>
+        </div>
+
+        <div className="bac-verification-tiers-grid">
+          <article className="bac-tier-card is-confirmed">
+            <span className="eyebrow">Tier 1 · Confirmed Official Records</span>
+            <h3>FDP Form 10a Bid Results &amp; 212 ITB Packets</h3>
+            <p>
+              Project names, reference numbers, participating offices/barangays,
+              Approved Budgets for the Contract (ABCs), and winning bidders
+              transcribed directly from the City&apos;s published 2024 Q4, 2025 Q3,
+              and 2026 Q1 FDP Form 10a disclosures and PhilGEPS award notices.
+            </p>
+          </article>
+          <article className="bac-tier-card is-reported">
+            <span className="eyebrow">Tier 2 · Attributed Public Statements</span>
+            <h3>Livestreaming Policy &amp; ₱361.87M Reported Savings</h3>
+            <p>
+              Mayor Jay Warren R. Pabillaran&apos;s administrative directive
+              mandating livestreamed BAC proceedings and the reported ₱361.87M
+              cumulative procurement savings (₱241.92M in mid-2022–2024 +
+              ₱119.95M in 2025), attributed to Philippine Daily Inquirer and
+              Coverstory.ph reports.
+            </p>
+          </article>
+          <article className="bac-tier-card is-restricted">
+            <span className="eyebrow">Tier 3 · Requires Verification</span>
+            <h3>Gated Video Timestamps &amp; Post-Award NTPs</h3>
+            <p>
+              Verbatim audio transcripts and internal timestamps for gated
+              Facebook Live stream <code>1641508124420651</code> (comment{" "}
+              <code>979070108175116</code>), final contract award amounts where
+              only ABCs are listed, and Notice to Proceed (NTP) completion dates.
+            </p>
+          </article>
+        </div>
+
+        <div className="legislation-toolbar bac-livestream-toolbar">
+          <label className="directory-search">
+            <span className="sr-only">Search BAC livestream and bidding records</span>
+            <Search aria-hidden="true" />
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search project name, bidder, barangay, or reference code"
+            />
+          </label>
+          <div className="legislation-filters" aria-label="Filter verification category">
+            {[
+              "All",
+              "Confirmed Official Record",
+              "Requires Verification / Platform Restricted",
+            ].map((tier) => (
+              <button
+                key={tier}
+                type="button"
+                aria-pressed={tierFilter === tier}
+                onClick={() => setTierFilter(tier)}
+              >
+                {tier === "Requires Verification / Platform Restricted"
+                  ? "Platform Restricted / Pending"
+                  : tier}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="results-summary">
+          <strong>{filteredEntries.length} documented BAC records</strong>
+          <span>Reviewed {PUBLIC_INFO_REVIEWED_ON} · Legislative hearings kept separate</span>
+        </div>
+
+        <div className="bac-entries-table-wrap">
+          <table className="bac-entries-table">
+            <thead>
+              <tr>
+                <th scope="col">Reference &amp; Activity</th>
+                <th scope="col">Project Name &amp; Participating Agency</th>
+                <th scope="col">Contractor / Bidder</th>
+                <th scope="col">Proposed Budget (ABC)</th>
+                <th scope="col">Procurement Status &amp; Schedule</th>
+                <th scope="col">Verification &amp; Source</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredEntries.map((entry) => (
+                <tr key={entry.id}>
+                  <td>
+                    <strong>{entry.referenceCode}</strong>
+                    <small>{entry.activityType}</small>
+                  </td>
+                  <td>
+                    <strong>{entry.projectName}</strong>
+                    <small>{entry.participatingAgencyOrBarangay}</small>
+                  </td>
+                  <td>{entry.identifiedContractorOrBidder}</td>
+                  <td>
+                    <strong>{formatBudget(entry.proposedBudgetAbc)}</strong>
+                    <small>{entry.approvedAmountNote}</small>
+                  </td>
+                  <td>
+                    <span>{entry.procurementStatus}</span>
+                    <small>{entry.scheduleOrPeriod}</small>
+                  </td>
+                  <td>
+                    <span
+                      className={`newsletter-verification-tag ${
+                        entry.verificationCategory === "Confirmed Official Record"
+                          ? "is-confirmed"
+                          : "is-pending"
+                      }`}
+                    >
+                      {entry.verificationCategory}
+                    </span>
+                    <a
+                      href={entry.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="table-source-link"
+                    >
+                      {entry.sourceLabel} <ExternalLink aria-hidden="true" />
+                    </a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>
+  );
+}
+
 function ProcurementPage() {
   const { category } = useParams<{ category: string }>();
+  if (category === "livestreams") {
+    return <BacLivestreamMonitoringPage />;
+  }
   const page =
     category && category in procurementPageContent
       ? procurementPageContent[
@@ -1834,6 +2577,9 @@ function ProcurementPage() {
       />
       <section className="section container procurement-page">
         <nav className="procurement-page-nav" aria-label="Procurement record types">
+          <NavLink to="/procurement/livestreams">
+            BAC livestreams &amp; documentation
+          </NavLink>
           {procurementSources.map((source) => (
             <NavLink key={source.path} to={source.path}>
               {source.title}
@@ -2014,6 +2760,263 @@ function DpwhInfrastructureLedger() {
   );
 }
 
+function BudgetTransparencyPage() {
+  const [fiscalYearFilter, setFiscalYearFilter] = useState<
+    "All" | BudgetAllocationItem["fiscalYear"]
+  >("All");
+  const [scopeFilter, setScopeFilter] = useState<
+    "All" | BudgetAllocationItem["scope"]
+  >("All");
+  const [query, setQuery] = useState("");
+  const deferredQuery = useDeferredValue(query.trim().toLowerCase());
+
+  const filteredAllocations = budgetTransparencyAllocations.filter((item) => {
+    const matchesFy =
+      fiscalYearFilter === "All" || item.fiscalYear === fiscalYearFilter;
+    const matchesScope = scopeFilter === "All" || item.scope === scopeFilter;
+    const matchesQuery =
+      !deferredQuery ||
+      `${item.sectorOrDepartment} ${item.programOrProject} ${item.classification} ${item.fundingStage}`
+        .toLowerCase()
+        .includes(deferredQuery);
+    return matchesFy && matchesScope && matchesQuery;
+  });
+
+  const formatMoney = (value: number | null) =>
+    value === null
+      ? "See linked source document"
+      : new Intl.NumberFormat("en-PH", {
+          style: "currency",
+          currency: "PHP",
+          minimumFractionDigits: 2,
+        }).format(value);
+
+  return (
+    <>
+      <PageHero
+        eyebrow="Government budget transparency · Malaybalay City & BetterGov.PH reference"
+        title="Understand where public funds come from and which programs receive funding."
+        description="Explore verified Malaybalay City Government operating expenditures, 20% NTA Barangay Development Projects, civil-works allocations, and national FY 2027 HGAB (HB 10858) comparisons from BetterGov.PH."
+        compact
+      />
+      <section className="section container budget-transparency-page">
+        <nav className="procurement-page-nav" aria-label="Transparency and budget sections">
+          <NavLink to="/transparency">Full Disclosure Catalog</NavLink>
+          <NavLink to="/budget">Budget Transparency Hub</NavLink>
+          <NavLink to="/procurement/livestreams">BAC Livestreams &amp; Bidding</NavLink>
+          <NavLink to="/hearings">Legislative &amp; Budget Hearings</NavLink>
+        </nav>
+
+        <div className="data-notice budget-scope-notice">
+          <CircleAlert aria-hidden="true" />
+          <div>
+            <strong>
+              Fiscal year &amp; jurisdiction separation (Local City Budget vs. National HGAB 2027)
+            </strong>
+            <p>
+              BetterMC strictly separates (1) <strong>Reported Actuals</strong>{" "}
+              from the City of Malaybalay&apos;s 2025 Q2 Statement of Receipts and
+              Expenditures, (2) <strong>Enacted / Active 2026 Local Allocations</strong>{" "}
+              (such as the ₱46.0M 20% NTA Barangay Development Fund across 46
+              barangays), (3) the <strong>Proposed FY 2027 City Budget</strong>{" "}
+              currently in Sangguniang Panlungsod committee hearings, and (4)
+              <strong> National Government FY 2027 HGAB (House Bill No. 10858)</strong>{" "}
+              allocations tracked by{" "}
+              <a
+                href={BETTERGOV_HGAB_2027_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                BetterGov.PH Budget (hgab/2027/overview) <ExternalLink aria-hidden="true" />
+              </a>
+              . National line items are never presented as local City Hall appropriations.
+            </p>
+          </div>
+        </div>
+
+        <div className="budget-kpi-grid">
+          <article className="budget-kpi-card">
+            <span className="eyebrow">FY 2025 Q2 · Local Reported Actual</span>
+            <strong>₱1,379,878,253.26</strong>
+            <p>
+              Current operating income reported in the 2025 Q2 Statement of
+              Receipts and Expenditures (IRA/NTA: ₱1.188B; Local Taxes &amp;
+              Enterprises: ₱191.37M).
+            </p>
+          </article>
+          <article className="budget-kpi-card">
+            <span className="eyebrow">FY 2025 Q2 · Local Operating Spending</span>
+            <strong>₱744,884,067.15</strong>
+            <p>
+              Current operating expenditures across General Public Services
+              (₱502.33M), Social Services (₱110.59M), Economic Services
+              (₱87.15M), Health (₱32.94M), and Education (₱6.87M).
+            </p>
+          </article>
+          <article className="budget-kpi-card">
+            <span className="eyebrow">FY 2026 · 20% NTA Barangay Fund</span>
+            <strong>₱46,000,000.00</strong>
+            <p>
+              Published in 2026 Q1 FDP Form 7: ₱1,000,000.00 allocated to each
+              of Malaybalay City&apos;s 46 barangays for local development projects.
+            </p>
+          </article>
+          <article className="budget-kpi-card">
+            <span className="eyebrow">FY 2027 · BetterGov.PH HGAB Reference</span>
+            <strong>HB 10858 vs. NEP</strong>
+            <p>
+              Independent national budget tracking for DPWH Bukidnon 2nd DEO
+              infrastructure (including Brgy. 6 MPB ₱35.0M) and Bukidnon State
+              University.
+            </p>
+          </article>
+        </div>
+
+        <div className="budget-visual-section">
+          <SectionHeading
+            eyebrow="Interactive sectoral breakdown · 2025 Q2 SRE"
+            title="Malaybalay City Government operating income, sectoral expenditures, and cash position"
+          >
+            Select any income source or expenditure service area below to
+            inspect its exact percentage share and verify the figure in the
+            published PDF statement.
+          </SectionHeading>
+          <FinancialBreakdown />
+        </div>
+
+        <div className="budget-explorer-section" id="budget-allocations-explorer">
+          <SectionHeading
+            eyebrow="Programs, projects, and budget classifications"
+            title="Explore funded sectors, departments, and infrastructure allocations"
+          >
+            Filter by fiscal year or government scope to compare local LGU
+            Malaybalay records against national FY 2027 HGAB references.
+          </SectionHeading>
+
+          <div className="toolbar budget-explorer-toolbar">
+            <label>
+              <span>Search sector, department, or project</span>
+              <div className="input-wrap">
+                <Search aria-hidden="true" />
+                <input
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search e.g. Health, Engineering, NTA, HGAB, Barangay 6"
+                />
+              </div>
+            </label>
+            <label>
+              <span>Fiscal year</span>
+              <select
+                value={fiscalYearFilter}
+                onChange={(event) =>
+                  setFiscalYearFilter(
+                    event.target.value as "All" | BudgetAllocationItem["fiscalYear"],
+                  )
+                }
+              >
+                <option value="All">All Fiscal Years (2025–2027)</option>
+                <option value="FY 2025 (Reported Actuals)">
+                  FY 2025 (Reported Actuals)
+                </option>
+                <option value="FY 2026 (Approved / Active)">
+                  FY 2026 (Approved / Active)
+                </option>
+                <option value="FY 2027 (Proposed / HGAB Reference)">
+                  FY 2027 (Proposed / HGAB Reference)
+                </option>
+              </select>
+            </label>
+            <label>
+              <span>Government scope</span>
+              <select
+                value={scopeFilter}
+                onChange={(event) =>
+                  setScopeFilter(
+                    event.target.value as "All" | BudgetAllocationItem["scope"],
+                  )
+                }
+              >
+                <option value="All">All Scopes (Local LGU &amp; National HGAB)</option>
+                <option value="Malaybalay City Government (Local LGU)">
+                  Malaybalay City Government (Local LGU)
+                </option>
+                <option value="National Government (BetterGov.PH HGAB / DPWH / SUC)">
+                  National Government (BetterGov.PH HGAB / DPWH / SUC)
+                </option>
+              </select>
+            </label>
+          </div>
+
+          <div className="results-summary">
+            <strong>{filteredAllocations.length} budget &amp; program entries</strong>
+            <span>Reviewed {PUBLIC_INFO_REVIEWED_ON}</span>
+          </div>
+
+          <div className="bac-entries-table-wrap">
+            <table className="bac-entries-table budget-allocations-table">
+              <thead>
+                <tr>
+                  <th scope="col">Fiscal Year &amp; Stage</th>
+                  <th scope="col">Scope &amp; Classification</th>
+                  <th scope="col">Sector / Department</th>
+                  <th scope="col">Program, Project, or Activity</th>
+                  <th scope="col">Amount &amp; Context</th>
+                  <th scope="col">Source Reference</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredAllocations.map((item) => (
+                  <tr key={item.id}>
+                    <td>
+                      <strong>{item.fiscalYear}</strong>
+                      <small>{item.fundingStage}</small>
+                    </td>
+                    <td>
+                      <span
+                        className={`newsletter-verification-tag ${
+                          item.scope.startsWith("Malaybalay")
+                            ? "is-confirmed"
+                            : "is-verified"
+                        }`}
+                      >
+                        {item.scope.startsWith("Malaybalay")
+                          ? "Local LGU Malaybalay"
+                          : "National HGAB / Agency"}
+                      </span>
+                      <small>{item.classification}</small>
+                    </td>
+                    <td>
+                      <strong>{item.sectorOrDepartment}</strong>
+                    </td>
+                    <td>{item.programOrProject}</td>
+                    <td>
+                      <strong>{formatMoney(item.amount)}</strong>
+                      <small>{item.amountNote}</small>
+                    </td>
+                    <td>
+                      <a
+                        href={item.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="table-source-link"
+                      >
+                        {item.sourceLabel} <ExternalLink aria-hidden="true" />
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <DpwhInfrastructureLedger />
+      </section>
+    </>
+  );
+}
+
 function TransparencyPage() {
   const [params, setParams] = useSearchParams();
   const year = Number(params.get("year") ?? 2026);
@@ -2052,6 +3055,12 @@ function TransparencyPage() {
         description="Browse the City Government’s Full Disclosure listings. Availability here means a record was listed by the official source; it is not a legal-compliance rating."
       />
       <section className="section container">
+        <nav className="procurement-page-nav" aria-label="Transparency and budget sections">
+          <NavLink to="/transparency" end>Full Disclosure Catalog</NavLink>
+          <NavLink to="/budget">Budget Transparency Hub</NavLink>
+          <NavLink to="/procurement/livestreams">BAC Livestreams &amp; Bidding</NavLink>
+          <NavLink to="/hearings">Legislative &amp; Budget Hearings</NavLink>
+        </nav>
         <div className="data-notice">
           <CircleAlert />
           <div>
@@ -2518,6 +3527,25 @@ function LegislativeOfficialPage() {
             <div><dt>Position</dt><dd>{official.role}</dd></div>
             <div><dt>Office</dt><dd>{official.office.name}</dd></div>
             <div>
+              <dt>Official Facebook page</dt>
+              <dd>
+                {official.facebookUrl ? (
+                  <a
+                    href={official.facebookUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="official-fb-inline-link"
+                  >
+                    <FacebookIcon size={15} />
+                    <span>{official.facebookLabel ?? official.name}</span>
+                    <ExternalLink aria-hidden="true" />
+                  </a>
+                ) : (
+                  "Flagged for identity verification (no verified named handle attached)"
+                )}
+              </dd>
+            </div>
+            <div>
               <dt>Legislative term</dt>
               <dd>Not established from the reviewed profile source</dd>
             </div>
@@ -2543,6 +3571,8 @@ function LegislativeOfficialPage() {
               className="legislative-official-portrait"
               src={portrait.src}
               alt={`Portrait of ${official.name}`}
+              loading="lazy"
+              decoding="async"
             />
           )}
           <span className="eyebrow">Source ledger</span>
@@ -2555,6 +3585,18 @@ function LegislativeOfficialPage() {
           >
             Open official profile <ExternalLink aria-hidden="true" />
           </a>
+          {official.facebookUrl && (
+            <a
+              className="button secondary official-fb-button"
+              href={official.facebookUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FacebookIcon size={16} />
+              <span>{official.facebookLabel ?? "Official Facebook page"}</span>
+              <ExternalLink aria-hidden="true" />
+            </a>
+          )}
           <p className="source-availability-note">
             {official.source.label} · reviewed {official.source.verifiedOn}
           </p>
@@ -2712,6 +3754,250 @@ function BarangayDocumentPage() {
   return <><PageHero eyebrow="Barangay document service" title={`Barangay ${profile.name} document guide`} description="A source-led starting point; confirm requirements and fees with the issuing Barangay Hall." compact><Link className="page-hero-backlink" to={`/barangays/${profile.slug}`}>Return to barangay profile <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-detail-layout"><article className="civic-detail-main"><h2>Certificates and clearances</h2><p>{guide.requirements[0]}</p><ol className="civic-steps">{guide.steps.map((step) => <li key={step}>{step}</li>)}</ol><dl className="legislation-detail-facts"><div><dt>Issuing office</dt><dd>Barangay {profile.name} Hall</dd></div><div><dt>Fee and processing time</dt><dd>Not published as a citywide standard; confirm directly with Barangay {profile.name}.</dd></div><div><dt>Official contact</dt><dd>{profile.phone ?? profile.email ?? "No direct contact was published in the reviewed directory."}</dd></div></dl></article><aside className="legislation-source-card"><FileCheck2 aria-hidden="true" /><span className="eyebrow">Official reference</span><h2>Confirm the local procedure</h2><p>BetterMC does not publish a template, fee, or release time for this barangay without a matching official source.</p><a className="button primary" href={guide.source.url} target="_blank" rel="noreferrer">Open barangay directory <ExternalLink aria-hidden="true" /></a></aside></section></>;
 }
 
+function SuppliedFacebookVerificationLedger() {
+  return (
+    <section
+      className="supplied-fb-verification-ledger"
+      aria-labelledby="supplied-fb-ledger-title"
+    >
+      <div className="supplied-fb-ledger-header">
+        <ShieldCheck aria-hidden="true" />
+        <div>
+          <span className="eyebrow">Identity verification safeguard</span>
+          <h3 id="supplied-fb-ledger-title">
+            Supplied numeric Facebook profile links flagged for verification
+          </h3>
+          <p>
+            Eleven official Facebook pages with verified vanity handles are
+            attached directly to their matched official profiles. The five
+            numeric <code>profile.php?id=</code> links below do not expose a
+            verified name or position in their URL, while six council/sectoral
+            members do not have a confirmed named handle. BetterMC flags these
+            five links for verification rather than guessing by list order.
+          </p>
+        </div>
+      </div>
+      <div className="supplied-fb-ledger-grid">
+        {unmatchedSuppliedFacebookProfiles.map((entry) => (
+          <article key={entry.profileId} className="supplied-fb-ledger-card">
+            <div className="supplied-fb-ledger-top">
+              <FacebookIcon size={16} />
+              <strong>{entry.label}</strong>
+              <span className="newsletter-verification-tag is-pending">
+                Flagged for verification
+              </span>
+            </div>
+            <p>{entry.statusNote}</p>
+            <a
+              href={entry.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="official-fb-inline-link"
+            >
+              <span>Inspect on Facebook ({entry.profileId})</span>
+              <ExternalLink aria-hidden="true" />
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function LegislativeHearingsPage() {
+  const [sessionFilter, setSessionFilter] = useState<
+    "All" | LegislativeHearingRecord["sessionType"]
+  >("All");
+  const [query, setQuery] = useState("");
+  const deferredQuery = useDeferredValue(query.trim().toLowerCase());
+
+  const filteredHearings = legislativeHearingRecords.filter((hearing) => {
+    const matchesType =
+      sessionFilter === "All" || hearing.sessionType === sessionFilter;
+    const matchesQuery =
+      !deferredQuery ||
+      `${hearing.title} ${hearing.committeeOrBody} ${hearing.presidingOrChair} ${hearing.agendaItems.join(" ")} ${hearing.ordinancesAndResolutions.join(" ")}`
+        .toLowerCase()
+        .includes(deferredQuery);
+    return matchesType && matchesQuery;
+  });
+
+  return (
+    <>
+      <PageHero
+        eyebrow="Malaybalay City Council & BetterGov.PH Hearings Integration"
+        title="Legislative sessions, committee hearings, and public consultations."
+        description="Organized around the 10th Sangguniang Panlungsod of Malaybalay City and national budget briefings referenced from BetterGov.PH (budget.bettergov.ph/hearings). BAC procurement discussions are kept in a separate procurement hub."
+        compact
+      />
+      <section className="section container legislation-page hearings-page">
+        <nav className="procurement-page-nav" aria-label="Legislative sections">
+          <NavLink to="/legislation" end>
+            Published ordinances &amp; executive issuances
+          </NavLink>
+          <NavLink to="/hearings">
+            Legislative sessions &amp; public hearings
+          </NavLink>
+          <NavLink to="/budget">Budget transparency</NavLink>
+        </nav>
+
+        <div className="data-notice hearings-separation-notice">
+          <Scale aria-hidden="true" />
+          <div>
+            <strong>
+              Legislative hearings vs. BAC procurement proceedings (Strictly separated)
+            </strong>
+            <p>
+              This section covers legislative deliberations of the{" "}
+              <strong>10th Sangguniang Panlungsod of Malaybalay City</strong>{" "}
+              (Presiding Officer: Vice Mayor Estelito &ldquo;Litoy&rdquo; R. Marabe) and
+              national legislative budget briefings indexed on{" "}
+              <a
+                href={BETTERGOV_HEARINGS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                BetterGov.PH Hearings (budget.bettergov.ph/hearings){" "}
+                <ExternalLink aria-hidden="true" />
+              </a>
+              . For Bids and Awards Committee (BAC) bidding sessions and
+              livestream documentation, open the separate{" "}
+              <Link to="/procurement/livestreams">
+                BAC LGU Malaybalay Livestream &amp; Procurement Hub
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+
+        <div className="legislation-toolbar hearings-toolbar">
+          <label className="directory-search">
+            <span className="sr-only">Search legislative hearings and sessions</span>
+            <Search aria-hidden="true" />
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search session title, committee, agenda, or ordinance"
+            />
+          </label>
+          <div className="legislation-filters" aria-label="Filter hearing type">
+            {(
+              [
+                "All",
+                "SP Committee Hearing",
+                "SP Regular Session / Enactment",
+                "Public Consultation & Mandatory Hearing",
+                "BetterGov.PH National Budget Briefing (Bukidnon Context)",
+              ] as const
+            ).map((type) => (
+              <button
+                key={type}
+                type="button"
+                aria-pressed={sessionFilter === type}
+                onClick={() => setSessionFilter(type)}
+              >
+                {type === "BetterGov.PH National Budget Briefing (Bukidnon Context)"
+                  ? "BetterGov.PH National Briefings"
+                  : type}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="results-summary">
+          <strong>{filteredHearings.length} legislative sessions &amp; hearings</strong>
+          <span>Sources reviewed {PUBLIC_INFO_REVIEWED_ON}</span>
+        </div>
+
+        <div className="hearings-cards-grid">
+          {filteredHearings.map((hearing) => (
+            <article key={hearing.id} className="hearing-detail-card">
+              <div className="record-meta">
+                <span>{hearing.sessionType}</span>
+                <span>{hearing.sessionDate}</span>
+                <span
+                  className={`newsletter-verification-tag ${
+                    hearing.verificationStatus === "Confirmed Official Record"
+                      ? "is-confirmed"
+                      : hearing.verificationStatus === "Verified Public Announcement"
+                        ? "is-verified"
+                        : "is-pending"
+                  }`}
+                >
+                  {hearing.verificationStatus}
+                </span>
+              </div>
+              <h2>{hearing.title}</h2>
+              <dl className="hearing-meta-dl">
+                <div>
+                  <dt>Committee / Legislative Body</dt>
+                  <dd>{hearing.committeeOrBody}</dd>
+                </div>
+                <div>
+                  <dt>Presiding Officer / Committee Lead</dt>
+                  <dd>{hearing.presidingOrChair}</dd>
+                </div>
+              </dl>
+
+              <div className="hearing-agenda-box">
+                <h3>Legislative Agenda &amp; Topics Discussed</h3>
+                <ul>
+                  {hearing.agendaItems.map((agenda) => (
+                    <li key={agenda}>{agenda}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="hearing-measures-box">
+                <h3>Proposed / Enacted Ordinances &amp; Resolutions</h3>
+                <div className="hearing-measure-pills">
+                  {hearing.ordinancesAndResolutions.map((measure) => (
+                    <span key={measure} className="hearing-measure-pill">
+                      {measure}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="hearing-statements-box">
+                <h3>Important Statements, Decisions &amp; Verification</h3>
+                <p>{hearing.statementsAndDecisions}</p>
+                <small>{hearing.verificationNotes}</small>
+              </div>
+
+              <div className="newsletter-card-actions">
+                <a
+                  href={hearing.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button secondary"
+                >
+                  {hearing.sourceUrl.includes("facebook.com") ? (
+                    <FacebookIcon size={15} />
+                  ) : null}
+                  <span>{hearing.sourceLabel}</span>
+                  <ExternalLink aria-hidden="true" />
+                </a>
+                {hearing.recordingOrReferenceUrl && (
+                  <a
+                    href={hearing.recordingOrReferenceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="newsletter-source-link"
+                  >
+                    <span>{hearing.recordingOrReferenceLabel ?? "Related Reference"}</span>
+                    <ExternalLink aria-hidden="true" />
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    </>
+  );
+}
+
 function LegislationPage() {
   const [params, setParams] = useSearchParams();
   const requestedKind = params.get("kind");
@@ -2745,6 +4031,15 @@ function LegislationPage() {
         compact
       />
       <section className="section container legislation-page">
+        <nav className="procurement-page-nav" aria-label="Legislative sections">
+          <NavLink to="/legislation" end>
+            Published ordinances &amp; executive issuances
+          </NavLink>
+          <NavLink to="/hearings">
+            Legislative sessions &amp; public hearings
+          </NavLink>
+          <NavLink to="/budget">Budget transparency</NavLink>
+        </nav>
         <div className="legislation-summary" aria-label="Indexed record summary">
           {(["Ordinance", "Executive order", "Memorandum circular"] as const).map(
             (recordKind) => (
@@ -3285,6 +4580,16 @@ function GovernmentPage() {
                         <small className="official-office-preview">
                           {official.office.phone}
                         </small>
+                        {official.facebookUrl ? (
+                          <span className="official-card-fb-badge">
+                            <FacebookIcon size={13} />
+                            <span>{official.facebookLabel ?? "Official Facebook"}</span>
+                          </span>
+                        ) : (
+                          <span className="official-card-fb-pending">
+                            FB pending identity verification
+                          </span>
+                        )}
                       </div>
                     </div>
                   </article>
@@ -3292,6 +4597,7 @@ function GovernmentPage() {
                 );
               })}
             </div>
+            <SuppliedFacebookVerificationLedger />
             {(() => {
               const selectedOfficial = officials.find(
                 (item) => officialId(item.name) === openOfficial,
@@ -3410,6 +4716,22 @@ function GovernmentPage() {
                                 <Mail aria-hidden="true" /><span>{selectedOfficial.office.email}</span>
                               </a>
                             ) : <span className="contact-unavailable">No direct email published</span>}
+                            {selectedOfficial.facebookUrl ? (
+                              <a
+                                className="popout-inline-contact official-fb-contact-btn"
+                                href={selectedOfficial.facebookUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <FacebookIcon size={16} />
+                                <span>{selectedOfficial.facebookLabel ?? "Official Facebook page"}</span>
+                                <ExternalLink aria-hidden="true" />
+                              </a>
+                            ) : (
+                              <span className="contact-unavailable">
+                                Facebook page flagged for identity verification
+                              </span>
+                            )}
                           </div>
                         </section>
 
@@ -4128,7 +5450,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             </div>
           </div>
 
-          <aside className="barangay-disclosure-archive" aria-label={`${profile.name} procurement and audit source archive`}>
+          <aside className="barangay-disclosure-archive" aria-label={`${profile.name} historical procurement archive and audit sources`}>
             <div>
               <span>Source archive</span>
               <strong>2023–2026 procurement and audit context</strong>
@@ -6361,6 +7683,9 @@ export default function App() {
           }
         />
         <Route path="/transparency" element={<TransparencyPage />} />
+        <Route path="/budget" element={<BudgetTransparencyPage />} />
+        <Route path="/hearings" element={<LegislativeHearingsPage />} />
+        <Route path="/procurement/livestreams" element={<BacLivestreamMonitoringPage />} />
         <Route path="/procurement/:category" element={<ProcurementPage />} />
         <Route
           path="/transparency/:year/:quarter/:slug"

@@ -16,6 +16,9 @@ export type Official = {
   group: "Executive" | "Legislative" | "Sectoral" | "National legislative";
   chairmanships?: string[];
   committeeMemberships?: string[];
+  facebookUrl?: string;
+  facebookLabel?: string;
+  facebookStatus?: "Verified" | "Pending identity verification";
   source: Source;
   office: {
     name: string;
@@ -29,6 +32,55 @@ export type Official = {
     source: Source;
   };
 };
+
+export type SuppliedFacebookProfileFlag = {
+  profileId: string;
+  url: string;
+  label: string;
+  statusNote: string;
+};
+
+/**
+ * Five numeric Facebook profile URLs supplied for council/official verification.
+ * Because numeric profile.php?id= links do not expose a verified official handle
+ * in their URL and six council/sectoral officials remain without a named vanity
+ * URL (Jason Chad J. Ayala, Brian Nelson T. Flores, Flaviano T. Gapol, Jr.,
+ * Zoltan Dindo D. Dinlayan, Julius N. Manghano, and Datu Sumbongan), BetterMC
+ * flags these five numeric URLs for identity verification rather than guessing
+ * by list order.
+ */
+export const unmatchedSuppliedFacebookProfiles: SuppliedFacebookProfileFlag[] = [
+  {
+    profileId: "61576358126123",
+    url: "https://www.facebook.com/profile.php?id=61576358126123",
+    label: "Facebook Profile 61576358126123",
+    statusNote: "Supplied numeric profile ID; flagged for identity and official-position verification before attaching to a specific councilor profile.",
+  },
+  {
+    profileId: "100076097234513",
+    url: "https://www.facebook.com/profile.php?id=100076097234513",
+    label: "Facebook Profile 100076097234513",
+    statusNote: "Supplied numeric profile ID; flagged for identity and official-position verification before attaching to a specific councilor profile.",
+  },
+  {
+    profileId: "61567826454574",
+    url: "https://www.facebook.com/profile.php?id=61567826454574",
+    label: "Facebook Profile 61567826454574",
+    statusNote: "Supplied numeric profile ID; flagged for identity and official-position verification before attaching to a specific councilor profile.",
+  },
+  {
+    profileId: "100076620212687",
+    url: "https://www.facebook.com/profile.php?id=100076620212687",
+    label: "Facebook Profile 100076620212687",
+    statusNote: "Supplied numeric profile ID; flagged for identity and official-position verification before attaching to a specific councilor profile.",
+  },
+  {
+    profileId: "100080935946632",
+    url: "https://www.facebook.com/profile.php?id=100080935946632",
+    label: "Facebook Profile 100080935946632",
+    statusNote: "Supplied numeric profile ID; flagged for identity and official-position verification before attaching to a specific councilor profile.",
+  },
+];
 
 export const officialPortraits: Record<
   string,
@@ -49,8 +101,8 @@ export const officialPortraits: Record<
   "Julius N. Manghano": { src: "/images/officials/julius-manghano.webp", note: "Portrait reference supplied to BetterMC; rights not independently verified." },
   "Datu Sumbongan": { src: "/images/officials/datu-sumbongan.webp", note: "Portrait reference supplied to BetterMC; rights not independently verified." },
   "Christopher Tortola": { src: "/images/officials/christopher-tortola.webp", note: "Portrait reference supplied to BetterMC; rights not independently verified." },
-  "Jonathan Keith T. Flores": { src: "/images/officials/flores.jpg", note: "Portrait asset supplied to BetterMC; rights not independently verified." },
-  "Rogelio Neil P. Roque": { src: "/images/officials/roque.jpg", note: "Portrait asset supplied to BetterMC; rights not independently verified." },
+  "Jonathan Keith T. Flores": { src: "/images/officials/flores.webp", note: "Portrait asset supplied to BetterMC; rights not independently verified." },
+  "Rogelio Neil P. Roque": { src: "/images/officials/roque.webp", note: "Portrait asset supplied to BetterMC; rights not independently verified." },
 };
 
 const cityHallAddress =
@@ -122,6 +174,9 @@ export const officials: Official[] = [
     name: "Jonathan Keith T. Flores",
     role: "District Representative, Bukidnon 2nd District",
     group: "National legislative",
+    facebookUrl: "https://www.facebook.com/attyjohnfloresbukidnon2nddistrict",
+    facebookLabel: "Atty. John Flores",
+    facebookStatus: "Verified",
     office: {
       name: "Office of Representative Jonathan Keith T. Flores",
       scope: "Direct office contact",
@@ -143,6 +198,9 @@ export const officials: Official[] = [
     name: "Rogelio Neil P. Roque",
     role: "Provincial Governor of Bukidnon",
     group: "Executive",
+    facebookUrl: "https://www.facebook.com/oneilroque.bukidnon",
+    facebookLabel: "O'Neil Roque",
+    facebookStatus: "Verified",
     office: {
       name: "Provincial Governor’s Office",
       scope: "Direct office contact",
@@ -164,6 +222,9 @@ export const officials: Official[] = [
     name: "Jay Warren R. Pabillaran",
     role: "City Mayor",
     group: "Executive",
+    facebookUrl: "https://www.facebook.com/mayorwarrenpabillaran",
+    facebookLabel: "Mayor Warren Pabillaran",
+    facebookStatus: "Verified",
     office: mayorOffice,
     source: officialProfile("https://sakata.malaybalaycity.gov.ph/executive1/"),
   },
@@ -171,6 +232,9 @@ export const officials: Official[] = [
     name: "Estelito “Litoy” R. Marabe",
     role: "City Vice Mayor",
     group: "Executive",
+    facebookUrl: "https://www.facebook.com/estelitolitoymarabe",
+    facebookLabel: 'Estelito "Litoy" Marabe',
+    facebookStatus: "Verified",
     office: viceMayorOffice,
     source: officialProfile(
       "https://sakata.malaybalaycity.gov.ph/legistative-vice-mayor/",
@@ -180,6 +244,7 @@ export const officials: Official[] = [
     name: "Jason Chad J. Ayala",
     role: "City Councilor",
     group: "Legislative",
+    facebookStatus: "Pending identity verification",
     chairmanships: ["Quasi-Judicial"],
     committeeMemberships: [
       "Human Rights and Ethics",
@@ -200,6 +265,7 @@ export const officials: Official[] = [
     name: "Brian Nelson T. Flores",
     role: "City Councilor",
     group: "Legislative",
+    facebookStatus: "Pending identity verification",
     chairmanships: [
       "Finance, Bank Accounts and Appropriations",
       "Engineering and Public Works",
@@ -226,6 +292,9 @@ export const officials: Official[] = [
     name: "Rendon P. Sangalang",
     role: "City Councilor",
     group: "Legislative",
+    facebookUrl: "https://www.facebook.com/AttyRendonJojoSangalang",
+    facebookLabel: 'Atty. Rendon "Jojo" Sangalang',
+    facebookStatus: "Verified",
     chairmanships: [
       "Human Rights and Ethics",
       "Transportation, Communications and Traffic",
@@ -245,6 +314,9 @@ export const officials: Official[] = [
     name: "Niko P. Aldeguer",
     role: "City Councilor",
     group: "Legislative",
+    facebookUrl: "https://www.facebook.com/konsehalniko",
+    facebookLabel: "Konsehal Niko",
+    facebookStatus: "Verified",
     chairmanships: ["Cooperatives", "Public Utilities"],
     committeeMemberships: [
       "Ways and Means and Economic Enterprise",
@@ -266,6 +338,9 @@ export const officials: Official[] = [
     name: "Kathleen Cecille C. Pagaling",
     role: "City Councilor",
     group: "Legislative",
+    facebookUrl: "https://www.facebook.com/kathleencecillecasinabepagaling",
+    facebookLabel: "Kathleen Cecille Casina Be Pagaling",
+    facebookStatus: "Verified",
     chairmanships: ["Health and Social Welfare Services", "Women and Family"],
     committeeMemberships: ["Tourism", "Blue Ribbon"],
     office: councilorOffice(
@@ -282,6 +357,9 @@ export const officials: Official[] = [
     name: "Alan Ryann O. Legaspi",
     role: "City Councilor",
     group: "Legislative",
+    facebookUrl: "https://www.facebook.com/KonsehalManoyLegaspi",
+    facebookLabel: "Konsehal Manoy Legaspi",
+    facebookStatus: "Verified",
     chairmanships: [
       "Agriculture and Agrarian Reform",
       "Ways and Means and Economic Enterprise",
@@ -307,6 +385,9 @@ export const officials: Official[] = [
     name: "Erwin A. Damasco",
     role: "City Councilor",
     group: "Legislative",
+    facebookUrl: "https://www.facebook.com/erwinwinkydamasco",
+    facebookLabel: 'Erwin "Winky" Damasco',
+    facebookStatus: "Verified",
     chairmanships: [
       "Human Settlements, Zoning and Land Use",
       "Senior Citizens and Veterans Affairs",
@@ -331,6 +412,7 @@ export const officials: Official[] = [
     name: "Flaviano T. Gapol, Jr.",
     role: "City Councilor",
     group: "Legislative",
+    facebookStatus: "Pending identity verification",
     chairmanships: [
       "Environment and Natural Resources",
       "Codification, Rules and Laws",
@@ -355,6 +437,7 @@ export const officials: Official[] = [
     name: "Zoltan Dindo D. Dinlayan",
     role: "City Councilor",
     group: "Legislative",
+    facebookStatus: "Pending identity verification",
     chairmanships: ["Civil Service and Personnel Management", "Education"],
     committeeMemberships: [
       "Finance, Bank Accounts and Appropriations",
@@ -379,6 +462,9 @@ export const officials: Official[] = [
     name: "Cromwell Kiril D. Dinlayan",
     role: "City Councilor",
     group: "Legislative",
+    facebookUrl: "https://www.facebook.com/galicromwellkirildinlayan",
+    facebookLabel: "Galic Romwell Kirildinlayan",
+    facebookStatus: "Verified",
     chairmanships: [
       "Cultural Heritage and Arts",
       "Commerce, Trade, Industry and Labor Relations",
@@ -406,6 +492,7 @@ export const officials: Official[] = [
     name: "Julius N. Manghano",
     role: "ABC President",
     group: "Sectoral",
+    facebookStatus: "Pending identity verification",
     office: barangayEightOffice,
     source: officialProfile(
       "https://sakata.malaybalaycity.gov.ph/legislative-city-councilor-xi/",
@@ -415,6 +502,7 @@ export const officials: Official[] = [
     name: "Datu Sumbongan",
     role: "Indigenous Peoples Mandatory Representative",
     group: "Sectoral",
+    facebookStatus: "Pending identity verification",
     office: councilOffice,
     source: officialProfile(
       "https://sakata.malaybalaycity.gov.ph/legislative-city-councilor-xii/",
@@ -424,6 +512,9 @@ export const officials: Official[] = [
     name: "Christopher Tortola",
     role: "SK Federation President",
     group: "Sectoral",
+    facebookUrl: "https://www.facebook.com/sp.cristopher.lambert.tortola",
+    facebookLabel: "SP Cristopher Lambert Tortola",
+    facebookStatus: "Verified",
     office: councilOffice,
     source: officialProfile(
       "https://sakata.malaybalaycity.gov.ph/legislative-city-councilor-xiii/",

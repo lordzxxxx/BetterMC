@@ -470,3 +470,16 @@ test("global page access remains complete and responsive", async ({
     ),
   ).toBe(false);
 });
+
+test("budget, hearings, BAC livestreams, and education routes render without overflow across viewports", async ({
+  page,
+}) => {
+  for (const route of ["/budget", "/hearings", "/procurement/livestreams", "/education"]) {
+    await page.goto(route);
+    await expect(page.locator("h1").first()).toBeVisible();
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    );
+    expect(overflow).toBe(false);
+  }
+});

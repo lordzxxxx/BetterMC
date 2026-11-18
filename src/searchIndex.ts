@@ -24,6 +24,13 @@ import {
   VERIFIED_SERVICE_PROVIDERS,
 } from "./serviceCatalog";
 import { documentGuides, educationInstitutions, educationOffices } from "./civicDirectories";
+import {
+  bacLivestreamEntries,
+  budgetTransparencyAllocations,
+  civicDiscussionCards,
+  legislativeHearingRecords,
+  newsletterUpdates,
+} from "./publicInformation";
 
 export type PortalSearchRecord = {
   type: string;
@@ -302,6 +309,66 @@ export const portalSearchIndex: PortalSearchRecord[] = [
     detail: highlight.description,
     href: "/government?tab=records",
     keywords: `${highlight.year} award recognition initiative`,
+  })),
+  {
+    type: "Page",
+    title: "Legislative hearings and sessions",
+    detail: "Malaybalay City Council sessions, committee hearings, agendas, and BetterGov.PH hearing references",
+    href: "/hearings",
+    keywords: "Sangguniang Panlungsod session public hearing agenda committee BetterGov",
+  },
+  {
+    type: "Page",
+    title: "Government budget transparency",
+    detail: "Malaybalay City budget allocations, sectors, programs, and BetterGov.PH FY 2027 HGAB comparison",
+    href: "/budget",
+    keywords: "budget transparency HGAB 2027 NEP allocation sector expenditure BetterGov",
+  },
+  {
+    type: "Page",
+    title: "BAC LGU Malaybalay livestream monitoring",
+    detail: "Procurement livestreams, bidding discussions, FDP Form 10a outcomes, and .docx/.txt documentation",
+    href: "/procurement/livestreams",
+    keywords: "BAC LGU Malaybalay Facebook livestream bidding procurement documentation docx txt",
+  },
+  ...newsletterUpdates
+    .filter((item) => !item.internalRoute.startsWith("/legislation/"))
+    .map((item) => ({
+      type: item.category,
+      title: item.title,
+      detail: `${item.publishedDate} · ${item.sourceAttribution}`,
+      href: item.internalRoute,
+      keywords: `${item.description} ${item.verificationStatus}`,
+    })),
+  ...civicDiscussionCards.map((card) => ({
+    type: "Public discussion",
+    title: card.title,
+    detail: `${card.category} · ${card.publishedDate}`,
+    href: card.internalRoute,
+    keywords: `${card.background} ${card.implications}`,
+  })),
+  ...legislativeHearingRecords.map((hearing) => ({
+    type: hearing.sessionType,
+    title: hearing.title,
+    detail: `${hearing.sessionDate} · ${hearing.committeeOrBody}`,
+    href: "/hearings",
+    keywords: `${hearing.presidingOrChair} ${hearing.agendaItems.join(" ")} ${hearing.ordinancesAndResolutions.join(" ")}`,
+  })),
+  ...bacLivestreamEntries
+    .filter((entry) => !entry.referenceCode.startsWith("ITB-"))
+    .map((entry) => ({
+      type: "BAC procurement & livestream",
+      title: `${entry.referenceCode} · ${entry.projectName}`,
+      detail: `${entry.participatingAgencyOrBarangay} · ${entry.identifiedContractorOrBidder}`,
+      href: "/procurement/livestreams",
+      keywords: `${entry.procurementStatus} ${entry.scheduleOrPeriod} BAC livestream`,
+    })),
+  ...budgetTransparencyAllocations.map((item) => ({
+    type: "Budget allocation",
+    title: item.programOrProject,
+    detail: `${item.fiscalYear} · ${item.sectorOrDepartment}`,
+    href: "/budget",
+    keywords: `${item.classification} ${item.fundingStage} ${item.scope}`,
   })),
 ];
 

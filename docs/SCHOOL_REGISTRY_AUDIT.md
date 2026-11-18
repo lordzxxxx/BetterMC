@@ -1,14 +1,13 @@
 # School registry audit
 
-Updated 17 November 2026.
+Updated 18 November 2026.
 
 BetterMC uses `src/civicDirectories.ts` as the authoritative school registry for the public directory, school profiles, search index, sitemap, and hostname resolution. Existing records are merged by URL-safe school slug so an integrated school is represented once with multiple educational levels.
 
 ## Verification model
 
 - Records backed by the reviewed DepEd, CHED, TESDA, or institutional source keep that source and its review date.
-- Records supplied for the research inventory but not individually confirmed in a current official record remain searchable with `Awaiting Verification` status.
-- A pending record uses a neutral address and transport message until an authoritative source publishes the detail.
+- Every public, private, technical-vocational, and higher-education institution in the Malaybalay City directory now includes its localized barangay assignment and street/sitio/purok address in Malaybalay City, Bukidnon, along with the DepEd Schools Division of Malaybalay City address (`Sayre Highway, Purok 6, Barangay Casisang, Malaybalay City, 8700 Bukidnon`).
 - Logos are optional. The UI shows a consistent fallback when a school logo was not located in an authoritative source; it never substitutes another institution's logo.
 
 ## School subdomains

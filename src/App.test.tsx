@@ -6,14 +6,24 @@ import {
   barangaySlugFromHostname,
   MALAYBALAY_2024_POPULATION,
 } from "./barangayProfiles";
-import { civicRecords, reportedProcurementSavings } from "./data";
+import {
+  civicRecords,
+  officials,
+  reportedProcurementSavings,
+  unmatchedSuppliedFacebookProfiles,
+} from "./data";
 import { civicRecordContext } from "./civicRecordContext";
 import {
   buildGoogleMapsPlaceUrl,
   essentialNationalServices,
   VERIFIED_SERVICE_PROVIDERS,
 } from "./serviceCatalog";
-import { documentGuides, educationInstitutions, schoolSlugFromHostname } from "./civicDirectories";
+import {
+  documentGuides,
+  educationInstitutions,
+  educationOffices,
+  schoolSlugFromHostname,
+} from "./civicDirectories";
 
 describe("BetterMC public portal", () => {
   it("keeps source-led education and document routes available without inventing missing details", () => {
@@ -925,5 +935,150 @@ describe("BetterMC public portal", () => {
     });
     fireEvent.click(closeBtn);
     expect(screen.queryByText(/Official Tracking Reference:/i)).not.toBeInTheDocument();
+  });
+
+  it("ensures every school and DepEd office has an accurate, localized Malaybalay address and barangay", () => {
+    for (const school of educationInstitutions) {
+      expect(school.address).not.toMatch(/Address not confirmed|Address not published/i);
+      expect(school.address).toMatch(/Malaybalay City/i);
+      expect(school.barangay).toBeTruthy();
+    }
+    for (const office of educationOffices) {
+      expect(office.address).not.toMatch(/Address not published/i);
+      expect(office.address).toMatch(/Malaybalay City/i);
+    }
+  });
+
+  it("renders the first-time visitor welcome card, homepage news cards, and civic discussion cards", () => {
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(
+      screen.getByRole("heading", {
+        name: /How to navigate Malaybalay City's public records on BetterMC/i,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: /Latest news, ordinances, hearings, and procurement updates/i,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: /Government discussion & policy analysis cards/i,
+      }),
+    ).toBeInTheDocument();
+
+    // Filter news by category
+    fireEvent.click(
+      screen.getByRole("tab", { name: "Procurement & Bidding" }),
+    );
+    expect(
+      screen.getByText(/BAC LGU Malaybalay 2026 Bidding Opportunities/i),
+    ).toBeInTheDocument();
+  });
+
+  it("renders the dedicated BAC LGU Malaybalay livestream monitoring hub with .docx and .txt downloads", () => {
+    render(
+      <MemoryRouter initialEntries={["/procurement/livestreams"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(
+      screen.getByRole("heading", {
+        name: /BAC Livestream Monitoring, Bidding Discussions & Documentation/i,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /Download Word Report \(\.docx\)/i }),
+    ).toHaveAttribute(
+      "href",
+      "/docs/BAC_LGU_MALAYBALAY_LIVESTREAM_DOCUMENTATION.docx",
+    );
+    expect(
+      screen.getByRole("link", { name: /Download Plain-Text Report \(\.txt\)/i }),
+    ).toHaveAttribute(
+      "href",
+      "/docs/BAC_LGU_MALAYBALAY_LIVESTREAM_DOCUMENTATION.txt",
+    );
+    expect(
+      screen.getByText(/RRN Construction & Development Corporation/i),
+    ).toBeInTheDocument();
+  });
+
+  it("integrates BetterGov.PH legislative hearings separately from BAC procurement discussions", () => {
+    render(
+      <MemoryRouter initialEntries={["/hearings"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(
+      screen.getByRole("heading", {
+        name: /Legislative sessions, committee hearings, and public consultations/i,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", {
+        name: /BetterGov\.PH Hearings \(budget\.bettergov\.ph\/hearings\)/i,
+      }),
+    ).toHaveAttribute("href", "https://budget.bettergov.ph/hearings");
+    expect(
+      screen.getByText(
+        /Committee Hearing on the Proposed FY 2027 City Annual Budget/i,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("integrates BetterGov.PH budget transparency with clear fiscal year and scope separation", () => {
+    render(
+      <MemoryRouter initialEntries={["/budget"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(
+      screen.getByRole("heading", {
+        name: /Understand where public funds come from and which programs receive funding/i,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", {
+        name: /BetterGov\.PH Budget \(hgab\/2027\/overview\)/i,
+      }),
+    ).toHaveAttribute("href", "https://budget.bettergov.ph/hgab/2027/overview");
+    expect(
+      screen.getByText(/46 Barangay Development Projects/i),
+    ).toBeInTheDocument();
+  });
+
+  it("matches verified official Facebook pages and flags numeric profile IDs for verification", () => {
+    const verifiedOfficials = officials.filter((o) => o.facebookUrl);
+    expect(verifiedOfficials).toHaveLength(11);
+    expect(
+      new Set(verifiedOfficials.map((o) => o.facebookUrl)).size,
+    ).toBe(11);
+    expect(unmatchedSuppliedFacebookProfiles).toHaveLength(5);
+
+    render(
+      <MemoryRouter
+        initialEntries={[
+          "/government?tab=officials&official=alan-ryann-o-legaspi",
+        ]}
+      >
+        <App />
+      </MemoryRouter>,
+    );
+    const modal = within(
+      document.querySelector("article.expanded") as HTMLElement,
+    );
+    expect(
+      modal.getByRole("link", { name: /Konsehal Manoy Legaspi/i }),
+    ).toHaveAttribute("href", "https://www.facebook.com/KonsehalManoyLegaspi");
+    expect(
+      screen.getByRole("heading", {
+        name: /Supplied numeric Facebook profile links flagged for verification/i,
+      }),
+    ).toBeInTheDocument();
   });
 });
