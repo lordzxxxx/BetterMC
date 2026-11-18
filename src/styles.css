@@ -21630,3 +21630,81 @@ pre {
   .civic-recording-body { min-height: 0; }
   .civic-recording-detail { padding: 15px; }
 }
+
+/* Compact primary navigation and a short secondary directory on phones. */
+.desktop-nav { gap: clamp(10px, 1.25vw, 18px); }
+.desktop-nav > a { white-space: nowrap; font-size: clamp(.78rem, .91vw, .88rem); }
+.page-access-panel { width: min(540px, calc(100vw - 28px)); gap: 6px; }
+.page-access-panel > a { min-height: 52px; padding: 8px 10px; }
+.page-access-panel > a small { font-size: .68rem; }
+.mobile-nav-shell { max-height: min(78dvh, 620px); overflow-y: auto; overscroll-behavior: contain; }
+.mobile-nav { gap: 10px; }
+.mobile-nav-primary { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; }
+.mobile-nav-primary a { min-width: 0; min-height: 46px; padding: 8px 10px; border: 1px solid #dce8f4; border-radius: 9px; background: #fff; font-size: .82rem; }
+.mobile-nav-primary a + a { border-top: 1px solid #dce8f4; border-radius: 9px; }
+.mobile-nav-primary a svg { width: 15px; height: 15px; flex: none; }
+.mobile-nav-more { border-top: 1px solid #dce8f4; }
+.mobile-nav-more summary { display: flex; align-items: center; justify-content: space-between; min-height: 44px; padding: 6px 10px; color: #174a94; font-size: .84rem; font-weight: 700; cursor: pointer; list-style: none; }
+.mobile-nav-more summary::-webkit-details-marker { display: none; }
+.mobile-nav-more summary svg { width: 16px; height: 16px; }
+.mobile-nav-more[open] summary svg { transform: rotate(180deg); }
+.mobile-nav-more > div { display: grid; gap: 2px; }
+.mobile-nav-more a { min-height: 44px; padding: 8px 10px; border-radius: 8px; font-size: .82rem; }
+.mobile-nav-more a + a { border: 0; }
+
+/* Agency marks are used only where the agency itself published the asset. */
+.provider-card header.provider-card-head { display: grid; grid-template-columns: auto minmax(0,1fr); align-items: start; gap: 12px; }
+.provider-card .provider-card-identity { min-width: 0; }
+.provider-card .provider-logo { display: grid; place-items: center; width: 54px; height: 54px; flex: none; border: 1px solid #d4e3f1; border-radius: 10px; background: #f1f7fe; color: #1c5aa5; }
+.provider-card .provider-logo.has-logo { width: 104px; padding: 6px; background: #fff; }
+.provider-card .provider-logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.provider-card .provider-logo img:is([src$="/sss.png"],[src$="/dti.png"],[src$="/deped.png"]) { object-fit: cover; object-position: left center; }
+.provider-card .provider-logo svg { width: 24px; height: 24px; }
+.provider-card .provider-mobile-toggle { display: none; }
+.provider-card .provider-card-meta { margin-bottom: 5px; }
+.provider-card .provider-address span, .provider-card .provider-facts dd { overflow-wrap: anywhere; }
+.provider-card .provider-transactions-section { align-self: start; }
+
+/* Procurement controls form one aligned row and records load in small batches. */
+.procurement-page .procurement-index { padding: clamp(14px,2vw,22px); }
+.procurement-index-head { display: block; }
+.procurement-index-filters { display: grid; grid-template-columns: minmax(0,1fr) minmax(180px,260px) auto; align-items: end; gap: 10px; margin-top: 16px; }
+.procurement-index-filters .hearing-filter-field { width: auto; }
+.procurement-index .procurement-search { height: 46px; gap: 9px; padding-inline: 12px; }
+.procurement-index .procurement-search svg { position: static; width: 18px; height: 18px; flex: none; transform: none; }
+.procurement-index .procurement-search input { min-width: 0; min-height: 44px !important; padding: 0 !important; }
+.procurement-index .bid-record-list button { grid-template-columns: minmax(0,1fr); grid-template-rows: auto auto 1fr auto; min-height: 124px; padding: 14px; }
+.procurement-index .bid-record-list button p { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; align-self: start; }
+.procurement-index .bid-record-list button .bid-record-card-action { grid-column: 1; display: inline-flex; align-items: center; gap: 5px; margin-top: 9px; color: #1b56a6; font-size: .76rem; font-weight: 700; text-transform: none; }
+.procurement-index .bid-record-list button .bid-record-card-action svg { position: static; width: 14px; height: 14px; }
+.procurement-index .bid-record-toggle { margin-top: 18px; cursor: pointer; }
+
+@media (max-width: 960px) {
+  .provider-card .provider-logo.has-logo { width: 84px; height: 54px; }
+}
+@media (max-width: 760px) {
+  .procurement-index-filters { grid-template-columns: minmax(0,1fr) minmax(160px,.55fr); }
+  .procurement-index-filters .hearing-clear-filters { grid-column: 1 / -1; justify-self: start; }
+}
+@media (max-width: 640px) {
+  .mobile-nav-shell { left: 12px; right: 12px; width: auto; padding: 10px; }
+  .procurement-index-filters { grid-template-columns: minmax(0,1fr); }
+  .procurement-index-filters .hearing-clear-filters { grid-column: 1; }
+  .procurement-index .bid-record-list button { min-height: 112px; }
+  .provider-card header.provider-card-head { grid-template-columns: minmax(0,1fr) auto; }
+  .provider-card .provider-card-identity { grid-column: 1; grid-row: 1; }
+  .provider-card .provider-logo { grid-column: 2; grid-row: 1; width: 42px; height: 42px; }
+  .provider-card .provider-logo.has-logo { width: 66px; height: 48px; padding: 4px; }
+  .provider-card .provider-card-meta { gap: 4px; }
+  .provider-card .provider-jurisdiction-badge { display: none; }
+  .provider-card .provider-mobile-toggle { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 44px; padding: 8px 11px; border: 1px solid #c7dcf2; border-radius: 9px; background: #f5f9ff; color: #174a94; font: inherit; font-size: .82rem; font-weight: 700; text-align: left; cursor: pointer; }
+  .provider-card .provider-mobile-toggle svg { width: 17px; height: 17px; flex: none; }
+  .provider-card.is-mobile-expanded .provider-mobile-toggle svg { transform: rotate(180deg); }
+  .provider-card:not(.is-mobile-expanded) :is(.provider-facts,.provider-transactions-section,.provider-card-footer) { display: none; }
+  .provider-card .provider-facts { gap: 8px 12px; padding: 10px; }
+  .provider-card .provider-card-footer { flex-wrap: wrap; }
+  .provider-card .provider-portal-btn { max-width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav-more summary svg { transition: none; }
+}

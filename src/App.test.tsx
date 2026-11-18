@@ -49,7 +49,7 @@ describe("BetterMC public portal", () => {
 
   it("opens a bidding notice with its original document link and access note", () => {
     render(<MemoryRouter initialEntries={["/procurement/bidding-opportunities"]}><App /></MemoryRouter>);
-    fireEvent.change(screen.getByPlaceholderText(/Search project, office, barangay, or ITB number/i), { target: { value: "ITB-2026-206" } });
+    fireEvent.change(screen.getByPlaceholderText(/Project, office, barangay, or ITB/i), { target: { value: "ITB-2026-206" } });
     fireEvent.click(screen.getByRole("button", { name: /Open procurement record ITB-2026-206/i }));
     const dialog = screen.getByRole("dialog");
     expect(within(dialog).getByText(/may require sign-in/i)).toBeInTheDocument();
@@ -534,7 +534,7 @@ describe("BetterMC public portal", () => {
     expect(
       screen.getByText(/A bidding opportunity is not an award/i),
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Show all 212 records/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Show more records/i })).toBeInTheDocument();
   });
 
   it("keeps award notices on dedicated internal procurement pages", () => {
