@@ -414,9 +414,13 @@ test("procurement sources preserve record scope", async ({ page }) => {
   await expect(page.locator(".procurement-count")).not.toContainText(
     "212 matching records",
   );
-  await expect(page.locator(".bid-record-list a").first()).toContainText(
+  await expect(page.locator(".bid-record-list button").first()).toContainText(
     /Cabangahan/i,
   );
+  await page.locator(".bid-record-list button").first().click();
+  await expect(page.getByRole("dialog")).toContainText(/Official bidding document/i);
+  await expect(page.getByRole("dialog").getByRole("link", { name: /Open official document/i })).toHaveAttribute("href", /^https:\/\//);
+  await page.getByRole("button", { name: "Close record" }).click();
 
   await page
     .getByRole("link", { name: /Infrastructure awards/i })
@@ -453,14 +457,15 @@ test("global page access remains complete and responsive", async ({
   if ((page.viewportSize()?.width ?? 0) > 960) {
     await page.getByRole("button", { name: "Open BetterMC site directory" }).click();
     const allPages = page.getByRole("navigation", { name: "BetterMC site directory" });
-    await expect(allPages.getByRole("link")).toHaveCount(9);
+    await expect(allPages.getByRole("link")).toHaveCount(13);
     await expect(allPages.getByRole("link", { name: /Legislation/i })).toHaveAttribute(
       "href",
       "/legislation",
     );
+    await expect(allPages.getByRole("link", { name: "BAC recordings" })).toHaveAttribute("href", "/procurement/livestreams");
   } else {
     await page.getByRole("button", { name: "Open menu" }).click();
-    await expect(page.locator("#mobile-navigation").getByRole("link")).toHaveCount(9);
+    await expect(page.locator("#mobile-navigation").getByRole("link")).toHaveCount(13);
     await page.getByRole("button", { name: "Close menu" }).click();
   }
 

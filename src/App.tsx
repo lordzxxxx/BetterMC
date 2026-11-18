@@ -12,6 +12,7 @@ import {
   useState,
   useCallback,
 } from "react";
+import { createPortal } from "react-dom";
 import {
   ArrowRight,
   Award,
@@ -90,7 +91,6 @@ import {
 import {
   bacLivestreamEntries,
   bacLivestreamSummary,
-  BETTERGOV_HEARINGS_URL,
   BETTERGOV_HGAB_2027_URL,
   budgetTransparencyAllocations,
   civicDiscussionCards,
@@ -1381,6 +1381,8 @@ const newsCategoryOptions: Array<"All" | NewsCardCategory> = [
 
 function HomeNewsAndDiscussionsSection() {
   const [selectedCategory, setSelectedCategory] = useState<"All" | NewsCardCategory>("All");
+  const [openDiscussionId, setOpenDiscussionId] = useState<string | null>(null);
+  const activeDiscussion = civicDiscussionCards.find((item) => item.id === openDiscussionId);
   const filteredNews =
     selectedCategory === "All"
       ? newsletterUpdates
@@ -1486,28 +1488,29 @@ function HomeNewsAndDiscussionsSection() {
         <div className="discussion-cards-grid">
           {civicDiscussionCards.map((discussion) => (
             <article key={discussion.id} className="discussion-card">
-              <div className="discussion-card-top">
-                <span className="discussion-category">{discussion.category}</span>
-                <span className="discussion-date">{discussion.publishedDate}</span>
-              </div>
-              <h4>{discussion.title}</h4>
-              <p className="discussion-preview">{discussion.background}</p>
-              <details className="discussion-expand">
-                <summary>Read key points and source context</summary>
-                <ul>{discussion.keyPoints.map((point) => <li key={point}>{point}</li>)}</ul>
-                <p>{discussion.implications}</p>
-                <p>{discussion.verificationNote}</p>
-              </details>
+              <button type="button" className="record-card-open" onClick={() => setOpenDiscussionId(discussion.id)} aria-label={`Read discussion: ${discussion.title}`}>
+                <span className="discussion-card-top"><span className="discussion-category">{discussion.category}</span><span className="discussion-date">{discussion.publishedDate}</span></span>
+                <span className="record-card-title">{discussion.title}</span>
+                <span className="discussion-preview">{discussion.background}</span>
+                <span className="record-card-action">Read discussion <ArrowRight aria-hidden="true" /></span>
+              </button>
               <div className="discussion-card-footer">
-                <Link className="newsletter-primary-link" to={discussion.internalRoute}>
-                  Explore records <ArrowRight aria-hidden="true" />
-                </Link>
                 <a className="newsletter-source-link" href={discussion.primarySource.url} target="_blank" rel="noopener noreferrer">View source <ExternalLink aria-hidden="true" /></a>
               </div>
             </article>
           ))}
         </div>
       </div>
+      {activeDiscussion && <RecordDialog title={activeDiscussion.title} onClose={() => setOpenDiscussionId(null)}>
+        <p className="record-dialog-meta">{activeDiscussion.category} · {activeDiscussion.publishedDate}</p>
+        {activeDiscussion.id === "discussion-bac-livestream-reforms" && <FacebookVideo url={bacLivestreamSummary.verifiedVideoUrl} title="BAC meeting video, 18 November 2026" />}
+        <h3>Background</h3><p>{activeDiscussion.background}</p>
+        <h3>Key points</h3><ul>{activeDiscussion.keyPoints.map((point) => <li key={point}>{point}</li>)}</ul>
+        <h3>What residents can check</h3><p>{activeDiscussion.implications}</p>
+        <h3>Verification and sources</h3><p>{activeDiscussion.verificationNote}</p>
+        <div className="record-dialog-links"><Link to={activeDiscussion.internalRoute} onClick={() => setOpenDiscussionId(null)}>Explore related records <ArrowRight aria-hidden="true" /></Link><a href={activeDiscussion.primarySource.url} target="_blank" rel="noopener noreferrer">Primary source <ExternalLink aria-hidden="true" /></a>{activeDiscussion.supportingSources.map((source) => <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer">{source.label} <ExternalLink aria-hidden="true" /></a>)}</div>
+        {activeDiscussion.id === "discussion-bac-livestream-reforms" && <p className="record-dialog-note">No reviewed verbatim transcript is available for this recording. The written points above summarize linked procurement disclosures and reporting; they are not a transcript of the video.</p>}
+      </RecordDialog>}
     </section>
   );
 }
@@ -1978,15 +1981,17 @@ function PageHero({
   description,
   children,
   compact = false,
+  className = "",
 }: {
   eyebrow: string;
   title: string;
   description: string;
   children?: ReactNode;
   compact?: boolean;
+  className?: string;
 }) {
   return (
-    <section className={`page-hero${compact ? " page-hero-compact" : ""}`}>
+    <section className={`page-hero${compact ? " page-hero-compact" : ""}${className ? ` ${className}` : ""}`}>
       <div className="container">
         <span className="eyebrow">{eyebrow}</span>
         <h1>{title}</h1>
@@ -1997,12 +2002,61 @@ function PageHero({
   );
 }
 
+function RecordDialog({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+
+  useEffect(() => {
+    const previous = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    panelRef.current?.focus();
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+      if (event.key !== "Tab" || !panelRef.current) return;
+      const items = [...panelRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled])')];
+      if (!items.length) return;
+      if (event.shiftKey && document.activeElement === items[0]) {
+        event.preventDefault(); items.at(-1)?.focus();
+      } else if (!event.shiftKey && document.activeElement === items.at(-1)) {
+        event.preventDefault(); items[0].focus();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+      previous?.focus();
+    };
+  }, [onClose]);
+
+  return createPortal(
+    <div className="record-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+      <div ref={panelRef} className="record-dialog" role="dialog" aria-modal="true" aria-labelledby={titleId} tabIndex={-1}>
+        <div className="record-dialog-head"><h2 id={titleId}>{title}</h2><button type="button" onClick={onClose} aria-label="Close record"><X aria-hidden="true" /></button></div>
+        <div className="record-dialog-body">{children}</div>
+      </div>
+    </div>, document.body,
+  );
+}
+
+function FacebookVideo({ url, title }: { url: string; title: string }) {
+  const [loaded, setLoaded] = useState(false);
+  return <div className="record-video">
+    {loaded ? <iframe title={title} src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&width=900`} allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen loading="lazy" /> :
+      <button type="button" onClick={() => setLoaded(true)}><span aria-hidden="true">▶</span> Play original Facebook video</button>}
+    <p>Playback is supplied by Facebook. <a href={url} target="_blank" rel="noopener noreferrer">Open the original video <ExternalLink aria-hidden="true" /></a></p>
+  </div>;
+}
+
 type ProcurementDisplayRecord = {
   number: string;
   title: string;
   year: number;
   stage: string;
   url: string;
+  barangays?: string[];
+  openingAt?: string;
 };
 
 const awardRecordsForDisplay = (
@@ -2087,14 +2141,15 @@ function ProcurementRecordIndex({
   sourceUrl: string;
 }) {
   const [query, setQuery] = useState("");
+  const [stage, setStage] = useState("All");
   const [expanded, setExpanded] = useState(false);
+  const [openRecord, setOpenRecord] = useState<ProcurementDisplayRecord | null>(null);
   const normalizedQuery = query.trim().toLowerCase();
   const filtered = records.filter((record) =>
-    `${record.number} ${record.title} ${record.stage} ${record.year}`
-      .toLowerCase()
-      .includes(normalizedQuery),
+    (stage === "All" || record.stage === stage) && `${record.number} ${record.title} ${record.stage} ${record.year} ${(record.barangays ?? []).join(" ")}`
+      .toLowerCase().includes(normalizedQuery),
   );
-  const visible = expanded || normalizedQuery ? filtered : filtered.slice(0, 16);
+  const visible = expanded || normalizedQuery || stage !== "All" ? filtered : filtered.slice(0, 16);
 
   return (
     <div className="procurement-index">
@@ -2103,35 +2158,36 @@ function ProcurementRecordIndex({
           <span className="eyebrow">Source-linked records</span>
           <h2>Search this procurement page</h2>
         </div>
-        <label className="procurement-search">
-          <span className="sr-only">Search procurement records</span>
+        <label className="hearing-filter-field"><span>Search records</span><span className="procurement-search">
           <Search aria-hidden="true" />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search project, office, barangay, or ITB number"
           />
-        </label>
+        </span></label>
       </div>
+      <div className="procurement-index-filters"><label className="hearing-filter-field"><span>Procurement stage</span><select value={stage} onChange={(event) => setStage(event.target.value)}><option value="All">All stages</option>{[...new Set(records.map((record) => record.stage))].map((value) => <option key={value} value={value}>{value}</option>)}</select></label>{(query || stage !== "All") && <button type="button" className="hearing-clear-filters" onClick={() => { setQuery(""); setStage("All"); }}>Clear filters</button>}</div>
       <div className="procurement-count" role="status">
         <strong>{filtered.length}</strong> matching records · source reviewed {BAC_2026_VERIFIED_ON}
       </div>
       <div className="bid-record-list">
         {visible.map((record, index) => (
-          <a
+          <button
+            type="button"
             key={`${record.number}-${record.url}-${index}`}
-            href={record.url}
-            target="_blank"
-            rel="noreferrer"
+            onClick={() => setOpenRecord(record)}
+            aria-label={`Open procurement record ${record.number}`}
           >
             <span>{record.stage}</span>
             <strong>{record.number}</strong>
             <p>{record.title.replace(/^ITB-\d{4}-\d+\.?\s*/i, "")}</p>
-            <ExternalLink aria-hidden="true" />
-          </a>
+            <ArrowRight aria-hidden="true" />
+          </button>
         ))}
       </div>
-      {!normalizedQuery && filtered.length > 16 && (
+      {!filtered.length && <div className="empty-state" role="status">No procurement records match these filters.</div>}
+      {!normalizedQuery && stage === "All" && filtered.length > 16 && (
         <button
           className="bid-record-toggle"
           type="button"
@@ -2150,6 +2206,14 @@ function ProcurementRecordIndex({
       >
         Open the original City BAC page <ExternalLink aria-hidden="true" />
       </a>
+      {openRecord && <RecordDialog title={openRecord.title.replace(/^ITB-\d{4}-\d+\.?\s*/i, "")} onClose={() => setOpenRecord(null)}>
+        <p className="record-dialog-meta">{openRecord.number} · {openRecord.stage} · {openRecord.year}</p>
+        <dl className="record-dialog-facts"><div><dt>Reference</dt><dd>{openRecord.number}</dd></div><div><dt>Barangay</dt><dd>{openRecord.barangays?.length ? openRecord.barangays.join(", ").replaceAll("-", " ") : "No barangay specified in this index"}</dd></div><div><dt>Bid opening</dt><dd>{openRecord.openingAt ?? "Check the official notice"}</dd></div></dl>
+        <h3>Official bidding document</h3><p>Open the source document for complete eligibility requirements, submission instructions, schedule, and Approved Budget for the Contract. An invitation to bid does not establish an award or completed project.</p>
+        {openRecord.url.includes("drive.google.com/") && <p className="record-dialog-note">This document is hosted on Google Drive and may require sign-in. Open the original file below to read its complete contents.</p>}
+        <div className="record-dialog-links"><a href={openRecord.url} target="_blank" rel="noopener noreferrer">Open official document <ExternalLink aria-hidden="true" /></a><a href={sourceUrl} target="_blank" rel="noopener noreferrer">City BAC source index <ExternalLink aria-hidden="true" /></a></div>
+        <p className="record-dialog-note">No video or reviewed transcript is linked to this individual bidding notice.</p>
+      </RecordDialog>}
     </div>
   );
 }
@@ -2157,7 +2221,8 @@ function ProcurementRecordIndex({
 function BacLivestreamMonitoringPage() {
   const [query, setQuery] = useState("");
   const [tierFilter, setTierFilter] = useState<string>("All");
-  const [showFbEmbed, setShowFbEmbed] = useState(false);
+  const [openEntryId, setOpenEntryId] = useState<string | null>(null);
+  const activeEntry = bacLivestreamEntries.find((item) => item.id === openEntryId);
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
 
   const filteredEntries = bacLivestreamEntries.filter((entry) => {
@@ -2228,6 +2293,7 @@ function BacLivestreamMonitoringPage() {
                 <span>Download Plain-Text Report (.txt)</span>
               </a>
             </div>
+            <p className="bac-report-snapshot-note">These reports are an earlier source review. Their Facebook access note predates the verified video link shown here; no transcript has been added to them.</p>
             <div className="bac-source-links-bar">
               <a
                 href={bacLivestreamSummary.officialPageUrl}
@@ -2265,56 +2331,12 @@ function BacLivestreamMonitoringPage() {
           <aside className="bac-livestream-embed-card">
             <div className="bac-embed-header">
               <div>
-                <span className="eyebrow">Official Facebook page</span>
-                <h3>Find recordings at the source</h3>
+                <span className="eyebrow">Verified Facebook recording</span>
+                <h3>BAC meeting · 18 November 2026</h3>
               </div>
-              <button
-                type="button"
-                className="button secondary bac-embed-toggle"
-                onClick={() => setShowFbEmbed((current) => !current)}
-              >
-                {showFbEmbed ? "Hide Facebook page" : "Load Facebook page"}
-              </button>
             </div>
-            {showFbEmbed ? (
-              <div className="bac-fb-iframe-wrap">
-                <iframe
-                  title="BAC LGU Malaybalay Official Facebook Page Plugin"
-                  src={`https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(
-                    OFFICIAL_BAC_FB_URL,
-                  )}&tabs=timeline,videos&width=500&height=420&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false`}
-                  width="500"
-                  height="420"
-                  style={{ border: "none", overflow: "hidden", width: "100%" }}
-                  scrolling="no"
-                  frameBorder="0"
-                  allowFullScreen
-                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                  loading="lazy"
-                />
-              </div>
-            ) : (
-              <div className="bac-embed-placeholder">
-                <p>
-                  To protect page performance and privacy, the third-party Meta
-                  page plugin loads on demand. Note that Meta requires an
-                  authenticated Facebook session to play archived livestream
-                  recordings or expand comment permalinks.
-                </p>
-                <div className="bac-embed-placeholder-links">
-                  <a
-                    href={OFFICIAL_BAC_FB_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="button secondary"
-                  >
-                    <FacebookIcon size={16} />
-                    <span>Open facebook.com/bacmalaybalay</span>
-                    <ExternalLink aria-hidden="true" />
-                  </a>
-                </div>
-              </div>
-            )}
+            <FacebookVideo url={bacLivestreamSummary.verifiedVideoUrl} title="BAC meeting, 18 November 2026" />
+            <p className="record-dialog-note">Discussion transcript is pending audio review. Published bid outcomes below are drawn from official disclosure files.</p>
           </aside>
         </div>
 
@@ -2352,11 +2374,10 @@ function BacLivestreamMonitoringPage() {
           </article>
           <article className="bac-tier-card is-restricted">
             <span className="eyebrow">Tier 3 · Requires Verification</span>
-            <h3>Gated Video Timestamps &amp; Post-Award NTPs</h3>
+            <h3>Unreviewed audio and post-award records</h3>
             <p>
-              Verbatim audio transcripts and internal timestamps for gated
-              Facebook Live stream <code>1641508124420651</code> (comment{" "}
-              <code>979070108175116</code>), final contract award amounts where
+              Verbatim audio and timestamps for the linked BAC meeting video
+              <code>1641508124420651</code>, final contract award amounts where
               only ABCs are listed, and Notice to Proceed (NTP) completion dates.
             </p>
           </article>
@@ -2373,11 +2394,7 @@ function BacLivestreamMonitoringPage() {
             />
           </label>
           <div className="legislation-filters" aria-label="Filter verification category">
-            {[
-              "All",
-              "Confirmed Official Record",
-              "Requires Verification / Platform Restricted",
-            ].map((tier) => (
+            {["All", ...new Set(bacLivestreamEntries.map((entry) => entry.verificationCategory))].map((tier) => (
               <button
                 key={tier}
                 type="button"
@@ -2415,7 +2432,7 @@ function BacLivestreamMonitoringPage() {
                   <td>
                     <strong>{entry.referenceCode}</strong>
                     <small>{entry.activityType}</small>
-                    <Link to={`/procurement/livestreams/${entry.id}`}>View record <ArrowRight aria-hidden="true" /></Link>
+                    <button type="button" className="table-record-open" onClick={() => setOpenEntryId(entry.id)}>View record <ArrowRight aria-hidden="true" /></button>
                   </td>
                   <td>
                     <strong>{entry.projectName}</strong>
@@ -2454,6 +2471,15 @@ function BacLivestreamMonitoringPage() {
             </tbody>
           </table>
         </div>
+        {activeEntry && <RecordDialog title={activeEntry.projectName} onClose={() => setOpenEntryId(null)}>
+          <p className="record-dialog-meta">{activeEntry.activityType} · {activeEntry.scheduleOrPeriod}</p>
+          {activeEntry.videoUrl && <FacebookVideo url={activeEntry.videoUrl} title={activeEntry.projectName} />}
+          <p>{activeEntry.procurementStatus}</p>
+          <dl className="record-dialog-facts"><div><dt>Reference</dt><dd>{activeEntry.referenceCode}</dd></div><div><dt>Responsible offices</dt><dd>{activeEntry.participatingAgencyOrBarangay}</dd></div><div><dt>Bidder listed</dt><dd>{activeEntry.identifiedContractorOrBidder}</dd></div><div><dt>Approved Budget for the Contract</dt><dd>{formatBudget(activeEntry.proposedBudgetAbc)}</dd></div></dl>
+          <p>{activeEntry.approvedAmountNote}</p>
+          <p className="record-dialog-note">{activeEntry.videoUrl ? "The recording's spoken content has not been reviewed or transcribed. The procurement information above is based on separate published records." : "No video or reviewed verbatim transcript is attached to this procurement record."}</p>
+          <div className="record-dialog-links"><Link to={`/procurement/livestreams/${activeEntry.id}`} onClick={() => setOpenEntryId(null)}>Open permanent page <ArrowRight aria-hidden="true" /></Link><a href={activeEntry.sourceUrl} target="_blank" rel="noopener noreferrer">{activeEntry.sourceLabel} <ExternalLink aria-hidden="true" /></a></div>
+        </RecordDialog>}
       </section>
     </>
   );
@@ -2479,6 +2505,7 @@ function ProcurementPage() {
         eyebrow="Procurement records"
         title={page.title}
         description={page.description}
+        className="procurement-index-hero"
         compact
       />
       <section className="section container procurement-page">
@@ -3693,11 +3720,12 @@ function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" 
           </dl>
           <p className="proceeding-note">{procurement?.approvedAmountNote}</p>
         </>}
+        {procurement?.videoUrl && <FacebookVideo url={procurement.videoUrl} title={procurement.projectName} />}
         <div className="proceeding-media-status">
           <CircleAlert aria-hidden="true" />
           <div>
-            <h3>Video and transcript</h3>
-            <p>No direct playable recording or reviewed transcript is attached to this record. The source link below opens the original publication or document. If it is on Facebook, playback may require a Facebook account.</p>
+            <h3>{procurement?.videoUrl ? "Transcript status" : "Video and transcript"}</h3>
+            <p>{procurement?.videoUrl ? "The original Facebook video is linked above. No reviewed verbatim transcript or verified timestamps have been published for this recording. The procurement notes on this page come from separately cited documents." : "No direct playable recording or reviewed transcript is attached to this record. The source link below opens the original publication or document."}</p>
             {sourceUrl.includes("facebook.com") && <a href={sourceUrl} target="_blank" rel="noopener noreferrer">Open original Facebook post <ExternalLink aria-hidden="true" /></a>}
           </div>
         </div>
@@ -3718,6 +3746,8 @@ function LegislativeHearingsPage() {
     "All" | LegislativeHearingRecord["sessionType"]
   >("All");
   const [query, setQuery] = useState("");
+  const [openHearingId, setOpenHearingId] = useState<string | null>(null);
+  const activeHearing = legislativeHearingRecords.find((item) => item.id === openHearingId);
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
 
   const filteredHearings = legislativeHearingRecords.filter((hearing) => {
@@ -3734,9 +3764,10 @@ function LegislativeHearingsPage() {
   return (
     <>
       <PageHero
-        eyebrow="Malaybalay City Council & BetterGov.PH Hearings Integration"
-        title="Legislative sessions, committee hearings, and public consultations."
-        description="Organized around the 10th Sangguniang Panlungsod of Malaybalay City and national budget briefings referenced from BetterGov.PH (budget.bettergov.ph/hearings). BAC procurement discussions are kept in a separate procurement hub."
+        eyebrow="City Council records"
+        title="Hearings and sessions"
+        description="Browse Malaybalay City Council proceedings and source-linked public consultations. National budget briefings appear only as related context."
+        className="hearings-hero"
         compact
       />
       <section className="section container legislation-page hearings-page">
@@ -3750,67 +3781,19 @@ function LegislativeHearingsPage() {
           <NavLink to="/budget">Budget transparency</NavLink>
         </nav>
 
-        <div className="data-notice hearings-separation-notice">
-          <Scale aria-hidden="true" />
-          <div>
-            <strong>
-              Legislative hearings vs. BAC procurement proceedings (Strictly separated)
-            </strong>
-            <p>
-              This section covers legislative deliberations of the{" "}
-              <strong>10th Sangguniang Panlungsod of Malaybalay City</strong>{" "}
-              (Presiding Officer: Vice Mayor Estelito &ldquo;Litoy&rdquo; R. Marabe) and
-              national legislative budget briefings indexed on{" "}
-              <a
-                href={BETTERGOV_HEARINGS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                BetterGov.PH Hearings (budget.bettergov.ph/hearings){" "}
-                <ExternalLink aria-hidden="true" />
-              </a>
-              . For Bids and Awards Committee (BAC) bidding sessions and
-              livestream documentation, open the separate{" "}
-              <Link to="/procurement/livestreams">
-                BAC LGU Malaybalay Livestream &amp; Procurement Hub
-              </Link>
-              .
-            </p>
-          </div>
-        </div>
+        <p className="hearings-intro">City Council proceedings and referenced national briefings are listed here. <Link to="/procurement/livestreams">Browse BAC procurement records</Link> separately.</p>
 
         <div className="legislation-toolbar hearings-toolbar">
-          <label className="directory-search">
-            <span className="sr-only">Search legislative hearings and sessions</span>
+          <label className="hearing-filter-field"><span>Search</span><span className="directory-search">
             <Search aria-hidden="true" />
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search session title, committee, agenda, or ordinance"
+              placeholder="Search hearings, topics, or measures"
             />
-          </label>
-          <div className="legislation-filters" aria-label="Filter hearing type">
-            {(
-              [
-                "All",
-                "SP Committee Hearing",
-                "SP Regular Session / Enactment",
-                "Public Consultation & Mandatory Hearing",
-                "BetterGov.PH National Budget Briefing (Bukidnon Context)",
-              ] as const
-            ).map((type) => (
-              <button
-                key={type}
-                type="button"
-                aria-pressed={sessionFilter === type}
-                onClick={() => setSessionFilter(type)}
-              >
-                {type === "BetterGov.PH National Budget Briefing (Bukidnon Context)"
-                  ? "BetterGov.PH National Briefings"
-                  : type}
-              </button>
-            ))}
-          </div>
+          </span></label>
+          <label className="hearing-filter-field"><span>Proceeding type</span><select value={sessionFilter} onChange={(event) => setSessionFilter(event.target.value as typeof sessionFilter)}><option value="All">All types</option>{[...new Set(legislativeHearingRecords.map((item) => item.sessionType))].map((type) => <option key={type} value={type}>{type}</option>)}</select></label>
+          {(query || sessionFilter !== "All") && <button type="button" className="hearing-clear-filters" onClick={() => { setQuery(""); setSessionFilter("All"); }}>Clear filters</button>}
         </div>
 
         <div className="results-summary">
@@ -3821,88 +3804,26 @@ function LegislativeHearingsPage() {
         <div className="hearings-cards-grid">
           {filteredHearings.map((hearing) => (
             <article key={hearing.id} className="hearing-detail-card">
-              <div className="record-meta">
-                <span>{hearing.sessionType}</span>
-                <span>{hearing.sessionDate}</span>
-                <span
-                  className={`newsletter-verification-tag ${
-                    hearing.verificationStatus === "Confirmed Official Record"
-                      ? "is-confirmed"
-                      : hearing.verificationStatus === "Verified Public Announcement"
-                        ? "is-verified"
-                        : "is-pending"
-                  }`}
-                >
-                  {hearing.verificationStatus}
-                </span>
-              </div>
-              <h2>{hearing.title}</h2>
-              <Link className="hearing-record-link" to={`/hearings/${hearing.id}`}>View record <ArrowRight aria-hidden="true" /></Link>
-              <dl className="hearing-meta-dl">
-                <div>
-                  <dt>Committee / Legislative Body</dt>
-                  <dd>{hearing.committeeOrBody}</dd>
-                </div>
-                <div>
-                  <dt>Presiding Officer / Committee Lead</dt>
-                  <dd>{hearing.presidingOrChair}</dd>
-                </div>
-              </dl>
-
-              <div className="hearing-agenda-box">
-                <h3>Legislative Agenda &amp; Topics Discussed</h3>
-                <ul>
-                  {hearing.agendaItems.map((agenda) => (
-                    <li key={agenda}>{agenda}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="hearing-measures-box">
-                <h3>Proposed / Enacted Ordinances &amp; Resolutions</h3>
-                <div className="hearing-measure-pills">
-                  {hearing.ordinancesAndResolutions.map((measure) => (
-                    <span key={measure} className="hearing-measure-pill">
-                      {measure}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="hearing-statements-box">
-                <h3>Important Statements, Decisions &amp; Verification</h3>
-                <p>{hearing.statementsAndDecisions}</p>
-                <small>{hearing.verificationNotes}</small>
-              </div>
-
-              <div className="newsletter-card-actions">
-                <a
-                  href={hearing.sourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="button secondary"
-                >
-                  {hearing.sourceUrl.includes("facebook.com") ? (
-                    <FacebookIcon size={15} />
-                  ) : null}
-                  <span>{hearing.sourceLabel}</span>
-                  <ExternalLink aria-hidden="true" />
-                </a>
-                {hearing.recordingOrReferenceUrl && (
-                  <a
-                    href={hearing.recordingOrReferenceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="newsletter-source-link"
-                  >
-                    <span>{hearing.recordingOrReferenceLabel ?? "Related Reference"}</span>
-                    <ExternalLink aria-hidden="true" />
-                  </a>
-                )}
-              </div>
+              <button type="button" className="record-card-open" onClick={() => setOpenHearingId(hearing.id)} aria-label={`Open hearing: ${hearing.title}`}>
+                <span className="record-card-meta"><span>{hearing.sessionType}</span><span>{hearing.sessionDate}</span></span>
+                <span className="record-card-title">{hearing.title}</span>
+                <span className="record-card-summary">{hearing.statementsAndDecisions}</span>
+                <span className="record-card-action">Read full record <ArrowRight aria-hidden="true" /></span>
+              </button>
             </article>
           ))}
         </div>
+        {!filteredHearings.length && <div className="empty-state" role="status">No hearings match your search. Try another term or clear the filters.</div>}
+        {activeHearing && <RecordDialog title={activeHearing.title} onClose={() => setOpenHearingId(null)}>
+          <p className="record-dialog-meta">{activeHearing.sessionType} · {activeHearing.sessionDate}</p>
+          <p>{activeHearing.statementsAndDecisions}</p>
+          <dl className="record-dialog-facts"><div><dt>Legislative body</dt><dd>{activeHearing.committeeOrBody}</dd></div><div><dt>Presiding officer or lead</dt><dd>{activeHearing.presidingOrChair}</dd></div></dl>
+          <h3>Topics discussed</h3><ul>{activeHearing.agendaItems.map((item) => <li key={item}>{item}</li>)}</ul>
+          <h3>Measures mentioned</h3><ul>{activeHearing.ordinancesAndResolutions.map((item) => <li key={item}>{item}</li>)}</ul>
+          <h3>Recording and transcript</h3><p className="record-dialog-note">No direct recording or reviewed verbatim transcript has been attached to this specific hearing. The listed source may be a publication or general archive rather than a video.</p>
+          <h3>Verification</h3><p>{activeHearing.verificationNotes}</p>
+          <div className="record-dialog-links"><Link to={`/hearings/${activeHearing.id}`} onClick={() => setOpenHearingId(null)}>Open permanent page <ArrowRight aria-hidden="true" /></Link><a href={activeHearing.sourceUrl} target="_blank" rel="noopener noreferrer">{activeHearing.sourceLabel} <ExternalLink aria-hidden="true" /></a>{activeHearing.recordingOrReferenceUrl && <a href={activeHearing.recordingOrReferenceUrl} target="_blank" rel="noopener noreferrer">{activeHearing.recordingOrReferenceLabel ?? "Related reference"} <ExternalLink aria-hidden="true" /></a>}</div>
+        </RecordDialog>}
       </section>
     </>
   );

@@ -27,6 +27,35 @@ import {
 } from "./civicDirectories";
 
 describe("BetterMC public portal", () => {
+  it("opens sourced discussions and BAC video in a dismissible panel", () => {
+    render(<MemoryRouter initialEntries={["/"]}><App /></MemoryRouter>);
+    fireEvent.click(screen.getByRole("button", { name: /Read discussion: Livestreamed Public Bidding/i }));
+    const dialog = screen.getByRole("dialog");
+    expect(within(dialog).getByRole("button", { name: /Play original Facebook video/i })).toBeInTheDocument();
+    fireEvent.click(within(dialog).getByRole("button", { name: /Play original Facebook video/i }));
+    expect(within(dialog).getByTitle("BAC meeting video, 18 November 2026")).toHaveAttribute("src", expect.stringContaining("facebook.com/plugins/video.php"));
+    fireEvent.click(within(dialog).getByRole("button", { name: "Close record" }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("combines hearing search and type filters before opening the full record", () => {
+    render(<MemoryRouter initialEntries={["/hearings"]}><App /></MemoryRouter>);
+    fireEvent.change(screen.getByPlaceholderText(/Search hearings, topics, or measures/i), { target: { value: "2027" } });
+    fireEvent.change(screen.getByLabelText(/Proceeding type/i), { target: { value: "SP Committee Hearing" } });
+    expect(screen.getByText(/1 legislative sessions & hearings/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /Open hearing: Committee Hearing on the Proposed FY 2027/i }));
+    expect(within(screen.getByRole("dialog")).getByText(/Department-by-department presentation/i)).toBeInTheDocument();
+  });
+
+  it("opens a bidding notice with its original document link and access note", () => {
+    render(<MemoryRouter initialEntries={["/procurement/bidding-opportunities"]}><App /></MemoryRouter>);
+    fireEvent.change(screen.getByPlaceholderText(/Search project, office, barangay, or ITB number/i), { target: { value: "ITB-2026-206" } });
+    fireEvent.click(screen.getByRole("button", { name: /Open procurement record ITB-2026-206/i }));
+    const dialog = screen.getByRole("dialog");
+    expect(within(dialog).getByText(/may require sign-in/i)).toBeInTheDocument();
+    expect(within(dialog).getByRole("link", { name: /Open official document/i })).toHaveAttribute("href", expect.stringContaining("drive.google.com"));
+  });
+
   it("opens separate sourced detail pages for legislative and BAC records", () => {
     const hearing = legislativeHearingRecords[0];
     const hearingView = render(<MemoryRouter initialEntries={[`/hearings/${hearing.id}`]}><App /></MemoryRouter>);
@@ -349,7 +378,8 @@ describe("BetterMC public portal", () => {
       "href",
       "/procurement/bidding-opportunities",
     );
-    expect(within(navigation).getAllByRole("link")).toHaveLength(9);
+    expect(within(navigation).getByRole("link", { name: /Hearings/i })).toHaveAttribute("href", "/hearings");
+    expect(within(navigation).getAllByRole("link")).toHaveLength(13);
   });
 
   it("lists source-linked transparency records", () => {
@@ -1030,14 +1060,10 @@ describe("BetterMC public portal", () => {
     );
     expect(
       screen.getByRole("heading", {
-        name: /Legislative sessions, committee hearings, and public consultations/i,
+        name: /Hearings and sessions/i,
       }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", {
-        name: /BetterGov\.PH Hearings \(budget\.bettergov\.ph\/hearings\)/i,
-      }),
-    ).toHaveAttribute("href", "https://budget.bettergov.ph/hearings");
+    expect(screen.getByRole("link", { name: /Browse BAC procurement records/i })).toHaveAttribute("href", "/procurement/livestreams");
     expect(
       screen.getByText(
         /Committee Hearing on the Proposed FY 2027 City Annual Budget/i,

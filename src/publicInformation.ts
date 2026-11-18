@@ -7,6 +7,8 @@ export const OFFICIAL_CITY_FB_URL =
 export const OFFICIAL_BAC_FB_URL = "https://www.facebook.com/bacmalaybalay";
 export const OFFICIAL_BAC_COMMENT_URL =
   "https://www.facebook.com/bacmalaybalay?comment_id=Y29tbWVudDoxNjQxNTA4MTI0NDIwNjUxXzk3OTA3MDEwODE3NTExNg%3D%3D";
+export const OFFICIAL_BAC_VIDEO_URL =
+  "https://www.facebook.com/100063747444247/videos/bids-and-awards-committee-meeting-18-november-2026/1641508124420651/";
 export const BETTERGOV_HEARINGS_URL = "https://budget.bettergov.ph/hearings";
 export const BETTERGOV_HGAB_2027_URL =
   "https://budget.bettergov.ph/hgab/2027/overview";
@@ -179,7 +181,7 @@ export const civicDiscussionCards: CivicDiscussionCard[] = [
     implications:
       "Residents, competing contractors, and barangay officials can cross-check whether an announced project is still at the Invitation to Bid stage, has a recorded winning bidder in FDP Form 10a, or is awaiting a Sangguniang Panlungsod resolution.",
     verificationNote:
-      "Confirmed: FDP Form 10a bid results and 212 ITB notices. Reported statement: ₱361.87M cumulative procurement savings figure from PDI/Coverstory.ph. Requires verification: Unauthenticated playback of archived Facebook Live video 1641508124420651 is gated by Meta login.",
+      "Confirmed: FDP Form 10a bid results, 212 ITB notices, and the public BAC meeting video dated 18 November 2026. Reported statement: ₱361.87M cumulative procurement savings figure from PDI/Coverstory.ph. The video's spoken content and timestamps have not been transcribed or reviewed.",
     internalRoute: "/procurement/livestreams",
     primarySource: {
       label: "BAC LGU Malaybalay Official Portal & FDP Form 10a Archive",
@@ -466,15 +468,18 @@ export type BacLivestreamDiscussionEntry = {
   scheduleOrPeriod: string;
   verificationCategory:
     | "Confirmed Official Record"
+    | "Video identified / Discussion unreviewed"
     | "Reported Statement / Discussion"
     | "Requires Verification / Platform Restricted";
   sourceUrl: string;
   sourceLabel: string;
+  videoUrl?: string;
 };
 
 export const bacLivestreamSummary = {
   officialPageUrl: OFFICIAL_BAC_FB_URL,
   referencedCommentUrl: OFFICIAL_BAC_COMMENT_URL,
+  verifiedVideoUrl: OFFICIAL_BAC_VIDEO_URL,
   decodedPostId: "1641508124420651",
   decodedCommentId: "979070108175116",
   cityFbLiveHubUrl: OFFICIAL_CITY_FB_URL,
@@ -482,7 +487,7 @@ export const bacLivestreamSummary = {
   docxDownloadPath: "/docs/BAC_LGU_MALAYBALAY_LIVESTREAM_DOCUMENTATION.docx",
   txtDownloadPath: "/docs/BAC_LGU_MALAYBALAY_LIVESTREAM_DOCUMENTATION.txt",
   accessLimitationNotice:
-    "Direct unauthenticated access to archived Facebook Live video playback and comment permalink ?comment_id=Y29tbWVudDoxNjQxNTA4MTI0NDIwNjUxXzk3OTA3MDEwODE3NTExNg== (Post ID 1641508124420651, Comment ID 979070108175116) on facebook.com/bacmalaybalay is restricted by Meta's login wall. In strict compliance with BetterMC's non-fabrication policy, no spoken transcript or video timestamp is invented. Confirmed procurement outcomes from the City's published FDP Form 10a tables and 2026 BAC ITB index are documented below and in the downloadable .docx and .txt reports.",
+    "The public Facebook post resolves to a BAC meeting video dated 18 November 2026. Playback inside BetterMC depends on Meta's embed availability and the visitor's Facebook access. No reviewed spoken transcript or verified timestamps are available. Confirmed procurement outcomes come from the City's FDP Form 10a tables and BAC ITB index, not from this recording.",
 };
 
 export const bacLivestreamEntries: BacLivestreamDiscussionEntry[] = [
@@ -490,8 +495,7 @@ export const bacLivestreamEntries: BacLivestreamDiscussionEntry[] = [
     id: "bac-live-1641508124420651",
     referenceCode: "FB-POST-1641508124420651",
     activityType: "Policy & Livestream Archive Record",
-    projectName:
-      "BAC LGU Malaybalay Livestreamed Bidding Proceedings & Referenced Discussion Thread (Comment ID 979070108175116)",
+    projectName: "Bids and Awards Committee Meeting — 18 November 2026",
     participatingAgencyOrBarangay:
       "Bids and Awards Committee (BAC), BAC Secretariat, Technical Working Group (TWG), and End-User City Departments",
     identifiedContractorOrBidder:
@@ -500,11 +504,12 @@ export const bacLivestreamEntries: BacLivestreamDiscussionEntry[] = [
     approvedAmountNote:
       "Individual project ABCs and winning bidders are verified via the City's quarterly FDP Form 10a disclosures.",
     procurementStatus:
-      "Livestreamed on Facebook; unauthenticated video playback & comment thread gated by Meta login",
-    scheduleOrPeriod: "2025–2026 BAC Livestream Archive (Reviewed Nov 18, 2026)",
-    verificationCategory: "Requires Verification / Platform Restricted",
-    sourceUrl: OFFICIAL_BAC_COMMENT_URL,
-    sourceLabel: "BAC LGU Malaybalay Facebook Permalink",
+      "Original public Facebook video located; spoken transcript and meeting outcomes require review",
+    scheduleOrPeriod: "18 November 2026 (Facebook video title)",
+    verificationCategory: "Video identified / Discussion unreviewed",
+    sourceUrl: OFFICIAL_BAC_VIDEO_URL,
+    sourceLabel: "City Government of Malaybalay BAC meeting video",
+    videoUrl: OFFICIAL_BAC_VIDEO_URL,
   },
   {
     id: "bac-2026-013-apo-macote",
