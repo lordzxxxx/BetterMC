@@ -97,7 +97,6 @@ import {
   legislativeHearingRecords,
   newsletterUpdates,
   OFFICIAL_BAC_FB_URL,
-  OFFICIAL_CITY_FB_URL,
   PUBLIC_INFO_REVIEWED_ON,
   type NewsCardCategory,
   type LegislativeHearingRecord,
@@ -1400,33 +1399,12 @@ function HomeNewsAndDiscussionsSection() {
             Latest news, ordinances, hearings, and procurement updates
           </h2>
           <p>
-            Verified updates from the City Government of Malaybalay, the 10th
+            Source-linked updates from the City Government of Malaybalay, the 10th
             Sangguniang Panlungsod, and the Bids and Awards Committee (BAC).
             Social media posts are never treated as enacted law without an
-            official publication record.
+            official publication record. Direct video playback is shown only
+            when a recording can be verified.
           </p>
-        </div>
-        <div className="home-official-monitors">
-          <a
-            href={OFFICIAL_CITY_FB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="official-fb-pill"
-          >
-            <FacebookIcon size={16} />
-            <span>City Government of Malaybalay FB</span>
-            <ExternalLink aria-hidden="true" />
-          </a>
-          <a
-            href={OFFICIAL_BAC_FB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="official-fb-pill"
-          >
-            <FacebookIcon size={16} />
-            <span>BAC LGU Malaybalay FB</span>
-            <ExternalLink aria-hidden="true" />
-          </a>
         </div>
       </div>
 
@@ -1454,30 +1432,11 @@ function HomeNewsAndDiscussionsSection() {
           <article key={card.id} className="newsletter-card">
             <div className="newsletter-card-meta">
               <span className="newsletter-category-tag">{card.category}</span>
-              <span
-                className={`newsletter-verification-tag ${
-                  card.verificationStatus === "Confirmed Official Record"
-                    ? "is-confirmed"
-                    : card.verificationStatus === "Verified Public Announcement"
-                      ? "is-verified"
-                      : "is-pending"
-                }`}
-              >
-                {card.verificationStatus}
-              </span>
+              <time>{card.publishedDate}</time>
             </div>
             <h3>{card.title}</h3>
             <p>{card.description}</p>
-            <dl className="newsletter-card-facts">
-              <div>
-                <dt>Published / Period</dt>
-                <dd>{card.publishedDate}</dd>
-              </div>
-              <div>
-                <dt>Source Attribution</dt>
-                <dd>{card.sourceAttribution}</dd>
-              </div>
-            </dl>
+            <span className="newsletter-card-attribution">{card.sourceAttribution}</span>
             <div className="newsletter-card-actions">
               <Link to={card.internalRoute} className="newsletter-primary-link">
                 <span>Read full context</span>
@@ -1495,20 +1454,6 @@ function HomeNewsAndDiscussionsSection() {
                 <span>Official source</span>
                 <ExternalLink aria-hidden="true" />
               </a>
-              {card.secondarySourceUrl && (
-                <a
-                  href={card.secondarySourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="newsletter-source-link"
-                >
-                  {card.secondarySourceUrl.includes("facebook.com") ? (
-                    <FacebookIcon size={14} />
-                  ) : null}
-                  <span>{card.secondarySourceLabel ?? "Reference"}</span>
-                  <ExternalLink aria-hidden="true" />
-                </a>
-              )}
             </div>
           </article>
         ))}
@@ -1518,7 +1463,7 @@ function HomeNewsAndDiscussionsSection() {
         <div className="discussion-cards-heading">
           <div>
             <span className="eyebrow">In-depth public context</span>
-            <h3>Government discussion &amp; policy analysis cards</h3>
+            <h3>Government discussions and policy context</h3>
             <p>
               Context briefs explaining the background, key points, public
               implications, and verification boundaries of major Malaybalay
@@ -1530,7 +1475,7 @@ function HomeNewsAndDiscussionsSection() {
               Legislative hearings <ArrowRight aria-hidden="true" />
             </Link>
             <Link className="button secondary" to="/procurement/livestreams">
-              BAC livestream hub <ArrowRight aria-hidden="true" />
+              BAC records <ArrowRight aria-hidden="true" />
             </Link>
             <Link className="button secondary" to="/budget">
               Budget transparency <ArrowRight aria-hidden="true" />
@@ -1546,57 +1491,18 @@ function HomeNewsAndDiscussionsSection() {
                 <span className="discussion-date">{discussion.publishedDate}</span>
               </div>
               <h4>{discussion.title}</h4>
-              <div className="discussion-section">
-                <strong>Background</strong>
-                <p>{discussion.background}</p>
-              </div>
-              <div className="discussion-section">
-                <strong>Key points</strong>
-                <ul>
-                  {discussion.keyPoints.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className="discussion-section">
-                <strong>Implications for residents</strong>
+              <p className="discussion-preview">{discussion.background}</p>
+              <details className="discussion-expand">
+                <summary>Read key points and source context</summary>
+                <ul>{discussion.keyPoints.map((point) => <li key={point}>{point}</li>)}</ul>
                 <p>{discussion.implications}</p>
-              </div>
-              <div className="discussion-verification-box">
-                <ShieldCheck aria-hidden="true" />
                 <p>{discussion.verificationNote}</p>
-              </div>
+              </details>
               <div className="discussion-card-footer">
-                <Link className="button primary" to={discussion.internalRoute}>
-                  Open dedicated section <ArrowRight aria-hidden="true" />
+                <Link className="newsletter-primary-link" to={discussion.internalRoute}>
+                  Explore records <ArrowRight aria-hidden="true" />
                 </Link>
-                <div className="discussion-sources-row">
-                  <a
-                    href={discussion.primarySource.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {discussion.primarySource.url.includes("facebook.com") ? (
-                      <FacebookIcon size={14} />
-                    ) : null}
-                    <span>{discussion.primarySource.label}</span>
-                    <ExternalLink aria-hidden="true" />
-                  </a>
-                  {discussion.supportingSources.map((source) => (
-                    <a
-                      key={source.url}
-                      href={source.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {source.url.includes("facebook.com") ? (
-                        <FacebookIcon size={14} />
-                      ) : null}
-                      <span>{source.label}</span>
-                      <ExternalLink aria-hidden="true" />
-                    </a>
-                  ))}
-                </div>
+                <a className="newsletter-source-link" href={discussion.primarySource.url} target="_blank" rel="noopener noreferrer">View source <ExternalLink aria-hidden="true" /></a>
               </div>
             </article>
           ))}
@@ -2277,9 +2183,9 @@ function BacLivestreamMonitoringPage() {
   return (
     <>
       <PageHero
-        eyebrow="BAC LGU Malaybalay · Separate procurement & livestream hub"
-        title="BAC Livestream Monitoring, Bidding Discussions & Documentation"
-        description="Dedicated procurement transparency section for the Bids and Awards Committee (BAC) of the City Government of Malaybalay. Kept strictly separate from Sangguniang Panlungsod legislative hearings."
+        eyebrow="BAC LGU Malaybalay · Procurement records"
+        title="BAC bidding records and recordings"
+        description="Review published bid documents and outcomes. Recordings appear here when a direct, playable source is verified."
         compact
       />
       <section className="section container procurement-page bac-livestream-page">
@@ -2359,15 +2265,15 @@ function BacLivestreamMonitoringPage() {
           <aside className="bac-livestream-embed-card">
             <div className="bac-embed-header">
               <div>
-                <span className="eyebrow">Official video &amp; page plugin</span>
-                <h3>BAC LGU Malaybalay Facebook Stream</h3>
+                <span className="eyebrow">Official Facebook page</span>
+                <h3>Find recordings at the source</h3>
               </div>
               <button
                 type="button"
                 className="button secondary bac-embed-toggle"
                 onClick={() => setShowFbEmbed((current) => !current)}
               >
-                {showFbEmbed ? "Hide embedded player" : "Load Facebook Page plugin"}
+                {showFbEmbed ? "Hide Facebook page" : "Load Facebook page"}
               </button>
             </div>
             {showFbEmbed ? (
@@ -3787,8 +3693,14 @@ function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" 
           </dl>
           <p className="proceeding-note">{procurement?.approvedAmountNote}</p>
         </>}
-        <h3>Recording and transcript</h3>
-        <p>No independently accessible recording or reviewed transcript is attached to this record. Video playback, timestamp seeking, and transcript downloads will appear only after the source material has been obtained and checked.</p>
+        <div className="proceeding-media-status">
+          <CircleAlert aria-hidden="true" />
+          <div>
+            <h3>Video and transcript</h3>
+            <p>No direct playable recording or reviewed transcript is attached to this record. The source link below opens the original publication or document. If it is on Facebook, playback may require a Facebook account.</p>
+            {sourceUrl.includes("facebook.com") && <a href={sourceUrl} target="_blank" rel="noopener noreferrer">Open original Facebook post <ExternalLink aria-hidden="true" /></a>}
+          </div>
+        </div>
       </article>
       <aside className="proceeding-detail-source">
         <span className="eyebrow">Source and status</span>

@@ -32,7 +32,7 @@ describe("BetterMC public portal", () => {
     const hearingView = render(<MemoryRouter initialEntries={[`/hearings/${hearing.id}`]}><App /></MemoryRouter>);
     expect(screen.getByRole("heading", { name: hearing.title })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Official City Government of Malaybalay Facebook Page/i })).toHaveAttribute("href", hearing.sourceUrl);
-    expect(screen.getByText(/No independently accessible recording or reviewed transcript/)).toBeInTheDocument();
+    expect(screen.getByText(/No direct playable recording or reviewed transcript/)).toBeInTheDocument();
     hearingView.unmount();
 
     const procurement = bacLivestreamEntries[0];
@@ -981,7 +981,7 @@ describe("BetterMC public portal", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
-        name: /Government discussion & policy analysis cards/i,
+        name: /Government discussions and policy context/i,
       }),
     ).toBeInTheDocument();
 
@@ -1002,7 +1002,7 @@ describe("BetterMC public portal", () => {
     );
     expect(
       screen.getByRole("heading", {
-        name: /BAC Livestream Monitoring, Bidding Discussions & Documentation/i,
+        name: /BAC bidding records and recordings/i,
       }),
     ).toBeInTheDocument();
     expect(
