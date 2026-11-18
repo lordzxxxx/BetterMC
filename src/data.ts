@@ -1154,8 +1154,9 @@ export type CivicRecord = {
   published: string;
   body: string;
   attribution: string;
-  attributionLevel: "office" | "institutional" | "unattributed";
+  attributionLevel: "office" | "institutional" | "named author" | "unattributed";
   source: Source;
+  documentUrl?: string;
 };
 
 const announcementSource = (url: string): Source => ({
@@ -1253,11 +1254,12 @@ export const civicRecords: CivicRecord[] = [
     published: "2026-08-18",
     body: "10th Sangguniang Panlungsod",
     attribution:
-      "Individual sponsor or author was not identified in the verified public listing.",
-    attributionLevel: "institutional",
+      "The official ordinance names Hon. Cristopher Lambert N. Tortola as author. It was enacted by the 10th Sangguniang Panlungsod as a body.",
+    attributionLevel: "named author",
     source: announcementSource(
       "https://sakata.malaybalaycity.gov.ph/ordinance-no-1118-series-of-2026/",
     ),
+    documentUrl: "https://drive.google.com/file/d/1zJ9EWLIgeAXmCJa88TAd2ni7R8epliHH/view?usp=sharing",
   },
   {
     number: "Ordinance No. 1092, Series of 2026",

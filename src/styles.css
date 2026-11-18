@@ -21453,3 +21453,80 @@ pre {
 @media (max-width: 900px) { .procurement-index .bid-record-list { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 760px) { .hearings-page .hearings-toolbar, .procurement-index-head, .hearings-cards-grid, .procurement-index .bid-record-list { grid-template-columns: minmax(0,1fr); } .hearings-page .hearings-toolbar { padding: 14px; } .procurement-page > .procurement-page-summary { grid-template-columns: repeat(2,minmax(0,1fr)); } .procurement-page > .procurement-page-summary > div:last-child { grid-column: 1 / -1; min-height: 54px; } .record-dialog-backdrop { padding: 8px; } .record-dialog { max-height: calc(100dvh - 16px); border-radius: 12px; } .record-dialog-head, .record-dialog-body { padding: 16px; } .record-dialog-facts div { grid-template-columns: minmax(0,1fr); gap: 2px; } }
 @media (prefers-reduced-motion: reduce) { .record-dialog, .record-card-open { scroll-behavior: auto; transition: none; } }
+
+/* Public record and directory refinements */
+@media (min-width: 1440px) {
+  .service-category-page,
+  .bac-livestream-page,
+  .hearings-page,
+  .legislation-detail-page,
+  .government-directory-section,
+  .procurement-page {
+    width: min(1420px, calc(100% - 80px));
+  }
+}
+.service-category-page .service-category-layout {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+}
+.service-category-page .service-responsibility-note {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px 18px;
+  padding: 18px 20px;
+}
+.service-category-page .service-responsibility-note > svg { grid-row: 1 / 3; }
+.service-category-page .service-responsibility-note h2,
+.service-category-page .service-responsibility-note p { grid-column: 2; margin: 0; }
+.service-category-page .service-responsibility-note a { margin: 0; white-space: nowrap; }
+.service-category-back { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 20px; color: #174b9b; font-weight: 650; }
+.service-category-back svg { width: 17px; height: 17px; }
+.barangay-directory-tools { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.barangay-directory-tools .directory-search { width: min(100%, 520px); margin: 0; }
+.barangay-directory-tools > span { color: #526985; font-size: .86rem; white-space: nowrap; }
+.government-directory-section .barangay-grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+.government-directory-section .barangay-grid article { padding: 20px; border-radius: 14px; box-shadow: 0 3px 14px rgba(23,60,103,.04); }
+.government-directory-section .barangay-grid h2 { font-size: 1.3rem; }
+.bac-livestream-page .bac-livestream-top-grid { grid-template-columns: minmax(0,1fr) minmax(390px,.9fr); align-items: stretch; }
+.bac-livestream-page .bac-livestream-overview-card,
+.bac-livestream-page .bac-livestream-embed-card { background: #fff; box-shadow: none; }
+.bac-livestream-page .bac-livestream-toolbar { display: grid; grid-template-columns: minmax(0,1fr); padding: 16px; margin-top: 20px; border: 1px solid #cbd9e8; border-radius: 14px; background: #fff; }
+.bac-livestream-page .bac-livestream-toolbar .directory-search { width: 100%; max-width: none; margin: 0; }
+.bac-livestream-page .results-summary { margin: 18px 0 0; }
+.bac-livestream-page .bac-entries-table-wrap { margin-top: 12px; }
+.bac-livestream-page .bac-entries-table th { font-size: .7rem; }
+.bac-livestream-page .bac-entries-table td { font-size: .82rem; }
+.legislation-provisions { margin-block: 24px; }
+.legislation-provisions h3 { margin: 0 0 12px; font-size: 1.2rem; }
+.legislation-provisions-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.legislation-provisions-grid article { padding: 17px; border: 1px solid #d2e0ed; border-radius: 12px; background: #f8fbff; }
+.legislation-provisions-grid small { color: #1b56a6; font-size: .73rem; font-weight: 700; }
+.legislation-provisions-grid h4 { margin: 5px 0 7px; font-size: 1rem; }
+.legislation-provisions-grid p { margin: 0; color: #435975; font-size: .88rem; line-height: 1.55; }
+.record-video > button { position: relative; overflow: hidden; isolation: isolate; }
+.record-video > button img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.record-video > button::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg,rgba(7,22,46,.82),rgba(7,22,46,.12) 58%); }
+.record-video > button strong { color: #fff; font-size: .9rem; text-shadow: 0 1px 5px #07162e; }
+@media (max-width: 1050px) {
+  .service-category-page .service-responsibility-note { grid-template-columns: 30px minmax(0,1fr); }
+  .service-category-page .service-responsibility-note a { grid-column: 2; white-space: normal; }
+  .bac-livestream-page .bac-livestream-top-grid { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width: 900px) { .government-directory-section .barangay-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 620px) {
+  .government-directory-section .barangay-grid,
+  .legislation-provisions-grid { grid-template-columns: minmax(0,1fr); }
+  .barangay-directory-tools { align-items: stretch; flex-direction: column; gap: 8px; }
+  .barangay-directory-tools .directory-search { width: 100%; }
+  .service-category-page .service-responsibility-note { padding: 16px; }
+  .bac-livestream-page .bac-livestream-overview-card,
+  .bac-livestream-page .bac-livestream-embed-card { padding: 16px; }
+}
+.weather-river-advisory { display: flex; align-items: start; justify-content: space-between; gap: 18px; margin: 18px 0; padding: 16px 18px; border: 1px solid #bdd6ec; border-radius: 12px; background: #f5faff; color: #213d61; }
+.weather-river-advisory strong { display: block; margin-bottom: 4px; color: #123e79; }
+.weather-river-advisory p { max-width: 75ch; margin: 0; font-size: .87rem; line-height: 1.55; }
+.weather-river-links { display: flex; flex-wrap: wrap; gap: 6px 14px; min-width: 220px; }
+.weather-river-links a { display: inline-flex; align-items: center; gap: 4px; color: #154d9d; font-size: .8rem; font-weight: 650; }
+.weather-river-links svg { width: 14px; height: 14px; }
+@media (max-width: 800px) { .weather-river-advisory { flex-direction: column; } .weather-river-links { min-width: 0; } }

@@ -15,6 +15,7 @@ import {
 import { createPortal } from "react-dom";
 import {
   ArrowRight,
+  ArrowLeft,
   Award,
   BadgeDollarSign,
   BarChart3,
@@ -2040,11 +2041,11 @@ function RecordDialog({ title, onClose, children }: { title: string; onClose: ()
   );
 }
 
-function FacebookVideo({ url, title }: { url: string; title: string }) {
+function FacebookVideo({ url, title, poster }: { url: string; title: string; poster?: string }) {
   const [loaded, setLoaded] = useState(false);
   return <div className="record-video">
     {loaded ? <iframe title={title} src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&width=900`} allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen loading="lazy" /> :
-      <button type="button" onClick={() => setLoaded(true)}><span aria-hidden="true">▶</span> Play original Facebook video</button>}
+      <button type="button" onClick={() => setLoaded(true)}>{poster && <img src={poster} alt="" loading="lazy" decoding="async" />}<span aria-hidden="true">▶</span><strong>Play original Facebook video</strong></button>}
     <p>Playback is supplied by Facebook. <a href={url} target="_blank" rel="noopener noreferrer">Open the original video <ExternalLink aria-hidden="true" /></a></p>
   </div>;
 }
@@ -2220,20 +2221,17 @@ function ProcurementRecordIndex({
 
 function BacLivestreamMonitoringPage() {
   const [query, setQuery] = useState("");
-  const [tierFilter, setTierFilter] = useState<string>("All");
   const [openEntryId, setOpenEntryId] = useState<string | null>(null);
   const activeEntry = bacLivestreamEntries.find((item) => item.id === openEntryId);
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
 
   const filteredEntries = bacLivestreamEntries.filter((entry) => {
-    const matchesTier =
-      tierFilter === "All" || entry.verificationCategory === tierFilter;
     const matchesQuery =
       !deferredQuery ||
       `${entry.referenceCode} ${entry.projectName} ${entry.participatingAgencyOrBarangay} ${entry.identifiedContractorOrBidder} ${entry.procurementStatus}`
         .toLowerCase()
         .includes(deferredQuery);
-    return matchesTier && matchesQuery;
+    return matchesQuery;
   });
 
   const formatBudget = (value: number | null) =>
@@ -2268,12 +2266,9 @@ function BacLivestreamMonitoringPage() {
         <div className="bac-livestream-top-grid">
           <article className="bac-livestream-overview-card">
             <span className="eyebrow">Official sources &amp; downloadable reports</span>
-            <h2>BAC LGU Malaybalay Livestream Documentation (.docx &amp; .txt)</h2>
+            <h2>BAC sources and downloadable reports</h2>
             <p>
-              Comprehensive documentation of BAC LGU Malaybalay livestreamed
-              bidding discussions, 2026 Q1 / 2025 Q3 / 2024 Q4 FDP Form 10a
-              bidding outcomes, 212 active 2026 Invitations to Bid, and verified
-              source references.
+              Browse the linked BAC meeting recording and selected bid-result disclosures. The reports preserve earlier source notes; check the original documents for current procurement status.
             </p>
             <div className="bac-doc-downloads">
               <a
@@ -2335,7 +2330,7 @@ function BacLivestreamMonitoringPage() {
                 <h3>BAC meeting · 18 November 2026</h3>
               </div>
             </div>
-            <FacebookVideo url={bacLivestreamSummary.verifiedVideoUrl} title="BAC meeting, 18 November 2026" />
+            <FacebookVideo url={bacLivestreamSummary.verifiedVideoUrl} title="BAC meeting, 18 November 2026" poster="/images/bac-meeting-2026-11-18.jpg" />
             <p className="record-dialog-note">Discussion transcript is pending audio review. Published bid outcomes below are drawn from official disclosure files.</p>
           </aside>
         </div>
@@ -2344,43 +2339,10 @@ function BacLivestreamMonitoringPage() {
           <CircleAlert aria-hidden="true" />
           <div>
             <strong>
-              Strict accuracy &amp; documented livestream access boundary
+              About the available recording
             </strong>
             <p>{bacLivestreamSummary.accessLimitationNotice}</p>
           </div>
-        </div>
-
-        <div className="bac-verification-tiers-grid">
-          <article className="bac-tier-card is-confirmed">
-            <span className="eyebrow">Tier 1 · Confirmed Official Records</span>
-            <h3>FDP Form 10a Bid Results &amp; 212 ITB Packets</h3>
-            <p>
-              Project names, reference numbers, participating offices/barangays,
-              Approved Budgets for the Contract (ABCs), and winning bidders
-              transcribed directly from the City&apos;s published 2024 Q4, 2025 Q3,
-              and 2026 Q1 FDP Form 10a disclosures and PhilGEPS award notices.
-            </p>
-          </article>
-          <article className="bac-tier-card is-reported">
-            <span className="eyebrow">Tier 2 · Attributed Public Statements</span>
-            <h3>Livestreaming Policy &amp; ₱361.87M Reported Savings</h3>
-            <p>
-              Mayor Jay Warren R. Pabillaran&apos;s administrative directive
-              mandating livestreamed BAC proceedings and the reported ₱361.87M
-              cumulative procurement savings (₱241.92M in mid-2022–2024 +
-              ₱119.95M in 2025), attributed to Philippine Daily Inquirer and
-              Coverstory.ph reports.
-            </p>
-          </article>
-          <article className="bac-tier-card is-restricted">
-            <span className="eyebrow">Tier 3 · Requires Verification</span>
-            <h3>Unreviewed audio and post-award records</h3>
-            <p>
-              Verbatim audio and timestamps for the linked BAC meeting video
-              <code>1641508124420651</code>, final contract award amounts where
-              only ABCs are listed, and Notice to Proceed (NTP) completion dates.
-            </p>
-          </article>
         </div>
 
         <div className="legislation-toolbar bac-livestream-toolbar">
@@ -2393,20 +2355,6 @@ function BacLivestreamMonitoringPage() {
               placeholder="Search project name, bidder, barangay, or reference code"
             />
           </label>
-          <div className="legislation-filters" aria-label="Filter verification category">
-            {["All", ...new Set(bacLivestreamEntries.map((entry) => entry.verificationCategory))].map((tier) => (
-              <button
-                key={tier}
-                type="button"
-                aria-pressed={tierFilter === tier}
-                onClick={() => setTierFilter(tier)}
-              >
-                {tier === "Requires Verification / Platform Restricted"
-                  ? "Platform Restricted / Pending"
-                  : tier}
-              </button>
-            ))}
-          </div>
         </div>
 
         <div className="results-summary">
@@ -2448,15 +2396,6 @@ function BacLivestreamMonitoringPage() {
                     <small>{entry.scheduleOrPeriod}</small>
                   </td>
                   <td>
-                    <span
-                      className={`newsletter-verification-tag ${
-                        entry.verificationCategory === "Confirmed Official Record"
-                          ? "is-confirmed"
-                          : "is-pending"
-                      }`}
-                    >
-                      {entry.verificationCategory}
-                    </span>
                     <a
                       href={entry.sourceUrl}
                       target="_blank"
@@ -2473,7 +2412,7 @@ function BacLivestreamMonitoringPage() {
         </div>
         {activeEntry && <RecordDialog title={activeEntry.projectName} onClose={() => setOpenEntryId(null)}>
           <p className="record-dialog-meta">{activeEntry.activityType} · {activeEntry.scheduleOrPeriod}</p>
-          {activeEntry.videoUrl && <FacebookVideo url={activeEntry.videoUrl} title={activeEntry.projectName} />}
+          {activeEntry.videoUrl && <FacebookVideo url={activeEntry.videoUrl} title={activeEntry.projectName} poster="/images/bac-meeting-2026-11-18.jpg" />}
           <p>{activeEntry.procurementStatus}</p>
           <dl className="record-dialog-facts"><div><dt>Reference</dt><dd>{activeEntry.referenceCode}</dd></div><div><dt>Responsible offices</dt><dd>{activeEntry.participatingAgencyOrBarangay}</dd></div><div><dt>Bidder listed</dt><dd>{activeEntry.identifiedContractorOrBidder}</dd></div><div><dt>Approved Budget for the Contract</dt><dd>{formatBudget(activeEntry.proposedBudgetAbc)}</dd></div></dl>
           <p>{activeEntry.approvedAmountNote}</p>
@@ -3699,7 +3638,7 @@ function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" 
   const back = hearing ? "/hearings" : "/procurement/livestreams";
   return <>
     <PageHero eyebrow={hearing ? "Legislative record" : "BAC procurement record"} title={title} description="Review the available source, record context, and verification limits." compact>
-      <Link className="page-hero-backlink" to={back}>Return to records <ArrowRight aria-hidden="true" /></Link>
+      <Link className="page-hero-backlink" to={back}><ArrowLeft aria-hidden="true" /> Return to records</Link>
     </PageHero>
     <section className="section container proceeding-detail">
       <article className="proceeding-detail-main">
@@ -3720,7 +3659,7 @@ function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" 
           </dl>
           <p className="proceeding-note">{procurement?.approvedAmountNote}</p>
         </>}
-        {procurement?.videoUrl && <FacebookVideo url={procurement.videoUrl} title={procurement.projectName} />}
+        {procurement?.videoUrl && <FacebookVideo url={procurement.videoUrl} title={procurement.projectName} poster="/images/bac-meeting-2026-11-18.jpg" />}
         <div className="proceeding-media-status">
           <CircleAlert aria-hidden="true" />
           <div>
@@ -3733,7 +3672,7 @@ function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" 
       <aside className="proceeding-detail-source">
         <span className="eyebrow">Source and status</span>
         <h2>Check the original</h2>
-        <p>{hearing?.verificationStatus ?? procurement?.verificationCategory}</p>
+        {hearing?.verificationNotes && <p>{hearing.verificationNotes}</p>}
         <a className="button secondary" href={sourceUrl} target="_blank" rel="noopener noreferrer">{sourceLabel} <ExternalLink aria-hidden="true" /></a>
         {hearing?.recordingOrReferenceUrl && <a href={hearing.recordingOrReferenceUrl} target="_blank" rel="noopener noreferrer">{hearing.recordingOrReferenceLabel ?? "Related reference"} <ExternalLink aria-hidden="true" /></a>}
       </aside>
@@ -4043,7 +3982,7 @@ function LegislationDetailPage() {
         compact
       >
         <Link className="page-hero-backlink" to="/legislation">
-          Return to all published measures <ArrowRight aria-hidden="true" />
+          <ArrowLeft aria-hidden="true" /> Back to published measures
         </Link>
       </PageHero>
       <section className="section container legislation-detail-page">
@@ -4060,12 +3999,10 @@ function LegislationDetailPage() {
             <p>{context.summary}</p>
           </section>
 
-          <section className="legislation-language-note" aria-label="Language availability">
-            <h3>English, Filipino, and Bisaya access</h3>
-            <p><strong>English:</strong> The source-linked summary above is BetterMC’s reading aid, not the legal text.</p>
-            <p><strong>Filipino:</strong> Wala pang napatunayang opisyal na payak na salin sa Filipino para sa rekord na ito.</p>
-            <p><strong>Bisaya:</strong> Wala pay napamatud-ang opisyal nga yano nga hubad sa Binisaya alang niini nga rekord.</p>
-          </section>
+          {context.provisions && <section className="legislation-provisions" aria-label="Provisions in the published document">
+            <h3>Inside the published ordinance</h3>
+            <div className="legislation-provisions-grid">{context.provisions.map((item) => <article key={item.heading}><small>{item.section}</small><h4>{item.heading}</h4><p>{item.text}</p></article>)}</div>
+          </section>}
 
           <div className="legislation-explanation-grid">
             <section>
@@ -4123,6 +4060,7 @@ function LegislationDetailPage() {
           >
             Open official source <ExternalLink aria-hidden="true" />
           </a>
+          {record.documentUrl && <a className="button secondary" href={record.documentUrl} target="_blank" rel="noreferrer">Read the ordinance scan <ExternalLink aria-hidden="true" /></a>}
           <p className="source-availability-note">
             If the official website is temporarily unavailable, this BetterMC
             summary remains accessible but does not replace the original text.
@@ -4716,7 +4654,7 @@ function BarangaysPage() {
         compact
       />
       <section className="section container government-directory-section">
-        <label className="directory-search barangay-directory-search">
+        <div className="barangay-directory-tools"><label className="directory-search barangay-directory-search">
           <span className="sr-only">Search barangays</span>
           <Search />
           <input
@@ -4724,7 +4662,7 @@ function BarangaysPage() {
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search by barangay or official name"
           />
-        </label>
+        </label><span role="status">{visible.length} of {barangayMicrosites.length} barangays</span></div>
         <div className="data-notice barangay-contact-notice">
           <CircleAlert />
           <div>
@@ -4734,6 +4672,7 @@ function BarangaysPage() {
             </p>
           </div>
         </div>
+        {visible.length === 0 && <div className="empty-state" role="status">No barangay matches this search. Try a barangay or official name.</div>}
         <div className="barangay-grid">
           {visible.map((barangay) => (
             <article key={barangay.name}>
@@ -6964,6 +6903,7 @@ function ServiceCategoryPage() {
         compact
       />
       <section className="section container service-category-page">
+        <Link className="page-hero-backlink service-category-back" to="/services"><ArrowLeft aria-hidden="true" /> All public services</Link>
         {/* Origin Selector */}
         <BarangayOriginSelect
           selectedSlug={selectedBarangay}

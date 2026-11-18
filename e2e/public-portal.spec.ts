@@ -488,3 +488,23 @@ test("budget, hearings, BAC livestreams, and education routes render without ove
     expect(overflow).toBe(false);
   }
 });
+
+test("BAC recording, ordinance text, and weather guidance keep their source boundaries", async ({ page }) => {
+  await page.route("https://api.open-meteo.com/**", (route) => route.fulfill({ json: weatherFixture }));
+  await page.goto("/procurement/livestreams");
+  const recording = page.locator(".bac-livestream-embed-card .record-video");
+  await expect(recording.locator("img")).toHaveAttribute("src", "/images/bac-meeting-2026-11-18.jpg");
+  await expect(page.getByText("Video identified / Discussion unreviewed")).toHaveCount(0);
+  await expect(page.getByText("Confirmed Official Record")).toHaveCount(0);
+  await recording.getByRole("button", { name: /Play original Facebook video/ }).click();
+  await expect(recording.locator("iframe")).toHaveAttribute("src", /facebook.com\/plugins\/video.php/);
+
+  await page.goto("/legislation/ordinance-no-1118-series-of-2026");
+  await expect(page.getByRole("heading", { name: "Inside the published ordinance" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Read the ordinance scan/ })).toHaveAttribute("href", /drive.google.com/);
+  await expect(page.getByText("English, Filipino, and Bisaya access")).toHaveCount(0);
+
+  await page.goto("/");
+  await expect(page.getByRole("note", { name: "River and heavy rain guidance" })).toContainText("no live Sawaga River gauge");
+  await expect(page.getByRole("link", { name: /PAGASA flood bulletins/ })).toHaveAttribute("href", "https://pagasa.dost.gov.ph/flood");
+});

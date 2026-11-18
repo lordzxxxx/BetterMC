@@ -23,7 +23,7 @@ import {
 } from "./barangayProfiles";
 import {
   BARANGAY_GIS_COLORS,
-  buildDeterministicDateSnapshot,
+  buildUnavailableDateSnapshot,
   fetchLiveHydroTimeline,
   MALAYBALAY_CENTROIDS,
   MALAYBALAY_ESTABLISHMENTS,
@@ -215,7 +215,7 @@ export default function MalaybalayGisMap({
   const fullCityBoundsRef = useRef<import("leaflet").LatLngBounds | null>(null);
   const lastZoomedCodeRef = useRef<string | null>(null);
 
-  // Fetch live Open-Meteo Weather & GloFAS River Discharge telemetry
+  // Fetch modelled weather only; the map has no connected local river gauge.
   useEffect(() => {
     if (navigator.userAgent.includes("jsdom")) return;
     const controller = new AbortController();
@@ -235,7 +235,7 @@ export default function MalaybalayGisMap({
 
   const currentHydroSnapshot: DateHydroSnapshot = useMemo(() => {
     return (
-      liveHydroMap[selectedDate] ?? buildDeterministicDateSnapshot(selectedDate)
+      liveHydroMap[selectedDate] ?? buildUnavailableDateSnapshot(selectedDate)
     );
   }, [liveHydroMap, selectedDate]);
 
@@ -246,9 +246,7 @@ export default function MalaybalayGisMap({
 
   const citywideFloodTotals = useMemo(() => {
     const scenarioStats = floodStatsFile?.scenarios[noahScenario];
-    if (!scenarioStats) {
-      return { low: 54.15, medium: 39.7, high: 21.35, exposedKm2: 115.16 };
-    }
+    if (!scenarioStats) return null;
     let low = 0;
     let medium = 0;
     let high = 0;
@@ -635,15 +633,6 @@ export default function MalaybalayGisMap({
           : flood100Ref.current;
 
       if (showFloodLayer && activeFloodCollection) {
-        const rainIntensityBoost =
-          currentHydroSnapshot.alertLevel === "Red Critical"
-            ? 0.14
-            : currentHydroSnapshot.alertLevel === "Orange Watch"
-              ? 0.08
-              : currentHydroSnapshot.alertLevel === "Yellow Advisory"
-                ? 0.04
-                : 0;
-
         activeFloodCollection.features.forEach((f) => {
           const fCode = f.properties.code;
           const isTargetBrgy =
@@ -662,11 +651,7 @@ export default function MalaybalayGisMap({
               weight: isTargetBrgy ? 1.5 : 0.9,
               opacity: isTargetBrgy ? 0.96 : 0.65,
               fillColor: hazardColor,
-              fillOpacity: Math.min(
-                0.92,
-                (isTargetBrgy ? baseOpacity : baseOpacity * 0.72) +
-                  rainIntensityBoost,
-              ),
+              fillOpacity: isTargetBrgy ? baseOpacity : baseOpacity * 0.72,
             },
           });
 
@@ -703,14 +688,7 @@ export default function MalaybalayGisMap({
           // Outer river stage casing halo
           L.polyline(smoothLatLngs, {
             pane: "riverPane",
-            color:
-              currentHydroSnapshot.alertLevel === "Red Critical"
-                ? "#ef4444"
-                : currentHydroSnapshot.alertLevel === "Orange Watch"
-                  ? "#f97316"
-                  : currentHydroSnapshot.alertLevel === "Yellow Advisory"
-                    ? "#eab308"
-                    : "#0f172a",
+            color: "#0f172a",
             weight: river.widthPx + 3.5,
             opacity: 0.55,
             lineCap: "round",
@@ -737,7 +715,7 @@ export default function MalaybalayGisMap({
           });
 
           riverLine.bindTooltip(
-            `<strong>${river.name}</strong> (${river.localName})<br/>Stage: ${currentHydroSnapshot.sawagaWaterLevelM}m · Discharge: ${currentHydroSnapshot.sawagaDischargeM3s} m³/s · Click for telemetry`,
+            `<strong>${river.name}</strong> (${river.localName})<br/>Illustrative river line; no live gauge reading is connected`,
             {
               sticky: false,
               direction: "top",
@@ -825,7 +803,7 @@ export default function MalaybalayGisMap({
           });
 
           marker.bindTooltip(
-            `<strong>${est.name}</strong><br/>${est.category} · Brgy. ${est.barangayName} · ${est.noahFloodZone}`,
+            `<strong>${est.name}</strong><br/>${est.category} · Brgy. ${est.barangayName}`,
             { direction: "top", className: "noah-hud-tooltip" },
           );
 
@@ -940,47 +918,11 @@ export default function MalaybalayGisMap({
             <span className="noah-toolbar-eyebrow">
               <Compass aria-hidden="true" /> Interactive Civic GIS
             </span>
-            <h3 className="noah-toolbar-heading">
-              Malaybalay City Flood Hydrology & Geographic Information
-            </h3>
+            <h3 className="noah-toolbar-heading">Malaybalay flood hazard and weather map</h3>
           </div>
           <div className="noah-toolbar-meta">
-            <div
-              className={`noah-live-telemetry-badge ${
-                currentHydroSnapshot.alertLevel.toLowerCase().includes("red")
-                  ? "is-red"
-                  : currentHydroSnapshot.alertLevel
-                        .toLowerCase()
-                        .includes("orange")
-                    ? "is-orange"
-                    : currentHydroSnapshot.alertLevel
-                          .toLowerCase()
-                          .includes("yellow")
-                      ? "is-yellow"
-                      : "is-normal"
-              }`}
-              title="Sawaga River real-time gauging telemetry"
-            >
-              <span
-                className={`status-dot ${
-                  currentHydroSnapshot.alertLevel.toLowerCase().includes("red")
-                    ? "dot-red"
-                    : currentHydroSnapshot.alertLevel
-                          .toLowerCase()
-                          .includes("orange")
-                      ? "dot-orange"
-                      : currentHydroSnapshot.alertLevel
-                            .toLowerCase()
-                            .includes("yellow")
-                        ? "dot-yellow"
-                        : "dot-green"
-                }`}
-              />
-              <span>
-                Sawaga River:{" "}
-                <strong>{currentHydroSnapshot.sawagaWaterLevelM}m</strong> (
-                {currentHydroSnapshot.alertLevel})
-              </span>
+            <div className="noah-live-telemetry-badge" title="No local river gauge is connected">
+              <span>Sawaga River level: <strong>not available</strong></span>
             </div>
             {activeBarangayCode !== "ALL" && (
               <button
@@ -1154,55 +1096,19 @@ export default function MalaybalayGisMap({
 
         </div>
 
-        {/* Section 3: Hydrology Timeline & Forecast Bar */}
+        {/* Modelled weather dates; flood hazard polygons do not change with this selector. */}
         <div className="noah-toolbar-section noah-section-timeline">
           <div className="noah-timeline-container">
-            <div className="noah-timeline-group-historical">
-              <span className="noah-timeline-sublabel">
-                Historical Weather Peaks
-              </span>
-              <div className="noah-timeline-pills">
-                <button
-                  type="button"
-                  className={selectedDate === "2019-09-14" ? "is-active" : ""}
-                  onClick={() => handleDateChange("2019-09-14")}
-                  title="2019 Southwest Monsoon Peak Flood"
-                >
-                  2019 Monsoon
-                </button>
-                <button
-                  type="button"
-                  className={selectedDate === "2021-12-16" ? "is-active" : ""}
-                  onClick={() => handleDateChange("2021-12-16")}
-                  title="2021 Super Typhoon Odette Peak Flood"
-                >
-                  2021 Odette
-                </button>
-                <button
-                  type="button"
-                  className={selectedDate === "2023-11-21" ? "is-active" : ""}
-                  onClick={() => handleDateChange("2023-11-21")}
-                  title="2023 Shear Line Peak Flood"
-                >
-                  2023 Shear Line
-                </button>
-              </div>
-            </div>
-
-            <div className="noah-timeline-divider" aria-hidden="true" />
-
             <div className="noah-timeline-group-forecast">
-              <span className="noah-timeline-sublabel">
-                Live Telemetry & Forecast
-              </span>
+              <span className="noah-timeline-sublabel">Weather model by date</span>
               <div className="noah-timeline-pills">
                 <button
                   type="button"
                   className={selectedDate === todayStr ? "is-active" : ""}
                   onClick={() => handleDateChange(todayStr)}
-                  title="Today's live hydrological reading"
+                  title="Today's modelled weather"
                 >
-                  Today (Live)
+                  Today
                 </button>
                 <button
                   type="button"
@@ -1212,7 +1118,7 @@ export default function MalaybalayGisMap({
                       : ""
                   }
                   onClick={() => handleDateChange(addDaysManila(todayStr, 3))}
-                  title="3-Day Weather & River Discharge Forecast"
+                  title="Weather forecast in three days"
                 >
                   +3 Days
                 </button>
@@ -1224,7 +1130,7 @@ export default function MalaybalayGisMap({
                       : ""
                   }
                   onClick={() => handleDateChange(addDaysManila(todayStr, 7))}
-                  title="7-Day Weather & River Discharge Forecast"
+                  title="Weather forecast in seven days"
                 >
                   +7 Days
                 </button>
@@ -1237,7 +1143,7 @@ export default function MalaybalayGisMap({
                 <input
                   type="date"
                   aria-label="Select custom observation or forecast date"
-                  min="2019-01-01"
+                  min={addDaysManila(todayStr, -14)}
                   max={maxForecastDateStr}
                   value={selectedDate}
                   onChange={(e) => handleDateChange(e.target.value)}
@@ -1350,10 +1256,9 @@ export default function MalaybalayGisMap({
                 </>
               ) : (
                 <>
-                  Total Mapped Flood Zone: {citywideFloodTotals.exposedKm2} km²
-                  (High: {citywideFloodTotals.high} km² · Medium:{" "}
-                  {citywideFloodTotals.medium} km² · Low:{" "}
-                  {citywideFloodTotals.low} km²)
+                  {citywideFloodTotals
+                    ? `Mapped hazard area: ${citywideFloodTotals.exposedKm2} km² (high ${citywideFloodTotals.high}, medium ${citywideFloodTotals.medium}, low ${citywideFloodTotals.low} km²). This is scenario exposure, not current flooding.`
+                    : "Mapped hazard totals are loading or unavailable; no current flood extent is inferred."}
                 </>
               )}
             </p>
@@ -1412,11 +1317,9 @@ export default function MalaybalayGisMap({
         <div className="noah-clean-telemetry">
           <span>
             <strong>{currentHydroSnapshot.date}:</strong>{" "}
-            {currentHydroSnapshot.rainfallMm} mm rain (
-            {currentHydroSnapshot.rainProbabilityPct}%) · Sawaga River{" "}
-            {currentHydroSnapshot.sawagaDischargeM3s} m³/s (
-            {currentHydroSnapshot.sawagaWaterLevelM}m ·{" "}
-            <b>{currentHydroSnapshot.alertLevel}</b>)
+            {currentHydroSnapshot.rainfallMm === null ? "Weather model unavailable" : `${currentHydroSnapshot.rainfallMm} mm modelled daily rain`}
+            {currentHydroSnapshot.rainProbabilityPct === null ? "" : ` · ${currentHydroSnapshot.rainProbabilityPct}% peak rain chance`}
+            {" · River level and flow unverified"}
           </span>
           <button
             type="button"
@@ -1428,9 +1331,10 @@ export default function MalaybalayGisMap({
               })
             }
           >
-            Sawaga River Details <ArrowRight aria-hidden="true" />
+            River and source notes <ArrowRight aria-hidden="true" />
           </button>
         </div>
+        <p className="noah-source-clarity">NOAH shows mapped flood hazard, not live flooding. Weather is modelled by Open-Meteo. For current warnings, check <a href="https://pagasa.dost.gov.ph/flood" target="_blank" rel="noreferrer">PAGASA flood bulletins</a> and <a href="https://pagasa.dost.gov.ph/regional-forecast/minprsd" target="_blank" rel="noreferrer">Mindanao advisories</a>.</p>
       </div>
 
       {/* Popup Modal when any Barangay, Flood Zone, River, or Establishment is clicked */}
@@ -1502,37 +1406,16 @@ export default function MalaybalayGisMap({
                           <td>{selectedEntity.waterway.basin}</td>
                         </tr>
                         <tr>
-                          <th scope="row">Channel Length & Type</th>
-                          <td>
-                            {selectedEntity.waterway.lengthKm} km ·{" "}
-                            {selectedEntity.waterway.type}
-                          </td>
+                          <th scope="row">Map layer</th>
+                          <td>Illustrative waterway line; confirm its exact course with the official map.</td>
                         </tr>
                         <tr>
-                          <th scope="row">
-                            Stage Thresholds (Normal / Alert / Critical)
-                          </th>
-                          <td>
-                            Normal: {selectedEntity.waterway.normalStageM} m ·
-                            Alert: {selectedEntity.waterway.alertStageM} m ·
-                            Critical: {selectedEntity.waterway.criticalStageM} m
-                          </td>
+                          <th scope="row">River level and discharge</th>
+                          <td>No verified local gauge or official threshold is connected to BetterMC.</td>
                         </tr>
                         <tr>
-                          <th scope="row">
-                            Selected Date ({currentHydroSnapshot.date})
-                          </th>
-                          <td>
-                            Discharge:{" "}
-                            <strong>
-                              {currentHydroSnapshot.sawagaDischargeM3s} m³/s
-                            </strong>{" "}
-                            · Stage:{" "}
-                            <strong>
-                              {currentHydroSnapshot.sawagaWaterLevelM} m
-                            </strong>{" "}
-                            ({currentHydroSnapshot.alertLevel})
-                          </td>
+                          <th scope="row">Current advice</th>
+                          <td>Follow PAGASA and Malaybalay CDRRMO alerts. A weather forecast cannot establish river safety.</td>
                         </tr>
                         <tr>
                           <th scope="row">Traversed Barangays</th>
@@ -1573,28 +1456,7 @@ export default function MalaybalayGisMap({
                             (PSGC {selectedEntity.establishment.barangayCode})
                           </td>
                         </tr>
-                        <tr>
-                          <th scope="row">Coordinates & Elevation</th>
-                          <td>
-                            {selectedEntity.establishment.coordinates[1].toFixed(
-                              4,
-                            )}
-                            °N,{" "}
-                            {selectedEntity.establishment.coordinates[0].toFixed(
-                              4,
-                            )}
-                            °E · ~{selectedEntity.establishment.elevationM} m
-                            ASL
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">UP Project NOAH Flood Status</th>
-                          <td>
-                            <strong>
-                              {selectedEntity.establishment.noahFloodZone}
-                            </strong>
-                          </td>
-                        </tr>
+                        <tr><th scope="row">Map location</th><td>Approximate reference only; confirm the destination before travel.</td></tr>
                         {selectedEntity.establishment.contact && (
                           <tr>
                             <th scope="row">Published Contact</th>
@@ -1698,10 +1560,10 @@ export default function MalaybalayGisMap({
                               Selected Date ({currentHydroSnapshot.date})
                             </th>
                             <td>
-                              {currentHydroSnapshot.alertLevel} · Rainfall:{" "}
-                              {currentHydroSnapshot.rainfallMm} mm · Sawaga
-                              Discharge:{" "}
-                              {currentHydroSnapshot.sawagaDischargeM3s} m³/s
+                              {currentHydroSnapshot.rainfallMm === null
+                                ? "Weather model unavailable"
+                                : `${currentHydroSnapshot.rainfallMm} mm modelled daily rainfall`}
+                              {" · No verified river gauge reading"}
                             </td>
                           </tr>
                           <tr>

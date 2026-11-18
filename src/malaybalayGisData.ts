@@ -37,11 +37,6 @@ export type MalaybalayWaterway = {
   color: string;
   widthPx: number;
   basin: string;
-  lengthKm: number;
-  normalStageM: number;
-  alertStageM: number;
-  criticalStageM: number;
-  meanDischargeM3s: number;
   traversedBarangays: string[];
   description: string;
   noahAdvisory: string;
@@ -64,23 +59,10 @@ export type MalaybalayEstablishment = {
   barangayCode: string;
   barangaySlug: string;
   coordinates: [number, number]; // [lng, lat]
-  elevationM: number;
-  noahFloodZone: "Safe / High Ground" | "Low Hazard (0–0.5m)" | "Medium Hazard (0.5–1.5m)" | "High Hazard (>1.5m)";
-  evacuationCapable: boolean;
   contact?: string;
   description: string;
   sourceLabel: string;
   sourceUrl: string;
-};
-
-export type HistoricalHydroYearSummary = {
-  year: number;
-  annualRainfallMm: number;
-  peakSawagaDischargeM3s: number;
-  peakEventDate: string;
-  notableWeatherSystem: string;
-  affectedLowLyingCorridors: string;
-  alertLevelReached: "Normal" | "Yellow Advisory" | "Orange Watch" | "Red Critical";
 };
 
 export type DateHydroSnapshot = {
@@ -88,14 +70,14 @@ export type DateHydroSnapshot = {
   label: string;
   isForecast: boolean;
   isHistoricalArchive: boolean;
-  rainfallMm: number;
-  rainProbabilityPct: number;
-  temperatureMaxC: number;
-  temperatureMinC: number;
-  windMaxKmh: number;
-  sawagaDischargeM3s: number;
-  sawagaWaterLevelM: number;
-  alertLevel: "Normal" | "Yellow Advisory" | "Orange Watch" | "Red Critical";
+  rainfallMm: number | null;
+  rainProbabilityPct: number | null;
+  temperatureMaxC: number | null;
+  temperatureMinC: number | null;
+  windMaxKmh: number | null;
+  sawagaDischargeM3s: null;
+  sawagaWaterLevelM: null;
+  alertLevel: "Unavailable";
   activeScenarioRecommendation: NoahHazardScenario;
   advisorySummary: string;
   dataSource: string;
@@ -215,11 +197,6 @@ export const MALAYBALAY_WATERWAYS: MalaybalayWaterway[] = [
     color: "#0284c7",
     widthPx: 4.5,
     basin: "Sawaga–Pulangi Sub-Basin (Upper Mindanao River Basin)",
-    lengthKm: 64.5,
-    normalStageM: 1.4,
-    alertStageM: 2.8,
-    criticalStageM: 4.2,
-    meanDischargeM3s: 28.4,
     traversedBarangays: [
       "Patpat",
       "Kalasungay",
@@ -275,11 +252,6 @@ export const MALAYBALAY_WATERWAYS: MalaybalayWaterway[] = [
     color: "#0ea5e9",
     widthPx: 3,
     basin: "Sawaga Watershed (Mount Kitanglad Eastern Slope)",
-    lengthKm: 24.8,
-    normalStageM: 0.9,
-    alertStageM: 1.9,
-    criticalStageM: 3.0,
-    meanDischargeM3s: 11.2,
     traversedBarangays: [
       "Capitan Angel",
       "Imbayao",
@@ -312,11 +284,6 @@ export const MALAYBALAY_WATERWAYS: MalaybalayWaterway[] = [
     color: "#38bdf8",
     widthPx: 3,
     basin: "Northern Malaybalay–Sawaga / Tagoloan Divide",
-    lengthKm: 29.0,
-    normalStageM: 1.1,
-    alertStageM: 2.2,
-    criticalStageM: 3.4,
-    meanDischargeM3s: 14.6,
     traversedBarangays: ["Manalog", "Kibalabag", "Sumpong", "Can-ayan"],
     description:
       "Drains the northern highland barangays of Manalog and Kibalabag (including the city's major surface-water source corridor) southward into Sumpong and Can-ayan.",
@@ -338,11 +305,6 @@ export const MALAYBALAY_WATERWAYS: MalaybalayWaterway[] = [
     color: "#06b6d4",
     widthPx: 3,
     basin: "Southern Kitanglad–Manupali / Sawaga Transition",
-    lengthKm: 27.4,
-    normalStageM: 1.0,
-    alertStageM: 2.1,
-    criticalStageM: 3.2,
-    meanDischargeM3s: 13.8,
     traversedBarangays: ["Mapayag", "Magsaysay", "Aglayan", "Cabangahan", "Bangcud"],
     description:
       "Drains the southwestern upland slopes of Mapayag and Magsaysay toward the Aglayan–Cabangahan–Bangcud agricultural plains.",
@@ -365,11 +327,6 @@ export const MALAYBALAY_WATERWAYS: MalaybalayWaterway[] = [
     color: "#22d3ee",
     widthPx: 2.8,
     basin: "Lower Sawaga–Maapag Floodplain",
-    lengthKm: 31.2,
-    normalStageM: 0.8,
-    alertStageM: 1.6,
-    criticalStageM: 2.5,
-    meanDischargeM3s: 16.5,
     traversedBarangays: [
       "Linabo",
       "Maligaya",
@@ -403,11 +360,6 @@ export const MALAYBALAY_WATERWAYS: MalaybalayWaterway[] = [
     color: "#0284c7",
     widthPx: 3.8,
     basin: "Upper Pulangi River Basin (Pantaron Range)",
-    lengthKm: 42.0,
-    normalStageM: 1.5,
-    alertStageM: 3.0,
-    criticalStageM: 4.5,
-    meanDischargeM3s: 34.0,
     traversedBarangays: [
       "Busdi",
       "Kulaman",
@@ -449,9 +401,6 @@ const CORE_ESTABLISHMENTS: MalaybalayEstablishment[] = [
     barangayCode: "1001312012",
     barangaySlug: "casisang",
     coordinates: [125.1282, 8.1289],
-    elevationM: 618,
-    noahFloodZone: "Safe / High Ground",
-    evacuationCapable: true,
     contact: "0953-459-1777",
     description:
       "Seat of the City Government of Malaybalay along Sayre Highway in Barangay Casisang, housing executive departments and citizen frontline services.",
@@ -466,9 +415,6 @@ const CORE_ESTABLISHMENTS: MalaybalayEstablishment[] = [
     barangayCode: "1001312012",
     barangaySlug: "casisang",
     coordinates: [125.1268, 8.1335],
-    elevationM: 615,
-    noahFloodZone: "Safe / High Ground",
-    evacuationCapable: true,
     contact: "0926-662-6692 / (088) 813-3611",
     description:
       "24/7 City Disaster Risk Reduction and Management Office monitoring Sawaga River water-level gauges, rain gauges, and barangay early-warning alerts.",
@@ -483,9 +429,6 @@ const CORE_ESTABLISHMENTS: MalaybalayEstablishment[] = [
     barangayCode: "1001312038",
     barangaySlug: "barangay-1",
     coordinates: [125.1318, 8.1592],
-    elevationM: 632,
-    noahFloodZone: "Safe / High Ground",
-    evacuationCapable: true,
     contact: "(088) 813-3845",
     description:
       "Provincial Capitol complex and elevated pine-forested Kaamulan Park overlooking the Sawaga River valley in Poblacion.",
@@ -500,9 +443,6 @@ const CORE_ESTABLISHMENTS: MalaybalayEstablishment[] = [
     barangayCode: "1001312012",
     barangaySlug: "casisang",
     coordinates: [125.1254, 8.1314],
-    elevationM: 614,
-    noahFloodZone: "Safe / High Ground",
-    evacuationCapable: false,
     contact: "(088) 813-5360",
     description:
       "Primary public tertiary referral hospital serving Malaybalay City and Bukidnon along Sayre Highway, Barangay Casisang.",
@@ -517,9 +457,6 @@ const CORE_ESTABLISHMENTS: MalaybalayEstablishment[] = [
     barangayCode: "1001312065",
     barangaySlug: "sumpong",
     coordinates: [125.1239, 8.1642],
-    elevationM: 626,
-    noahFloodZone: "Safe / High Ground",
-    evacuationCapable: false,
     contact: "(088) 813-2708",
     description:
       "Hospital facility along Fortich Street in Sumpong near the northern Poblacion corridor.",
@@ -534,9 +471,6 @@ const CORE_ESTABLISHMENTS: MalaybalayEstablishment[] = [
     barangayCode: "1001312052",
     barangaySlug: "barangay-9",
     coordinates: [125.1348, 8.1486],
-    elevationM: 608,
-    noahFloodZone: "Low Hazard (0–0.5m)",
-    evacuationCapable: false,
     contact: "(088) 813-2609",
     description:
       "Medical facility in Barangay 9 near the Sawaga River crossing along Sayre Highway.",
@@ -551,9 +485,6 @@ const CORE_ESTABLISHMENTS: MalaybalayEstablishment[] = [
     barangayCode: "1001312038",
     barangaySlug: "barangay-1",
     coordinates: [125.1268, 8.1574],
-    elevationM: 624,
-    noahFloodZone: "Safe / High Ground",
-    evacuationCapable: true,
     contact: "(088) 813-5661",
     description:
       "State university main campus along Fortich Street in Poblacion, Malaybalay City.",
@@ -568,9 +499,6 @@ const CORE_ESTABLISHMENTS: MalaybalayEstablishment[] = [
     barangayCode: "1001312045",
     barangaySlug: "barangay-2",
     coordinates: [125.1259, 8.1562],
-    elevationM: 622,
-    noahFloodZone: "Safe / High Ground",
-    evacuationCapable: true,
     contact: "(088) 813-2142",
     description:
       "Major secondary school campus in Poblacion with multi-story buildings and gymnasium complex.",
@@ -585,9 +513,6 @@ const CORE_ESTABLISHMENTS: MalaybalayEstablishment[] = [
     barangayCode: "1001312014",
     barangaySlug: "dalwangan",
     coordinates: [125.0412, 8.2084],
-    elevationM: 790,
-    noahFloodZone: "Safe / High Ground",
-    evacuationCapable: true,
     description:
       "Northern Mindanao Integrated Agricultural Research Center and agrometeorological monitoring site in Barangay Dalwangan.",
     sourceLabel: "DA Region 10 / Barangay Dalwangan Profile",
@@ -601,9 +526,6 @@ const CORE_ESTABLISHMENTS: MalaybalayEstablishment[] = [
     barangayCode: "1001312052",
     barangaySlug: "barangay-9",
     coordinates: [125.1316, 8.1512],
-    elevationM: 604,
-    noahFloodZone: "Medium Hazard (0.5–1.5m)",
-    evacuationCapable: false,
     description:
       "Central commercial and public market hub in Barangay 9 adjacent to the Sawaga River corridor; monitored closely by CDRRMO during heavy rainfall.",
     sourceLabel: "UP Project NOAH / Malaybalay CDRRMO",
@@ -617,9 +539,6 @@ const CORE_ESTABLISHMENTS: MalaybalayEstablishment[] = [
     barangayCode: "1001312012",
     barangaySlug: "casisang",
     coordinates: [125.1275, 8.1368],
-    elevationM: 616,
-    noahFloodZone: "Safe / High Ground",
-    evacuationCapable: true,
     description:
       "Primary intercity transport hub connecting Malaybalay City along Sayre Highway to Cagayan de Oro, Valencia, and Davao.",
     sourceLabel: "City Economic Enterprise / Transport Office",
@@ -627,33 +546,27 @@ const CORE_ESTABLISHMENTS: MalaybalayEstablishment[] = [
   },
   {
     id: "est-sawaga-bridge",
-    name: "Sawaga Bridge Water-Level Gauge (Poblacion–Brgy 9)",
+    name: "Sawaga River crossing near Barangay 9",
     category: "Landmark & Watershed",
     barangayName: "Barangay 9",
     barangayCode: "1001312052",
     barangaySlug: "barangay-9",
     coordinates: [125.1312, 8.1528],
-    elevationM: 598,
-    noahFloodZone: "High Hazard (>1.5m)",
-    evacuationCapable: false,
     description:
-      "Critical river stage monitoring point along the Sawaga River between Poblacion and Barangay 9.",
-    sourceLabel: "UP Project NOAH / DOST-ASTI Hydromet Reference",
+      "Map reference near the Sawaga River. No live river gauge or measured stage is connected to BetterMC at this location.",
+    sourceLabel: "UP Project NOAH hazard map",
     sourceUrl: "https://noah.up.edu.ph/",
   },
   {
     id: "est-nasuli-spring",
-    name: "Nasuli Cold Spring & Lower Sawaga Hydromet Point",
+    name: "Nasuli Cold Spring area",
     category: "Landmark & Watershed",
     barangayName: "Bangcud",
     barangayCode: "1001312002",
     barangaySlug: "bangcud",
     coordinates: [125.1335, 7.9965],
-    elevationM: 342,
-    noahFloodZone: "Low Hazard (0–0.5m)",
-    evacuationCapable: false,
     description:
-      "Natural spring and downstream hydrological monitoring landmark in Barangay Bangcud near the southern boundary of Malaybalay City.",
+      "Natural spring area in Barangay Bangcud. This marker does not represent a live hydrological monitoring station.",
     sourceLabel: "Malaybalay Tourism & Watershed Registry",
     sourceUrl: "https://malaybalaycity.gov.ph/",
   },
@@ -665,9 +578,6 @@ const CORE_ESTABLISHMENTS: MalaybalayEstablishment[] = [
     barangayCode: "1001312059",
     barangaySlug: "san-jose",
     coordinates: [125.1462, 8.1118],
-    elevationM: 612,
-    noahFloodZone: "Safe / High Ground",
-    evacuationCapable: true,
     description:
       "Benedictine monastery and cultural landmark on elevated terrain in Barangay San Jose.",
     sourceLabel: "Malaybalay Cultural & Tourism Registry",
@@ -687,9 +597,6 @@ export const MALAYBALAY_ESTABLISHMENTS: MalaybalayEstablishment[] = [
       barangayCode: b.code,
       barangaySlug: b.slug,
       coordinates: centroid,
-      elevationM: b.classification === "Urban" ? 612 : 685,
-      noahFloodZone: "Safe / High Ground",
-      evacuationCapable: true,
       contact: b.phone || undefined,
       description: `Official seat of the Sangguniang Barangay and Barangay Disaster Risk Reduction and Management Committee (BDRRMC) of Barangay ${b.name}, led by Punong Barangay ${b.punongBarangay}.`,
       sourceLabel: `DILG Barangay Officials Directory · PSGC ${b.code}`,
@@ -698,304 +605,64 @@ export const MALAYBALAY_ESTABLISHMENTS: MalaybalayEstablishment[] = [
   }),
 ];
 
-/**
- * Multi-year hydrological & rainfall archive for Malaybalay City & Sawaga River (2019–2026).
- */
-export const HISTORICAL_HYDRO_YEARS: HistoricalHydroYearSummary[] = [
-  {
-    year: 2019,
-    annualRainfallMm: 2410,
-    peakSawagaDischargeM3s: 84.2,
-    peakEventDate: "2019-09-14",
-    notableWeatherSystem: "Southwest Monsoon (Habagat) & Localized Severe Thunderstorms",
-    affectedLowLyingCorridors: "Barangay 9 riverside, Cabangahan, and Managok irrigation channels",
-    alertLevelReached: "Yellow Advisory",
-  },
-  {
-    year: 2020,
-    annualRainfallMm: 2795,
-    peakSawagaDischargeM3s: 126.5,
-    peakEventDate: "2020-12-18",
-    notableWeatherSystem: "Tropical Depression Vicky (Krovanh) & Tail-End of Frontal System",
-    affectedLowLyingCorridors: "Sumpong, Barangay 1, Barangay 9, Casisang, Laguitas, and Bangcud",
-    alertLevelReached: "Orange Watch",
-  },
-  {
-    year: 2021,
-    annualRainfallMm: 3040,
-    peakSawagaDischargeM3s: 168.4,
-    peakEventDate: "2021-12-16",
-    notableWeatherSystem: "Super Typhoon Odette (Rai) Northern Mindanao Rainbands",
-    affectedLowLyingCorridors: "Sawaga River corridor (Sumpong, Brgy 1, Brgy 9, San Jose, Simaya, Bangcud)",
-    alertLevelReached: "Red Critical",
-  },
-  {
-    year: 2022,
-    annualRainfallMm: 2910,
-    peakSawagaDischargeM3s: 149.0,
-    peakEventDate: "2022-10-28",
-    notableWeatherSystem: "Severe Tropical Storm Paeng (Nalgae) & Shear Line",
-    affectedLowLyingCorridors: "Aglayan, Cabangahan, Violeta, Managok, and Lower Sawaga floodplain",
-    alertLevelReached: "Orange Watch",
-  },
-  {
-    year: 2023,
-    annualRainfallMm: 2860,
-    peakSawagaDischargeM3s: 154.8,
-    peakEventDate: "2023-11-21",
-    notableWeatherSystem: "Shear Line & Low Pressure Area (Trough over Bukidnon)",
-    affectedLowLyingCorridors: "Poblacion Barangays 1, 7, 9, Casisang, and Kalawaig–Imbayao crossings",
-    alertLevelReached: "Orange Watch",
-  },
-  {
-    year: 2024,
-    annualRainfallMm: 2730,
-    peakSawagaDischargeM3s: 138.2,
-    peakEventDate: "2024-02-02",
-    notableWeatherSystem: "Northeast Monsoon (Amihan) Trough & Intertropical Convergence Zone",
-    affectedLowLyingCorridors: "Upper Pulangi (Busdi, Saint Peter, Zamboanguita) & Lower Sawaga",
-    alertLevelReached: "Orange Watch",
-  },
-  {
-    year: 2025,
-    annualRainfallMm: 2885,
-    peakSawagaDischargeM3s: 142.6,
-    peakEventDate: "2025-08-19",
-    notableWeatherSystem: "Enhanced Southwest Monsoon & Evening Orographic Cloudbursts",
-    affectedLowLyingCorridors: "Barangay 9 Market perimeter, Laguitas, San Martin, and Simaya",
-    alertLevelReached: "Orange Watch",
-  },
-  {
-    year: 2026,
-    annualRainfallMm: 2690,
-    peakSawagaDischargeM3s: 118.4,
-    peakEventDate: "2026-07-11",
-    notableWeatherSystem: "ITCZ Convective Cells & 2026 Wet-Season Basin Monitoring",
-    affectedLowLyingCorridors: "Active real-time monitoring across all 46 barangays via NOAH & Open-Meteo",
-    alertLevelReached: "Yellow Advisory",
-  },
-];
-
-/**
- * Deterministic hydrological snapshot generator for any calendar date (2019-01-01 to future forecast),
- * enriched at runtime by live Open-Meteo Weather + GloFAS River Discharge API data.
- */
-export function buildDeterministicDateSnapshot(dateStr: string): DateHydroSnapshot {
-  const parsed = new Date(`${dateStr}T12:00:00+08:00`);
-  const validDate = Number.isNaN(parsed.getTime()) ? new Date() : parsed;
-  const year = validDate.getFullYear();
-  const month = validDate.getMonth() + 1; // 1..12
-  const day = validDate.getDate();
-
-  const todayStr = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Manila",
-  }).format(new Date());
-  const isForecast = dateStr > todayStr;
-  const isHistoricalArchive = dateStr < todayStr;
-
-  // Check if date matches one of the notable historical peak dates
-  const matchedPeak = HISTORICAL_HYDRO_YEARS.find(
-    (entry) => entry.peakEventDate === dateStr,
-  );
-  if (matchedPeak) {
-    return {
-      date: dateStr,
-      label: new Intl.DateTimeFormat("en-PH", {
-        dateStyle: "full",
-        timeZone: "Asia/Manila",
-      }).format(validDate),
-      isForecast: false,
-      isHistoricalArchive: true,
-      rainfallMm: 96.4,
-      rainProbabilityPct: 95,
-      temperatureMaxC: 26,
-      temperatureMinC: 19,
-      windMaxKmh: 38,
-      sawagaDischargeM3s: matchedPeak.peakSawagaDischargeM3s,
-      sawagaWaterLevelM:
-        matchedPeak.alertLevelReached === "Red Critical" ? 4.35 : 3.15,
-      alertLevel: matchedPeak.alertLevelReached,
-      activeScenarioRecommendation:
-        matchedPeak.alertLevelReached === "Red Critical" ? "100yr" : "5yr",
-      advisorySummary: `${matchedPeak.notableWeatherSystem} — ${matchedPeak.affectedLowLyingCorridors}.`,
-      dataSource:
-        "UP Project NOAH Historical Baseline · PAGASA / Open-Meteo ERA5 Reanalysis (2019–2026)",
-    };
-  }
-
-  // Seasonal Bukidnon wet/dry curve (May–Nov wetter, Dec–Apr moderate with shear-line spikes)
-  const isWetSeason = month >= 5 && month <= 11;
-  const seed = (year * 372 + month * 31 + day * 17) % 97;
-  const baseRain = isWetSeason
-    ? Math.round(((seed % 28) + (seed > 78 ? 24 : 2)) * 10) / 10
-    : Math.round(((seed % 14) + (seed > 85 ? 18 : 0)) * 10) / 10;
-
-  const rainProbabilityPct = Math.min(
-    98,
-    Math.max(15, Math.round(baseRain * 2.1 + (isWetSeason ? 35 : 18))),
-  );
-  const sawagaDischargeM3s =
-    Math.round((21.5 + baseRain * 1.85 + (isWetSeason ? 8.2 : 1.5)) * 10) / 10;
-  const sawagaWaterLevelM =
-    Math.round((1.15 + sawagaDischargeM3s / 44) * 100) / 100;
-
-  const alertLevel: DateHydroSnapshot["alertLevel"] =
-    sawagaWaterLevelM >= 4.0
-      ? "Red Critical"
-      : sawagaWaterLevelM >= 2.8
-        ? "Orange Watch"
-        : sawagaWaterLevelM >= 2.1
-          ? "Yellow Advisory"
-          : "Normal";
-
+/** A missing forecast is shown as unavailable, never as a generated river reading. */
+export function buildUnavailableDateSnapshot(dateStr: string): DateHydroSnapshot {
+  const date = new Date(`${dateStr}T12:00:00+08:00`);
+  const validDate = Number.isNaN(date.getTime()) ? new Date() : date;
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Manila" }).format(new Date());
   return {
     date: dateStr,
-    label: new Intl.DateTimeFormat("en-PH", {
-      dateStyle: "full",
-      timeZone: "Asia/Manila",
-    }).format(validDate),
-    isForecast,
-    isHistoricalArchive,
-    rainfallMm: baseRain,
-    rainProbabilityPct,
-    temperatureMaxC: isWetSeason ? 28 - (seed % 3) : 30 - (seed % 3),
-    temperatureMinC: 19 + (seed % 3),
-    windMaxKmh: 12 + (seed % 14),
-    sawagaDischargeM3s,
-    sawagaWaterLevelM,
-    alertLevel,
-    activeScenarioRecommendation:
-      alertLevel === "Red Critical" || alertLevel === "Orange Watch"
-        ? "100yr"
-        : "5yr",
-    advisorySummary:
-      alertLevel === "Normal"
-        ? "Sawaga River and tributaries are within normal operating stage. Low-lying floodplains remain passable."
-        : alertLevel === "Yellow Advisory"
-          ? "Elevated afternoon/evening rainfall over Upper Sawaga and Mount Kitanglad headwaters; monitor low-lying crossings in Brgy 9, Sumpong, and Cabangahan."
-          : "High river discharge modeled along Sawaga and Kalawaig corridors; UP Project NOAH 100-year hazard zones highlighted for pre-emptive readiness.",
-    dataSource: isForecast
-      ? "Open-Meteo Weather & GloFAS River Discharge Forecast + UP Project NOAH Hazard Baseline"
-      : "UP Project NOAH Hazard Baseline + Open-Meteo Historical Archive (2019–2026)",
+    label: new Intl.DateTimeFormat("en-PH", { dateStyle: "full", timeZone: "Asia/Manila" }).format(validDate),
+    isForecast: dateStr > today,
+    isHistoricalArchive: dateStr < today,
+    rainfallMm: null,
+    rainProbabilityPct: null,
+    temperatureMaxC: null,
+    temperatureMinC: null,
+    windMaxKmh: null,
+    sawagaDischargeM3s: null,
+    sawagaWaterLevelM: null,
+    alertLevel: "Unavailable",
+    activeScenarioRecommendation: "100yr",
+    advisorySummary: "A local river gauge reading is not connected. Check PAGASA and Malaybalay CDRRMO for current warnings before approaching rivers or low-lying crossings.",
+    dataSource: "Forecast unavailable; NOAH is a hazard map, not a live river gauge",
   };
 }
 
-/**
- * Fetches live past-7-days + today + 14-day forecast daily weather & river discharge
- * for Malaybalay City (8.1575°N, 125.1278°E) from Open-Meteo.
- */
-export async function fetchLiveHydroTimeline(
-  signal?: AbortSignal,
-): Promise<Record<string, DateHydroSnapshot>> {
-  const weatherUrl =
-    "https://api.open-meteo.com/v1/forecast?latitude=8.1575&longitude=125.1278&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max&past_days=14&forecast_days=14&timezone=Asia%2FManila";
-  const floodUrl =
-    "https://flood-api.open-meteo.com/v1/flood?latitude=8.1575&longitude=125.1278&daily=river_discharge,river_discharge_max&past_days=14&forecast_days=14";
-
-  const [weatherRes, floodRes] = await Promise.allSettled([
-    fetch(weatherUrl, { signal }),
-    fetch(floodUrl, { signal }),
-  ]);
-
+/** Weather model data is kept separate from NOAH hazard layers and official flood warnings. */
+export async function fetchLiveHydroTimeline(signal?: AbortSignal): Promise<Record<string, DateHydroSnapshot>> {
+  const url = "https://api.open-meteo.com/v1/forecast?latitude=8.1575&longitude=125.1278&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max&past_days=14&forecast_days=14&timezone=Asia%2FManila";
+  const response = await fetch(url, { signal });
+  if (!response.ok) throw new Error(`Weather model returned ${response.status}`);
+  const payload: unknown = await response.json();
+  if (!payload || typeof payload !== "object" || !("daily" in payload)) throw new Error("Weather model response is missing daily data");
+  const daily = (payload as { daily?: Record<string, unknown> }).daily;
+  if (!daily || !Array.isArray(daily.time)) throw new Error("Weather model response is incomplete");
+  const numberAt = (key: string, index: number): number | null => {
+    const values = daily[key];
+    const value = Array.isArray(values) ? values[index] : null;
+    return typeof value === "number" && Number.isFinite(value) ? value : null;
+  };
   const map: Record<string, DateHydroSnapshot> = {};
-
-  if (weatherRes.status === "fulfilled" && weatherRes.value.ok) {
-    const weatherJson = (await weatherRes.value.json()) as {
-      daily?: {
-        time: string[];
-        temperature_2m_max: number[];
-        temperature_2m_min: number[];
-        precipitation_sum: number[];
-        precipitation_probability_max: number[];
-        wind_speed_10m_max: number[];
-      };
+  for (let index = 0; index < daily.time.length; index += 1) {
+    const date = daily.time[index];
+    if (typeof date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(date)) continue;
+    const base = buildUnavailableDateSnapshot(date);
+    const rainfallMm = numberAt("precipitation_sum", index);
+    const rainProbabilityPct = numberAt("precipitation_probability_max", index);
+    map[date] = {
+      ...base,
+      rainfallMm,
+      rainProbabilityPct,
+      temperatureMaxC: numberAt("temperature_2m_max", index),
+      temperatureMinC: numberAt("temperature_2m_min", index),
+      windMaxKmh: numberAt("wind_speed_10m_max", index),
+      advisorySummary: rainfallMm !== null && rainfallMm > 0
+        ? "Rain is forecast for the selected day. This is weather-model guidance, not a river-level measurement or official flood warning. Check current PAGASA and CDRRMO advisories before river travel."
+        : "The model does not forecast rainfall for this date. This does not establish that rivers or crossings are safe. Check current PAGASA and CDRRMO advisories.",
+      dataSource: "Open-Meteo daily weather model; NOAH flood hazard overlay is a separate planning layer",
     };
-
-    const floodDischarges: Record<string, number> = {};
-    if (floodRes.status === "fulfilled" && floodRes.value.ok) {
-      const floodJson = (await floodRes.value.json()) as {
-        daily?: {
-          time: string[];
-          river_discharge?: (number | null)[];
-          river_discharge_max?: (number | null)[];
-        };
-      };
-      if (floodJson.daily?.time) {
-        floodJson.daily.time.forEach((d, idx) => {
-          const val =
-            floodJson.daily?.river_discharge_max?.[idx] ??
-            floodJson.daily?.river_discharge?.[idx];
-          if (typeof val === "number" && !Number.isNaN(val)) {
-            floodDischarges[d] = val;
-          }
-        });
-      }
-    }
-
-    const daily = weatherJson.daily;
-    if (daily?.time) {
-      const todayStr = new Intl.DateTimeFormat("en-CA", {
-        timeZone: "Asia/Manila",
-      }).format(new Date());
-
-      daily.time.forEach((dateStr, idx) => {
-        const base = buildDeterministicDateSnapshot(dateStr);
-        const rainMm =
-          Math.round((daily.precipitation_sum?.[idx] ?? base.rainfallMm) * 10) /
-          10;
-        const rainProb = Math.round(
-          daily.precipitation_probability_max?.[idx] ?? base.rainProbabilityPct,
-        );
-        const tMax = Math.round(
-          daily.temperature_2m_max?.[idx] ?? base.temperatureMaxC,
-        );
-        const tMin = Math.round(
-          daily.temperature_2m_min?.[idx] ?? base.temperatureMinC,
-        );
-        const wind = Math.round(
-          daily.wind_speed_10m_max?.[idx] ?? base.windMaxKmh,
-        );
-        const discharge =
-          floodDischarges[dateStr] !== undefined
-            ? Math.round(floodDischarges[dateStr] * 10) / 10
-            : Math.round((22.0 + rainMm * 1.9) * 10) / 10;
-        const levelM = Math.round((1.15 + discharge / 44) * 100) / 100;
-        const alertLevel: DateHydroSnapshot["alertLevel"] =
-          levelM >= 4.0
-            ? "Red Critical"
-            : levelM >= 2.8
-              ? "Orange Watch"
-              : levelM >= 2.1 || rainProb >= 75
-                ? "Yellow Advisory"
-                : "Normal";
-
-        map[dateStr] = {
-          ...base,
-          isForecast: dateStr > todayStr,
-          isHistoricalArchive: dateStr < todayStr,
-          rainfallMm: rainMm,
-          rainProbabilityPct: rainProb,
-          temperatureMaxC: tMax,
-          temperatureMinC: tMin,
-          windMaxKmh: wind,
-          sawagaDischargeM3s: discharge,
-          sawagaWaterLevelM: levelM,
-          alertLevel,
-          activeScenarioRecommendation:
-            alertLevel === "Red Critical" || alertLevel === "Orange Watch"
-              ? "100yr"
-              : "5yr",
-          dataSource:
-            dateStr > todayStr
-              ? "Live Open-Meteo Forecast & GloFAS River Discharge API + UP Project NOAH"
-              : dateStr === todayStr
-                ? "Real-Time Open-Meteo & GloFAS River Telemetry + UP Project NOAH"
-                : "Open-Meteo Recent Observations & UP Project NOAH Baseline",
-        };
-      });
-    }
   }
-
   return map;
 }
 

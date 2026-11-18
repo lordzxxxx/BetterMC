@@ -222,6 +222,18 @@ export default function WeatherPanel() {
           </aside>
         </div>
 
+        <div className="weather-river-advisory" role="note" aria-label="River and heavy rain guidance">
+          <div>
+            <strong>Rain and river guidance</strong>
+            <p>Open-Meteo estimates {current.precipitation}{units.precipitation} of rain in the preceding hour near Malaybalay. {current.precipitation > 0 ? "Rain can change water flow quickly; avoid crossing swollen rivers and follow local instructions." : "No rain in this modelled hour does not mean rivers are safe."} BetterMC has no live Sawaga River gauge or authority to issue flood warnings.</p>
+          </div>
+          <div className="weather-river-links">
+            <a href="https://pagasa.dost.gov.ph/flood" target="_blank" rel="noreferrer">PAGASA flood bulletins <ExternalLink aria-hidden="true" /></a>
+            <a href="https://pagasa.dost.gov.ph/regional-forecast/minprsd" target="_blank" rel="noreferrer">Mindanao rainfall advisories <ExternalLink aria-hidden="true" /></a>
+            <a href="https://noah.up.edu.ph/" target="_blank" rel="noreferrer">NOAH hazard map <ExternalLink aria-hidden="true" /></a>
+          </div>
+        </div>
+
         <div className="weather-forecast-heading">
           <strong>24-hour forecast</strong>
           <span>Open any interval for complete conditions</span>

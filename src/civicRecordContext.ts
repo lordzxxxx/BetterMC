@@ -2,6 +2,7 @@ export type CivicRecordContext = {
   summary: string;
   publicRelevance: string;
   limits: string;
+  provisions?: Array<{ heading: string; text: string; section: string }>;
 };
 
 export const civicRecordContext: Record<string, CivicRecordContext> = {
@@ -57,9 +58,16 @@ export const civicRecordContext: Record<string, CivicRecordContext> = {
     summary:
       "The ordinance institutionalizes an annual Sangguniang Kabataan Functionality Audit, including assessment mechanisms, criteria, incentives, and funding.",
     publicRelevance:
-      "The measure creates a recurring framework for reviewing SK functionality and supporting accountability in youth governance.",
+      "All 46 barangay SK councils are covered. The audit reviews documentation, plans, projects, finances, leadership, and youth programmes, and provides coaching and recognition based on results.",
     limits:
-      "The ordinance establishes the audit framework; it does not publish audit results or prove the performance of any particular SK council.",
+      "The ordinance establishes an audit process; it does not publish any barangay's audit results. The linked scan is the controlling text. BetterMC's explanation is a reading aid, not a legal interpretation.",
+    provisions: [
+      { heading: "Who is assessed", text: "The audit covers the SK council of each of Malaybalay City's 46 barangays. A city audit team chaired by the mayor develops the tool, conducts assessment, and recommends support for councils that need it.", section: "Sections 5–6" },
+      { heading: "What is reviewed", text: "The six main areas are organizational effectiveness, development planning, project implementation, financial administration, leadership, and the youth development agenda. Documented innovation is a bonus area.", section: "Section 7" },
+      { heading: "When it happens", text: "The annual cycle provides coaching from January to March, self-assessment in April and May, field verification in June, and final rating consolidation in July.", section: "Section 9" },
+      { heading: "Support and funding", text: "The ordinance provides annual recognition in August, capacity development for councils rated Progressing or Basic, and an initial annual appropriation of ₱1,000,000 from the LGU General Fund for audit operations and incentives.", section: "Sections 10–11 and 14" },
+      { heading: "Named author", text: "The signed document identifies Hon. Cristopher Lambert N. Tortola as the author. The measure was enacted by the Sangguniang Panlungsod and approved by the city mayor.", section: "Page 1 and signature page" },
+    ],
   },
   "Ordinance No. 1092, Series of 2026": {
     summary:
