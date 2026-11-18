@@ -91,6 +91,12 @@ describe("BetterMC public portal", () => {
     expect(schoolSlugFromHostname("capitan-juan-integrated-school.bettermalaybalay.cloud")).toBeNull();
   });
 
+  it("adds the Bukidnon National senior high campus and removes Casisang senior high", () => {
+    expect(educationInstitutions.some((school) => school.name === "Bukidnon National High School Senior High School Campus")).toBe(true);
+    expect(educationInstitutions.some((school) => school.slug === "casisang-senior-high-school")).toBe(false);
+    expect(schoolSlugFromHostname("casisang-senior-high-school.bettermalaybalay.cloud")).toBeNull();
+  });
+
   it("uses the supplied BukSU campus address without status badges", () => {
     render(<MemoryRouter initialEntries={["/education?q=Bukidnon%20State%20University%20Elementary"]}><App /></MemoryRouter>);
     const card = screen.getByRole("article");
