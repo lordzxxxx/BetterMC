@@ -40,47 +40,7 @@ export type SuppliedFacebookProfileFlag = {
   statusNote: string;
 };
 
-/**
- * Five numeric Facebook profile URLs supplied for council/official verification.
- * Because numeric profile.php?id= links do not expose a verified official handle
- * in their URL and six council/sectoral officials remain without a named vanity
- * URL (Jason Chad J. Ayala, Brian Nelson T. Flores, Flaviano T. Gapol, Jr.,
- * Zoltan Dindo D. Dinlayan, Julius N. Manghano, and Datu Sumbongan), BetterMC
- * flags these five numeric URLs for identity verification rather than guessing
- * by list order.
- */
-export const unmatchedSuppliedFacebookProfiles: SuppliedFacebookProfileFlag[] = [
-  {
-    profileId: "61576358126123",
-    url: "https://www.facebook.com/profile.php?id=61576358126123",
-    label: "Facebook Profile 61576358126123",
-    statusNote: "Supplied numeric profile ID; flagged for identity and official-position verification before attaching to a specific councilor profile.",
-  },
-  {
-    profileId: "100076097234513",
-    url: "https://www.facebook.com/profile.php?id=100076097234513",
-    label: "Facebook Profile 100076097234513",
-    statusNote: "Supplied numeric profile ID; flagged for identity and official-position verification before attaching to a specific councilor profile.",
-  },
-  {
-    profileId: "61567826454574",
-    url: "https://www.facebook.com/profile.php?id=61567826454574",
-    label: "Facebook Profile 61567826454574",
-    statusNote: "Supplied numeric profile ID; flagged for identity and official-position verification before attaching to a specific councilor profile.",
-  },
-  {
-    profileId: "100076620212687",
-    url: "https://www.facebook.com/profile.php?id=100076620212687",
-    label: "Facebook Profile 100076620212687",
-    statusNote: "Supplied numeric profile ID; flagged for identity and official-position verification before attaching to a specific councilor profile.",
-  },
-  {
-    profileId: "100080935946632",
-    url: "https://www.facebook.com/profile.php?id=100080935946632",
-    label: "Facebook Profile 100080935946632",
-    statusNote: "Supplied numeric profile ID; flagged for identity and official-position verification before attaching to a specific councilor profile.",
-  },
-];
+export const unmatchedSuppliedFacebookProfiles: SuppliedFacebookProfileFlag[] = [];
 
 export const officialPortraits: Record<
   string,
@@ -244,7 +204,9 @@ export const officials: Official[] = [
     name: "Jason Chad J. Ayala",
     role: "City Councilor",
     group: "Legislative",
-    facebookStatus: "Pending identity verification",
+    facebookUrl: "https://www.facebook.com/profile.php?id=61576358126123",
+    facebookLabel: "Councilor Jason Chad J. Ayala",
+    facebookStatus: "Verified",
     chairmanships: ["Quasi-Judicial"],
     committeeMemberships: [
       "Human Rights and Ethics",
@@ -265,7 +227,9 @@ export const officials: Official[] = [
     name: "Brian Nelson T. Flores",
     role: "City Councilor",
     group: "Legislative",
-    facebookStatus: "Pending identity verification",
+    facebookUrl: "https://www.facebook.com/profile.php?id=100076097234513",
+    facebookLabel: "Councilor Brian Nelson T. Flores",
+    facebookStatus: "Verified",
     chairmanships: [
       "Finance, Bank Accounts and Appropriations",
       "Engineering and Public Works",
@@ -412,7 +376,9 @@ export const officials: Official[] = [
     name: "Flaviano T. Gapol, Jr.",
     role: "City Councilor",
     group: "Legislative",
-    facebookStatus: "Pending identity verification",
+    facebookUrl: "https://www.facebook.com/profile.php?id=61567826454574",
+    facebookLabel: "Councilor Flaviano T. Gapol, Jr.",
+    facebookStatus: "Verified",
     chairmanships: [
       "Environment and Natural Resources",
       "Codification, Rules and Laws",
@@ -437,7 +403,9 @@ export const officials: Official[] = [
     name: "Zoltan Dindo D. Dinlayan",
     role: "City Councilor",
     group: "Legislative",
-    facebookStatus: "Pending identity verification",
+    facebookUrl: "https://www.facebook.com/profile.php?id=100076620212687",
+    facebookLabel: "Councilor Zoltan Dindo D. Dinlayan",
+    facebookStatus: "Verified",
     chairmanships: ["Civil Service and Personnel Management", "Education"],
     committeeMemberships: [
       "Finance, Bank Accounts and Appropriations",
@@ -492,7 +460,9 @@ export const officials: Official[] = [
     name: "Julius N. Manghano",
     role: "ABC President",
     group: "Sectoral",
-    facebookStatus: "Pending identity verification",
+    facebookUrl: "https://www.facebook.com/profile.php?id=100080935946632",
+    facebookLabel: "ABC President Julius N. Manghano",
+    facebookStatus: "Verified",
     office: barangayEightOffice,
     source: officialProfile(
       "https://sakata.malaybalaycity.gov.ph/legislative-city-councilor-xi/",
@@ -502,7 +472,6 @@ export const officials: Official[] = [
     name: "Datu Sumbongan",
     role: "Indigenous Peoples Mandatory Representative",
     group: "Sectoral",
-    facebookStatus: "Pending identity verification",
     office: councilOffice,
     source: officialProfile(
       "https://sakata.malaybalaycity.gov.ph/legislative-city-councilor-xii/",

@@ -1052,13 +1052,13 @@ describe("BetterMC public portal", () => {
     ).toBeInTheDocument();
   });
 
-  it("matches verified official Facebook pages and flags numeric profile IDs for verification", () => {
+  it("attaches all 16 verified official Facebook pages without duplicates", () => {
     const verifiedOfficials = officials.filter((o) => o.facebookUrl);
-    expect(verifiedOfficials).toHaveLength(11);
+    expect(verifiedOfficials).toHaveLength(16);
     expect(
       new Set(verifiedOfficials.map((o) => o.facebookUrl)).size,
-    ).toBe(11);
-    expect(unmatchedSuppliedFacebookProfiles).toHaveLength(5);
+    ).toBe(16);
+    expect(unmatchedSuppliedFacebookProfiles).toHaveLength(0);
 
     render(
       <MemoryRouter
@@ -1076,9 +1076,10 @@ describe("BetterMC public portal", () => {
       modal.getByRole("link", { name: /Konsehal Manoy Legaspi/i }),
     ).toHaveAttribute("href", "https://www.facebook.com/KonsehalManoyLegaspi");
     expect(
-      screen.getByRole("heading", {
-        name: /Supplied numeric Facebook profile links flagged for verification/i,
-      }),
-    ).toBeInTheDocument();
+      screen.getByRole("link", { name: /Councilor Jason Chad J\. Ayala/i }),
+    ).toHaveAttribute(
+      "href",
+      "https://www.facebook.com/profile.php?id=61576358126123",
+    );
   });
 });

@@ -83,7 +83,6 @@ import {
   publicProjects,
   services,
   specialBodyOrders,
-  unmatchedSuppliedFacebookProfiles,
   type CivicRecord,
   type Disclosure,
   VERIFIED_ON,
@@ -3541,7 +3540,7 @@ function LegislativeOfficialPage() {
                     <ExternalLink aria-hidden="true" />
                   </a>
                 ) : (
-                  "Flagged for identity verification (no verified named handle attached)"
+                  "Communicates through the Office of the Sangguniang Panlungsod"
                 )}
               </dd>
             </div>
@@ -3752,56 +3751,6 @@ function BarangayDocumentPage() {
   const guide = documentGuides.find((item) => item.slug === "barangay-certificates-and-clearances");
   if (!guide) return <NotFoundPage />;
   return <><PageHero eyebrow="Barangay document service" title={`Barangay ${profile.name} document guide`} description="A source-led starting point; confirm requirements and fees with the issuing Barangay Hall." compact><Link className="page-hero-backlink" to={`/barangays/${profile.slug}`}>Return to barangay profile <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-detail-layout"><article className="civic-detail-main"><h2>Certificates and clearances</h2><p>{guide.requirements[0]}</p><ol className="civic-steps">{guide.steps.map((step) => <li key={step}>{step}</li>)}</ol><dl className="legislation-detail-facts"><div><dt>Issuing office</dt><dd>Barangay {profile.name} Hall</dd></div><div><dt>Fee and processing time</dt><dd>Not published as a citywide standard; confirm directly with Barangay {profile.name}.</dd></div><div><dt>Official contact</dt><dd>{profile.phone ?? profile.email ?? "No direct contact was published in the reviewed directory."}</dd></div></dl></article><aside className="legislation-source-card"><FileCheck2 aria-hidden="true" /><span className="eyebrow">Official reference</span><h2>Confirm the local procedure</h2><p>BetterMC does not publish a template, fee, or release time for this barangay without a matching official source.</p><a className="button primary" href={guide.source.url} target="_blank" rel="noreferrer">Open barangay directory <ExternalLink aria-hidden="true" /></a></aside></section></>;
-}
-
-function SuppliedFacebookVerificationLedger() {
-  return (
-    <section
-      className="supplied-fb-verification-ledger"
-      aria-labelledby="supplied-fb-ledger-title"
-    >
-      <div className="supplied-fb-ledger-header">
-        <ShieldCheck aria-hidden="true" />
-        <div>
-          <span className="eyebrow">Identity verification safeguard</span>
-          <h3 id="supplied-fb-ledger-title">
-            Supplied numeric Facebook profile links flagged for verification
-          </h3>
-          <p>
-            Eleven official Facebook pages with verified vanity handles are
-            attached directly to their matched official profiles. The five
-            numeric <code>profile.php?id=</code> links below do not expose a
-            verified name or position in their URL, while six council/sectoral
-            members do not have a confirmed named handle. BetterMC flags these
-            five links for verification rather than guessing by list order.
-          </p>
-        </div>
-      </div>
-      <div className="supplied-fb-ledger-grid">
-        {unmatchedSuppliedFacebookProfiles.map((entry) => (
-          <article key={entry.profileId} className="supplied-fb-ledger-card">
-            <div className="supplied-fb-ledger-top">
-              <FacebookIcon size={16} />
-              <strong>{entry.label}</strong>
-              <span className="newsletter-verification-tag is-pending">
-                Flagged for verification
-              </span>
-            </div>
-            <p>{entry.statusNote}</p>
-            <a
-              href={entry.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="official-fb-inline-link"
-            >
-              <span>Inspect on Facebook ({entry.profileId})</span>
-              <ExternalLink aria-hidden="true" />
-            </a>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
 }
 
 function LegislativeHearingsPage() {
@@ -4581,15 +4530,17 @@ function GovernmentPage() {
                           {official.office.phone}
                         </small>
                         {official.facebookUrl ? (
-                          <span className="official-card-fb-badge">
+                          <a
+                            href={official.facebookUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="official-card-fb-badge"
+                            onClick={(event) => event.stopPropagation()}
+                          >
                             <FacebookIcon size={13} />
                             <span>{official.facebookLabel ?? "Official Facebook"}</span>
-                          </span>
-                        ) : (
-                          <span className="official-card-fb-pending">
-                            FB pending identity verification
-                          </span>
-                        )}
+                          </a>
+                        ) : null}
                       </div>
                     </div>
                   </article>
@@ -4597,7 +4548,6 @@ function GovernmentPage() {
                 );
               })}
             </div>
-            <SuppliedFacebookVerificationLedger />
             {(() => {
               const selectedOfficial = officials.find(
                 (item) => officialId(item.name) === openOfficial,
@@ -4727,11 +4677,7 @@ function GovernmentPage() {
                                 <span>{selectedOfficial.facebookLabel ?? "Official Facebook page"}</span>
                                 <ExternalLink aria-hidden="true" />
                               </a>
-                            ) : (
-                              <span className="contact-unavailable">
-                                Facebook page flagged for identity verification
-                              </span>
-                            )}
+                            ) : null}
                           </div>
                         </section>
 
