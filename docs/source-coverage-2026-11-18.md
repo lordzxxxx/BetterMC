@@ -16,6 +16,7 @@
 ## Recordings and transcripts
 
 - The BAC meeting dated 18 November 2026 has one directly identified Facebook video URL. Its local thumbnail was obtained from the video page's public Open Graph image. The source page and a click-to-load Facebook embed remain available.
+- BetterMC now links directly to the City Government and BAC LGU Malaybalay video libraries from the hearings and procurement sections. These are official publishing channels; the links are browsable even when a particular recording has not yet been indexed as its own BetterMC record.
 - The Facebook player may require Facebook access or may change availability. Loading an embed is not proof that playback succeeds for every visitor.
 - Other indexed hearing and procurement records do not have verified direct video URLs. BetterMC does not attach a general Facebook page as if it were a specific recording.
 - No reviewed verbatim transcript exists for the indexed BAC recording or the local hearing entries. Procurement amounts and outcomes shown on BetterMC derive from separately linked disclosure documents, not an unreviewed recording.
@@ -29,3 +30,5 @@
 - [Open-Meteo forecast documentation](https://open-meteo.com/en/docs)
 - [City publication for Ordinance No. 1118](https://sakata.malaybalaycity.gov.ph/ordinance-no-1118-series-of-2026/)
 - [City BAC Facebook page](https://www.facebook.com/bacmalaybalay)
+- [City Government video library](https://www.facebook.com/profile.php?id=100063747444247&sk=videos)
+- [BAC LGU Malaybalay video library](https://www.facebook.com/bacmalaybalay/videos/)

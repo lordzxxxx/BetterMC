@@ -21530,3 +21530,38 @@ pre {
 .weather-river-links a { display: inline-flex; align-items: center; gap: 4px; color: #154d9d; font-size: .8rem; font-weight: 650; }
 .weather-river-links svg { width: 14px; height: 14px; }
 @media (max-width: 800px) { .weather-river-advisory { flex-direction: column; } .weather-river-links { min-width: 0; } }
+
+.official-video-channels {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px 28px;
+  padding: 18px 22px;
+  border: 1px solid #c9dbee;
+  border-radius: 14px;
+  background: #fff;
+}
+.official-video-channels h3 { margin: 3px 0 4px; color: #10213b; font-size: 1.1rem; }
+.official-video-channels p { max-width: 58ch; margin: 0; color: #4a607c; font-size: .86rem; line-height: 1.5; }
+.official-video-channel-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.official-video-channel-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 44px;
+  padding: 9px 12px;
+  border: 1px solid #afc8e8;
+  border-radius: 9px;
+  color: #154697;
+  font-size: .85rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+.official-video-channel-links a:hover { background: #f2f7ff; border-color: #7ba9dc; }
+.official-video-channel-links a:focus-visible { outline: 3px solid #73a4e5; outline-offset: 2px; }
+.official-video-channel-links svg { flex: none; width: 16px; height: 16px; }
+@media (max-width: 760px) {
+  .official-video-channels { flex-direction: column; align-items: stretch; padding: 16px; }
+  .official-video-channel-links { display: grid; grid-template-columns: minmax(0,1fr); }
+}

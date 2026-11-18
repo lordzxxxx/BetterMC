@@ -98,6 +98,8 @@ import {
   legislativeHearingRecords,
   newsletterUpdates,
   OFFICIAL_BAC_FB_URL,
+  OFFICIAL_BAC_VIDEOS_URL,
+  OFFICIAL_CITY_VIDEOS_URL,
   PUBLIC_INFO_REVIEWED_ON,
   type NewsCardCategory,
   type LegislativeHearingRecord,
@@ -234,8 +236,8 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
     description: "Review Malaybalay City Council sessions, committee hearings, agendas, and BetterGov.PH hearing references.",
   },
   "/procurement/livestreams": {
-    title: "BAC LGU Malaybalay livestreams & bidding documentation | BetterMC",
-    description: "Monitor BAC LGU Malaybalay procurement livestreams, confirmed FDP Form 10a bidding results, and downloadable .docx/.txt documentation.",
+    title: "Procurement records and BAC recordings | BetterMC",
+    description: "Browse Malaybalay bidding records, official BAC video sources, bid results, and downloadable reports.",
   },
 };
 
@@ -674,7 +676,7 @@ function Footer() {
           <Link to="/transparency">Transparency records</Link>
           <Link to="/budget">Budget transparency</Link>
           <Link to="/hearings">Legislative hearings</Link>
-          <Link to="/procurement/livestreams">BAC livestreams & bidding</Link>
+          <Link to="/procurement/livestreams">Procurement and BAC recordings</Link>
           <Link to="/participate">Submit a correction</Link>
           <a
             className="footer-icon-link"
@@ -792,6 +794,7 @@ function Footer() {
 }
 
 function MobileAppTabBar() {
+  const { pathname } = useLocation();
   return (
     <nav className="mobile-bottom-app-bar" aria-label="Quick mobile app navigation">
       <NavLink to="/" end>
@@ -806,10 +809,14 @@ function MobileAppTabBar() {
         <Scale aria-hidden="true" />
         <span>Hearings</span>
       </NavLink>
-      <NavLink to="/procurement/livestreams">
-        <BriefcaseBusiness aria-hidden="true" />
-        <span>BAC Live</span>
-      </NavLink>
+      <Link
+        to="/procurement/bidding-opportunities"
+        className={pathname.startsWith("/procurement") ? "active" : undefined}
+        aria-current={pathname === "/procurement/bidding-opportunities" ? "page" : undefined}
+      >
+        <ReceiptText aria-hidden="true" />
+        <span>Procurement</span>
+      </Link>
       <NavLink to="/services">
         <Compass aria-hidden="true" />
         <span>Services</span>
@@ -1333,7 +1340,7 @@ function FirstTimeWelcomeCard() {
               <strong>BAC Procurement &amp; Livestreams</strong>
               <p>
                 Review BAC LGU Malaybalay livestream documentation (.docx &amp; .txt),
-                212 active ITBs, and FDP Form 10a bidding outcomes.
+                indexed bid notices, and FDP Form 10a bidding outcomes.
               </p>
             </div>
             <ArrowRight aria-hidden="true" />
@@ -2050,6 +2057,29 @@ function FacebookVideo({ url, title, poster }: { url: string; title: string; pos
   </div>;
 }
 
+function OfficialVideoChannels({ includeBac = false }: { includeBac?: boolean }) {
+  const channels = [
+    { label: "City Government videos", url: OFFICIAL_CITY_VIDEOS_URL },
+    ...(includeBac ? [{ label: "BAC LGU Malaybalay videos", url: OFFICIAL_BAC_VIDEOS_URL }] : []),
+  ];
+  return (
+    <section className="official-video-channels" aria-label="Official video libraries">
+      <div>
+        <span className="eyebrow">Original video sources</span>
+        <h3>Browse official recordings</h3>
+        <p>Open the City Government and BAC video libraries for recordings published by those offices.</p>
+      </div>
+      <div className="official-video-channel-links">
+        {channels.map((channel) => (
+          <a key={channel.url} href={channel.url} target="_blank" rel="noopener noreferrer">
+            {channel.label}<ExternalLink aria-hidden="true" />
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 type ProcurementDisplayRecord = {
   number: string;
   title: string;
@@ -2254,7 +2284,7 @@ function BacLivestreamMonitoringPage() {
       <section className="section container procurement-page bac-livestream-page">
         <nav className="procurement-page-nav" aria-label="Procurement record types">
           <NavLink to="/procurement/livestreams">
-            BAC livestreams &amp; documentation
+            BAC records &amp; recordings
           </NavLink>
           {procurementSources.map((source) => (
             <NavLink key={source.path} to={source.path}>
@@ -2289,38 +2319,6 @@ function BacLivestreamMonitoringPage() {
               </a>
             </div>
             <p className="bac-report-snapshot-note">These reports are an earlier source review. Their Facebook access note predates the verified video link shown here; no transcript has been added to them.</p>
-            <div className="bac-source-links-bar">
-              <a
-                href={bacLivestreamSummary.officialPageUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="official-fb-pill"
-              >
-                <FacebookIcon size={16} />
-                <span>BAC LGU Malaybalay FB Page</span>
-                <ExternalLink aria-hidden="true" />
-              </a>
-              <a
-                href={bacLivestreamSummary.referencedCommentUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="official-fb-pill"
-              >
-                <FacebookIcon size={16} />
-                <span>Referenced Post 1641508124420651 / Comment 979070108175116</span>
-                <ExternalLink aria-hidden="true" />
-              </a>
-              <a
-                href={bacLivestreamSummary.cityFbLiveHubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="official-fb-pill"
-              >
-                <FacebookIcon size={16} />
-                <span>City Government of Malaybalay FB Live Hub</span>
-                <ExternalLink aria-hidden="true" />
-              </a>
-            </div>
           </article>
 
           <aside className="bac-livestream-embed-card">
@@ -2331,9 +2329,10 @@ function BacLivestreamMonitoringPage() {
               </div>
             </div>
             <FacebookVideo url={bacLivestreamSummary.verifiedVideoUrl} title="BAC meeting, 18 November 2026" poster="/images/bac-meeting-2026-11-18.jpg" />
-            <p className="record-dialog-note">Discussion transcript is pending audio review. Published bid outcomes below are drawn from official disclosure files.</p>
           </aside>
         </div>
+
+        <OfficialVideoChannels includeBac />
 
         <div className="data-notice bac-limitation-notice">
           <CircleAlert aria-hidden="true" />
@@ -2450,7 +2449,7 @@ function ProcurementPage() {
       <section className="section container procurement-page">
         <nav className="procurement-page-nav" aria-label="Procurement record types">
           <NavLink to="/procurement/livestreams">
-            BAC livestreams &amp; documentation
+            BAC records &amp; recordings
           </NavLink>
           {procurementSources.map((source) => (
             <NavLink key={source.path} to={source.path}>
@@ -3721,6 +3720,7 @@ function LegislativeHearingsPage() {
         </nav>
 
         <p className="hearings-intro">City Council proceedings and referenced national briefings are listed here. <Link to="/procurement/livestreams">Browse BAC procurement records</Link> separately.</p>
+        <OfficialVideoChannels />
 
         <div className="legislation-toolbar hearings-toolbar">
           <label className="hearing-filter-field"><span>Search</span><span className="directory-search">

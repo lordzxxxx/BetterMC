@@ -508,3 +508,24 @@ test("BAC recording, ordinance text, and weather guidance keep their source boun
   await expect(page.getByRole("note", { name: "River and heavy rain guidance" })).toContainText("no live Sawaga River gauge");
   await expect(page.getByRole("link", { name: /PAGASA flood bulletins/ })).toHaveAttribute("href", "https://pagasa.dost.gov.ph/flood");
 });
+
+test("procurement navigation and official video libraries are accessible", async ({ page }) => {
+  await page.goto("/procurement/livestreams");
+  const videoSources = page.getByRole("region", { name: "Official video libraries" });
+  await expect(videoSources.getByRole("link", { name: "City Government videos" })).toHaveAttribute("href", /facebook\.com\/profile\.php\?id=100063747444247/);
+  await expect(videoSources.getByRole("link", { name: "BAC LGU Malaybalay videos" })).toHaveAttribute("href", "https://www.facebook.com/bacmalaybalay/videos/");
+
+  if ((page.viewportSize()?.width ?? 1000) <= 760) {
+    const tab = page.getByRole("navigation", { name: "Quick mobile app navigation" }).getByRole("link", { name: "Procurement" });
+    await expect(tab).toBeVisible();
+    await expect(tab).toHaveClass(/active/);
+    await tab.click();
+    await expect(page).toHaveURL(/\/procurement\/bidding-opportunities$/);
+    await expect(tab).toHaveAttribute("aria-current", "page");
+  }
+
+  await page.goto("/hearings");
+  const hearingSources = page.getByRole("region", { name: "Official video libraries" });
+  await expect(hearingSources.getByRole("link", { name: "City Government videos" })).toBeVisible();
+  await expect(hearingSources.getByRole("link", { name: "BAC LGU Malaybalay videos" })).toHaveCount(0);
+});

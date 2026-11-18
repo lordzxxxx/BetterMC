@@ -5,6 +5,9 @@ export const PUBLIC_INFO_REVIEWED_ON = "2026-11-18";
 export const OFFICIAL_CITY_FB_URL =
   "https://www.facebook.com/profile.php?id=100063747444247";
 export const OFFICIAL_BAC_FB_URL = "https://www.facebook.com/bacmalaybalay";
+export const OFFICIAL_BAC_VIDEOS_URL = `${OFFICIAL_BAC_FB_URL}/videos/`;
+export const OFFICIAL_CITY_VIDEOS_URL =
+  "https://www.facebook.com/profile.php?id=100063747444247&sk=videos";
 export const OFFICIAL_BAC_COMMENT_URL =
   "https://www.facebook.com/bacmalaybalay?comment_id=Y29tbWVudDoxNjQxNTA4MTI0NDIwNjUxXzk3OTA3MDEwODE3NTExNg%3D%3D";
 export const OFFICIAL_BAC_VIDEO_URL =
@@ -487,7 +490,7 @@ export const bacLivestreamSummary = {
   docxDownloadPath: "/docs/BAC_LGU_MALAYBALAY_LIVESTREAM_DOCUMENTATION.docx",
   txtDownloadPath: "/docs/BAC_LGU_MALAYBALAY_LIVESTREAM_DOCUMENTATION.txt",
   accessLimitationNotice:
-    "The public Facebook post resolves to a BAC meeting video dated 18 November 2026. Playback inside BetterMC depends on Meta's embed availability and the visitor's Facebook access. No reviewed spoken transcript or verified timestamps are available. Confirmed procurement outcomes come from the City's FDP Form 10a tables and BAC ITB index, not from this recording.",
+    "The City Government published the 18 November 2026 BAC meeting video. If the embedded player is unavailable, open the original on Facebook. The bid results below come from separate City disclosures; no reviewed transcript is attached to this video.",
 };
 
 export const bacLivestreamEntries: BacLivestreamDiscussionEntry[] = [
