@@ -387,16 +387,13 @@ test("footer publishes civic contribution and verified city channels", async ({
   await expect(page.getByText("₱0")).toHaveCount(2);
 });
 
-test("transparency cross-section links preserve the previous route", async ({ page }) => {
+test("transparency and budget section links stay focused on disclosure and budget", async ({ page }) => {
   await page.goto("/transparency");
 
-  await page.getByRole("link", { name: "BAC Livestreams & Bidding" }).click();
-  await expect(page).toHaveURL(/\/procurement\/livestreams$/);
-  await page.goBack();
-  await expect(page).toHaveURL(/\/transparency$/);
-
-  await page.getByRole("link", { name: "Legislative & Budget Hearings" }).click();
-  await expect(page).toHaveURL(/\/hearings$/);
+  const sectionNav = page.getByRole("navigation", { name: "Transparency and budget sections" });
+  await expect(sectionNav.getByRole("link")).toHaveCount(2);
+  await sectionNav.getByRole("link", { name: "Budget Transparency Hub" }).click();
+  await expect(page).toHaveURL(/\/budget$/);
   await page.goBack();
   await expect(page).toHaveURL(/\/transparency$/);
   await expect(page.getByText("Published record does not always mean named authorship")).toHaveCount(0);
@@ -491,18 +488,18 @@ test("global page access remains complete and responsive", async ({
   if ((page.viewportSize()?.width ?? 0) > 960) {
     await page.getByRole("button", { name: "Open BetterMC site directory" }).click();
     const allPages = page.getByRole("navigation", { name: "BetterMC site directory" });
-    await expect(allPages.getByRole("link")).toHaveCount(13);
+    await expect(allPages.getByRole("link")).toHaveCount(12);
     await expect(allPages.getByRole("link", { name: /Legislation/i })).toHaveAttribute(
       "href",
       "/legislation",
     );
-    await expect(allPages.getByRole("link", { name: "BAC recordings" })).toHaveAttribute("href", "/procurement/livestreams");
+    await expect(allPages.getByRole("link", { name: /Procurement/i })).toHaveAttribute("href", "/procurement/livestreams");
   } else {
     await page.getByRole("button", { name: "Open menu" }).click();
     const mobileNavigation = page.locator("#mobile-navigation");
     await expect(mobileNavigation.getByRole("link")).toHaveCount(8);
     await mobileNavigation.getByText("More sections").click();
-    await expect(mobileNavigation.getByRole("link")).toHaveCount(13);
+    await expect(mobileNavigation.getByRole("link")).toHaveCount(12);
     await page.getByRole("button", { name: "Close menu" }).click();
   }
 
@@ -560,7 +557,7 @@ test("procurement navigation and original recording sources are accessible", asy
     await expect(tab).toBeVisible();
     await expect(tab).toHaveClass(/active/);
     await tab.click();
-    await expect(page).toHaveURL(/\/procurement\/bidding-opportunities$/);
+    await expect(page).toHaveURL(/\/procurement\/livestreams$/);
     await expect(tab).toHaveAttribute("aria-current", "page");
   }
 

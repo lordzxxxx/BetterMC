@@ -376,10 +376,10 @@ describe("BetterMC public portal", () => {
     );
     expect(within(navigation).getByRole("link", { name: /Procurement/i })).toHaveAttribute(
       "href",
-      "/procurement/bidding-opportunities",
+      "/procurement/livestreams",
     );
     expect(within(navigation).getByRole("link", { name: /Hearings/i })).toHaveAttribute("href", "/hearings");
-    expect(within(navigation).getAllByRole("link")).toHaveLength(13);
+    expect(within(navigation).getAllByRole("link")).toHaveLength(12);
   });
 
   it("lists source-linked transparency records", () => {
@@ -1066,7 +1066,15 @@ describe("BetterMC public portal", () => {
         name: /Hearings and sessions/i,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "BAC recordings" })).toHaveAttribute("href", "/procurement/livestreams");
+    expect(
+      screen.queryByRole("navigation", { name: "Public record sections" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: /Published ordinances & executive issuances/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: "BAC recordings" }),
+    ).not.toBeInTheDocument();
     expect(
       screen.getByText(
         /Committee Hearing on the Proposed FY 2027 City Annual Budget/i,
@@ -1127,75 +1135,80 @@ describe("BetterMC public portal", () => {
     );
   });
 
-  it("displays Back to Transparency on /procurement/livestreams and /hearings only when navigated from /transparency", () => {
-    const directBac = render(
-      <MemoryRouter initialEntries={["/procurement/livestreams"]}>
+  it("reorganizes Procurement, Transparency, Hearings, and Legislation with distinct purposes and no overlapping sub-navigation", () => {
+    // 1. Default Procurement link points to /procurement/livestreams (BAC Records & Recordings)
+    const home = render(
+      <MemoryRouter initialEntries={["/"]}>
         <App />
       </MemoryRouter>,
     );
-    expect(
-      screen.queryByRole("link", { name: /Back to Transparency/i }),
-    ).not.toBeInTheDocument();
-    directBac.unmount();
-
-    const directHearings = render(
-      <MemoryRouter initialEntries={["/hearings"]}>
-        <App />
-      </MemoryRouter>,
+    const primaryNav = within(
+      screen.getByRole("navigation", { name: "Primary navigation" }),
     );
     expect(
-      screen.queryByRole("link", { name: /Back to Transparency/i }),
-    ).not.toBeInTheDocument();
-    directHearings.unmount();
+      primaryNav.getByRole("link", { name: "Procurement" }),
+    ).toHaveAttribute("href", "/procurement/livestreams");
+    const mobileTabNav = within(
+      screen.getByRole("navigation", { name: "Quick mobile app navigation" }),
+    );
+    expect(
+      mobileTabNav.getByRole("link", { name: "Procurement" }),
+    ).toHaveAttribute("href", "/procurement/livestreams");
+    home.unmount();
 
-    render(
+    // 2. Transparency (/transparency) keeps only Full Disclosure Catalog and Budget Transparency Hub
+    const transparencyView = render(
       <MemoryRouter initialEntries={["/transparency"]}>
         <App />
       </MemoryRouter>,
     );
-    fireEvent.click(
-      screen.getByRole("link", { name: /BAC Livestreams & Bidding/i }),
-    );
-    expect(
-      screen.getByRole("heading", {
-        name: /BAC bidding records and recordings/i,
+    const transparencyNav = within(
+      screen.getByRole("navigation", {
+        name: "Transparency and budget sections",
       }),
-    ).toBeInTheDocument();
-    const backFromBac = screen.getByRole("link", {
-      name: /Back to Transparency/i,
-    });
-    expect(backFromBac).toHaveAttribute("href", "/transparency");
-
-    fireEvent.click(backFromBac);
-    expect(
-      screen.getByRole("heading", {
-        name: /Public records, with their context intact/i,
-      }),
-    ).toBeInTheDocument();
-
-    fireEvent.click(
-      screen.getByRole("link", { name: /Legislative & Budget Hearings/i }),
     );
+    const transparencyLinks = transparencyNav.getAllByRole("link");
+    expect(transparencyLinks).toHaveLength(2);
     expect(
-      screen.getByRole("heading", { name: /Hearings and sessions/i }),
-    ).toBeInTheDocument();
-    const backFromHearings = screen.getByRole("link", {
-      name: /Back to Transparency/i,
-    });
-    expect(backFromHearings).toHaveAttribute("href", "/transparency");
-
-    fireEvent.click(screen.getByRole("link", { name: "BAC recordings" }));
-    expect(
-      screen.getByRole("link", { name: /Back to Transparency/i }),
+      transparencyNav.getByRole("link", { name: "Full Disclosure Catalog" }),
     ).toHaveAttribute("href", "/transparency");
+    expect(
+      transparencyNav.getByRole("link", { name: "Budget Transparency Hub" }),
+    ).toHaveAttribute("href", "/budget");
+    expect(
+      transparencyNav.queryByRole("link", {
+        name: /BAC Livestreams & Bidding/i,
+      }),
+    ).not.toBeInTheDocument();
+    expect(
+      transparencyNav.queryByRole("link", {
+        name: /Legislative & Budget Hearings/i,
+      }),
+    ).not.toBeInTheDocument();
+    transparencyView.unmount();
 
-    fireEvent.click(
-      screen.getByRole("link", { name: /Back to Transparency/i }),
+    // 3. Legislation (/legislation) is exclusively for Published Ordinances & Executive Issuances
+    const legislationView = render(
+      <MemoryRouter initialEntries={["/legislation"]}>
+        <App />
+      </MemoryRouter>,
     );
     expect(
       screen.getByRole("heading", {
-        name: /Public records, with their context intact/i,
+        name: /Published measures, readable inside BetterMC/i,
       }),
     ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("navigation", { name: "Legislative sections" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", {
+        name: /Legislative sessions & public hearings/i,
+      }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { name: /Proposed 2027 Annual Budget/i }),
+    ).not.toBeInTheDocument();
+    legislationView.unmount();
   });
 });

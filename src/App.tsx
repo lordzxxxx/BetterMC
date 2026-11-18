@@ -64,6 +64,7 @@ import {
 } from "lucide-react";
 import {
   Link,
+  Navigate,
   NavLink,
   Route,
   Routes,
@@ -188,7 +189,7 @@ const navItems = [
   { label: "Education", to: "/education" },
   { label: "Government", to: "/government" },
   { label: "Legislation", to: "/legislation" },
-  { label: "Procurement", to: "/procurement/bidding-opportunities" },
+  { label: "Procurement", to: "/procurement/livestreams" },
   { label: "Transparency", to: "/transparency" },
 ];
 
@@ -522,17 +523,12 @@ function isFromTransparencyState(state: unknown): boolean {
   );
 }
 
-function transparencyOriginState(pathname: string) {
-  return pathname === "/transparency" ? { fromTransparency: true } : undefined;
-}
-
 function Header() {
   const [open, setOpen] = useState(false);
   const [pagesOpen, setPagesOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const pageAccessRef = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
-  const navState = transparencyOriginState(pathname);
 
   useEffect(() => {
     if (!open && !pagesOpen) return;
@@ -592,7 +588,17 @@ function Header() {
           <Brand title="Uswag Malaybalay" subtitle="" />
           <nav className="desktop-nav" aria-label="Primary navigation">
             {navItems.map((item) => (
-              <NavLink key={item.to} to={item.to} state={navState}>
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) =>
+                  isActive ||
+                  (item.to === "/procurement/livestreams" &&
+                    pathname.startsWith("/procurement"))
+                    ? "active"
+                    : undefined
+                }
+              >
                 {item.label}
               </NavLink>
             ))}
@@ -620,19 +626,24 @@ function Header() {
                     <small>Go directly to any section of the public information portal.</small>
                   </span>
                 </div>
-                {sitePages.map((page) => (
-                  <Link
-                    key={page.to}
-                    className={pathname === page.to ? "is-active" : undefined}
-                    aria-current={pathname === page.to ? "page" : undefined}
-                    to={page.to}
-                    state={navState}
-                    onClick={() => setPagesOpen(false)}
-                  >
-                    <span><strong>{page.label}</strong><small>{page.description}</small></span>
-                    <ArrowRight aria-hidden="true" />
-                  </Link>
-                ))}
+                {sitePages.map((page) => {
+                  const isCurrent =
+                    pathname === page.to ||
+                    (page.to === "/procurement/livestreams" &&
+                      pathname.startsWith("/procurement"));
+                  return (
+                    <Link
+                      key={page.to}
+                      className={isCurrent ? "is-active" : undefined}
+                      aria-current={pathname === page.to ? "page" : undefined}
+                      to={page.to}
+                      onClick={() => setPagesOpen(false)}
+                    >
+                      <span><strong>{page.label}</strong><small>{page.description}</small></span>
+                      <ArrowRight aria-hidden="true" />
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </nav>
@@ -658,7 +669,6 @@ function Header() {
               <NavLink
                 key={item.to}
                 to={item.to}
-                state={navState}
                 onClick={() => setOpen(false)}
               >
                 {item.label}
@@ -670,7 +680,7 @@ function Header() {
               <summary>More sections <ChevronDown aria-hidden="true" /></summary>
               <div>
                 {sitePages.filter((item) => item.to !== "/" && !navItems.some((primary) => primary.to === item.to)).map((item) => (
-                  <NavLink key={item.to} to={item.to} state={navState} onClick={() => setOpen(false)}>{item.label}<ArrowRight aria-hidden="true" /></NavLink>
+                  <NavLink key={item.to} to={item.to} onClick={() => setOpen(false)}>{item.label}<ArrowRight aria-hidden="true" /></NavLink>
                 ))}
               </div>
             </details>
@@ -682,8 +692,6 @@ function Header() {
 }
 
 function Footer() {
-  const { pathname } = useLocation();
-  const navState = transparencyOriginState(pathname);
   return (
     <footer className="site-footer">
       <section className="container footer-transparency-promise" aria-labelledby="footer-transparency-title">
@@ -722,8 +730,8 @@ function Footer() {
           <Link to="/about">About & methodology</Link>
           <Link to="/transparency">Transparency records</Link>
           <Link to="/budget">Budget transparency</Link>
-          <Link to="/hearings" state={navState}>Legislative hearings</Link>
-          <Link to="/procurement/livestreams" state={navState}>Procurement and BAC recordings</Link>
+          <Link to="/hearings">Legislative hearings</Link>
+          <Link to="/procurement/livestreams">Procurement and BAC recordings</Link>
           <Link to="/participate">Submit a correction</Link>
           <a
             className="footer-icon-link"
@@ -842,7 +850,6 @@ function Footer() {
 
 function MobileAppTabBar() {
   const { pathname } = useLocation();
-  const navState = transparencyOriginState(pathname);
   return (
     <nav className="mobile-bottom-app-bar" aria-label="Quick mobile app navigation">
       <NavLink to="/" end>
@@ -853,14 +860,14 @@ function MobileAppTabBar() {
         <BarChart3 aria-hidden="true" />
         <span>Budget</span>
       </NavLink>
-      <NavLink to="/hearings" state={navState}>
+      <NavLink to="/hearings">
         <Scale aria-hidden="true" />
         <span>Hearings</span>
       </NavLink>
       <Link
-        to="/procurement/bidding-opportunities"
+        to="/procurement/livestreams"
         className={pathname.startsWith("/procurement") ? "active" : undefined}
-        aria-current={pathname === "/procurement/bidding-opportunities" ? "page" : undefined}
+        aria-current={pathname === "/procurement/livestreams" ? "page" : undefined}
       >
         <ReceiptText aria-hidden="true" />
         <span>Procurement</span>
@@ -1003,8 +1010,6 @@ function GlobalSearch() {
   const deferredQuery = useDeferredValue(query);
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsId = useId();
-  const { pathname } = useLocation();
-  const navState = transparencyOriginState(pathname);
   const results = useMemo(() => {
     return searchPortal(deferredQuery);
   }, [deferredQuery]);
@@ -1064,7 +1069,6 @@ function GlobalSearch() {
               <Link
                 key={`${result.href}-${result.type}-${result.title}`}
                 to={result.href}
-                state={navState}
                 onClick={() => setQuery("")}
               >
                 <small>{result.type}</small>
@@ -2893,10 +2897,8 @@ function BudgetTransparencyPage() {
       />
       <section className="section container budget-transparency-page">
         <nav className="procurement-page-nav" aria-label="Transparency and budget sections">
-          <NavLink to="/transparency">Full Disclosure Catalog</NavLink>
+          <NavLink to="/transparency" end>Full Disclosure Catalog</NavLink>
           <NavLink to="/budget">Budget Transparency Hub</NavLink>
-          <NavLink to="/procurement/livestreams">BAC Livestreams &amp; Bidding</NavLink>
-          <NavLink to="/hearings">Legislative &amp; Budget Hearings</NavLink>
         </nav>
 
         <div className="data-notice budget-scope-notice">
@@ -3150,8 +3152,6 @@ function TransparencyPage() {
         <nav className="procurement-page-nav" aria-label="Transparency and budget sections">
           <NavLink to="/transparency" end>Full Disclosure Catalog</NavLink>
           <NavLink to="/budget">Budget Transparency Hub</NavLink>
-          <NavLink to="/procurement/livestreams" state={{ fromTransparency: true }}>BAC Livestreams &amp; Bidding</NavLink>
-          <NavLink to="/hearings" state={{ fromTransparency: true }}>Legislative &amp; Budget Hearings</NavLink>
         </nav>
         <div className="data-notice">
           <CircleAlert />
@@ -3904,7 +3904,6 @@ function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" 
 function LegislativeHearingsPage() {
   const location = useLocation();
   const fromTransparency = isFromTransparencyState(location.state);
-  const preservedState = fromTransparency ? { fromTransparency: true } : undefined;
   const [sessionFilter, setSessionFilter] = useState<
     "All" | LegislativeHearingRecord["sessionType"]
   >("All");
@@ -3927,9 +3926,9 @@ function LegislativeHearingsPage() {
   return (
     <>
       <PageHero
-        eyebrow="City Council records"
+        eyebrow="City Council & legislative records"
         title="Hearings and sessions"
-        description="Watch Malaybalay City Council proceedings and public consultations. Browse BAC recordings in the procurement section."
+        description="Watch Malaybalay City Council proceedings, committee deliberations, and public consultations."
         className="hearings-hero"
         compact
       >
@@ -3940,16 +3939,6 @@ function LegislativeHearingsPage() {
         )}
       </PageHero>
       <section className="section container legislation-page hearings-page">
-        <nav className="procurement-page-nav" aria-label="Public record sections">
-          <NavLink to="/legislation" end>
-            Published ordinances &amp; executive issuances
-          </NavLink>
-          <NavLink to="/hearings" state={preservedState}>
-            Legislative sessions &amp; public hearings
-          </NavLink>
-          <NavLink to="/budget">Budget transparency</NavLink>
-          <NavLink to="/procurement/livestreams" state={preservedState}>BAC recordings</NavLink>
-        </nav>
         <CivicRecordingsSection category="hearing" />
 
         <div className="legislation-toolbar hearings-toolbar">
@@ -4031,15 +4020,6 @@ function LegislationPage() {
         compact
       />
       <section className="section container legislation-page">
-        <nav className="procurement-page-nav" aria-label="Legislative sections">
-          <NavLink to="/legislation" end>
-            Published ordinances &amp; executive issuances
-          </NavLink>
-          <NavLink to="/hearings">
-            Legislative sessions &amp; public hearings
-          </NavLink>
-          <NavLink to="/budget">Budget transparency</NavLink>
-        </nav>
         <div className="legislation-summary" aria-label="Indexed record summary">
           {(["Ordinance", "Executive order", "Memorandum circular"] as const).map(
             (recordKind) => (
@@ -4136,19 +4116,6 @@ function LegislationPage() {
           {!visibleOfficials.length && (
             <p>No matching official. Try another name or position.</p>
           )}
-        </section>
-        <section className="legislative-budget-note" aria-labelledby="budget-2027-title">
-          <span className="eyebrow">Supplied announcement · awaiting official source</span>
-          <h2 id="budget-2027-title">Proposed 2027 Annual Budget</h2>
-          <p>
-            The supplied announcement says the City Government held a hearing
-            at the SP Session Hall, led by the finance committee chair with
-            fellow council members, department heads, staff, and the
-            secretariat. The hearing date, proposal amount, documents, and
-            final approval status have not been verified against a city
-            publication.
-          </p>
-          <p>This describes a proposed budget hearing, not an approved annual budget.</p>
         </section>
         {!records.length && (
           <div className="empty-state" role="status">
@@ -7681,6 +7648,7 @@ export default function App() {
         <Route path="/hearings" element={<LegislativeHearingsPage />} />
         <Route path="/recordings/:id" element={<CivicRecordingPage />} />
         <Route path="/hearings/:id" element={<PublicProceedingDetailPage kind="hearing" />} />
+        <Route path="/procurement" element={<Navigate to="/procurement/livestreams" replace />} />
         <Route path="/procurement/livestreams" element={<BacLivestreamMonitoringPage />} />
         <Route path="/procurement/livestreams/:id" element={<PublicProceedingDetailPage kind="procurement" />} />
         <Route path="/procurement/:category" element={<ProcurementPage />} />
