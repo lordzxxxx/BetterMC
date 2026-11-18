@@ -492,10 +492,12 @@ test("budget, hearings, BAC livestreams, and education routes render without ove
 test("BAC recording, ordinance text, and weather guidance keep their source boundaries", async ({ page }) => {
   await page.route("https://api.open-meteo.com/**", (route) => route.fulfill({ json: weatherFixture }));
   await page.goto("/procurement/livestreams");
-  const recording = page.locator(".bac-livestream-embed-card .record-video");
-  await expect(recording.locator("img")).toHaveAttribute("src", "/images/bac-meeting-2026-11-18.jpg");
+  const card = page.getByRole("button", { name: /Open Bids and Awards Committee Meeting · 18 November 2026/i });
+  await expect(card.locator("img")).toHaveAttribute("src", "/images/recordings/1641508124420651.jpg");
   await expect(page.getByText("Video identified / Discussion unreviewed")).toHaveCount(0);
   await expect(page.getByText("Confirmed Official Record")).toHaveCount(0);
+  await card.click();
+  const recording = page.getByRole("dialog").locator(".record-video");
   await recording.getByRole("button", { name: /Play original Facebook video/ }).click();
   await expect(recording.locator("iframe")).toHaveAttribute("src", /facebook.com\/plugins\/video.php/);
 

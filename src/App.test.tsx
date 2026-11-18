@@ -1063,7 +1063,7 @@ describe("BetterMC public portal", () => {
         name: /Hearings and sessions/i,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /Browse BAC procurement records/i })).toHaveAttribute("href", "/procurement/livestreams");
+    expect(screen.getByRole("link", { name: "BAC recordings" })).toHaveAttribute("href", "/procurement/livestreams");
     expect(
       screen.getByText(
         /Committee Hearing on the Proposed FY 2027 City Annual Budget/i,
