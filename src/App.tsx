@@ -2073,10 +2073,70 @@ function CivicRecordingContent({ recording }: { recording: CivicRecording }) {
   return <>
     <p className="record-dialog-meta">{recording.category} · {recordingDateLabel(recording)}{recording.duration ? ` · ${recording.duration}` : ""}</p>
     <FacebookVideo url={recording.sourceUrl} title={recording.title} poster={recording.poster} />
-    <p>{recording.description}</p>
-    <p className="record-dialog-note">BetterMC has not published a reviewed transcript or discussion summary for this recording. Open the original video to hear the full session; no outcome is inferred from its title.</p>
-    <div className="record-dialog-links"><a href={recording.sourceUrl} target="_blank" rel="noopener noreferrer">Original video on Facebook <ExternalLink aria-hidden="true" /></a></div>
+    <div className="recording-reading-grid">
+      <section className="recording-reading-card" aria-labelledby={`context-${recording.id}`}>
+        <span className="eyebrow">Recording guide</span>
+        <h3 id={`context-${recording.id}`}>Purpose and source context</h3>
+        <p>{recording.sourceContext}</p>
+        <p className="recording-reading-note">This describes the publisher's post. It is not a summary of the spoken discussion.</p>
+        <div className="recording-source-links">
+          <a href={recording.sourceUrl} target="_blank" rel="noopener noreferrer">Original video <ExternalLink aria-hidden="true" /></a>
+          {recording.relatedSource && <a href={recording.relatedSource.url} target="_blank" rel="noopener noreferrer">{recording.relatedSource.label} <ExternalLink aria-hidden="true" /></a>}
+        </div>
+      </section>
+      <RecordingTranscript recording={recording} />
+    </div>
   </>;
+}
+
+function RecordingTranscript({ recording }: { recording: CivicRecording }) {
+  const [query, setQuery] = useState("");
+  const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
+  const transcript = recording.transcript;
+  const transcriptText = transcript?.segments.map(({ time, speaker, text }) =>
+    `${time}${speaker ? ` ${speaker}:` : ""} ${text}`,
+  ).join("\n") ?? "";
+  const matches = transcript?.segments.filter(({ speaker, text }) =>
+    `${speaker ?? ""} ${text}`.toLowerCase().includes(query.trim().toLowerCase()),
+  ) ?? [];
+
+  function downloadTranscript() {
+    if (!transcript) return;
+    const text = `${recording.title}\nOriginal video: ${recording.sourceUrl}\nTranscript source: ${transcript.sourceUrl}\nLanguage: ${transcript.language}\nCoverage: ${transcript.coverage}\nReviewed: ${transcript.reviewedOn}\n\n${transcriptText}\n`;
+    const url = URL.createObjectURL(new Blob([text], { type: "text/plain;charset=utf-8" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `bettermc-transcript-${recording.id}.txt`;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  async function copyTranscript() {
+    try {
+      await navigator.clipboard.writeText(transcriptText);
+      setCopyState("copied");
+    } catch {
+      setCopyState("failed");
+    }
+  }
+
+  return <section className="recording-reading-card recording-transcript" aria-labelledby={`transcript-${recording.id}`}>
+    <span className="eyebrow">Spoken discussion</span>
+    <h3 id={`transcript-${recording.id}`}>Transcript and key points</h3>
+    {transcript ? <>
+      <p className="recording-reading-note">{transcript.coverage === "partial" ? "Partial transcript" : "Complete transcript"} · {transcript.language} · Reviewed {transcript.reviewedOn}. Timestamps refer to the original recording. <a href={transcript.sourceUrl} target="_blank" rel="noopener noreferrer">Transcript source <ExternalLink aria-hidden="true" /></a></p>
+      <div className="recording-transcript-controls">
+        <label><span>Search transcript</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Find a word or speaker" /></label>
+        <button type="button" onClick={copyTranscript}>{copyState === "copied" ? "Copied" : "Copy text"}</button>
+        <button type="button" onClick={downloadTranscript}>Download TXT</button>
+      </div>
+      {copyState === "failed" && <p role="alert">Copy failed. Please select the text or download the transcript.</p>}
+      <div className="recording-transcript-segments">{matches.length ? matches.map((segment, index) => <p key={`${segment.time}-${index}`}><time>{segment.time}</time><span>{segment.speaker && <strong>{segment.speaker} · </strong>}{segment.text}</span></p>) : <p role="status">No transcript lines match your search.</p>}</div>
+    </> : <div className="recording-transcript-empty">
+      <p>We have not verified what was said in this recording. The public post does not provide a full transcript, a discussion summary, or speaker-attributed key points.</p>
+      <p>Watch the original recording for the discussion. BetterMC will publish readable English notes only when the speech can be checked against the video or an official transcript.</p>
+    </div>}
+  </section>;
 }
 
 function CivicRecordingCard({ recording, onOpen }: { recording: CivicRecording; onOpen: () => void }) {
@@ -2091,7 +2151,7 @@ function CivicRecordingCard({ recording, onOpen }: { recording: CivicRecording; 
         <small>{recording.category} · {recordingDateLabel(recording)}</small>
         <strong>{recording.title}</strong>
         <span>{recording.publisher}</span>
-        <span className="civic-recording-action">Watch recording <ArrowRight aria-hidden="true" /></span>
+        <span className="civic-recording-action">Watch and read context <ArrowRight aria-hidden="true" /></span>
       </span>
     </button>
   </article>;
