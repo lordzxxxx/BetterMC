@@ -247,7 +247,7 @@ const pendingSchoolInventory: InventorySchool[] = [
   inventorySchool("balangbang-elementary-school", "Balangbang Elementary School", "Public", ["Elementary"], "126535"),
   inventorySchool("barangay-9-elementary-school", "Barangay 9 Elementary School", "Public", ["Elementary"], "199510"),
   inventorySchool("bct-elementary-school", "BCT Elementary School", "Public", ["Elementary"], "126576"),
-  inventorySchool("caburacanan-elementary-school", "Caburacanan Elementary School", "Public", ["Elementary"], "126537"),
+  inventorySchool("caburacanan-elementary-school", "Caburacanan Integrated School", "Public", ["Elementary"], "126537"),
   inventorySchool("dapulan-elementary-school", "Dapulan Elementary School", "Public", ["Elementary"], "126563"),
   inventorySchool("dumayas-elementary-school", "Dumayas Elementary School", "Public", ["Elementary"], "126539"),
   inventorySchool("imbayao-elementary-school", "Imbayao Elementary School", "Public", ["Elementary"], "126581"),

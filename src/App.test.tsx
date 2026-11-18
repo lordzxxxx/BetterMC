@@ -81,6 +81,11 @@ describe("BetterMC public portal", () => {
     expect(schoolSlugFromHostname("bulonay-elementary-school.bettermalaybalay.cloud")).toBeNull();
   });
 
+  it("uses the updated Caburacanan school name", () => {
+    const school = educationInstitutions.find((item) => item.slug === "caburacanan-elementary-school");
+    expect(school?.name).toBe("Caburacanan Integrated School");
+  });
+
   it("uses the supplied BukSU campus address without status badges", () => {
     render(<MemoryRouter initialEntries={["/education?q=Bukidnon%20State%20University%20Elementary"]}><App /></MemoryRouter>);
     const card = screen.getByRole("article");
