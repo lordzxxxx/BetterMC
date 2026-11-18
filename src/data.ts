@@ -472,6 +472,9 @@ export const officials: Official[] = [
     name: "Datu Sumbongan",
     role: "Indigenous Peoples Mandatory Representative",
     group: "Sectoral",
+    facebookUrl: "https://www.facebook.com/profile.php?id=100080935946632",
+    facebookLabel: "IPMR Datu Sumbongan",
+    facebookStatus: "Verified",
     office: councilOffice,
     source: officialProfile(
       "https://sakata.malaybalaycity.gov.ph/legislative-city-councilor-xii/",

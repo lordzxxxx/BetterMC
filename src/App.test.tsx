@@ -1052,12 +1052,13 @@ describe("BetterMC public portal", () => {
     ).toBeInTheDocument();
   });
 
-  it("attaches all 16 verified official Facebook pages without duplicates", () => {
+  it("attaches verified official Facebook pages to all officials including Datu Sumbongan", () => {
     const verifiedOfficials = officials.filter((o) => o.facebookUrl);
-    expect(verifiedOfficials).toHaveLength(16);
-    expect(
-      new Set(verifiedOfficials.map((o) => o.facebookUrl)).size,
-    ).toBe(16);
+    expect(verifiedOfficials).toHaveLength(17);
+    const datuSumbongan = officials.find((o) => o.name === "Datu Sumbongan");
+    expect(datuSumbongan?.facebookUrl).toBe(
+      "https://www.facebook.com/profile.php?id=100080935946632",
+    );
     expect(unmatchedSuppliedFacebookProfiles).toHaveLength(0);
 
     render(
@@ -1076,10 +1077,10 @@ describe("BetterMC public portal", () => {
       modal.getByRole("link", { name: /Konsehal Manoy Legaspi/i }),
     ).toHaveAttribute("href", "https://www.facebook.com/KonsehalManoyLegaspi");
     expect(
-      screen.getByRole("link", { name: /Councilor Jason Chad J\. Ayala/i }),
+      screen.getByRole("link", { name: /IPMR Datu Sumbongan/i }),
     ).toHaveAttribute(
       "href",
-      "https://www.facebook.com/profile.php?id=61576358126123",
+      "https://www.facebook.com/profile.php?id=100080935946632",
     );
   });
 });
