@@ -506,7 +506,6 @@ export type OfficialRecord = {
   status: string;
   attribution: string;
   source: Source;
-  relatedSources?: Source[];
 };
 
 const houseBillUrl = (number: string) =>
@@ -537,11 +536,6 @@ export const officialRecords: OfficialRecord[] = [
       url: "https://edgedavao.net/latest-news/2025/02/malaybalay-city-regulates-bamboo-use-to-help-curb-dengue-cases/",
       verifiedOn: "2026-11-11",
     },
-    relatedSources: [{
-      label: "GMA News — Malaybalay to regulate use of bamboo to prevent dengue",
-      url: "https://www.gmanetwork.com/regionaltv/news/106598/malaybalay-to-regulate-use-of-bamboo-to-prevent-dengue/story/",
-      verifiedOn: "2026-11-11",
-    }],
   },
   {
     officialName: "Kathleen Cecille C. Pagaling",

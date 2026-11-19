@@ -3622,15 +3622,6 @@ function OfficialRecordCard({ record }: { record: OfficialRecord }) {
         </span>
         <ExternalLink aria-hidden="true" />
       </a>
-      {record.relatedSources?.length ? (
-        <div className="official-record-related-sources">
-          {record.relatedSources.map((source) => (
-            <a key={source.url} href={source.url} target="_blank" rel="noreferrer">
-              Also reported by {source.label} <ExternalLink aria-hidden="true" />
-            </a>
-          ))}
-        </div>
-      ) : null}
     </li>
   );
 }

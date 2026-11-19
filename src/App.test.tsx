@@ -709,6 +709,7 @@ describe("BetterMC public portal", () => {
       document.querySelector("article.expanded") as HTMLElement,
     );
     expect(pagalingProfile.getByText(/Ordinance No\. 1050/)).toBeInTheDocument();
+    expect(pagalingProfile.queryByText(/Also reported by GMA News/i)).not.toBeInTheDocument();
     expect(
       pagalingProfile.getByRole("link", { name: /Philippine News Agency report/i }),
     ).toHaveAttribute("href", expect.stringContaining("edgedavao.net"));

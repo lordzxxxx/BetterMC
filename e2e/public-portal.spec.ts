@@ -323,6 +323,7 @@ test("leader profiles expose verified contacts and record scope", async ({
   await expect(pagalingCard.getByRole("heading", { name: /Partnerships & MOAs · 9 agreements/i })).toBeVisible();
   await expect(pagalingCard.getByText("Peer Support Groups for Mental Health", { exact: true })).toBeVisible();
   await expect(pagalingCard.getByText("Animal Health Risk Monitoring", { exact: true })).toBeVisible();
+  await expect(pagalingCard.getByText(/Also reported by GMA News/i)).toHaveCount(0);
   const modalBody = pagalingCard.locator(".barangay-popout-body");
   const hasHorizontalOverflow = await modalBody.evaluate(
     (element) => element.scrollWidth > element.clientWidth,

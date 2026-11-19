@@ -1,21 +1,18 @@
 /* BetterGov.PH Kapwa Typography System (Inter loaded non-blocking via index.html) */
 .official-record-groups { display: grid; gap: 16px; }
-.official-record-groups section { display: grid; gap: 7px; }
-.official-record-groups h4 { margin: 0; color: #28456d; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
-.popout-measures-list li a span { display: grid; gap: 4px; }
-.popout-measures-list li a small { color: #56647b; font-size: 0.78rem; line-height: 1.45; }
+.official-record-groups section { display: grid; gap: 10px; margin-top: 4px; }
+.official-record-groups h4 { margin: 2px 0 0; color: #28456d; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+.popout-measures-list li a span { display: grid; gap: 6px; }
+.popout-measures-list li a small { color: #56647b; font-size: 0.78rem; line-height: 1.5; }
 .official-record-caveat { display: grid; gap: 5px; padding: 12px 14px; border: 1px solid #c9d9ea; border-radius: 12px; background: rgba(239, 246, 255, 0.74); color: #334155; }
 .official-record-caveat strong { color: #172b49; font-size: 0.84rem; }
 .official-record-caveat p { margin: 0; font-size: 0.84rem; line-height: 1.5; }
 .official-record-caveat a { display: inline-flex; align-items: center; gap: 6px; width: fit-content; color: #174da9; font-weight: 700; }
 .official-record-caveat a svg { width: 14px; height: 14px; }
-.official-record-related-sources { display: grid; gap: 4px; padding: 5px 10px 2px; }
-.official-record-related-sources a { display: inline-flex; align-items: center; gap: 5px; color: #315b90; font-size: 0.75rem; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
-.official-record-related-sources a svg { width: 13px; height: 13px; }
-.official-group-heading { grid-column: 1 / -1; margin: 16px 0 2px; color: #516784; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.official-group-heading { grid-column: 1 / -1; margin: 18px 0 4px; color: #516784; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
 @media (max-width: 640px) {
   .official-record-groups { gap: 13px; }
-  .popout-measures-list li a { padding: 10px; }
+  .popout-measures-list li a { padding: 13px 15px; }
   .official-record-caveat { padding: 10px 12px; }
 }
 
@@ -8841,6 +8838,17 @@ kbd {
 .hero-panel .quick-grid a { background: rgba(239, 248, 255, 0.52); }
 .official-summary .avatar { overflow: hidden; border: 1px solid rgba(118, 161, 211, 0.7); border-radius: 50%; background: #dceaff; }
 .official-summary .avatar img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.government-official-card .official-summary {
+  grid-template-columns: 46px minmax(0, 1fr);
+  grid-template-areas: none;
+  grid-template-rows: auto;
+  align-items: center;
+  row-gap: 0;
+}
+.government-official-card .avatar {
+  grid-area: auto;
+  align-self: center;
+}
 .portrait-note { display: block; max-width: 480px; color: #70819b; line-height: 1.45; }
 .service-grid article { padding: 20px; border-radius: 17px; }
 .service-grid article > svg { width: 22px; margin-bottom: 14px; }
@@ -15810,19 +15818,24 @@ body {
 
 .popout-measures-list {
   list-style: none;
-  margin: 0;
+  margin: 6px 0 4px;
   padding: 0;
   display: grid;
-  gap: 8px;
+  gap: 12px;
+}
+
+.popout-measures-list li {
+  margin: 0;
+  padding: 0;
 }
 
 .popout-measures-list li a {
   display: flex !important;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 10px;
-  padding: 9px 12px;
-  border-radius: 10px;
+  gap: 12px;
+  padding: 15px 18px;
+  border-radius: 12px;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   color: #1e293b;
@@ -15989,16 +16002,20 @@ body {
 
   .government-official-card .official-summary {
     display: grid !important;
-    grid-template-columns: 58px 1fr !important;
+    grid-template-columns: 58px minmax(0, 1fr) !important;
+    grid-template-areas: none !important;
+    grid-template-rows: auto !important;
     align-items: center !important;
     text-align: left !important;
-    gap: 14px !important;
+    gap: 0 14px !important;
     padding: 12px 14px !important;
   }
 
   .government-official-card .avatar {
     width: 58px !important;
     height: 58px !important;
+    grid-area: auto !important;
+    align-self: center !important;
     margin: 0 !important;
   }
 
@@ -18066,10 +18083,14 @@ div.service-category-grid.is-compact > article.service-category-card {
 }
 
 /* Official directory: one heading per group, compact matte cards */
+.people-grid {
+  gap: 16px;
+}
+
 .people-grid .official-group-heading {
   grid-column: 1 / -1;
-  margin: 10px 0 0;
-  padding-bottom: 6px;
+  margin: 16px 0 4px;
+  padding-bottom: 8px;
   border-bottom: 1px solid var(--svc-border);
   font-size: 0.78rem;
   font-weight: 750;
@@ -18083,11 +18104,11 @@ div.service-category-grid.is-compact > article.service-category-card {
 }
 
 .people-grid article.government-official-card {
-  padding: 12px 16px;
+  padding: 18px 20px;
   background: var(--svc-surface);
   background-image: none;
   border: 1px solid var(--svc-border);
-  border-radius: 12px;
+  border-radius: 14px;
   box-shadow: none;
   backdrop-filter: none;
 }
@@ -18489,6 +18510,7 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 }
 .official-record-kind {
   display: block;
+  margin-bottom: 2px;
   color: #637895;
   font-size: 0.66rem;
   font-weight: 800;
@@ -18498,11 +18520,12 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 }
 .official-record-groups .popout-measures-list li a {
   min-width: 0;
+  padding: 15px 18px;
   overflow-wrap: anywhere;
 }
 .official-record-groups .popout-measures-list li a > span {
   display: grid;
-  gap: 5px;
+  gap: 6px;
   min-width: 0;
 }
 .official-record-groups .official-record-caveat {
@@ -18621,7 +18644,7 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   background: #3572c5;
   content: "";
 }
-.official-profile-records .official-record-groups { gap: 9px; }
+.official-profile-records .official-record-groups { gap: 14px; }
 .official-profile-records { grid-column: 1 / -1; }
 .official-profile-records .official-record-intro,
 .official-profile-records .popout-measures-note {
@@ -18661,57 +18684,57 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 /* Compact profile layout: reduce vertical scanning and keep source actions inline. */
 @media (min-width: 761px) {
   .government-popout-modal { max-height: min(96vh, 900px); }
-  .official-profile-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+  .official-profile-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
   .official-profile-contact,
   .official-profile-committees { grid-column: 1 / -1; }
   .official-profile-section,
-  .official-profile-sources { padding: 12px 14px; border-radius: 12px; }
-  .official-profile-section-heading { margin-bottom: 7px; }
+  .official-profile-sources { padding: 18px 20px; border-radius: 14px; }
+  .official-profile-section-heading { margin-bottom: 12px; }
 }
-.official-profile-committees .official-profile-section-heading { margin-bottom: 8px; }
+.official-profile-committees .official-profile-section-heading { margin-bottom: 10px; }
 .official-committee-columns { gap: 12px; }
 .official-committee-columns .popout-table-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 6px;
 }
 .official-committee-columns .popout-table-list li {
   flex: 1 1 145px;
-  padding: 6px 8px 6px 16px;
+  padding: 7px 10px 7px 18px;
   font-size: .75rem;
-  line-height: 1.3;
+  line-height: 1.35;
 }
-.official-committee-columns .popout-table-list li::before { left: 7px; top: 12px; }
-.official-profile-records .official-record-groups { gap: 7px; }
+.official-committee-columns .popout-table-list li::before { left: 7px; top: 13px; }
+.official-profile-records .official-record-groups { gap: 14px; }
 .official-profile-records .official-record-intro,
-.official-profile-records .popout-measures-note { font-size: .77rem; line-height: 1.38; }
+.official-profile-records .popout-measures-note { font-size: .8rem; line-height: 1.48; }
 .official-profile-records .popout-measures-note { color: #334a68; font-weight: 700; }
-.official-profile-sources { gap: 7px; }
+.official-profile-sources { gap: 10px; }
 .official-profile-sources .popout-table-links {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 5px;
+  gap: 8px;
 }
 .official-profile-sources .popout-table-links a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  min-height: 38px;
-  padding: 7px 9px;
-  border-radius: 8px;
-  font-size: .73rem;
-  line-height: 1.25;
+  gap: 10px;
+  min-height: 42px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: .76rem;
+  line-height: 1.3;
 }
 .official-profile-sources .popout-table-links a svg { flex: 0 0 15px; }
 .official-profile-records,
 .official-profile-sources { align-self: start; }
 @media (max-width: 760px) {
-  .official-profile-layout { gap: 8px; }
+  .official-profile-layout { gap: 12px; }
   .official-profile-section,
-  .official-profile-sources { padding: 10px 11px; }
-  .official-committee-columns { gap: 8px; }
-  .official-committee-columns .popout-table-list { gap: 4px; }
+  .official-profile-sources { padding: 14px 16px; }
+  .official-committee-columns { gap: 10px; }
+  .official-committee-columns .popout-table-list { gap: 6px; }
   .official-committee-columns .popout-table-list li { flex-basis: 100%; }
   .official-profile-sources .popout-table-links { grid-template-columns: 1fr; }
 }
@@ -19175,9 +19198,10 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   .government-popout-modal .popout-header,
   .barangay-popout-modal .popout-header { padding: 13px; }
   .official-profile-section,
-  .official-profile-sources { padding: 11px; }
-  .official-profile-contact-links { gap: 7px; }
-  .official-record-groups .popout-measures-list li { padding: 10px; }
+  .official-profile-sources { padding: 14px 16px; }
+  .official-profile-contact-links { gap: 8px; }
+  .official-record-groups .popout-measures-list li { padding: 0; }
+  .official-record-groups .popout-measures-list li a { padding: 13px 15px; }
   .official-profile-sources .popout-table-links a { min-height: 44px; }
 
   .site-footer { padding-block: 26px 16px; }
@@ -20098,16 +20122,24 @@ div.service-category-grid > .service-pathway-card > .category-card-arrow-link sv
   .hero-verification { gap: 7px; margin-top: 2px; font-size: 0.7rem; line-height: 1.35; }
   .hero-verification svg { width: 16px; height: 16px; flex: 0 0 16px; }
 
-  .people-grid { gap: 8px !important; }
-  .people-grid .official-group-heading { margin: 8px 0 0; padding-bottom: 5px; font-size: 0.68rem; }
+  .people-grid { gap: 12px !important; }
+  .people-grid .official-group-heading { margin: 12px 0 2px; padding-bottom: 6px; font-size: 0.68rem; }
   .people-grid article.government-official-card { padding: 0 !important; border-radius: 12px; }
   .government-official-card .official-summary {
     grid-template-columns: 48px minmax(0, 1fr) !important;
-    min-height: 72px;
-    gap: 10px !important;
-    padding: 10px 12px !important;
+    grid-template-areas: none !important;
+    grid-template-rows: auto !important;
+    align-items: center !important;
+    min-height: 76px;
+    gap: 0 12px !important;
+    padding: 14px 16px !important;
   }
-  .government-official-card .avatar { width: 48px !important; height: 48px !important; }
+  .government-official-card .avatar {
+    width: 48px !important;
+    height: 48px !important;
+    grid-area: auto !important;
+    align-self: center !important;
+  }
   .government-official-card .official-card-copy { gap: 1px; }
   .government-official-card .official-card-copy h3 { font-size: 0.88rem; line-height: 1.18; }
   .government-official-card .official-role-title { font-size: 0.74rem; line-height: 1.22; }
@@ -20118,7 +20150,7 @@ div.service-category-grid > .service-pathway-card > .category-card-arrow-link sv
   .government-popout-modal .is-modal-avatar { width: 40px; height: 40px; }
   .government-popout-modal .barangay-popout-brand .eyebrow { font-size: 0.57rem; line-height: 1.18; }
   .government-popout-modal .barangay-popout-brand h3 { margin-top: 2px; font-size: 0.86rem; line-height: 1.16; }
-  .government-popout-modal .barangay-popout-body { gap: 8px; padding: 10px 12px 14px; }
+  .government-popout-modal .barangay-popout-body { gap: 12px; padding: 14px 16px 18px; }
   .government-popout-modal .official-profile-tabs { margin-bottom: 8px; }
   .government-popout-modal .official-profile-tabs button { min-height: 40px; font-size: 0.7rem; }
   .government-popout-modal .official-profile-section-heading { display: block; margin-bottom: 7px; }
