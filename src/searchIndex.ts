@@ -193,9 +193,9 @@ export const portalSearchIndex: PortalSearchRecord[] = [
   ...officialRecords.map((record) => ({
     type: `${record.kind} · attributed record`,
     title: record.number,
-    detail: `${record.officialName} · ${record.title}`,
+    detail: `${record.officialName} · ${record.title}${record.partner ? ` (${record.partner})` : ""}`,
     href: `/government?tab=officials&official=${slugify(record.officialName)}`,
-    keywords: `${record.status} ${record.attribution} ${record.date}`,
+    keywords: `${record.category ?? ""} ${record.summary ?? ""} ${record.partner ?? ""} ${record.status} ${record.attribution} ${record.date}`,
   })),
   ...disclosures.map((record) => ({
     type: `${record.category} record`,

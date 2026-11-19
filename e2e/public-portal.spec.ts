@@ -312,6 +312,22 @@ test("leader profiles expose verified contacts and record scope", async ({
       exact: true,
     }),
   ).toBeVisible();
+
+  await page.goto("/government?tab=officials&official=kathleen-cecille-c-pagaling");
+  const pagalingCard = page.getByRole("dialog", {
+    name: /Kathleen Cecille C\. Pagaling verified profile details/i,
+  });
+  await expect(pagalingCard).toBeVisible();
+  await expect(pagalingCard.getByRole("heading", { name: /Ordinances · 7/i })).toBeVisible();
+  await expect(pagalingCard.getByRole("heading", { name: /Resolutions · 7/i })).toBeVisible();
+  await expect(pagalingCard.getByRole("heading", { name: /Partnerships & MOAs · 9 agreements/i })).toBeVisible();
+  await expect(pagalingCard.getByText("Peer Support Groups for Mental Health", { exact: true })).toBeVisible();
+  await expect(pagalingCard.getByText("Animal Health Risk Monitoring", { exact: true })).toBeVisible();
+  const modalBody = pagalingCard.locator(".barangay-popout-body");
+  const hasHorizontalOverflow = await modalBody.evaluate(
+    (element) => element.scrollWidth > element.clientWidth,
+  );
+  expect(hasHorizontalOverflow).toBe(false);
 });
 
 test("barangay profile exposes sourced identity, services, and emergency contacts", async ({

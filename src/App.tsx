@@ -90,6 +90,8 @@ import {
   specialBodyOrders,
   type CivicRecord,
   type Disclosure,
+  type Official,
+  type OfficialRecord,
   VERIFIED_ON,
 } from "./data";
 import {
@@ -3585,6 +3587,197 @@ const officialLegislationSlug = (name: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
+const PARTNERSHIP_CATEGORY_ORDER = [
+  "Health & Medical Partnerships",
+  "Social Welfare Partnerships",
+  "Institutional & Research Partnerships",
+] as const;
+
+function OfficialRecordCard({ record }: { record: OfficialRecord }) {
+  const kindLabel =
+    record.kind === "Partnership / MOA"
+      ? record.kind
+      : record.category
+        ? `${record.kind} · ${record.category}`
+        : record.kind;
+  const description = record.summary
+    ? `${record.summary}${record.status ? ` ${record.status}` : ""}`
+    : `${record.attribution} ${record.status}`;
+
+  return (
+    <li>
+      <a href={record.source.url} target="_blank" rel="noreferrer">
+        <span>
+          <strong>
+            <span className="official-record-kind">{kindLabel}</span>
+            {record.number}
+          </strong>
+          <span>{record.title}</span>
+          {record.partner && <small>Partner: {record.partner}</small>}
+          <small>{description}</small>
+          <small>
+            {record.source.label} · Reported {record.date} · Reviewed{" "}
+            {record.source.verifiedOn}
+          </small>
+        </span>
+        <ExternalLink aria-hidden="true" />
+      </a>
+      {record.relatedSources?.length ? (
+        <div className="official-record-related-sources">
+          {record.relatedSources.map((source) => (
+            <a key={source.url} href={source.url} target="_blank" rel="noreferrer">
+              Also reported by {source.label} <ExternalLink aria-hidden="true" />
+            </a>
+          ))}
+        </div>
+      ) : null}
+    </li>
+  );
+}
+
+function OfficialRecordGroups({
+  official,
+  includeOfficeRecords = true,
+}: {
+  official: Official;
+  includeOfficeRecords?: boolean;
+}) {
+  const officeRecords =
+    includeOfficeRecords && official.role === "City Mayor"
+      ? civicRecords.filter((record) => record.attributionLevel === "office")
+      : [];
+  const individualRecords = officialRecords.filter(
+    (record) => record.officialName === official.name,
+  );
+  const ordinances = individualRecords.filter(
+    (record) => record.kind === "Ordinance",
+  );
+  const resolutions = individualRecords.filter(
+    (record) => record.kind === "Resolution",
+  );
+  const houseBills = individualRecords.filter(
+    (record) => record.kind === "House bill",
+  );
+  const partnerships = individualRecords.filter(
+    (record) => record.kind === "Partnership / MOA",
+  );
+  const partnershipGroups = PARTNERSHIP_CATEGORY_ORDER.map((category) => ({
+    category,
+    items: partnerships.filter((record) => record.category === category),
+  })).filter((group) => group.items.length > 0);
+
+  const attributionNote =
+    official.group === "National legislative"
+      ? "Only bills and MOUs that name this district representative appear here."
+      : official.group === "Executive"
+        ? "Office-issued executive orders are listed separately from personally authored or signed records."
+        : official.group === "Sectoral"
+          ? "Sectoral officials are shown only when a public source names them as an author, sponsor, or signatory."
+          : "City ordinances are enacted by the Sangguniang Panlungsod as a body. This profile lists only measures that name this councilor as an author or sponsor; it does not treat a collective vote as an individual accomplishment.";
+
+  return (
+    <div className="official-record-groups">
+      <p className="official-record-intro">{attributionNote}</p>
+      {houseBills.length > 0 && (
+        <section>
+          <h4>Records naming this official · {houseBills.length}</h4>
+          <ul className="popout-measures-list">
+            {houseBills.map((record) => (
+              <OfficialRecordCard
+                key={`${record.number}-${record.kind}-${record.title}`}
+                record={record}
+              />
+            ))}
+          </ul>
+        </section>
+      )}
+      {ordinances.length > 0 && (
+        <section>
+          <h4>Ordinances · {ordinances.length}</h4>
+          <ul className="popout-measures-list">
+            {ordinances.map((record) => (
+              <OfficialRecordCard
+                key={`${record.number}-${record.kind}-${record.title}`}
+                record={record}
+              />
+            ))}
+          </ul>
+        </section>
+      )}
+      {resolutions.length > 0 && (
+        <section>
+          <h4>Resolutions · {resolutions.length}</h4>
+          <ul className="popout-measures-list">
+            {resolutions.map((record) => (
+              <OfficialRecordCard
+                key={`${record.number}-${record.kind}-${record.title}`}
+                record={record}
+              />
+            ))}
+          </ul>
+        </section>
+      )}
+      {partnershipGroups.length > 0 && (
+        <section>
+          <h4>Partnerships &amp; MOAs · {partnerships.length} agreements</h4>
+          <p className="official-record-intro">
+            Nine formal partnerships approved in 2025, spanning health delivery,
+            child &amp; family welfare, and applied research. Resolution No.
+            0041 (Mental Health Act) also underpins mental-health service
+            partnerships in this category.
+          </p>
+          {partnershipGroups.map(({ category, items }) => (
+            <section key={category}>
+              <h4>
+                {category} · {items.length}{" "}
+                {items.length === 1 ? "agreement" : "agreements"}
+              </h4>
+              <ul className="popout-measures-list">
+                {items.map((record) => (
+                  <OfficialRecordCard
+                    key={`${record.number}-${record.kind}-${record.title}`}
+                    record={record}
+                  />
+                ))}
+              </ul>
+            </section>
+          ))}
+        </section>
+      )}
+      {officeRecords.length > 0 && (
+        <section>
+          <h4>City Mayor’s Office issuances · {officeRecords.length}</h4>
+          <ul className="popout-measures-list">
+            {officeRecords.map((record) => (
+              <li key={record.number}>
+                <a href={record.source.url} target="_blank" rel="noreferrer">
+                  <span>
+                    <strong>
+                      <span className="official-record-kind">Executive order</span>
+                      {record.number}
+                    </strong>
+                    <span>{record.title}</span>
+                    <small>
+                      Issued by the Office of the City Mayor; shown as an office
+                      record.
+                    </small>
+                  </span>
+                  <ExternalLink aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+      {individualRecords.length === 0 && officeRecords.length === 0 && (
+        <p className="popout-measures-note">
+          No individually attributed records found in the sources reviewed.
+        </p>
+      )}
+    </div>
+  );
+}
+
 function LegislativeOfficialPage() {
   const { slug } = useParams<{ slug: string }>();
   const official = officials.find(
@@ -3645,16 +3838,7 @@ function LegislativeOfficialPage() {
           <section className="education-profile-section">
             <span className="eyebrow">Legislative research</span>
             <h2>City measure attribution</h2>
-            <p>
-              No Malaybalay city ordinance or resolution is individually
-              attributed to this person in BetterMC’s reviewed measure index.
-            </p>
-            <p>
-              Institutional publications and measures passed by the council
-              are assigned to a person only when an official document names
-              their role. This index does not establish the full extent of
-              their legislative work.
-            </p>
+            <OfficialRecordGroups official={official} />
           </section>
         </article>
         <aside className="legislation-source-card">
@@ -4555,23 +4739,6 @@ function GovernmentPage() {
               );
               if (!selectedOfficial) return null;
               const portrait = officialPortraits[selectedOfficial.name];
-              const officeRecords =
-                selectedOfficial.role === "City Mayor"
-                  ? civicRecords.filter(
-                      (record) => record.attributionLevel === "office",
-                    )
-                  : [];
-              const individualRecords = officialRecords.filter(
-                (record) => record.officialName === selectedOfficial.name,
-              );
-              const attributionNote =
-                selectedOfficial.group === "National legislative"
-                  ? "Only bills and MOUs that name this district representative appear here."
-                  : selectedOfficial.group === "Executive"
-                    ? "Office-issued executive orders are listed separately from personally authored or signed records."
-                    : selectedOfficial.group === "Sectoral"
-                      ? "Sectoral officials are shown only when a public source names them as an author, sponsor, or signatory."
-                      : "City ordinances are enacted by the Sangguniang Panlungsod as a body. This profile lists only measures that name this councilor as an author or sponsor; it does not treat a collective vote as an individual accomplishment.";
               const sharedContact =
                 selectedOfficial.office.scope ===
                 "Shared legislative-office routing";
@@ -4699,56 +4866,7 @@ function GovernmentPage() {
                             <div><span className="eyebrow">Source-linked activity</span><h4 id="official-records-heading">Public records</h4></div>
                             <Link className="official-records-browse" to="/government?tab=records" onClick={closeModal}>Browse city records <ArrowRight aria-hidden="true" /></Link>
                           </div>
-                          <div className="official-record-groups">
-                                  <p className="official-record-intro">{attributionNote}</p>
-                                  {individualRecords.length > 0 && (
-                                    <section>
-                                      <h4>Records naming this official · {individualRecords.length}</h4>
-                                      <ul className="popout-measures-list">
-                                        {individualRecords.map((record) => (
-                                          <li key={`${record.number}-${record.kind}`}>
-                                            <a href={record.source.url} target="_blank" rel="noreferrer">
-                                              <span>
-                                                <strong><span className="official-record-kind">{record.kind}</span>{record.number}</strong>
-                                                <span>{record.title}</span>
-                                                <small>{record.attribution} {record.status}</small>
-                                                <small>{record.source.label} · Reported {record.date} · Reviewed {record.source.verifiedOn}</small>
-                                              </span>
-                                              <ExternalLink aria-hidden="true" />
-                                            </a>
-                                            {record.relatedSources?.length ? (
-                                              <div className="official-record-related-sources">
-                                                {record.relatedSources.map((source) => (
-                                                  <a key={source.url} href={source.url} target="_blank" rel="noreferrer">
-                                                    Also reported by {source.label} <ExternalLink aria-hidden="true" />
-                                                  </a>
-                                                ))}
-                                              </div>
-                                            ) : null}
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </section>
-                                  )}
-                                  {officeRecords.length > 0 && (
-                                    <section>
-                                      <h4>City Mayor’s Office issuances · {officeRecords.length}</h4>
-                                      <ul className="popout-measures-list">
-                                        {officeRecords.map((record) => (
-                                          <li key={record.number}>
-                                            <a href={record.source.url} target="_blank" rel="noreferrer">
-                                              <span><strong><span className="official-record-kind">Executive order</span>{record.number}</strong><span>{record.title}</span><small>Issued by the Office of the City Mayor; shown as an office record.</small></span>
-                                              <ExternalLink aria-hidden="true" />
-                                            </a>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </section>
-                                  )}
-                                  {individualRecords.length === 0 && officeRecords.length === 0 && (
-                                    <p className="popout-measures-note">No individually attributed records found in the sources reviewed.</p>
-                                  )}
-                                </div>
+                          <OfficialRecordGroups official={selectedOfficial} />
                         </section>}
 
                         {profileTab === "sources" && <section className="official-profile-sources" aria-label="Official sources">

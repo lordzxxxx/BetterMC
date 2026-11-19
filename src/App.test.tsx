@@ -713,7 +713,66 @@ describe("BetterMC public portal", () => {
       pagalingProfile.getByRole("link", { name: /Philippine News Agency report/i }),
     ).toHaveAttribute("href", expect.stringContaining("edgedavao.net"));
     expect(pagalingProfile.getByText(/exact approval date/i)).toBeInTheDocument();
+    expect(
+      pagalingProfile.getByRole("heading", { name: /Ordinances · 7/i }),
+    ).toBeInTheDocument();
+    expect(
+      pagalingProfile.getByRole("heading", { name: /Resolutions · 7/i }),
+    ).toBeInTheDocument();
+    expect(
+      pagalingProfile.getByRole("heading", { name: /Partnerships & MOAs · 9 agreements/i }),
+    ).toBeInTheDocument();
+    expect(
+      pagalingProfile.getByRole("heading", { name: /Health & Medical Partnerships · 6 agreements/i }),
+    ).toBeInTheDocument();
+    expect(
+      pagalingProfile.getByRole("heading", { name: /Social Welfare Partnerships · 2 agreements/i }),
+    ).toBeInTheDocument();
+    expect(
+      pagalingProfile.getByRole("heading", { name: /Institutional & Research Partnerships · 1 agreement/i }),
+    ).toBeInTheDocument();
+    for (const expectedTitle of [
+      "Peer Support Groups for Mental Health",
+      "Prevention of Adolescent Pregnancy",
+      "Additional Benefits for Solo Parents",
+      "Anti-OSAEC & CSAEM Ordinance",
+      "Barangay Sanitation Inspectors",
+      "Expanded 4Ps Beneficiary Benefits",
+      "Adopting the Mental Health Act",
+      "Solo Parent Data Sharing Agreement",
+      "Gender Advocacy — Purple March",
+      "Gender Advocacy — Pink October",
+      "Gender Advocacy — Blue November",
+      /HEALTH PROMOTION FRAMEWORK STRATEGY \(HPFS\) 2030/i,
+      /PHILHEALTH \(PHIC\) YAKAP PROVIDER/i,
+      "Community Feeding Program",
+      "Surgical Condition Support",
+      "Zero Open Defecation Campaign",
+      "PhilHealth Konsulta Provider",
+      "Medical & Dialysis Center",
+      "Congenital Condition Support",
+      "Child Welfare Services",
+      "Women & Child-Friendly Space Kits",
+      "Animal Health Risk Monitoring",
+    ]) {
+      expect(pagalingProfile.getByText(expectedTitle)).toBeInTheDocument();
+    }
     pagalingRender.unmount();
+
+    const pagalingLegislativePage = render(
+      <MemoryRouter
+        initialEntries={["/legislation/officials/kathleen-cecille-c-pagaling"]}
+      >
+        <App />
+      </MemoryRouter>,
+    );
+    expect(
+      screen.getByText(/Peer Support Groups for Mental Health/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Central Mindanao University/i),
+    ).toBeInTheDocument();
+    pagalingLegislativePage.unmount();
 
     const representativeRender = render(
       <MemoryRouter

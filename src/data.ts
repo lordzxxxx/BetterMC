@@ -498,7 +498,10 @@ export type OfficialRecord = {
   officialName: string;
   number: string;
   title: string;
-  kind: "Ordinance" | "House bill";
+  kind: "Ordinance" | "Resolution" | "Partnership / MOA" | "House bill";
+  category?: string;
+  summary?: string;
+  partner?: string;
   date: string;
   status: string;
   attribution: string;
@@ -508,6 +511,17 @@ export type OfficialRecord = {
 
 const houseBillUrl = (number: string) =>
   `https://www.congress.gov.ph/legis/results?congress=20&oth_nos=${number.replace(" ", "")}&qrytype=N&signif=NL`;
+
+const pagalingPortfolioSource = (
+  anchor: "record" | "partnerships",
+): Source => ({
+  label:
+    anchor === "partnerships"
+      ? "Hon. Kathleen Cecille C. Pagaling — Partnerships & MOAs"
+      : "Hon. Kathleen Cecille C. Pagaling — Legislative Record",
+  url: `https://www.konsehalacecillepagaling.com/#${anchor}`,
+  verifiedOn: "2026-11-19",
+});
 
 export const officialRecords: OfficialRecord[] = [
   {
@@ -528,6 +542,332 @@ export const officialRecords: OfficialRecord[] = [
       url: "https://www.gmanetwork.com/regionaltv/news/106598/malaybalay-to-regulate-use-of-bamboo-to-prevent-dengue/story/",
       verifiedOn: "2026-11-11",
     }],
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Ordinance No. 1060",
+    title: "Peer Support Groups for Mental Health",
+    kind: "Ordinance",
+    category: "Mental Health",
+    summary:
+      "Institutionalizes community peer-support groups as a frontline mental health promotion strategy.",
+    date: "2025",
+    status:
+      "Listed in the 2025–2026 legislative record; request the filed copy from the Sangguniang Panlungsod Secretariat for the complete legal text.",
+    attribution:
+      "Reported under Councilor Kathleen Cecille C. Pagaling's Committee on Women, Family, Health & Social Welfare legislative record.",
+    source: pagalingPortfolioSource("record"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Ordinance No. 1061",
+    title: "Prevention of Adolescent Pregnancy",
+    kind: "Ordinance",
+    category: "Child & Family",
+    summary:
+      "Establishes city-wide measures to reduce adolescent pregnancy through education and services.",
+    date: "2025",
+    status:
+      "Listed in the 2025–2026 legislative record; request the filed copy from the Sangguniang Panlungsod Secretariat for the complete legal text.",
+    attribution:
+      "Reported under Councilor Kathleen Cecille C. Pagaling's Committee on Women, Family, Health & Social Welfare legislative record.",
+    source: pagalingPortfolioSource("record"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Ordinance No. 1067",
+    title: "Additional Benefits for Solo Parents",
+    kind: "Ordinance",
+    category: "Solo Parents",
+    summary:
+      "Grants expanded benefits to solo parents and their children across the city.",
+    date: "2025",
+    status:
+      "Listed in the 2025–2026 legislative record; request the filed copy from the Sangguniang Panlungsod Secretariat for the complete legal text.",
+    attribution:
+      "Reported under Councilor Kathleen Cecille C. Pagaling's Committee on Women, Family, Health & Social Welfare legislative record.",
+    source: pagalingPortfolioSource("record"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Ordinance No. 1079",
+    title: "Anti-OSAEC & CSAEM Ordinance",
+    kind: "Ordinance",
+    category: "Child Protection",
+    summary:
+      "Prohibits online sexual abuse and exploitation of children and related exploitative material.",
+    date: "2025",
+    status:
+      "Listed in the 2025–2026 legislative record; request the filed copy from the Sangguniang Panlungsod Secretariat for the complete legal text.",
+    attribution:
+      "Reported under Councilor Kathleen Cecille C. Pagaling's Committee on Women, Family, Health & Social Welfare legislative record.",
+    source: pagalingPortfolioSource("record"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Ordinance No. 1066",
+    title: "Barangay Sanitation Inspectors",
+    kind: "Ordinance",
+    category: "Public Health",
+    summary:
+      "Provides for the appointment of BSIs to strengthen barangay-level sanitation enforcement.",
+    date: "2025",
+    status:
+      "Listed in the 2025–2026 legislative record; request the filed copy from the Sangguniang Panlungsod Secretariat for the complete legal text.",
+    attribution:
+      "Reported under Councilor Kathleen Cecille C. Pagaling's Committee on Women, Family, Health & Social Welfare legislative record.",
+    source: pagalingPortfolioSource("record"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Ordinance No. 1070",
+    title: "Expanded 4Ps Beneficiary Benefits",
+    kind: "Ordinance",
+    category: "Social Welfare",
+    summary:
+      "Institutionalizes expanded local benefits for 4Ps (Pantawid Pamilyang Pilipino Program) families.",
+    date: "2025",
+    status:
+      "Listed in the 2025–2026 legislative record; request the filed copy from the Sangguniang Panlungsod Secretariat for the complete legal text.",
+    attribution:
+      "Reported under Councilor Kathleen Cecille C. Pagaling's Committee on Women, Family, Health & Social Welfare legislative record.",
+    source: pagalingPortfolioSource("record"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Resolution No. 0041",
+    title: "Adopting the Mental Health Act",
+    kind: "Resolution",
+    category: "Mental Health",
+    summary:
+      "Adopts Republic Act No. 11036, establishing national mental health services locally.",
+    date: "2025",
+    status:
+      "Also underpins mental-health service partnerships in the Partnerships & MOAs record.",
+    attribution:
+      "Listed in Councilor Kathleen Cecille C. Pagaling's 2025–2026 legislative record.",
+    source: pagalingPortfolioSource("record"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Resolution No. 0073",
+    title: "Solo Parent Data Sharing Agreement",
+    kind: "Resolution",
+    category: "Solo Parents",
+    summary:
+      "Authorizes a data-sharing agreement powering the Solo Parent Monitoring System.",
+    date: "2025",
+    status: "Listed in the 2025–2026 legislative record.",
+    attribution:
+      "Listed in Councilor Kathleen Cecille C. Pagaling's 2025–2026 legislative record.",
+    source: pagalingPortfolioSource("record"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Resolution No. 1043",
+    title: "Gender Advocacy — Purple March",
+    kind: "Resolution",
+    category: "Gender & Women",
+    summary:
+      "Recognizes and supports the citywide observance of Purple March for women's rights.",
+    date: "2025",
+    status: "Listed in the 2025–2026 legislative record.",
+    attribution:
+      "Listed in Councilor Kathleen Cecille C. Pagaling's 2025–2026 legislative record.",
+    source: pagalingPortfolioSource("record"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Resolution No. 0111",
+    title: "Gender Advocacy — Pink October",
+    kind: "Resolution",
+    category: "Gender & Women",
+    summary:
+      "Supports breast cancer awareness observance across the city for the month of October.",
+    date: "2025",
+    status: "Listed in the 2025–2026 legislative record.",
+    attribution:
+      "Listed in Councilor Kathleen Cecille C. Pagaling's 2025–2026 legislative record.",
+    source: pagalingPortfolioSource("record"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Resolution No. 1076",
+    title: "Gender Advocacy — Blue November",
+    kind: "Resolution",
+    category: "Gender & Women",
+    summary:
+      "Supports men's health awareness observance across the city for the month of November.",
+    date: "2025",
+    status: "Listed in the 2025–2026 legislative record.",
+    attribution:
+      "Listed in Councilor Kathleen Cecille C. Pagaling's 2025–2026 legislative record.",
+    source: pagalingPortfolioSource("record"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "2026 · Passed Resolution (HPFS 2030)",
+    title:
+      "A RESOLUTION RESPECTFULLY ENDORSING AND APPROVING THE REQUEST TO THE SANGGUNIANG PANLUNGSOD TO ADOPT THE HEALTH PROMOTION FRAMEWORK STRATEGY (HPFS) 2030 IN THE CITY OF MALAYBALAY",
+    kind: "Resolution",
+    category: "Public Health & Sanitation · 2026",
+    summary:
+      "Endorses the adoption of the Health Promotion Framework Strategy 2030 in Malaybalay City.",
+    date: "2026",
+    status: "Passed · 2026 legislative record.",
+    attribution:
+      "Listed under Public Health & Sanitation (2026) in Councilor Kathleen Cecille C. Pagaling's legislative record.",
+    source: pagalingPortfolioSource("record"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "2026 · Passed Resolution (PHIC YAKAP PFR)",
+    title:
+      "A RESOLUTION FOR THE AMENDMENT OF THE PRESCRIBED DISPOSITION AND ALLOCATION OF THE PHILHEALTH PER FAMILY RATE (PFR) IN THE MALAYBALAY CITY HEALTH OFFICE PHILHEALTH (PHIC) YAKAP PROVIDER",
+    kind: "Resolution",
+    category: "Public Health & Sanitation · 2026",
+    summary:
+      "Amends the prescribed disposition and allocation of the PhilHealth Per Family Rate for the City Health Office PHIC YAKAP provider.",
+    date: "2026",
+    status: "Passed · 2026 legislative record.",
+    attribution:
+      "Listed under Public Health & Sanitation (2026) in Councilor Kathleen Cecille C. Pagaling's legislative record.",
+    source: pagalingPortfolioSource("record"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Res. 1030",
+    title: "Community Feeding Program",
+    kind: "Partnership / MOA",
+    category: "Health & Medical Partnerships",
+    partner: "Barangay stakeholders",
+    summary:
+      "15 feeding cycles delivered with barangay stakeholders to improve child nutrition.",
+    date: "2025",
+    status: "Approved 2025 partnership / MOA.",
+    attribution:
+      "Formal partnership approved in 2025 under Health & Medical Partnerships.",
+    source: pagalingPortfolioSource("partnerships"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Res. 1104",
+    title: "Surgical Condition Support",
+    kind: "Partnership / MOA",
+    category: "Health & Medical Partnerships",
+    partner: "Cure Philippines Inc.",
+    summary:
+      "Pre-surgery, surgery, and post-surgery services for patients with treatable conditions.",
+    date: "2025",
+    status: "Approved 2025 partnership / MOA.",
+    attribution:
+      "Formal partnership approved in 2025 under Health & Medical Partnerships.",
+    source: pagalingPortfolioSource("partnerships"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Res. 0101",
+    title: "Zero Open Defecation Campaign",
+    kind: "Partnership / MOA",
+    category: "Health & Medical Partnerships",
+    partner: "DOH-CHDNM",
+    summary:
+      "Household sanitary toilet installation to advance city sanitation goals.",
+    date: "2025",
+    status: "Approved 2025 partnership / MOA.",
+    attribution:
+      "Formal partnership approved in 2025 under Health & Medical Partnerships.",
+    source: pagalingPortfolioSource("partnerships"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Res. 1055",
+    title: "PhilHealth Konsulta Provider",
+    kind: "Partnership / MOA",
+    category: "Health & Medical Partnerships",
+    partner: "Malaybalay City Health Office",
+    summary:
+      "Performance commitment naming the City Health Office as a Konsulta care provider.",
+    date: "2025",
+    status: "Approved 2025 partnership / MOA.",
+    attribution:
+      "Formal partnership approved in 2025 under Health & Medical Partnerships.",
+    source: pagalingPortfolioSource("partnerships"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Res. 1056",
+    title: "Medical & Dialysis Center",
+    kind: "Partnership / MOA",
+    category: "Health & Medical Partnerships",
+    partner: "EasaCare Medical & Dialysis Center",
+    summary:
+      "Operation of a dedicated medical and dialysis care facility for the city.",
+    date: "2025",
+    status: "Approved 2025 partnership / MOA.",
+    attribution:
+      "Formal partnership approved in 2025 under Health & Medical Partnerships.",
+    source: pagalingPortfolioSource("partnerships"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Res. 1105",
+    title: "Congenital Condition Support",
+    kind: "Partnership / MOA",
+    category: "Health & Medical Partnerships",
+    partner: "Midway Doctors Clinic",
+    summary:
+      "Surgical support pathway for patients with surgically treatable congenital conditions.",
+    date: "2025",
+    status: "Approved 2025 partnership / MOA.",
+    attribution:
+      "Formal partnership approved in 2025 under Health & Medical Partnerships.",
+    source: pagalingPortfolioSource("partnerships"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Res. 1050",
+    title: "Child Welfare Services",
+    kind: "Partnership / MOA",
+    category: "Social Welfare Partnerships",
+    partner: "Timothy Project Intl. Mission, Inc.",
+    summary:
+      "Services for neglected, abandoned, and abused children referred through the city.",
+    date: "2025",
+    status: "Approved 2025 partnership / MOA.",
+    attribution:
+      "Formal partnership approved in 2025 under Social Welfare Partnerships.",
+    source: pagalingPortfolioSource("partnerships"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Donation",
+    title: "Women & Child-Friendly Space Kits",
+    kind: "Partnership / MOA",
+    category: "Social Welfare Partnerships",
+    partner: "DSWD Field Office X",
+    summary:
+      "Donation acceptance of dedicated kits for child-friendly and women-friendly spaces.",
+    date: "2025",
+    status: "Approved 2025 donation / partnership.",
+    attribution:
+      "Formal partnership approved in 2025 under Social Welfare Partnerships.",
+    source: pagalingPortfolioSource("partnerships"),
+  },
+  {
+    officialName: "Kathleen Cecille C. Pagaling",
+    number: "Res. 1054",
+    title: "Animal Health Risk Monitoring",
+    kind: "Partnership / MOA",
+    category: "Institutional & Research Partnerships",
+    partner: "Central Mindanao University",
+    summary:
+      "Joint research project on integrated animal health risk monitoring for the city.",
+    date: "2025",
+    status: "Approved 2025 partnership / MOA.",
+    attribution:
+      "Formal partnership approved in 2025 under Institutional & Research Partnerships.",
+    source: pagalingPortfolioSource("partnerships"),
   },
   {
     officialName: "Jonathan Keith T. Flores",
