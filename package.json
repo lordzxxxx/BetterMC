@@ -20,6 +20,7 @@
     "check": "npm run lint && npm test && npm run build"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.548.0",
     "react": "^19.1.1",
