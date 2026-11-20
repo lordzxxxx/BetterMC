@@ -60,15 +60,32 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
     expect(overflowOnJobDetail).toBe(false);
   });
 
-  test("supports office subdomain query previews (?office=cho and ?office=peso)", async ({ page }) => {
+  test("supports office subdomain query previews (?office=cho, ?office=peso, ?office=treasurer) without warning banners", async ({
+    page,
+  }) => {
     await page.goto("/?office=cho");
     await expect(page.getByRole("heading", { name: "City Health Office" })).toBeVisible();
     await expect(page.getByRole("link", { name: /cho\.bettermalaybalay\.cloud/i }).first()).toBeVisible();
+    await expect(page.getByText(/Source Cross-Reference Note:/i)).toHaveCount(0);
+    await expect(page.getByRole("region", { name: "Officials & Assigned Personnel" })).toContainText(
+      "Dr. Dennis P. Sangalang, MD",
+    );
 
     await page.goto("/?office=peso");
     await expect(
       page.getByRole("heading", { name: "Public Employment Service Office — Malaybalay City" }),
     ).toBeVisible();
+    await expect(page.getByText(/Source Cross-Reference Note:/i)).toHaveCount(0);
+
+    await page.goto("/?office=treasurer");
+    await expect(page.getByRole("region", { name: "Officials & Assigned Personnel" })).toContainText(
+      "Bella Stephanie B. Saavedra, CPA",
+    );
+    await page.setViewportSize({ width: 320, height: 740 });
+    const treasurerOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth + 1,
+    );
+    expect(treasurerOverflow).toBe(false);
   });
 
   test("cross-links /services/employment cleanly to /peso and /jobs", async ({ page }) => {

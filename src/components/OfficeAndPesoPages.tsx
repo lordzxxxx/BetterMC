@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
-  AlertTriangle,
   ArrowLeft,
   ArrowRight,
   Award,
@@ -876,20 +875,6 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
       </nav>
 
       <section className="section container office-content-sections">
-        {office.discrepancies && office.discrepancies.length > 0 ? (
-          <div className="office-discrepancy-banner bettermc-surface-card" role="note">
-            <AlertTriangle aria-hidden="true" />
-            <div>
-              <strong>Source Cross-Reference Note:</strong>
-              {office.discrepancies.map((item) => (
-                <p key={item.field}>
-                  {item.field}: {item.detail}
-                </p>
-              ))}
-            </div>
-          </div>
-        ) : null}
-
         <section id="about" className="office-about-section" aria-labelledby="office-about-heading">
           <div className="office-about-copy bettermc-surface-card">
             <div className="office-about-main">
@@ -978,11 +963,22 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                   );
                 })}
               </div>
+              {personnelEntry.unitNotes ? (
+                <p className="office-personnel-unit-notes">{personnelEntry.unitNotes}</p>
+              ) : null}
               <p className="office-personnel-source">
-                Source:{" "}
+                <span>Source:</span>{" "}
                 <a href={personnelEntry.sourceUrl} target="_blank" rel="noopener noreferrer">
                   {personnelEntry.sourceLabel} <ExternalLink aria-hidden="true" />
                 </a>
+                {personnelEntry.additionalSources?.map((extra) => (
+                  <span key={extra.url}>
+                    •{" "}
+                    <a href={extra.url} target="_blank" rel="noopener noreferrer">
+                      {extra.label} <ExternalLink aria-hidden="true" />
+                    </a>
+                  </span>
+                ))}
               </p>
             </>
           ) : (

@@ -366,11 +366,10 @@ export const educationOffices: EducationOffice[] = [
     address: "Sayre Highway, Purok 6, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     contacts: ["0907-688-9009", "malaybalay.city@deped.gov.ph"],
     officials: [
-      { role: "Schools Division Superintendent", name: "Not published in the reviewed current division source", status: "Awaiting Verification" },
-      { role: "Assistant Schools Division Superintendent", name: "Not published in the reviewed current division source", status: "Awaiting Verification" },
+      { role: "Schools Division Superintendent", name: "Dr. Cherry Mae L. Limbaco-Reyes, CESO V", status: "Verified" },
     ],
     services: ["Division memoranda, advisories, and orders", "Citizen’s Charter and public records", "Public-school and education-programme inquiries"],
-    source: { label: "DepEd — Schools Division of Malaybalay City", url: "https://malaybalay.deped.gov.ph/", verifiedOn: reviewedOn, type: "Government directory" },
+    source: { label: "DepEd — Schools Division of Malaybalay City (2026 Division Memoranda)", url: "https://malaybalay.deped.gov.ph/division-memorandum-2026/", verifiedOn: reviewedOn, type: "Government directory" },
   },
   {
     slug: "deped-bukidnon",

@@ -29,11 +29,6 @@ export type OfficeProgramItem = {
   eligibility?: string;
 };
 
-export type OfficeDiscrepancyNote = {
-  field: string;
-  detail: string;
-};
-
 export type GovernmentOffice = {
   slug: string;
   aliases?: string[];
@@ -66,7 +61,6 @@ export type GovernmentOffice = {
   officialWebUrl: string;
   services: OfficeServiceGuide[];
   programs: OfficeProgramItem[];
-  discrepancies?: OfficeDiscrepancyNote[];
   verificationNote?: string;
   charterChapterRef?: string;
   sources: Source[];
@@ -219,12 +213,6 @@ export const governmentOffices: GovernmentOffice[] = [
         title: "Malaybalay City College Scholarship Cross-Referral (Community Affairs)",
         summary: "Links incoming college scholars (parents' net income ≤ ₱250,000) with PESO Career Guidance and OJT placements.",
         eligibility: "Bonafide Malaybalay City students coordinated via CMO – Community Affairs Division.",
-      },
-    ],
-    discrepancies: [
-      {
-        field: "Mobile Contact Numbers",
-        detail: "2026 Citizen's Charter (p. 550+) prints 0907-688-5735 while sakata.malaybalaycity.gov.ph/contact-us/ prints 0915-542-3434 and 0912-163-5505. All three are listed here.",
       },
     ],
     charterChapterRef: "CMO - PESO 2026 (pp. 530–546 / PDF pp. 549–565)",
@@ -401,9 +389,6 @@ export const governmentOffices: GovernmentOffice[] = [
       { title: "Regular Council Sessions & Public Committee Hearings", summary: "Open legislative deliberations on city tax measures, land-use zoning, appropriations, and local welfare ordinances." },
       { title: "PLEB Administrative Oversight (EO 9)", summary: "Secretariat supporting civilian complaints and clearances involving PNP personnel." },
     ],
-    discrepancies: [
-      { field: "Telephone & Mobile Formatting", detail: "Charter Appendix (p. 728) lists 088-813-4350 / 0917-479-6861 while sakata/contact-us prints 0917-497-6861 / (088) 813-3205." },
-    ],
     charterChapterRef: "SP 2026 (pp. 711–727)",
     sources: [
       ccSource("Sangguniang Panlungsod (pp. 711–728)"),
@@ -469,6 +454,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/malaybalay-city-seal.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: CITIZENS_CHARTER_2026_URL,
+    headOfOffice: "Venus G. Palalay (Community Affairs Officer IV)",
     headNote: "Division under the Office of the City Mayor (supervised by CMO – Community Affairs Officer).",
     overview:
       "Directly serves puroks, barangays, civil society organizations (CSOs), NGOs, and college students under the City Mayor's Office—administering the Malaybalay City Scholarship Program, Mayor's Clearance issuance, Sports Assistance, and CSO Accreditation.",
@@ -526,6 +512,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/malaybalay-city-seal.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: CITIZENS_CHARTER_2026_URL,
+    headOfOffice: "Rene Cipriano (OSCA Head / Coordinator)",
     headNote: "OSCA Head appointed by the City Mayor pursuant to Republic Act No. 9994.",
     overview:
       "Dedicated division under the City Mayor's Office implementing the Expanded Senior Citizens Act (RA 9994) through rapid Senior Citizen ID issuance, medicine/grocery discount booklets, and elderly welfare referrals.",
@@ -823,6 +810,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/city-treasurer.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Bella Stephanie B. Saavedra, CPA (City Treasurer)",
     headNote: "Supervised by the City Treasurer across 1st Floor Cashier Windows & BOSS One-Stop Counter.",
     overview:
       "Collects Real Property Tax, Business Taxes, Transfer Tax, Professional Tax, Community Tax Certificates (Cedula), and regulatory fees—and disburses supplier checks, financial assistance, and payroll.",
@@ -963,6 +951,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/ccro.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Arnel S. Alagenio (Department Head / OIC)",
     headNote: "Led by the City Civil Registrar at 1st Floor, New City Hall (Charter pp. 188–250).",
     overview:
       "Records all births, marriages, and deaths occurring in Malaybalay City; processes Marriage Licenses, Delayed Registrations, Legitimation, and RA 9048 / RA 10172 petitions for clerical error correction.",
@@ -1067,6 +1056,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/city-health.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Dr. Dennis P. Sangalang, MD (City Health Officer II)",
     headNote: "Led by the City Health Officer with public health physicians, dentists, sanitary inspectors, and Upper Pulangui Lying-In clinical staff.",
     overview:
       "Delivers free primary medical consultations, maternal/child immunization, dental care, TB-DOTS, schistosomiasis treatment, sanitation permits, mental health support, newborn screening, and Upper Pulangui Lying-In maternity services.",
@@ -1099,9 +1089,6 @@ export const governmentOffices: GovernmentOffice[] = [
       { title: "City Health Board (EO 5 & EO 26) & Nutrition Committee (EO 59)", summary: "Coordinates barangay health stations, Maternal Care Packages, and vaccination drives." },
       { title: "National Voluntary Blood Services Program", summary: "Regular citywide blood donation drives safeguarding emergency supply." },
     ],
-    discrepancies: [
-      { field: "CHO Mobile Digits", detail: "2026 Charter Appendix (p. 729) prints 0965-094-9150 / 0917-719-4588 whereas sakata/contact-us prints 0965-094-9105 / 0966-475-6979 / (088) 813-2877. Both sets are shown." },
-    ],
     charterChapterRef: "CHO 2026 (pp. 354–408 & p. 729)",
     sources: [
       ccSource("City Health Office (pp. 354–408 & p. 729)"),
@@ -1120,6 +1107,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/cdrrmo.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Alan J. Comiso (CDRRMO Head / CGDH-I)",
     headNote: "Led by the LDRRMO Head operating the 24/7 City Emergency Operations Center (EOC).",
     overview:
       "24/7 emergency response, flood/landslide monitoring across Sawaga and Upper Pulangui watersheds, rescue ambulance dispatch, Barangay DRRM capacity building, and Disaster Certification issuance.",
@@ -1148,9 +1136,6 @@ export const governmentOffices: GovernmentOffice[] = [
     ],
     programs: [
       { title: "City Emergency Operations Center (EO 37 s.2023)", summary: "Maintains continuous weather, river-level, and hazard advisory coordination with PAGASA and 46 BDRRMCs." },
-    ],
-    discrepancies: [
-      { field: "Station Address Note", detail: "2026 Citizen's Charter Appendix (p. 728) lists 'Market Side, Barangay 9', while legacy directory records referenced Barangay 1." },
     ],
     charterChapterRef: "CDRRMO 2026 (pp. 251–262 & p. 728)",
     sources: [
@@ -1269,6 +1254,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/obo.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Engr. Runstadt P. Peria (Acting Building Official / Engineer IV)",
     headNote: "Led by the City Building Official under PD 1096 in coordination with CPDO Zoning & BFP.",
     overview:
       "Enforces the National Building Code of the Philippines (PD 1096) across Malaybalay City—issuing Building Permits, Certificates of Occupancy, Temporary Electrical Connection Permits, and annual structural/mechanical inspections.",
@@ -1317,6 +1303,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/cenro.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Salvador U. Yacapin (Department Head / OIC — CENRO)",
     headNote: "Led by the City Environment & Natural Resources Officer on 1st Floor, New City Hall.",
     overview:
       "Leads ecological solid waste management (RA 9003), urban greening, forest nursery & seedling distribution, watershed protection (Upper Pulangui / Sawaga), and City Environmental Clearance enforcement.",
@@ -1390,9 +1377,6 @@ export const governmentOffices: GovernmentOffice[] = [
     programs: [
       { title: "Agri-Ecotourism & High-Value Crops Development", summary: "Backs coffee, adlai, rice, corn, and organic highland vegetable clusters across rural barangays." },
     ],
-    discrepancies: [
-      { field: "Email Variants", detail: "/contact-us/ lists mlyblyagri2023@gmail.com while /departments-offices/ lists mlyblyagri@yahoo.com." },
-    ],
     charterChapterRef: "AGRI 2026 (pp. 83–131 & p. 729)",
     sources: [
       ccSource("City Agriculture Office (pp. 83–131 & p. 729)"),
@@ -1411,6 +1395,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/city-veterinary.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Dr. Michele C. Miquiabas, DVM (City Veterinarian)",
     headNote: "Led by the City Veterinarian overseeing animal clinics, mass vaccination, and meat inspection.",
     overview:
       "Safeguards animal health and food safety through anti-rabies vaccination, pet registration, veterinary consultations, swine/livestock dispersal, dog pound management, and veterinary health certification.",
@@ -1439,9 +1424,6 @@ export const governmentOffices: GovernmentOffice[] = [
     programs: [
       { title: "Barangay Mass Anti-Rabies & ASF Surveillance", summary: "Deploys veterinary vaccination teams across all 46 barangays to prevent zoonotic outbreaks." },
     ],
-    discrepancies: [
-      { field: "Email Variants", detail: "/departments-offices/ shows cityvetmalaybalay@gmail.com while /contact-us/ shows citymalaybalay@gmail.com." },
-    ],
     charterChapterRef: "CITY VET 2026 (pp. 458–481 & p. 729)",
     sources: [
       ccSource("City Veterinary Office (pp. 458–481 & p. 729)"),
@@ -1461,6 +1443,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/city-tourism.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Marven Jan Nadela (City Tourism Officer) • Honolu Marie C. Cruzin (Supervising Tourism Operations Officer)",
     headNote: "Tourism Division under the Office of the City Mayor (Murillo Street, Barangay 8).",
     overview:
       "Promotes Malaybalay's highland agri-ecotourism, heritage trails, and Kaamulan cultural identity while certifying tourism-related establishments (including Ancestral Domain businesses) and coordinating DOT trainings.",
@@ -1551,6 +1534,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/cudho.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "EnP. Perfecto Ray D. Bayo, Jr. (Division Head, CUDHO)",
     headNote: "CMO — City Urban Development & Housing Division coordinating the City Housing & Resettlement Committee.",
     overview:
       "Implements urban housing and resettlement programs under the Urban Development and Housing Act (RA 7279 / UDHA) and City Ordinance No. 565 s.2005 for hazard-vulnerable and landless households.",
@@ -1584,9 +1568,6 @@ export const governmentOffices: GovernmentOffice[] = [
     programs: [
       { title: "City Housing Resettlement Committee (EO 60 s.2023)", summary: "Matches informal settlers in flood-prone zones with safe resettlement lots." },
     ],
-    discrepancies: [
-      { field: "Last 4 Phone Digits", detail: "Charter p. 598/602 prints 0953-459-7882 while /contact-us/ prints 0953-459-7782." },
-    ],
     charterChapterRef: "CMO - HOUSING 2026 (pp. 598–602 & p. 728)",
     sources: [
       ccSource("CMO — CUDHO (pp. 598–602 & p. 728)"),
@@ -1606,6 +1587,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/tmc.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Joseph G. Jabla (Traffic Operations Officer / Head, TMC)",
     headNote: "CMO — Traffic Management Center Division overseeing road safety and motorela clearances.",
     overview:
       "Manages city road traffic flow, deploys traffic enforcers across school zones and Sayre Highway junctions, issues traffic citation clearances, and coordinates road closures and public utility routing.",
@@ -1653,6 +1635,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/bac.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Dr. Dennis P. Sangalang, MD & Atty. Mitchell D. Talatala (BAC Chairpersons)",
     headNote: "Inter-departmental Bids & Awards Committee constituted under RA 9184 (Procurement Reform Act).",
     overview:
       "Administers competitive procurement of goods, civil works, and consulting services for the City Government under RA 9184, PhilGEPS posting, livestreamed bid openings, and Notice of Award disclosures.",
@@ -1700,6 +1683,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/dilg.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Amalia A. Propia (City Local Government Operations Officer)",
     headNote: "Field operations desk of the Department of the Interior and Local Government — Region 10.",
     overview:
       "City field office of the Department of the Interior and Local Government supervising SGLG/SGLGB governance assessments, Full Disclosure compliance, and technical mentoring for Malaybalay's 46 barangays.",
@@ -1728,12 +1712,6 @@ export const governmentOffices: GovernmentOffice[] = [
     programs: [
       { title: "SGLG & SGLGB Assessment Teams (EO 15 & EO 35 s.2023)", summary: "Evaluates transparency, disaster preparedness, financial administration, and social protection." },
     ],
-    discrepancies: [
-      {
-        field: "Email Address Typo & Copy-Paste Conflict",
-        detail: "sakata/contact-us prints 'dilg.buk.malaybalay@gmail.cm' (likely typo for .com), while sakata/departments-offices erroneously repeats 'malaybalayccro@gmail.com'. Confirm via phone (0926-880-6529) before emailing.",
-      },
-    ],
     sources: [sakataSource("sakata.malaybalaycity.gov.ph — Contact Us", SAKATA_CONTACT_URL)],
   }),
 
@@ -1746,6 +1724,7 @@ export const governmentOffices: GovernmentOffice[] = [
     classification: "National Uniformed Fire & Rescue Service (Partner City Regulatory Station)",
     category: "Public Safety & Emergency",
     logoStatus: "Unavailable",
+    headOfOffice: "Ma. Anjelyn P. Pornia (City Fire Marshal / Station Head, CY 2026 APP)",
     headNote: "Commanded by the Malaybalay City Fire Marshal under BFP Region 10 (RA 9514).",
     overview:
       "Provides 24/7 fire suppression and emergency rescue while conducting mandatory Fire Safety Inspections for Building Permits (OBO) and Business Permits (BPLD).",
@@ -1785,6 +1764,7 @@ export const governmentOffices: GovernmentOffice[] = [
     classification: "National Police Law Enforcement Station (Partner Peace & Order Unit)",
     category: "Public Safety & Emergency",
     logoStatus: "Unavailable",
+    headOfOffice: "PLtCol. Joepet Baldonado Paglinawan (Chief of Police) • PLtCol. Ariel Philip Pontillas (OIC)",
     headNote: "Commanded by the City Chief of Police under Bukidnon Police Provincial Office (PRO-10).",
     overview:
       "Maintains round-the-clock law enforcement, traffic accident investigation, women and children's protection desk (WCPD), blotter verification, and National Police Clearance issuance across Malaybalay City.",
@@ -1824,6 +1804,7 @@ export const governmentOffices: GovernmentOffice[] = [
     classification: "Judiciary Partner Court — Trial Court & Court Clearances",
     category: "National & Partner Agencies",
     logoStatus: "Unavailable",
+    headOfOffice: "Hon. Edmundo V. Raagas (Presiding Judge, MTCC Malaybalay)",
     headNote: "First-level Judiciary trial court operating under the Supreme Court of the Philippines.",
     overview:
       "Listed directly in the City Government's official Contact Directory as City Court Office handling civil/criminal first-level court cases, small claims, and local court clearances.",
@@ -1865,6 +1846,7 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/agencies/deped.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: "https://www.deped.gov.ph/wp-content/uploads/2018/07/DepEd-Website-header-110px_1.png",
+    headOfOffice: "Dr. Cherry Mae L. Limbaco-Reyes, CESO V (Schools Division Superintendent)",
     headNote: "Led by the Schools Division Superintendent under DepEd Region X.",
     overview:
       "Administers public elementary, integrated, and high schools across Malaybalay City, partnering with PESO on the Grade 10 Career Guidance Advocacy Program (CGAP) and City School Board planning.",
