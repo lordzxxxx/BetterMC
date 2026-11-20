@@ -13,6 +13,8 @@ export type OfficePersonnelGroup = {
 export type OfficePersonnelDirectoryEntry = {
   sourceLabel: string;
   sourceUrl: string;
+  unitNotes?: string;
+  additionalSources?: Array<{ label: string; url: string }>;
   groups: OfficePersonnelGroup[];
 };
 
@@ -29,6 +31,15 @@ const SAKATA_ASSESSOR_URL = "https://sakata.malaybalaycity.gov.ph/city-assessors
 const SAKATA_BUDGET_URL = "https://sakata.malaybalaycity.gov.ph/city-budget-office/";
 const SAKATA_GSO_URL = "https://sakata.malaybalaycity.gov.ph/city-general-services-office/";
 const SAKATA_ENG_URL = "https://sakata.malaybalaycity.gov.ph/city-engineers-office/";
+const SAKATA_BAC_URL = "https://sakata.malaybalaycity.gov.ph/bids-and-awards-committee-structure/";
+const SAKATA_GAD_URL = "https://sakata.malaybalaycity.gov.ph/gad-corner/";
+const APP_2026_URL =
+  "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/ANNUAL-PROCUREMENT-PLAN-2026.pdf";
+const CHARTER_2026_URL =
+  "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/10/CITIZENS_CHARTER_2026.pdf";
+const FULL_DISC_RECEIPTS_2026_URL =
+  "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/09/STATEMENT-OF-RECEIPTS-AND-EXPENDITURES2026-Q2.pdf";
+const DEPED_MEMO_2026_URL = "https://malaybalay.deped.gov.ph/division-memorandum-2026/";
 
 const councilMembers: OfficePersonnelMember[] = officials
   .filter((item) => item.group === "Legislative" || item.group === "Sectoral")
@@ -36,45 +47,86 @@ const councilMembers: OfficePersonnelMember[] = officials
 
 export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry> = {
   mayor: {
-    sourceLabel: "City Government of Malaybalay — Mayor's Corner & Official Directory",
-    sourceUrl: "https://sakata.malaybalaycity.gov.ph/mayors-corner/",
+    sourceLabel: "City Government of Malaybalay — CY 2026 Annual Procurement Plan Summary & BAC Structure",
+    sourceUrl: APP_2026_URL,
+    unitNotes:
+      "Functional executive units documented across CS Form No. 9 and the 2026 Citizen's Charter include the Procurement Support Section, Special Support Services Division (City Band), Agricultural and Biosystems Engineering Division, and specialized CMO service wings (PESO, BPLD, Community Affairs, OSCA, Tourism, CUDHO, and TMC).",
+    additionalSources: [
+      { label: "Mayor's Corner — sakata.malaybalaycity.gov.ph", url: "https://sakata.malaybalaycity.gov.ph/mayors-corner/" },
+      { label: "Bids and Awards Committee Structure", url: SAKATA_BAC_URL },
+    ],
     groups: [
       {
-        unitName: "Local Chief Executive",
-        members: [{ name: "Hon. Jay Warren R. Pabillaran", position: "City Mayor" }],
+        unitName: "Local Chief Executive & Executive Wing Leadership",
+        members: [
+          { name: "Hon. Jay Warren R. Pabillaran", position: "City Mayor / Local Chief Executive" },
+          { name: "Atty. Anna Marie R. Bergado", position: "City Administrator & PESO Manager" },
+          { name: "Atty. Mitchell D. Talatala", position: "Executive Assistant IV / BAC Chairperson (Concurrent City Assessor)" },
+        ],
+      },
+      {
+        unitName: "Attached CMO Service Division Heads",
+        members: [
+          { name: "Arnel S. Alagenio", position: "Executive Assistant V - Designate (BPLD / CMO Supervision)" },
+          { name: "Venus G. Palalay", position: "Community Affairs Officer IV (CMO — Community Affairs Division)" },
+          { name: "Marven Jan Nadela", position: "City Tourism Officer (CMO — City Tourism Division)" },
+          { name: "EnP. Perfecto Ray D. Bayo, Jr.", position: "Division Head (CMO — City Urban Development & Housing)" },
+          { name: "Joseph G. Jabla", position: "Traffic Operations Officer / Head (CMO — Traffic Management Center)" },
+          { name: "Rene Cipriano", position: "Head / Coordinator (CMO — Office of the Senior Citizens Affairs)" },
+        ],
       },
     ],
   },
   "vice-mayor": {
-    sourceLabel: "City Government of Malaybalay — Legislative & SP Office Directory",
-    sourceUrl: "https://sakata.malaybalaycity.gov.ph/legislative/",
+    sourceLabel: "City Government of Malaybalay — CY 2026 Annual Procurement Plan & Legislative Directory",
+    sourceUrl: APP_2026_URL,
+    additionalSources: [
+      { label: "Sangguniang Panlungsod Office Directory", url: SAKATA_SP_URL },
+    ],
     groups: [
       {
-        unitName: "Presiding Officer",
-        members: [{ name: "Hon. Estelito \"Litoy\" R. Marabe", position: "City Vice Mayor" }],
+        unitName: "Presiding Officer & Legislative Secretariat Coordination",
+        members: [
+          { name: "Hon. Estelito \"Litoy\" R. Marabe", position: "City Vice Mayor / Presiding Officer, Sangguniang Panlungsod" },
+          { name: "Atty. Phoebe Corazon C. Hidalgo", position: "Secretary to the Sangguniang Panlungsod (Legislative Support)" },
+        ],
       },
     ],
   },
   peso: {
-    sourceLabel: "DOLE Region 10 Dispatches & City Administrator's Office Directory",
-    sourceUrl: "https://sakata.malaybalaycity.gov.ph/city-administrators-office/",
+    sourceLabel: "2026 Citizen's Charter (CMO — PESO, pp. 530–546) & DOLE Region 10 Dispatches",
+    sourceUrl: CHARTER_2026_URL,
+    unitNotes:
+      "Operates under the Office of the City Mayor (City Administrator's Office Wing) across four frontline desks: Jobseeker Registration & PEIS Matching Desk, Employer Accreditation (LRA/SRA) & Job Fair Unit, SPES/WAP & Career Guidance Advocacy Desk, and Livelihood & OFW Support Referral Desk.",
+    additionalSources: [
+      { label: "City Administrator's Office Directory", url: SAKATA_ADMIN_URL },
+    ],
     groups: [
       {
-        unitName: "PESO Management",
+        unitName: "Office Leadership & DOLE Counterpart",
         members: [
           { name: "Atty. Anna Marie R. Bergado", position: "PESO Manager / City Administrator" },
+          { name: "Hon. Jay Warren R. Pabillaran", position: "City Mayor (General Executive Supervision)" },
+          { name: "Raul L. Valmores", position: "Provincial Head, DOLE Bukidnon Field Office (Regional Counterpart)" },
         ],
       },
     ],
   },
   chrmo: {
-    sourceLabel: "LGU Malaybalay CS Form No. 9 Publication (4th Tranche)",
-    sourceUrl: "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2025/04/CS-Form-No-9-Publication-2024-4th-Tranche-1-1.pdf",
+    sourceLabel: "CY 2026 Annual Procurement Plan Summary & 2026 Citizen's Charter (CHRMO, pp. 388–422)",
+    sourceUrl: APP_2026_URL,
+    unitNotes:
+      "Organized into the Personnel Administration Division (Payroll, Benefits, Leave, Recruitment & Selection / Records Management Sections) and the Career and Performance Management Division (Training & Development and Performance Management Sections).",
+    additionalSources: [
+      { label: "GAD Focal Point System (EO No. 12) — sakata.malaybalaycity.gov.ph", url: SAKATA_GAD_URL },
+      { label: "LGU Malaybalay CS Form No. 9 Publication (4th Tranche)", url: "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2025/04/CS-Form-No-9-Publication-2024-4th-Tranche-1-1.pdf" },
+    ],
     groups: [
       {
-        unitName: "Department Head",
+        unitName: "Office Leadership & Key Officers",
         members: [
-          { name: "Magnolia O. Improgo", position: "City Government Department Head I (City HRMO)" },
+          { name: "Magnolia O. Improgo, DPA", position: "City Government Department Head I (City HRMO)" },
+          { name: "Cherish B. Tulang", position: "Human Resource Management Officer III (GFPS TWG Representative)" },
         ],
       },
     ],
@@ -818,6 +870,363 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
           { name: "Rosalie R. Lapeciros", position: "Administrative Aide III (Utility Worker II)" },
           { name: "Benedicto T. Malinao, Jr.", position: "Administrative Aide III (Driver II)" },
           { name: "Randy P. Jamago", position: "Administrative Officer IV (Records Officer II — Admin Support)" },
+        ],
+      },
+    ],
+  },
+  "community-affairs": {
+    sourceLabel: "2026 Citizen's Charter (CMO — Community Affairs Division, pp. 512–529) & GAD Corner",
+    sourceUrl: CHARTER_2026_URL,
+    unitNotes:
+      "Operates under the Office of the City Mayor across the Administrative Support Unit, Community Relations & Barangay Affairs Section, City Scholarship Section, and Civil Society Organization (CSO) Accreditation Desk.",
+    additionalSources: [
+      { label: "GAD Focal Point System (EO No. 12) — sakata.malaybalaycity.gov.ph", url: SAKATA_GAD_URL },
+    ],
+    groups: [
+      {
+        unitName: "Division Leadership & Supervision",
+        members: [
+          { name: "Venus G. Palalay", position: "Community Affairs Officer IV (Division Head / GFPS TWG)" },
+          { name: "Hon. Jay Warren R. Pabillaran", position: "City Mayor (Executive Approval Authority)" },
+        ],
+      },
+    ],
+  },
+  osca: {
+    sourceLabel: "2026 Citizen's Charter (CMO — OSCA, pp. 547–552) & PIA Region 10 Dispatch",
+    sourceUrl: CHARTER_2026_URL,
+    unitNotes:
+      "Attached to the Office of the City Mayor under RA 9994 (Expanded Senior Citizens Act), coordinating ID issuance, purchase booklets, transfers, and the National Commission of Senior Citizens Community Care Center.",
+    groups: [
+      {
+        unitName: "Office Leadership",
+        members: [
+          { name: "Rene Cipriano", position: "Head / Coordinator, Office of the Senior Citizens Affairs" },
+          { name: "Hon. Jay Warren R. Pabillaran", position: "City Mayor (Supervising Authority)" },
+        ],
+      },
+    ],
+  },
+  treasurer: {
+    sourceLabel: "CY 2026 Q2 Statement of Receipts & Expenditures and CY 2026 APP Summary",
+    sourceUrl: FULL_DISC_RECEIPTS_2026_URL,
+    unitNotes:
+      "Structured under the 2026 Citizen's Charter (pp. 636–655) into the Revenue Generation Division (Collection Windows 1–12), Cash Division (Accountable Forms & Disbursement Sections), and Administrative Division (Records Section).",
+    additionalSources: [
+      { label: "CY 2026 Annual Procurement Plan Summary", url: APP_2026_URL },
+      { label: "2026 Citizen's Charter (City Treasurer's Office, pp. 636–655)", url: CHARTER_2026_URL },
+    ],
+    groups: [
+      {
+        unitName: "Office Leadership",
+        members: [
+          { name: "Bella Stephanie B. Saavedra, CPA", position: "City Treasurer (Department Head)" },
+        ],
+      },
+    ],
+  },
+  ccro: {
+    sourceLabel: "CY 2026 Annual Procurement Plan Summary & 2026 Citizen's Charter (pp. 169–231)",
+    sourceUrl: APP_2026_URL,
+    unitNotes:
+      "Divisions verified in the 2026 Citizen's Charter and CS Form No. 9 include the Registration Division (Birth, Marriage & Death Registration Sections) and the Records Division (Research Section and RA 9048 / RA 10172 Petition Clerks), staffed by Registration Officers III/IV and Records Officers III/IV.",
+    additionalSources: [
+      { label: "2026 Citizen's Charter (CCRO Chapter, pp. 169–231)", url: CHARTER_2026_URL },
+    ],
+    groups: [
+      {
+        unitName: "Office Leadership",
+        members: [
+          { name: "Arnel S. Alagenio", position: "Department Head / Officer-in-Charge, City Civil Registry Office" },
+        ],
+      },
+    ],
+  },
+  cho: {
+    sourceLabel: "2026 Citizen's Charter (CHO, pp. 335–387), CY 2026 APP Summary & BAC Structure",
+    sourceUrl: CHARTER_2026_URL,
+    unitNotes:
+      "Clinical divisions documented in the 2026 Citizen's Charter include Communicable Disease Division (Animal Bite Treatment Center, NTP), Non-Communicable Disease Division (Room 2, Physical Therapy Unit, Upper Pulangui Lying-In Clinic), Family Health Cluster Division, Forensic & Environmental Sanitation Health Division, Pharmacy Section, Laboratory Section, and Radiology Section.",
+    additionalSources: [
+      { label: "CY 2026 Annual Procurement Plan Summary", url: APP_2026_URL },
+      { label: "Bids and Awards Committee Structure", url: SAKATA_BAC_URL },
+    ],
+    groups: [
+      {
+        unitName: "Office Leadership",
+        members: [
+          { name: "Dr. Dennis P. Sangalang, MD", position: "City Health Officer II (CHO, Nutrition, Mapulo & POPDEV)" },
+        ],
+      },
+      {
+        unitName: "Verified Clinical & Pharmacy Personnel (2026 Charter)",
+        members: [
+          { name: "Dr. Ann Michelle Go", position: "City Health Pharmacist (Pharmacy & Medication Dispensing)" },
+          { name: "Frances Charmaine A. Lazalita, RN", position: "Nurse, Non-Communicable Disease Division" },
+          { name: "Kesie Joy S. Inatalio, RN", position: "Nurse, Non-Communicable Disease Division" },
+        ],
+      },
+    ],
+  },
+  drrmo: {
+    sourceLabel: "2026 Citizen's Charter (CDRRMO, pp. 232–243) & CY 2026 APP Summary",
+    sourceUrl: CHARTER_2026_URL,
+    unitNotes:
+      "Operates across the Administrative Support Section, Research & Planning Division, Training & Logistics Division, and the 24/7 Operations & Warnings Division (EMS & SAR, 911 Emergency Call Center, and CCTV Command Center).",
+    additionalSources: [
+      { label: "CY 2026 Annual Procurement Plan Summary", url: APP_2026_URL },
+    ],
+    groups: [
+      {
+        unitName: "Office Leadership",
+        members: [
+          { name: "Alan J. Comiso", position: "City Government Department Head I (CDRRMO Head)" },
+        ],
+      },
+      {
+        unitName: "Administrative & Logistics Support",
+        members: [
+          { name: "Ana Andrea A. Ho", position: "Administrative Officer IV (Administrative Support Section)" },
+          { name: "Nida V. Quitor", position: "Administrative Officer I (Logistics Division)" },
+          { name: "Florence D. De Asis", position: "Administrative Aide (Administrative & Logistics Desk)" },
+        ],
+      },
+      {
+        unitName: "Research, Planning, Training & Logistics Sections",
+        members: [
+          { name: "Sony Dabe R. Belderol", position: "LDRRM Officer IV (Research & Planning Division)" },
+          { name: "Kenneth Amiel M. Taylor", position: "Section Head, Training & Logistics Division" },
+        ],
+      },
+    ],
+  },
+  obo: {
+    sourceLabel: "2026 Citizen's Charter (Office of the Building Official, pp. 656–691) & CY 2026 APP Summary",
+    sourceUrl: CHARTER_2026_URL,
+    additionalSources: [
+      { label: "CY 2026 Annual Procurement Plan Summary", url: APP_2026_URL },
+    ],
+    groups: [
+      {
+        unitName: "Office Leadership",
+        members: [
+          { name: "Engr. Runstadt P. Peria", position: "City Engineer IV / Acting Building Official" },
+          { name: "Juliet D. Doroja", position: "Officer-in-Charge / Processing, Line & Grade & Receiving Unit" },
+        ],
+      },
+      {
+        unitName: "Technical Plan Evaluators & Inspectors",
+        members: [
+          { name: "Anita O. Tagaan", position: "Architectural Plan Evaluator & Assessment Processing Officer" },
+          { name: "Ed Glenn R. Okit", position: "Civil/Structural, Electronics, Sanitary/Plumbing & Mechanical Evaluator" },
+          { name: "Bobby M. Lopez", position: "Electrical Plan Evaluator & Site Inspector" },
+          { name: "Bengie M. Wahing", position: "Receiving Staff & Technical Site Verifier" },
+          { name: "Raul A. Edquilang", position: "Field Inspector / Technical Evaluation Officer" },
+        ],
+      },
+    ],
+  },
+  cenro: {
+    sourceLabel: "CY 2026 Annual Procurement Plan Summary & 2026 Citizen's Charter (pp. 263–273)",
+    sourceUrl: APP_2026_URL,
+    unitNotes:
+      "Implements Solid Waste Management, Environmental Certification, Urban Forestry, Seedling Production, and Forest Product Transport inspection under the City Environment and Natural Resources Office.",
+    additionalSources: [
+      { label: "2026 Citizen's Charter (CENRO Chapter, pp. 263–273)", url: CHARTER_2026_URL },
+    ],
+    groups: [
+      {
+        unitName: "Office Leadership",
+        members: [
+          { name: "Salvador U. Yacapin", position: "Department Head / Officer-in-Charge, City ENRO" },
+        ],
+      },
+    ],
+  },
+  veterinary: {
+    sourceLabel: "CY 2026 Annual Procurement Plan Summary & Sakata BAC Structure",
+    sourceUrl: APP_2026_URL,
+    unitNotes:
+      "Divisions documented in the 2026 Citizen's Charter (pp. 439–462) and CS Form No. 9 include Animal Health and Production Division, Livestock Animal Production Division, and Meat Inspection Service Division (Ante-Mortem & Post-Mortem Sections).",
+    additionalSources: [
+      { label: "Bids and Awards Committee Structure — sakata.malaybalaycity.gov.ph", url: SAKATA_BAC_URL },
+      { label: "2026 Citizen's Charter (City Veterinary Office, pp. 439–462)", url: CHARTER_2026_URL },
+    ],
+    groups: [
+      {
+        unitName: "Office Leadership",
+        members: [
+          { name: "Dr. Michele C. Miquiabas, DVM", position: "City Veterinarian (Department Head / BAC Alternate Member)" },
+        ],
+      },
+    ],
+  },
+  tourism: {
+    sourceLabel: "2026 Citizen's Charter (City Tourism Division, pp. 569–578) & Official City Dispatches",
+    sourceUrl: CHARTER_2026_URL,
+    unitNotes:
+      "Organized under the City Mayor's Office into the Tourism Planning Section (Accreditation & DOT Certification Desk) and the Tourism Promotions Section (Visitor Assistance & Kaamulan Cultural Promotions).",
+    groups: [
+      {
+        unitName: "Division Leadership & Key Officers",
+        members: [
+          { name: "Marven Jan Nadela", position: "City Tourism Officer (Division Head)" },
+          { name: "Honolu Marie C. Cruzin", position: "Supervising Tourism Operations Officer" },
+        ],
+      },
+    ],
+  },
+  cudho: {
+    sourceLabel: "2026 Citizen's Charter (CUDHO / CUDHD, pp. 579–583) & NHA–LGU IP Housing Dispatches",
+    sourceUrl: CHARTER_2026_URL,
+    unitNotes:
+      "Administers socialized housing estates, resettlement of hazard-vulnerable and calamity-displaced households, and community beneficiary screening under the Office of the City Mayor.",
+    groups: [
+      {
+        unitName: "Division Leadership",
+        members: [
+          { name: "EnP. Perfecto Ray D. Bayo, Jr.", position: "Division Head, City Urban Development & Housing" },
+          { name: "Hon. Jay Warren R. Pabillaran", position: "City Mayor / Chairperson, City Housing & Resettlement Committee" },
+        ],
+      },
+    ],
+  },
+  tmc: {
+    sourceLabel: "2026 Citizen's Charter (CMO — Traffic Management Center, pp. 553–568)",
+    sourceUrl: CHARTER_2026_URL,
+    unitNotes:
+      "Enforces City Ordinance No. 900 s. 2019 across field traffic enforcers, motorela inspection/clearance units, towing & road-crash response teams, and administrative citation processing desks.",
+    groups: [
+      {
+        unitName: "Center Leadership",
+        members: [
+          { name: "Joseph G. Jabla", position: "Traffic Operations Officer / Head, Traffic Management Center" },
+          { name: "Hon. Jay Warren R. Pabillaran", position: "City Mayor (Supervising Authority)" },
+        ],
+      },
+    ],
+  },
+  bac: {
+    sourceLabel: "City Government of Malaybalay — Bids and Awards Committee Structure",
+    sourceUrl: SAKATA_BAC_URL,
+    additionalSources: [
+      { label: "CY 2026 Annual Procurement Plan & FDP 10 Bid Results", url: APP_2026_URL },
+    ],
+    groups: [
+      {
+        unitName: "Head of the Procuring Entity & BAC Chairpersons",
+        members: [
+          { name: "Hon. Jay Warren R. Pabillaran", position: "Head of the Procuring Entity (HoPE)" },
+          { name: "Dr. Dennis P. Sangalang, MD", position: "City Health Officer II / BAC Chairperson" },
+          { name: "Atty. Mitchell D. Talatala", position: "Executive Assistant IV / BAC Chairperson" },
+          { name: "Atty. Anna Marie R. Bergado", position: "City Administrator / BAC Vice-Chairperson" },
+        ],
+      },
+      {
+        unitName: "BAC Regular Members",
+        members: [
+          { name: "Ronny B. Gamao", position: "City Budget Officer / Regular Member" },
+          { name: "Engr. Leo Rustan L. Dela Cerna", position: "City Engineer / Regular Member" },
+        ],
+      },
+      {
+        unitName: "BAC Alternate Members",
+        members: [
+          { name: "Engr. Runstadt P. Peria", position: "City Engineer IV / Alternate Member" },
+          { name: "Dr. Michele C. Miquiabas, DVM", position: "City Veterinarian / Alternate Member" },
+        ],
+      },
+      {
+        unitName: "BAC Technical Working Group (TWG)",
+        members: [
+          { name: "Engr. Adrian R. Gamboa", position: "City Planning & Development Coordinator / TWG Head" },
+          { name: "Atty. Alfredo G. Cape Jr.", position: "Assistant City Legal Officer / TWG Member" },
+          { name: "Engr. Larry H. Leono", position: "City Engineer IV / TWG Member" },
+        ],
+      },
+      {
+        unitName: "BAC Secretariat",
+        members: [
+          { name: "Atty. Julius Michael G. Barroso", position: "City Legal Officer / BAC Secretariat Head" },
+        ],
+      },
+    ],
+  },
+  dilg: {
+    sourceLabel: "CY 2026 Annual Procurement Plan Summary & GAD Corner EO No. 12",
+    sourceUrl: APP_2026_URL,
+    additionalSources: [
+      { label: "GAD Focal Point System (EO No. 12) — sakata.malaybalaycity.gov.ph", url: SAKATA_GAD_URL },
+    ],
+    groups: [
+      {
+        unitName: "Field Operations Leadership",
+        members: [
+          { name: "Amalia A. Propia", position: "City Local Government Operations Officer (CLGOO — DILG Malaybalay)" },
+        ],
+      },
+    ],
+  },
+  bfp: {
+    sourceLabel: "CY 2026 Annual Procurement Plan Summary & 2026 Citizen's Charter (p. 678)",
+    sourceUrl: APP_2026_URL,
+    additionalSources: [
+      { label: "2026 Citizen's Charter — BFP Fire Safety Evaluation Liaison (p. 678)", url: CHARTER_2026_URL },
+    ],
+    groups: [
+      {
+        unitName: "Station Leadership & Fire Safety Enforcement",
+        members: [
+          { name: "Ma. Anjelyn P. Pornia", position: "Station Head / Fire Marshal, BFP Malaybalay (CY 2026 APP)" },
+          { name: "FO1 Kareen Lou T. Aranas", position: "Fire Safety Evaluator / OBO Clearance Liaison" },
+        ],
+      },
+    ],
+  },
+  police: {
+    sourceLabel: "CY 2026 Annual Procurement Plan Summary & Late-2026 Command Dispatches",
+    sourceUrl: APP_2026_URL,
+    groups: [
+      {
+        unitName: "Station Command",
+        members: [
+          { name: "PLtCol. Joepet Baldonado Paglinawan", position: "Chief of Police, Malaybalay City Police Station (CY 2026 APP)" },
+          { name: "PLtCol. Ariel Philip Pontillas", position: "Officer-in-Charge, Malaybalay City Police Station (Command Dispatch)" },
+        ],
+      },
+    ],
+  },
+  "mtcc-branch-2": {
+    sourceLabel: "Supreme Court Judiciary Directory & CY 2026 Annual Procurement Plan Summary",
+    sourceUrl: APP_2026_URL,
+    groups: [
+      {
+        unitName: "Judicial Leadership",
+        members: [
+          { name: "Hon. Edmundo V. Raagas", position: "Presiding Judge, Municipal Trial Court in Cities (MTCC) — Malaybalay" },
+        ],
+      },
+    ],
+  },
+  "deped-division": {
+    sourceLabel: "DepEd Schools Division of Malaybalay City — Division Memoranda Nos. 488, 495 & 496 (Nov 2026)",
+    sourceUrl: DEPED_MEMO_2026_URL,
+    groups: [
+      {
+        unitName: "Division Leadership",
+        members: [
+          { name: "Dr. Cherry Mae L. Limbaco-Reyes, CESO V", position: "Schools Division Superintendent" },
+        ],
+      },
+      {
+        unitName: "Verified Division Units & Key Program Personnel (Nov 2026 Memoranda)",
+        members: [
+          { name: "Marsfifth M. Mamawag", position: "Senior Education Program Specialist (SocMob) / Secretariat Chair" },
+          { name: "Woodrow Wilson B. Merida", position: "Senior Education Program Specialist (HRD) / MANCOM Chair" },
+          { name: "Janryl Louis L. Okit", position: "Education Program Supervisor (IPEd — CID)" },
+          { name: "Engr. Leslie T. Fontanilla", position: "Division Engineer (SGOD)" },
+          { name: "Dr. Sarline O. Flores", position: "Medical Officer / School Health Responder Lead" },
+          { name: "Paul John Arias", position: "Division Technical / ICT Lead (MANCOM)" },
         ],
       },
     ],

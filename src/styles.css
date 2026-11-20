@@ -22302,19 +22302,6 @@ pre {
 .office-local-nav a:hover { color: #14499e; }
 
 .office-content-sections { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: 30px; }
-.office-discrepancy-banner {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 16px 18px;
-  background: #fffbeb;
-  border-color: #f0d38a;
-  color: #5b4109;
-  font-size: 0.92rem;
-}
-.office-discrepancy-banner > div { min-width: 0; flex: 1; overflow-wrap: anywhere; }
-.office-discrepancy-banner svg { width: 20px; height: 20px; flex: none; color: #b77700; margin-top: 2px; }
-.office-discrepancy-banner p { margin: 4px 0 0; line-height: 1.55; overflow-wrap: anywhere; }
 
 .office-about-section {
   display: grid;
@@ -22411,12 +22398,23 @@ pre {
   color: #14499e;
 }
 .office-personnel-more .office-personnel-list { margin-top: 10px; }
+.office-personnel-unit-notes {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.58;
+  color: #364b64;
+}
 .office-personnel-source {
   margin: 2px 0 0;
   padding-top: 12px;
   border-top: 1px solid #e7eff8;
   font-size: 0.84rem;
   color: #4f647d;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
 }
 .office-personnel-source a {
   display: inline-flex;
