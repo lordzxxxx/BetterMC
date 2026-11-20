@@ -759,7 +759,7 @@ function Footer() {
           <Link to="/offices">City Offices &amp; Sectors</Link>
           <Link to="/services">Public Services Guide</Link>
           <Link to="/barangays">All 46 Barangays</Link>
-          <Link to="/government">Government &amp; Hotlines</Link>
+          <Link to="/government">Officials &amp; Measures</Link>
           <Link to="/transparency">Transparency records</Link>
           <Link to="/budget">Budget transparency</Link>
           <Link to="/hearings">Legislative hearings</Link>
