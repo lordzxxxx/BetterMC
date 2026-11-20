@@ -1365,6 +1365,18 @@ export function JobDetailPage() {
                 <Info aria-hidden="true" /> {item.notes}
               </p>
             ) : null}
+
+            <div className="job-detail-contacts-block">
+              <h3>Official Contact Details</h3>
+              <ul className="office-bullet-list">
+                {item.contactDetails.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+              <Link className="office-fact-link" to="/peso">
+                <ArrowLeft aria-hidden="true" /> Return to PESO Malaybalay Profile
+              </Link>
+            </div>
           </article>
 
           <aside className="job-detail-sidebar">
@@ -1406,8 +1418,8 @@ export function JobDetailPage() {
                 </div>
               </dl>
 
-              <div className="job-detail-cta-stack">
-                {safeApply && !lifecycle.isExpired ? (
+              {safeApply && !lifecycle.isExpired ? (
+                <div className="job-detail-cta-stack">
                   <a
                     className="button primary"
                     href={safeApply}
@@ -1416,30 +1428,23 @@ export function JobDetailPage() {
                   >
                     Open Official Post / Apply <ExternalLink aria-hidden="true" />
                   </a>
-                ) : null}
-                {safeSrc ? (
+                </div>
+              ) : null}
+
+              {safeSrc ? (
+                <div className="detail-source-row">
+                  <span className="detail-source-kicker">Source</span>
                   <a
-                    className="button secondary"
+                    className="detail-source-link"
                     href={safeSrc}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Original Source ({item.sourceLabel}) <ExternalLink aria-hidden="true" />
+                    <span>{item.sourceLabel}</span>
+                    <ExternalLink aria-hidden="true" />
                   </a>
-                ) : null}
-              </div>
-            </div>
-
-            <div className="bettermc-surface-card office-quick-facts">
-              <h2>Official Contact Details</h2>
-              <ul className="office-bullet-list">
-                {item.contactDetails.map((line) => (
-                  <li key={line}>{line}</li>
-                ))}
-              </ul>
-              <Link className="office-fact-link" to="/peso">
-                <ArrowLeft aria-hidden="true" /> Return to PESO Malaybalay Profile
-              </Link>
+                </div>
+              ) : null}
             </div>
           </aside>
         </div>

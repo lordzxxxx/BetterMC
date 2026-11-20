@@ -58,6 +58,15 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
       () => document.documentElement.scrollWidth > window.innerWidth + 1,
     );
     expect(overflowOnJobDetail).toBe(false);
+
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto("/jobs/peso-nsrp-jobseeker-registration-matching");
+    const detailMain = page.locator(".job-detail-main");
+    await expect(detailMain.getByRole("heading", { name: "Official Contact Details" })).toBeVisible();
+    const compactSourceLink = page.locator(".detail-source-link");
+    await expect(compactSourceLink).toBeVisible();
+    const sourceBox = await compactSourceLink.boundingBox();
+    expect(sourceBox?.height ?? 0).toBeLessThan(48);
   });
 
   test("supports office subdomain query previews (?office=cho, ?office=peso, ?office=treasurer) without warning banners", async ({

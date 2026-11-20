@@ -3936,16 +3936,18 @@ function LegislativeOfficialPage() {
             Open official profile <ExternalLink aria-hidden="true" />
           </a>
           {official.facebookUrl && (
-            <a
-              className="button secondary official-fb-button"
-              href={official.facebookUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FacebookIcon size={16} />
-              <span>{official.facebookLabel ?? "Official Facebook page"}</span>
-              <ExternalLink aria-hidden="true" />
-            </a>
+            <div className="detail-source-list">
+              <a
+                className="detail-source-link official-fb-inline-link"
+                href={official.facebookUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FacebookIcon size={15} />
+                <span>{official.facebookLabel ?? "Official Facebook page"}</span>
+                <ExternalLink aria-hidden="true" />
+              </a>
+            </div>
           )}
           <p className="source-availability-note">
             {official.source.label} · reviewed {official.source.verifiedOn}
@@ -4050,28 +4052,42 @@ function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) 
           <div><dt>Official communication</dt><dd>{item.contacts?.join(" · ") ?? "Not published in the reviewed source"}</dd></div>
           <div><dt>School microsite URL</dt><dd>{item.subdomainHost ? `https://${item.subdomainHost}` : "Generated after registry verification"}</dd></div>
         </dl>
-        <section className="education-profile-section">
-          <span className="eyebrow">Announcements and official channels</span>
-          <h2>{item.announcements.mode}</h2>
-          <p>{item.announcements.mode === "Not configured" ? "No official Facebook page or announcement feed has been independently configured for this institution. BetterMC does not scrape private or restricted social content." : "Use the published official channel for enrolment, admissions, suspensions, scholarships, and calendar updates."}</p>
-          {item.announcements.externalUrl && <a className="button secondary" href={item.announcements.externalUrl} target="_blank" rel="noreferrer">Open official channel <ExternalLink aria-hidden="true" /></a>}
-        </section>
-        <section className="education-profile-section">
-          <span className="eyebrow">Transportation and accessibility</span>
-          <h2>{item.transport.status === "Verified" ? "Published access information" : "Transport information not yet verified"}</h2>
-          <p>{item.transport.note}</p>
-          <a className="button secondary" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Open map search <ExternalLink aria-hidden="true" /></a>
-        </section>
+        <div className="education-channels-grid">
+          <section className="education-profile-section">
+            <span className="eyebrow">Announcements and official channels</span>
+            <h2>{item.announcements.mode}</h2>
+            <p>{item.announcements.mode === "Not configured" ? "No official Facebook page or announcement feed has been independently configured for this institution. BetterMC does not scrape private or restricted social content." : "Use the published official channel for enrolment, admissions, suspensions, scholarships, and calendar updates."}</p>
+            {item.announcements.externalUrl && <a className="button secondary compact-action" href={item.announcements.externalUrl} target="_blank" rel="noreferrer">Open official channel <ExternalLink aria-hidden="true" /></a>}
+          </section>
+          <section className="education-profile-section">
+            <span className="eyebrow">Transportation and accessibility</span>
+            <h2>{item.transport.status === "Verified" ? "Published access information" : "Transport information not yet verified"}</h2>
+            <p>{item.transport.note}</p>
+            <a className="button secondary compact-action" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Open map search <ExternalLink aria-hidden="true" /></a>
+          </section>
+        </div>
       </article>
       <aside className="legislation-source-card">
         <MapPin aria-hidden="true" /><span className="eyebrow">Source ledger</span><h2>Confirm before visiting</h2>
-        <SchoolLogo item={item} />
-        <p className="source-availability-note">Logo status: {item.logoStatus ?? "Unavailable"}. BetterMC does not substitute another institution’s mark.</p>
         <p>The map opens a Google Maps search using the source-listed address. BetterMC does not claim an exact pin where none was published by the institution or agency.</p>
         <a className="button primary" href={item.source.url} target="_blank" rel="noreferrer">Open source listing <ExternalLink aria-hidden="true" /></a>
-        {item.subdomainHost && <a className="button secondary" href={`https://${item.subdomainHost}`} target="_blank" rel="noreferrer">Open school subdomain <ExternalLink aria-hidden="true" /></a>}
-        {item.officialLinks?.map((link) => <a className="civic-source-link" key={link.url} href={link.url} target="_blank" rel="noreferrer">{link.label} <ExternalLink aria-hidden="true" /></a>)}
-        <p className="source-availability-note">{item.source.label} · {item.source.type} · reviewed {item.source.verifiedOn}</p>
+        {item.subdomainHost && (
+          <div className="detail-source-list">
+            <a className="detail-source-link" href={`https://${item.subdomainHost}`} target="_blank" rel="noreferrer">
+              Open school subdomain <ExternalLink aria-hidden="true" />
+            </a>
+          </div>
+        )}
+        {item.officialLinks?.length ? (
+          <div className="detail-source-list">
+            {item.officialLinks.map((link) => (
+              <a className="detail-source-link" key={link.url} href={link.url} target="_blank" rel="noreferrer">
+                {link.label} <ExternalLink aria-hidden="true" />
+              </a>
+            ))}
+          </div>
+        ) : null}
+        <p className="source-availability-note">{item.source.label} · {item.source.type} · reviewed {item.source.verifiedOn} · Logo: {item.logoStatus ?? "Unavailable"}</p>
       </aside>
     </section>
   </>;
@@ -4139,21 +4155,31 @@ function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" 
           <p className="proceeding-note">{procurement?.approvedAmountNote}</p>
         </>}
         {procurement?.videoUrl && <FacebookVideo url={procurement.videoUrl} title={procurement.projectName} poster="/images/bac-meeting-2026-11-18.jpg" />}
-        <div className="proceeding-media-status">
-          <CircleAlert aria-hidden="true" />
-          <div>
-            <h3>{procurement?.videoUrl ? "Transcript status" : "Video and transcript"}</h3>
-            <p>{procurement?.videoUrl ? "The original Facebook video is linked above. No reviewed verbatim transcript or verified timestamps have been published for this recording. The procurement notes on this page come from separately cited documents." : "No direct playable recording or reviewed transcript is attached to this record. The source link below opens the original publication or document."}</p>
-            {sourceUrl.includes("facebook.com") && <a href={sourceUrl} target="_blank" rel="noopener noreferrer">Open original Facebook post <ExternalLink aria-hidden="true" /></a>}
-          </div>
-        </div>
       </article>
       <aside className="proceeding-detail-source">
         <span className="eyebrow">Source and status</span>
         <h2>Check the original</h2>
-        {hearing?.verificationNotes && <p>{hearing.verificationNotes}</p>}
-        <a className="button secondary" href={sourceUrl} target="_blank" rel="noopener noreferrer">{sourceLabel} <ExternalLink aria-hidden="true" /></a>
-        {hearing?.recordingOrReferenceUrl && <a href={hearing.recordingOrReferenceUrl} target="_blank" rel="noopener noreferrer">{hearing.recordingOrReferenceLabel ?? "Related reference"} <ExternalLink aria-hidden="true" /></a>}
+        {hearing?.verificationNotes && <p className="proceeding-source-note">{hearing.verificationNotes}</p>}
+        <div className="detail-source-list">
+          <a className="detail-source-link" href={sourceUrl} target="_blank" rel="noopener noreferrer">
+            <span>{sourceLabel}</span>
+            <ExternalLink aria-hidden="true" />
+          </a>
+          {hearing?.recordingOrReferenceUrl && (
+            <a className="detail-source-link" href={hearing.recordingOrReferenceUrl} target="_blank" rel="noopener noreferrer">
+              <span>{hearing.recordingOrReferenceLabel ?? "Related reference"}</span>
+              <ExternalLink aria-hidden="true" />
+            </a>
+          )}
+        </div>
+        <div className="proceeding-media-status">
+          <CircleAlert aria-hidden="true" />
+          <div>
+            <h3>{procurement?.videoUrl ? "Transcript status" : "Video and transcript"}</h3>
+            <p>{procurement?.videoUrl ? "The original Facebook video is linked beside this card. No reviewed verbatim transcript or verified timestamps have been published for this recording. The procurement notes come from separately cited documents." : "No direct playable recording or reviewed transcript is attached to this record. Use the source link above to open the original publication."}</p>
+            {sourceUrl.includes("facebook.com") && <a className="detail-source-link" href={sourceUrl} target="_blank" rel="noopener noreferrer">Open original Facebook post <ExternalLink aria-hidden="true" /></a>}
+          </div>
+        </div>
       </aside>
     </section>
   </>;
@@ -4499,7 +4525,13 @@ function LegislationDetailPage() {
           >
             Open official source <ExternalLink aria-hidden="true" />
           </a>
-          {record.documentUrl && <a className="button secondary" href={record.documentUrl} target="_blank" rel="noreferrer">Read the ordinance scan <ExternalLink aria-hidden="true" /></a>}
+          {record.documentUrl && (
+            <div className="detail-source-list">
+              <a className="detail-source-link" href={record.documentUrl} target="_blank" rel="noreferrer">
+                Read the ordinance scan <ExternalLink aria-hidden="true" />
+              </a>
+            </div>
+          )}
           <p className="source-availability-note">
             If the official website is temporarily unavailable, this BetterMC
             summary remains accessible but does not replace the original text.
