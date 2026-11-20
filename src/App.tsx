@@ -7895,7 +7895,16 @@ export default function App() {
             )
           }
         />
-        <Route path="/transparency" element={<TransparencyPage />} />
+        <Route
+          path="/transparency"
+          element={
+            officeSubdomainSlug === "sp" ? (
+              <OfficeLandingPage slugOverride="sp" />
+            ) : (
+              <TransparencyPage />
+            )
+          }
+        />
         <Route path="/budget" element={<BudgetTransparencyPage />} />
         <Route path="/hearings" element={<LegislativeHearingsPage />} />
         <Route path="/recordings/:id" element={<CivicRecordingPage />} />

@@ -163,4 +163,90 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
       expect(within(region).getByText(expectedPerson)).toBeInTheDocument();
     }
   });
+
+  it("shows BetterMC Home on /offices/sp, hides it on sp.bettermalaybalay.cloud/transparency, and preserves SP emblem & other microsites", () => {
+    const originalLocation = window.location;
+
+    const renderWithHostname = (hostname: string, entryPath: string) => {
+      cleanup();
+      Object.defineProperty(window, "location", {
+        configurable: true,
+        value: { ...originalLocation, hostname, pathname: entryPath, search: "" },
+      });
+      render(
+        <MemoryRouter initialEntries={[entryPath]}>
+          <App />
+        </MemoryRouter>,
+      );
+    };
+
+    try {
+      renderWithHostname("www.bettermalaybalay.cloud", "/offices/sp");
+      expect(
+        screen.getByRole("heading", {
+          name: "Office of the Sangguniang Panlungsod & SP Secretariat",
+        }),
+      ).toBeInTheDocument();
+      expect(screen.getByAltText("Sangguniang Panlungsod official emblem")).toHaveAttribute(
+        "src",
+        "/images/offices/sangguniang-panlungsod.jpg",
+      );
+      const officeMain = screen.getByRole("main");
+      const officeNav = within(officeMain).getByRole("navigation", {
+        name: /main portal navigation/i,
+      });
+      expect(within(officeNav).getByRole("link", { name: /BetterMC Home/i })).toHaveAttribute(
+        "href",
+        "/",
+      );
+      expect(officeMain.querySelectorAll(".microsite-home-button")).toHaveLength(1);
+
+      renderWithHostname("sp.bettermalaybalay.cloud", "/transparency");
+      expect(
+        screen.getByRole("heading", {
+          name: "Office of the Sangguniang Panlungsod & SP Secretariat",
+        }),
+      ).toBeInTheDocument();
+      expect(screen.getByAltText("Sangguniang Panlungsod official emblem")).toHaveAttribute(
+        "src",
+        "/images/offices/sangguniang-panlungsod.jpg",
+      );
+      const spTransparencyMain = screen.getByRole("main");
+      expect(
+        within(spTransparencyMain).queryByRole("navigation", { name: /main portal navigation/i }),
+      ).not.toBeInTheDocument();
+      expect(
+        within(spTransparencyMain).queryByRole("link", { name: /BetterMC Home/i }),
+      ).not.toBeInTheDocument();
+      expect(document.querySelectorAll(".microsite-home-button")).toHaveLength(0);
+      expect(
+        screen.queryByRole("heading", { name: /City Transparency/i }),
+      ).not.toBeInTheDocument();
+
+      renderWithHostname("sp.bettermalaybalay.cloud", "/");
+      expect(
+        screen.getByRole("heading", {
+          name: "Office of the Sangguniang Panlungsod & SP Secretariat",
+        }),
+      ).toBeInTheDocument();
+      const spRootMain = screen.getByRole("main");
+      expect(
+        within(spRootMain).queryByRole("link", { name: /BetterMC Home/i }),
+      ).not.toBeInTheDocument();
+      expect(document.querySelectorAll(".microsite-home-button")).toHaveLength(0);
+
+      renderWithHostname("mayor.bettermalaybalay.cloud", "/");
+      expect(screen.getByRole("heading", { name: "Office of the City Mayor" })).toBeInTheDocument();
+      const mayorNav = screen.getByRole("navigation", { name: /main portal navigation/i });
+      expect(within(mayorNav).getByRole("link", { name: /BetterMC Home/i })).toHaveAttribute(
+        "href",
+        "https://www.bettermalaybalay.cloud",
+      );
+    } finally {
+      Object.defineProperty(window, "location", {
+        configurable: true,
+        value: originalLocation,
+      });
+    }
+  });
 });

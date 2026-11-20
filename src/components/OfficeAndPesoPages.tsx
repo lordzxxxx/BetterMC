@@ -815,6 +815,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
   const mapUrl = mapsSearchHref(office.mapQuery, office.coordinates);
   const isHostSubdomain =
     typeof window !== "undefined" && Boolean(officeSlugFromHostname(window.location.hostname, ""));
+  const hideSpMicrositeHomeButton = office.slug === "sp" && isHostSubdomain;
 
   return (
     <div className="office-landing-page">
@@ -844,22 +845,24 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
           </div>
 
           <div className="office-hero-copy">
-            <nav
-              className="microsite-home-nav"
-              aria-label={`${office.shortName} main portal navigation`}
-            >
-              {isHostSubdomain ? (
-                <a href={MAIN_BETTERMC_URL} className="microsite-home-button">
-                  <ArrowLeft aria-hidden="true" />
-                  <span>BetterMC Home</span>
-                </a>
-              ) : (
-                <Link to="/" className="microsite-home-button">
-                  <ArrowLeft aria-hidden="true" />
-                  <span>BetterMC Home</span>
-                </Link>
-              )}
-            </nav>
+            {!hideSpMicrositeHomeButton ? (
+              <nav
+                className="microsite-home-nav"
+                aria-label={`${office.shortName} main portal navigation`}
+              >
+                {isHostSubdomain ? (
+                  <a href={MAIN_BETTERMC_URL} className="microsite-home-button">
+                    <ArrowLeft aria-hidden="true" />
+                    <span>BetterMC Home</span>
+                  </a>
+                ) : (
+                  <Link to="/" className="microsite-home-button">
+                    <ArrowLeft aria-hidden="true" />
+                    <span>BetterMC Home</span>
+                  </Link>
+                )}
+              </nav>
+            ) : null}
 
             <p className="office-hero-classification">{office.classification}</p>
             <h1>{office.name}</h1>

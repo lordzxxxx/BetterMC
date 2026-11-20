@@ -284,4 +284,88 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
     );
     expect(hasMobileOverflow).toBe(false);
   });
+
+  test("separates /offices/sp City Office page from sp subdomain microsite and preserves undistorted SP emblem", async ({
+    page,
+    baseURL,
+  }) => {
+    const base = new URL(baseURL || "http://127.0.0.1:5173");
+    const assertHeroSpLogoUndistorted = async () => {
+      const logo = page.locator(".office-logo-frame.is-hero img");
+      await expect(logo).toBeVisible();
+      await expect(logo).toHaveAttribute("src", "/images/offices/sangguniang-panlungsod.jpg");
+      const metrics = await logo.evaluate((img: HTMLImageElement) => {
+        const rect = img.getBoundingClientRect();
+        return {
+          complete: img.complete,
+          naturalWidth: img.naturalWidth,
+          naturalHeight: img.naturalHeight,
+          width: rect.width,
+          height: rect.height,
+        };
+      });
+      expect(metrics.complete).toBe(true);
+      expect(metrics.naturalWidth).toBeGreaterThan(0);
+      expect(metrics.naturalHeight).toBeGreaterThan(0);
+      const naturalRatio = metrics.naturalWidth / metrics.naturalHeight;
+      const renderedRatio = metrics.width / metrics.height;
+      expect(Math.abs(naturalRatio - renderedRatio)).toBeLessThan(0.05);
+    };
+
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto("/offices/sp");
+    await expect(
+      page.getByRole("heading", { name: "Office of the Sangguniang Panlungsod & SP Secretariat" }),
+    ).toBeVisible();
+    const officeHomeBtn = page.locator(".microsite-home-button");
+    await expect(officeHomeBtn).toHaveCount(1);
+    await expect(officeHomeBtn).toContainText("BetterMC Home");
+    await expect(officeHomeBtn).toHaveAttribute("href", "/");
+    await assertHeroSpLogoUndistorted();
+
+    await page.setViewportSize({ width: 320, height: 740 });
+    const officeMobileOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth + 1,
+    );
+    expect(officeMobileOverflow).toBe(false);
+
+    const spUrl = new URL(base.toString());
+    spUrl.hostname = "sp.localhost";
+    spUrl.pathname = "/transparency";
+
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto(spUrl.toString());
+    await expect(
+      page.getByRole("heading", { name: "Office of the Sangguniang Panlungsod & SP Secretariat" }),
+    ).toBeVisible();
+    await expect(page.locator(".microsite-home-button")).toHaveCount(0);
+    await expect(page.locator(".microsite-home-nav")).toHaveCount(0);
+    await expect(page.getByText(/City Offices \(35\)/i)).toHaveCount(0);
+    await assertHeroSpLogoUndistorted();
+
+    await page.setViewportSize({ width: 320, height: 740 });
+    const spMobileOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth + 1,
+    );
+    expect(spMobileOverflow).toBe(false);
+    await expect(page.locator(".microsite-home-button")).toHaveCount(0);
+
+    spUrl.pathname = "/";
+    await page.goto(spUrl.toString());
+    await expect(
+      page.getByRole("heading", { name: "Office of the Sangguniang Panlungsod & SP Secretariat" }),
+    ).toBeVisible();
+    await expect(page.locator(".microsite-home-button")).toHaveCount(0);
+
+    const mayorUrl = new URL(base.toString());
+    mayorUrl.hostname = "mayor.localhost";
+    mayorUrl.pathname = "/";
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto(mayorUrl.toString());
+    await expect(page.getByRole("heading", { name: "Office of the City Mayor" })).toBeVisible();
+    const mayorHomeBtn = page.locator(".microsite-home-button");
+    await expect(mayorHomeBtn).toHaveCount(1);
+    await expect(mayorHomeBtn).toContainText("BetterMC Home");
+    await expect(mayorHomeBtn).toHaveAttribute("href", "https://www.bettermalaybalay.cloud");
+  });
 });
