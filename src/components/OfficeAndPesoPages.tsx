@@ -929,17 +929,19 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
         </div>
       </section>
 
-      <nav className="office-local-nav" aria-label={`${office.shortName} page sections`}>
-        <div className="container">
-          <a href="#about">About</a>
-          <a href="#personnel">Officials &amp; Personnel</a>
-          <a href="#mandate">Mandate &amp; Divisions</a>
-          <a href="#services">Public Services ({office.services.length})</a>
-          {office.slug === "peso" ? <a href="#job-opportunities">Job Opportunities</a> : null}
-          <a href="#programs">Programs &amp; Bodies</a>
-          <a href="#sources">Contacts &amp; Sources</a>
-        </div>
-      </nav>
+      {!isHostSubdomain ? (
+        <nav className="office-local-nav" aria-label={`${office.shortName} page sections`}>
+          <div className="container">
+            <a href="#about">About</a>
+            <a href="#personnel">Officials &amp; Personnel</a>
+            <a href="#mandate">Mandate &amp; Divisions</a>
+            <a href="#services">Public Services ({office.services.length})</a>
+            {office.slug === "peso" ? <a href="#job-opportunities">Job Opportunities</a> : null}
+            <a href="#programs">Programs &amp; Bodies</a>
+            <a href="#sources">Contacts &amp; Sources</a>
+          </div>
+        </nav>
+      ) : null}
 
       <section className="section container office-content-sections">
         <section id="about" className="office-about-section" aria-labelledby="office-about-heading">

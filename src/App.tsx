@@ -118,6 +118,7 @@ import {
 } from "./barangayProfiles";
 import {
   governmentOfficeBySlug,
+  MAIN_BETTERMC_URL,
   officeSlugFromHostname,
 } from "./governmentOffices";
 import { INITIAL_PESO_OPPORTUNITIES } from "./pesoData";
@@ -128,6 +129,11 @@ import {
   OfficeLandingPage,
   PesoPortalPage,
 } from "./components/OfficeAndPesoPages";
+import { MicrositeHeader } from "./components/MicrositeHeader";
+import {
+  resolveStandaloneMicrosite,
+  type MicrositeHeaderContext,
+} from "./micrositeContext";
 import {
   BAC_2026_SOURCE,
   BAC_2026_VERIFIED_ON,
@@ -179,6 +185,7 @@ import { searchPortal } from "./searchIndex";
 import {
   documentGuides,
   educationOffices,
+  educationInstitutionBySlug,
   educationInstitutions,
   schoolSlugFromHostname,
   type EducationInstitution,
@@ -305,12 +312,14 @@ function FacebookIcon({
 function Brand({
   title = "Better Malaybalay City",
   subtitle = "Independent public information",
+  externalHref,
 }: {
   title?: string;
   subtitle?: string;
+  externalHref?: string;
 }) {
-  return (
-    <Link className="brand" to="/" aria-label="BetterMC home">
+  const inner = (
+    <>
       <span className="brand-assets" aria-hidden="true">
         <span className="brand-main" />
         <span className="brand-wordmark" />
@@ -319,6 +328,18 @@ function Brand({
         <strong>{title}</strong>
         {subtitle ? <small>{subtitle}</small> : null}
       </span>
+    </>
+  );
+  if (externalHref) {
+    return (
+      <a className="brand" href={externalHref} aria-label="BetterMC main platform">
+        {inner}
+      </a>
+    );
+  }
+  return (
+    <Link className="brand" to="/" aria-label="BetterMC home">
+      {inner}
     </Link>
   );
 }
@@ -719,7 +740,24 @@ function Header() {
   );
 }
 
-function Footer() {
+const FOOTER_PORTAL_LINKS = [
+  { to: "/offices", label: "City Offices & Sectors" },
+  { to: "/services", label: "Public Services Guide" },
+  { to: "/barangays", label: "All 46 Barangays" },
+  { to: "/government", label: "Officials & Measures" },
+  { to: "/transparency", label: "Transparency records" },
+  { to: "/budget", label: "Budget transparency" },
+  { to: "/hearings", label: "Legislative hearings" },
+  { to: "/procurement/livestreams", label: "Procurement and BAC recordings" },
+  { to: "/about", label: "About & methodology" },
+  { to: "/participate", label: "Submit a correction" },
+] as const;
+
+function Footer({
+  standaloneMicrosite = null,
+}: {
+  standaloneMicrosite?: MicrositeHeaderContext | null;
+}) {
   return (
     <footer className="site-footer">
       <section className="container footer-transparency-promise" aria-labelledby="footer-transparency-title">
@@ -737,7 +775,7 @@ function Footer() {
       </section>
       <div className="container footer-grid">
         <section className="footer-intro" aria-labelledby="footer-purpose">
-          <Brand />
+          <Brand externalHref={standaloneMicrosite ? MAIN_BETTERMC_URL : undefined} />
           <div>
             <span id="footer-purpose">Public information, made useful</span>
             <p>
@@ -751,16 +789,17 @@ function Footer() {
           aria-label="Footer navigation"
         >
           <h2>Explore BetterMC</h2>
-          <Link to="/offices">City Offices &amp; Sectors</Link>
-          <Link to="/services">Public Services Guide</Link>
-          <Link to="/barangays">All 46 Barangays</Link>
-          <Link to="/government">Officials &amp; Measures</Link>
-          <Link to="/transparency">Transparency records</Link>
-          <Link to="/budget">Budget transparency</Link>
-          <Link to="/hearings">Legislative hearings</Link>
-          <Link to="/procurement/livestreams">Procurement and BAC recordings</Link>
-          <Link to="/about">About &amp; methodology</Link>
-          <Link to="/participate">Submit a correction</Link>
+          {FOOTER_PORTAL_LINKS.map((item) =>
+            standaloneMicrosite ? (
+              <a key={item.to} href={`${MAIN_BETTERMC_URL}${item.to}`}>
+                {item.label}
+              </a>
+            ) : (
+              <Link key={item.to} to={item.to}>
+                {item.label}
+              </Link>
+            ),
+          )}
           <a
             className="footer-icon-link"
             href="mailto:bettermc.org@gmail.com"
@@ -946,6 +985,16 @@ function Layout({ children }: { children: ReactNode }) {
     }
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [hash, locationKey, navigationType]);
+  const standaloneMicrosite =
+    typeof window === "undefined" ? null : resolveStandaloneMicrosite(window.location.hostname);
+
+  useEffect(() => {
+    document.body.classList.toggle("is-microsite", Boolean(standaloneMicrosite));
+    return () => {
+      document.body.classList.remove("is-microsite");
+    };
+  }, [standaloneMicrosite]);
+
   useEffect(() => {
     const hostOfficeSlug =
       typeof window === "undefined"
@@ -956,15 +1005,30 @@ function Layout({ children }: { children: ReactNode }) {
       : pathname.startsWith("/offices/")
         ? governmentOfficeBySlug.get(pathname.slice("/offices/".length))
         : undefined;
+    const hostBarangaySlug =
+      typeof window === "undefined"
+        ? null
+        : barangaySlugFromHostname(window.location.hostname, search);
+    const barangayProfile = hostBarangaySlug
+      ? barangayMicrositeBySlug.get(hostBarangaySlug)
+      : pathname.startsWith("/barangays/")
+        ? barangayMicrositeBySlug.get(pathname.slice("/barangays/".length))
+        : undefined;
+    const hostSchoolSlug =
+      typeof window === "undefined"
+        ? null
+        : schoolSlugFromHostname(window.location.hostname, search);
     const jobDetailMatch =
       pathname.startsWith("/jobs/")
         ? INITIAL_PESO_OPPORTUNITIES.find((item) => pathname === `/jobs/${item.slug}`)
         : pathname.startsWith("/peso/jobs/")
           ? INITIAL_PESO_OPPORTUNITIES.find((item) => pathname === `/peso/jobs/${item.slug}`)
           : undefined;
-    const educationProfile = pathname.startsWith("/education/")
-      ? educationInstitutions.find((institution) => pathname === `/education/${institution.slug}`)
-      : undefined;
+    const educationProfile = hostSchoolSlug
+      ? educationInstitutionBySlug.get(hostSchoolSlug)
+      : pathname.startsWith("/education/")
+        ? educationInstitutions.find((institution) => pathname === `/education/${institution.slug}`)
+        : undefined;
     const recording = pathname.startsWith("/recordings/")
       ? civicRecordings.find((item) => pathname === `/recordings/${item.id}`)
       : undefined;
@@ -974,9 +1038,11 @@ function Layout({ children }: { children: ReactNode }) {
         ? { title: `${jobDetailMatch.title} | PESO Malaybalay · BetterMC`, description: `${jobDetailMatch.employer} — ${jobDetailMatch.location}` }
         : activeOfficeProfile
           ? { title: `${activeOfficeProfile.shortName} (${activeOfficeProfile.acronym}) | BetterMC`, description: activeOfficeProfile.overview }
-          : educationProfile
-            ? { ...pageMetadata["/education"], title: `${educationProfile.name} | BetterMC` }
-            : pageMetadata[pathname] ?? pageMetadata["/"];
+          : barangayProfile
+            ? { title: `Barangay ${barangayProfile.name} | BetterMC`, description: barangayProfile.description }
+            : educationProfile
+              ? { ...pageMetadata["/education"], title: `${educationProfile.name} | BetterMC` }
+              : pageMetadata[pathname] ?? pageMetadata["/"];
     const canonical = `${window.location.origin}${pathname}`;
     document.title = metadata.title;
     updateDocumentMeta("description", metadata.description);
@@ -987,10 +1053,10 @@ function Layout({ children }: { children: ReactNode }) {
   }, [pathname, search]);
   return (
     <>
-      <Header />
+      {standaloneMicrosite ? <MicrositeHeader context={standaloneMicrosite} /> : <Header />}
       <main id="main">{children}</main>
-      <Footer />
-      <MobileAppTabBar />
+      <Footer standaloneMicrosite={standaloneMicrosite} />
+      {standaloneMicrosite ? null : <MobileAppTabBar />}
     </>
   );
 }
@@ -4017,16 +4083,24 @@ function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) 
   const { slug } = useParams<{ slug: string }>();
   const item = educationInstitutions.find((entry) => entry.slug === (slugOverride ?? slug));
   if (!item) return <NotFoundPage />;
+  const isHostSchoolSubdomain =
+    typeof window !== "undefined" && Boolean(schoolSlugFromHostname(window.location.hostname, ""));
   const staffingSummary = item.teacherCount != null
     ? `${item.teacherCount.toLocaleString()} teachers${item.classroomCount != null ? ` · ${item.classroomCount.toLocaleString()} classrooms` : ""} (SY 2024–25)`
     : null;
   return <>
     <PageHero eyebrow="School profile" title={item.name} description={`${item.type} · ${item.levels.join(" · ")}${item.district ? ` · ${item.district}` : ""}`} compact>
-      <Link className="page-hero-backlink" to="/education">Return to education directory <ArrowRight aria-hidden="true" /></Link>
+      {isHostSchoolSubdomain ? (
+        <a className="page-hero-backlink" href={`${MAIN_BETTERMC_URL}/education`}>
+          All Malaybalay schools on BetterMC <ExternalLink aria-hidden="true" />
+        </a>
+      ) : (
+        <Link className="page-hero-backlink" to="/education">Return to education directory <ArrowRight aria-hidden="true" /></Link>
+      )}
     </PageHero>
     <section className="section container civic-detail-layout">
       <article className="civic-detail-main">
-        <section className="education-profile-intro">
+        <section id="overview" className="education-profile-intro">
           <div className="education-profile-head">
             <SchoolLogo item={item} />
             <div>
@@ -4059,7 +4133,7 @@ function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) 
             </div>
           </div>
         </section>
-        <dl className="legislation-detail-facts">
+        <dl id="facts" className="legislation-detail-facts">
           <div><dt>School ID</dt><dd>{item.schoolId ?? "Not published in the reviewed source"}</dd></div>
           <div><dt>Address</dt><dd>{item.address}</dd></div>
           <div><dt>Barangay</dt><dd>{item.barangay ?? "Not published in the reviewed source"}</dd></div>
@@ -4072,7 +4146,7 @@ function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) 
           <div><dt>Official communication</dt><dd>{item.contacts?.join(" · ") ?? "Walk-in at campus or via DepEd Malaybalay City Division (0907-688-9009 / malaybalay.city@deped.gov.ph)"}</dd></div>
           <div><dt>School microsite URL</dt><dd>{item.subdomainHost ? `https://${item.subdomainHost}` : "Generated after registry verification"}</dd></div>
         </dl>
-        <div className="education-channels-grid">
+        <div id="channels" className="education-channels-grid">
           <section className="education-profile-section">
             <span className="eyebrow">Announcements and official channels</span>
             <h2>{item.announcements.mode}</h2>
@@ -4087,14 +4161,21 @@ function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) 
           </section>
         </div>
       </article>
-      <aside className="legislation-source-card">
+      <aside id="sources" className="legislation-source-card">
         <MapPin aria-hidden="true" /><span className="eyebrow">Source ledger</span><h2>Confirm before visiting</h2>
         <p>The map opens a Google Maps search using the source-listed address. BetterMC does not claim an exact pin where none was published by the institution or agency.</p>
         <a className="button primary" href={item.source.url} target="_blank" rel="noreferrer">Open source listing <ExternalLink aria-hidden="true" /></a>
-        {item.subdomainHost && (
+        {item.subdomainHost && !isHostSchoolSubdomain && (
           <div className="detail-source-list">
             <a className="detail-source-link" href={`https://${item.subdomainHost}`} target="_blank" rel="noreferrer">
               Open school subdomain <ExternalLink aria-hidden="true" />
+            </a>
+          </div>
+        )}
+        {isHostSchoolSubdomain && (
+          <div className="detail-source-list">
+            <a className="detail-source-link" href={`${MAIN_BETTERMC_URL}/education/${item.slug}`}>
+              View school profile on BetterMC <ExternalLink aria-hidden="true" />
             </a>
           </div>
         )}
@@ -5296,6 +5377,8 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
 
   if (!profile) return <NotFoundPage />;
 
+  const isHostBarangaySubdomain =
+    typeof window !== "undefined" && Boolean(barangaySlugFromHostname(window.location.hostname, ""));
   const roster = profile.officialRoster;
   const disclosure = profile.fullDisclosure;
   const normalizedDisclosureQuery = disclosureQuery.trim().toLowerCase();
@@ -5433,22 +5516,24 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
         </div>
       </section>
 
-      <nav
-        className="barangay-local-nav"
-        aria-label={`${profile.name} page sections`}
-      >
-        <div className="container">
-          <a href="#about">About</a>
-          <a href="#leadership">Officials</a>
-          <a href="#disclosure">Full disclosure</a>
-          <a href="#projects">2026 BAC notices</a>
-          <a href="#map">Map</a>
-          <a href="#committees">Committees</a>
-          <a href="#services">Services</a>
-          <a href="#contacts">Contacts</a>
-          <a href="#emergency">Emergency</a>
-        </div>
-      </nav>
+      {!isHostBarangaySubdomain ? (
+        <nav
+          className="barangay-local-nav"
+          aria-label={`${profile.name} page sections`}
+        >
+          <div className="container">
+            <a href="#about">About</a>
+            <a href="#leadership">Officials</a>
+            <a href="#disclosure">Full disclosure</a>
+            <a href="#projects">2026 BAC notices</a>
+            <a href="#map">Map</a>
+            <a href="#committees">Committees</a>
+            <a href="#services">Services</a>
+            <a href="#contacts">Contacts</a>
+            <a href="#emergency">Emergency</a>
+          </div>
+        </nav>
+      ) : null}
 
       <div className="barangay-profile-main container">
         <section id="about" className="barangay-profile-section barangay-about">
@@ -5935,9 +6020,18 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
             Availability, documents, fees, and schedules can vary. Confirm
             directly with the barangay before travelling.
           </SectionHeading>
-          <Link className="button secondary barangay-document-link" to={`/documents/barangays/${profile.slug}`}>
-            Open Barangay {profile.name} document guide <ArrowRight aria-hidden="true" />
-          </Link>
+          {isHostBarangaySubdomain ? (
+            <a
+              className="button secondary barangay-document-link"
+              href={`${MAIN_BETTERMC_PORTAL.url}/documents/barangays/${profile.slug}`}
+            >
+              Open Barangay {profile.name} document guide <ExternalLink aria-hidden="true" />
+            </a>
+          ) : (
+            <Link className="button secondary barangay-document-link" to={`/documents/barangays/${profile.slug}`}>
+              Open Barangay {profile.name} document guide <ArrowRight aria-hidden="true" />
+            </Link>
+          )}
           <div className="barangay-services-grid">
             {profile.serviceAreas.map((service) => (
               <article key={service.title}>
