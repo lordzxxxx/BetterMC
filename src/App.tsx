@@ -128,7 +128,6 @@ import {
   JobsDirectoryPage,
   OfficeDirectoryBrowser,
   OfficeLandingPage,
-  PesoAdminPage,
   PesoPortalPage,
 } from "./components/OfficeAndPesoPages";
 import {
@@ -233,10 +232,6 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
   "/jobs": {
     title: "Malaybalay job vacancies, job fairs & programs | BetterMC",
     description: "Search active PESO Malaybalay programs, job fair details, and CSC Form No. 9 government vacancy archives.",
-  },
-  "/admin/peso": {
-    title: "PESO Admin Publishing Workspace | BetterMC",
-    description: "Authorized workspace for publishing and managing PESO Malaybalay job and livelihood opportunities.",
   },
   "/barangays": {
     title: "Malaybalay barangays | BetterMC",
@@ -7857,8 +7852,6 @@ export default function App() {
         <Route path="/peso/jobs/:slug" element={<JobDetailPage />} />
         <Route path="/jobs" element={<JobsDirectoryPage />} />
         <Route path="/jobs/:slug" element={<JobDetailPage />} />
-        <Route path="/admin/peso" element={<PesoAdminPage />} />
-        <Route path="/peso/admin" element={<PesoAdminPage />} />
         <Route path="/barangays" element={<BarangaysPage />} />
         <Route path="/barangays/:slug" element={<BarangayProfilePage />} />
         <Route path="/services" element={<ServicesPage />} />

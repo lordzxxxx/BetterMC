@@ -56,7 +56,7 @@ Research review date: **2026-11-13 (Asia/Manila)**
 ## Addendum (2026-11-20): Expanded City Government Offices, Sectors & PESO Inventory
 
 - **Detailed 35-Office & 18-Local-Special-Body Inventory:** See [`docs/GOVERNMENT_OFFICES_INVENTORY.md`](./GOVERNMENT_OFFICES_INVENTORY.md).
-- **Subdomains, Database Schema & Admin Workflow:** See [`docs/SUBDOMAINS_AND_ADMIN.md`](./SUBDOMAINS_AND_ADMIN.md).
+- **Subdomains & Code-Managed PESO Workflow:** See [`docs/SUBDOMAINS_AND_PESO.md`](./SUBDOMAINS_AND_PESO.md).
 - **Citizen's Charter 2026 Primary Source:** `https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/CITIZENS-CHARTER-2026.pdf` (739 pages).
 - **PESO Official Facebook Page:** `https://www.facebook.com/profile.php?id=61589180493733`.
 - **CSC Form No. 9 (2024 4th Tranche) Reference:** `https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2025/04/CS-Form-No-9-Publication-2024-4th-Tranche-1-1.pdf` (closed Aug 31, 2024; automatically flagged Expired).

@@ -1,62 +1,66 @@
-import { resolveOpportunityLifecycle } from "../src/pesoData";
 import {
-  authenticateAdminRequest,
-  jsonResponse,
-  loadMergedOpportunities,
-} from "./_lib/pesoSecurity";
+  INITIAL_PESO_OPPORTUNITIES,
+  resolveOpportunityLifecycle,
+} from "../src/pesoData";
 
 export const config = {
   runtime: "edge",
 };
+
+function jsonResponse(
+  body: unknown,
+  status = 200,
+  extraHeaders?: Record<string, string>,
+): Response {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "public, max-age=300, stale-while-revalidate=3600",
+      "X-Content-Type-Options": "nosniff",
+      "Cross-Origin-Resource-Policy": "same-origin",
+      ...extraHeaders,
+    },
+  });
+}
 
 export async function GET(request: Request): Promise<Response> {
   const url = new URL(request.url);
   const typeFilter = url.searchParams.get("type")?.trim() ?? "";
   const statusFilter = url.searchParams.get("status")?.trim() ?? "";
   const queryFilter = url.searchParams.get("q")?.trim().toLowerCase() ?? "";
-  const includeDraftsRequested = url.searchParams.get("includeDrafts") === "1";
 
-  const auth = includeDraftsRequested
-    ? await authenticateAdminRequest(request)
-    : { authenticated: false };
-
-  const store = await loadMergedOpportunities();
   const now = new Date();
-
-  const items = store.opportunities
-    .map((opportunity) => ({
-      ...opportunity,
-      lifecycle: resolveOpportunityLifecycle(opportunity, now),
-    }))
-    .filter((item) => {
-      if (!item.lifecycle.isVisibleToPublic && !auth.authenticated) {
-        return false;
-      }
-      if (typeFilter && typeFilter !== "all" && item.opportunityType !== typeFilter) {
-        return false;
-      }
-      if (statusFilter && statusFilter !== "all" && item.lifecycle.displayStatus !== statusFilter) {
-        return false;
-      }
-      if (queryFilter) {
-        const haystack = [
-          item.title,
-          item.employer,
-          item.location,
-          item.description,
-          item.salaryGradeOrCompensation ?? "",
-          ...item.qualifications,
-        ]
-          .join(" ")
-          .toLowerCase();
-        if (!haystack.includes(queryFilter)) return false;
-      }
-      return true;
-    });
+  const items = INITIAL_PESO_OPPORTUNITIES.map((opportunity) => ({
+    ...opportunity,
+    lifecycle: resolveOpportunityLifecycle(opportunity, now),
+  })).filter((item) => {
+    if (!item.lifecycle.isVisibleToPublic) return false;
+    if (typeFilter && typeFilter !== "all" && item.opportunityType !== typeFilter) {
+      return false;
+    }
+    if (statusFilter && statusFilter !== "all" && item.lifecycle.displayStatus !== statusFilter) {
+      return false;
+    }
+    if (queryFilter) {
+      const haystack = [
+        item.title,
+        item.employer,
+        item.location,
+        item.description,
+        item.salaryGradeOrCompensation ?? "",
+        ...item.qualifications,
+      ]
+        .join(" ")
+        .toLowerCase();
+      if (!haystack.includes(queryFilter)) return false;
+    }
+    return true;
+  });
 
   return jsonResponse({
     ok: true,
-    persistenceMode: store.persistenceMode,
+    source: "code-managed",
     total: items.length,
     opportunities: items,
   });

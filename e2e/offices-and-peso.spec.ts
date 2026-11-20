@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Government Offices Directory, Subdomains, PESO Hub & Admin", () => {
+test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
   test("renders /offices cleanly across desktop and 320px mobile with valid logo images", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/offices");
@@ -64,25 +64,16 @@ test.describe("Government Offices Directory, Subdomains, PESO Hub & Admin", () =
     ).toBeVisible();
   });
 
-  test("publishes a PESO opportunity in Admin preview mode and reflects it on /jobs", async ({ page }) => {
+  test("cross-links /services/employment cleanly to /peso and /jobs", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto("/admin/peso");
+    await page.goto("/services/employment");
 
-    await expect(
-      page.getByRole("heading", { name: /PESO Job & Livelihood Admin Workspace/i }),
-    ).toBeVisible();
-
-    await page.getByPlaceholder(/Store Accounting Clerk/i).fill("Field Enumerator — Local E2E Check");
-    await page.getByPlaceholder(/Verified employer name from PESO post/i).fill("Malaybalay Partner Agency");
-    await page.getByPlaceholder(/Transcribe verified details/i).fill(
-      "Conducts barangay field surveys across assigned puroks in Malaybalay City.",
-    );
-    await page.getByPlaceholder(/BS Accountancy graduate/i).fill("At least 2 years in college");
-
-    await page.getByRole("button", { name: /Publish Opportunity/i }).click();
-    await expect(page.getByText(/in browser Local Preview/i)).toBeVisible();
+    await page.getByRole("link", { name: /Open PESO Hub & Jobs/i }).click();
+    await expect(page).toHaveURL(/\/peso$/);
 
     await page.goto("/jobs");
-    await expect(page.getByRole("link", { name: "Field Enumerator — Local E2E Check" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Job Vacancies, Job Fairs & Livelihood Programs/i }),
+    ).toBeVisible();
   });
 });

@@ -22042,54 +22042,10 @@ pre {
 .job-detail-sidebar { display: grid; gap: 16px; }
 .job-detail-cta-stack { display: grid; gap: 8px; margin-top: 16px; }
 
-/* PESO Admin Workspace */
-.peso-admin-section { display: grid; gap: 20px; }
-.peso-admin-status-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 18px; background: #f8fbff; }
-.peso-admin-status-info { display: flex; align-items: flex-start; gap: 12px; max-width: 72ch; }
-.peso-admin-status-info svg { width: 22px; height: 22px; flex: none; color: #174a94; margin-top: 2px; }
-.peso-admin-status-info h2 { margin: 0 0 4px; font-size: 1.08rem; }
-.peso-admin-status-info p { margin: 0; font-size: .88rem; color: #3a4f68; }
-.peso-admin-auth-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-.peso-admin-login-form { display: flex; flex-wrap: wrap; gap: 8px; }
-.peso-admin-login-form input { min-height: 38px; padding: 0 10px; border: 1px solid #c3d7ee; border-radius: 8px; font: inherit; }
-
-.peso-admin-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(290px, 1fr); gap: 20px; align-items: start; }
-.peso-admin-form { padding: 20px; display: grid; gap: 14px; }
-.peso-admin-form-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.peso-admin-form-header h2 { margin: 0; font-size: 1.15rem; }
-.peso-admin-form label { display: grid; gap: 5px; font-size: .84rem; font-weight: 700; color: #2b425e; }
-.peso-admin-form input[type="text"],
-.peso-admin-form input[type="url"],
-.peso-admin-form input[type="date"],
-.peso-admin-form input[type="number"],
-.peso-admin-form select,
-.peso-admin-form textarea { width: 100%; min-width: 0; padding: 9px 11px; border: 1px solid #c6daef; border-radius: 8px; background: #fff; font: inherit; font-weight: 500; color: #10243e; }
-.peso-form-row-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.peso-form-row-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-.peso-checkbox-label { display: flex !important; align-items: center; gap: 8px; padding-top: 20px; cursor: pointer; }
-.peso-checkbox-label input { width: 18px; height: 18px; }
-.peso-form-submit-row { display: flex; flex-wrap: wrap; gap: 10px; }
-.peso-form-feedback { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 9px; font-size: .88rem; font-weight: 600; }
-.peso-form-feedback.is-ok { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
-.peso-form-feedback.is-error { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
-.peso-form-feedback svg { width: 17px; height: 17px; flex: none; }
-
-.peso-admin-list-panel { padding: 18px; display: grid; gap: 12px; max-height: 920px; overflow-y: auto; }
-.peso-admin-list-panel h2 { margin: 0; font-size: 1.08rem; }
-.peso-admin-items { display: grid; gap: 10px; }
-.peso-admin-item-row { display: grid; gap: 8px; padding: 12px; border: 1px solid #dce8f5; border-radius: 10px; background: #f9fcff; }
-.peso-admin-item-info h3 { margin: 4px 0 2px; font-size: .94rem; }
-.peso-admin-item-info h3 a { color: #10243e; text-decoration: none; }
-.peso-admin-item-info small { color: #4f647d; }
-.peso-admin-item-actions { display: flex; flex-wrap: wrap; gap: 6px; }
-.peso-admin-item-actions button { min-height: 32px; padding: 4px 10px; border: 1px solid #c6daef; border-radius: 7px; background: #fff; color: #174a94; font: inherit; font-size: .78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
-.peso-admin-item-actions button.is-danger { border-color: #f3c4c4; color: #a11a1a; }
-.peso-admin-item-actions button svg { width: 14px; height: 14px; }
-
 .offices-empty-state { display: grid; justify-items: center; gap: 10px; padding: 32px 18px; text-align: center; }
 
 @media (max-width: 900px) {
-  .office-hero-grid, .job-detail-layout, .peso-admin-grid { grid-template-columns: minmax(0, 1fr); }
+  .office-hero-grid, .job-detail-layout { grid-template-columns: minmax(0, 1fr); }
   .peso-search-row, .peso-form-row-2, .peso-form-row-3 { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 480px) {

@@ -1,15 +1,10 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import App from "./App";
 import { PESO_FACEBOOK_PAGE_URL } from "./pesoData";
 
-describe("Malaybalay Offices, PESO Hub, Job Details & Admin UI", () => {
-  beforeEach(() => {
-    window.localStorage?.clear();
-    vi.restoreAllMocks();
-  });
-
+describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
   it("renders the searchable 35+ City Offices & Local Special Bodies directory at /offices", () => {
     render(
       <MemoryRouter initialEntries={["/offices"]}>
@@ -67,7 +62,6 @@ describe("Malaybalay Offices, PESO Hub, Job Details & Admin UI", () => {
     );
     expect(screen.getByText(/Public Services Offered \(10\)/i)).toBeInTheDocument();
 
-    // Active recurring programs are shown initially; expired historical CS Form 9 vacancies toggle via tab
     expect(
       screen.queryByRole("link", { name: "Planning Officer IV" }),
     ).not.toBeInTheDocument();
@@ -88,28 +82,13 @@ describe("Malaybalay Offices, PESO Hub, Job Details & Admin UI", () => {
     expect(screen.getByText(/Salary Grade 22 — ₱74,836.00 \/ month/i)).toBeInTheDocument();
   });
 
-  it("allows creating and previewing a new PESO job posting in /admin/peso when storage is unprovisioned", async () => {
+  it("cross-links /services/employment directly to the PESO Malaybalay Hub", () => {
     render(
-      <MemoryRouter initialEntries={["/admin/peso"]}>
+      <MemoryRouter initialEntries={["/services/employment"]}>
         <App />
       </MemoryRouter>,
     );
 
-    fireEvent.change(screen.getByPlaceholderText(/Store Accounting Clerk/i), {
-      target: { value: "IT Support Technician — Local Test Firm" },
-    });
-    fireEvent.change(screen.getByPlaceholderText(/Verified employer name from PESO post/i), {
-      target: { value: "Malaybalay Verified Employer" },
-    });
-    fireEvent.change(screen.getByPlaceholderText(/Transcribe verified details/i), {
-      target: { value: "Handles office hardware and LAN maintenance across Malaybalay branch." },
-    });
-    fireEvent.change(screen.getByPlaceholderText(/BS Accountancy graduate/i), {
-      target: { value: "BS Information Technology or NC II CSS" },
-    });
-
-    fireEvent.click(screen.getByRole("button", { name: /Publish Opportunity/i }));
-    expect(await screen.findByText(/in browser Local Preview/i)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "IT Support Technician — Local Test Firm" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Open PESO Hub & Jobs/i })).toHaveAttribute("href", "/peso");
   });
 });
