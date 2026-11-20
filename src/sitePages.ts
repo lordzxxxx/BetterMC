@@ -1,3 +1,5 @@
+import { governmentOffices } from "./governmentOffices";
+
 export type SitePageLink = {
   label: string;
   description: string;
@@ -6,7 +8,7 @@ export type SitePageLink = {
 
 export const sitePages: SitePageLink[] = [
   { label: "Home", description: "City overview, weather, and civic directories", to: "/" },
-  { label: "City Offices", description: "35 city offices, personnel, PESO & special bodies", to: "/offices" },
+  { label: "City Offices", description: `${governmentOffices.length} city offices, personnel, PESO & special bodies`, to: "/offices" },
   { label: "Public services", description: "City and national service pathways", to: "/services" },
   { label: "Barangays", description: "Profiles for all 46 barangays", to: "/barangays" },
   { label: "Government", description: "Officials and published measures", to: "/government" },

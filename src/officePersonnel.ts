@@ -500,7 +500,7 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
         ],
       },
       {
-        unitName: "Information Campaign, Facility Care & Administrative Support",
+        unitName: "Public Services, Custodial & Facility Care",
         members: [
           { name: "Margie S. Tabios", position: "Public Services Officer III" },
           { name: "Everlita S. Rubillos", position: "Computer Operator II (Administrative Support)" },
@@ -587,8 +587,8 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
       {
         unitName: "Division Leadership",
         members: [
-          { name: "Arnel S. Alagenio", position: "Executive Assistant V - Designate" },
-          { name: "Salvador U. Yacapin", position: "OIC / Licensing Officer IV" },
+          { name: "Arnel S. Alagenio", position: "Executive Assistant V - Designate (Also OIC City Civil Registrar)" },
+          { name: "Salvador U. Yacapin", position: "OIC / Licensing Officer IV (Also OIC City ENRO)" },
           { name: "Aimee Joy B. Binayao", position: "Administrative Aide IV (Clerk II)" },
         ],
       },
@@ -627,7 +627,7 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
       {
         unitName: "Materials Quality Control and Monitoring Unit",
         members: [
-          { name: "Virgo B. Jenisan", position: "Engineer IV" },
+          { name: "Engr. Virgo B. Jenisan", position: "Engineer IV" },
           { name: "Wilfredo G. Valdez", position: "Laboratory Technician I" },
         ],
       },
@@ -711,6 +711,15 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
           { name: "Jerry V. Tan", position: "Mechanic II" },
           { name: "Armand A. Kiamco", position: "Assistant Equipment Inspector I" },
           { name: "Rogelio P. Salinay, Jr.", position: "Laborer I" },
+          { name: "Fernando C. Taglinao, Jr.", position: "Administrative Aide / Laborer I" },
+        ],
+      },
+      {
+        unitName: "Motor Pool Division — Painting, Fabrication & Maintenance Section",
+        members: [
+          { name: "Norben C. Sarento", position: "Welder II" },
+          { name: "Ernesto M. Borja, Jr.", position: "Electrician II (Automotive)" },
+          { name: "Romeo R. Arengo", position: "Welder I" },
         ],
       },
     ],
@@ -731,6 +740,7 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
         members: [
           { name: "Floredel F. Tinoy", position: "Project Development Section OIC / Agriculturist II" },
           { name: "Raiza Rose Michaela B. Enguio", position: "Aquaculturist II (Project Development)" },
+          { name: "Phoebe Jane E. Leono", position: "Agricultural Technologist / GIS Mapper (Project Development, Charter 2026)" },
           { name: "Rajane R. Paurom", position: "Senior Agriculturist (Monitoring & Evaluation)" },
           { name: "Gecel Q. Ocon", position: "Agriculturist II (Monitoring & Evaluation)" },
           { name: "Trisha Margaret T. Bustos", position: "Agriculturist I (Monitoring & Evaluation)" },
@@ -791,6 +801,61 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
           { name: "Roiland J. Leono", position: "Agriculturist II (Rice Team)" },
           { name: "Henry D. Alimpipinig", position: "Administrative Assistant II (Rice Team)" },
           { name: "Donna Mae P. Casaclang", position: "Agriculturist I (Rice Team)" },
+        ],
+      },
+      {
+        unitName: "HVCDP Team (High-Value Crops Development Program)",
+        members: [
+          { name: "Joan Marie A. Diola", position: "Agriculturist II" },
+          { name: "Jeramil M. Simborio", position: "Agriculturist II" },
+          { name: "Ivy M. Suclatan", position: "Agriculturist II" },
+          { name: "Marianne Y. Melendez", position: "Administrative Assistant II" },
+          { name: "Merian G. Ybañez", position: "Agriculturist I" },
+          { name: "Rechie J. Ellevera", position: "Agriculturist I" },
+          { name: "Jenalyn C. Avergozado", position: "Administrative Aide" },
+          { name: "Vilma L. Guyo", position: "Administrative Aide" },
+          { name: "Maria Christy Joy D. Sumbongan", position: "Administrative Aide" },
+        ],
+      },
+      {
+        unitName: "Organic Agriculture Team",
+        members: [
+          { name: "France Guiller R. Buquiran", position: "Agriculturist I" },
+          { name: "Niño Jan M. Pabillaran", position: "Administrative Assistant II" },
+          { name: "Jerry O. Deligero", position: "Administrative Aide" },
+          { name: "Darylene R. Tuala", position: "Administrative Aide" },
+        ],
+      },
+      {
+        unitName: "Corn Team",
+        members: [
+          { name: "Myra S. Abejuela", position: "Agriculturist II" },
+          { name: "Lucell P. Carpentero", position: "Agriculturist II" },
+          { name: "Regiema A. Manaay", position: "Agriculturist II" },
+          { name: "Lord C'zar E. Emata", position: "Administrative Aide I / Utility Worker I" },
+          { name: "Sushmita L. Panangin", position: "Agriculturist I" },
+          { name: "Florante M. Tangara", position: "Agriculturist I" },
+          { name: "Mark John T. Pocong", position: "Agriculturist I" },
+        ],
+      },
+      {
+        unitName: "City Nursery & Warehouse Unit",
+        members: [
+          { name: "Erwin T. Cacay", position: "Farm Worker II (City Nursery)" },
+          { name: "Denacio M. Yatab", position: "Administrative Aide IV (City Nursery)" },
+          { name: "Frank Juris P. Rara", position: "Administrative Aide IV (City Nursery)" },
+          { name: "Bryan G. Dihayco", position: "Administrative Aide (City Nursery)" },
+          { name: "Elizabeth G. Bacus", position: "Administrative Aide (City Nursery)" },
+          { name: "Manuel C. Gilot", position: "Administrative Aide (City Nursery)" },
+          { name: "Giovannie S. Rojo", position: "Administrative Aide (City Nursery)" },
+          { name: "Romeo T. Beltran, Jr.", position: "Administrative Aide (City Nursery)" },
+          { name: "Elma D. Abutanmo", position: "Administrative Aide (City Nursery)" },
+          { name: "Leonidas S. Ginoo", position: "Administrative Aide (City Nursery)" },
+          { name: "John Lloyd L. Cuerquiz", position: "Administrative Aide (City Nursery)" },
+          { name: "Elona Jane L. Odino", position: "Administrative Aide (City Nursery)" },
+          { name: "Cherry Q. Sison", position: "Administrative Aide (City Nursery)" },
+          { name: "Helen C. Catalla", position: "Administrative Aide (City Nursery)" },
+          { name: "Jujit Q. Tagailo", position: "Farm Worker II (Warehouse In-Charge)" },
         ],
       },
       {
@@ -937,7 +1002,10 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
       {
         unitName: "Office Leadership",
         members: [
-          { name: "Arnel S. Alagenio", position: "Department Head / Officer-in-Charge, City Civil Registry Office" },
+          {
+            name: "Arnel S. Alagenio",
+            position: "Department Head / OIC City Civil Registrar (Concurrent Executive Assistant V-Designate at BPLD)",
+          },
         ],
       },
     ],
@@ -946,7 +1014,7 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
     sourceLabel: "2026 Citizen's Charter (CHO, pp. 335–387), CY 2026 APP Summary & BAC Structure",
     sourceUrl: CHARTER_2026_URL,
     unitNotes:
-      "Clinical divisions documented in the 2026 Citizen's Charter include Communicable Disease Division (Animal Bite Treatment Center, NTP), Non-Communicable Disease Division (Room 2, Physical Therapy Unit, Upper Pulangui Lying-In Clinic), Family Health Cluster Division, Forensic & Environmental Sanitation Health Division, Pharmacy Section, Laboratory Section, and Radiology Section.",
+      "Includes Main City Health Office clinics (Communicable & Non-Communicable Disease Divisions, Animal Bite Treatment Center, NTP, Pharmacy, Laboratory, Radiology, Dental, and Family Health Cluster) alongside CHO-Nutrition, Upper Pulangui Lying-In Clinic (Mapulo), and the POPDEV Section under City Health Officer supervision.",
     additionalSources: [
       { label: "CY 2026 Annual Procurement Plan Summary", url: APP_2026_URL },
       { label: "Bids and Awards Committee Structure", url: SAKATA_BAC_URL },
@@ -955,15 +1023,17 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
       {
         unitName: "Office Leadership",
         members: [
-          { name: "Dr. Dennis P. Sangalang, MD", position: "City Health Officer II (CHO, Nutrition, Mapulo & POPDEV)" },
+          { name: "Dr. Dennis P. Sangalang, MD", position: "City Health Officer II (CHO Main, CHO-Nutrition, CHO-Mapulo & CHO-POPDEV)" },
         ],
       },
       {
-        unitName: "Verified Clinical & Pharmacy Personnel (2026 Charter)",
+        unitName: "Verified Clinical, Mental Health & Pharmacy Personnel (2026 Charter)",
         members: [
-          { name: "Dr. Ann Michelle Go", position: "City Health Pharmacist (Pharmacy & Medication Dispensing)" },
+          { name: "Dr. Ann Michelle Go", position: "City Health Pharmacist (Pharmacy & Mental Health Medication Dispensing)" },
           { name: "Frances Charmaine A. Lazalita, RN", position: "Nurse, Non-Communicable Disease Division" },
           { name: "Kesie Joy S. Inatalio, RN", position: "Nurse, Non-Communicable Disease Division" },
+          { name: "Shelleme O. Macatol", position: "Mental Health GAP Assessment & Intervention Staff" },
+          { name: "Gazel A. Dela Cruz", position: "Mental Health GAP Assessment & Intervention Staff" },
         ],
       },
     ],
@@ -992,10 +1062,11 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
         ],
       },
       {
-        unitName: "Research, Planning, Training & Logistics Sections",
+        unitName: "Research, Planning, Training & Operations Sections",
         members: [
           { name: "Sony Dabe R. Belderol", position: "LDRRM Officer IV (Research & Planning Division)" },
           { name: "Kenneth Amiel M. Taylor", position: "Section Head, Training & Logistics Division" },
+          { name: "Michele Sales", position: "Section Head, CCTV Command Center (CCC / Operations & Warnings)" },
         ],
       },
     ],
@@ -1038,7 +1109,10 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
       {
         unitName: "Office Leadership",
         members: [
-          { name: "Salvador U. Yacapin", position: "Department Head / Officer-in-Charge, City ENRO" },
+          {
+            name: "Salvador U. Yacapin",
+            position: "Department Head / OIC City ENRO (Concurrent Licensing Officer IV at BPLD)",
+          },
         ],
       },
     ],
@@ -1057,6 +1131,12 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
         unitName: "Office Leadership",
         members: [
           { name: "Dr. Michele C. Miquiabas, DVM", position: "City Veterinarian (Department Head / BAC Alternate Member)" },
+        ],
+      },
+      {
+        unitName: "Verified Livestock & Technical Personnel (2026 Charter)",
+        members: [
+          { name: "Alexis I. Flores II", position: "Livestock Technician / Swine Artificial Insemination (0927-703-8993)" },
         ],
       },
     ],
@@ -1190,8 +1270,8 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
       {
         unitName: "Station Command",
         members: [
+          { name: "PLtCol. Ariel Philip I. Pontillas", position: "Officer-in-Charge, Malaybalay City Police Station (Command Dispatch)" },
           { name: "PLtCol. Joepet Baldonado Paglinawan", position: "Chief of Police, Malaybalay City Police Station (CY 2026 APP)" },
-          { name: "PLtCol. Ariel Philip Pontillas", position: "Officer-in-Charge, Malaybalay City Police Station (Command Dispatch)" },
         ],
       },
     ],
@@ -1227,6 +1307,66 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
           { name: "Engr. Leslie T. Fontanilla", position: "Division Engineer (SGOD)" },
           { name: "Dr. Sarline O. Flores", position: "Medical Officer / School Health Responder Lead" },
           { name: "Paul John Arias", position: "Division Technical / ICT Lead (MANCOM)" },
+        ],
+      },
+    ],
+  },
+  prosecutor: {
+    sourceLabel: "DOJ National Prosecution Service Directory & CY 2026 Annual Procurement Plan Summary",
+    sourceUrl: APP_2026_URL,
+    unitNotes:
+      "National prosecution office serving Malaybalay City from the Hall of Justice, Capitol Compound, supported by the City Government under the CY 2026 Annual Procurement Plan (₱385,000 local support allocation).",
+    groups: [
+      {
+        unitName: "Office Leadership",
+        members: [
+          {
+            name: "Pros. Claver C. Ariño",
+            position: "City Prosecutor, DOJ National Prosecution Service (listed as Claver C. Aniño in CY 2026 APP Summary)",
+          },
+        ],
+      },
+    ],
+  },
+  coa: {
+    sourceLabel: "CY 2026 Annual Procurement Plan Summary & COA Region X Directory",
+    sourceUrl: APP_2026_URL,
+    unitNotes:
+      "Resident audit team assigned under the Commission on Audit (COA) Regional Office No. X Local Government Audit Sector (LGAS — Bukidnon), receiving LGU logistical support under the CY 2026 APP (₱1,338,624 allocation).",
+    groups: [
+      {
+        unitName: "Audit Team Leadership",
+        members: [
+          { name: "Ricster P. Jabien", position: "Audit Team Leader, COA Malaybalay City (CY 2026 APP)" },
+        ],
+      },
+    ],
+  },
+  bjmp: {
+    sourceLabel: "CY 2026 Annual Procurement Plan Summary & BJMP Regional Records",
+    sourceUrl: APP_2026_URL,
+    unitNotes:
+      "Administers custodial management and PDL welfare/reformation programs at Malaybalay City District Jail (Brgy. Patpat), receiving local LGU support across BJMP-Main (₱1,233,000) and BJMP-Reformatory Center (₱800,944) in the CY 2026 APP.",
+    groups: [
+      {
+        unitName: "Facility Command & Reformatory Center",
+        members: [
+          { name: "JInsp. Murphy B. Todyog", position: "Jail Officer / Unit Head — BJMP-Main (CY 2026 APP)" },
+          { name: "JCInsp. Haidee G. Macandili", position: "Jail Warden / Head — BJMP-Reformatory Center (CY 2026 APP)" },
+        ],
+      },
+    ],
+  },
+  "parole-probation": {
+    sourceLabel: "DOJ Parole and Probation Administration Directory & CY 2026 Annual Procurement Plan Summary",
+    sourceUrl: APP_2026_URL,
+    unitNotes:
+      "Field office under the DOJ Parole and Probation Administration operating from the Hall of Justice, Capitol Compound (covering Malaybalay City, Lantapan, Impasug-ong, Sumilao, and Cabanglasan), receiving ₱571,230 local support in the CY 2026 APP.",
+    groups: [
+      {
+        unitName: "Field Office Leadership",
+        members: [
+          { name: "Dennah E. Vivares", position: "Chief Probation and Parole Officer (CY 2026 APP Summary)" },
         ],
       },
     ],

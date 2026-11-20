@@ -11,7 +11,6 @@ import {
   Clock,
   Download,
   ExternalLink,
-  FileCheck,
   Filter,
   Globe,
   Info,
@@ -44,7 +43,6 @@ import {
   type OpportunityDisplayStatus,
   type OpportunityType,
 } from "../pesoData";
-import { VERIFIED_ON } from "../data";
 
 function safeHref(raw?: string): string | null {
   if (!raw) return null;
@@ -122,14 +120,6 @@ function formatWebsiteLabel(url: string, acronym: string): { title: string; host
     return { title: `${acronym} Official Website`, host };
   } catch {
     return { title: "Official Website", host: url };
-  }
-}
-
-function formatSourceHost(url: string): string {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return url;
   }
 }
 
@@ -872,7 +862,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
   const personnelEntry = officePersonnelBySlug[office.slug];
   const filteredServices = office.services.filter((service) => {
     if (!serviceSearch.trim()) return true;
-    return [service.title, service.whoMayAvail ?? "", ...(service.requirements ?? [])]
+    return [service.title, service.description ?? "", service.whoMayAvail ?? "", ...(service.requirements ?? [])]
       .join(" ")
       .toLowerCase()
       .includes(serviceSearch.trim().toLowerCase());
@@ -906,10 +896,12 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                 <Building2 aria-hidden="true" />
               )}
             </div>
-            <div className="office-bettermc-mark">
-              <img src="/bettermc1.png" alt="" aria-hidden="true" decoding="async" />
-              <span>Powered by BetterMC</span>
-            </div>
+            {!isHostSubdomain ? (
+              <div className="office-bettermc-mark">
+                <img src="/bettermc1.png" alt="" aria-hidden="true" decoding="async" />
+                <span>Powered by BetterMC</span>
+              </div>
+            ) : null}
           </div>
 
           <div className="office-hero-copy">
@@ -1006,7 +998,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
             <a href="#services">Public Services ({office.services.length})</a>
             {office.slug === "peso" ? <a href="#job-opportunities">Job Opportunities</a> : null}
             <a href="#programs">Programs &amp; Bodies</a>
-            <a href="#sources">Contacts &amp; Sources</a>
+            <a href="#sources">Contacts</a>
           </div>
         </nav>
       ) : null}
@@ -1042,10 +1034,6 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                         ? `${personnelTotal} documented personnel are listed below.`
                         : "Visit the frontline counter during office hours or call the contact numbers above."}
                     </p>
-                    <p>
-                      <strong>Walk-in location &amp; hours:</strong> {office.address} ·{" "}
-                      {office.operatingHours}
-                    </p>
                   </div>
                 </div>
                 <div className="office-about-metrics" aria-label="Verified office summary">
@@ -1064,8 +1052,8 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                     </strong>
                   </div>
                   <div>
-                    <span>Charter Reference</span>
-                    <strong>{office.charterChapterRef || "City Directory 2026"}</strong>
+                    <span>Office Hours</span>
+                    <strong>{office.operatingHours}</strong>
                   </div>
                 </div>
               </div>
@@ -1078,28 +1066,26 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
           className="office-personnel-section bettermc-surface-card"
           aria-labelledby="office-personnel-heading"
         >
-          <div className="office-section-head">
-            <div>
-              <span className="office-section-eyebrow">Directory &amp; Accountability</span>
-              <h2 id="office-personnel-heading">Officials &amp; Assigned Personnel</h2>
-              <p className="office-section-subtitle">
-                Documented officials and unit personnel assigned to {office.shortName}, organized
-                by functional division so residents know whom to approach.
-              </p>
-            </div>
-            {personnelEntry ? (
-              <div className="office-personnel-total-badge">
-                <Users aria-hidden="true" />
-                <span>
-                  {personnelEntry.groups.reduce((sum, group) => sum + group.members.length, 0)}{" "}
-                  documented{" "}
-                  {personnelEntry.groups.reduce((sum, group) => sum + group.members.length, 0) === 1
-                    ? "official"
-                    : "personnel"}
-                </span>
+          {(() => {
+            const personnelTotal =
+              personnelEntry?.groups.reduce((sum, group) => sum + group.members.length, 0) ?? 0;
+            const unitCount = personnelEntry?.groups.length ?? 0;
+            return (
+              <div className="office-section-head">
+                <div>
+                  <span className="office-section-eyebrow">Directory &amp; Accountability</span>
+                  <h2 id="office-personnel-heading">Officials &amp; Assigned Personnel</h2>
+                  <p className="office-section-subtitle">
+                    Documented officials and unit personnel assigned to {office.shortName}, organized
+                    by functional division so residents know whom to approach.
+                    {personnelTotal > 0
+                      ? ` (${personnelTotal} documented ${personnelTotal === 1 ? "official" : "personnel"} across ${unitCount} ${unitCount === 1 ? "unit" : "units"})`
+                      : ""}
+                  </p>
+                </div>
               </div>
-            ) : null}
-          </div>
+            );
+          })()}
 
           {personnelEntry ? (
             <>
@@ -1178,19 +1164,6 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
               {personnelEntry.unitNotes ? (
                 <p className="office-personnel-unit-notes">{personnelEntry.unitNotes}</p>
               ) : null}
-              <div className="office-personnel-source">
-                <span className="office-personnel-source-label">Verified Staffing Source:</span>
-                <a href={personnelEntry.sourceUrl} target="_blank" rel="noopener noreferrer">
-                  <span>{personnelEntry.sourceLabel}</span>
-                  <ExternalLink aria-hidden="true" />
-                </a>
-                {personnelEntry.additionalSources?.map((extra) => (
-                  <a key={extra.url} href={extra.url} target="_blank" rel="noopener noreferrer">
-                    <span>{extra.label}</span>
-                    <ExternalLink aria-hidden="true" />
-                  </a>
-                ))}
-              </div>
             </>
           ) : (
             <div className="office-personnel-fallback">
@@ -1229,11 +1202,6 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
           <article className="bettermc-surface-card office-mandate-card">
             <h2>Official Mandate &amp; Responsibility</h2>
             <p>{office.mandate}</p>
-            {office.charterChapterRef ? (
-              <p className="office-charter-ref">
-                <FileCheck aria-hidden="true" /> Reference: {office.charterChapterRef}
-              </p>
-            ) : null}
           </article>
 
           <article className="bettermc-surface-card office-divisions-card">
@@ -1305,6 +1273,9 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                     ) : null}
                   </div>
 
+                  {service.description ? (
+                    <p className="office-service-desc">{service.description}</p>
+                  ) : null}
                   {service.whoMayAvail ? (
                     <p className="office-service-elig">Who may avail: {service.whoMayAvail}</p>
                   ) : null}
@@ -1369,171 +1340,139 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
           <article className="office-sources-card bettermc-surface-card">
             <div className="office-card-header-stack">
               <span className="office-section-eyebrow">Direct Channels &amp; Links</span>
-              <h2>All Verified Contacts &amp; Platforms</h2>
+              <h2 id="office-sources-heading">All Verified Contacts &amp; Platforms</h2>
             </div>
 
-            <div className="office-contact-summary-grid">
-              <div className="office-contact-meta-card">
-                <span className="office-channel-icon" aria-hidden="true">
-                  <MapPin />
-                </span>
-                <div>
-                  <small>Office Counter</small>
-                  <p>{office.address}</p>
-                </div>
-              </div>
-              <div className="office-contact-meta-card">
-                <span className="office-channel-icon" aria-hidden="true">
-                  <Clock />
-                </span>
-                <div>
-                  <small>Operating Hours</small>
-                  <p>{office.operatingHours}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="office-channel-group">
-              <h3>Phone Numbers &amp; Emails</h3>
-              <div className="office-channel-list">
-                {office.phoneNumbers.map((phone, index) => (
-                  <a
-                    key={phone}
-                    className="office-channel-card"
-                    href={telHref(phone)}
-                  >
-                    <span className="office-channel-icon" aria-hidden="true">
-                      <Phone />
-                    </span>
-                    <span className="office-channel-body">
-                      <small>{index === 0 ? "Primary Line" : `Alternate Line ${index + 1}`}</small>
-                      <strong>{phone}</strong>
-                    </span>
-                  </a>
-                ))}
-                {office.emails.map((email) =>
-                  isDeliverableEmail(email) ? (
+            <div className="office-contacts-split">
+              <div className="office-channel-group">
+                <h3>Phone Numbers &amp; Emails</h3>
+                <div className="office-channel-list">
+                  {office.phoneNumbers.map((phone, index) => (
                     <a
-                      key={email}
+                      key={phone}
                       className="office-channel-card"
-                      href={`mailto:${email.trim()}`}
+                      href={telHref(phone)}
                     >
                       <span className="office-channel-icon" aria-hidden="true">
-                        <Mail />
+                        <Phone />
                       </span>
                       <span className="office-channel-body">
-                        <small>Official Email</small>
-                        <strong>{email.trim()}</strong>
+                        <small>{index === 0 ? "Primary Line" : `Alternate Line ${index + 1}`}</small>
+                        <strong>{phone}</strong>
                       </span>
                     </a>
-                  ) : (
-                    <div key={email} className="office-channel-card is-static">
-                      <span className="office-channel-icon" aria-hidden="true">
-                        <Mail />
-                      </span>
-                      <span className="office-channel-body">
-                        <small>Published Email (confirm address typo before sending)</small>
-                        <strong>{email}</strong>
-                      </span>
-                    </div>
-                  ),
-                )}
+                  ))}
+                  {office.emails.map((email) =>
+                    isDeliverableEmail(email) ? (
+                      <a
+                        key={email}
+                        className="office-channel-card"
+                        href={`mailto:${email.trim()}`}
+                      >
+                        <span className="office-channel-icon" aria-hidden="true">
+                          <Mail />
+                        </span>
+                        <span className="office-channel-body">
+                          <small>Official Email</small>
+                          <strong>{email.trim()}</strong>
+                        </span>
+                      </a>
+                    ) : (
+                      <div key={email} className="office-channel-card is-static">
+                        <span className="office-channel-icon" aria-hidden="true">
+                          <Mail />
+                        </span>
+                        <span className="office-channel-body">
+                          <small>Published Email (confirm address typo before sending)</small>
+                          <strong>{email}</strong>
+                        </span>
+                      </div>
+                    ),
+                  )}
+                </div>
               </div>
-            </div>
 
-            <div className="office-channel-group">
-              <h3>Online Platforms &amp; Locations</h3>
-              <div className="office-platform-grid">
-                {fbSafe ? (
+              <div className="office-channel-group">
+                <h3>Online Platforms &amp; Locations</h3>
+                <div className="office-platform-grid">
+                  {fbSafe ? (
+                    <a
+                      className="office-platform-card is-fb"
+                      href={fbSafe}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FbGlyph size={18} />
+                      <span className="office-channel-body">
+                        <strong>Official Facebook Page</strong>
+                        <small>Announcements &amp; updates</small>
+                      </span>
+                      <ExternalLink aria-hidden="true" />
+                    </a>
+                  ) : null}
+                  {webSafe
+                    ? (() => {
+                        const webMeta = formatWebsiteLabel(webSafe, office.acronym);
+                        return (
+                          <a
+                            className="office-platform-card"
+                            href={webSafe}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Globe aria-hidden="true" />
+                            <span className="office-channel-body">
+                              <strong>{webMeta.title}</strong>
+                              <small>{webMeta.host}</small>
+                            </span>
+                            <ExternalLink aria-hidden="true" />
+                          </a>
+                        );
+                      })()
+                    : null}
                   <a
-                    className="office-platform-card is-fb"
-                    href={fbSafe}
+                    className="office-platform-card"
+                    href={mapUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <FbGlyph size={18} />
+                    <MapPin aria-hidden="true" />
                     <span className="office-channel-body">
-                      <strong>Official Facebook Page</strong>
-                      <small>Announcements &amp; updates</small>
+                      <strong>Directions / Google Maps</strong>
+                      <small>{office.cardLocation ?? office.barangay}</small>
                     </span>
                     <ExternalLink aria-hidden="true" />
                   </a>
-                ) : null}
-                {webSafe
-                  ? (() => {
-                      const webMeta = formatWebsiteLabel(webSafe, office.acronym);
-                      return (
-                        <a
-                          className="office-platform-card"
-                          href={webSafe}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Globe aria-hidden="true" />
-                          <span className="office-channel-body">
-                            <strong>{webMeta.title}</strong>
-                            <small>{webMeta.host}</small>
-                          </span>
-                          <ExternalLink aria-hidden="true" />
-                        </a>
-                      );
-                    })()
-                  : null}
-                <a
-                  className="office-platform-card"
-                  href={mapUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <MapPin aria-hidden="true" />
-                  <span className="office-channel-body">
-                    <strong>Directions / Google Maps</strong>
-                    <small>{office.cardLocation ?? office.barangay}</small>
-                  </span>
-                  <ExternalLink aria-hidden="true" />
-                </a>
-                <a
-                  className="office-platform-card"
-                  href={office.subdomainUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Building2 aria-hidden="true" />
-                  <span className="office-channel-body">
-                    <strong>Office Microsite URL</strong>
-                    <small>{office.subdomainHost}</small>
-                  </span>
-                  <ExternalLink aria-hidden="true" />
-                </a>
+                  {!isHostSubdomain ? (
+                    <a
+                      className="office-platform-card"
+                      href={office.subdomainUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Building2 aria-hidden="true" />
+                      <span className="office-channel-body">
+                        <strong>Office Microsite URL</strong>
+                        <small>{office.subdomainHost}</small>
+                      </span>
+                      <ExternalLink aria-hidden="true" />
+                    </a>
+                  ) : null}
+                </div>
               </div>
             </div>
-          </article>
 
-          <article className="office-sources-card bettermc-surface-card">
-            <div className="office-card-header-stack">
-              <span className="office-section-eyebrow">Source Ledger</span>
-              <h2 id="office-sources-heading">Official Primary Sources · Reviewed {VERIFIED_ON}</h2>
-            </div>
-            <ul className="office-source-list">
-              {office.sources.map((src) => (
-                <li key={`${src.label}-${src.url}`}>
-                  <a href={safeHref(src.url) ?? "#"} target="_blank" rel="noopener noreferrer">
-                    <FileCheck className="office-source-icon" aria-hidden="true" />
-                    <span className="office-source-copy">
-                      <strong>{src.label}</strong>
-                      <small>
-                        {formatSourceHost(src.url)} · Verified {src.verifiedOn}
-                      </small>
-                    </span>
-                    <ExternalLink aria-hidden="true" />
-                  </a>
-                </li>
-              ))}
-            </ul>
+            {office.verificationNote ? (
+              <p className="office-verification-note">
+                <Info aria-hidden="true" />
+                <span>{office.verificationNote}</span>
+              </p>
+            ) : null}
+
             <div className="office-sources-footer">
               <p>
-                Entries are cross-checked against City Government of Malaybalay Citizen&apos;s
-                Charter, FDP manpower disclosures, and partner agency portals.
+                Contact lines and service details match the City Government of Malaybalay
+                Citizen&apos;s Charter, FDP reports, and agency directories.
               </p>
               {isHostSubdomain ? (
                 <a

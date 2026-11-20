@@ -79,7 +79,7 @@ const staticPages: PortalSearchRecord[] = [
   {
     type: "Directory",
     title: "City offices & PESO directory",
-    detail: "35 city offices, personnel, Citizen's Charter services, and PESO Malaybalay",
+    detail: `${governmentOffices.length} city offices, personnel, Citizen's Charter services, and PESO Malaybalay`,
     href: "/offices",
   },
   {

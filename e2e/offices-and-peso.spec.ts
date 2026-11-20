@@ -167,7 +167,7 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
     await expect(homeButton).toHaveText("BetterMC Home");
     await expect(homeButton).toHaveAttribute("href", "/");
     await expect(page.locator(".office-hero-breadcrumb")).toHaveCount(0);
-    await expect(page.getByText(/City Offices \(35\)/i)).toHaveCount(0);
+    await expect(page.getByText(/City Offices \(\d+\)/i)).toHaveCount(0);
 
     const actionLayout = await page.evaluate(() => {
       const buttons = Array.from(document.querySelectorAll(".office-hero-actions .button")).map((el) =>
@@ -294,6 +294,7 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
       const logo = page.locator(".office-logo-frame.is-hero img");
       await expect(logo).toBeVisible();
       await expect(logo).toHaveAttribute("src", "/images/offices/sangguniang-panlungsod.jpg");
+      await expect.poll(() => logo.evaluate((img: HTMLImageElement) => img.complete)).toBe(true);
       const metrics = await logo.evaluate((img: HTMLImageElement) => {
         const rect = img.getBoundingClientRect();
         return {
@@ -340,7 +341,7 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
     ).toBeVisible();
     await expect(page.locator(".microsite-home-button")).toHaveCount(0);
     await expect(page.locator(".microsite-home-nav")).toHaveCount(0);
-    await expect(page.getByText(/City Offices \(35\)/i)).toHaveCount(0);
+    await expect(page.getByText(/City Offices \(\d+\)/i)).toHaveCount(0);
     await assertHeroSpLogoUndistorted();
 
     await page.setViewportSize({ width: 320, height: 740 });
@@ -453,10 +454,10 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
       await expect(
         msHeader.locator(".microsite-section-nav a", { hasText: entry.anchorText }),
       ).toHaveAttribute("href", entry.anchorHref);
-      await expect(msHeader.locator(".microsite-directory-pill")).toHaveAttribute(
-        "href",
-        new RegExp(`^https://www\\.bettermalaybalay\\.cloud/(offices|education|barangays)$`),
-      );
+      await expect(msHeader.locator(".microsite-directory-pill")).toHaveCount(0);
+      await expect(
+        msHeader.getByRole("link", { name: /All City Offices|All Barangays|All Schools/i }),
+      ).toHaveCount(0);
 
       // Mobile viewport: test hamburger drawer open + section jump click + zero overflow
       await page.setViewportSize({ width: 320, height: 740 });
@@ -537,16 +538,26 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
     );
     await expect(spContacts.locator('.office-channel-card[href="tel:0888134350"]')).toBeVisible();
 
-    // 2. Spot-check complex / updated office microsites (mayor, engineering, bac, deped-division, dilg)
+    // 2. Spot-check complex / updated / new office microsites (mayor, engineering, agriculture, assessor, prosecutor, coa, bjmp, parole-probation, bac, deped-division, dilg)
     for (const check of [
       { slug: "mayor", expectWeb: "sakata.malaybalaycity.gov.ph/mayors-corner" },
       { slug: "engineering", expectWeb: "sakata.malaybalaycity.gov.ph/city-engineers-office" },
+      { slug: "agriculture", expectWeb: "sakata.malaybalaycity.gov.ph/city-agriculture-office" },
+      { slug: "assessor", expectWeb: "sakata.malaybalaycity.gov.ph/city-assessorss-office" },
+      { slug: "prosecutor", expectWeb: "doj.gov.ph" },
+      { slug: "coa", expectWeb: "region10.coa.gov.ph" },
+      { slug: "bjmp", expectWeb: "r10.bjmp.gov.ph" },
+      { slug: "parole-probation", expectWeb: "probation.gov.ph" },
       { slug: "bac", expectWeb: "sakata.malaybalaycity.gov.ph/bids-and-awards-committee-structure" },
       { slug: "deped-division", expectWeb: "malaybalay.deped.gov.ph" },
       { slug: "dilg", expectWeb: "region10.dilg.gov.ph" },
     ]) {
       await page.setViewportSize({ width: 1280, height: 800 });
       await page.goto(subUrl(check.slug));
+      await expect(page.locator(".microsite-directory-pill")).toHaveCount(0);
+      await expect(page.locator(".office-personnel-source")).toHaveCount(0);
+      await expect(page.getByText(/Verified Staffing Source:/i)).toHaveCount(0);
+      await expect(page.getByText(/Source Ledger/i)).toHaveCount(0);
       const sourcesSection = page.locator("#sources");
       await expect(sourcesSection).toBeVisible();
       await expect(sourcesSection).toContainText(check.expectWeb);
