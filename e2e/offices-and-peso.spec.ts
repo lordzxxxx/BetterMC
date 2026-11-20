@@ -72,13 +72,22 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
       ".special-body-footer",
     ]);
 
-    const missingFacts = await page.evaluate(() => {
+    const missingFactsOrMicrosite = await page.evaluate(() => {
       return Array.from(document.querySelectorAll(".office-dir-card")).filter((card) => {
         const text = card.querySelector(".office-dir-facts")?.textContent ?? "";
-        return !text.includes("Location") || !text.includes("Contact") || !text.includes("Email");
+        const micrositeHref = card
+          .querySelector(".office-dir-actions .office-microsite-link")
+          ?.getAttribute("href");
+        return (
+          !text.includes("Location") ||
+          !text.includes("Contact") ||
+          !text.includes("Email") ||
+          !micrositeHref?.startsWith("https://") ||
+          !micrositeHref.includes(".bettermalaybalay.cloud")
+        );
       }).length;
     });
-    expect(missingFacts).toBe(0);
+    expect(missingFactsOrMicrosite).toBe(0);
 
     const imgs = page.locator(".office-logo-frame img");
     const imgCount = await imgs.count();

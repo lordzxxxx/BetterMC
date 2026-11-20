@@ -22168,6 +22168,7 @@ pre {
 .office-dir-muted { color: #64748b; font-weight: 400; }
 .office-dir-actions {
   display: grid;
+  gap: 7px;
   margin-top: auto;
   padding-top: 2px;
 }
@@ -22199,19 +22200,50 @@ pre {
   outline: 3px solid #2d7be8;
   outline-offset: 2px;
 }
-.office-subdomain-link {
+.office-microsite-link {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  color: #516a86;
-  font-size: 0.72rem;
-  font-weight: 500;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  min-height: 28px;
+  padding: 4px 2px;
+  border-radius: 7px;
+  color: #14499e;
+  font-size: 0.74rem;
+  font-weight: 600;
   text-decoration: none;
   max-width: 100%;
-  overflow-wrap: anywhere;
+  text-align: center;
+  transition: background-color 150ms ease, color 150ms ease;
 }
-.office-subdomain-link:hover,
-.office-subdomain-link:focus-visible { color: #14499e; text-decoration: underline; }
+.office-microsite-link .office-url-text {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+.office-microsite-link svg {
+  width: 13px;
+  height: 13px;
+  flex: none;
+  color: #1d5fd1;
+}
+@media (max-width: 420px) {
+  .office-microsite-link {
+    font-size: 0.69rem;
+    padding-inline: 0;
+  }
+}
+.office-microsite-link:hover,
+.office-microsite-link:focus-visible {
+  background: #eef5fd;
+  color: #0d3f8f;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.office-microsite-link:focus-visible {
+  outline: 3px solid #2d7be8;
+  outline-offset: 1px;
+}
 
 .special-bodies-section { margin-top: 42px; padding-top: 28px; border-top: 1px solid #d5e2f1; }
 .special-bodies-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 18px; }
@@ -22261,7 +22293,8 @@ pre {
   }
   .office-dir-actions {
     margin-top: 0;
-    align-self: end;
+    align-self: stretch;
+    align-content: start;
   }
   .special-body-footer {
     margin-top: 0;
