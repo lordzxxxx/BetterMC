@@ -33,6 +33,11 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
     );
 
     expect(screen.getByRole("heading", { name: "City Health Office" })).toBeInTheDocument();
+    const micrositeNav = within(
+      screen.getByRole("navigation", { name: /main portal navigation/i }),
+    );
+    expect(micrositeNav.getByRole("link", { name: /BetterMC Home/i })).toHaveAttribute("href", "/");
+    expect(screen.queryByText(/City Offices \(35\)/i)).not.toBeInTheDocument();
     expect(screen.getAllByText("cho.bettermalaybalay.cloud").length).toBeGreaterThan(0);
     expect(screen.queryByText(/Source Cross-Reference Note:/i)).not.toBeInTheDocument();
     const choPersonnel = screen.getByRole("region", { name: "Officials & Assigned Personnel" });
