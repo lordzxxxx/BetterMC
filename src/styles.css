@@ -3609,11 +3609,11 @@ kbd {
 .footer-transparency-promise {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(220px, 0.45fr);
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
   align-items: center;
-  gap: 28px;
+  gap: 32px;
   margin-bottom: 34px;
-  padding: 24px 28px;
+  padding: 26px 30px;
   border: 1px solid rgba(178, 207, 248, 0.28);
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.055);
@@ -3622,21 +3622,21 @@ kbd {
   display: grid;
   gap: 6px;
   text-align: left;
+  min-width: 0;
 }
 .footer-transparency-promise .eyebrow {
   margin: 0;
   color: #aecaff;
 }
 .footer-transparency-promise h2 {
-  max-width: 640px;
   margin: 0;
   color: #fff;
-  font-size: clamp(1.15rem, 1.85vw, 1.45rem);
+  font-size: clamp(1.15rem, 1.8vw, 1.44rem);
   line-height: 1.25;
   text-wrap: balance;
 }
 .footer-transparency-promise p {
-  max-width: 680px;
+  max-width: 780px;
   margin: 0;
   color: #c5d3e8;
   line-height: 1.55;
@@ -3645,29 +3645,25 @@ kbd {
 .footer-transparency-promise dl {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  align-items: stretch;
-  gap: 12px;
   margin: 0;
   text-align: center;
 }
 .footer-transparency-promise dl > div {
   min-width: 0;
-  display: grid;
-  grid-template-rows: minmax(2.7em, auto) auto;
-  align-content: center;
-  justify-items: center;
-  gap: 8px;
-  padding: 16px 14px;
-  border: 1px solid rgba(206, 223, 248, 0.2);
-  border-radius: 12px;
-  background: rgba(8, 24, 49, 0.32);
-}
-.footer-transparency-promise dt {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+  padding: 20px 24px;
+  border: 1px solid rgba(206, 223, 248, 0.22);
+  border-radius: 12px;
+  background: rgba(8, 24, 49, 0.36);
+}
+.footer-transparency-promise dt {
+  margin: 0;
   color: #c9d8ed;
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   font-weight: 700;
   line-height: 1.35;
   text-wrap: balance;
@@ -3675,7 +3671,7 @@ kbd {
 .footer-transparency-promise dd {
   margin: 0;
   color: #fff;
-  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
   font-weight: 800;
   line-height: 1;
 }
@@ -19490,6 +19486,12 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   line-height: 1.25;
 }
 
+@media (max-width: 1020px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 760px) {
   .footer-transparency-promise {
     grid-template-columns: 1fr;
@@ -19499,7 +19501,7 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
   }
 
   .footer-transparency-promise dl > div {
-    padding: 12px;
+    padding: 16px 18px;
   }
 
   .barangay-official-card-main {
@@ -19508,6 +19510,10 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 
   .footer-grid {
     grid-template-columns: 1fr;
+  }
+
+  .footer-nav .footer-icon-link {
+    grid-column: 1 / -1;
   }
 
   .footer-action-card {
