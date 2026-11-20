@@ -200,10 +200,10 @@ import {
 
 const navItems = [
   { label: "Services", to: "/services" },
+  { label: "City Offices", to: "/offices" },
+  { label: "PESO & Jobs", to: "/peso" },
   { label: "Barangays", to: "/barangays" },
-  { label: "Education", to: "/education" },
   { label: "Government", to: "/government" },
-  { label: "Legislation", to: "/legislation" },
   { label: "Procurement", to: "/procurement/livestreams" },
   { label: "Transparency", to: "/transparency" },
 ];
@@ -620,6 +620,9 @@ function Header() {
                 to={item.to}
                 className={({ isActive }) =>
                   isActive ||
+                  (item.to === "/offices" && pathname.startsWith("/offices")) ||
+                  (item.to === "/peso" &&
+                    (pathname.startsWith("/peso") || pathname.startsWith("/jobs"))) ||
                   (item.to === "/procurement/livestreams" &&
                     pathname.startsWith("/procurement"))
                     ? "active"
@@ -754,12 +757,27 @@ function Footer() {
           aria-label="Footer navigation"
         >
           <h2>Explore BetterMC</h2>
-          <Link to="/about">About & methodology</Link>
+          <Link to="/peso">PESO &amp; Job Opportunities</Link>
+          <Link to="/jobs">Job Vacancies &amp; Programs</Link>
+          <Link to="/offices">City Offices &amp; Sectors</Link>
+          <Link to="/services">Public Services Guide</Link>
+          <Link to="/barangays">All 46 Barangays</Link>
+          <Link to="/government">Government &amp; Hotlines</Link>
           <Link to="/transparency">Transparency records</Link>
           <Link to="/budget">Budget transparency</Link>
           <Link to="/hearings">Legislative hearings</Link>
           <Link to="/procurement/livestreams">Procurement and BAC recordings</Link>
+          <Link to="/about">About &amp; methodology</Link>
           <Link to="/participate">Submit a correction</Link>
+          <a
+            className="footer-icon-link"
+            href="https://www.facebook.com/profile.php?id=61589180493733"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FacebookIcon />
+            PESO Malaybalay Facebook
+          </a>
           <a
             className="footer-icon-link"
             href="https://www.facebook.com/profile.php?id=61596547555480"
@@ -883,14 +901,30 @@ function MobileAppTabBar() {
         <House aria-hidden="true" />
         <span>Home</span>
       </NavLink>
-      <NavLink to="/budget">
-        <BarChart3 aria-hidden="true" />
-        <span>Budget</span>
+      <NavLink to="/services">
+        <Compass aria-hidden="true" />
+        <span>Services</span>
       </NavLink>
-      <NavLink to="/hearings">
-        <Scale aria-hidden="true" />
-        <span>Hearings</span>
-      </NavLink>
+      <Link
+        to="/offices"
+        className={pathname.startsWith("/offices") ? "active" : undefined}
+        aria-current={pathname.startsWith("/offices") ? "page" : undefined}
+      >
+        <Building2 aria-hidden="true" />
+        <span>Offices</span>
+      </Link>
+      <Link
+        to="/peso"
+        className={
+          pathname.startsWith("/peso") || pathname.startsWith("/jobs") ? "active" : undefined
+        }
+        aria-current={
+          pathname.startsWith("/peso") || pathname.startsWith("/jobs") ? "page" : undefined
+        }
+      >
+        <BriefcaseBusiness aria-hidden="true" />
+        <span>PESO</span>
+      </Link>
       <Link
         to="/procurement/livestreams"
         className={pathname.startsWith("/procurement") ? "active" : undefined}
@@ -899,10 +933,6 @@ function MobileAppTabBar() {
         <ReceiptText aria-hidden="true" />
         <span>Procurement</span>
       </Link>
-      <NavLink to="/services">
-        <Compass aria-hidden="true" />
-        <span>Services</span>
-      </NavLink>
     </nav>
   );
 }
@@ -1709,11 +1739,14 @@ function HomePage() {
               </span>
             </p>
             <div className="hero-actions">
-              <Link className="button primary" to="/transparency">
-                Explore transparency <ArrowRight />
+              <Link className="button primary" to="/peso">
+                PESO &amp; Job Opportunities <ArrowRight />
               </Link>
-              <Link className="button secondary" to="/government">
-                Find an office
+              <Link className="button secondary" to="/offices">
+                Find a City Office
+              </Link>
+              <Link className="button secondary" to="/transparency">
+                Explore transparency
               </Link>
             </div>
             <div className="hero-verification">
@@ -1746,22 +1779,34 @@ function HomePage() {
             </div>
             <GlobalSearch />
             <div className="quick-grid">
-              <Link to="/transparency">
-                <FileText />
+              <Link to="/peso">
+                <BriefcaseBusiness />
                 <span>
-                  Full disclosure<small>2022–2026 catalog</small>
+                  PESO &amp; Jobs<small>Vacancies, SPES &amp; fairs</small>
                 </span>
               </Link>
-              <Link to="/government">
-                <Landmark />
+              <Link to="/offices">
+                <Building2 />
                 <span>
-                  Government<small>Officials & offices</small>
+                  City Offices<small>35 offices &amp; charters</small>
                 </span>
               </Link>
               <Link to="/services">
                 <BookOpen />
                 <span>
-                  Public services<small>Charter & forms</small>
+                  Public services<small>Charter &amp; forms</small>
+                </span>
+              </Link>
+              <Link to="/barangays">
+                <MapPin />
+                <span>
+                  46 Barangays<small>Profiles &amp; maps</small>
+                </span>
+              </Link>
+              <Link to="/transparency">
+                <FileText />
+                <span>
+                  Full disclosure<small>2022–2026 catalog</small>
                 </span>
               </Link>
               <Link to="/government?tab=hotlines">
@@ -1773,6 +1818,52 @@ function HomePage() {
             </div>
           </div>
         </div>
+      </section>
+      <section className="section container home-priority-strip" aria-label="Featured Malaybalay portals">
+        <article className="home-priority-card card is-peso">
+          <div className="home-priority-head">
+            <img src="/images/offices/peso.png" alt="PESO Malaybalay official emblem" />
+            <div>
+              <span className="eyebrow">Featured Subdomain · peso.bettermalaybalay.cloud</span>
+              <h2>PESO Malaybalay &amp; Job Opportunities</h2>
+            </div>
+          </div>
+          <p>
+            Search active PESO programs, DOLE SPES &amp; TUPAD, Livelihood endorsements, OFW support,
+            Job Fair details, all 10 Citizen&apos;s Charter services, and CSC vacancy records.
+          </p>
+          <div className="home-priority-actions">
+            <Link className="button primary small" to="/peso">
+              Open PESO Hub <ArrowRight aria-hidden="true" />
+            </Link>
+            <Link className="button secondary small" to="/jobs">
+              Browse Job Board
+            </Link>
+          </div>
+        </article>
+
+        <article className="home-priority-card card">
+          <div className="home-priority-head">
+            <img src="/images/offices/malaybalay-city-seal.png" alt="City of Malaybalay official seal" />
+            <div>
+              <span className="eyebrow">Complete Directory · 35 Offices &amp; 18 Special Bodies</span>
+              <h2>City Government Offices &amp; Subdomains</h2>
+            </div>
+          </div>
+          <p>
+            Browse every Malaybalay department, Mayor&apos;s division (Community Affairs, OSCA,
+            BPLD, Tourism, TMC), Sangguniang Panlungsod, and national agency desk with verified
+            contacts and Charter requirements.
+          </p>
+          <div className="home-priority-actions">
+            <Link className="button primary small" to="/offices">
+              Explore All 35 Offices <ArrowRight aria-hidden="true" />
+            </Link>
+            <Link className="button secondary small" to="/government">
+              Officials &amp; Hotlines
+            </Link>
+          </div>
+        </article>
       </section>
       <FirstTimeWelcomeCard />
       <WeatherPanel />

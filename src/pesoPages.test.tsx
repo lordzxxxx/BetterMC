@@ -91,4 +91,24 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
 
     expect(screen.getByRole("link", { name: /Open PESO Hub & Jobs/i })).toHaveAttribute("href", "/peso");
   });
+
+  it("prioritizes City Offices and PESO & Jobs in primary navigation, mobile tab bar, and homepage hero", () => {
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <App />
+      </MemoryRouter>,
+    );
+
+    const primaryNav = screen.getByRole("navigation", { name: "Primary navigation" });
+    expect(within(primaryNav).getByRole("link", { name: "City Offices" })).toHaveAttribute("href", "/offices");
+    expect(within(primaryNav).getByRole("link", { name: "PESO & Jobs" })).toHaveAttribute("href", "/peso");
+
+    const mobileTabs = screen.getByRole("navigation", { name: "Quick mobile app navigation" });
+    expect(within(mobileTabs).getByRole("link", { name: "Offices" })).toHaveAttribute("href", "/offices");
+    expect(within(mobileTabs).getByRole("link", { name: "PESO" })).toHaveAttribute("href", "/peso");
+
+    const gateways = screen.getByRole("region", { name: "Featured Malaybalay portals" });
+    expect(within(gateways).getByRole("link", { name: /Open PESO Hub/i })).toHaveAttribute("href", "/peso");
+    expect(within(gateways).getByRole("link", { name: /Explore All 35 Offices/i })).toHaveAttribute("href", "/offices");
+  });
 });
