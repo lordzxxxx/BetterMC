@@ -8,6 +8,8 @@ export const sitePages: SitePageLink[] = [
   { label: "Home", description: "City overview, weather, and key records", to: "/" },
   { label: "Transparency", description: "Full Disclosure and budget transparency", to: "/transparency" },
   { label: "Government", description: "Officials, offices, records, and hotlines", to: "/government" },
+  { label: "City Offices", description: "Directory of all 35 city offices, divisions, and special bodies", to: "/offices" },
+  { label: "PESO & Jobs", description: "PESO Malaybalay profile, job vacancies, job fairs, and programs", to: "/peso" },
   { label: "Legislation", description: "Ordinances and executive issuances", to: "/legislation" },
   { label: "Hearings", description: "Council sessions and public consultations", to: "/hearings" },
   { label: "Procurement", description: "BAC records, recordings, bids, and award notices", to: "/procurement/livestreams" },

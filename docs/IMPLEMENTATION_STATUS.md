@@ -40,3 +40,10 @@ The project is a Vite single-page application. `vercel.json` defines the build, 
 2. Submit a test correction through a deployment preview and verify delivery at the review inbox.
 3. Add durable persistence and rate limiting before representing the correction desk as a tracked moderation workflow.
 4. Continue record-by-record source reconciliation before adding claims about individual legislative authorship, project completion, or procurement savings.
+
+---
+
+## Expansion Update (2026-11-20 — `feat/offices-peso-subdomains`)
+
+- **City Offices Directory (`/offices`) & Standardized Subdomain Microsites (`<slug>.bettermalaybalay.cloud` / `/offices/:slug`):** Added 35 researched offices, CMO divisions (PESO, Community Affairs Scholarships/CSOs, OSCA, BPLD, Tourism, TMC), legislative bodies (SP, Vice Mayor, PLEB), and national partner desks (DILG, BFP, PNP, MTCC Br. 2, DepEd), plus 18 EO-backed Local Special Bodies and 28 locally mirrored official emblems under `public/images/offices/`.
+- **PESO Malaybalay Hub (`/peso` & `peso.bettermalaybalay.cloud`), Jobs Board (`/jobs`), & Detail Pages (`/jobs/:slug`):** Integrated verified PESO profile, 10 Citizen's Charter 2026 services, DOLE–LGU flagship programs (SPES, TUPAD, DMW/OWWA desk), automatically expiring CSC Form No. 9 archival vacancies, and a code-managed `src/pesoData.ts` + read-only `/api/jobs` Edge endpoint (zero external database or admin secrets required).
