@@ -1791,7 +1791,7 @@ export const searchableRecords = [
     type: "Office",
     title: item.name,
     detail: item.phone ?? "",
-    href: "/government?tab=offices",
+    href: "/offices",
   })),
   ...barangayProfiles.map((item) => ({
     type: "Barangay",

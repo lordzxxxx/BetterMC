@@ -217,7 +217,7 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
   },
   "/government": {
     title: "Government directory | BetterMC",
-    description: "Find published Malaybalay offices, officials, hotlines, and source-linked civic records.",
+    description: "Find published Malaybalay officials, council members, and source-linked civic records.",
   },
   "/offices": {
     title: "City government offices & sector directory | BetterMC",
@@ -1388,7 +1388,7 @@ function HomeEmergencyHotlines() {
           <h2 id="home-emergency-title">Emergency hotlines</h2>
           <p>For urgent help, call the response office that matches the situation.</p>
         </div>
-        <Link to="/government?tab=hotlines">
+        <Link to="/offices?sector=Public%20Safety%20%26%20Emergency">
           All city hotlines <ArrowRight aria-hidden="true" />
         </Link>
       </div>
@@ -1802,7 +1802,7 @@ function HomePage() {
                   Full disclosure<small>2022–2026 catalog</small>
                 </span>
               </Link>
-              <Link to="/government?tab=hotlines">
+              <Link to="/offices?sector=Public%20Safety%20%26%20Emergency">
                 <ShieldAlert />
                 <span>
                   Emergency contacts<small>Tap to call</small>
@@ -4542,19 +4542,21 @@ function LegislationDetailPage() {
   );
 }
 
-type GovernmentTab = "officials" | "records" | "offices" | "hotlines";
+type GovernmentTab = "officials" | "records";
 function GovernmentPage() {
   const [params, setParams] = useSearchParams();
-  const requestedTab = params.get("tab");
-  const tab: GovernmentTab =
-    requestedTab === "records" ||
-    requestedTab === "offices" ||
-    requestedTab === "hotlines"
-      ? requestedTab
-      : "officials";
   const [query, setQuery] = useState("");
   const [profileTab, setProfileTab] = useState<"overview" | "records" | "sources">("overview");
   const deferredQuery = useDeferredValue(query.toLowerCase());
+  const requestedTab = params.get("tab");
+  if (requestedTab === "offices") {
+    return <Navigate to="/offices" replace />;
+  }
+  if (requestedTab === "hotlines") {
+    return <Navigate to="/offices?sector=Public%20Safety%20%26%20Emergency" replace />;
+  }
+  const tab: GovernmentTab =
+    requestedTab === "records" ? "records" : "officials";
   const visibleOfficials = officials.filter((item) =>
     `${item.name} ${item.role}`.toLowerCase().includes(deferredQuery),
   );
@@ -4577,19 +4579,12 @@ function GovernmentPage() {
     setParams(next);
     setProfileTab("overview");
   };
-  const visibleOffices = departments.filter(
-    (item) =>
-      (tab !== "hotlines" || item.emergency) &&
-      `${item.name} ${item.email} ${item.phone}`
-        .toLowerCase()
-        .includes(deferredQuery),
-  );
   return (
     <>
       <PageHero
         eyebrow="Government directory"
-        title="Know who serves, and where to reach the right office."
-        description="Search source-linked leadership profiles, office contacts, and separately identified emergency and assistance numbers."
+        title="Know who serves and follow published city measures."
+        description="Browse source-linked city leadership profiles, committee assignments, and published ordinances, executive orders, and circulars."
         compact
       />
       <section className="section container government-directory-section">
@@ -4600,7 +4595,7 @@ function GovernmentPage() {
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder={`Search ${tab}`}
+              placeholder={tab === "records" ? "Search published measures" : "Search officials"}
             />
           </label>
           <div
@@ -4612,8 +4607,6 @@ function GovernmentPage() {
               [
                 ["officials", "Officials"],
                 ["records", "Published measures"],
-                ["offices", "Offices"],
-                ["hotlines", "Hotlines"],
               ] as const
             ).map(([value, label]) => (
               <button
@@ -4764,7 +4757,7 @@ function GovernmentPage() {
               </div>
             </div>
           </>
-        ) : tab === "officials" ? (
+        ) : (
           <>
             <div className="people-grid">
               {visibleOfficials.map((official, index) => {
@@ -5003,53 +4996,6 @@ function GovernmentPage() {
                 </div>
               );
             })()}
-          </>
-        ) : (
-          <>
-            {tab === "offices" ? (
-              <div className="data-notice" style={{ marginBottom: 16 }}>
-                <Building2 aria-hidden="true" />
-                <div>
-                  <strong>Quick contact reference</strong>
-                  <p>
-                    For organizational charts, assigned personnel rosters, divisions, and 2026
-                    Citizen&apos;s Charter requirements across all 35 City Offices and PESO, open the{" "}
-                    <Link to="/offices">City Offices Directory</Link>.
-                  </p>
-                </div>
-              </div>
-            ) : null}
-            <div className="directory-list">
-            {visibleOffices.map((office) => (
-              <article key={office.name}>
-                <div className="office-symbol">
-                  {office.emergency ? <ShieldAlert /> : <Building2 />}
-                </div>
-                <div>
-                  <span>
-                    {office.emergency
-                      ? "Emergency / assistance contact"
-                      : "City office"}
-                  </span>
-                  <h2>{office.name}</h2>
-                </div>
-                <div className="contact-actions">
-                  <a href={`tel:${telephoneHref(office.phone)}`}>
-                    <Phone />
-                    {office.phone}
-                  </a>
-                  <a href={`mailto:${office.email}`}>
-                    <Mail />
-                    {office.email}
-                  </a>
-                </div>
-                <SourceNote
-                  url={office.source.url}
-                  date={office.source.verifiedOn}
-                />
-              </article>
-            ))}
-          </div>
           </>
         )}
       </section>
@@ -7441,9 +7387,9 @@ function ServiceCategoryPage() {
           </span>
           <div>
             <strong>Emergency contacts remain local and immediately accessible.</strong>
-            <p>Open the Malaybalay hotline directory for tap-to-call numbers.</p>
+            <p>Open Public Safety &amp; Emergency offices for tap-to-call numbers.</p>
           </div>
-          <Link to="/government?tab=hotlines">
+          <Link to="/offices?sector=Public%20Safety%20%26%20Emergency">
             Open emergency contacts <ArrowRight />
           </Link>
         </div>

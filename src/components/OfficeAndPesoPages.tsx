@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
   ArrowRight,
@@ -177,8 +177,25 @@ function MicrositeUrlAnchor({
  * and 18 Local Special Bodies into one clean directory.
  */
 export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeader?: boolean }) {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<"All" | OfficeCategory>("All");
+  const sectorParam = searchParams.get("sector");
+  const selectedCategory: "All" | OfficeCategory = useMemo(() => {
+    if (sectorParam && (OFFICE_CATEGORIES as readonly string[]).includes(sectorParam)) {
+      return sectorParam as OfficeCategory;
+    }
+    return "All";
+  }, [sectorParam]);
+
+  const setSectorCategory = (category: "All" | OfficeCategory) => {
+    const next = new URLSearchParams(searchParams);
+    if (category === "All") {
+      next.delete("sector");
+    } else {
+      next.set("sector", category);
+    }
+    setSearchParams(next, { replace: true });
+  };
 
   const filteredOffices = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -267,7 +284,7 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
                 className="link-reset-btn"
                 onClick={() => {
                   setQuery("");
-                  setSelectedCategory("All");
+                  setSectorCategory("All");
                 }}
               >
                 Reset
@@ -280,7 +297,7 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
           <button
             type="button"
             className={selectedCategory === "All" ? "is-active" : ""}
-            onClick={() => setSelectedCategory("All")}
+            onClick={() => setSectorCategory("All")}
           >
             All ({governmentOffices.length})
           </button>
@@ -292,7 +309,7 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
                 key={category}
                 type="button"
                 className={selectedCategory === category ? "is-active" : ""}
-                onClick={() => setSelectedCategory(category)}
+                onClick={() => setSectorCategory(category)}
               >
                 {category} ({count})
               </button>
@@ -310,7 +327,7 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
             className="button secondary"
             onClick={() => {
               setQuery("");
-              setSelectedCategory("All");
+              setSectorCategory("All");
             }}
           >
             Show all {governmentOffices.length} offices
@@ -343,10 +360,16 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
                     <dt>Location</dt>
                     <dd>{office.address}</dd>
                   </div>
-                  {office.phoneNumbers[0] ? (
+                  {office.phoneNumbers.length > 0 ? (
                     <div>
                       <dt>Contact</dt>
-                      <dd>{office.phoneNumbers[0]}</dd>
+                      <dd className="office-dir-tel-list">
+                        {office.phoneNumbers.slice(0, 2).map((phone) => (
+                          <a key={phone} className="office-dir-tel" href={telHref(phone)}>
+                            {phone}
+                          </a>
+                        ))}
+                      </dd>
                     </div>
                   ) : null}
                   {office.emails[0] ? (

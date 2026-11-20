@@ -208,7 +208,7 @@ test("homepage exposes local and national service pathways", async ({ page }) =>
   ).toHaveAttribute("href", "tel:09178276117");
   await expect(
     page.getByRole("link", { name: /All city hotlines/i }),
-  ).toHaveAttribute("href", "/government?tab=hotlines");
+  ).toHaveAttribute("href", "/offices?sector=Public%20Safety%20%26%20Emergency");
   await page
     .locator(".service-category-grid article")
     .filter({ hasText: "Health" })
@@ -222,7 +222,7 @@ test("homepage exposes local and national service pathways", async ({ page }) =>
   ).toHaveAttribute("href", /bettergov\.ph\/services\?category=health/);
   await expect(
     page.getByRole("link", { name: /Open emergency contacts/i }),
-  ).toHaveAttribute("href", "/government?tab=hotlines");
+  ).toHaveAttribute("href", "/offices?sector=Public%20Safety%20%26%20Emergency");
 });
 
 test("transparency and legislation retain local context pages", async ({ page }) => {
@@ -480,10 +480,18 @@ test("mobile service cards keep details available without a long initial list", 
   await expect.poll(() => firstProvider.locator(".provider-logo img").evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
 });
 
-test("directory filters reach emergency contacts", async ({ page }) => {
+test("directory filters reach emergency contacts and government excludes redundant tabs", async ({ page }) => {
+  await page.goto("/government");
+  const tabList = page.getByRole("tablist", { name: "Government directory views" });
+  await expect(tabList.getByRole("tab", { name: "Officials" })).toBeVisible();
+  await expect(tabList.getByRole("tab", { name: "Published measures" })).toBeVisible();
+  await expect(tabList.getByRole("tab", { name: "Offices" })).toHaveCount(0);
+  await expect(tabList.getByRole("tab", { name: "Hotlines" })).toHaveCount(0);
+
   await page.goto("/government?tab=hotlines");
+  await expect(page).toHaveURL(/\/offices\?sector=Public/);
   await expect(
-    page.getByText("Bureau of Fire Protection — Malaybalay"),
+    page.getByRole("heading", { name: /Bureau of Fire Protection — Malaybalay City Fire Station/i }),
   ).toBeVisible();
   await expect(
     page.getByRole("link", { name: /0917-677-7700/ }),

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 import { sitePages } from "./sitePages";
@@ -564,6 +564,12 @@ describe("BetterMC public portal", () => {
         <App />
       </MemoryRouter>,
     );
+    const govTabs = screen.getByRole("tablist", { name: "Government directory views" });
+    expect(within(govTabs).getByRole("tab", { name: "Officials" })).toBeInTheDocument();
+    expect(within(govTabs).getByRole("tab", { name: "Published measures" })).toBeInTheDocument();
+    expect(within(govTabs).queryByRole("tab", { name: "Offices" })).not.toBeInTheDocument();
+    expect(within(govTabs).queryByRole("tab", { name: "Hotlines" })).not.toBeInTheDocument();
+
     expect(
       screen.getByText("Executive Order No. 23, Series of 2026"),
     ).toBeInTheDocument();
@@ -585,6 +591,29 @@ describe("BetterMC public portal", () => {
     expect(
       screen.getByRole("heading", { name: /Verified recognition/i }),
     ).toBeInTheDocument();
+
+    cleanup();
+    render(
+      <MemoryRouter initialEntries={["/government?tab=offices"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(
+      screen.getByRole("heading", { name: /City Offices, Divisions & Partner Institutions/i }),
+    ).toBeInTheDocument();
+
+    cleanup();
+    render(
+      <MemoryRouter initialEntries={["/government?tab=hotlines"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(
+      screen.getByRole("heading", { name: /Bureau of Fire Protection — Malaybalay City Fire Station/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "0917-677-7700" }),
+    ).toHaveAttribute("href", "tel:09176777700");
   });
 
   it("keeps a sourced plain-language page for each published measure", () => {

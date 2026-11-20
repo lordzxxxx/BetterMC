@@ -86,7 +86,7 @@ const staticPages: PortalSearchRecord[] = [
     type: "Emergency",
     title: "Emergency contacts",
     detail: "Malaybalay response, health, police, fire, and social-welfare hotlines",
-    href: "/government?tab=hotlines",
+    href: "/offices?sector=Public%20Safety%20%26%20Emergency",
   },
   {
     type: "Directory",
@@ -212,7 +212,7 @@ export const portalSearchIndex: PortalSearchRecord[] = [
       type: "Emergency hotline",
       title: department.name,
       detail: [department.phone, department.email].filter(Boolean).join(" · "),
-      href: "/government?tab=hotlines",
+      href: "/offices?sector=Public%20Safety%20%26%20Emergency",
     })),
   ...barangayMicrosites.map((barangay) => ({
     type: "Barangay",
