@@ -1,4 +1,5 @@
 import type { Source } from "./data";
+import { schoolEnrichmentBySlug } from "./schoolDirectoryEnrichment";
 
 export type EducationLevel = "Preschool" | "Kindergarten" | "Elementary" | "Junior high" | "Senior high" | "Integrated school" | "Technical-vocational" | "College / university";
 export type InstitutionType = "Public" | "Private" | "State university" | "Technical-vocational";
@@ -26,8 +27,13 @@ export type EducationInstitution = {
   type: InstitutionType;
   classification?: string;
   levels: EducationLevel[];
+  studentPopulation?: string;
+  teacherCount?: number;
+  classroomCount?: number;
+  district?: string;
   description?: string;
   leadership?: string;
+  contactPerson?: string;
   contacts?: string[];
   programmes?: string[];
   officialLinks?: Array<{ label: string; url: string }>;
@@ -110,7 +116,7 @@ const publicHighSchools: Array<[string, string, string, string, string, Educatio
 ];
 
 const publicBasicSchools: Array<[string, string, string, string, string | undefined, EducationLevel[]]> = [
-  ["aglayan-central-school", "Aglayan Central School", "126577", "Purok 3, Aglayan, Malaybalay City, 8700 Bukidnon", "Aglayan", ["Elementary"]],
+  ["aglayan-central-school", "Aglayan Central School", "126557", "Purok 3, Aglayan, Malaybalay City, 8700 Bukidnon", "Aglayan", ["Elementary"]],
   ["baganao-elementary-school", "Baganao Elementary School", "126575", "Sitio Bagnao, Kibalabag, Malaybalay City, 8700 Bukidnon", "Kibalabag", ["Elementary"]],
   ["bagong-silang-elementary-school", "Bagong Silang Elementary School", "126543", "Purok 6, Bagong Silang, Maligaya, Malaybalay City, 8700 Bukidnon", "Maligaya", ["Elementary"]],
   ["bendolan-elementary-school", "Bendolan Elementary School", "126559", "Purok 3, Sitio Bendolan, Magsaysay, Malaybalay City, 8700 Bukidnon", "Magsaysay", ["Elementary"]],
@@ -118,7 +124,7 @@ const publicBasicSchools: Array<[string, string, string, string, string | undefi
   ["capitan-angel-integrated-school", "Capitan Angel Integrated School", "501189", "Purok 1, Capitan Angel, Malaybalay City, 8700 Bukidnon", "Capitan Angel", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
   ["candiisan-integrated-school", "Candiisan Integrated School", "501195", "Sitio Candiisan, Can-ayan, Malaybalay City, 8700 Bukidnon", "Can-ayan", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
   ["kibalabag-integrated-school", "Kibalabag Integrated School", "501188", "Purok 3, Kibalabag, Malaybalay City, 8700 Bukidnon", "Kibalabag", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
-  ["maligaya-integrated-school", "Maligaya Integrated School", "501583", "Sitio Malubog, San Jose, Malaybalay City, 8700 Bukidnon", "San Jose", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
+  ["maligaya-integrated-school", "Maligaya Integrated School", "502800", "Sitio Malubog, San Jose, Malaybalay City, 8700 Bukidnon", "San Jose", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
   ["mapulo-elementary-school", "Mapulo Elementary School", "126548", "Purok 1, Mapulo, Malaybalay City, 8700 Bukidnon", "Mapulo", ["Elementary"]],
   ["silae-elementary-school", "Silae Elementary School", "126553", "Purok 2, Silae, Malaybalay City, 8700 Bukidnon", "Silae", ["Elementary"]],
   ["st-peter-elementary-school", "St. Peter Elementary School", "126554", "Valsons, St. Peter, Malaybalay City, 8700 Bukidnon", "St. Peter", ["Elementary"]],
@@ -317,11 +323,40 @@ for (const candidate of pendingSchoolInventory) {
 }
 
 const schoolSubdomainHost = (slug: string) => `${slug}.bettermalaybalay.cloud`;
-export const educationInstitutions: EducationInstitution[] = [...existingSchoolBySlug.values()].map((school) => ({
-  ...school,
-  logoStatus: school.logoStatus ?? (school.logoUrl ? "Verified" : "Unavailable"),
-  subdomainHost: schoolSubdomainHost(school.slug),
-}));
+export const educationInstitutions: EducationInstitution[] = [...existingSchoolBySlug.values()].map((school) => {
+  const enrichment = schoolEnrichmentBySlug[school.slug];
+  const mergedContacts = enrichment?.contacts?.length ? enrichment.contacts : school.contacts;
+  const mergedLinks = enrichment?.officialLinks?.length ? enrichment.officialLinks : school.officialLinks;
+  const resolvedLogoUrl = enrichment?.logoUrl ?? school.logoUrl;
+  return {
+    ...school,
+    schoolId: enrichment?.schoolId ?? school.schoolId,
+    barangay: enrichment?.barangay ?? school.barangay,
+    address: enrichment?.address ?? school.address,
+    studentPopulation: enrichment?.studentPopulation ?? school.studentPopulation,
+    teacherCount: enrichment?.teacherCount ?? school.teacherCount,
+    classroomCount: enrichment?.classroomCount ?? school.classroomCount,
+    district: enrichment?.district ?? school.district,
+    description: enrichment?.description ?? school.description,
+    leadership: enrichment?.leadership ?? school.leadership,
+    contactPerson: enrichment?.contactPerson ?? school.contactPerson,
+    contacts: mergedContacts,
+    programmes: enrichment?.programmes ?? school.programmes,
+    officialLinks: mergedLinks,
+    logoUrl: resolvedLogoUrl,
+    logoSource:
+      enrichment?.logoNote && !school.logoSource
+        ? {
+            label: enrichment.logoNote,
+            url: mergedLinks?.[0]?.url ?? school.source.url,
+            verifiedOn: reviewedOn,
+            type: "Institutional website",
+          }
+        : school.logoSource,
+    logoStatus: resolvedLogoUrl ? "Verified" : (school.logoStatus ?? "Unavailable"),
+    subdomainHost: schoolSubdomainHost(school.slug),
+  };
+});
 export const educationInstitutionBySlug = new Map(educationInstitutions.map((school) => [school.slug, school]));
 
 export function schoolSlugFromHostname(hostname: string, search = "") {

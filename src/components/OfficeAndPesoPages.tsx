@@ -368,6 +368,17 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
                 <dl className="office-dir-facts">
                   <div className="office-dir-fact-row">
                     <dt>
+                      <Users aria-hidden="true" />
+                      <span>Office Head</span>
+                    </dt>
+                    <dd>
+                      {office.headOfOffice
+                        ? office.headOfOffice.split("•")[0].trim()
+                        : office.headNote || "See assigned personnel"}
+                    </dd>
+                  </div>
+                  <div className="office-dir-fact-row">
+                    <dt>
                       <MapPin aria-hidden="true" />
                       <span>Location</span>
                     </dt>
@@ -432,8 +443,8 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
               Local Special Bodies &amp; Special Committees ({localSpecialBodies.length})
             </h2>
             <p>
-              Reconstituted via City Executive Orders uniting City Hall offices, national agencies,
-              barangays, and accredited CSOs across key public mandates.
+              City committees formed under Executive Orders that bring together City Hall offices,
+              national agencies, barangays, and community organizations.
             </p>
           </div>
           <a
@@ -478,10 +489,9 @@ export function GovernmentOfficesDirectoryPage() {
         <div className="container">
           <h1>City Offices, Divisions &amp; Partner Institutions</h1>
           <p>
-            Verified directory of executive departments, City Mayor&apos;s service divisions
-            (including PESO, Community Affairs Scholarships, OSCA, BPLD, Tourism, and TMC),
-            legislative offices, assigned personnel, local special bodies, and national partner
-            desks.
+            Find any Malaybalay City Hall department, service division (PESO, Scholarships, OSCA,
+            BPLD, Tourism, and TMC), legislative office, or national partner desk. See who leads
+            each office, who to reach out to, where to go, and how to contact them.
           </p>
           <div className="hero-actions" style={{ marginTop: 18 }}>
             <Link className="button primary" to="/peso">
@@ -931,35 +941,64 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
 
       <section className="section container office-content-sections">
         <section id="about" className="office-about-section" aria-labelledby="office-about-heading">
-          <div className="office-about-copy bettermc-surface-card">
-            <div className="office-about-main">
-              <h2 id="office-about-heading">About This Office</h2>
-              <p>{office.aboutDetails ?? office.overview}</p>
-              {office.whoServes ? (
-                <p className="office-about-serves">
-                  Who this office serves: {office.whoServes}
-                </p>
-              ) : null}
-            </div>
-            <div className="office-about-metrics" aria-label="Verified office summary">
-              <div>
-                <span>Documented Services</span>
-                <strong>
-                  {office.services.length} public {office.services.length === 1 ? "service" : "services"}
-                </strong>
+          {(() => {
+            const personnelTotal =
+              personnelEntry?.groups.reduce((sum, group) => sum + group.members.length, 0) ?? 0;
+            const keyDivisionNames = (office.divisions ?? []).slice(0, 3);
+            const primaryDesk = keyDivisionNames.length
+              ? `Ask for: ${keyDivisionNames.join(" · ")}`
+              : `Ask for the ${office.shortName} Frontline Assistance Desk`;
+            return (
+              <div className="office-about-copy bettermc-surface-card">
+                <div className="office-about-main">
+                  <h2 id="office-about-heading">About This Office</h2>
+                  <p>{office.aboutDetails ?? office.overview}</p>
+                  {office.whoServes ? (
+                    <p className="office-about-serves">
+                      <strong>Who this office serves:</strong> {office.whoServes}
+                    </p>
+                  ) : null}
+                  <div className="office-contact-guide" role="region" aria-label="Who to reach out to">
+                    <span className="office-contact-guide-eyebrow">Who to reach out to</span>
+                    <p>
+                      <strong>Office Lead:</strong>{" "}
+                      {office.headOfOffice || office.headNote || office.classification}
+                    </p>
+                    <p>
+                      <strong>Where to inquire:</strong> {primaryDesk}.{" "}
+                      {personnelTotal > 0
+                        ? `${personnelTotal} documented personnel are listed below.`
+                        : "Visit the frontline counter during office hours or call the contact numbers above."}
+                    </p>
+                    <p>
+                      <strong>Walk-in location &amp; hours:</strong> {office.address} ·{" "}
+                      {office.operatingHours}
+                    </p>
+                  </div>
+                </div>
+                <div className="office-about-metrics" aria-label="Verified office summary">
+                  <div>
+                    <span>Documented Services</span>
+                    <strong>
+                      {office.services.length} public {office.services.length === 1 ? "service" : "services"}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>Assigned Team</span>
+                    <strong>
+                      {personnelTotal > 0
+                        ? `${personnelTotal} documented personnel`
+                        : `${office.divisions?.length ?? 1} functional ${(office.divisions?.length ?? 1) === 1 ? "unit" : "units"}`}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>Charter Reference</span>
+                    <strong>{office.charterChapterRef || "City Directory 2026"}</strong>
+                  </div>
+                </div>
               </div>
-              <div>
-                <span>Functional Units</span>
-                <strong>
-                  {office.divisions?.length ?? 1} verified {(office.divisions?.length ?? 1) === 1 ? "unit" : "units"}
-                </strong>
-              </div>
-              <div>
-                <span>Charter Reference</span>
-                <strong>{office.charterChapterRef || "City Directory 2026"}</strong>
-              </div>
-            </div>
-          </div>
+            );
+          })()}
         </section>
 
         <section
@@ -971,8 +1010,12 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
             <div>
               <h2 id="office-personnel-heading">Officials &amp; Assigned Personnel</h2>
               <p className="office-section-subtitle">
-                Officials and personnel assigned to {office.shortName}, organized by leadership and
-                functional division.
+                Officials and staff assigned to {office.shortName} so you know who to find and where
+                to direct your inquiry.{" "}
+                {office.classification.includes("National") ||
+                office.classification.includes("Judiciary")
+                  ? ""
+                  : "Across all City Hall offices, the Q1 2026 FDP manpower report records 3,593 total personnel (630 permanent, 279 casual, 96 contractual, and 2,588 job-order staff)."}
               </p>
             </div>
           </div>

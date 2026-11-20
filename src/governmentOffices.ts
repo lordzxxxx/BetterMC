@@ -1818,7 +1818,8 @@ export const governmentOffices: GovernmentOffice[] = [
     acronym: "BFP-CFS",
     classification: "National Uniformed Fire & Rescue Service (Partner City Regulatory Station)",
     category: "Public Safety & Emergency",
-    logoStatus: "Unavailable",
+    logoPath: "/images/agencies/bfp.jpg",
+    logoStatus: "Verified Local Asset",
     headOfOffice: "Ma. Anjelyn P. Pornia (City Fire Marshal / Station Head, CY 2026 APP)",
     headNote: "Commanded by the Malaybalay City Fire Marshal under BFP Region 10 (RA 9514).",
     overview:
@@ -1861,7 +1862,8 @@ export const governmentOffices: GovernmentOffice[] = [
     acronym: "MCPS-PNP",
     classification: "National Police Law Enforcement Station (Partner Peace & Order Unit)",
     category: "Public Safety & Emergency",
-    logoStatus: "Unavailable",
+    logoPath: "/images/agencies/pnp.png",
+    logoStatus: "Verified Local Asset",
     headOfOffice: "PLtCol. Joepet Baldonado Paglinawan (Chief of Police) • PLtCol. Ariel Philip Pontillas (OIC)",
     headNote: "Commanded by the City Chief of Police under Bukidnon Police Provincial Office (PRO-10).",
     overview:
@@ -1904,7 +1906,8 @@ export const governmentOffices: GovernmentOffice[] = [
     acronym: "MTCC-2",
     classification: "Judiciary Partner Court — Trial Court & Court Clearances",
     category: "National & Partner Agencies",
-    logoStatus: "Unavailable",
+    logoPath: "/images/agencies/judiciary.png",
+    logoStatus: "Verified Local Asset",
     headOfOffice: "Hon. Edmundo V. Raagas (Presiding Judge, MTCC Malaybalay)",
     headNote: "First-level Judiciary trial court operating under the Supreme Court of the Philippines.",
     overview:
