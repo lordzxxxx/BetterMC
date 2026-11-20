@@ -19263,7 +19263,7 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 .education-school-logo { display: block; width: 48px; height: 48px; object-fit: contain; border-radius: 12px; border: 1px solid #c1d9f6; background: #f5f9ff; }
 .education-school-logo-fallback { display: grid; place-items: center; color: #1859b5; }
 .education-school-logo-fallback svg { width: 22px; height: 22px; }
-.education-card-intro { display: -webkit-box; overflow: hidden; color: #405675 !important; font-size: .9rem; line-height: 1.5 !important; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.education-card-intro { color: #405675 !important; font-size: .9rem; line-height: 1.5 !important; }
 .education-directory-card dl { gap: 10px; padding-top: 2px; border-top: 1px solid #e0eaf6; }
 .education-directory-card dl div { padding-top: 10px; }
 .education-directory-card .civic-card-actions { padding-top: 2px; border-top: 1px solid #e0eaf6; }
@@ -22030,13 +22030,13 @@ pre {
 
 .offices-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
 }
 .office-dir-card {
   display: flex;
   flex-direction: column;
-  gap: 13px;
+  gap: 12px;
   padding: 20px;
 }
 .office-dir-card:hover,
@@ -22055,8 +22055,8 @@ pre {
   line-height: 1.35;
 }
 .office-dir-card-title-group h3 {
-  margin: 4px 0 3px;
-  font-size: 1.05rem;
+  margin: 4px 0 0;
+  font-size: 1.04rem;
   font-weight: 700;
   line-height: 1.32;
   letter-spacing: -0.015em;
@@ -22067,19 +22067,15 @@ pre {
 .office-parent-note { margin: 0; font-size: 0.79rem; font-weight: 500; color: #51647d; }
 .office-dir-summary {
   margin: 0;
-  font-size: 0.91rem;
+  font-size: 0.9rem;
   font-weight: 400;
-  line-height: 1.58;
+  line-height: 1.56;
   color: #2c415a;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 .office-dir-facts {
   display: grid;
   gap: 7px;
+  align-content: start;
   margin: 0;
   padding: 12px 13px;
   background: #f7faff;
@@ -22087,25 +22083,28 @@ pre {
   border-radius: 10px;
   font-size: 0.83rem;
 }
-.office-dir-facts div { display: grid; grid-template-columns: 68px minmax(0, 1fr); gap: 8px; align-items: baseline; }
+.office-dir-facts div { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 8px; align-items: baseline; }
 .office-dir-facts dt { font-weight: 600; color: #445c7a; }
 .office-dir-facts dd { margin: 0; font-weight: 400; color: #162b46; overflow-wrap: anywhere; }
-.office-dir-tel-list { display: flex; flex-wrap: wrap; gap: 2px 10px; }
+.office-dir-tel-list { display: flex; flex-wrap: wrap; gap: 3px 10px; }
 .office-dir-tel { color: #14499e; font-weight: 600; text-decoration: none; }
 .office-dir-tel:hover { text-decoration: underline; }
 .office-dir-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  display: grid;
+  gap: 8px;
+  justify-items: center;
   margin-top: auto;
-  padding-top: 10px;
+  padding-top: 12px;
   border-top: 1px solid #edf3fb;
+}
+.office-dir-actions .button.primary.small {
+  width: 100%;
+  justify-content: center;
 }
 .office-subdomain-link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   font-size: 0.8rem;
   color: #14499e;
@@ -22113,23 +22112,52 @@ pre {
   text-decoration: none;
   max-width: 100%;
   overflow-wrap: anywhere;
+  text-align: center;
 }
 .office-subdomain-link svg { width: 13px; height: 13px; flex: none; }
 .office-subdomain-link:hover { text-decoration: underline; }
 
-.special-bodies-section { margin-top: 48px; padding-top: 32px; border-top: 1px solid #d5e2f1; }
-.special-bodies-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 20px; }
+.special-bodies-section { margin-top: 42px; padding-top: 28px; border-top: 1px solid #d5e2f1; }
+.special-bodies-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 18px; }
 .special-bodies-header h2 { margin: 0 0 6px; font-weight: 700; letter-spacing: -0.02em; color: #10243e; }
 .special-bodies-header p { margin: 0; max-width: 70ch; color: #364b64; line-height: 1.58; }
-.special-bodies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 310px), 1fr)); gap: 16px; }
+.special-bodies-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
 .special-body-card { padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; }
 .special-body-meta { margin: 0; font-size: 0.78rem; font-weight: 600; color: #466080; line-height: 1.35; }
 .special-body-card h3 { margin: 0; font-size: 1.02rem; font-weight: 700; color: #10243e; line-height: 1.34; }
 .special-body-card p { margin: 0; font-size: 0.9rem; font-weight: 400; line-height: 1.58; color: #2f4560; }
-.special-body-footer { margin-top: auto; padding-top: 10px; border-top: 1px solid #eef4fc; }
+.special-body-footer { margin-top: auto; padding-top: 10px; border-top: 1px solid #eef4fc; display: flex; align-items: center; }
 .special-body-footer a { display: inline-flex; align-items: center; gap: 5px; font-size: 0.83rem; font-weight: 600; color: #14499e; text-decoration: none; }
-.special-body-footer a svg { width: 14px; height: 14px; }
+.special-body-footer a svg { width: 14px; height: 14px; flex: none; }
 .special-body-footer a:hover { text-decoration: underline; }
+
+@media (min-width: 720px) {
+  .offices-grid,
+  .special-bodies-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .office-dir-card,
+  .special-body-card {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 4;
+    row-gap: 11px;
+  }
+  .office-dir-actions {
+    margin-top: 0;
+    align-self: end;
+  }
+  .special-body-footer {
+    margin-top: 0;
+    align-self: stretch;
+  }
+}
+@media (min-width: 1080px) {
+  .offices-grid,
+  .special-bodies-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
 
 /* Standardized Office & PESO Microsite (Aligned with BetterMC Barangay & Kapwa System) */
 .office-hero {
@@ -22695,6 +22723,7 @@ pre {
 .peso-jobs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 18px; }
 .peso-job-card { padding: 20px; display: flex; flex-direction: column; gap: 11px; }
 .peso-job-card.is-expired { background: #fcfcfd; border-color: #e4d8d8; }
+.peso-job-head { display: grid; gap: 8px; align-content: start; }
 .peso-job-meta-line {
   margin: 0;
   display: flex;
@@ -22714,16 +22743,12 @@ pre {
   margin: 0;
   font-size: 0.91rem;
   font-weight: 400;
-  line-height: 1.58;
+  line-height: 1.56;
   color: #2f4560;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 .peso-job-meta {
   display: grid;
+  align-content: start;
   gap: 7px;
   margin: 0;
   padding: 12px 13px;
@@ -22743,6 +22768,22 @@ pre {
   margin-top: auto;
   padding-top: 10px;
   border-top: 1px solid #edf3fb;
+}
+@media (min-width: 720px) {
+  .peso-jobs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .peso-job-card {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 4;
+    row-gap: 11px;
+  }
+  .peso-job-card-footer {
+    margin-top: 0;
+    align-self: end;
+  }
+}
+@media (min-width: 1080px) {
+  .peso-jobs-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 .peso-source-text-link {
   display: inline-flex;

@@ -46,6 +46,8 @@ export type GovernmentOffice = {
   headOfOffice?: string;
   headNote?: string;
   overview: string;
+  cardSummary?: string;
+  cardLocation?: string;
   aboutDetails?: string;
   whoServes?: string;
   mandate: string;
@@ -148,6 +150,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Cited as PESO Manager in DOLE-10 2024–2025 regional dispatches and City Administrator in sakata.malaybalaycity.gov.ph.",
     overview:
       "Created under the Public Employment Service Office Act (RA 8759, as amended by RA 10691), PESO Malaybalay serves as the City Government's primary non-fee-charging employment facilitation hub linking local jobseekers, students, displaced workers, OFWs, and employers.",
+    cardSummary:
+      "Links Malaybalay jobseekers, students, displaced workers, and OFWs to verified jobs and DOLE livelihood programs.",
+    cardLocation: "2nd Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Operating from the 2nd Floor of New City Hall under No Noon Break Citizen's Charter standards, PESO Malaybalay administers National Skills Registration Program (NSRP) profiling, Employer LRA/SRA accreditation, SPES summer work stipends with DOLE Region 10, livelihood endorsement certifications, 4th-year OJT placement, and direct referral assistance for OFWs and their families.",
     whoServes:
@@ -237,6 +242,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headOfOffice: "Hon. Jay Warren R. Pabillaran (City Mayor)",
     overview:
       "Central executive nerve center of the City Government of Malaybalay overseeing general supervision of city departments, barangay coordination, executive orders, local special bodies, and attached mayor's divisions (BPLD, PESO, Tourism, CUDHO, OSCA, TMC, BAC, Community Affairs).",
+    cardSummary:
+      "Directs City Government executive operations, barangay coordination, executive orders, and attached service divisions.",
+    cardLocation: "2nd Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Under the Local Government Code (RA 7160), the Office of the City Mayor directs citywide executive policy across Security and Safety (S), Health and Sanitation (H), Integrity (I), Environment & Culture Protection (E), Eco-Agri Tourism (L), and Infrastructure Development (D), while housing citizen-facing service units on both floors of New City Hall.",
     whoServes:
@@ -304,6 +312,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Assisted by Jeanyben M. Dacalanio (Assistant City Administrator).",
     overview:
       "Manages day-to-day administrative coordination across all City Government offices and directly houses the Public Information Division (Banwag Newsletter / Banwag sa Dakbayan / 8888 Citizen Complaint Hotline) and Management Information Systems (MIS) Division.",
+    cardSummary:
+      "Coordinates day-to-day City Hall administration and houses the Public Information (Banwag) and MIS divisions.",
+    cardLocation: "2nd Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Serving both internal City Hall operations and public feedback channels under RA 11032, the City Administrator's Office oversees City Hall digital networks, IEC publications, official ID printing, Committee on Anti-Red Tape (CART) compliance, and Citizen's Charter monitoring across 24 documented transactions.",
     whoServes:
@@ -357,6 +368,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Assisted by Marilou T. Sinues (Assistant SP Secretary) and Jennifer T. Sombilon (City Library, Librarian II).",
     overview:
       "The legislative lawmaking body of the City of Malaybalay (11 Councilors + ABC & SK Federation Presidents + IP Representative) supported by the SP Secretariat, Research Division, Records/Legislative Service Division, City Library, and People's Law Enforcement Board (PLEB) Secretariat.",
+    cardSummary:
+      "Enacts city ordinances and resolutions through the 14-member council, SP Secretariat, City Library, and PLEB.",
+    cardLocation: "SP Building, City Hall Compound, Casisang",
     aboutDetails:
       "Located in the Sangguniang Panlungsod Building inside the City Hall Compound, the SP Secretariat records session journals, releases certified copies of enacted City Ordinances and Resolutions, tracks barangay legislative reviews, operates the Malaybalay City Public Library, and administers civilian PLEB clearances.",
     whoServes:
@@ -410,6 +424,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headOfOffice: "Hon. Estelito \"Litoy\" R. Marabe (City Vice Mayor)",
     overview:
       "Serves as Presiding Officer of the Sangguniang Panlungsod, leads the legislative branch secretariat, coordinates committee referrals, and facilitates constituent legislative consultations and requests.",
+    cardSummary:
+      "Presides over the Sangguniang Panlungsod, oversees legislative secretariat staff, and manages committee referrals.",
+    cardLocation: "SP Building, City Hall Compound, Casisang",
     aboutDetails:
       "Working directly alongside regular Council sessions and standing committees in the Sangguniang Panlungsod Building, the Office of the City Vice Mayor routes proposed ordinances, monitors committee hearings, and assists Malaybalay residents seeking legislative endorsement or consultation.",
     whoServes:
@@ -458,6 +475,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Division under the Office of the City Mayor (supervised by CMO – Community Affairs Officer).",
     overview:
       "Directly serves puroks, barangays, civil society organizations (CSOs), NGOs, and college students under the City Mayor's Office—administering the Malaybalay City Scholarship Program, Mayor's Clearance issuance, Sports Assistance, and CSO Accreditation.",
+    cardSummary:
+      "Administers the Malaybalay City Scholarship Program, Mayor's Clearances, sports aid, and CSO accreditation.",
+    cardLocation: "2nd Floor, New City Hall (Mayor's Wing)",
     aboutDetails:
       "Stationed at the City Mayor's Office Wing inside New City Hall, the Community Affairs Division bridges neighborhood development projects across Malaybalay's 46 barangays with youth educational grants (requiring parent annual net income ≤ ₱250,000), Mayor's Clearances for employment/compliance, and formal CSO accreditation.",
     whoServes:
@@ -516,6 +536,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "OSCA Head appointed by the City Mayor pursuant to Republic Act No. 9994.",
     overview:
       "Dedicated division under the City Mayor's Office implementing the Expanded Senior Citizens Act (RA 9994) through rapid Senior Citizen ID issuance, medicine/grocery discount booklets, and elderly welfare referrals.",
+    cardSummary:
+      "Issues Senior Citizen IDs, medicine and grocery discount booklets, and RA 9994 elderly welfare referrals.",
+    cardLocation: "City Hall Compound, Brgy. Casisang",
     aboutDetails:
       "Residents aged 60 years and older—or authorized representatives carrying a valid ID and authorization—transact directly at the OSCA desk inside New City Hall Compound to obtain nationwide 20% discount IDs and purchase slip booklets within 15–30 minutes at zero cost.",
     whoServes:
@@ -573,6 +596,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headOfOffice: "Magnolia O. Improgo (City Government Department Head I — CHRMO)",
     overview:
       "Manages City Government workforce recruitment (CSC Form No. 9 publications), plantilla administration, PRIME-HRM compliance, training and development, service records, and employee benefits.",
+    cardSummary:
+      "Manages City Hall workforce recruitment (CSC Form No. 9), plantilla records, PRIME-HRM, and employee benefits.",
+    cardLocation: "2nd Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Based on the 2nd Floor of New City Hall, CHRMO receives Personal Data Sheet (CS Form No. 212) submissions during open CSC plantilla publication windows, maintains employee service histories, issues certificates of employment, and oversees merit-based promotion boards.",
     whoServes:
@@ -619,6 +645,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Research, Investigation & Legal Assistance Division led by Atty. Alfredo G. Cape, Jr. (City Legal Officer IV).",
     overview:
       "Chief legal counsel of the City Government of Malaybalay drafting contracts, reviewing ordinances and barangay legal queries, representing the city in court/administrative cases, and rendering legal opinions.",
+    cardSummary:
+      "Serves as City Government legal counsel reviewing contracts, ordinances, barangay legal queries, and court cases.",
+    cardLocation: "2nd Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Supporting both City Hall departments and barangay councils from the 2nd Floor of New City Hall, the City Legal Office examines municipal contracts, Memoranda of Agreement, administrative complaints, and statutory compliance matters prior to executive action.",
     whoServes:
@@ -665,6 +694,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Assisted by Maria Rosario G. Saldua (Assistant City Planning & Development Coordinator).",
     overview:
       "Coordinates citywide socio-economic planning, Comprehensive Land Use Plan (CLUP) enforcement, locational clearances, zoning certifications, and residential subdivision permit evaluations.",
+    cardSummary:
+      "Leads city socio-economic planning, Comprehensive Land Use Plan (CLUP) enforcement, and zoning clearances.",
+    cardLocation: "2nd Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Applicants constructing commercial structures, residences, or subdivision projects secure CPDO Locational Clearances and Zoning Certifications on the 2nd Floor of New City Hall prior to OBO Building Permit or BPLD Business Permit approval. CPDO also houses the city's GIS and Data Management sections.",
     whoServes:
@@ -714,6 +746,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "City Budget Operations Division headed by Mary Grace R. Alenton (Budget Officer IV).",
     overview:
       "Oversees preparation and execution of Malaybalay City's Annual & Supplemental Budgets, certifies fund obligations (OBR/POs), and reviews the annual budgets of all 46 barangays.",
+    cardSummary:
+      "Prepares annual executive budgets, certifies fund obligations (OBR/POs), and reviews 46 barangay budgets.",
+    cardLocation: "2nd Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Stationed on the 2nd Floor of New City Hall, the City Budget Office validates eBudget Obligation Requests for payrolls, utilities, financial assistance, and supplier claims while performing preliminary technical reviews of annual and supplemental budgets submitted by Malaybalay's 46 barangays.",
     whoServes:
@@ -764,6 +799,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Assisted by Ramiel B. Coscos, CPA (Assistant City Accountant).",
     overview:
       "Maintains City and Barangay books of accounts under COA New Government Accounting System rules, pre-audits disbursement vouchers, reconciles bank accounts, and issues BIR tax certificates and financial statements.",
+    cardSummary:
+      "Maintains City and barangay accounts under COA rules, pre-audits vouchers, and issues BIR tax certificates.",
+    cardLocation: "2nd Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "On the 2nd Floor of New City Hall, City Accounting teams examine disbursement vouchers prior to City Treasurer check release, issue Accountant's Advices for barangay transactions, compile monthly bank reconciliations, and release BIR withholding tax certificates and employee net take-home pay certifications.",
     whoServes:
@@ -814,6 +852,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Supervised by the City Treasurer across 1st Floor Cashier Windows & BOSS One-Stop Counter.",
     overview:
       "Collects Real Property Tax, Business Taxes, Transfer Tax, Professional Tax, Community Tax Certificates (Cedula), and regulatory fees—and disburses supplier checks, financial assistance, and payroll.",
+    cardSummary:
+      "Collects real property tax, business taxes, and Cedulas, and disburses supplier checks and payroll.",
+    cardLocation: "1st Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Located on the Ground (1st) Floor of New City Hall across Windows 1–12, the City Treasurer's Office processes Cedula issuance in 8 minutes, accepts Real Property Tax and quarterly business payments, settles TMC traffic citations, and releases approved financial assistance and supplier checks.",
     whoServes:
@@ -860,6 +901,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Assisted by Maylyn T. Gantalao (Assistant City Assessor).",
     overview:
       "Maintains Malaybalay City's master real property assessment rolls, tax maps, and property records across all 46 barangays—issuing Tax Declarations, ownership transfers, subdivisions, and Certified True Copies.",
+    cardSummary:
+      "Maintains master real property tax maps and rolls across all 46 barangays and issues Tax Declarations.",
+    cardLocation: "1st Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Situated on the 1st Floor of New City Hall near CTO tax windows, the City Assessor's Office maintains parcel tax mapping, evaluates new buildings and machinery for fair market valuation, and verifies Tax Declaration histories before real property sales or transfers.",
     whoServes:
@@ -908,6 +952,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headOfOffice: "Dioscora R. Niere, CPA (CGSO-Designate)",
     overview:
       "Central custodian of City Government real and personal properties, supplies warehousing, records custody, vehicle fleet dispatch, and municipal building upkeep.",
+    cardSummary:
+      "Custodian of City Government properties, supplies warehousing, records, vehicle dispatch, and building upkeep.",
+    cardLocation: "2nd Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Operating from the 2nd Floor of New City Hall, CGSO verifies supplier deliveries through Inspection and Acceptance Reports alongside BAC, tracks property custodian acknowledgments across City departments, and releases Inventory Transfer Reports (ITR) to barangays.",
     whoServes:
@@ -955,6 +1002,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Led by the City Civil Registrar at 1st Floor, New City Hall (Charter pp. 188–250).",
     overview:
       "Records all births, marriages, and deaths occurring in Malaybalay City; processes Marriage Licenses, Delayed Registrations, Legitimation, and RA 9048 / RA 10172 petitions for clerical error correction.",
+    cardSummary:
+      "Registers births, marriages, and deaths in Malaybalay and processes marriage licenses and RA 9048 corrections.",
+    cardLocation: "1st Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Accessible on the Ground Floor of New City Hall, the City Civil Registry Office handles hospital-borne and home-birth registrations, mandatory 10-day Marriage License postings, administrative name/date-of-birth corrections under RA 9048/10172, and free barangay mobile outreach registrations.",
     whoServes:
@@ -1006,6 +1056,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Protective Services Division led by Hilsam N. Quemada (Social Welfare Officer IV).",
     overview:
       "Frontline social protection department managing AICS financial/medical/burial aid, Solo Parent & PWD support, Certificates of Indigency, VAWC/WEDC crisis intervention, Bahay Pag-asa CICL rehabilitation, and SEA-K livelihood groups.",
+    cardSummary:
+      "Delivers AICS medical and burial aid, Solo Parent and PWD support, VAWC crisis care, and Indigency certificates.",
+    cardLocation: "1st Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "With Ground Floor intake desks at New City Hall and 24/7 crisis centers for women and children, CSWDO prepares Social Case Study Reports, validates Solo Parent IDs and PWD assistive device requests, manages disaster evacuation camps, and administers SEA-K interest-free group capital assistance.",
     whoServes:
@@ -1060,6 +1113,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Led by the City Health Officer with public health physicians, dentists, sanitary inspectors, and Upper Pulangui Lying-In clinical staff.",
     overview:
       "Delivers free primary medical consultations, maternal/child immunization, dental care, TB-DOTS, schistosomiasis treatment, sanitation permits, mental health support, newborn screening, and Upper Pulangui Lying-In maternity services.",
+    cardSummary:
+      "Provides free primary health consultations, dental care, immunization, TB-DOTS, sanitary permits, and lying-in care.",
+    cardLocation: "Freedom Park, Brgy. 4 & Upper Pulangui",
     aboutDetails:
       "Headquartered at Freedom Park, Barangay 4 (Poblacion) with 46 Barangay Health Stations and the 24/7 Upper Pulangui Lying-In Clinic, CHO issues pre-employment and food-handler Health Certificates, sanitary establishment clearances for BPLD permits, and outpatient disease treatment.",
     whoServes:
@@ -1111,6 +1167,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Led by the LDRRMO Head operating the 24/7 City Emergency Operations Center (EOC).",
     overview:
       "24/7 emergency response, flood/landslide monitoring across Sawaga and Upper Pulangui watersheds, rescue ambulance dispatch, Barangay DRRM capacity building, and Disaster Certification issuance.",
+    cardSummary:
+      "Operates 24/7 emergency response, Sawaga and Pulangui flood monitoring, rescue dispatch, and BDRRM training.",
+    cardLocation: "Market Side, Barangay 9 (Poblacion)",
     aboutDetails:
       "Stationed at Market Side, Barangay 9 (Poblacion), CDRRMO dispatches round-the-clock rescue and Emergency Medical Services (EMS), coordinates early flood advisories with PAGASA and UP Project NOAH gauges, trains all 46 BDRRMCs, and issues rapid 15-minute Calamity Certifications.",
     whoServes:
@@ -1159,6 +1218,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headOfOffice: "Arnel S. Alagenio (Executive Assistant V - Designate) • Salvador U. Yacapin (OIC, Licensing Officer IV)",
     overview:
       "Operates Malaybalay City's Business One-Stop Shop (BOSS), issuing new Mayor's Business Permits, annual renewals, business retirements, working/occupational permits, and tricycle regulatory coordination.",
+    cardSummary:
+      "Operates the Business One-Stop Shop (BOSS) for Mayor's Business Permits, renewals, and occupational clearances.",
+    cardLocation: "1st Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Located on the Ground (1st) Floor of New City Hall alongside CTO, CHO Sanitary, CPDO Zoning, OBO, and BFP counters, BPLD validates business registrations, motorela permits, and consumer welfare compliance—with extended BOSS schedules every January renewal cycle.",
     whoServes:
@@ -1208,6 +1270,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Assisted by Elpidio C. Sumanduran, Jr. (Assistant City Engineer).",
     overview:
       "Designs, plans, inspects, and maintains city roads, bridges, drainage systems, public buildings, street lighting, and heavy equipment—with 25 documented Citizen's Charter engineering and quality-control services.",
+    cardSummary:
+      "Designs, builds, and maintains city roads, bridges, drainage systems, public buildings, and street lighting.",
+    cardLocation: "Engineering Compound, Brgy. Casisang",
     aboutDetails:
       "Operating from the City Engineering Compound in Barangay Casisang, CEO engineers prepare Programs of Works (POW), run Materials Testing Laboratory and Field Density Tests, inspect civil works prior to contractor progress billings, and maintain barangay farm-to-market roads and streetlights.",
     whoServes:
@@ -1258,6 +1323,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Led by the City Building Official under PD 1096 in coordination with CPDO Zoning & BFP.",
     overview:
       "Enforces the National Building Code of the Philippines (PD 1096) across Malaybalay City—issuing Building Permits, Certificates of Occupancy, Temporary Electrical Connection Permits, and annual structural/mechanical inspections.",
+    cardSummary:
+      "Enforces the National Building Code (PD 1096) via Building Permits, Occupancy Certificates, and safety checks.",
+    cardLocation: "New City Hall (Engineering Wing), Casisang",
     aboutDetails:
       "Applicants first secure CPDO Locational Clearance and BFP Fire Safety Evaluation Clearance (FSEC) before submitting signed/sealed architectural, structural, sanitary, and electrical plans to OBO at New City Hall—releasing approved permits within 3 working days once documents are complete.",
     whoServes:
@@ -1307,6 +1375,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Led by the City Environment & Natural Resources Officer on 1st Floor, New City Hall.",
     overview:
       "Leads ecological solid waste management (RA 9003), urban greening, forest nursery & seedling distribution, watershed protection (Upper Pulangui / Sawaga), and City Environmental Clearance enforcement.",
+    cardSummary:
+      "Leads solid waste management (RA 9003), urban greening, nursery seedlings, and Pulangui-Sawaga watershed care.",
+    cardLocation: "1st Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Located on the Ground Floor of New City Hall, CENRO processes barangay and school seedling requests, conducts commercial environmental inspections prior to permitting, and operates Malaybalay's Ecological Solid Waste Management and Sanitary Landfill programs.",
     whoServes:
@@ -1350,6 +1421,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Assisted by Engr. Lilianne A. Obre (Assistant City Agriculturist).",
     overview:
       "Supports Malaybalay City's agricultural backbone (rice, corn, highland vegetables, coffee, cacao, rubber, and inland fisheries) through seed/fertilizer dispersal, RSBSA farmer registration, pest diagnostics, and post-harvest equipment aid.",
+    cardSummary:
+      "Supports rice, corn, vegetable, coffee, and cacao growers via seed dispersal, RSBSA enrollment, and farm aid.",
+    cardLocation: "Agriculture Compound, Brgy. Casisang",
     aboutDetails:
       "Situated at the City Agriculture Compound in Barangay Casisang, the department assists smallholders with RSBSA enrollment needed for national fuel/fertilizer subsidies, certified rice/corn seed releases, tilapia fingerling dispersal, and post-harvest backhoe/tractor engineering support.",
     whoServes:
@@ -1399,6 +1473,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Led by the City Veterinarian overseeing animal clinics, mass vaccination, and meat inspection.",
     overview:
       "Safeguards animal health and food safety through anti-rabies vaccination, pet registration, veterinary consultations, swine/livestock dispersal, dog pound management, and veterinary health certification.",
+    cardSummary:
+      "Safeguards animal health and meat safety via mass anti-rabies vaccination, livestock dispersal, and pet care.",
+    cardLocation: "Barangay Casisang, Malaybalay City",
     aboutDetails:
       "Operating in Barangay Casisang alongside citywide barangay vaccination caravans, the City Veterinary Office provides free anti-rabies shots, fast 45-minute Veterinary Health Certificates for livestock transport, and daily ante/post-mortem meat inspection with NMIS standards.",
     whoServes:
@@ -1447,6 +1524,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Tourism Division under the Office of the City Mayor (Murillo Street, Barangay 8).",
     overview:
       "Promotes Malaybalay's highland agri-ecotourism, heritage trails, and Kaamulan cultural identity while certifying tourism-related establishments (including Ancestral Domain businesses) and coordinating DOT trainings.",
+    cardSummary:
+      "Promotes highland ecotourism, Kaamulan heritage, tourism-enterprise certification, and hospitality trainings.",
+    cardLocation: "Murillo Street, Brgy. 8 (Poblacion)",
     aboutDetails:
       "Based at Murillo Street in Poblacion Barangay 8, the City Tourism Office issues 1-hour Tourism-Related Business Certifications required for hotels, resorts, cafés, and ancestral-domain eco-sites, compiles tourism visitor data, and schedules DOT hospitality trainings.",
     whoServes:
@@ -1490,6 +1570,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "MCGWSS Waterworks supervised by Engr. Stephen D. Caroro (Waterworks Superintendent I).",
     overview:
       "Operates revenue-generating municipal public utilities and enterprises including the Malaybalay Public Market, Integrated Overland Transport Terminal, City Slaughterhouse, City Memorial Park, and MCGWSS Waterworks.",
+    cardSummary:
+      "Operates City Public Market, Overland Terminal, Slaughterhouse, Memorial Park, and MCGWSS waterworks.",
+    cardLocation: "Market Site, Barangay 9 (Poblacion)",
     aboutDetails:
       "Managed from Market Site in Barangay 9, CEEDMO handles stall lease renewals and revenue collection at the Public Market, dispatch fees at the Overland Bus/Van Terminal, City Memorial Park burial services, Slaughterhouse meat handling, and local waterworks customer billing.",
     whoServes:
@@ -1538,6 +1621,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "CMO — City Urban Development & Housing Division coordinating the City Housing & Resettlement Committee.",
     overview:
       "Implements urban housing and resettlement programs under the Urban Development and Housing Act (RA 7279 / UDHA) and City Ordinance No. 565 s.2005 for hazard-vulnerable and landless households.",
+    cardSummary:
+      "Implements UDHA (RA 7279) socialized housing and resettlement programs for hazard-exposed households.",
+    cardLocation: "1st Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Operating from the Ground Floor of New City Hall, CUDHO evaluates beneficiary qualification under UDHA rules, tracks monthly lot amortizations with CTO, and coordinates site relocation and Deeds of Sale once full lot payments are completed.",
     whoServes:
@@ -1591,6 +1677,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "CMO — Traffic Management Center Division overseeing road safety and motorela clearances.",
     overview:
       "Manages city road traffic flow, deploys traffic enforcers across school zones and Sayre Highway junctions, issues traffic citation clearances, and coordinates road closures and public utility routing.",
+    cardSummary:
+      "Manages city traffic flow, deploys road enforcers, issues citation clearances, and coordinates public routing.",
+    cardLocation: "Traffic Management Center, Malaybalay",
     aboutDetails:
       "Working across Poblacion junctions and Sayre Highway corridors while coordinating citation settlements with City Treasurer Windows at City Hall, TMC conducts mandatory safety seminars for motorela drivers/operators, issues TMC IDs and clearances, and manages temporary road closures for civic events.",
     whoServes:
@@ -1639,6 +1728,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Inter-departmental Bids & Awards Committee constituted under RA 9184 (Procurement Reform Act).",
     overview:
       "Administers competitive procurement of goods, civil works, and consulting services for the City Government under RA 9184, PhilGEPS posting, livestreamed bid openings, and Notice of Award disclosures.",
+    cardSummary:
+      "Conducts RA 9184 competitive bidding for goods, civil works, and consulting with livestreamed bid openings.",
+    cardLocation: "2nd Floor, New City Hall, Brgy. Casisang",
     aboutDetails:
       "Anchored on the 2nd Floor of New City Hall alongside Procurement Support staff, BAC conducts public pre-bid conferences, livestreamed bid openings, eligibility checks, and Notice of Award/NTP releases—all indexed directly on BetterMC's Procurement Portal.",
     whoServes:
@@ -1687,6 +1779,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Field operations desk of the Department of the Interior and Local Government — Region 10.",
     overview:
       "City field office of the Department of the Interior and Local Government supervising SGLG/SGLGB governance assessments, Full Disclosure compliance, and technical mentoring for Malaybalay's 46 barangays.",
+    cardSummary:
+      "Supervises SGLG/SGLGB governance assessments, Full Disclosure compliance, and technical mentoring across 46 barangays.",
+    cardLocation: "City Hall Compound, Brgy. Casisang",
     aboutDetails:
       "Holding office inside the New City Hall Compound in Casisang, DILG Malaybalay guides barangay councils on Katarungang Pambarangay, Peace & Order audits, Anti-Red Tape compliance, and Seal of Good Local Governance validation.",
     whoServes:
@@ -1728,6 +1823,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Commanded by the Malaybalay City Fire Marshal under BFP Region 10 (RA 9514).",
     overview:
       "Provides 24/7 fire suppression and emergency rescue while conducting mandatory Fire Safety Inspections for Building Permits (OBO) and Business Permits (BPLD).",
+    cardSummary:
+      "Provides 24/7 firefighting and rescue while issuing Fire Safety Clearances for building and business permits.",
+    cardLocation: "Central Fire Station, Poblacion",
     aboutDetails:
       "Alongside 24/7 emergency response across Poblacion and rural barangays, Malaybalay City Fire Station evaluates building plans for Fire Safety Evaluation Clearance (FSEC) and inspects commercial establishments for mandatory annual Fire Safety Inspection Certificates (FSIC).",
     whoServes:
@@ -1768,6 +1866,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Commanded by the City Chief of Police under Bukidnon Police Provincial Office (PRO-10).",
     overview:
       "Maintains round-the-clock law enforcement, traffic accident investigation, women and children's protection desk (WCPD), blotter verification, and National Police Clearance issuance across Malaybalay City.",
+    cardSummary:
+      "Delivers 24/7 law enforcement, WCPD crisis support, blotter verification, and National Police Clearances.",
+    cardLocation: "Fortich Street, Poblacion, Malaybalay",
     aboutDetails:
       "Headquartered in Poblacion Barangay 2, Malaybalay City Police Station operates a 24/7 public assistance & blotter desk, dedicated Women and Children's Protection officers, and the National Police Clearance System (NPCS) biometrics counter for employment and licensing applicants.",
     whoServes:
@@ -1808,6 +1909,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "First-level Judiciary trial court operating under the Supreme Court of the Philippines.",
     overview:
       "Listed directly in the City Government's official Contact Directory as City Court Office handling civil/criminal first-level court cases, small claims, and local court clearances.",
+    cardSummary:
+      "First-level trial court handling civil and criminal cases, small claims, and local court clearances.",
+    cardLocation: "Hall of Justice, Malaybalay City",
     aboutDetails:
       "Serving litigants and employment applicants requiring judiciary clearances within Malaybalay City's Hall of Justice, MTCC Branch 2 processes small claims actions, first-level criminal/civil dockets, and certified copies of court orders under Supreme Court administrative schedules.",
     whoServes:
@@ -1850,6 +1954,9 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Led by the Schools Division Superintendent under DepEd Region X.",
     overview:
       "Administers public elementary, integrated, and high schools across Malaybalay City, partnering with PESO on the Grade 10 Career Guidance Advocacy Program (CGAP) and City School Board planning.",
+    cardSummary:
+      "Administers public elementary and secondary schools in Malaybalay and co-leads Grade 10 Career Guidance (CGAP).",
+    cardLocation: "Sayre Highway, Brgy. Casisang",
     aboutDetails:
       "Located along Sayre Highway in Barangay Casisang, the DepEd Malaybalay City Division oversees 122 educational institutions profiled across BetterMC's Education Directory, manages the Public Assistance Counter for learner credentials, and schedules career orientation drives alongside PESO.",
     whoServes:

@@ -353,12 +353,12 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
                   </div>
                 </header>
 
-                <p className="office-dir-summary">{office.overview}</p>
+                <p className="office-dir-summary">{office.cardSummary ?? office.overview}</p>
 
                 <dl className="office-dir-facts">
                   <div>
                     <dt>Location</dt>
-                    <dd>{office.address}</dd>
+                    <dd>{office.cardLocation ?? office.address}</dd>
                   </div>
                   {office.phoneNumbers.length > 0 ? (
                     <div>
@@ -642,19 +642,21 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
                 key={item.slug}
                 className={`peso-job-card bettermc-surface-card${lifecycle.isExpired ? " is-expired" : ""}`}
               >
-                <p className="peso-job-meta-line">
-                  <span>{OPPORTUNITY_TYPE_LABELS[item.opportunityType]}</span>
-                  <span aria-hidden="true">·</span>
-                  <StatusLabel status={lifecycle.displayStatus} label={lifecycle.label} />
-                </p>
+                <header className="peso-job-head">
+                  <p className="peso-job-meta-line">
+                    <span>{OPPORTUNITY_TYPE_LABELS[item.opportunityType]}</span>
+                    <span aria-hidden="true">·</span>
+                    <StatusLabel status={lifecycle.displayStatus} label={lifecycle.label} />
+                  </p>
 
-                <h3>
-                  <Link to={`/jobs/${item.slug}`}>{item.title}</Link>
-                </h3>
-                <p className="peso-job-employer">
-                  <Building2 aria-hidden="true" /> {item.employer}
-                </p>
-                <p className="peso-job-summary">{item.description}</p>
+                  <h3>
+                    <Link to={`/jobs/${item.slug}`}>{item.title}</Link>
+                  </h3>
+                  <p className="peso-job-employer">
+                    <Building2 aria-hidden="true" /> <span>{item.employer}</span>
+                  </p>
+                </header>
+                <p className="peso-job-summary">{item.cardSummary ?? item.description}</p>
 
                 <dl className="peso-job-meta">
                   <div>

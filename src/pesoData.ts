@@ -326,6 +326,7 @@ export const pesoOpportunityInputSchema = z.object({
   vacanciesCount: z.coerce.number().int().min(1).max(5000).optional(),
   employmentType: employmentTypeSchema.default("Not specified"),
   salaryGradeOrCompensation: z.string().trim().max(140).optional(),
+  cardSummary: z.string().trim().max(180).optional(),
   description: z.string().trim().min(16, "Provide an accurate summary description.").max(2500),
   qualifications: z.array(z.string().trim().min(1).max(300)).min(1, "Add at least one qualification or eligibility item.").max(20),
   requirements: z.array(z.string().trim().min(1).max(300)).min(1, "Add at least one documentary requirement.").max(20),
@@ -506,6 +507,7 @@ function csc2024Vacancy(params: {
     vacanciesCount: 1,
     employmentType: "Permanent (Plantilla)",
     salaryGradeOrCompensation: `Salary Grade ${params.sg} — ₱${params.salary} / month`,
+    cardSummary: `CSC Form No. 9 Item ${params.itemNo} (SG-${params.sg}) closed August 31, 2024; kept for qualification and salary benchmarking.`,
     description: `Civil Service Commission (CS Form No. 9, Revised 2017) Publication 2024 (4th Tranche) Item No. ${params.itemNo} (Plantilla Item ${params.plantillaItem}) assigned to ${params.office}. Applications closed on August 31, 2024.`,
     qualifications: [
       `Education: ${params.education}`,
@@ -557,6 +559,7 @@ export const INITIAL_PESO_OPPORTUNITIES: PesoOpportunity[] = [
     employer: "PESO Malaybalay City & Accredited Local Employers",
     location: "PESO Desk, 2nd Floor, New City Hall, Brgy. Casisang, Malaybalay City",
     employmentType: "Not specified",
+    cardSummary: "Walk-in and email NSRP profiling that matches jobseekers with accredited Malaybalay and regional employers.",
     description:
       "Walk-in and email-based jobseeker profiling via the National Skills Registration Program (NSRP). Once enrolled, PESO matches applicants with accredited local establishments, retail/service firms, agribusinesses, and regional openings.",
     qualifications: [
@@ -592,6 +595,7 @@ export const INITIAL_PESO_OPPORTUNITIES: PesoOpportunity[] = [
     employer: "PESO Malaybalay City & DOLE Region 10 — Participating Employers",
     location: "People's Hall, New City Hall, Barangay Casisang, Malaybalay City (Standard Venue)",
     employmentType: "Full-Time",
+    cardSummary: "Multi-employer hiring events with DOLE Region 10 and DMW agencies for on-the-spot screening and interviews.",
     description:
       "Periodic multi-employer hiring events organized by PESO Malaybalay with DOLE Region 10 and DMW/OWWA-cleared agencies, bringing dozens of local and overseas employers together for on-the-spot screening and interviews.",
     qualifications: [
@@ -628,6 +632,7 @@ export const INITIAL_PESO_OPPORTUNITIES: PesoOpportunity[] = [
     location: "City Government Offices & Partner Establishments, Malaybalay City",
     employmentType: "Part-Time / Seasonal",
     salaryGradeOrCompensation: "DOLE 40% + LGU 60% wage share (cycle rate per DOLE-10)",
+    cardSummary: "DOLE–LGU seasonal paid employment program under RA 10917 for college, SHS, and Out-of-School Youth students.",
     description:
       "Flagship student employment initiative giving poor but deserving college/SHS students and Out-of-School Youth short-term paid work during summer or Christmas breaks under RA 10917.",
     qualifications: [
@@ -663,6 +668,7 @@ export const INITIAL_PESO_OPPORTUNITIES: PesoOpportunity[] = [
     location: "Participating Barangay Sites & New City Hall Orientation Desk, Malaybalay City",
     employmentType: "Part-Time / Seasonal",
     salaryGradeOrCompensation: "DOLE-10 emergency work stipend (regional minimum wage basis)",
+    cardSummary: "DOLE emergency community work orientations, barangay beneficiary endorsement, and payout coordination.",
     description:
       "Tulong Panghanapbuhay sa Ating Disadvantaged/Displaced Workers (TUPAD) community work orientations, barangay beneficiary endorsement, and payout coordination conducted with DOLE Bukidnon Provincial Field Office.",
     qualifications: [
@@ -696,6 +702,7 @@ export const INITIAL_PESO_OPPORTUNITIES: PesoOpportunity[] = [
     employer: "PESO Malaybalay City / DOLE DILEEP & Partner Institutions",
     location: "PESO Office, 2nd Floor, New City Hall, Casisang, Malaybalay City",
     employmentType: "Program Benefit",
+    cardSummary: "Assesses and issues PESO endorsements for low-income workers and groups applying for DOLE Kabuhayan kits.",
     description:
       "Assesses and issues formal PESO livelihood endorsements to qualified individuals, workers' groups, and associations applying for DOLE Kabuhayan or partner livelihood starter kits and grants.",
     qualifications: [
@@ -730,6 +737,7 @@ export const INITIAL_PESO_OPPORTUNITIES: PesoOpportunity[] = [
     employer: "City Government of Malaybalay (Hosted via PESO)",
     location: "Assigned City Hall Departments & Field Offices, Malaybalay City",
     employmentType: "Internship / OJT",
+    cardSummary: "Places 4th-year college students with active school MOAs into LGU Malaybalay offices for practicum hours.",
     description:
       "Places 4th-year college students in City Government offices for required academic practicum hours, guided by school Memoranda of Agreement and workplace orientations.",
     qualifications: [
@@ -762,6 +770,7 @@ export const INITIAL_PESO_OPPORTUNITIES: PesoOpportunity[] = [
     employer: "PESO Malaybalay City in coordination with DMW & OWWA",
     location: "PESO Office, 2nd Floor, New City Hall, Casisang, Malaybalay City",
     employmentType: "Program Benefit",
+    cardSummary: "Assists active, returning, or distressed OFWs and families with DMW and OWWA welfare and reintegration referrals.",
     description:
       "Dedicated help desk assisting active, returning, or distressed Overseas Filipino Workers and their families with profiling, welfare referrals, reintegration advice, and coordination with DMW and OWWA.",
     qualifications: [
@@ -795,6 +804,7 @@ export const INITIAL_PESO_OPPORTUNITIES: PesoOpportunity[] = [
     employer: "PESO Malaybalay City, DOLE-10 & DepEd Schools Division",
     location: "Participating Public & Partner High Schools, Malaybalay City",
     employmentType: "Program Benefit",
+    cardSummary: "Grade 10 career guidance orientations aligning senior high tracks, scholarships, and TESDA trades with local jobs.",
     description:
       "School-based labor market orientation helping Grade 10 learners align senior high tracks, college scholarships, and TESDA trades with Bukidnon and Northern Mindanao employment trends.",
     qualifications: ["Grade 10 learners & participating Malaybalay high schools"],
