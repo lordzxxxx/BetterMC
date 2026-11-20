@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import App from "./App";
+import { sitePages } from "./sitePages";
 import { legislativeHearingRecords, bacLivestreamEntries } from "./publicInformation";
 import {
   barangayMicrosites,
@@ -379,7 +380,9 @@ describe("BetterMC public portal", () => {
       "/procurement/livestreams",
     );
     expect(within(navigation).getByRole("link", { name: /Hearings/i })).toHaveAttribute("href", "/hearings");
-    expect(within(navigation).getAllByRole("link")).toHaveLength(12);
+    expect(within(navigation).getByRole("link", { name: /City Offices/i })).toHaveAttribute("href", "/offices");
+    expect(within(navigation).getByRole("link", { name: /PESO & Jobs/i })).toHaveAttribute("href", "/peso");
+    expect(within(navigation).getAllByRole("link")).toHaveLength(sitePages.length);
   });
 
   it("lists source-linked transparency records", () => {
