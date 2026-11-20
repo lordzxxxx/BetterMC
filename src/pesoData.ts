@@ -569,7 +569,7 @@ function csc2024Vacancy(params: {
     vacanciesCount: 1,
     employmentType: "Permanent (Plantilla)",
     salaryGradeOrCompensation: `Salary Grade ${params.sg} — ₱${params.salary} / month`,
-    description: `Civil Service Commission (CS Form No. 9, Revised 2017) Publication 2024 (4th Tranche) Item No. ${params.itemNo} (Plantilla Item ${params.plantillaItem}) assigned to ${params.office}. The application window closed on August 31, 2024; preserved here for transparent career tracking and salary-grade benchmarking.`,
+    description: `Civil Service Commission (CS Form No. 9, Revised 2017) Publication 2024 (4th Tranche) Item No. ${params.itemNo} (Plantilla Item ${params.plantillaItem}) assigned to ${params.office}. Applications closed on August 31, 2024.`,
     qualifications: [
       `Education: ${params.education}`,
       `Training: ${params.training}`,
@@ -599,7 +599,7 @@ function csc2024Vacancy(params: {
     sourceLabel: "LGU Malaybalay CS Form No. 9 Publication (4th Tranche, Aug 16, 2024)",
     sourceUrl: CSC_FORM_9_2024_URL,
     notes:
-      "Historical verified CSC Form No. 9 record (92 total plantilla positions were published on Aug 16, 2024 with Aug 31, 2024 deadline).",
+      "Indexed from the verified August 16–31, 2024 CS Form No. 9 batch (92 plantilla items) so Malaybalay jobseekers can benchmark required CSC eligibility and salary grades.",
     createdAt: SEED_TIMESTAMP,
     updatedAt: SEED_TIMESTAMP,
     createdBy: "verified-seed",
@@ -646,42 +646,6 @@ export const INITIAL_PESO_OPPORTUNITIES: PesoOpportunity[] = [
     sourceLabel: "2026 Citizen's Charter — PESO Service #1 (Employment Facilitation)",
     sourceUrl: CITIZENS_CHARTER_2026_URL,
     applicationUrl: PESO_FACEBOOK_PAGE_URL,
-  }),
-  seedProgram({
-    id: "seed-peso-daily-fb-vacancies",
-    slug: "peso-verified-employer-vacancies-bulletin",
-    title: "Daily Private-Sector & Partner Hiring Bulletins (PESO Facebook Feed)",
-    opportunityType: "job-vacancy",
-    employer: "Accredited Private Employers Partnering with PESO Malaybalay",
-    location: "Malaybalay City & Regional Partner Sites (Check Individual Posts)",
-    employmentType: "Full-Time",
-    description:
-      "PESO Malaybalay vets private employers (Business Permit, BIR, SEC/DTI) under Service #3 before posting active private-sector vacancies. Because daily employer posters are published directly on PESO's official Facebook page without a public unauthenticated JSON feed, check the verified PESO Facebook page or visit PESO Desk for today's active employer openings.",
-    qualifications: [
-      "Varies per verified employer hiring bulletin",
-      "Open to Malaybalay City residents",
-    ],
-    requirements: [
-      "Updated resume / application letter & valid ID",
-      "Additional employer-specific credentials noted in each verified post",
-    ],
-    applicationProcess: [
-      "Open the official PESO Malaybalay Facebook Page or visit the City Hall PESO bulletin board for today's vetted employer list.",
-      "Follow instructions in the verified post or visit PESO Desk (2nd Flr, New City Hall) for referral.",
-    ],
-    contactDetails: [
-      "PESO Official Facebook Page (verified channel)",
-      "Email: pesomalaybalaycity@gmail.com",
-      "Mobile: 0907-688-5735 / 0915-542-3434",
-    ],
-    publishedDate: "2026-01-05",
-    isRecurringProgram: true,
-    publicationStatus: "published",
-    sourceLabel: "PESO Malaybalay City Official Facebook Page & 2026 Charter Service #3",
-    sourceUrl: PESO_FACEBOOK_PAGE_URL,
-    applicationUrl: PESO_FACEBOOK_PAGE_URL,
-    notes:
-      "Individual private-company postings from PESO's Facebook page can also be added directly into this directory by PESO staff via the Admin Console.",
   }),
   seedProgram({
     id: "seed-peso-job-fair-peoples-hall",
@@ -752,6 +716,40 @@ export const INITIAL_PESO_OPPORTUNITIES: PesoOpportunity[] = [
     publicationStatus: "published",
     sourceLabel: "2026 Citizen's Charter — PESO Service #4 (SPES & WAP)",
     sourceUrl: CITIZENS_CHARTER_2026_URL,
+  }),
+  seedProgram({
+    id: "seed-peso-tupad-livelihood",
+    slug: "dole-lgu-tupad-emergency-employment",
+    title: "TUPAD Community Emergency Employment (DOLE–LGU Coordination)",
+    opportunityType: "livelihood-program",
+    employer: "DOLE Region 10, Barangay Councils & PESO Malaybalay",
+    location: "Participating Barangay Sites & New City Hall Orientation Desk, Malaybalay City",
+    employmentType: "Part-Time / Seasonal",
+    salaryGradeOrCompensation: "DOLE-10 emergency work stipend (regional minimum wage basis)",
+    description:
+      "Tulong Panghanapbuhay sa Ating Disadvantaged/Displaced Workers (TUPAD) community work orientations, barangay beneficiary endorsement, and payout coordination conducted with DOLE Bukidnon Provincial Field Office.",
+    qualifications: [
+      "Underemployed, seasonal, informal-sector, or displaced worker residing in Malaybalay City",
+      "Indigent household beneficiary endorsed through the Barangay Council and validated by DOLE Region 10",
+    ],
+    requirements: [
+      "Valid Government-Issued ID & Barangay Certificate of Residency / Indigency",
+      "Accomplished DOLE TUPAD Beneficiary Profile Form during barangay profiling",
+    ],
+    applicationProcess: [
+      "Inquire at your Barangay Hall for active TUPAD beneficiary profiling slots or watch PESO announcements.",
+      "Attend mandatory DOLE–PESO safety and work-scope orientation prior to community deployment.",
+      "Complete the assigned community work days and claim payout per DOLE Bukidnon disbursement schedule.",
+    ],
+    contactDetails: [
+      "PESO Malaybalay Desk: 0907-688-5735 / 0915-542-3434",
+      "Email: pesomalaybalaycity@gmail.com",
+    ],
+    publishedDate: "2026-01-05",
+    isRecurringProgram: true,
+    publicationStatus: "published",
+    sourceLabel: "DOLE-10 Bukidnon Reports & PESO Official Facebook Page",
+    sourceUrl: PESO_FACEBOOK_PAGE_URL,
   }),
   seedProgram({
     id: "seed-peso-livelihood-endorsement",

@@ -2,19 +2,14 @@ import type { Source } from "./data";
 import { CITIZENS_CHARTER_2026_URL, PESO_CHARTER_SERVICES_2026, PESO_FACEBOOK_PAGE_URL } from "./pesoData";
 
 export type OfficeCategory =
-  | "Executive"
-  | "Finance & Administration"
+  | "Executive & Legislative"
   | "Employment & Livelihood"
+  | "Finance & Administration"
   | "Health & Social Welfare"
   | "Public Safety & Emergency"
-  | "Infrastructure & Planning"
-  | "Business, Permits & Regulation"
-  | "Agriculture & Veterinary"
-  | "Environment & Natural Resources"
-  | "Housing & Urban Development"
-  | "Tourism, Culture & Enterprise"
-  | "Public Services & Records"
-  | "Legislative & Governance"
+  | "Infrastructure, Housing & Planning"
+  | "Agriculture, Environment & Tourism"
+  | "Civil Registry, Permits & Community"
   | "National & Partner Agencies";
 
 export type OfficeServiceGuide = {
@@ -56,6 +51,8 @@ export type GovernmentOffice = {
   headOfOffice?: string;
   headNote?: string;
   overview: string;
+  aboutDetails?: string;
+  whoServes?: string;
   mandate: string;
   divisions?: string[];
   address: string;
@@ -119,19 +116,14 @@ const officeBase = (
 });
 
 export const OFFICE_CATEGORIES: OfficeCategory[] = [
-  "Executive",
+  "Executive & Legislative",
   "Employment & Livelihood",
   "Finance & Administration",
-  "Public Services & Records",
   "Health & Social Welfare",
   "Public Safety & Emergency",
-  "Business, Permits & Regulation",
-  "Infrastructure & Planning",
-  "Environment & Natural Resources",
-  "Agriculture & Veterinary",
-  "Housing & Urban Development",
-  "Tourism, Culture & Enterprise",
-  "Legislative & Governance",
+  "Infrastructure, Housing & Planning",
+  "Agriculture, Environment & Tourism",
+  "Civil Registry, Permits & Community",
   "National & Partner Agencies",
 ];
 
@@ -152,6 +144,10 @@ export const governmentOffices: GovernmentOffice[] = [
     headNote: "Cited as PESO Manager in DOLE-10 2024–2025 regional dispatches and City Administrator in sakata.malaybalaycity.gov.ph.",
     overview:
       "Created under the Public Employment Service Office Act (RA 8759, as amended by RA 10691), PESO Malaybalay serves as the City Government's primary non-fee-charging employment facilitation hub linking local jobseekers, students, displaced workers, OFWs, and employers.",
+    aboutDetails:
+      "Operating from the 2nd Floor of New City Hall under No Noon Break Citizen's Charter standards, PESO Malaybalay administers National Skills Registration Program (NSRP) profiling, Employer LRA/SRA accreditation, SPES summer work stipends with DOLE Region 10, livelihood endorsement certifications, 4th-year OJT placement, and direct referral assistance for OFWs and their families.",
+    whoServes:
+      "Malaybalay City jobseekers, senior high/college students, Out-of-School Youth, OFW families, barangay livelihood groups, and DOLE-cleared employers.",
     mandate:
       "Provide prompt, timely, and efficient employment information, job matching and referral, Local/Special Recruitment Activity coordination, SPES & Work Appreciation Program implementation, livelihood endorsement, student OJT placement, Career Guidance Advocacy, Job Fair management, and OFW welfare referral to DMW and OWWA.",
     divisions: [
@@ -221,13 +217,17 @@ export const governmentOffices: GovernmentOffice[] = [
     shortName: "City Mayor's Office",
     acronym: "CMO",
     classification: "Executive Department — Office of the Local Chief Executive",
-    category: "Executive",
+    category: "Executive & Legislative",
     logoPath: "/images/offices/city-mayor.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
     headOfOffice: "Hon. Jay Warren R. Pabillaran (City Mayor)",
     overview:
       "Central executive nerve center of the City Government of Malaybalay overseeing general supervision of city departments, barangay coordination, executive orders, local special bodies, and attached mayor's divisions (BPLD, PESO, Tourism, CUDHO, OSCA, TMC, BAC, Community Affairs).",
+    aboutDetails:
+      "Under the Local Government Code (RA 7160), the Office of the City Mayor directs citywide executive policy across Security and Safety (S), Health and Sanitation (H), Integrity (I), Environment & Culture Protection (E), Eco-Agri Tourism (L), and Infrastructure Development (D), while housing citizen-facing service units on both floors of New City Hall.",
+    whoServes:
+      "All 46 barangays, executive department heads, civil society partners, residents requesting executive clearances, and local special bodies.",
     mandate:
       "Exercise general supervision and control over all programs, projects, services, and activities of the city government pursuant to the Local Government Code (RA 7160).",
     divisions: [
@@ -283,13 +283,18 @@ export const governmentOffices: GovernmentOffice[] = [
     acronym: "CAdO",
     classification: "Executive Department — Management, Public Information & MIS Supervision",
     parentOffice: "Office of the City Mayor",
-    category: "Executive",
+    category: "Executive & Legislative",
     logoPath: "/images/offices/city-administrator.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
     headOfOffice: "Atty. Anna Marie R. Bergado (City Administrator)",
+    headNote: "Assisted by Jeanyben M. Dacalanio (Assistant City Administrator).",
     overview:
       "Manages day-to-day administrative coordination across all City Government offices and directly houses the Public Information Division (Banwag Newsletter / Banwag sa Dakbayan / 8888 Citizen Complaint Hotline) and Management Information Systems (MIS) Division.",
+    aboutDetails:
+      "Serving both internal City Hall operations and public feedback channels under RA 11032, the City Administrator's Office oversees City Hall digital networks, IEC publications, official ID printing, Committee on Anti-Red Tape (CART) compliance, and Citizen's Charter monitoring across 24 documented transactions.",
+    whoServes:
+      "City Hall departments, citizens filing 8888 / CART service feedback, Senior Citizen pocket ID applicants, and media partners.",
     mandate:
       "Develop plans and strategies on management and administrative programs, assist in coordinating all city departments, enforce anti-red tape compliance, operate public information channels, and maintain City Government IT/MIS infrastructure.",
     divisions: [
@@ -331,17 +336,23 @@ export const governmentOffices: GovernmentOffice[] = [
     shortName: "Sangguniang Panlungsod",
     acronym: "SP",
     classification: "Legislative Branch — City Council & Legislative Secretariat",
-    category: "Legislative & Governance",
+    category: "Executive & Legislative",
     logoPath: "/images/offices/sangguniang-panlungsod.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
-    headOfOffice: "Hon. Estelito \"Litoy\" R. Marabe (Presiding Officer) • Atty. Phoebe Corazon C. Hidalgo (Asst. SP Secretary / Secretariat)",
+    headOfOffice: "Atty. Phoebe Corazon C. Hidalgo (SP Secretary) • Hon. Estelito \"Litoy\" R. Marabe (Presiding Officer)",
+    headNote: "Assisted by Marilou T. Sinues (Assistant SP Secretary) and Jennifer T. Sombilon (City Library, Librarian II).",
     overview:
-      "The legislative lawmaking body of the City of Malaybalay (11 Councilors + ABC & SK Federation Presidents + IP Representative) supported by the SP Secretariat, Research Division, Records/Legislative Service Division, and People's Law Enforcement Board (PLEB) Secretariat.",
+      "The legislative lawmaking body of the City of Malaybalay (11 Councilors + ABC & SK Federation Presidents + IP Representative) supported by the SP Secretariat, Research Division, Records/Legislative Service Division, City Library, and People's Law Enforcement Board (PLEB) Secretariat.",
+    aboutDetails:
+      "Located in the Sangguniang Panlungsod Building inside the City Hall Compound, the SP Secretariat records session journals, releases certified copies of enacted City Ordinances and Resolutions, tracks barangay legislative reviews, operates the Malaybalay City Public Library, and administers civilian PLEB clearances.",
+    whoServes:
+      "Citizens requesting ordinances or PLEB clearances, researchers & students using the City Library, CSOs seeking legislative accreditation, and all 46 Barangay Councils.",
     mandate:
       "Enact ordinances, approve resolutions, appropriate city funds, review barangay ordinances/resolutions, conduct quasi-judicial PLEB hearings, and safeguard official legislative journals and ordinances for public inspection.",
     divisions: [
-      "Office of the Secretary to the Sanggunian",
+      "Office of the Secretary to the Sanggunian & Executive Unit",
+      "Malaybalay City Public Library (Records & Reading Room)",
       "Legislative Research Division",
       "Records & Legislative Service Division",
       "People's Law Enforcement Board (PLEB) Secretariat",
@@ -382,15 +393,24 @@ export const governmentOffices: GovernmentOffice[] = [
     shortName: "Vice Mayor's Office",
     acronym: "CVMO",
     classification: "Legislative Executive — Presiding Officer of the Sangguniang Panlungsod",
-    category: "Legislative & Governance",
+    category: "Executive & Legislative",
     logoPath: "/images/offices/sangguniang-panlungsod.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
     headOfOffice: "Hon. Estelito \"Litoy\" R. Marabe (City Vice Mayor)",
     overview:
       "Serves as Presiding Officer of the Sangguniang Panlungsod, leads the legislative branch secretariat, coordinates committee referrals, and facilitates constituent legislative consultations and requests.",
+    aboutDetails:
+      "Working directly alongside regular Council sessions and standing committees in the Sangguniang Panlungsod Building, the Office of the City Vice Mayor routes proposed ordinances, monitors committee hearings, and assists Malaybalay residents seeking legislative endorsement or consultation.",
+    whoServes:
+      "Constituents requesting legislative consultation, barangay officials coordinating ordinance reviews, and standing Sanggunian committees.",
     mandate:
       "Preside over Sangguniang Panlungsod sessions, sign warrants for legislative expenditures, appoint legislative staff subject to civil service rules, and assume executive duties when mandated by law.",
+    divisions: [
+      "Office of the City Vice Mayor",
+      "Presiding Officer's Legislative Support Desk",
+      "Constituent Consultation & Committee Referral Unit",
+    ],
     address: "Sangguniang Panlungsod Building, City Hall Compound, Barangay Casisang, Malaybalay City",
     barangay: "Casisang",
     coordinates: NEW_CITY_HALL_COORDS,
@@ -420,13 +440,17 @@ export const governmentOffices: GovernmentOffice[] = [
     acronym: "CMO-CAD",
     classification: "City Mayor's Office — Division (Scholarships, Purok Devt & CSO Accreditation)",
     parentOffice: "Office of the City Mayor",
-    category: "Public Services & Records",
+    category: "Civil Registry, Permits & Community",
     logoPath: "/images/offices/malaybalay-city-seal.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: CITIZENS_CHARTER_2026_URL,
-    headOfOffice: "Not listed by name in reviewed pages (handled by Community Affairs Officer IV)",
+    headNote: "Division under the Office of the City Mayor (supervised by CMO – Community Affairs Officer).",
     overview:
       "Directly serves puroks, barangays, civil society organizations (CSOs), NGOs, and college students under the City Mayor's Office—administering the Malaybalay City Scholarship Program, Mayor's Clearance issuance, Sports Assistance, and CSO Accreditation.",
+    aboutDetails:
+      "Stationed at the City Mayor's Office Wing inside New City Hall, the Community Affairs Division bridges neighborhood development projects across Malaybalay's 46 barangays with youth educational grants (requiring parent annual net income ≤ ₱250,000), Mayor's Clearances for employment/compliance, and formal CSO accreditation.",
+    whoServes:
+      "Malaybalay City college scholars, barangay & purok leaders, local sports groups, job applicants needing Mayor's Clearance, and NGOs/CSOs.",
     mandate:
       "Process Barangay Purok Development projects, evaluate new and continuing City Scholars, accredit NGOs/CSOs for Local Special Body participation, and issue Mayor's Clearances.",
     divisions: [
@@ -477,11 +501,20 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/malaybalay-city-seal.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: CITIZENS_CHARTER_2026_URL,
-    headOfOffice: "Not printed in reviewed Charter/web pages (OSCA Head appointed per RA 9994)",
+    headNote: "OSCA Head appointed by the City Mayor pursuant to Republic Act No. 9994.",
     overview:
       "Dedicated division under the City Mayor's Office implementing the Expanded Senior Citizens Act (RA 9994) through rapid Senior Citizen ID issuance, medicine/grocery discount booklets, and elderly welfare referrals.",
+    aboutDetails:
+      "Residents aged 60 years and older—or authorized representatives carrying a valid ID and authorization—transact directly at the OSCA desk inside New City Hall Compound to obtain nationwide 20% discount IDs and purchase slip booklets within 15–30 minutes at zero cost.",
+    whoServes:
+      "Senior citizens aged 60+ residing in Malaybalay City, authorized family representatives, and barangay senior citizen associations.",
     mandate:
       "Protect the rights and privileges of elderly Malaybalay residents aged 60+ by maintaining the senior citizens registry, issuing IDs and purchase slip booklets, and coordinating social pension and centenarian benefits.",
+    divisions: [
+      "Senior Citizens ID Issuance & Registry Unit",
+      "Medicine & Grocery Purchase Booklet Counter",
+      "Elderly Welfare & Social Pension Coordination Desk",
+    ],
     address: "New City Hall Compound, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     barangay: "Casisang",
     coordinates: NEW_CITY_HALL_COORDS,
@@ -525,9 +558,13 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/chrmo.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
-    headOfOffice: "Magnolia O. Improgo (City Government Department Head I — per CS Form No. 9)",
+    headOfOffice: "Magnolia O. Improgo (City Government Department Head I — CHRMO)",
     overview:
       "Manages City Government workforce recruitment (CSC Form No. 9 publications), plantilla administration, PRIME-HRM compliance, training and development, service records, and employee benefits.",
+    aboutDetails:
+      "Based on the 2nd Floor of New City Hall, CHRMO receives Personal Data Sheet (CS Form No. 212) submissions during open CSC plantilla publication windows, maintains employee service histories, issues certificates of employment, and oversees merit-based promotion boards.",
+    whoServes:
+      "City Hall job applicants (CSC Form No. 9), active and retired LGU employees, department heads, and university internship coordinators.",
     mandate:
       "Formulate and administer personnel programs, merit selection and placement under Civil Service Commission rules, employee welfare, leave and retirement processing, and HR recordkeeping.",
     divisions: [
@@ -562,15 +599,24 @@ export const governmentOffices: GovernmentOffice[] = [
     shortName: "City Legal Office",
     acronym: "CLO",
     classification: "Executive Department — Municipal Legal Counsel & Litigation",
-    category: "Executive",
+    category: "Executive & Legislative",
     logoPath: "/images/offices/city-legal.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
-    headOfOffice: "Not named in reviewed Charter/web pages (headed by City Legal Officer)",
+    headOfOffice: "Atty. Julius Michael G. Barroso (City Legal Officer)",
+    headNote: "Research, Investigation & Legal Assistance Division led by Atty. Alfredo G. Cape, Jr. (City Legal Officer IV).",
     overview:
       "Chief legal counsel of the City Government of Malaybalay drafting contracts, reviewing ordinances and barangay legal queries, representing the city in court/administrative cases, and rendering legal opinions.",
+    aboutDetails:
+      "Supporting both City Hall departments and barangay councils from the 2nd Floor of New City Hall, the City Legal Office examines municipal contracts, Memoranda of Agreement, administrative complaints, and statutory compliance matters prior to executive action.",
+    whoServes:
+      "City departments, barangay captains and secretaries seeking contract/MOA review, and residents with official administrative legal queries.",
     mandate:
       "Represent the City in all civil actions and special proceedings, formulate measures to advance human rights and public accountability, inspect contracts, and investigate official administrative complaints.",
+    divisions: [
+      "Administrative Support Division",
+      "Research, Investigation & Legal Assistance Division",
+    ],
     address: "2nd Floor, New City Hall, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     barangay: "Casisang",
     coordinates: NEW_CITY_HALL_COORDS,
@@ -599,19 +645,24 @@ export const governmentOffices: GovernmentOffice[] = [
     shortName: "Planning & Dev't (CPDO)",
     acronym: "CPDO",
     classification: "Executive Department — Comprehensive Land Use, Zoning & Development Planning",
-    category: "Infrastructure & Planning",
+    category: "Infrastructure, Housing & Planning",
     logoPath: "/images/offices/cpdo.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
-    headOfOffice: "Not named in reviewed pages (City Planning & Development Coordinator)",
+    headOfOffice: "Engr. Adrian R. Gamboa (City Planning & Development Coordinator)",
+    headNote: "Assisted by Maria Rosario G. Saldua (Assistant City Planning & Development Coordinator).",
     overview:
       "Coordinates citywide socio-economic planning, Comprehensive Land Use Plan (CLUP) enforcement, locational clearances, zoning certifications, and residential subdivision permit evaluations.",
+    aboutDetails:
+      "Applicants constructing commercial structures, residences, or subdivision projects secure CPDO Locational Clearances and Zoning Certifications on the 2nd Floor of New City Hall prior to OBO Building Permit or BPLD Business Permit approval. CPDO also houses the city's GIS and Data Management sections.",
+    whoServes:
+      "Property owners, architects/engineers applying for building/locational clearances, real estate developers, and all 46 barangay investment planners.",
     mandate:
       "Formulate integrated economic, social, physical, and fiscal development plans; act as Secretariat to the City Development Council; and enforce the City Zoning Ordinance.",
     divisions: [
-      "Planning, Programming & Zoning Administration Division",
-      "Investment & Programming Section",
-      "Monitoring & Evaluation / Zoning Enforcement Section",
+      "Administrative Unit",
+      "Planning, Information Management, Monitoring & Evaluation Division (Data Management & GIS Sections)",
+      "Zoning Administration & Enforcement Division",
     ],
     address: "2nd Floor, New City Hall, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     barangay: "Casisang",
@@ -647,10 +698,22 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/city-budget.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Ronny B. Gamao (City Budget Officer)",
+    headNote: "City Budget Operations Division headed by Mary Grace R. Alenton (Budget Officer IV).",
     overview:
       "Oversees preparation and execution of Malaybalay City's Annual & Supplemental Budgets, certifies fund obligations (OBR/POs), and reviews the annual budgets of all 46 barangays.",
+    aboutDetails:
+      "Stationed on the 2nd Floor of New City Hall, the City Budget Office validates eBudget Obligation Requests for payrolls, utilities, financial assistance, and supplier claims while performing preliminary technical reviews of annual and supplemental budgets submitted by Malaybalay's 46 barangays.",
+    whoServes:
+      "All 46 barangay treasurers/councils, City Hall departments, suppliers awaiting OBR certification, and transparency researchers.",
     mandate:
       "Prepare forms, orders, and circulars for annual executive budget preparation, certify appropriation availability prior to disbursements, and assist the Sangguniang Panlungsod in reviewing barangay budgets.",
+    divisions: [
+      "Administrative Unit",
+      "City Budget Operations Division",
+      "City Budget Preparation Section",
+      "Review and Execution Section (City & 46 Barangays)",
+    ],
     address: "2nd Floor, New City Hall, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     barangay: "Casisang",
     coordinates: NEW_CITY_HALL_COORDS,
@@ -685,11 +748,18 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/city-accounting.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Carlito R. Juarez, CPA (City Accountant)",
+    headNote: "Assisted by Ramiel B. Coscos, CPA (Assistant City Accountant).",
     overview:
       "Maintains City and Barangay books of accounts under COA New Government Accounting System rules, pre-audits disbursement vouchers, reconciles bank accounts, and issues BIR tax certificates and financial statements.",
+    aboutDetails:
+      "On the 2nd Floor of New City Hall, City Accounting teams examine disbursement vouchers prior to City Treasurer check release, issue Accountant's Advices for barangay transactions, compile monthly bank reconciliations, and release BIR withholding tax certificates and employee net take-home pay certifications.",
+    whoServes:
+      "Barangay treasurers/captains, City Hall suppliers & contractors, employees needing pay/tax certificates, and Commission on Audit (COA) reviewers.",
     mandate:
       "Install and maintain internal audit systems, prepare and submit city and barangay financial statements to COA, issue Accountant's Advices, and certify net take-home pay.",
     divisions: [
+      "Administrative Support Division",
       "City Financial Accounting Services Division (Accounts & Subsidiary Recap)",
       "City Financial Auditing Services Division",
       "Barangay Financial Accounting Services Division",
@@ -728,8 +798,13 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/city-treasurer.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headNote: "Supervised by the City Treasurer across 1st Floor Cashier Windows & BOSS One-Stop Counter.",
     overview:
       "Collects Real Property Tax, Business Taxes, Transfer Tax, Professional Tax, Community Tax Certificates (Cedula), and regulatory fees—and disburses supplier checks, financial assistance, and payroll.",
+    aboutDetails:
+      "Located on the Ground (1st) Floor of New City Hall across Windows 1–12, the City Treasurer's Office processes Cedula issuance in 8 minutes, accepts Real Property Tax and quarterly business payments, settles TMC traffic citations, and releases approved financial assistance and supplier checks.",
+    whoServes:
+      "Taxpayers, business owners, property buyers/sellers, licensed professionals paying PTR, and check payees.",
     mandate:
       "Advise the City Mayor and Sangguniang Panlungsod on local revenue disposition, take custody and exercise proper management of city funds, and issue official tax clearances.",
     divisions: ["Revenue Generation Division", "Cash & Disbursement Division", "Administrative Division"],
@@ -768,10 +843,21 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/city-mayor.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Atty. Mitchell D. Talatala (City Assessor)",
+    headNote: "Assisted by Maylyn T. Gantalao (Assistant City Assessor).",
     overview:
       "Maintains Malaybalay City's master real property assessment rolls, tax maps, and property records across all 46 barangays—issuing Tax Declarations, ownership transfers, subdivisions, and Certified True Copies.",
+    aboutDetails:
+      "Situated on the 1st Floor of New City Hall near CTO tax windows, the City Assessor's Office maintains parcel tax mapping, evaluates new buildings and machinery for fair market valuation, and verifies Tax Declaration histories before real property sales or transfers.",
+    whoServes:
+      "Landowners, homeowners, surveyors, real estate buyers, banks requiring property certifications, and heirs processing estate transfers.",
     mandate:
       "Ensure laws and policies governing real property appraisal and assessment for taxation are fairly, uniformly, and accurately executed across agricultural, residential, commercial, and industrial parcels.",
+    divisions: [
+      "Administrative Unit",
+      "Appraisal & Assessment Services Division (Appraisal & Assessment Sections)",
+      "Records Management Section",
+    ],
     address: "1st Floor, New City Hall, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     barangay: "Casisang",
     coordinates: NEW_CITY_HALL_COORDS,
@@ -806,11 +892,20 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/cgso.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Dioscora R. Niere, CPA (CGSO-Designate)",
     overview:
       "Central custodian of City Government real and personal properties, supplies warehousing, records custody, vehicle fleet dispatch, and municipal building upkeep.",
+    aboutDetails:
+      "Operating from the 2nd Floor of New City Hall, CGSO verifies supplier deliveries through Inspection and Acceptance Reports alongside BAC, tracks property custodian acknowledgments across City departments, and releases Inventory Transfer Reports (ITR) to barangays.",
+    whoServes:
+      "City Hall employees requesting property clearances, accredited LGU suppliers delivering equipment, and all 46 barangay supply custodians.",
     mandate:
       "Take custody of and be accountable for all city properties, collate supply requisitions, perform physical inventory with the Inventory Committee, and maintain government buildings and facilities.",
-    divisions: ["Supply & Property Management Division", "Maintenance & Public Services Division"],
+    divisions: [
+      "Records, Property & Inventory Division",
+      "Warehouse & Inspection Division",
+      "Information Campaign & Documentation Section",
+    ],
     address: "2nd Floor, New City Hall, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     barangay: "Casisang",
     coordinates: NEW_CITY_HALL_COORDS,
@@ -839,14 +934,25 @@ export const governmentOffices: GovernmentOffice[] = [
     shortName: "Civil Registry (CCRO)",
     acronym: "CCRO",
     classification: "Executive Department — Vital Events Registration & Civil Records",
-    category: "Public Services & Records",
+    category: "Civil Registry, Permits & Community",
     logoPath: "/images/offices/ccro.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headNote: "Led by the City Civil Registrar at 1st Floor, New City Hall (Charter pp. 188–250).",
     overview:
       "Records all births, marriages, and deaths occurring in Malaybalay City; processes Marriage Licenses, Delayed Registrations, Legitimation, and RA 9048 / RA 10172 petitions for clerical error correction.",
+    aboutDetails:
+      "Accessible on the Ground Floor of New City Hall, the City Civil Registry Office handles hospital-borne and home-birth registrations, mandatory 10-day Marriage License postings, administrative name/date-of-birth corrections under RA 9048/10172, and free barangay mobile outreach registrations.",
+    whoServes:
+      "Parents registering newborns, couples applying for marriage licenses, bereaved families filing death certificates, and residents correcting PSA civil records.",
     mandate:
       "Implement Civil Registry Law (Act 3753), RA 9048, RA 10172, and Family Code mandates to maintain authentic civil status archives and transmit endorsements to the Philippine Statistics Authority (PSA).",
+    divisions: [
+      "Birth, Marriage & Death Vital Events Registration Division",
+      "Delayed Registration, Legitimation & Marriage License Unit",
+      "RA 9048 / RA 10172 Administrative Correction & PSA Endorsement Unit",
+      "Civil Registry Transcriptions & Certified Copy Archive",
+    ],
     address: "1st Floor, New City Hall, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     barangay: "Casisang",
     coordinates: NEW_CITY_HALL_COORDS,
@@ -882,15 +988,22 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/cswdo.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Ivy Amor C. Urbina (City Social Welfare and Development Officer)",
+    headNote: "Protective Services Division led by Hilsam N. Quemada (Social Welfare Officer IV).",
     overview:
       "Frontline social protection department managing AICS financial/medical/burial aid, Solo Parent & PWD support, Certificates of Indigency, VAWC/WEDC crisis intervention, Bahay Pag-asa CICL rehabilitation, and SEA-K livelihood groups.",
+    aboutDetails:
+      "With Ground Floor intake desks at New City Hall and 24/7 crisis centers for women and children, CSWDO prepares Social Case Study Reports, validates Solo Parent IDs and PWD assistive device requests, manages disaster evacuation camps, and administers SEA-K interest-free group capital assistance.",
+    whoServes:
+      "Indigent families in medical/burial crisis, solo parents, Persons with Disabilities (PWDs), abused women/children, and community SEA-K groups.",
     mandate:
       "Formulate measures delivering basic social welfare, family and child protection, crisis intervention, disaster camp management, and community-based rehabilitation for vulnerable Malaybalay residents.",
     divisions: [
-      "Crisis Intervention / AICS Unit",
-      "Family, Women & Children Welfare Unit (VAWC / WEDC / CNSP)",
+      "Administrative Unit",
+      "Protective Services Division (Crisis Intervention / AICS Section)",
+      "Women & Children Crisis Center (VAWC / WEDC / CNSP)",
       "Youth Welfare & Bahay Pag-asa Rehabilitation Center",
-      "PWD & Solo Parent Desk",
+      "PWD, Solo Parent & SEA-K Livelihood Desk",
     ],
     address: "1st Floor, New City Hall, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     barangay: "Casisang",
@@ -929,8 +1042,13 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/city-health.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headNote: "Led by the City Health Officer with public health physicians, dentists, sanitary inspectors, and Upper Pulangui Lying-In clinical staff.",
     overview:
       "Delivers free primary medical consultations, maternal/child immunization, dental care, TB-DOTS, schistosomiasis treatment, sanitation permits, mental health support, newborn screening, and Upper Pulangui Lying-In maternity services.",
+    aboutDetails:
+      "Headquartered at Freedom Park, Barangay 4 (Poblacion) with 46 Barangay Health Stations and the 24/7 Upper Pulangui Lying-In Clinic, CHO issues pre-employment and food-handler Health Certificates, sanitary establishment clearances for BPLD permits, and outpatient disease treatment.",
+    whoServes:
+      "Families seeking primary care/immunization, food handlers & business owners needing Sanitary Permits, pregnant mothers, and TB/mental health patients.",
     mandate:
       "Formulate and implement public health programs, manage Barangay Health Stations across 46 barangays, prevent communicable/non-communicable disease outbreaks, and enforce Sanitary Code inspections.",
     divisions: [
@@ -977,8 +1095,13 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/cdrrmo.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headNote: "Led by the LDRRMO Head operating the 24/7 City Emergency Operations Center (EOC).",
     overview:
       "24/7 emergency response, flood/landslide monitoring across Sawaga and Upper Pulangui watersheds, rescue ambulance dispatch, Barangay DRRM capacity building, and Disaster Certification issuance.",
+    aboutDetails:
+      "Stationed at Market Side, Barangay 9 (Poblacion), CDRRMO dispatches round-the-clock rescue and Emergency Medical Services (EMS), coordinates early flood advisories with PAGASA and UP Project NOAH gauges, trains all 46 BDRRMCs, and issues rapid 15-minute Calamity Certifications.",
+    whoServes:
+      "Emergency callers, flood/calamity-affected households needing certifications, barangay rescue volunteers, and schools scheduling DRRM drills.",
     mandate:
       "Design, program, and coordinate disaster risk reduction, prevention, preparedness, response, and rehabilitation across all 46 barangays under RA 10121.",
     divisions: [
@@ -1019,14 +1142,24 @@ export const governmentOffices: GovernmentOffice[] = [
     acronym: "BPLD",
     classification: "City Mayor's Office — Regulatory & Enterprise Licensing Division",
     parentOffice: "Office of the City Mayor",
-    category: "Business, Permits & Regulation",
+    category: "Civil Registry, Permits & Community",
     logoPath: "/images/offices/bpld.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Arnel S. Alagenio (Executive Assistant V - Designate) • Salvador U. Yacapin (OIC, Licensing Officer IV)",
     overview:
       "Operates Malaybalay City's Business One-Stop Shop (BOSS), issuing new Mayor's Business Permits, annual renewals, business retirements, working/occupational permits, and tricycle regulatory coordination.",
+    aboutDetails:
+      "Located on the Ground (1st) Floor of New City Hall alongside CTO, CHO Sanitary, CPDO Zoning, OBO, and BFP counters, BPLD validates business registrations, motorela permits, and consumer welfare compliance—with extended BOSS schedules every January renewal cycle.",
+    whoServes:
+      "Micro, small, medium, and large business owners, stallholders, motorela operators, and workers securing occupational permits.",
     mandate:
       "Streamline business registration under RA 11032 (Ease of Doing Business), verify regulatory clearances (Barangay, BFP FSIC, Sanitary, Zoning, OBO), and maintain Malaybalay's active business registry.",
+    divisions: [
+      "Permits & Licensing Examiner and Assessment Section",
+      "Permits / Motorela Processing, Records & Communication Section",
+      "Permits, Consumer Welfare & Inspection Section",
+    ],
     address: "1st Floor, New City Hall, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     barangay: "Casisang",
     coordinates: NEW_CITY_HALL_COORDS,
@@ -1057,12 +1190,18 @@ export const governmentOffices: GovernmentOffice[] = [
     shortName: "City Engineering (CEO)",
     acronym: "CEO",
     classification: "Executive Department — Public Works, Infrastructure Design & Maintenance",
-    category: "Infrastructure & Planning",
+    category: "Infrastructure, Housing & Planning",
     logoPath: "/images/offices/city-engineering.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Leo Rustan L. Dela Cerna (City Engineer)",
+    headNote: "Assisted by Elpidio C. Sumanduran, Jr. (Assistant City Engineer).",
     overview:
       "Designs, plans, inspects, and maintains city roads, bridges, drainage systems, public buildings, street lighting, and heavy equipment—with 25 documented Citizen's Charter engineering and quality-control services.",
+    aboutDetails:
+      "Operating from the City Engineering Compound in Barangay Casisang, CEO engineers prepare Programs of Works (POW), run Materials Testing Laboratory and Field Density Tests, inspect civil works prior to contractor progress billings, and maintain barangay farm-to-market roads and streetlights.",
+    whoServes:
+      "Barangay councils requesting infrastructure designs, civil works contractors undergoing FDT/billing inspection, and motorists reporting road/streetlight repairs.",
     mandate:
       "Initiate, review, and recommend changes in public works policies, prepare Programs of Works and detailed plans, supervise city infrastructure construction, certify contractor billings, and maintain public facilities.",
     divisions: [
@@ -1101,14 +1240,24 @@ export const governmentOffices: GovernmentOffice[] = [
     shortName: "Building Official (OBO)",
     acronym: "OBO",
     classification: "Executive Regulatory Office — National Building Code (PD 1096) Enforcement",
-    category: "Infrastructure & Planning",
+    category: "Infrastructure, Housing & Planning",
     logoPath: "/images/offices/obo.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headNote: "Led by the City Building Official under PD 1096 in coordination with CPDO Zoning & BFP.",
     overview:
       "Enforces the National Building Code of the Philippines (PD 1096) across Malaybalay City—issuing Building Permits, Certificates of Occupancy, Temporary Electrical Connection Permits, and annual structural/mechanical inspections.",
+    aboutDetails:
+      "Applicants first secure CPDO Locational Clearance and BFP Fire Safety Evaluation Clearance (FSEC) before submitting signed/sealed architectural, structural, sanitary, and electrical plans to OBO at New City Hall—releasing approved permits within 3 working days once documents are complete.",
+    whoServes:
+      "Homebuilders, commercial developers, licensed civil/electrical engineers & architects, and FUSEL/Bukidnon Second Electric Cooperative (BUSECO) applicants.",
     mandate:
       "Ensure safe, structurally sound, accessible, and code-compliant residential, commercial, and institutional construction in coordination with CPDO Zoning and BFP Fire Safety.",
+    divisions: [
+      "Architectural, Structural & Civil Plan Evaluation Unit",
+      "Electrical, Mechanical, Sanitary & Plumbing Inspection Unit",
+      "Building Permit, Occupancy & Temporary Electrical Permit Desk",
+    ],
     address: "New City Hall (Building Official / Engineering Wing), Barangay Casisang, Malaybalay City",
     barangay: "Casisang",
     coordinates: NEW_CITY_HALL_COORDS,
@@ -1139,12 +1288,17 @@ export const governmentOffices: GovernmentOffice[] = [
     shortName: "Environment (CENRO)",
     acronym: "CENRO",
     classification: "Executive Department — Watersheds, Solid Waste Management & Forestry",
-    category: "Environment & Natural Resources",
+    category: "Agriculture, Environment & Tourism",
     logoPath: "/images/offices/cenro.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headNote: "Led by the City Environment & Natural Resources Officer on 1st Floor, New City Hall.",
     overview:
       "Leads ecological solid waste management (RA 9003), urban greening, forest nursery & seedling distribution, watershed protection (Upper Pulangui / Sawaga), and City Environmental Clearance enforcement.",
+    aboutDetails:
+      "Located on the Ground Floor of New City Hall, CENRO processes barangay and school seedling requests, conducts commercial environmental inspections prior to permitting, and operates Malaybalay's Ecological Solid Waste Management and Sanitary Landfill programs.",
+    whoServes:
+      "Schools & community tree-planting groups, barangay MRF coordinators, businesses securing environmental clearances, and watershed stewards.",
     mandate:
       "Formulate measures implementing environmental laws, administer city nurseries and reforestation drives, coordinate Sanitary Landfill / ESWM operations, and curb illegal quarrying or timber transport.",
     divisions: ["Environmental Management Division (Solid Waste Section)", "Forest & Watershed Resources Division"],
@@ -1176,14 +1330,25 @@ export const governmentOffices: GovernmentOffice[] = [
     shortName: "City Agriculture",
     acronym: "CAO",
     classification: "Executive Department — Crop Production, Fisheries & Agribusiness Support",
-    category: "Agriculture & Veterinary",
+    category: "Agriculture, Environment & Tourism",
     logoPath: "/images/offices/city-agriculture.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headOfOffice: "Engr. Richard B. Leono (City Agriculturist)",
+    headNote: "Assisted by Engr. Lilianne A. Obre (Assistant City Agriculturist).",
     overview:
       "Supports Malaybalay City's agricultural backbone (rice, corn, highland vegetables, coffee, cacao, rubber, and inland fisheries) through seed/fertilizer dispersal, RSBSA farmer registration, pest diagnostics, and post-harvest equipment aid.",
+    aboutDetails:
+      "Situated at the City Agriculture Compound in Barangay Casisang, the department assists smallholders with RSBSA enrollment needed for national fuel/fertilizer subsidies, certified rice/corn seed releases, tilapia fingerling dispersal, and post-harvest backhoe/tractor engineering support.",
+    whoServes:
+      "Registered RSBSA farmers, irrigators' associations, Indigenous Peoples agricultural cooperatives, fishpond operators, and agrarian reform beneficiaries.",
     mandate:
       "Formulate agricultural productivity measures, provide extension services to farmers' associations and agrarian reform beneficiaries, administer farm demonstration stations, and coordinate DA-10 interventions.",
+    divisions: [
+      "Administrative Support Services Section",
+      "Crop Production & Extension Division (Rice, Corn & High-Value Crops)",
+      "Agricultural & Biosystems Engineering Division",
+    ],
     address: "Barangay Casisang (City Agriculture Compound), Malaybalay City, 8700 Bukidnon",
     barangay: "Casisang",
     coordinates: NEW_CITY_HALL_COORDS,
@@ -1217,12 +1382,17 @@ export const governmentOffices: GovernmentOffice[] = [
     shortName: "City Veterinary",
     acronym: "CVO",
     classification: "Executive Department — Livestock Health, Rabies Control & Meat Inspection",
-    category: "Agriculture & Veterinary",
+    category: "Agriculture, Environment & Tourism",
     logoPath: "/images/offices/city-veterinary.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headNote: "Led by the City Veterinarian overseeing animal clinics, mass vaccination, and meat inspection.",
     overview:
       "Safeguards animal health and food safety through anti-rabies vaccination, pet registration, veterinary consultations, swine/livestock dispersal, dog pound management, and veterinary health certification.",
+    aboutDetails:
+      "Operating in Barangay Casisang alongside citywide barangay vaccination caravans, the City Veterinary Office provides free anti-rabies shots, fast 45-minute Veterinary Health Certificates for livestock transport, and daily ante/post-mortem meat inspection with NMIS standards.",
+    whoServes:
+      "Pet owners, backyard swine/cattle raisers, livestock shippers requiring transport health certificates, and public market meat vendors.",
     mandate:
       "Enforce animal disease prevention (rabies, ASF, avian flu), oversee meat and slaughterhouse ante/post-mortem inspection, promote humane animal welfare, and assist livestock raisers.",
     divisions: ["Animal Health & Production Division", "Meat Inspection & Regulatory Section", "Administrative Support Unit"],
@@ -1262,12 +1432,17 @@ export const governmentOffices: GovernmentOffice[] = [
     acronym: "CTO-T",
     classification: "City Mayor's Office — Cultural Heritage, Destination & Business Accreditation Division",
     parentOffice: "Office of the City Mayor",
-    category: "Tourism, Culture & Enterprise",
+    category: "Agriculture, Environment & Tourism",
     logoPath: "/images/offices/city-tourism.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headNote: "Tourism Division under the Office of the City Mayor (Murillo Street, Barangay 8).",
     overview:
       "Promotes Malaybalay's highland agri-ecotourism, heritage trails, and Kaamulan cultural identity while certifying tourism-related establishments (including Ancestral Domain businesses) and coordinating DOT trainings.",
+    aboutDetails:
+      "Based at Murillo Street in Poblacion Barangay 8, the City Tourism Office issues 1-hour Tourism-Related Business Certifications required for hotels, resorts, cafés, and ancestral-domain eco-sites, compiles tourism visitor data, and schedules DOT hospitality trainings.",
+    whoServes:
+      "Accommodations, eco-resorts, cafes, tour guides, ancestral-domain tourism operators, and cultural heritage researchers.",
     mandate:
       "Implement local tourism standards, maintain visitor arrival and accommodation statistics, endorse establishments for Department of Tourism accreditation, and facilitate visitor hospitality.",
     divisions: ["Planning & Accreditation Section", "Promotions & Cultural Heritage Section"],
@@ -1299,13 +1474,18 @@ export const governmentOffices: GovernmentOffice[] = [
     shortName: "Economic Enterprise (CEEDMO)",
     acronym: "CEEDMO",
     classification: "Executive Department — Public Market, Terminal, Slaughterhouse & Waterworks",
-    category: "Tourism, Culture & Enterprise",
+    category: "Agriculture, Environment & Tourism",
     logoPath: "/images/offices/ceedmo.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
-    headOfOffice: "Romeo R. Lapeciros, Jr. (CEEDMO-Designate — per sakata org page)",
+    headOfOffice: "Romeo R. Lapeciros, Jr. (CEEDMO-Designate)",
+    headNote: "MCGWSS Waterworks supervised by Engr. Stephen D. Caroro (Waterworks Superintendent I).",
     overview:
       "Operates revenue-generating municipal public utilities and enterprises including the Malaybalay Public Market, Integrated Overland Transport Terminal, City Slaughterhouse, City Memorial Park, and MCGWSS Waterworks.",
+    aboutDetails:
+      "Managed from Market Site in Barangay 9, CEEDMO handles stall lease renewals and revenue collection at the Public Market, dispatch fees at the Overland Bus/Van Terminal, City Memorial Park burial services, Slaughterhouse meat handling, and local waterworks customer billing.",
+    whoServes:
+      "Public Market vendors and stallholders, commuter transport operators, livestock traders, Memorial Park clients, and waterworks subscribers.",
     mandate:
       "Manage city economic enterprises sustainably, enforce stall leases, terminal dispatch regulations, hygienic slaughtering standards, cemetery services, and local waterworks billing.",
     divisions: [
@@ -1342,14 +1522,24 @@ export const governmentOffices: GovernmentOffice[] = [
     acronym: "CUDHO",
     classification: "City Mayor's Office — Socialized Housing & Resettlement Division",
     parentOffice: "Office of the City Mayor",
-    category: "Housing & Urban Development",
+    category: "Infrastructure, Housing & Planning",
     logoPath: "/images/offices/cudho.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headNote: "CMO — City Urban Development & Housing Division coordinating the City Housing & Resettlement Committee.",
     overview:
       "Implements urban housing and resettlement programs under the Urban Development and Housing Act (RA 7279 / UDHA) and City Ordinance No. 565 s.2005 for hazard-vulnerable and landless households.",
+    aboutDetails:
+      "Operating from the Ground Floor of New City Hall, CUDHO evaluates beneficiary qualification under UDHA rules, tracks monthly lot amortizations with CTO, and coordinates site relocation and Deeds of Sale once full lot payments are completed.",
+    whoServes:
+      "Informal settler families in danger zones, landless households applying for city resettlement, and existing housing beneficiaries.",
     mandate:
       "Upgrade blighted settlements, qualify socialized housing beneficiaries, develop relocation sites and services, and serve the City Housing Resettlement Committee (EO 60 / EO 247) and Anti-Squatting Syndicate Committee.",
+    divisions: [
+      "Socialized Housing Beneficiary Screening & Validation Unit",
+      "Estate Management & Lot Amortization Posting Section",
+      "Resettlement Site Development & Relocation Unit",
+    ],
     address: "1st Floor, New City Hall, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     barangay: "Casisang",
     coordinates: NEW_CITY_HALL_COORDS,
@@ -1391,10 +1581,20 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/tmc.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headNote: "CMO — Traffic Management Center Division overseeing road safety and motorela clearances.",
     overview:
       "Manages city road traffic flow, deploys traffic enforcers across school zones and Sayre Highway junctions, issues traffic citation clearances, and coordinates road closures and public utility routing.",
+    aboutDetails:
+      "Working across Poblacion junctions and Sayre Highway corridors while coordinating citation settlements with City Treasurer Windows at City Hall, TMC conducts mandatory safety seminars for motorela drivers/operators, issues TMC IDs and clearances, and manages temporary road closures for civic events.",
+    whoServes:
+      "Motorela drivers & operators, motorists settling traffic citations, delivery fleet operators, and event organizers requesting road permits.",
     mandate:
       "Enforce the City Traffic Code, coordinate motorized tricycle and PUJ route compliance, process citation settlements with CTO, and safeguard pedestrian crossings.",
+    divisions: [
+      "Field Traffic Enforcement & School Zone Safety Unit",
+      "Motorela & Public Utility Routing Compliance Unit",
+      "TMC Clearances, Citations & Road Closure Permit Desk",
+    ],
     address: "Traffic Management Center, Malaybalay City, 8700 Bukidnon (Check Charter pp. 572–587 / CTO citation counter at City Hall)",
     barangay: "Barangay 9",
     operatingHours: "Monday to Friday, 8:00 AM – 5:00 PM Admin (Field Traffic Posts active daily)",
@@ -1428,10 +1628,20 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/bac.jpg",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headNote: "Inter-departmental Bids & Awards Committee constituted under RA 9184 (Procurement Reform Act).",
     overview:
       "Administers competitive procurement of goods, civil works, and consulting services for the City Government under RA 9184, PhilGEPS posting, livestreamed bid openings, and Notice of Award disclosures.",
+    aboutDetails:
+      "Anchored on the 2nd Floor of New City Hall alongside Procurement Support staff, BAC conducts public pre-bid conferences, livestreamed bid openings, eligibility checks, and Notice of Award/NTP releases—all indexed directly on BetterMC's Procurement Portal.",
+    whoServes:
+      "PhilGEPS-registered contractors and suppliers, civil society procurement observers, implementing City Hall offices, and audit monitors.",
     mandate:
       "Advertise invitations to bid, conduct pre-bid conferences and transparent public bid openings, determine bidder eligibility, and recommend contract awards to the Head of Procuring Entity.",
+    divisions: [
+      "BAC Secretariat & Bidding Documents Desk",
+      "Technical Working Group (TWG) Bid Evaluation Support",
+      "Procurement Support Section (CMO)",
+    ],
     address: "2nd Floor, New City Hall, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     barangay: "Casisang",
     coordinates: NEW_CITY_HALL_COORDS,
@@ -1465,10 +1675,20 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/offices/dilg.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: SAKATA_DEPARTMENTS_URL,
+    headNote: "Field operations desk of the Department of the Interior and Local Government — Region 10.",
     overview:
       "City field office of the Department of the Interior and Local Government supervising SGLG/SGLGB governance assessments, Full Disclosure compliance, and technical mentoring for Malaybalay's 46 barangays.",
+    aboutDetails:
+      "Holding office inside the New City Hall Compound in Casisang, DILG Malaybalay guides barangay councils on Katarungang Pambarangay, Peace & Order audits, Anti-Red Tape compliance, and Seal of Good Local Governance validation.",
+    whoServes:
+      "City and Barangay officials, Sangguniang Kabataan councils, Lupon members, and civic governance partners.",
     mandate:
       "Strengthen local autonomy, monitor Barangay Good Governance & Lupong Tagapamayapa Incentives Awards (LTIA), and promote peace, order, and anti-drug council (CADAC / CPOC) performance.",
+    divisions: [
+      "City Local Government Operations Officer (CLGOO) Desk",
+      "SGLG / SGLGB & Full Disclosure Monitoring Unit",
+      "Barangay Governance & Katarungang Pambarangay Support Desk",
+    ],
     address: "New City Hall Compound, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     barangay: "Casisang",
     coordinates: NEW_CITY_HALL_COORDS,
@@ -1501,10 +1721,20 @@ export const governmentOffices: GovernmentOffice[] = [
     classification: "National Uniformed Fire & Rescue Service (Partner City Regulatory Station)",
     category: "Public Safety & Emergency",
     logoStatus: "Unavailable",
+    headNote: "Commanded by the Malaybalay City Fire Marshal under BFP Region 10 (RA 9514).",
     overview:
       "Provides 24/7 fire suppression and emergency rescue while conducting mandatory Fire Safety Inspections for Building Permits (OBO) and Business Permits (BPLD).",
+    aboutDetails:
+      "Alongside 24/7 emergency response across Poblacion and rural barangays, Malaybalay City Fire Station evaluates building plans for Fire Safety Evaluation Clearance (FSEC) and inspects commercial establishments for mandatory annual Fire Safety Inspection Certificates (FSIC).",
+    whoServes:
+      "Emergency callers, business owners securing BPLD Fire Safety Certificates, builders seeking FSEC, and barangay fire volunteers.",
     mandate:
       "Enforce the Revised Fire Code of the Philippines (RA 9514), issue Fire Safety Evaluation Clearances (FSEC) and Fire Safety Inspection Certificates (FSIC), and respond to structural/wildland fire emergencies.",
+    divisions: [
+      "24/7 Fire Suppression & Rescue Operations Unit",
+      "Fire Safety Enforcement Division (FSEC & FSIC Inspection)",
+      "Fire Prevention & Community Fire Brigade Unit",
+    ],
     address: "Malaybalay City Central Fire Station (City Contact Directory — Poblacion, Malaybalay City)",
     barangay: "Barangay 4",
     operatingHours: "24/7 Fire & Rescue Operations • Mon–Fri 8:00 AM – 5:00 PM FSIC Assessment",
@@ -1530,10 +1760,20 @@ export const governmentOffices: GovernmentOffice[] = [
     classification: "National Police Law Enforcement Station (Partner Peace & Order Unit)",
     category: "Public Safety & Emergency",
     logoStatus: "Unavailable",
+    headNote: "Commanded by the City Chief of Police under Bukidnon Police Provincial Office (PRO-10).",
     overview:
       "Maintains round-the-clock law enforcement, traffic accident investigation, women and children's protection desk (WCPD), blotter verification, and National Police Clearance issuance across Malaybalay City.",
+    aboutDetails:
+      "Headquartered in Poblacion Barangay 2, Malaybalay City Police Station operates a 24/7 public assistance & blotter desk, dedicated Women and Children's Protection officers, and the National Police Clearance System (NPCS) biometrics counter for employment and licensing applicants.",
+    whoServes:
+      "Jobseekers securing National Police Clearances, crime/accident complainants, barangay tanod partners, and emergency callers.",
     mandate:
       "Preserve peace and order, prevent and investigate crimes, serve the City Peace & Order Council (CPOC / EO 7) and CADAC (EO 227-A), and safeguard community security.",
+    divisions: [
+      "24/7 Police Desk, Patrol & Quick Response Unit",
+      "Investigation, Blotter & Women and Children Protection Desk (WCPD)",
+      "National Police Clearance System (NPCS) Processing Counter",
+    ],
     address: "Fortich Street / City Police Headquarters, Poblacion, Malaybalay City, 8700 Bukidnon",
     barangay: "Barangay 2",
     operatingHours: "24/7 Police Desk & Blotter • Mon–Fri 8:00 AM – 5:00 PM Clearance Center",
@@ -1559,10 +1799,20 @@ export const governmentOffices: GovernmentOffice[] = [
     classification: "Judiciary Partner Court — Trial Court & Court Clearances",
     category: "National & Partner Agencies",
     logoStatus: "Unavailable",
+    headNote: "First-level Judiciary trial court operating under the Supreme Court of the Philippines.",
     overview:
       "Listed directly in the City Government's official Contact Directory as City Court Office handling civil/criminal first-level court cases, small claims, and local court clearances.",
+    aboutDetails:
+      "Serving litigants and employment applicants requiring judiciary clearances within Malaybalay City's Hall of Justice, MTCC Branch 2 processes small claims actions, first-level criminal/civil dockets, and certified copies of court orders under Supreme Court administrative schedules.",
+    whoServes:
+      "Public employment/firearm applicants seeking MTCC Clearances, small claims filers, and legal counsels.",
     mandate:
       "Adjudicate first-level civil and criminal cases within Malaybalay City jurisdiction under Supreme Court rules and issue court clearances required for public employment or firearm/travel compliance.",
+    divisions: [
+      "Office of the Clerk of Court & Docket Archive",
+      "Small Claims & Trial Intake Counter",
+      "Court Clearance Verification Desk",
+    ],
     address: "Hall of Justice / Court Complex, Malaybalay City, 8700 Bukidnon",
     barangay: "Barangay 9",
     operatingHours: "Monday to Friday, 8:00 AM – 4:30 PM / 5:00 PM (Judiciary schedule)",
@@ -1590,10 +1840,20 @@ export const governmentOffices: GovernmentOffice[] = [
     logoPath: "/images/agencies/deped.png",
     logoStatus: "Verified Local Asset",
     logoSourceUrl: "https://www.deped.gov.ph/wp-content/uploads/2018/07/DepEd-Website-header-110px_1.png",
+    headNote: "Led by the Schools Division Superintendent under DepEd Region X.",
     overview:
       "Administers public elementary, integrated, and high schools across Malaybalay City, partnering with PESO on the Grade 10 Career Guidance Advocacy Program (CGAP) and City School Board planning.",
+    aboutDetails:
+      "Located along Sayre Highway in Barangay Casisang, the DepEd Malaybalay City Division oversees 122 educational institutions profiled across BetterMC's Education Directory, manages the Public Assistance Counter for learner credentials, and schedules career orientation drives alongside PESO.",
+    whoServes:
+      "Students, parents, public school teachers, school heads across all 46 barangays, and Grade 10 Career Guidance participants.",
     mandate:
       "Deliver quality K–12 basic education, supervise public and private school operations within the Schools Division of Malaybalay City, and process school records/Public Assistance inquiries.",
+    divisions: [
+      "Curriculum Implementation Division (CID)",
+      "School Governance and Operations Division (SGOD)",
+      "Public Assistance Counter (PAC) & Learner Records Desk",
+    ],
     address: "Sayre Highway, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     barangay: "Casisang",
     operatingHours: "Monday to Friday, 8:00 AM – 5:00 PM",
