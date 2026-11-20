@@ -368,4 +368,100 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
     await expect(mayorHomeBtn).toContainText("BetterMC Home");
     await expect(mayorHomeBtn).toHaveAttribute("href", "https://www.bettermalaybalay.cloud");
   });
+
+  test("renders dedicated MicrositeHeader across standalone Office, School, and Barangay microsites without altering internal BetterMC headers", async ({
+    page,
+    baseURL,
+  }) => {
+    const base = new URL(baseURL || "http://127.0.0.1:5173");
+
+    const buildSubUrl = (subdomain: string, pathname = "/") => {
+      const target = new URL(base.toString());
+      target.hostname = `${subdomain}.localhost`;
+      target.pathname = pathname;
+      return target.toString();
+    };
+
+    // 1. Standalone Office, School, and Barangay microsites on desktop + 320px mobile
+    for (const entry of [
+      {
+        url: buildSubUrl("sp", "/transparency"),
+        kind: "office",
+        heading: "Office of the Sangguniang Panlungsod & SP Secretariat",
+        anchorHref: "#services",
+        anchorText: "Services",
+      },
+      {
+        url: buildSubUrl("bukidnon-state-university", "/"),
+        kind: "school",
+        heading: "Bukidnon State University",
+        anchorHref: "#facts",
+        anchorText: "School Facts",
+      },
+      {
+        url: buildSubUrl("bangcud", "/"),
+        kind: "barangay",
+        heading: "Bangcud",
+        anchorHref: "#disclosure",
+        anchorText: "Disclosure",
+      },
+    ]) {
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await page.goto(entry.url);
+      await expect(
+        page.getByRole("heading", { name: entry.heading, exact: true, level: 1 }),
+      ).toBeVisible();
+      await expect(page.locator(".site-header")).toHaveCount(0);
+      await expect(page.locator(".independence-bar")).toHaveCount(0);
+      await expect(page.locator(".mobile-bottom-app-bar")).toHaveCount(0);
+
+      const msHeader = page.locator(".microsite-header");
+      await expect(msHeader).toBeVisible();
+      await expect(msHeader).toHaveAttribute("data-microsite-kind", entry.kind);
+      await expect(
+        msHeader.locator(".microsite-section-nav a", { hasText: entry.anchorText }),
+      ).toHaveAttribute("href", entry.anchorHref);
+      await expect(msHeader.locator(".microsite-platform-badge")).toHaveAttribute(
+        "href",
+        "https://www.bettermalaybalay.cloud",
+      );
+
+      // Mobile viewport: test hamburger drawer open + section jump click + zero overflow
+      await page.setViewportSize({ width: 320, height: 740 });
+      await expect(page.locator(".mobile-bottom-app-bar")).toHaveCount(0);
+      const toggle = page.locator(".microsite-menu-toggle");
+      await expect(toggle).toBeVisible();
+      await toggle.click();
+      const drawer = page.locator("#microsite-mobile-nav");
+      await expect(drawer).toHaveClass(/is-open/);
+      await drawer.locator(`a[href="${entry.anchorHref}"]`).click();
+      await expect(drawer).not.toHaveClass(/is-open/);
+
+      const mobileOverflow = await page.evaluate(
+        () => document.documentElement.scrollWidth > window.innerWidth + 1,
+      );
+      expect(mobileOverflow).toBe(false);
+    }
+
+    // 2. Internal BetterMC pages retain .site-header, .independence-bar, and mobile bottom bar
+    for (const internalPath of [
+      "/offices/sp",
+      "/education/bukidnon-state-university",
+      "/barangays/bangcud",
+    ]) {
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await page.goto(internalPath);
+      await expect(page.locator(".site-header")).toBeVisible();
+      await expect(page.locator(".independence-bar")).toBeVisible();
+      await expect(page.locator(".microsite-header")).toHaveCount(0);
+      await expect(
+        page.getByRole("navigation", { name: "Primary navigation" }),
+      ).toBeVisible();
+
+      await page.setViewportSize({ width: 320, height: 740 });
+      await expect(
+        page.getByRole("navigation", { name: "Quick mobile app navigation" }),
+      ).toBeVisible();
+    }
+  });
 });

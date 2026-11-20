@@ -249,4 +249,107 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
       });
     }
   });
+
+  it("replaces main BetterMC header with standalone MicrositeHeader across Office, School, and Barangay subdomains while keeping internal headers intact", () => {
+    const originalLocation = window.location;
+
+    const renderWithHostname = (hostname: string, entryPath: string) => {
+      cleanup();
+      Object.defineProperty(window, "location", {
+        configurable: true,
+        value: { ...originalLocation, hostname, pathname: entryPath, search: "" },
+      });
+      render(
+        <MemoryRouter initialEntries={[entryPath]}>
+          <App />
+        </MemoryRouter>,
+      );
+    };
+
+    try {
+      // 1. Standalone City Office microsite (PESO)
+      renderWithHostname("peso.bettermalaybalay.cloud", "/");
+      expect(document.querySelector(".site-header")).not.toBeInTheDocument();
+      expect(document.querySelector(".independence-bar")).not.toBeInTheDocument();
+      expect(document.querySelector(".mobile-bottom-app-bar")).not.toBeInTheDocument();
+      expect(document.querySelector(".office-local-nav")).not.toBeInTheDocument();
+
+      const pesoHeader = document.querySelector(".microsite-header");
+      expect(pesoHeader).toBeInTheDocument();
+      expect(pesoHeader).toHaveAttribute("data-microsite-kind", "office");
+      expect(within(pesoHeader as HTMLElement).getByText("PESO Malaybalay")).toBeInTheDocument();
+      expect(
+        within(pesoHeader as HTMLElement).getByRole("link", { name: "Job Board" }),
+      ).toHaveAttribute("href", "#job-opportunities");
+      expect(
+        within(pesoHeader as HTMLElement).getByRole("link", { name: /All City Offices/i }),
+      ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud/offices");
+      expect(
+        within(pesoHeader as HTMLElement).getByRole("link", {
+          name: /BetterMC Malaybalay public information network/i,
+        }),
+      ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud");
+
+      const pesoFooter = screen.getByRole("navigation", { name: "Footer navigation" });
+      expect(
+        within(pesoFooter).getByRole("link", { name: "City Offices & Sectors" }),
+      ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud/offices");
+
+      // 2. Standalone School microsite (BukSU)
+      renderWithHostname("bukidnon-state-university.bettermalaybalay.cloud", "/");
+      expect(document.querySelector(".site-header")).not.toBeInTheDocument();
+      expect(document.querySelector(".mobile-bottom-app-bar")).not.toBeInTheDocument();
+      const schoolHeader = document.querySelector(".microsite-header");
+      expect(schoolHeader).toBeInTheDocument();
+      expect(schoolHeader).toHaveAttribute("data-microsite-kind", "school");
+      expect(
+        within(schoolHeader as HTMLElement).getByRole("link", { name: /School Facts/i }),
+      ).toHaveAttribute("href", "#facts");
+      expect(
+        within(schoolHeader as HTMLElement).getByRole("link", { name: /All Schools/i }),
+      ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud/education");
+      expect(
+        screen.getByRole("link", { name: /All Malaybalay schools on BetterMC/i }),
+      ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud/education");
+      expect(document.title).toBe("Bukidnon State University | BetterMC");
+
+      // 3. Standalone Barangay microsite (Bangcud)
+      renderWithHostname("bangcud.bettermalaybalay.cloud", "/");
+      expect(document.querySelector(".site-header")).not.toBeInTheDocument();
+      expect(document.querySelector(".mobile-bottom-app-bar")).not.toBeInTheDocument();
+      expect(document.querySelector(".barangay-local-nav")).not.toBeInTheDocument();
+      const brgyHeader = document.querySelector(".microsite-header");
+      expect(brgyHeader).toBeInTheDocument();
+      expect(brgyHeader).toHaveAttribute("data-microsite-kind", "barangay");
+      expect(within(brgyHeader as HTMLElement).getByText("Barangay Bangcud")).toBeInTheDocument();
+      expect(
+        within(brgyHeader as HTMLElement).getByRole("link", { name: /All Barangays/i }),
+      ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud/barangays");
+      expect(
+        screen.getByRole("link", { name: /Open Barangay Bangcud document guide/i }),
+      ).toHaveAttribute(
+        "href",
+        "https://www.bettermalaybalay.cloud/documents/barangays/bangcud",
+      );
+      expect(document.title).toBe("Barangay Bangcud | BetterMC");
+
+      // 4. Internal BetterMC pages keep original Header, MobileAppTabBar, and section bars
+      for (const internalPath of [
+        "/offices/sp",
+        "/education/bukidnon-state-university",
+        "/barangays/bangcud",
+      ]) {
+        renderWithHostname("www.bettermalaybalay.cloud", internalPath);
+        expect(document.querySelector(".site-header")).toBeInTheDocument();
+        expect(document.querySelector(".independence-bar")).toBeInTheDocument();
+        expect(document.querySelector(".mobile-bottom-app-bar")).toBeInTheDocument();
+        expect(document.querySelector(".microsite-header")).not.toBeInTheDocument();
+      }
+    } finally {
+      Object.defineProperty(window, "location", {
+        configurable: true,
+        value: originalLocation,
+      });
+    }
+  });
 });

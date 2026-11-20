@@ -23390,9 +23390,403 @@ pre {
 /* Homepage 6-tile Quick Grid sizing */
 .hero-panel .quick-grid a { min-height: 74px; padding: 11px 13px; }
 
+/* Standalone Microsite Header & Mobile Drawer (City Offices, Schools, Barangays) */
+.microsite-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid #dbe6f5;
+  box-shadow: 0 6px 24px rgba(13, 46, 98, 0.06);
+  backdrop-filter: blur(18px) saturate(145%);
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
+}
+
+.microsite-header-inner {
+  min-height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.microsite-identity {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  flex: 1 1 auto;
+  max-width: 340px;
+  text-decoration: none;
+  color: #102a4e;
+}
+
+.microsite-emblem {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid #d2e2f5;
+  background: #ffffff;
+  color: #154ca8;
+  box-shadow: 0 2px 6px rgba(13, 46, 98, 0.06);
+  overflow: hidden;
+}
+
+.microsite-emblem img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.microsite-emblem svg {
+  width: 20px;
+  height: 20px;
+}
+
+.microsite-identity-text {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.microsite-kind-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #3f5b82;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.25;
+}
+
+.microsite-kind-scope {
+  font-weight: 600;
+  color: #607798;
+  text-transform: none;
+  letter-spacing: 0.01em;
+}
+
+.microsite-identity-title {
+  font-size: 0.96rem;
+  font-weight: 750;
+  letter-spacing: -0.015em;
+  color: #0e2748;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.microsite-identity:hover .microsite-identity-title,
+.microsite-identity:focus-visible .microsite-identity-title {
+  color: #154ca8;
+}
+
+.microsite-section-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.microsite-section-nav a {
+  padding: 7px 10px;
+  border-radius: 8px;
+  color: #364d6d;
+  font-size: 0.84rem;
+  font-weight: 650;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 140ms ease, background-color 140ms ease;
+}
+
+.microsite-section-nav a:hover,
+.microsite-section-nav a:focus-visible {
+  color: #124096;
+  background: #edf4ff;
+}
+
+.microsite-header-utilities {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+.microsite-directory-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 36px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #344e73;
+  font-size: 0.8rem;
+  font-weight: 650;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 140ms ease, background-color 140ms ease;
+}
+
+.microsite-directory-link svg {
+  width: 14px;
+  height: 14px;
+  color: #6482aa;
+}
+
+.microsite-directory-link:hover,
+.microsite-directory-link:focus-visible {
+  color: #124096;
+  background: #edf4ff;
+}
+
+.microsite-platform-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid #c9ddf8;
+  border-radius: 999px;
+  background: #eef5ff;
+  color: #124096;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.microsite-platform-badge svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+.microsite-platform-badge:hover,
+.microsite-platform-badge:focus-visible {
+  background: #e1eeff;
+  border-color: #96bbed;
+  color: #0d3278;
+}
+
+.microsite-bettermc-glyph {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  flex: none;
+  background: #164fbf;
+  mask: url("/bettermc1.png") center / contain no-repeat;
+  -webkit-mask: url("/bettermc1.png") center / contain no-repeat;
+}
+
+.microsite-menu-toggle {
+  display: none;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #d2e2f5;
+  border-radius: 10px;
+  background: #f5f9ff;
+  color: #123c84;
+  cursor: pointer;
+}
+
+.microsite-menu-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.microsite-mobile-drawer {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-top: 1px solid #e1ebf7;
+  border-bottom: 1px solid #c9dbf1;
+  box-shadow: 0 20px 44px rgba(13, 46, 98, 0.14);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity 150ms ease, transform 170ms var(--ease-out), visibility 0s linear 170ms;
+}
+
+.microsite-mobile-drawer.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+.microsite-mobile-nav {
+  display: grid;
+  gap: 12px;
+  padding-top: 14px;
+  padding-bottom: 18px;
+}
+
+.microsite-mobile-drawer-label {
+  margin: 0;
+  color: #546e91;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.microsite-mobile-sections {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.microsite-mobile-sections a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #dce8f5;
+  border-radius: 10px;
+  background: #f8fbff;
+  color: #153562;
+  font-size: 0.85rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.microsite-mobile-sections a svg {
+  width: 15px;
+  height: 15px;
+  color: #5b7da8;
+  flex: none;
+}
+
+.microsite-mobile-sections a:hover,
+.microsite-mobile-sections a:focus-visible {
+  background: #ebf4ff;
+  border-color: #acc9ee;
+  color: #0e3d8f;
+}
+
+.microsite-mobile-network {
+  display: grid;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid #e1ebf7;
+}
+
+.microsite-mobile-network-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #dce8f5;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #183d73;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.microsite-mobile-network-link.is-primary {
+  justify-content: flex-start;
+  border-color: #c4daf6;
+  background: #edf5ff;
+  color: #114196;
+}
+
+.microsite-mobile-network-link.is-primary svg {
+  margin-left: auto;
+}
+
+.microsite-mobile-network-link svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+
+.microsite-mobile-civic-note {
+  margin: 2px 0 0;
+  color: #5d7494;
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+body.is-microsite [id] {
+  scroll-margin-top: 82px;
+}
+
+@media (max-width: 1120px) {
+  .microsite-directory-link {
+    display: none;
+  }
+}
+
+@media (max-width: 960px) {
+  .microsite-section-nav {
+    display: none;
+  }
+  .microsite-menu-toggle {
+    display: grid;
+  }
+  .microsite-mobile-drawer {
+    display: block;
+  }
+  .microsite-identity {
+    max-width: none;
+  }
+}
+
+@media (max-width: 760px) {
+  body.is-microsite {
+    padding-bottom: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .microsite-header-inner {
+    min-height: 58px;
+    gap: 10px;
+  }
+  .microsite-kind-sep,
+  .microsite-kind-scope {
+    display: none;
+  }
+  .microsite-platform-badge {
+    padding: 5px 10px;
+    min-height: 34px;
+    font-size: 0.76rem;
+  }
+  .microsite-platform-badge svg {
+    display: none;
+  }
+}
+
 @media (max-width: 390px) {
+  .microsite-mobile-app-bar,
   .mobile-bottom-app-bar {
     padding: 4px 2px env(safe-area-inset-bottom, 4px);
+  }
+  .microsite-mobile-sections {
+    grid-template-columns: 1fr;
+  }
+  .microsite-platform-badge {
+    display: none;
   }
   .mobile-bottom-app-bar a {
     font-size: 0.6rem;
