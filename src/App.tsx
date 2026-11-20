@@ -102,7 +102,6 @@ import {
   civicDiscussionCards,
   legislativeHearingRecords,
   newsletterUpdates,
-  OFFICIAL_BAC_FB_URL,
   PUBLIC_INFO_REVIEWED_ON,
   type NewsCardCategory,
   type LegislativeHearingRecord,
@@ -731,10 +730,6 @@ function Footer() {
         </div>
         <dl aria-label="Website cost statement">
           <div>
-            <dt>Cost of This Website</dt>
-            <dd>₱0</dd>
-          </div>
-          <div>
             <dt>Cost to the People of Malaybalay</dt>
             <dd>₱0</dd>
           </div>
@@ -768,24 +763,6 @@ function Footer() {
           <Link to="/participate">Submit a correction</Link>
           <a
             className="footer-icon-link"
-            href="https://www.facebook.com/profile.php?id=61596547555480"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <FacebookIcon />
-            BetterMC on Facebook
-          </a>
-          <a
-            className="footer-icon-link"
-            href={OFFICIAL_BAC_FB_URL}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <FacebookIcon />
-            BAC LGU Malaybalay Facebook
-          </a>
-          <a
-            className="footer-icon-link"
             href="mailto:bettermc.org@gmail.com"
           >
             <Mail aria-hidden="true" />
@@ -816,24 +793,6 @@ function Footer() {
           <small className="footer-source-label">
             Published in the City Government contact directory
           </small>
-          <div className="footer-contact-links">
-            <a
-              href="https://sakata.malaybalaycity.gov.ph/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              City Government website <ExternalLink aria-hidden="true" />
-            </a>
-            <a
-              className="footer-icon-link"
-              href="https://www.facebook.com/profile.php?id=100063747444247"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <FacebookIcon />
-              Official Facebook page
-            </a>
-          </div>
         </address>
         <section
           className="footer-column footer-network"
@@ -3960,8 +3919,9 @@ function LegislativeOfficialPage() {
 
 function educationSummary(item: EducationInstitution) {
   if (item.description) return item.description;
-  const location = item.barangay ? `Barangay ${item.barangay}` : item.address.startsWith("Address not published") ? "Malaybalay City" : item.address;
-  return `The reviewed ${item.source.type.toLowerCase()} lists this institution in ${location}, with ${item.levels.join(", ").toLowerCase()} offerings recorded for the directory.`;
+  const location = item.barangay ? (item.barangay.toLowerCase().startsWith("barangay ") ? item.barangay : `Barangay ${item.barangay}`) : item.address.startsWith("Address not published") ? "Malaybalay City" : item.address;
+  const levelList = item.levels.map((entry) => entry.toLowerCase()).join(", ");
+  return `${item.type} institution in ${location} offering ${levelList}.`;
 }
 
 function SchoolLogo({ item }: { item: EducationInstitution }) {
@@ -3989,7 +3949,7 @@ function EducationDirectoryPage() {
   const programmes = [...new Set(educationInstitutions.flatMap((item) => item.programmes ?? []))].sort();
   const barangays = [...new Set(educationInstitutions.flatMap((item) => item.barangay ? [item.barangay] : []))].sort();
   const records = educationInstitutions.filter((item) => {
-    const matchesQuery = !deferredQuery || `${item.name} ${item.schoolId ?? ""} ${item.address}`.toLowerCase().includes(deferredQuery);
+    const matchesQuery = !deferredQuery || `${item.name} ${item.schoolId ?? ""} ${item.address} ${item.district ?? ""}`.toLowerCase().includes(deferredQuery);
     return matchesQuery && (type === "all" || item.type === type) && (level === "all" || item.levels.includes(level as EducationLevel)) && (barangay === "all" || item.barangay === barangay) && (programme === "all" || item.programmes?.includes(programme));
   }).sort((left, right) => sort === "level" ? left.levels[0].localeCompare(right.levels[0]) || left.name.localeCompare(right.name) : left.name.localeCompare(right.name));
   const updateFilter = (key: string, value: string) => {
@@ -4000,7 +3960,7 @@ function EducationDirectoryPage() {
   const clearFilters = () => { setQuery(""); setParams({}, { replace: true }); };
   const activeFilters = [type !== "all" ? type : null, level !== "all" ? level : null, barangay !== "all" ? barangay : null, programme !== "all" ? programme : null, query ? `“${query}”` : null].filter(Boolean);
   return <>
-    <PageHero eyebrow="Education directory" title="Find schools and learning institutions." description="Search by school name, ID, educational level, or barangay, then open a school page for its recorded location, learning levels, public contact details, and source links." compact />
+    <PageHero eyebrow="Education directory" title="Find schools and learning institutions." description="Search public, private, university, and technical schools in Malaybalay City. Open any school page for its enrollment count, location, grade levels, and who to contact." compact />
     <section className="section container civic-directory-page">
       <div className="civic-directory-toolbar">
         <label className="directory-search civic-directory-search"><span>Search</span><span className="directory-search-control"><Search aria-hidden="true" /><input value={query} onChange={(event) => { setQuery(event.target.value); const next = new URLSearchParams(params); if (event.target.value) next.set("q", event.target.value); else next.delete("q"); setParams(next, { replace: true }); }} placeholder="Search school name, ID, or address" /></span></label>
@@ -4010,17 +3970,44 @@ function EducationDirectoryPage() {
         <label>Programme<select value={programme} onChange={(event) => updateFilter("programme", event.target.value)}><option value="all">All programmes</option>{programmes.map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
         <label>Sort<select value={sort} onChange={(event) => updateFilter("sort", event.target.value)}><option value="name">A–Z</option><option value="level">Educational category</option></select></label>
       </div>
-      <div className="results-summary"><strong>{records.length} matching institution{records.length === 1 ? "" : "s"}</strong><span>Last reviewed 17 November 2026</span>{activeFilters.length > 0 && <><span className="filter-summary">Filters: {activeFilters.join(" · ")}</span><button className="text-button" type="button" onClick={clearFilters}>Clear all</button></>}</div>
+      <div className="results-summary"><strong>{records.length} matching institution{records.length === 1 ? "" : "s"}</strong><span>Last reviewed 20 November 2026</span>{activeFilters.length > 0 && <><span className="filter-summary">Filters: {activeFilters.join(" · ")}</span><button className="text-button" type="button" onClick={clearFilters}>Clear all</button></>}</div>
       <div className="civic-card-grid">
-        {records.map((item) => <article className="civic-record-card education-directory-card" key={item.slug}><SchoolLogo item={item} /><h2>{item.name}</h2><p className="education-card-intro">{educationSummary(item)}</p><dl><div><dt>Education offered</dt><dd>{item.levels.join(" · ")}</dd></div><div><dt>Location</dt><dd>{item.address}</dd></div>{item.schoolId && <div><dt>School ID</dt><dd>{item.schoolId}</dd></div>}{item.programmes?.length ? <div><dt>Published programmes</dt><dd>{item.programmes.join(", ")}</dd></div> : null}</dl><div className="civic-card-actions"><Link to={`/education/${item.slug}`}>View school details <ArrowRight aria-hidden="true" /></Link><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Directions <ExternalLink aria-hidden="true" /></a></div></article>)}
+        {records.map((item) => (
+          <article className="civic-record-card education-directory-card" key={item.slug}>
+            <header className="education-card-header">
+              <SchoolLogo item={item} />
+              <div className="education-card-heading">
+                <span className="education-card-submeta">
+                  {item.type}{item.district ? ` · ${item.district}` : ""}
+                </span>
+                <h2>
+                  <Link to={`/education/${item.slug}`}>{item.name}</Link>
+                </h2>
+              </div>
+            </header>
+            <p className="education-card-intro">{educationSummary(item)}</p>
+            <dl>
+              <div><dt>Education offered</dt><dd>{item.levels.join(" · ")}</dd></div>
+              {item.studentPopulation && <div><dt>Student population</dt><dd>{item.studentPopulation}</dd></div>}
+              <div><dt>Location</dt><dd>{item.address}</dd></div>
+              <div><dt>Who to reach out to</dt><dd>{item.leadership ?? item.contactPerson ?? "School Head / DepEd Malaybalay Division (0907-688-9009)"}</dd></div>
+              {item.schoolId && <div><dt>School ID</dt><dd>{item.schoolId}</dd></div>}
+              {item.programmes?.length ? <div><dt>Published programmes</dt><dd>{item.programmes.join(", ")}</dd></div> : null}
+            </dl>
+            <div className="civic-card-actions">
+              <Link to={`/education/${item.slug}`}>View school details <ArrowRight aria-hidden="true" /></Link>
+              <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Directions <ExternalLink aria-hidden="true" /></a>
+            </div>
+          </article>
+        ))}
       </div>
-      {!records.length && <div className="empty-state" role="status"><Search aria-hidden="true" /><strong>No source-linked institution matches these filters</strong><p>Try another school name or ID, or clear the current filters.</p><button className="button secondary" type="button" onClick={clearFilters}>Clear all filters</button></div>}
+      {!records.length && <div className="empty-state" role="status"><Search aria-hidden="true" /><strong>No matching schools found</strong><p>Try searching another school name, ID, or barangay, or clear your current filters.</p><button className="button secondary" type="button" onClick={clearFilters}>Clear all filters</button></div>}
     </section>
   </>;
 }
 
 function EducationOfficesPage() {
-  return <><PageHero eyebrow="Education administration" title="Keep the two DepEd divisions distinct." description="These office profiles separate the Malaybalay City and Bukidnon schools divisions, their jurisdictions, contacts, and published officials." compact><Link className="page-hero-backlink" to="/education">Return to education directory <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-card-grid">{educationOffices.map((office) => {
+  return <><PageHero eyebrow="Education administration" title="DepEd Schools Division Offices." description="Compare the DepEd Malaybalay City and DepEd Bukidnon divisions, including who leads each office, official contact details, and available public services." compact><Link className="page-hero-backlink" to="/education">Return to education directory <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-card-grid">{educationOffices.map((office) => {
     const hasPublishedAddress = !office.address.startsWith("Address not published");
     return <article className="civic-record-card" key={office.slug}><div className="record-meta"><span>DepEd office</span><span>Source linked</span></div><h2>{office.name}</h2><p>{office.jurisdiction}</p><dl><div><dt>Address</dt><dd>{office.address}</dd></div><div><dt>Public contacts</dt><dd>{office.contacts.join(" · ")}</dd></div><div><dt>Published officials</dt><dd>{office.officials.map((official) => `${official.role}: ${official.name}`).join(" · ")}</dd></div></dl><h3>Available public information</h3><ul className="civic-steps">{office.services.map((service) => <li key={service}>{service}</li>)}</ul><div className="civic-card-actions"><a href={office.source.url} target="_blank" rel="noreferrer">Open official office source <ExternalLink aria-hidden="true" /></a>{hasPublishedAddress ? <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(office.address)}`} target="_blank" rel="noreferrer">Open map search <ExternalLink aria-hidden="true" /></a> : <span className="source-availability-note">Map awaiting a published office address</span>}</div></article>;
   })}</section></>;
@@ -4030,38 +4017,71 @@ function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) 
   const { slug } = useParams<{ slug: string }>();
   const item = educationInstitutions.find((entry) => entry.slug === (slugOverride ?? slug));
   if (!item) return <NotFoundPage />;
+  const staffingSummary = item.teacherCount != null
+    ? `${item.teacherCount.toLocaleString()} teachers${item.classroomCount != null ? ` · ${item.classroomCount.toLocaleString()} classrooms` : ""} (SY 2024–25)`
+    : null;
   return <>
-    <PageHero eyebrow="School profile" title={item.name} description={item.levels.join(" · ")} compact>
+    <PageHero eyebrow="School profile" title={item.name} description={`${item.type} · ${item.levels.join(" · ")}${item.district ? ` · ${item.district}` : ""}`} compact>
       <Link className="page-hero-backlink" to="/education">Return to education directory <ArrowRight aria-hidden="true" /></Link>
     </PageHero>
     <section className="section container civic-detail-layout">
       <article className="civic-detail-main">
         <section className="education-profile-intro">
-          <SchoolLogo item={item} />
-          <span className="eyebrow">About this school</span>
-          <h2>At a glance</h2>
+          <div className="education-profile-head">
+            <SchoolLogo item={item} />
+            <div>
+              <span className="eyebrow">About this school</span>
+              <h2>At a glance</h2>
+            </div>
+          </div>
           <p>{educationSummary(item)}</p>
+          {item.contactPerson && (
+            <p className="office-about-serves education-contact-callout">
+              <strong>Who to reach out to:</strong> {item.contactPerson}
+            </p>
+          )}
+          <div className="office-about-metrics education-profile-metrics" aria-label="School facts summary">
+            <div>
+              <span>Student population</span>
+              <strong>{item.studentPopulation ?? "Confirm with school / DepEd Division"}</strong>
+            </div>
+            <div>
+              <span>{staffingSummary ? "Teachers & classrooms" : "Education offered"}</span>
+              <strong>{staffingSummary ?? item.levels.join(" · ")}</strong>
+            </div>
+            <div>
+              <span>
+                {item.type === "State university" || item.type === "Technical-vocational"
+                  ? "District / oversight"
+                  : "DepEd district"}
+              </span>
+              <strong>{item.district ?? item.type}</strong>
+            </div>
+          </div>
         </section>
         <dl className="legislation-detail-facts">
           <div><dt>School ID</dt><dd>{item.schoolId ?? "Not published in the reviewed source"}</dd></div>
           <div><dt>Address</dt><dd>{item.address}</dd></div>
           <div><dt>Barangay</dt><dd>{item.barangay ?? "Not published in the reviewed source"}</dd></div>
-          <div><dt>School head / key officers</dt><dd>{item.leadership ?? "Not published in the reviewed source"}</dd></div>
+          {item.studentPopulation && <div><dt>Student population</dt><dd>{item.studentPopulation}</dd></div>}
+          {staffingSummary && <div><dt>Staffing &amp; classrooms</dt><dd>{staffingSummary}</dd></div>}
+          <div><dt>Who to reach out to</dt><dd>{item.contactPerson ?? item.leadership ?? "Campus School Head or DepEd Malaybalay Division (0907-688-9009)"}</dd></div>
+          {item.leadership && <div><dt>School head / key officers</dt><dd>{item.leadership}</dd></div>}
           <div><dt>Classification</dt><dd>{item.classification ?? item.type}</dd></div>
           <div><dt>Programmes and grade levels</dt><dd>{item.programmes?.join(", ") ?? item.levels.join(", ")}</dd></div>
-          <div><dt>Official communication</dt><dd>{item.contacts?.join(" · ") ?? "Not published in the reviewed source"}</dd></div>
+          <div><dt>Official communication</dt><dd>{item.contacts?.join(" · ") ?? "Walk-in at campus or via DepEd Malaybalay City Division (0907-688-9009 / malaybalay.city@deped.gov.ph)"}</dd></div>
           <div><dt>School microsite URL</dt><dd>{item.subdomainHost ? `https://${item.subdomainHost}` : "Generated after registry verification"}</dd></div>
         </dl>
         <div className="education-channels-grid">
           <section className="education-profile-section">
             <span className="eyebrow">Announcements and official channels</span>
             <h2>{item.announcements.mode}</h2>
-            <p>{item.announcements.mode === "Not configured" ? "No official Facebook page or announcement feed has been independently configured for this institution. BetterMC does not scrape private or restricted social content." : "Use the published official channel for enrolment, admissions, suspensions, scholarships, and calendar updates."}</p>
+            <p>{item.announcements.mode === "Not configured" ? "This school does not have an external announcement page linked yet. For enrollment schedules and campus advisories, visit the school directly or contact DepEd Malaybalay City Division." : "Check the official school channel below for enrollment dates, class advisories, admissions, and announcements."}</p>
             {item.announcements.externalUrl && <a className="button secondary compact-action" href={item.announcements.externalUrl} target="_blank" rel="noreferrer">Open official channel <ExternalLink aria-hidden="true" /></a>}
           </section>
           <section className="education-profile-section">
-            <span className="eyebrow">Transportation and accessibility</span>
-            <h2>{item.transport.status === "Verified" ? "Published access information" : "Transport information not yet verified"}</h2>
+            <span className="eyebrow">Location and directions</span>
+            <h2>{item.transport.status === "Verified" ? "Published access information" : "Confirm travel routes before visiting"}</h2>
             <p>{item.transport.note}</p>
             <a className="button secondary compact-action" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Open map search <ExternalLink aria-hidden="true" /></a>
           </section>
@@ -6877,7 +6897,10 @@ function ServiceProviderCard({
   return (
     <article className={`provider-card${provider.isNearest ? " is-nearest-card" : ""}${mobileExpanded ? " is-mobile-expanded" : ""}`}>
       <header className="provider-card-head">
-        <span className={`provider-logo${logo ? " has-logo" : ""}`} aria-hidden="true">
+        <span
+          className={`provider-logo${logo ? ` has-logo ${logo.aspect === "wide" ? "has-logo-wide" : "has-logo-seal"}` : ""}`}
+          aria-hidden="true"
+        >
           {logo ? <img src={logo.image} alt="" loading="lazy" decoding="async" /> : <Landmark />}
         </span>
         <div className="provider-card-identity">
@@ -7331,7 +7354,10 @@ function ServiceCategoryPage() {
             {/* Nearest Providers & Direct Transactions */}
             <SectionHeading
               eyebrow="Nearest service providers"
-              title={`Where to transact in Malaybalay for ${category.title.toLowerCase()}`}
+              title={`Where to transact in Malaybalay for ${category.title
+                .toLowerCase()
+                .replace(/\bids\b/g, "IDs")
+                .replace(/\bofw\b/g, "OFW")}`}
             >
               Listed providers serving {originInfo.label}, ordered by approximate distance from barangay coordinates. Travel times are estimates; confirm the route and current requirements with the provider. Open a transaction for its checklist and published steps.
             </SectionHeading>

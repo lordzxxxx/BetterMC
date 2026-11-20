@@ -394,14 +394,14 @@ test("footer publishes civic contribution and verified city channels", async ({
     page.getByRole("link", { name: /0917 188 4225/i }),
   ).toHaveAttribute("href", "tel:09171884225");
   await expect(
-    page.getByRole("link", { name: /Official Facebook page/i }),
-  ).toHaveAttribute("href", /facebook\.com\/profile\.php/);
-  await expect(
     page.getByRole("link", { name: /Powered by\s*BetterGov/i }),
   ).toHaveAttribute("href", "https://lgu.bettergov.ph/");
-  await expect(page.getByText("Cost of This Website")).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: /BetterMC on Facebook|BAC LGU Malaybalay Facebook|City Government website|Official Facebook page/i }),
+  ).toHaveCount(0);
+  await expect(page.getByText("Cost of This Website")).toHaveCount(0);
   await expect(page.getByText("Cost to the People of Malaybalay")).toBeVisible();
-  await expect(page.getByText("₱0")).toHaveCount(2);
+  await expect(page.getByText("₱0")).toHaveCount(1);
 });
 
 test("transparency and budget section links stay focused on disclosure and budget", async ({ page }) => {
@@ -592,4 +592,40 @@ test("procurement navigation and original recording sources are accessible", asy
   await expect(page.getByRole("region", { name: "Official video libraries" })).toHaveCount(0);
   await page.locator(".civic-recording-card button").first().click();
   await expect(page.getByRole("link", { name: /Original video/i }).first()).toHaveAttribute("href", /facebook\.com/);
+});
+
+test("service sectors, city offices, and schools display verified logos, populations, and contact persons without 320px overflow", async ({
+  page,
+}) => {
+  await page.goto("/services/certificates-ids");
+  await expect(
+    page.getByRole("heading", { name: /Where to transact in Malaybalay for certificates and IDs/i }),
+  ).toBeVisible();
+  const providerImgs = page.locator(".provider-logo img");
+  await expect(providerImgs).toHaveCount(4);
+  for (let i = 0; i < 4; i++) {
+    await providerImgs.nth(i).scrollIntoViewIfNeeded();
+    await expect.poll(async () => providerImgs.nth(i).evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
+  }
+  await expect(page.locator(".provider-logo svg")).toHaveCount(0);
+
+  await page.goto("/offices/pnp");
+  await expect(page.locator(".office-logo-frame.is-hero img")).toHaveAttribute("src", "/images/agencies/pnp.png");
+  await expect(page.getByRole("region", { name: "Who to reach out to" })).toContainText("PLtCol. Joepet Baldonado Paglinawan");
+
+  await page.goto("/education/bukidnon-state-university");
+  await expect(page.locator(".education-school-logo").first()).toHaveAttribute("src", "/images/schools/buksu.png");
+  await expect(page.getByText(/9,300\+ Main Campus college students/i).first()).toBeVisible();
+  await expect(page.getByText(/Dr\. Joy M\. Mirasol/i).first()).toBeVisible();
+
+  await page.goto("/education/bukidnon-national-high-school");
+  await expect(page.getByText(/8,840 learners in SY 2024–25/i).first()).toBeVisible();
+  await expect(page.getByText(/Dr\. Paul O\. Orong/i).first()).toBeVisible();
+
+  await page.setViewportSize({ width: 320, height: 700 });
+  await page.goto("/services/certificates-ids");
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+  );
+  expect(overflow).toBe(false);
 });

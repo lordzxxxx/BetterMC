@@ -831,7 +831,7 @@ describe("BetterMC public portal", () => {
     representativeRender.unmount();
   });
 
-  it("publishes contribution, city contact, Facebook, and BetterGov links in the footer", () => {
+  it("publishes contribution, city contact, and BetterGov links in the footer without external clutter links", () => {
     render(
       <MemoryRouter>
         <App />
@@ -841,26 +841,26 @@ describe("BetterMC public portal", () => {
       screen.getByRole("link", { name: /Contribute on GitHub/i }),
     ).toHaveAttribute("href", "https://github.com/lordzxxxx/BetterMC");
     expect(
-      screen.getByRole("link", { name: /BetterMC on Facebook/i }),
-    ).toHaveAttribute(
-      "href",
-      "https://www.facebook.com/profile.php?id=61596547555480",
-    );
-    expect(
       screen.getByRole("link", { name: /0917 188 4225/i }),
     ).toHaveAttribute("href", "tel:09171884225");
     expect(
-      screen.getByRole("link", { name: /Official Facebook page/i }),
-    ).toHaveAttribute(
-      "href",
-      "https://www.facebook.com/profile.php?id=100063747444247",
-    );
-    expect(
       screen.getByRole("link", { name: /Powered by\s*BetterGov/i }),
     ).toHaveAttribute("href", "https://lgu.bettergov.ph/");
-    expect(screen.getByText("Cost of This Website")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: /BetterMC on Facebook/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: /BAC LGU Malaybalay Facebook/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: /City Government website/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: /Official Facebook page/i }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Cost of This Website")).not.toBeInTheDocument();
     expect(screen.getByText("Cost to the People of Malaybalay")).toBeInTheDocument();
-    expect(screen.getAllByText("₱0")).toHaveLength(2);
+    expect(screen.getAllByText("₱0")).toHaveLength(1);
   });
 
   it("uses an accessible request-type menu with keyboard selection", () => {
