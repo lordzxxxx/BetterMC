@@ -280,6 +280,7 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
       expect(within(pesoHeader as HTMLElement).getByText("Uswag Malaybalay")).toBeInTheDocument();
       expect(pesoHeader?.querySelector(".microsite-brand-main")).toBeInTheDocument();
       expect(pesoHeader?.querySelector(".microsite-brand-wordmark")).toBeInTheDocument();
+      expect(pesoHeader?.querySelector(".microsite-brand-divider")).not.toBeInTheDocument();
       expect(
         within(pesoHeader as HTMLElement).getByRole("link", {
           name: /BetterMC — Uswag Malaybalay/i,
