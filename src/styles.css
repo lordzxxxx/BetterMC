@@ -22053,3 +22053,18 @@ pre {
   .office-hero-identity { flex-direction: column; }
   .office-dir-facts div, .peso-job-meta div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
 }
+
+/* Prioritized Homepage Gateways (PESO & City Offices) and 6-tile Quick Grid sizing */
+.hero-panel .quick-grid a { min-height: 74px; padding: 11px 13px; }
+.home-priority-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 18px; padding-top: 24px; padding-bottom: 8px; }
+.home-priority-card { display: flex; flex-direction: column; gap: 12px; padding: 20px; border: 1px solid #d4e3f1; border-radius: 14px; background: #fff; }
+.home-priority-card.is-peso { background: linear-gradient(135deg, #f3f8ff 0%, #ffffff 75%); border-color: #c5dcf5; }
+.home-priority-head { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.home-priority-head > div { min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.home-priority-head img { width: 54px; height: 54px; flex: none; object-fit: contain; padding: 4px; background: #fff; border: 1px solid #d4e3f1; border-radius: 12px; }
+.home-priority-head h2 { margin: 4px 0 0; font-size: clamp(1.05rem, 1.5vw, 1.25rem); line-height: 1.25; }
+.home-priority-card p { margin: 0; font-size: .92rem; color: #364b64; line-height: 1.55; }
+.home-priority-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 4px; }
+@media (max-width: 480px) {
+  .home-priority-head { flex-direction: column; align-items: flex-start; }
+}

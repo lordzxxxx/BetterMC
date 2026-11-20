@@ -76,4 +76,27 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
       page.getByRole("heading", { name: /Job Vacancies, Job Fairs & Livelihood Programs/i }),
     ).toBeVisible();
   });
+
+  test("surfaces PESO & Jobs and City Offices in primary nav, home gateways, and 320px mobile bar", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto("/");
+
+    const desktopNav = page.getByRole("navigation", { name: "Primary navigation" });
+    await expect(desktopNav.getByRole("link", { name: "City Offices" })).toBeVisible();
+    await expect(desktopNav.getByRole("link", { name: "PESO & Jobs" })).toBeVisible();
+
+    const homePortals = page.getByRole("region", { name: "Featured Malaybalay portals" });
+    await expect(homePortals.getByRole("link", { name: /Open PESO Hub/i })).toBeVisible();
+    await expect(homePortals.getByRole("link", { name: /Explore All 35 Offices/i })).toBeVisible();
+
+    await page.setViewportSize({ width: 320, height: 740 });
+    const hasOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth + 1,
+    );
+    expect(hasOverflow).toBe(false);
+
+    const mobileTabs = page.getByRole("navigation", { name: "Quick mobile app navigation" });
+    await expect(mobileTabs.getByRole("link", { name: "Offices" })).toBeVisible();
+    await expect(mobileTabs.getByRole("link", { name: "PESO" })).toBeVisible();
+  });
 });
