@@ -5370,21 +5370,17 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
               {slugOverride ? (
                 <a
                   href={MAIN_BETTERMC_PORTAL.url}
-                  className="barangay-main-portal-pill"
+                  className="microsite-home-button barangay-main-portal-pill"
                 >
-                  <Landmark aria-hidden="true" />
-                  <span><strong>BetterMC Home</strong></span>
+                  <ArrowLeft aria-hidden="true" />
+                  <span>BetterMC Home</span>
                 </a>
               ) : (
-                <Link to="/" className="barangay-main-portal-pill">
-                  <Landmark aria-hidden="true" />
-                  <span><strong>BetterMC Home</strong></span>
+                <Link to="/" className="microsite-home-button barangay-main-portal-pill">
+                  <ArrowLeft aria-hidden="true" />
+                  <span>BetterMC Home</span>
                 </Link>
               )}
-              <span className="barangay-active-subdomain-pill" aria-label={`Current barangay site: ${profile.subdomainHost}`}>
-                <Globe aria-hidden="true" />
-                <strong>{profile.subdomainHost}</strong>
-              </span>
             </div>
             <span>Welcome to Barangay {profile.name}</span>
             <h1>{profile.name}</h1>
@@ -5997,6 +5993,13 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
               rel="noreferrer"
             >
               <FacebookIcon /> City Government official Facebook
+            </a>
+            <a
+              href={`https://${profile.subdomainHost}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Globe aria-hidden="true" /> {profile.subdomainHost}
             </a>
             <BarangaySourceLink source={profile.leadershipSource} />
           </div>

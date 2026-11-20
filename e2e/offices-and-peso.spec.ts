@@ -161,6 +161,34 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
   test("supports office subdomain query previews (?office=cho, ?office=peso, ?office=treasurer) without warning banners", async ({
     page,
   }) => {
+    await page.goto("/?office=mayor");
+    await expect(page.getByRole("heading", { name: "Office of the City Mayor" })).toBeVisible();
+    const homeButton = page.locator(".microsite-home-button");
+    await expect(homeButton).toHaveText("BetterMC Home");
+    await expect(homeButton).toHaveAttribute("href", "/");
+    await expect(page.locator(".office-hero-breadcrumb")).toHaveCount(0);
+    await expect(page.getByText(/City Offices \(35\)/i)).toHaveCount(0);
+
+    const actionLayout = await page.evaluate(() => {
+      const buttons = Array.from(document.querySelectorAll(".office-hero-actions .button")).map((el) =>
+        el.getBoundingClientRect(),
+      );
+      const gaps: number[] = [];
+      for (let i = 1; i < buttons.length; i += 1) {
+        if (Math.abs(buttons[i].top - buttons[i - 1].top) < 4) {
+          gaps.push(Math.round(buttons[i].left - buttons[i - 1].right));
+        }
+      }
+      return {
+        count: buttons.length,
+        heights: buttons.map((b) => Math.round(b.height)),
+        gaps,
+      };
+    });
+    expect(actionLayout.count).toBe(3);
+    expect(Math.max(...actionLayout.heights) - Math.min(...actionLayout.heights)).toBeLessThanOrEqual(2);
+    expect(actionLayout.gaps.every((g) => g >= 8)).toBe(true);
+
     await page.goto("/?office=cho");
     await expect(page.getByRole("heading", { name: "City Health Office" })).toBeVisible();
     await expect(page.getByRole("link", { name: /cho\.bettermalaybalay\.cloud/i }).first()).toBeVisible();

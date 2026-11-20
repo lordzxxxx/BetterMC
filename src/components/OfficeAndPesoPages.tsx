@@ -845,24 +845,20 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
 
           <div className="office-hero-copy">
             <nav
-              className="office-hero-breadcrumb"
-              aria-label={`${office.shortName} microsite location`}
+              className="microsite-home-nav"
+              aria-label={`${office.shortName} main portal navigation`}
             >
               {isHostSubdomain ? (
-                <a href={MAIN_BETTERMC_URL}>BetterMC Home</a>
-              ) : (
-                <Link to="/">BetterMC Home</Link>
-              )}
-              <span aria-hidden="true">/</span>
-              {isHostSubdomain ? (
-                <a href={`${MAIN_BETTERMC_URL}/offices`}>
-                  City Offices ({governmentOffices.length})
+                <a href={MAIN_BETTERMC_URL} className="microsite-home-button">
+                  <ArrowLeft aria-hidden="true" />
+                  <span>BetterMC Home</span>
                 </a>
               ) : (
-                <Link to="/offices">City Offices ({governmentOffices.length})</Link>
+                <Link to="/" className="microsite-home-button">
+                  <ArrowLeft aria-hidden="true" />
+                  <span>BetterMC Home</span>
+                </Link>
               )}
-              <span aria-hidden="true">/</span>
-              <MicrositeUrlAnchor url={office.subdomainUrl} host={office.subdomainHost} />
             </nav>
 
             <p className="office-hero-classification">{office.classification}</p>
@@ -872,7 +868,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
             ) : null}
             <p className="office-hero-lead">{office.overview}</p>
 
-            <div className="office-hero-actions">
+            <div className="office-hero-actions" role="group" aria-label={`${office.shortName} quick actions`}>
               {office.slug === "peso" ? (
                 <a className="button hero-contrast-primary" href="#job-opportunities">
                   <Briefcase aria-hidden="true" /> Browse Job Opportunities
@@ -889,7 +885,10 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                 </a>
               ) : null}
               {office.phoneNumbers[0] ? (
-                <a className="button secondary" href={telHref(office.phoneNumbers[0])}>
+                <a
+                  className={!fbSafe && office.slug !== "peso" ? "button hero-contrast-primary" : "button secondary"}
+                  href={telHref(office.phoneNumbers[0])}
+                >
                   <Phone aria-hidden="true" /> Call {office.phoneNumbers[0]}
                 </a>
               ) : null}
