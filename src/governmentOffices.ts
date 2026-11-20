@@ -1539,7 +1539,7 @@ export const governmentOffices: GovernmentOffice[] = [
     operatingHours: "Monday to Friday, 8:00 AM – 5:00 PM",
     phoneNumbers: ["(088) 813-3404", "0997-850-4913", "0917-432-9900", "0926-732-8544"],
     emails: ["malaybalaycity_tourism@gmail.com", "cgmtourism.nada@gmail.com"],
-    officialWebUrl: "https://sakata.malaybalaycity.gov.ph/departments-offices/",
+    officialWebUrl: "https://sakata.malaybalaycity.gov.ph/tourism/",
     services: [
       { title: "1. Tourism-Related Businesses Certification (Standard & Ancestral Domain)", processingTime: "1 Hour", fee: "None", reference: "Charter pp. 588–597" },
       { title: "2. Release of Tourism Statistical Data & Visitor Assistance", processingTime: "1 Hour", fee: "None" },
@@ -1551,6 +1551,7 @@ export const governmentOffices: GovernmentOffice[] = [
     charterChapterRef: "CMO - TOURISM 2026 (pp. 588–597 & p. 728)",
     sources: [
       ccSource("City Tourism Office (pp. 588–597 & p. 728)"),
+      sakataSource("City Tourism Division Page", "https://sakata.malaybalaycity.gov.ph/tourism/"),
       sakataSource("Departments & Contact Directory", SAKATA_CONTACT_URL),
     ],
   }),
@@ -1749,7 +1750,7 @@ export const governmentOffices: GovernmentOffice[] = [
     phoneNumbers: ["0967-016-9677", "(088) 813-4726 Local 115"],
     emails: ["bacmalaybalay@gmail.com"],
     facebookUrl: "https://www.facebook.com/bacmalaybalay",
-    officialWebUrl: "https://sakata.malaybalaycity.gov.ph/bids-and-awards-committee-2/",
+    officialWebUrl: "https://sakata.malaybalaycity.gov.ph/bids-and-awards-committee-structure/",
     services: [
       { title: "Issuance of Philippine Bidding Documents & Bidder Registration", processingTime: "Charter pp. 482–506", fee: "GPPB Standard Bidding Document Fee" },
       { title: "Public Bid Opening & Notice of Award / NTP Disclosures", processingTime: "RA 9184 statutory timeline", fee: "None for public observers" },
@@ -1760,7 +1761,7 @@ export const governmentOffices: GovernmentOffice[] = [
     charterChapterRef: "CMO - BAC 2026 (pp. 482–506)",
     sources: [
       ccSource("CMO — BAC 2026 (pp. 482–506)"),
-      sakataSource("Bids & Awards Committee Page", "https://sakata.malaybalaycity.gov.ph/bids-and-awards-committee-2/"),
+      sakataSource("Bids & Awards Committee Structure", "https://sakata.malaybalaycity.gov.ph/bids-and-awards-committee-structure/"),
     ],
   }),
 
@@ -1799,7 +1800,7 @@ export const governmentOffices: GovernmentOffice[] = [
     operatingHours: "Monday to Friday, 8:00 AM – 5:00 PM",
     phoneNumbers: ["0926-880-6529", "(088) 813-2562", "(088) 813-4726 Local 103"],
     emails: ["dilg.buk.malaybalay@gmail.cm"],
-    officialWebUrl: SAKATA_CONTACT_URL,
+    officialWebUrl: "https://region10.dilg.gov.ph/",
     services: [
       { title: "Seal of Good Local Governance (SGLG / SGLGB) & Barangay Assessment", processingTime: "Annual DILG cycle", fee: "None" },
       { title: "Barangay Official Succession, Katarungang Pambarangay & DILG Endorsements", processingTime: "Field office review", fee: "None" },
@@ -1807,7 +1808,10 @@ export const governmentOffices: GovernmentOffice[] = [
     programs: [
       { title: "SGLG & SGLGB Assessment Teams (EO 15 & EO 35 s.2023)", summary: "Evaluates transparency, disaster preparedness, financial administration, and social protection." },
     ],
-    sources: [sakataSource("sakata.malaybalaycity.gov.ph — Contact Us", SAKATA_CONTACT_URL)],
+    sources: [
+      sakataSource("DILG Region X Official Portal", "https://region10.dilg.gov.ph/"),
+      sakataSource("sakata.malaybalaycity.gov.ph — Contact Us", SAKATA_CONTACT_URL),
+    ],
   }),
 
   // 32. BFP MALAYBALAY CITY FIRE STATION
@@ -1961,7 +1965,7 @@ export const governmentOffices: GovernmentOffice[] = [
       "Administers public elementary and secondary schools in Malaybalay and co-leads Grade 10 Career Guidance (CGAP).",
     cardLocation: "Sayre Highway, Brgy. Casisang",
     aboutDetails:
-      "Located along Sayre Highway in Barangay Casisang, the DepEd Malaybalay City Division oversees 122 educational institutions profiled across BetterMC's Education Directory, manages the Public Assistance Counter for learner credentials, and schedules career orientation drives alongside PESO.",
+      "Located along Sayre Highway in Barangay Casisang, the DepEd Malaybalay City Division oversees 104 educational institutions profiled across BetterMC's Education Directory, manages the Public Assistance Counter for learner credentials, and schedules career orientation drives alongside PESO.",
     whoServes:
       "Students, parents, public school teachers, school heads across all 46 barangays, and Grade 10 Career Guidance participants.",
     mandate:
@@ -1975,16 +1979,19 @@ export const governmentOffices: GovernmentOffice[] = [
     barangay: "Casisang",
     operatingHours: "Monday to Friday, 8:00 AM – 5:00 PM",
     phoneNumbers: ["0907-688-9009", "0991-331-7778"],
-    emails: ["pac.malaybalaycity@deped.gov.ph"],
-    officialWebUrl: "https://sakata.malaybalaycity.gov.ph/contact-us/",
+    emails: ["pac.malaybalaycity@deped.gov.ph", "malaybalay.city@deped.gov.ph"],
+    officialWebUrl: "https://malaybalay.deped.gov.ph/",
     services: [
       { title: "Public Assistance Counter (PAC) — Learner Records & Division Inquiries", processingTime: "Office hours", fee: "None" },
       { title: "PESO Career Guidance Advocacy (CGAP) School Scheduling", processingTime: "2 Minutes (with PESO)", fee: "None" },
     ],
     programs: [
-      { title: "Cross-linked to BetterMC /education (122 School Profiles)", summary: "Coordinates elementary, integrated, junior high, and senior high school initiatives across 46 barangays." },
+      { title: "Cross-linked to BetterMC /education (104 School Profiles)", summary: "Coordinates elementary, integrated, junior high, and senior high school initiatives across 46 barangays." },
     ],
-    sources: [sakataSource("sakata.malaybalaycity.gov.ph — Contact Us", SAKATA_CONTACT_URL)],
+    sources: [
+      sakataSource("DepEd — Schools Division of Malaybalay City Portal", "https://malaybalay.deped.gov.ph/"),
+      sakataSource("sakata.malaybalaycity.gov.ph — Contact Us", SAKATA_CONTACT_URL),
+    ],
   }),
 ];
 

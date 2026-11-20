@@ -63,7 +63,74 @@ function safeHref(raw?: string): string | null {
 }
 
 function telHref(phone: string): string {
-  return `tel:${phone.replace(/[^\d+]/g, "")}`;
+  const primarySegment = phone.split(/\s*(?:\/|;|local|ext\.?)\s*/i)[0] ?? phone;
+  return `tel:${primarySegment.replace(/[^\d+]/g, "")}`;
+}
+
+function isDeliverableEmail(email: string): boolean {
+  const trimmed = email.trim();
+  return /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(trimmed) && !/\.cm$/i.test(trimmed);
+}
+
+function parsePersonnelRole(position: string): { role: string; designation: string | null } {
+  const trimmed = position.trim();
+  const parenMatch = trimmed.match(/^(.+?)\s*\(([^()]+)\)\s*$/);
+  if (parenMatch && parenMatch[1].trim().length >= 4 && parenMatch[2].trim().length >= 3) {
+    return { role: parenMatch[1].trim(), designation: parenMatch[2].trim() };
+  }
+  if (trimmed.includes(" / ")) {
+    const parts = trimmed
+      .split(" / ")
+      .map((part) => part.trim())
+      .filter(Boolean);
+    if (parts.length === 2 && parts[0].length >= 4 && parts[1].length >= 4) {
+      return { role: parts[0], designation: parts[1] };
+    }
+  }
+  return { role: trimmed, designation: null };
+}
+
+function personInitials(name: string): string {
+  const stripped = name
+    .replace(/^(Hon\.|Atty\.|Dr\.|Engr\.|EnP\.|PLtCol\.)\s+/i, "")
+    .replace(/,\s*(CPA|MD|DVM|CESO\s*[IVX]+|Jr\.?|Sr\.?|II|III)$/i, "")
+    .replace(/["'“”][^"'“”]+["'“”]\s*/g, "")
+    .trim();
+  const parts = stripped.split(/\s+/).filter((token) => !/^[A-Z]\.$/.test(token));
+  if (parts.length === 0) return "•";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+}
+
+function formatWebsiteLabel(url: string, acronym: string): { title: string; host: string } {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, "");
+    const cleanPath = parsed.pathname.replace(/^\/|\/$/g, "");
+    if (host.includes("sakata.malaybalaycity.gov.ph")) {
+      if (cleanPath === "contact-us") {
+        return { title: "City Government Contact Directory", host: `${host}/contact-us` };
+      }
+      if (cleanPath === "departments-offices") {
+        return { title: "City Government Departments Index", host: `${host}/departments-offices` };
+      }
+      return {
+        title: `Official LGU ${acronym} Page`,
+        host: cleanPath ? `${host}/${cleanPath}` : host,
+      };
+    }
+    return { title: `${acronym} Official Website`, host };
+  } catch {
+    return { title: "Official Website", host: url };
+  }
+}
+
+function formatSourceHost(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
 }
 
 function mapsSearchHref(query: string, coords?: [number, number]): string {
@@ -780,6 +847,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
   const office = canonicalSlug ? governmentOfficeBySlug.get(canonicalSlug) : undefined;
   const [serviceSearch, setServiceSearch] = useState("");
   const [openServiceIndex, setOpenServiceIndex] = useState<number | null>(0);
+  const [expandedUnits, setExpandedUnits] = useState<Record<string, boolean>>({});
 
   if (!office) {
     return (
@@ -1012,54 +1080,96 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
         >
           <div className="office-section-head">
             <div>
+              <span className="office-section-eyebrow">Directory &amp; Accountability</span>
               <h2 id="office-personnel-heading">Officials &amp; Assigned Personnel</h2>
               <p className="office-section-subtitle">
-                Officials and staff assigned to {office.shortName} so you know who to find and where
-                to direct your inquiry.{" "}
-                {office.classification.includes("National") ||
-                office.classification.includes("Judiciary")
-                  ? ""
-                  : "Across all City Hall offices, the Q1 2026 FDP manpower report records 3,593 total personnel (630 permanent, 279 casual, 96 contractual, and 2,588 job-order staff)."}
+                Documented officials and unit personnel assigned to {office.shortName}, organized
+                by functional division so residents know whom to approach.
               </p>
             </div>
+            {personnelEntry ? (
+              <div className="office-personnel-total-badge">
+                <Users aria-hidden="true" />
+                <span>
+                  {personnelEntry.groups.reduce((sum, group) => sum + group.members.length, 0)}{" "}
+                  documented{" "}
+                  {personnelEntry.groups.reduce((sum, group) => sum + group.members.length, 0) === 1
+                    ? "official"
+                    : "personnel"}
+                </span>
+              </div>
+            ) : null}
           </div>
 
           {personnelEntry ? (
             <>
               <div className="office-personnel-groups">
                 {personnelEntry.groups.map((group) => {
-                  const compactThreshold = 8;
-                  const primaryMembers = group.members.slice(0, compactThreshold);
-                  const remainingMembers = group.members.slice(compactThreshold);
+                  const unitKey = `${office.slug}::${group.unitName}`;
+                  const needsToggle = group.members.length > 9;
+                  const isExpanded = Boolean(expandedUnits[unitKey]);
+                  const visibleMembers =
+                    needsToggle && !isExpanded ? group.members.slice(0, 6) : group.members;
+                  const remainingCount = group.members.length - visibleMembers.length;
+
                   return (
                     <div key={group.unitName} className="office-personnel-unit">
-                      <h3>
-                        <Users aria-hidden="true" />
-                        <span>{group.unitName}</span>
-                        <span className="office-unit-count">({group.members.length})</span>
-                      </h3>
-                      <div className="office-personnel-list">
-                        {primaryMembers.map((member) => (
-                          <div key={`${group.unitName}-${member.name}`} className="office-personnel-row">
-                            <span className="office-person-role">{member.position}</span>
-                            <span className="office-person-name">{member.name}</span>
-                          </div>
-                        ))}
+                      <div className="office-personnel-unit-header">
+                        <h3>
+                          <Users aria-hidden="true" />
+                          <span>{group.unitName}</span>
+                        </h3>
+                        <span className="office-unit-count">
+                          {group.members.length}{" "}
+                          {group.members.length === 1 ? "member" : "members"}
+                        </span>
                       </div>
-                      {remainingMembers.length > 0 ? (
-                        <details className="office-personnel-more">
-                          <summary>
-                            Show {remainingMembers.length} more assigned personnel in {group.unitName}
-                          </summary>
-                          <div className="office-personnel-list">
-                            {remainingMembers.map((member) => (
-                              <div key={`${group.unitName}-${member.name}`} className="office-personnel-row">
-                                <span className="office-person-role">{member.position}</span>
+                      <div className="office-personnel-list">
+                        {visibleMembers.map((member) => {
+                          const parsed = parsePersonnelRole(member.position);
+                          const initials = personInitials(member.name);
+                          return (
+                            <article
+                              key={`${group.unitName}-${member.name}-${member.position}`}
+                              className="office-personnel-row"
+                            >
+                              <div className="office-person-role-row">
+                                <span className="office-person-role">{parsed.role}</span>
+                              </div>
+                              <div className="office-person-name-row">
+                                <span className="office-person-avatar" aria-hidden="true">
+                                  {initials}
+                                </span>
                                 <span className="office-person-name">{member.name}</span>
                               </div>
-                            ))}
-                          </div>
-                        </details>
+                              <div className="office-person-meta">
+                                <span>{parsed.designation ?? office.acronym}</span>
+                              </div>
+                            </article>
+                          );
+                        })}
+                      </div>
+                      {needsToggle ? (
+                        <div className="office-personnel-more">
+                          <button
+                            type="button"
+                            className="office-personnel-expand-btn"
+                            aria-expanded={isExpanded}
+                            onClick={() =>
+                              setExpandedUnits((prev) => ({
+                                ...prev,
+                                [unitKey]: !isExpanded,
+                              }))
+                            }
+                          >
+                            <span>
+                              {isExpanded
+                                ? `Show fewer personnel in ${group.unitName}`
+                                : `Show remaining ${remainingCount} personnel (${group.members.length} total)`}
+                            </span>
+                            <ChevronDown aria-hidden="true" />
+                          </button>
+                        </div>
                       ) : null}
                     </div>
                   );
@@ -1068,33 +1178,47 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
               {personnelEntry.unitNotes ? (
                 <p className="office-personnel-unit-notes">{personnelEntry.unitNotes}</p>
               ) : null}
-              <p className="office-personnel-source">
-                <span>Source:</span>{" "}
+              <div className="office-personnel-source">
+                <span className="office-personnel-source-label">Verified Staffing Source:</span>
                 <a href={personnelEntry.sourceUrl} target="_blank" rel="noopener noreferrer">
-                  {personnelEntry.sourceLabel} <ExternalLink aria-hidden="true" />
+                  <span>{personnelEntry.sourceLabel}</span>
+                  <ExternalLink aria-hidden="true" />
                 </a>
                 {personnelEntry.additionalSources?.map((extra) => (
-                  <span key={extra.url}>
-                    •{" "}
-                    <a href={extra.url} target="_blank" rel="noopener noreferrer">
-                      {extra.label} <ExternalLink aria-hidden="true" />
-                    </a>
-                  </span>
+                  <a key={extra.url} href={extra.url} target="_blank" rel="noopener noreferrer">
+                    <span>{extra.label}</span>
+                    <ExternalLink aria-hidden="true" />
+                  </a>
                 ))}
-              </p>
+              </div>
             </>
           ) : (
             <div className="office-personnel-fallback">
               {office.headOfOffice ? (
-                <div className="office-personnel-row is-single">
-                  <span className="office-person-role">{office.headNote ?? office.classification}</span>
-                  <span className="office-person-name">{office.headOfOffice}</span>
-                </div>
+                <article className="office-personnel-row is-single">
+                  <div className="office-person-role-row">
+                    <span className="office-person-role">
+                      {parsePersonnelRole(office.headNote ?? office.classification).role}
+                    </span>
+                  </div>
+                  <div className="office-person-name-row">
+                    <span className="office-person-avatar" aria-hidden="true">
+                      {personInitials(office.headOfOffice)}
+                    </span>
+                    <span className="office-person-name">{office.headOfOffice}</span>
+                  </div>
+                  <div className="office-person-meta">
+                    <span>
+                      {parsePersonnelRole(office.headNote ?? office.classification).designation ??
+                        office.acronym}
+                    </span>
+                  </div>
+                </article>
               ) : (
                 <p className="office-personnel-note">
-                  {office.headNote || office.classification}. An individual staff directory has not
-                  yet been published by this office on sakata.malaybalaycity.gov.ph; functional units
-                  and frontline transactions below are documented in the 2026 Citizen&apos;s Charter.
+                  {office.headNote || office.classification}. Detailed staffing roster is
+                  pending publication; functional divisions and frontline Citizen&apos;s Charter
+                  services are listed below.
                 </p>
               )}
             </div>
@@ -1243,74 +1367,187 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
 
         <section id="sources" className="office-bottom-grid" aria-labelledby="office-sources-heading">
           <article className="office-sources-card bettermc-surface-card">
-            <h2>All Verified Contacts &amp; Platforms</h2>
-            <dl className="office-contacts-dl">
-              <div>
-                <dt>Office Counter</dt>
-                <dd>{office.address}</dd>
-              </div>
-              <div>
-                <dt>Operating Hours</dt>
-                <dd>{office.operatingHours}</dd>
-              </div>
-              <div>
-                <dt>Phone Numbers</dt>
-                <dd>
-                  {office.phoneNumbers.map((phone) => (
-                    <a key={phone} className="office-fact-link" href={telHref(phone)}>
-                      {phone}
-                    </a>
-                  ))}
-                </dd>
-              </div>
-              {office.emails.length > 0 ? (
+            <div className="office-card-header-stack">
+              <span className="office-section-eyebrow">Direct Channels &amp; Links</span>
+              <h2>All Verified Contacts &amp; Platforms</h2>
+            </div>
+
+            <div className="office-contact-summary-grid">
+              <div className="office-contact-meta-card">
+                <span className="office-channel-icon" aria-hidden="true">
+                  <MapPin />
+                </span>
                 <div>
-                  <dt>Email Addresses</dt>
-                  <dd>
-                    {office.emails.map((email) => (
-                      <a key={email} className="office-fact-link" href={`mailto:${email}`}>
-                        {email}
-                      </a>
-                    ))}
-                  </dd>
+                  <small>Office Counter</small>
+                  <p>{office.address}</p>
                 </div>
-              ) : null}
-              <div>
-                <dt>Microsite URL</dt>
-                <dd>
-                  <MicrositeUrlAnchor
-                    className="office-fact-link"
-                    url={office.subdomainUrl}
-                    host={office.subdomainHost}
-                  />
-                </dd>
               </div>
-              {webSafe ? (
+              <div className="office-contact-meta-card">
+                <span className="office-channel-icon" aria-hidden="true">
+                  <Clock />
+                </span>
                 <div>
-                  <dt>City Government Portal</dt>
-                  <dd>
-                    <a className="office-fact-link" href={webSafe} target="_blank" rel="noopener noreferrer">
-                      Official LGU Malaybalay Page <ExternalLink aria-hidden="true" />
-                    </a>
-                  </dd>
+                  <small>Operating Hours</small>
+                  <p>{office.operatingHours}</p>
                 </div>
-              ) : null}
-            </dl>
+              </div>
+            </div>
+
+            <div className="office-channel-group">
+              <h3>Phone Numbers &amp; Emails</h3>
+              <div className="office-channel-list">
+                {office.phoneNumbers.map((phone, index) => (
+                  <a
+                    key={phone}
+                    className="office-channel-card"
+                    href={telHref(phone)}
+                  >
+                    <span className="office-channel-icon" aria-hidden="true">
+                      <Phone />
+                    </span>
+                    <span className="office-channel-body">
+                      <small>{index === 0 ? "Primary Line" : `Alternate Line ${index + 1}`}</small>
+                      <strong>{phone}</strong>
+                    </span>
+                  </a>
+                ))}
+                {office.emails.map((email) =>
+                  isDeliverableEmail(email) ? (
+                    <a
+                      key={email}
+                      className="office-channel-card"
+                      href={`mailto:${email.trim()}`}
+                    >
+                      <span className="office-channel-icon" aria-hidden="true">
+                        <Mail />
+                      </span>
+                      <span className="office-channel-body">
+                        <small>Official Email</small>
+                        <strong>{email.trim()}</strong>
+                      </span>
+                    </a>
+                  ) : (
+                    <div key={email} className="office-channel-card is-static">
+                      <span className="office-channel-icon" aria-hidden="true">
+                        <Mail />
+                      </span>
+                      <span className="office-channel-body">
+                        <small>Published Email (confirm address typo before sending)</small>
+                        <strong>{email}</strong>
+                      </span>
+                    </div>
+                  ),
+                )}
+              </div>
+            </div>
+
+            <div className="office-channel-group">
+              <h3>Online Platforms &amp; Locations</h3>
+              <div className="office-platform-grid">
+                {fbSafe ? (
+                  <a
+                    className="office-platform-card is-fb"
+                    href={fbSafe}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FbGlyph size={18} />
+                    <span className="office-channel-body">
+                      <strong>Official Facebook Page</strong>
+                      <small>Announcements &amp; updates</small>
+                    </span>
+                    <ExternalLink aria-hidden="true" />
+                  </a>
+                ) : null}
+                {webSafe
+                  ? (() => {
+                      const webMeta = formatWebsiteLabel(webSafe, office.acronym);
+                      return (
+                        <a
+                          className="office-platform-card"
+                          href={webSafe}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Globe aria-hidden="true" />
+                          <span className="office-channel-body">
+                            <strong>{webMeta.title}</strong>
+                            <small>{webMeta.host}</small>
+                          </span>
+                          <ExternalLink aria-hidden="true" />
+                        </a>
+                      );
+                    })()
+                  : null}
+                <a
+                  className="office-platform-card"
+                  href={mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MapPin aria-hidden="true" />
+                  <span className="office-channel-body">
+                    <strong>Directions / Google Maps</strong>
+                    <small>{office.cardLocation ?? office.barangay}</small>
+                  </span>
+                  <ExternalLink aria-hidden="true" />
+                </a>
+                <a
+                  className="office-platform-card"
+                  href={office.subdomainUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Building2 aria-hidden="true" />
+                  <span className="office-channel-body">
+                    <strong>Office Microsite URL</strong>
+                    <small>{office.subdomainHost}</small>
+                  </span>
+                  <ExternalLink aria-hidden="true" />
+                </a>
+              </div>
+            </div>
           </article>
 
           <article className="office-sources-card bettermc-surface-card">
-            <h2 id="office-sources-heading">Official Primary Sources · Reviewed {VERIFIED_ON}</h2>
+            <div className="office-card-header-stack">
+              <span className="office-section-eyebrow">Source Ledger</span>
+              <h2 id="office-sources-heading">Official Primary Sources · Reviewed {VERIFIED_ON}</h2>
+            </div>
             <ul className="office-source-list">
               {office.sources.map((src) => (
                 <li key={`${src.label}-${src.url}`}>
                   <a href={safeHref(src.url) ?? "#"} target="_blank" rel="noopener noreferrer">
-                    <span>{src.label}</span>
+                    <FileCheck className="office-source-icon" aria-hidden="true" />
+                    <span className="office-source-copy">
+                      <strong>{src.label}</strong>
+                      <small>
+                        {formatSourceHost(src.url)} · Verified {src.verifiedOn}
+                      </small>
+                    </span>
                     <ExternalLink aria-hidden="true" />
                   </a>
-                  <small>Verified {src.verifiedOn}</small>
                 </li>
               ))}
             </ul>
+            <div className="office-sources-footer">
+              <p>
+                Entries are cross-checked against City Government of Malaybalay Citizen&apos;s
+                Charter, FDP manpower disclosures, and partner agency portals.
+              </p>
+              {isHostSubdomain ? (
+                <a
+                  className="office-sources-report-link"
+                  href={`${MAIN_BETTERMC_URL}/participate`}
+                >
+                  Submit an update or correction <ExternalLink aria-hidden="true" />
+                </a>
+              ) : (
+                <Link className="office-sources-report-link" to="/participate">
+                  Submit an update or correction <ArrowRight aria-hidden="true" />
+                </Link>
+              )}
+            </div>
           </article>
         </section>
       </section>
