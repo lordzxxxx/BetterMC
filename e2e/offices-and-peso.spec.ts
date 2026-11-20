@@ -63,6 +63,10 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
     await page.goto("/jobs/peso-nsrp-jobseeker-registration-matching");
     const detailMain = page.locator(".job-detail-main");
     await expect(detailMain.getByRole("heading", { name: "Official Contact Details" })).toBeVisible();
+    const sidebarPosition = await page
+      .locator(".job-detail-sidebar")
+      .evaluate((el) => getComputedStyle(el).position);
+    expect(sidebarPosition).toBe("static");
     const compactSourceLink = page.locator(".detail-source-link");
     await expect(compactSourceLink).toBeVisible();
     const sourceBox = await compactSourceLink.boundingBox();
