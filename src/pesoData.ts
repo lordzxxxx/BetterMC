@@ -3,7 +3,7 @@ import { z } from "zod";
 export const PESO_FACEBOOK_PAGE_URL =
   "https://www.facebook.com/profile.php?id=61589180493733";
 export const CITIZENS_CHARTER_2026_URL =
-  "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/08/CITIZENS-CHARTER-2026.pdf";
+  "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2026/10/CITIZENS_CHARTER_2026.pdf";
 export const CSC_FORM_9_2024_URL =
   "https://sakata.malaybalaycity.gov.ph/wp-content/uploads/2025/04/CS-Form-No-9-Publication-2024-4th-Tranche-1-1.pdf";
 

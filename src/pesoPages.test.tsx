@@ -277,18 +277,20 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
       const pesoHeader = document.querySelector(".microsite-header");
       expect(pesoHeader).toBeInTheDocument();
       expect(pesoHeader).toHaveAttribute("data-microsite-kind", "office");
-      expect(within(pesoHeader as HTMLElement).getByText("PESO Malaybalay")).toBeInTheDocument();
+      expect(within(pesoHeader as HTMLElement).getByText("Uswag Malaybalay")).toBeInTheDocument();
+      expect(pesoHeader?.querySelector(".microsite-brand-main")).toBeInTheDocument();
+      expect(pesoHeader?.querySelector(".microsite-brand-wordmark")).toBeInTheDocument();
+      expect(
+        within(pesoHeader as HTMLElement).getByRole("link", {
+          name: /BetterMC — Uswag Malaybalay/i,
+        }),
+      ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud");
       expect(
         within(pesoHeader as HTMLElement).getByRole("link", { name: "Job Board" }),
       ).toHaveAttribute("href", "#job-opportunities");
       expect(
         within(pesoHeader as HTMLElement).getByRole("link", { name: /All City Offices/i }),
       ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud/offices");
-      expect(
-        within(pesoHeader as HTMLElement).getByRole("link", {
-          name: /BetterMC Malaybalay public information network/i,
-        }),
-      ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud");
 
       const pesoFooter = screen.getByRole("navigation", { name: "Footer navigation" });
       expect(
@@ -302,6 +304,7 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
       const schoolHeader = document.querySelector(".microsite-header");
       expect(schoolHeader).toBeInTheDocument();
       expect(schoolHeader).toHaveAttribute("data-microsite-kind", "school");
+      expect(within(schoolHeader as HTMLElement).getByText("Uswag Malaybalay")).toBeInTheDocument();
       expect(
         within(schoolHeader as HTMLElement).getByRole("link", { name: /School Facts/i }),
       ).toHaveAttribute("href", "#facts");
@@ -321,7 +324,7 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
       const brgyHeader = document.querySelector(".microsite-header");
       expect(brgyHeader).toBeInTheDocument();
       expect(brgyHeader).toHaveAttribute("data-microsite-kind", "barangay");
-      expect(within(brgyHeader as HTMLElement).getByText("Barangay Bangcud")).toBeInTheDocument();
+      expect(within(brgyHeader as HTMLElement).getByText("Uswag Malaybalay")).toBeInTheDocument();
       expect(
         within(brgyHeader as HTMLElement).getByRole("link", { name: /All Barangays/i }),
       ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud/barangays");
@@ -333,7 +336,32 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
       );
       expect(document.title).toBe("Barangay Bangcud | BetterMC");
 
-      // 4. Internal BetterMC pages keep original Header, MobileAppTabBar, and section bars
+      // 4. Verified Contacts, Dialable Phones, Personnel Toggle & Data Integrity on Office Microsites
+      renderWithHostname("mayor.bettermalaybalay.cloud", "/");
+      const mayorTelLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href^="tel:"]'));
+      expect(mayorTelLinks.length).toBeGreaterThan(0);
+      for (const telLink of mayorTelLinks) {
+        const digits = telLink.getAttribute("href")?.replace(/^tel:/, "") ?? "";
+        expect(digits.length, `dialable phone digits for ${telLink.textContent}`).toBeLessThanOrEqual(11);
+      }
+      const mayorSources = document.getElementById("sources") as HTMLElement;
+      expect(within(mayorSources).getByRole("link", { name: /Official Facebook Page/i })).toBeInTheDocument();
+      expect(within(mayorSources).getByRole("link", { name: /Directions \/ Google Maps/i })).toBeInTheDocument();
+
+      renderWithHostname("sp.bettermalaybalay.cloud", "/transparency");
+      expect(screen.queryByText(/Show 1 more assigned personnel/i)).not.toBeInTheDocument();
+      const expandCouncillorsBtn = screen.getByRole("button", {
+        name: /Show remaining 8 personnel \(14 total\)/i,
+      });
+      fireEvent.click(expandCouncillorsBtn);
+      expect(screen.getByText(/Show fewer personnel/i)).toBeInTheDocument();
+      expect(screen.getByText("Assistant SP Secretary")).toBeInTheDocument();
+
+      renderWithHostname("dilg.bettermalaybalay.cloud", "/");
+      expect(document.querySelector('a[href^="mailto:dilg.buk.malaybalay@gmail.cm"]')).not.toBeInTheDocument();
+      expect(screen.getAllByText("dilg.buk.malaybalay@gmail.cm").length).toBeGreaterThan(0);
+
+      // 5. Internal BetterMC pages keep original Header, MobileAppTabBar, and section bars
       for (const internalPath of [
         "/offices/sp",
         "/education/bukidnon-state-university",
@@ -344,6 +372,15 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
         expect(document.querySelector(".independence-bar")).toBeInTheDocument();
         expect(document.querySelector(".mobile-bottom-app-bar")).toBeInTheDocument();
         expect(document.querySelector(".microsite-header")).not.toBeInTheDocument();
+      }
+
+      // 6. Data sanity across all 35 City Offices (no broken Charter/BAC URLs or stale counts)
+      for (const office of governmentOffices) {
+        expect(office.officialWebUrl, `officialWebUrl for ${office.slug}`).not.toContain("bids-and-awards-committee-2");
+        for (const src of office.sources) {
+          expect(src.url, `source URL for ${office.slug}`).not.toContain("2026/08/CITIZENS-CHARTER");
+          expect(src.url, `source URL for ${office.slug}`).not.toContain("bids-and-awards-committee-2");
+        }
       }
     } finally {
       Object.defineProperty(window, "location", {

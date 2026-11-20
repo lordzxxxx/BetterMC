@@ -418,12 +418,20 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
       const msHeader = page.locator(".microsite-header");
       await expect(msHeader).toBeVisible();
       await expect(msHeader).toHaveAttribute("data-microsite-kind", entry.kind);
+      await expect(msHeader.locator(".microsite-brand")).toHaveAttribute(
+        "href",
+        "https://www.bettermalaybalay.cloud",
+      );
+      await expect(msHeader.locator(".microsite-brand-title")).toContainText("Uswag Malaybalay");
+      const markBox = await msHeader.locator(".microsite-brand-main").boundingBox();
+      expect(markBox).toBeTruthy();
+      expect(Math.abs((markBox?.width ?? 0) - (markBox?.height ?? 0))).toBeLessThanOrEqual(1);
       await expect(
         msHeader.locator(".microsite-section-nav a", { hasText: entry.anchorText }),
       ).toHaveAttribute("href", entry.anchorHref);
-      await expect(msHeader.locator(".microsite-platform-badge")).toHaveAttribute(
+      await expect(msHeader.locator(".microsite-directory-pill")).toHaveAttribute(
         "href",
-        "https://www.bettermalaybalay.cloud",
+        new RegExp(`^https://www\\.bettermalaybalay\\.cloud/(offices|education|barangays)$`),
       );
 
       // Mobile viewport: test hamburger drawer open + section jump click + zero overflow
@@ -462,6 +470,76 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
       await expect(
         page.getByRole("navigation", { name: "Quick mobile app navigation" }),
       ).toBeVisible();
+    }
+  });
+
+  test("aligns Officials & Assigned Personnel subgrid rows and renders All Verified Contacts & Platforms across City Office microsites", async ({
+    page,
+    baseURL,
+  }) => {
+    const base = new URL(baseURL || "http://127.0.0.1:5173");
+    const subUrl = (slug: string, path = "/") => {
+      const target = new URL(base.toString());
+      target.hostname = `${slug}.localhost`;
+      target.pathname = path;
+      return target.toString();
+    };
+
+    // 1. Sangguniang Panlungsod: aligned multi-row personnel subgrid + expand toggle + clean contacts
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto(subUrl("sp", "/transparency"));
+
+    const secretariatUnit = page
+      .locator(".office-personnel-unit")
+      .filter({ hasText: "Office of the Secretariat & Executive Unit" });
+    await secretariatUnit.scrollIntoViewIfNeeded();
+    await assertAlignedCardGrid(
+      page,
+      ".office-personnel-unit:nth-of-type(2) .office-personnel-row",
+      ".office-person-name",
+      [".office-person-role-row", ".office-person-name-row", ".office-person-meta"],
+    );
+
+    const expandBtn = page.getByRole("button", { name: /Show remaining 8 personnel \(14 total\)/i });
+    await expect(expandBtn).toBeVisible();
+    await expandBtn.click();
+    await expect(page.getByRole("button", { name: /Show fewer personnel/i })).toBeVisible();
+
+    const spContacts = page.locator("#sources");
+    await spContacts.scrollIntoViewIfNeeded();
+    await expect(spContacts.locator(".office-platform-card.is-fb")).toHaveAttribute(
+      "href",
+      "https://www.facebook.com/CityofMalaybalaySP/",
+    );
+    await expect(spContacts.locator('.office-channel-card[href="tel:0888134350"]')).toBeVisible();
+
+    // 2. Spot-check complex / updated office microsites (mayor, engineering, bac, deped-division, dilg)
+    for (const check of [
+      { slug: "mayor", expectWeb: "sakata.malaybalaycity.gov.ph/mayors-corner" },
+      { slug: "engineering", expectWeb: "sakata.malaybalaycity.gov.ph/city-engineers-office" },
+      { slug: "bac", expectWeb: "sakata.malaybalaycity.gov.ph/bids-and-awards-committee-structure" },
+      { slug: "deped-division", expectWeb: "malaybalay.deped.gov.ph" },
+      { slug: "dilg", expectWeb: "region10.dilg.gov.ph" },
+    ]) {
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await page.goto(subUrl(check.slug));
+      const sourcesSection = page.locator("#sources");
+      await expect(sourcesSection).toBeVisible();
+      await expect(sourcesSection).toContainText(check.expectWeb);
+
+      const telLinks = await sourcesSection
+        .locator('a[href^="tel:"]')
+        .evaluateAll((els) => els.map((e) => e.getAttribute("href") || ""));
+      expect(telLinks.length).toBeGreaterThan(0);
+      for (const href of telLinks) {
+        expect(href.replace(/^tel:/, "").length).toBeLessThanOrEqual(11);
+      }
+
+      await page.setViewportSize({ width: 320, height: 740 });
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth > window.innerWidth + 1,
+      );
+      expect(overflow).toBe(false);
     }
   });
 });

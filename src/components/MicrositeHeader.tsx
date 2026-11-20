@@ -3,9 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import {
   ArrowRight,
   ArrowUpRight,
-  Building2,
-  GraduationCap,
-  MapPin,
   Menu,
   X,
 } from "lucide-react";
@@ -18,9 +15,7 @@ type SectionNavLink = {
 };
 
 function resolveHeaderMeta(context: MicrositeHeaderContext): {
-  kindLabel: string;
   title: string;
-  emblemSrc: string | null;
   directoryPath: string;
   directoryLabel: string;
   sectionLinks: SectionNavLink[];
@@ -28,10 +23,7 @@ function resolveHeaderMeta(context: MicrositeHeaderContext): {
   if (context.kind === "office") {
     const { office } = context;
     return {
-      kindLabel: "City Office",
       title: office.shortName,
-      emblemSrc:
-        office.logoStatus === "Verified Local Asset" && office.logoPath ? office.logoPath : null,
       directoryPath: "/offices",
       directoryLabel: "All City Offices",
       sectionLinks:
@@ -56,9 +48,7 @@ function resolveHeaderMeta(context: MicrositeHeaderContext): {
   if (context.kind === "barangay") {
     const { barangay } = context;
     return {
-      kindLabel: "Barangay",
       title: `Barangay ${barangay.name}`,
-      emblemSrc: barangay.logo || null,
       directoryPath: "/barangays",
       directoryLabel: "All Barangays",
       sectionLinks: [
@@ -74,9 +64,7 @@ function resolveHeaderMeta(context: MicrositeHeaderContext): {
 
   const { school } = context;
   return {
-    kindLabel: "School Profile",
     title: school.name,
-    emblemSrc: school.logoUrl ?? null,
     directoryPath: "/education",
     directoryLabel: "All Schools",
     sectionLinks: [
@@ -125,29 +113,21 @@ export function MicrositeHeader({ context }: { context: MicrositeHeaderContext }
       </a>
       <header ref={headerRef} className="microsite-header" data-microsite-kind={context.kind}>
         <div className="container microsite-header-inner">
-          <Link className="microsite-identity" to="/" onClick={() => setMenuOpen(false)}>
-            <span className="microsite-emblem" aria-hidden="true">
-              {meta.emblemSrc ? (
-                <img src={meta.emblemSrc} alt="" decoding="async" />
-              ) : context.kind === "office" ? (
-                <Building2 />
-              ) : context.kind === "school" ? (
-                <GraduationCap />
-              ) : (
-                <MapPin />
-              )}
+          <a
+            className="microsite-brand"
+            href={MAIN_BETTERMC_URL}
+            aria-label="BetterMC — Uswag Malaybalay"
+            onClick={() => setMenuOpen(false)}
+          >
+            <span className="microsite-brand-assets" aria-hidden="true">
+              <span className="microsite-brand-main" />
+              <span className="microsite-brand-wordmark" />
             </span>
-            <span className="microsite-identity-text">
-              <span className="microsite-kind-badge">
-                <span>{meta.kindLabel}</span>
-                <span className="microsite-kind-sep" aria-hidden="true">
-                  ·
-                </span>
-                <span className="microsite-kind-scope">Independent Civic Profile</span>
-              </span>
-              <strong className="microsite-identity-title">{meta.title}</strong>
+            <span className="microsite-brand-divider" aria-hidden="true" />
+            <span className="microsite-brand-title">
+              <strong>Uswag Malaybalay</strong>
             </span>
-          </Link>
+          </a>
 
           <nav className="microsite-section-nav" aria-label={`${meta.title} sections`}>
             {meta.sectionLinks.map((section) =>
@@ -165,19 +145,10 @@ export function MicrositeHeader({ context }: { context: MicrositeHeaderContext }
 
           <div className="microsite-header-utilities">
             <a
-              className="microsite-directory-link"
+              className="microsite-directory-pill"
               href={`${MAIN_BETTERMC_URL}${meta.directoryPath}`}
             >
               <span>{meta.directoryLabel}</span>
-              <ArrowUpRight aria-hidden="true" />
-            </a>
-            <a
-              className="microsite-platform-badge"
-              href={MAIN_BETTERMC_URL}
-              aria-label="BetterMC Malaybalay public information network"
-            >
-              <span className="microsite-bettermc-glyph" aria-hidden="true" />
-              <span>BetterMC</span>
               <ArrowUpRight aria-hidden="true" />
             </a>
             <button
@@ -203,7 +174,7 @@ export function MicrositeHeader({ context }: { context: MicrositeHeaderContext }
             className="container microsite-mobile-nav"
             aria-label={`${meta.title} mobile navigation`}
           >
-            <p className="microsite-mobile-drawer-label">On this page</p>
+            <p className="microsite-mobile-drawer-label">On this page · {meta.title}</p>
             <div className="microsite-mobile-sections">
               {meta.sectionLinks.map((section) =>
                 inProfilePage ? (
@@ -242,7 +213,7 @@ export function MicrositeHeader({ context }: { context: MicrositeHeaderContext }
                 onClick={() => setMenuOpen(false)}
               >
                 <span className="microsite-bettermc-glyph" aria-hidden="true" />
-                <span>BetterMC Malaybalay Network</span>
+                <span>Uswag Malaybalay · BetterMC Portal</span>
                 <ArrowUpRight aria-hidden="true" />
               </a>
               <p className="microsite-mobile-civic-note">
