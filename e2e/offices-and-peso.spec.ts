@@ -64,12 +64,21 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
     ).toBeVisible();
 
     await assertAlignedCardGrid(page, ".office-dir-card", ".office-dir-summary", [
+      ".office-dir-top",
       ".office-dir-facts",
       ".office-dir-actions",
     ]);
     await assertAlignedCardGrid(page, ".special-body-card", "p:not(.special-body-meta)", [
       ".special-body-footer",
     ]);
+
+    const missingFacts = await page.evaluate(() => {
+      return Array.from(document.querySelectorAll(".office-dir-card")).filter((card) => {
+        const text = card.querySelector(".office-dir-facts")?.textContent ?? "";
+        return !text.includes("Location") || !text.includes("Contact") || !text.includes("Email");
+      }).length;
+    });
+    expect(missingFacts).toBe(0);
 
     const imgs = page.locator(".office-logo-frame img");
     const imgCount = await imgs.count();
@@ -208,5 +217,34 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
     await expect(mobileTabs.getByRole("link", { name: "Offices" })).toBeVisible();
     await expect(mobileTabs.getByRole("link", { name: "Barangays" })).toBeVisible();
     await expect(mobileTabs.getByRole("link", { name: "PESO" })).toHaveCount(0);
+  });
+
+  test("organizes Barangay Officials cards cleanly and aligns rows across desktop and mobile", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto("/barangays/bangcud");
+
+    await expect(page.getByRole("heading", { name: /Barangay Bangcud officials/i })).toBeVisible();
+    const roles = await page
+      .locator(".barangay-official-card .barangay-official-role span:last-child")
+      .allTextContents();
+    expect(roles.slice(0, 3)).toEqual(["Punong Barangay", "Barangay Secretary", "SK Chairperson"]);
+
+    await assertAlignedCardGrid(page, ".barangay-official-card", ".barangay-official-name", [
+      ".barangay-official-head",
+      ".barangay-official-contacts",
+      ".barangay-official-footer",
+    ]);
+
+    await page.locator(".barangay-official-action").first().click();
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await page.getByRole("button", { name: /Close popout details/i }).click();
+
+    await page.setViewportSize({ width: 320, height: 740 });
+    const hasMobileOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth + 1,
+    );
+    expect(hasMobileOverflow).toBe(false);
   });
 });
