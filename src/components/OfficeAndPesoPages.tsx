@@ -13,6 +13,7 @@ import {
   ExternalLink,
   FileCheck,
   Filter,
+  Globe,
   Info,
   Mail,
   MapPin,
@@ -157,13 +158,16 @@ function MicrositeUrlAnchor({
   url,
   host,
   className,
+  showIcons = false,
 }: {
   url: string;
   host: string;
   className?: string;
+  showIcons?: boolean;
 }) {
   return (
     <a className={className} href={url} target="_blank" rel="noopener noreferrer">
+      {showIcons ? <Globe aria-hidden="true" /> : null}
       <span className="office-url-text">
         <span>https://</span>
         <span>{host}</span>
@@ -349,11 +353,9 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
                           ? `Under ${office.parentOffice}`
                           : office.classification.split("—")[0].trim()}
                       </strong>
-                      <MicrositeUrlAnchor
-                        className="office-subdomain-link"
-                        url={office.subdomainUrl}
-                        host={office.subdomainHost}
-                      />
+                      <span className="office-dir-submeta">
+                        {office.acronym} · Malaybalay City
+                      </span>
                     </div>
                   </header>
                   <h3 className="office-dir-title">
@@ -410,6 +412,12 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
                     <span>Open profile</span>
                     <ArrowRight aria-hidden="true" />
                   </Link>
+                  <MicrositeUrlAnchor
+                    className="office-microsite-link"
+                    url={office.subdomainUrl}
+                    host={office.subdomainHost}
+                    showIcons
+                  />
                 </div>
               </article>
             );
