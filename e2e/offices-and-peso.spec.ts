@@ -1,4 +1,58 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+
+async function assertAlignedCardGrid(
+  page: Page,
+  cardSelector: string,
+  summarySelector: string,
+  trackSelectors: string[],
+) {
+  const result = await page.evaluate(
+    ({ cardSel, sumSel, tracks }) => {
+      const cards = Array.from(document.querySelectorAll(cardSel));
+      const truncated = cards.filter((c) => {
+        const s = c.querySelector(sumSel);
+        return s ? s.scrollHeight > s.clientHeight + 2 : false;
+      }).length;
+      const rows: Array<{ top: number; cards: Element[] }> = [];
+      for (const card of cards) {
+        const top = card.getBoundingClientRect().top;
+        let row = rows.find((r) => Math.abs(r.top - top) < 6);
+        if (!row) {
+          row = { top, cards: [] };
+          rows.push(row);
+        }
+        row.cards.push(card);
+      }
+      const mismatches: string[] = [];
+      rows.forEach((row, ri) => {
+        if (row.cards.length < 2) return;
+        const cardHeights = row.cards.map((c) => c.getBoundingClientRect().height);
+        if (Math.max(...cardHeights) - Math.min(...cardHeights) > 2) {
+          mismatches.push(`row ${ri} height variance: ${cardHeights.join(",")}`);
+        }
+        for (const sel of tracks) {
+          const rects = row.cards
+            .map((c) => c.querySelector(sel)?.getBoundingClientRect())
+            .filter((r): r is DOMRect => Boolean(r));
+          if (rects.length !== row.cards.length) continue;
+          const tops = rects.map((r) => r.top);
+          const heights = rects.map((r) => r.height);
+          if (Math.max(...tops) - Math.min(...tops) > 2) {
+            mismatches.push(`row ${ri} ${sel} top variance`);
+          }
+          if (Math.max(...heights) - Math.min(...heights) > 2) {
+            mismatches.push(`row ${ri} ${sel} height variance`);
+          }
+        }
+      });
+      return { count: cards.length, truncated, mismatches };
+    },
+    { cardSel: cardSelector, sumSel: summarySelector, tracks: trackSelectors },
+  );
+  expect(result.count).toBeGreaterThan(0);
+  expect(result.truncated).toBe(0);
+  expect(result.mismatches).toEqual([]);
+}
 
 test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
   test("renders /offices cleanly across desktop and 320px mobile with valid logo images", async ({ page }) => {
@@ -8,6 +62,14 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
     await expect(
       page.getByRole("heading", { name: /City Offices, Divisions & Partner Institutions/i }),
     ).toBeVisible();
+
+    await assertAlignedCardGrid(page, ".office-dir-card", ".office-dir-summary", [
+      ".office-dir-facts",
+      ".office-dir-actions",
+    ]);
+    await assertAlignedCardGrid(page, ".special-body-card", "p:not(.special-body-meta)", [
+      ".special-body-footer",
+    ]);
 
     const imgs = page.locator(".office-logo-frame img");
     const imgCount = await imgs.count();
@@ -39,6 +101,11 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
       page.getByRole("heading", { name: "Public Employment Service Office — Malaybalay City" }),
     ).toBeVisible();
     await expect(page.getByRole("link", { name: /peso\.bettermalaybalay\.cloud/i }).first()).toBeVisible();
+
+    await assertAlignedCardGrid(page, ".peso-job-card", ".peso-job-summary", [
+      ".peso-job-meta",
+      ".peso-job-card-footer",
+    ]);
 
     await page.setViewportSize({ width: 320, height: 740 });
     const overflowOnPeso = await page.evaluate(
