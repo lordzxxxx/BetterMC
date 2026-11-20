@@ -35,8 +35,13 @@ describe("Malaybalay government offices & sector directory", () => {
     }
   });
 
-  it("ensures all 35+ offices have mandatory verified metadata and existing local logo assets", () => {
-    expect(governmentOffices.length).toBeGreaterThanOrEqual(35);
+  it("ensures all 39 offices have mandatory verified metadata and existing local logo assets", () => {
+    expect(governmentOffices.length).toBe(39);
+    const assessor = governmentOffices.find((o) => o.slug === "assessor");
+    expect(assessor?.logoPath).toBe("/images/offices/city-assessor.png");
+    for (const slug of ["prosecutor", "coa", "bjmp", "parole-probation"]) {
+      expect(resolveOfficeSlug(slug)).toBe(slug);
+    }
 
     for (const office of governmentOffices) {
       expect(office.subdomainHost).toBe(`${office.slug}.bettermalaybalay.cloud`);

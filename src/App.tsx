@@ -117,6 +117,7 @@ import {
   type BarangayMicrositeProfile,
 } from "./barangayProfiles";
 import {
+  governmentOffices,
   governmentOfficeBySlug,
   MAIN_BETTERMC_URL,
   officeSlugFromHostname,
@@ -227,7 +228,7 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
   },
   "/offices": {
     title: "City government offices & sector directory | BetterMC",
-    description: "Browse all 35 Malaybalay City offices, Mayor's divisions, local special bodies, and partner agencies.",
+    description: `Browse all ${governmentOffices.length} Malaybalay City offices, Mayor's divisions, local special bodies, and partner agencies.`,
   },
   "/peso": {
     title: "PESO Malaybalay City — Employment & Livelihood Hub | BetterMC",
@@ -1800,7 +1801,7 @@ function HomePage() {
               <Link to="/offices">
                 <Building2 />
                 <span>
-                  City Offices<small>35 offices, PESO &amp; charters</small>
+                  City Offices<small>{governmentOffices.length} offices, PESO &amp; charters</small>
                 </span>
               </Link>
               <Link to="/services">
@@ -2185,7 +2186,7 @@ function HomePage() {
           </div>
           <div className="home-section-actions office-directory-actions">
             <Link className="button secondary" to="/offices">
-              View all 35 offices <ArrowRight />
+              View all {governmentOffices.length} offices <ArrowRight />
             </Link>
           </div>
         </div>

@@ -16,16 +16,12 @@ type SectionNavLink = {
 
 function resolveHeaderMeta(context: MicrositeHeaderContext): {
   title: string;
-  directoryPath: string;
-  directoryLabel: string;
   sectionLinks: SectionNavLink[];
 } {
   if (context.kind === "office") {
     const { office } = context;
     return {
       title: office.shortName,
-      directoryPath: "/offices",
-      directoryLabel: "All City Offices",
       sectionLinks:
         office.slug === "peso"
           ? [
@@ -49,8 +45,6 @@ function resolveHeaderMeta(context: MicrositeHeaderContext): {
     const { barangay } = context;
     return {
       title: `Barangay ${barangay.name}`,
-      directoryPath: "/barangays",
-      directoryLabel: "All Barangays",
       sectionLinks: [
         { id: "about", label: "Overview" },
         { id: "leadership", label: "Officials" },
@@ -65,8 +59,6 @@ function resolveHeaderMeta(context: MicrositeHeaderContext): {
   const { school } = context;
   return {
     title: school.name,
-    directoryPath: "/education",
-    directoryLabel: "All Schools",
     sectionLinks: [
       { id: "overview", label: "Overview" },
       { id: "facts", label: "School Facts" },
@@ -143,13 +135,6 @@ export function MicrositeHeader({ context }: { context: MicrositeHeaderContext }
           </nav>
 
           <div className="microsite-header-utilities">
-            <a
-              className="microsite-directory-pill"
-              href={`${MAIN_BETTERMC_URL}${meta.directoryPath}`}
-            >
-              <span>{meta.directoryLabel}</span>
-              <ArrowUpRight aria-hidden="true" />
-            </a>
             <button
               type="button"
               className="microsite-menu-toggle"
@@ -198,14 +183,6 @@ export function MicrositeHeader({ context }: { context: MicrositeHeaderContext }
               )}
             </div>
             <div className="microsite-mobile-network">
-              <a
-                className="microsite-mobile-network-link"
-                href={`${MAIN_BETTERMC_URL}${meta.directoryPath}`}
-                onClick={() => setMenuOpen(false)}
-              >
-                <span>{meta.directoryLabel} on BetterMC</span>
-                <ArrowUpRight aria-hidden="true" />
-              </a>
               <a
                 className="microsite-mobile-network-link is-primary"
                 href={MAIN_BETTERMC_URL}

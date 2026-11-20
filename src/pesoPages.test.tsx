@@ -37,9 +37,11 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
       screen.getByRole("navigation", { name: /main portal navigation/i }),
     );
     expect(micrositeNav.getByRole("link", { name: /BetterMC Home/i })).toHaveAttribute("href", "/");
-    expect(screen.queryByText(/City Offices \(35\)/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/City Offices \(39\)/i)).not.toBeInTheDocument();
     expect(screen.getAllByText("cho.bettermalaybalay.cloud").length).toBeGreaterThan(0);
     expect(screen.queryByText(/Source Cross-Reference Note:/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Verified Staffing Source:/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Source Ledger/i)).not.toBeInTheDocument();
     const choPersonnel = screen.getByRole("region", { name: "Officials & Assigned Personnel" });
     expect(within(choPersonnel).getByText("Dr. Dennis P. Sangalang, MD")).toBeInTheDocument();
 
@@ -119,7 +121,9 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
     expect(within(mobileTabs).queryByRole("link", { name: "PESO" })).not.toBeInTheDocument();
 
     expect(screen.queryByRole("region", { name: "Featured Malaybalay portals" })).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /View all 35 offices/i })).toHaveAttribute("href", "/offices");
+    expect(
+      screen.getByRole("link", { name: new RegExp(`View all ${governmentOffices.length} offices`, "i") }),
+    ).toHaveAttribute("href", "/offices");
 
     cleanup();
     render(
@@ -135,8 +139,8 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
     expect(screen.getAllByText("budget.bettermalaybalay.cloud").length).toBeGreaterThan(0);
   });
 
-  it("ensures all 35 government offices have verified headOfOffice, complete personnel rosters, and zero Source Cross-Reference warning banners", () => {
-    expect(governmentOffices).toHaveLength(35);
+  it("ensures all 39 government offices have verified headOfOffice, complete personnel rosters, and zero Source Cross-Reference warning banners", () => {
+    expect(governmentOffices).toHaveLength(39);
     for (const office of governmentOffices) {
       expect(office.headOfOffice?.trim().length ?? 0, `headOfOffice for ${office.slug}`).toBeGreaterThan(0);
       const roster = officePersonnelBySlug[office.slug];
@@ -147,8 +151,9 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
 
     for (const [entryPath, heading, expectedPerson] of [
       ["/?office=treasurer", "City Treasurer's Office", "Bella Stephanie B. Saavedra, CPA"],
-      ["/?office=drrmo", "City Disaster Risk Reduction and Management Office", "Alan J. Comiso"],
-      ["/?office=bac", "Bids and Awards Committee & BAC Secretariat", "Atty. Julius Michael G. Barroso"],
+      ["/?office=drrmo", "City Disaster Risk Reduction and Management Office", "Michele Sales"],
+      ["/?office=engineering", "City Engineering Office", "Engr. Virgo B. Jenisan"],
+      ["/?office=prosecutor", "Office of the City Prosecutor — Malaybalay City", "Pros. Claver C. Ariño"],
       ["/?office=deped-division", "Department of Education — Schools Division of Malaybalay City", "Dr. Cherry Mae L. Limbaco-Reyes, CESO V"],
     ] as const) {
       cleanup();
@@ -289,9 +294,10 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
       expect(
         within(pesoHeader as HTMLElement).getByRole("link", { name: "Job Board" }),
       ).toHaveAttribute("href", "#job-opportunities");
+      expect(pesoHeader?.querySelector(".microsite-directory-pill")).not.toBeInTheDocument();
       expect(
-        within(pesoHeader as HTMLElement).getByRole("link", { name: /All City Offices/i }),
-      ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud/offices");
+        within(pesoHeader as HTMLElement).queryByRole("link", { name: /All City Offices/i }),
+      ).not.toBeInTheDocument();
 
       const pesoFooter = screen.getByRole("navigation", { name: "Footer navigation" });
       expect(
@@ -309,9 +315,10 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
       expect(
         within(schoolHeader as HTMLElement).getByRole("link", { name: /School Facts/i }),
       ).toHaveAttribute("href", "#facts");
+      expect(schoolHeader?.querySelector(".microsite-directory-pill")).not.toBeInTheDocument();
       expect(
-        within(schoolHeader as HTMLElement).getByRole("link", { name: /All Schools/i }),
-      ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud/education");
+        within(schoolHeader as HTMLElement).queryByRole("link", { name: /All Schools/i }),
+      ).not.toBeInTheDocument();
       expect(
         screen.getByRole("link", { name: /All Malaybalay schools on BetterMC/i }),
       ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud/education");
@@ -326,9 +333,10 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
       expect(brgyHeader).toBeInTheDocument();
       expect(brgyHeader).toHaveAttribute("data-microsite-kind", "barangay");
       expect(within(brgyHeader as HTMLElement).getByText("Uswag Malaybalay")).toBeInTheDocument();
+      expect(brgyHeader?.querySelector(".microsite-directory-pill")).not.toBeInTheDocument();
       expect(
-        within(brgyHeader as HTMLElement).getByRole("link", { name: /All Barangays/i }),
-      ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud/barangays");
+        within(brgyHeader as HTMLElement).queryByRole("link", { name: /All Barangays/i }),
+      ).not.toBeInTheDocument();
       expect(
         screen.getByRole("link", { name: /Open Barangay Bangcud document guide/i }),
       ).toHaveAttribute(
@@ -348,6 +356,8 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
       const mayorSources = document.getElementById("sources") as HTMLElement;
       expect(within(mayorSources).getByRole("link", { name: /Official Facebook Page/i })).toBeInTheDocument();
       expect(within(mayorSources).getByRole("link", { name: /Directions \/ Google Maps/i })).toBeInTheDocument();
+      expect(screen.queryByText(/Verified Staffing Source:/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/Source Ledger/i)).not.toBeInTheDocument();
 
       renderWithHostname("sp.bettermalaybalay.cloud", "/transparency");
       expect(screen.queryByText(/Show 1 more assigned personnel/i)).not.toBeInTheDocument();
@@ -375,7 +385,7 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
         expect(document.querySelector(".microsite-header")).not.toBeInTheDocument();
       }
 
-      // 6. Data sanity across all 35 City Offices (no broken Charter/BAC URLs or stale counts)
+      // 6. Data sanity across all 39 City Offices (no broken Charter/BAC URLs or stale counts)
       for (const office of governmentOffices) {
         expect(office.officialWebUrl, `officialWebUrl for ${office.slug}`).not.toContain("bids-and-awards-committee-2");
         for (const src of office.sources) {
