@@ -40,6 +40,13 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
     ).toBeVisible();
     await expect(page.getByRole("link", { name: /peso\.bettermalaybalay\.cloud/i }).first()).toBeVisible();
 
+    await page.setViewportSize({ width: 320, height: 740 });
+    const overflowOnPeso = await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+    );
+    expect(overflowOnPeso).toBe(false);
+
+    await page.setViewportSize({ width: 1280, height: 800 });
     await page.getByRole("button", { name: /Expired \/ CS Form No\. 9 Archive/i }).click();
     await page.getByRole("link", { name: "Planning Officer IV" }).click();
 
