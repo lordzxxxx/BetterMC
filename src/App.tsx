@@ -1820,7 +1820,7 @@ function HomePage() {
         </div>
       </section>
       <section className="section container home-priority-strip" aria-label="Featured Malaybalay portals">
-        <article className="home-priority-card card is-peso">
+        <article className="home-priority-card is-peso">
           <div className="home-priority-head">
             <img src="/images/offices/peso.png" alt="PESO Malaybalay official emblem" />
             <div>
@@ -1842,7 +1842,7 @@ function HomePage() {
           </div>
         </article>
 
-        <article className="home-priority-card card">
+        <article className="home-priority-card">
           <div className="home-priority-head">
             <img src="/images/offices/malaybalay-city-seal.png" alt="City of Malaybalay official seal" />
             <div>
