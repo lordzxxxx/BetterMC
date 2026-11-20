@@ -5487,31 +5487,29 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
           <div className="barangay-official-grid">
             {[
               roster.punongBarangay,
-              roster.skChairperson,
               roster.barangaySecretary,
-              ...roster.sangguniangBarangayMembers,
-            ].map((official) => (
+              roster.skChairperson,
+              ...[...roster.sangguniangBarangayMembers].sort(
+                (a, b) => (a.kagawadOrder ?? 99) - (b.kagawadOrder ?? 99),
+              ),
+            ].map((official) => {
+              const isExecutive =
+                official.position !== "Sangguniang Barangay Member";
+              return (
                 <article
                   key={official.id}
-                  className="barangay-official-card"
+                  className={`barangay-official-card${isExecutive ? " is-executive" : ""}`}
                 >
-                  <button
-                    type="button"
-                    className="barangay-official-card-main"
-                    onClick={() =>
-                      setActivePopout({ kind: "official", official })
-                    }
-                    aria-label={`Open ${official.name}'s public profile`}
-                  >
+                  <div className="barangay-official-head">
                     <span className="barangay-official-role">
-                      <Users aria-hidden="true" />
-                      {official.position}
+                      <span className="barangay-official-icon" aria-hidden="true">
+                        <Users aria-hidden="true" />
+                      </span>
+                      <span>{official.position}</span>
                     </span>
-                    <strong>{official.name}</strong>
-                    <span className="barangay-official-record-link">
-                      View record <ArrowRight aria-hidden="true" />
-                    </span>
-                  </button>
+                    <h3 className="barangay-official-name">{official.name}</h3>
+                  </div>
+
                   <div className="barangay-official-contacts">
                     {official.phone ? (
                       <a href={`tel:${telephoneHref(official.phone)}`}>
@@ -5530,8 +5528,23 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                       </a>
                     )}
                   </div>
+
+                  <div className="barangay-official-footer">
+                    <button
+                      type="button"
+                      className="barangay-official-action"
+                      onClick={() =>
+                        setActivePopout({ kind: "official", official })
+                      }
+                      aria-label={`Open ${official.name}'s public profile`}
+                    >
+                      <span>View record</span>
+                      <ArrowRight aria-hidden="true" />
+                    </button>
+                  </div>
                 </article>
-              ))}
+              );
+            })}
           </div>
         </section>
 

@@ -14,6 +14,7 @@ import {
   FileCheck,
   Filter,
   Info,
+  Mail,
   MapPin,
   Phone,
   Search,
@@ -339,56 +340,76 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
             const profilePath = officeDirectoryPath(office);
             return (
               <article key={office.slug} className="office-dir-card bettermc-surface-card">
-                <header className="office-dir-card-head">
-                  <OfficeLogoBadge office={office} size="sm" />
-                  <div className="office-dir-card-title-group">
-                    <p className="office-dir-kicker">
-                      {office.parentOffice
-                        ? `Under ${office.parentOffice}`
-                        : office.classification.split("—")[0].trim()}
-                    </p>
-                    <h3>
-                      <Link to={profilePath}>{office.name}</Link>
-                    </h3>
-                  </div>
-                </header>
+                <div className="office-dir-top">
+                  <header className="office-dir-card-head">
+                    <OfficeLogoBadge office={office} size="sm" />
+                    <div className="office-dir-card-context">
+                      <strong className="office-dir-kicker">
+                        {office.parentOffice
+                          ? `Under ${office.parentOffice}`
+                          : office.classification.split("—")[0].trim()}
+                      </strong>
+                      <MicrositeUrlAnchor
+                        className="office-subdomain-link"
+                        url={office.subdomainUrl}
+                        host={office.subdomainHost}
+                      />
+                    </div>
+                  </header>
+                  <h3 className="office-dir-title">
+                    <Link to={profilePath}>{office.name}</Link>
+                  </h3>
+                </div>
 
                 <p className="office-dir-summary">{office.cardSummary ?? office.overview}</p>
 
                 <dl className="office-dir-facts">
-                  <div>
-                    <dt>Location</dt>
+                  <div className="office-dir-fact-row">
+                    <dt>
+                      <MapPin aria-hidden="true" />
+                      <span>Location</span>
+                    </dt>
                     <dd>{office.cardLocation ?? office.address}</dd>
                   </div>
-                  {office.phoneNumbers.length > 0 ? (
-                    <div>
-                      <dt>Contact</dt>
-                      <dd className="office-dir-tel-list">
-                        {office.phoneNumbers.slice(0, 2).map((phone) => (
+                  <div className="office-dir-fact-row">
+                    <dt>
+                      <Phone aria-hidden="true" />
+                      <span>Contact</span>
+                    </dt>
+                    <dd className="office-dir-tel-list">
+                      {office.phoneNumbers.length > 0 ? (
+                        office.phoneNumbers.slice(0, 2).map((phone) => (
                           <a key={phone} className="office-dir-tel" href={telHref(phone)}>
                             {phone}
                           </a>
-                        ))}
-                      </dd>
-                    </div>
-                  ) : null}
-                  {office.emails[0] ? (
-                    <div>
-                      <dt>Email</dt>
-                      <dd>{office.emails[0]}</dd>
-                    </div>
-                  ) : null}
+                        ))
+                      ) : (
+                        <span className="office-dir-muted">Not published</span>
+                      )}
+                    </dd>
+                  </div>
+                  <div className="office-dir-fact-row">
+                    <dt>
+                      <Mail aria-hidden="true" />
+                      <span>Email</span>
+                    </dt>
+                    <dd>
+                      {office.emails[0] ? (
+                        <a className="office-dir-email" href={`mailto:${office.emails[0]}`}>
+                          {office.emails[0]}
+                        </a>
+                      ) : (
+                        <span className="office-dir-muted">Not published</span>
+                      )}
+                    </dd>
+                  </div>
                 </dl>
 
                 <div className="office-dir-actions">
-                  <Link className="button primary small" to={profilePath}>
-                    Open profile <ArrowRight aria-hidden="true" />
+                  <Link className="office-profile-link" to={profilePath}>
+                    <span>Open profile</span>
+                    <ArrowRight aria-hidden="true" />
                   </Link>
-                  <MicrositeUrlAnchor
-                    className="office-subdomain-link"
-                    url={office.subdomainUrl}
-                    host={office.subdomainHost}
-                  />
                 </div>
               </article>
             );
@@ -426,8 +447,9 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
               <h3>{body.name}</h3>
               <p>{body.mandateSummary}</p>
               <div className="special-body-footer">
-                <Link to={`/offices/${body.leadOfficeSlug}`}>
-                  Lead office: {body.leadOfficeName} <ArrowRight aria-hidden="true" />
+                <Link className="office-profile-link" to={`/offices/${body.leadOfficeSlug}`}>
+                  <span>Lead office: {body.leadOfficeName}</span>
+                  <ArrowRight aria-hidden="true" />
                 </Link>
               </div>
             </article>
@@ -964,8 +986,8 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                       <div className="office-personnel-list">
                         {primaryMembers.map((member) => (
                           <div key={`${group.unitName}-${member.name}`} className="office-personnel-row">
-                            <span className="office-person-name">{member.name}</span>
                             <span className="office-person-role">{member.position}</span>
+                            <span className="office-person-name">{member.name}</span>
                           </div>
                         ))}
                       </div>
@@ -977,8 +999,8 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                           <div className="office-personnel-list">
                             {remainingMembers.map((member) => (
                               <div key={`${group.unitName}-${member.name}`} className="office-personnel-row">
-                                <span className="office-person-name">{member.name}</span>
                                 <span className="office-person-role">{member.position}</span>
+                                <span className="office-person-name">{member.name}</span>
                               </div>
                             ))}
                           </div>
@@ -1010,8 +1032,8 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
             <div className="office-personnel-fallback">
               {office.headOfOffice ? (
                 <div className="office-personnel-row is-single">
-                  <span className="office-person-name">{office.headOfOffice}</span>
                   <span className="office-person-role">{office.headNote ?? office.classification}</span>
+                  <span className="office-person-name">{office.headOfOffice}</span>
                 </div>
               ) : (
                 <p className="office-personnel-note">
