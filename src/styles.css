@@ -22090,6 +22090,9 @@ pre {
 .office-dir-facts div { display: grid; grid-template-columns: 68px minmax(0, 1fr); gap: 8px; align-items: baseline; }
 .office-dir-facts dt { font-weight: 600; color: #445c7a; }
 .office-dir-facts dd { margin: 0; font-weight: 400; color: #162b46; overflow-wrap: anywhere; }
+.office-dir-tel-list { display: flex; flex-wrap: wrap; gap: 2px 10px; }
+.office-dir-tel { color: #14499e; font-weight: 600; text-decoration: none; }
+.office-dir-tel:hover { text-decoration: underline; }
 .office-dir-actions {
   display: flex;
   flex-wrap: wrap;
