@@ -1,13 +1,33 @@
 import { barangayMicrosites } from "../src/barangayProfiles.js";
 import { serviceCategories } from "../src/serviceCatalog.js";
 import { educationInstitutions } from "../src/civicDirectories.js";
+import { governmentOffices } from "../src/governmentOffices.js";
+import { INITIAL_PESO_OPPORTUNITIES } from "../src/pesoData.js";
 import { legislativeHearingRecords, bacLivestreamEntries } from "../src/publicInformation.js";
 import { civicRecordings } from "../src/civicRecordings.js";
 
 export const config = { runtime: "edge" };
 
 const SITE_URL = "https://www.bettermalaybalay.cloud";
-const staticPaths = ["/", "/transparency", "/budget", "/hearings", "/government", "/legislation", "/education", "/education/offices", "/procurement/livestreams", "/procurement/bidding-opportunities", "/barangays", "/services", "/participate", "/about"];
+const staticPaths = [
+  "/",
+  "/transparency",
+  "/budget",
+  "/hearings",
+  "/government",
+  "/offices",
+  "/peso",
+  "/jobs",
+  "/legislation",
+  "/education",
+  "/education/offices",
+  "/procurement/livestreams",
+  "/procurement/bidding-opportunities",
+  "/barangays",
+  "/services",
+  "/participate",
+  "/about",
+];
 
 function escapeXml(value: string): string {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
@@ -16,6 +36,8 @@ function escapeXml(value: string): string {
 export default function handler(): Response {
   const paths = [
     ...staticPaths,
+    ...governmentOffices.map((office) => (office.slug === "peso" ? "/peso" : `/offices/${office.slug}`)),
+    ...INITIAL_PESO_OPPORTUNITIES.map((item) => `/jobs/${item.slug}`),
     ...serviceCategories.map((category) => `/services/${category.slug}`),
     ...barangayMicrosites.map((barangay) => `/barangays/${barangay.slug}`),
     ...educationInstitutions.map((school) => `/education/${school.slug}`),
