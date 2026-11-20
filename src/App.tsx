@@ -118,6 +118,20 @@ import {
   type BarangayMicrositeProfile,
 } from "./barangayProfiles";
 import {
+  governmentOfficeBySlug,
+  officeSlugFromHostname,
+} from "./governmentOffices";
+import { INITIAL_PESO_OPPORTUNITIES } from "./pesoData";
+import {
+  GovernmentOfficesDirectoryPage,
+  JobDetailPage,
+  JobsDirectoryPage,
+  OfficeDirectoryBrowser,
+  OfficeLandingPage,
+  PesoAdminPage,
+  PesoPortalPage,
+} from "./components/OfficeAndPesoPages";
+import {
   BAC_2026_SOURCE,
   BAC_2026_VERIFIED_ON,
   bidRecords2026,
@@ -207,6 +221,22 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
   "/government": {
     title: "Government directory | BetterMC",
     description: "Find published Malaybalay offices, officials, hotlines, and source-linked civic records.",
+  },
+  "/offices": {
+    title: "City government offices & sector directory | BetterMC",
+    description: "Browse all 35 Malaybalay City offices, Mayor's divisions, local special bodies, and partner agencies.",
+  },
+  "/peso": {
+    title: "PESO Malaybalay City — Employment & Livelihood Hub | BetterMC",
+    description: "Public Employment Service Office (PESO) Malaybalay profile, 2026 Citizen's Charter services, SPES, TUPAD, and job opportunities.",
+  },
+  "/jobs": {
+    title: "Malaybalay job vacancies, job fairs & programs | BetterMC",
+    description: "Search active PESO Malaybalay programs, job fair details, and CSC Form No. 9 government vacancy archives.",
+  },
+  "/admin/peso": {
+    title: "PESO Admin Publishing Workspace | BetterMC",
+    description: "Authorized workspace for publishing and managing PESO Malaybalay job and livelihood opportunities.",
   },
   "/barangays": {
     title: "Malaybalay barangays | BetterMC",
@@ -937,6 +967,21 @@ function Layout({ children }: { children: ReactNode }) {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [hash, locationKey, navigationType]);
   useEffect(() => {
+    const hostOfficeSlug =
+      typeof window === "undefined"
+        ? null
+        : officeSlugFromHostname(window.location.hostname, search);
+    const activeOfficeProfile = hostOfficeSlug
+      ? governmentOfficeBySlug.get(hostOfficeSlug)
+      : pathname.startsWith("/offices/")
+        ? governmentOfficeBySlug.get(pathname.slice("/offices/".length))
+        : undefined;
+    const jobDetailMatch =
+      pathname.startsWith("/jobs/")
+        ? INITIAL_PESO_OPPORTUNITIES.find((item) => pathname === `/jobs/${item.slug}`)
+        : pathname.startsWith("/peso/jobs/")
+          ? INITIAL_PESO_OPPORTUNITIES.find((item) => pathname === `/peso/jobs/${item.slug}`)
+          : undefined;
     const educationProfile = pathname.startsWith("/education/")
       ? educationInstitutions.find((institution) => pathname === `/education/${institution.slug}`)
       : undefined;
@@ -945,9 +990,13 @@ function Layout({ children }: { children: ReactNode }) {
       : undefined;
     const metadata = recording
       ? { title: `${recording.title} | BetterMC`, description: `${recording.category} video published by ${recording.publisher}. Watch the source recording and check its original Facebook page.` }
-      : educationProfile
-        ? { ...pageMetadata["/education"], title: `${educationProfile.name} | BetterMC` }
-        : pageMetadata[pathname] ?? pageMetadata["/"];
+      : jobDetailMatch
+        ? { title: `${jobDetailMatch.title} | PESO Malaybalay · BetterMC`, description: `${jobDetailMatch.employer} — ${jobDetailMatch.location}` }
+        : activeOfficeProfile
+          ? { title: `${activeOfficeProfile.shortName} (${activeOfficeProfile.acronym}) | BetterMC`, description: activeOfficeProfile.overview }
+          : educationProfile
+            ? { ...pageMetadata["/education"], title: `${educationProfile.name} | BetterMC` }
+            : pageMetadata[pathname] ?? pageMetadata["/"];
     const canonical = `${window.location.origin}${pathname}`;
     document.title = metadata.title;
     updateDocumentMeta("description", metadata.description);
@@ -955,7 +1004,7 @@ function Layout({ children }: { children: ReactNode }) {
     updateDocumentMeta("og:description", metadata.description, true);
     updateDocumentMeta("og:url", canonical, true);
     document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.setAttribute("href", canonical);
-  }, [pathname]);
+  }, [pathname, search]);
   return (
     <>
       <Header />
@@ -1745,6 +1794,8 @@ function HomePage() {
           </p>
           <div className="city-overview-actions">
             <Link to="/government">Explore city government <ArrowRight /></Link>
+            <Link to="/offices">Browse city offices <ArrowRight /></Link>
+            <Link to="/peso">PESO &amp; job opportunities <ArrowRight /></Link>
             <Link to="/barangays">Browse all barangays <ArrowRight /></Link>
           </div>
         </div>
@@ -4889,6 +4940,8 @@ function GovernmentPage() {
               );
             })()}
           </>
+        ) : tab === "offices" ? (
+          <OfficeDirectoryBrowser compactHeader={false} />
         ) : (
           <div className="directory-list">
             {visibleOffices.map((office) => (
@@ -7206,6 +7259,26 @@ function ServiceCategoryPage() {
       />
       <section className="section container service-category-page">
         <Link className="page-hero-backlink service-category-back" to="/services"><ArrowLeft aria-hidden="true" /> All public services</Link>
+        {category.slug === "employment" ? (
+          <div className="offices-peso-spotlight card" style={{ marginBottom: 20 }}>
+            <div className="offices-peso-spotlight-main">
+              <img src="/images/offices/peso.png" alt="PESO Malaybalay official emblem" />
+              <div>
+                <span className="eyebrow">Malaybalay City Dedicated Employment Hub</span>
+                <h2>PESO Malaybalay &amp; Verified Job Opportunities</h2>
+                <p>
+                  Explore NSRP job matching, DOLE SPES &amp; TUPAD, Livelihood endorsements, OFW
+                  DMW/OWWA support, and job vacancies at <code>peso.bettermalaybalay.cloud</code>.
+                </p>
+              </div>
+            </div>
+            <div className="offices-peso-spotlight-actions">
+              <Link className="button primary" to="/peso">
+                Open PESO Hub &amp; Jobs <ArrowRight aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+        ) : null}
         {/* Origin Selector */}
         <BarangayOriginSelect
           selectedSlug={selectedBarangay}
@@ -7729,21 +7802,23 @@ function NotFoundPage() {
 
 export default function App() {
   const location = useLocation();
-  const subdomainSlug =
-    typeof window === "undefined"
-      ? barangaySlugFromHostname("", location.search)
-      : barangaySlugFromHostname(window.location.hostname, location.search);
-  const schoolSubdomainSlug =
-    typeof window === "undefined"
-      ? schoolSlugFromHostname("", location.search)
-      : schoolSlugFromHostname(window.location.hostname, location.search);
+  const hostname = typeof window === "undefined" ? "" : window.location.hostname;
+  const officeSubdomainSlug = officeSlugFromHostname(hostname, location.search);
+  const subdomainSlug = barangaySlugFromHostname(hostname, location.search);
+  const schoolSubdomainSlug = schoolSlugFromHostname(hostname, location.search);
   return (
     <Layout>
       <Routes>
         <Route
           path="/"
           element={
-            subdomainSlug ? (
+            officeSubdomainSlug ? (
+              officeSubdomainSlug === "peso" ? (
+                <PesoPortalPage />
+              ) : (
+                <OfficeLandingPage slugOverride={officeSubdomainSlug} />
+              )
+            ) : subdomainSlug ? (
               <BarangayProfilePage slugOverride={subdomainSlug} />
             ) : schoolSubdomainSlug ? (
               <EducationProfilePage slugOverride={schoolSubdomainSlug} />
@@ -7774,6 +7849,16 @@ export default function App() {
         <Route path="/documents" element={<DocumentGuidePage />} />
         <Route path="/documents/barangays/:slug" element={<BarangayDocumentPage />} />
         <Route path="/government" element={<GovernmentPage />} />
+        <Route path="/offices" element={<GovernmentOfficesDirectoryPage />} />
+        <Route path="/offices/peso" element={<PesoPortalPage />} />
+        <Route path="/offices/:slug" element={<OfficeLandingPage />} />
+        <Route path="/peso" element={<PesoPortalPage />} />
+        <Route path="/peso/jobs" element={<JobsDirectoryPage />} />
+        <Route path="/peso/jobs/:slug" element={<JobDetailPage />} />
+        <Route path="/jobs" element={<JobsDirectoryPage />} />
+        <Route path="/jobs/:slug" element={<JobDetailPage />} />
+        <Route path="/admin/peso" element={<PesoAdminPage />} />
+        <Route path="/peso/admin" element={<PesoAdminPage />} />
         <Route path="/barangays" element={<BarangaysPage />} />
         <Route path="/barangays/:slug" element={<BarangayProfilePage />} />
         <Route path="/services" element={<ServicesPage />} />

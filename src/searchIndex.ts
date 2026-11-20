@@ -31,6 +31,8 @@ import {
   legislativeHearingRecords,
   newsletterUpdates,
 } from "./publicInformation";
+import { governmentOffices, localSpecialBodies } from "./governmentOffices";
+import { INITIAL_PESO_OPPORTUNITIES, resolveOpportunityLifecycle } from "./pesoData";
 
 export type PortalSearchRecord = {
   type: string;
@@ -159,6 +161,43 @@ export const portalSearchIndex: PortalSearchRecord[] = [
       ...(official.committeeMemberships ?? []),
     ].join(" "),
   })),
+  ...governmentOffices.map((office) => ({
+    type: `City office · ${office.acronym}`,
+    title: office.name,
+    detail: [office.category, office.phoneNumbers[0], office.emails[0]].filter(Boolean).join(" · "),
+    href: office.slug === "peso" ? "/peso" : `/offices/${office.slug}`,
+    keywords: [
+      office.shortName,
+      office.acronym,
+      office.parentOffice ?? "",
+      office.subdomainHost,
+      office.mandate,
+      ...(office.divisions ?? []),
+      ...office.services.map((s) => s.title),
+    ].join(" "),
+  })),
+  ...localSpecialBodies.map((body) => ({
+    type: `Special body · ${body.executiveOrder}`,
+    title: body.name,
+    detail: `${body.leadOfficeName} · ${body.mandateSummary}`,
+    href: `/offices/${body.leadOfficeSlug}`,
+    keywords: `${body.executiveOrder} ${body.year} committee board special body`,
+  })),
+  ...INITIAL_PESO_OPPORTUNITIES.map((job) => {
+    const lifecycle = resolveOpportunityLifecycle(job);
+    return {
+      type: `PESO · ${lifecycle.label}`,
+      title: job.title,
+      detail: [job.employer, job.salaryGradeOrCompensation, job.location].filter(Boolean).join(" · "),
+      href: `/jobs/${job.slug}`,
+      keywords: [
+        job.opportunityType,
+        job.employmentType,
+        ...job.qualifications,
+        job.sourceLabel,
+      ].join(" "),
+    };
+  }),
   ...departments.map((department) => ({
     type: department.emergency ? "Emergency office" : "Office",
     title: department.name,
