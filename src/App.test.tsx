@@ -381,7 +381,7 @@ describe("BetterMC public portal", () => {
     );
     expect(within(navigation).getByRole("link", { name: /Hearings/i })).toHaveAttribute("href", "/hearings");
     expect(within(navigation).getByRole("link", { name: /City Offices/i })).toHaveAttribute("href", "/offices");
-    expect(within(navigation).getByRole("link", { name: /PESO & Jobs/i })).toHaveAttribute("href", "/peso");
+    expect(within(navigation).queryByRole("link", { name: /PESO & Jobs/i })).not.toBeInTheDocument();
     expect(within(navigation).getAllByRole("link")).toHaveLength(sitePages.length);
   });
 

@@ -92,6 +92,16 @@ const SAKATA_ADMIN_URL = "https://sakata.malaybalaycity.gov.ph/city-administrato
 const CITY_MAIN_FB_URL = "https://www.facebook.com/profile.php?id=100063747444247";
 const NEW_CITY_HALL_COORDS: [number, number] = [8.1282, 125.1342];
 
+export const MAIN_BETTERMC_URL = "https://www.bettermalaybalay.cloud";
+
+export function formatOfficeMicrositeUrl(slug: string): string {
+  return `https://${slug}.bettermalaybalay.cloud`;
+}
+
+export function officeDirectoryPath(office: Pick<GovernmentOffice, "slug">): string {
+  return office.slug === "peso" ? "/peso" : `/offices/${office.slug}`;
+}
+
 const ccSource = (chapter: string): Source => ({
   label: `City Government of Malaybalay — Citizen's Charter 2026 (1st Ed.), ${chapter}`,
   url: CITIZENS_CHARTER_2026_URL,
@@ -194,6 +204,21 @@ export const governmentOffices: GovernmentOffice[] = [
         title: "Overseas Filipino Workers (DMW / OWWA) Support Desk",
         summary: "Walk-in counseling, documentation profiling, and agency endorsement for OFWs and families.",
         eligibility: "OFWs and direct family members in Malaybalay City.",
+      },
+      {
+        title: "DOLE–LGU TUPAD Community Emergency Employment Coordination",
+        summary: "Coordinates emergency community work orientations and beneficiary endorsements with DOLE Bukidnon and barangays.",
+        eligibility: "Displaced, underemployed, or seasonal workers endorsed via partner barangays.",
+      },
+      {
+        title: "Bukidnon PESO Managers' Council (BPMC) & Regional Job Matching",
+        summary: "Connects Malaybalay jobseekers with provincial Bukidnon job fair sourcing and DOLE Region 10 labor advisories.",
+        eligibility: "NSRP-registered jobseekers and accredited local employers.",
+      },
+      {
+        title: "Malaybalay City College Scholarship Cross-Referral (Community Affairs)",
+        summary: "Links incoming college scholars (parents' net income ≤ ₱250,000) with PESO Career Guidance and OJT placements.",
+        eligibility: "Bonafide Malaybalay City students coordinated via CMO – Community Affairs Division.",
       },
     ],
     discrepancies: [

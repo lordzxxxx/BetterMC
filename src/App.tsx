@@ -126,7 +126,6 @@ import {
   GovernmentOfficesDirectoryPage,
   JobDetailPage,
   JobsDirectoryPage,
-  OfficeDirectoryBrowser,
   OfficeLandingPage,
   PesoPortalPage,
 } from "./components/OfficeAndPesoPages";
@@ -201,7 +200,6 @@ import {
 const navItems = [
   { label: "Services", to: "/services" },
   { label: "City Offices", to: "/offices" },
-  { label: "PESO & Jobs", to: "/peso" },
   { label: "Barangays", to: "/barangays" },
   { label: "Government", to: "/government" },
   { label: "Procurement", to: "/procurement/livestreams" },
@@ -620,9 +618,10 @@ function Header() {
                 to={item.to}
                 className={({ isActive }) =>
                   isActive ||
-                  (item.to === "/offices" && pathname.startsWith("/offices")) ||
-                  (item.to === "/peso" &&
-                    (pathname.startsWith("/peso") || pathname.startsWith("/jobs"))) ||
+                  (item.to === "/offices" &&
+                    (pathname.startsWith("/offices") ||
+                      pathname.startsWith("/peso") ||
+                      pathname.startsWith("/jobs"))) ||
                   (item.to === "/procurement/livestreams" &&
                     pathname.startsWith("/procurement"))
                     ? "active"
@@ -757,8 +756,6 @@ function Footer() {
           aria-label="Footer navigation"
         >
           <h2>Explore BetterMC</h2>
-          <Link to="/peso">PESO &amp; Job Opportunities</Link>
-          <Link to="/jobs">Job Vacancies &amp; Programs</Link>
           <Link to="/offices">City Offices &amp; Sectors</Link>
           <Link to="/services">Public Services Guide</Link>
           <Link to="/barangays">All 46 Barangays</Link>
@@ -769,15 +766,6 @@ function Footer() {
           <Link to="/procurement/livestreams">Procurement and BAC recordings</Link>
           <Link to="/about">About &amp; methodology</Link>
           <Link to="/participate">Submit a correction</Link>
-          <a
-            className="footer-icon-link"
-            href="https://www.facebook.com/profile.php?id=61589180493733"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <FacebookIcon />
-            PESO Malaybalay Facebook
-          </a>
           <a
             className="footer-icon-link"
             href="https://www.facebook.com/profile.php?id=61596547555480"
@@ -907,23 +895,31 @@ function MobileAppTabBar() {
       </NavLink>
       <Link
         to="/offices"
-        className={pathname.startsWith("/offices") ? "active" : undefined}
-        aria-current={pathname.startsWith("/offices") ? "page" : undefined}
+        className={
+          pathname.startsWith("/offices") ||
+          pathname.startsWith("/peso") ||
+          pathname.startsWith("/jobs")
+            ? "active"
+            : undefined
+        }
+        aria-current={
+          pathname.startsWith("/offices") ||
+          pathname.startsWith("/peso") ||
+          pathname.startsWith("/jobs")
+            ? "page"
+            : undefined
+        }
       >
         <Building2 aria-hidden="true" />
         <span>Offices</span>
       </Link>
       <Link
-        to="/peso"
-        className={
-          pathname.startsWith("/peso") || pathname.startsWith("/jobs") ? "active" : undefined
-        }
-        aria-current={
-          pathname.startsWith("/peso") || pathname.startsWith("/jobs") ? "page" : undefined
-        }
+        to="/barangays"
+        className={pathname.startsWith("/barangays") ? "active" : undefined}
+        aria-current={pathname.startsWith("/barangays") ? "page" : undefined}
       >
-        <BriefcaseBusiness aria-hidden="true" />
-        <span>PESO</span>
+        <MapPin aria-hidden="true" />
+        <span>Barangays</span>
       </Link>
       <Link
         to="/procurement/livestreams"
@@ -1739,11 +1735,8 @@ function HomePage() {
               </span>
             </p>
             <div className="hero-actions">
-              <Link className="button primary" to="/peso">
-                PESO &amp; Job Opportunities <ArrowRight />
-              </Link>
-              <Link className="button secondary" to="/offices">
-                Find a City Office
+              <Link className="button primary" to="/offices">
+                City Offices Directory <ArrowRight />
               </Link>
               <Link className="button secondary" to="/transparency">
                 Explore transparency
@@ -1779,16 +1772,10 @@ function HomePage() {
             </div>
             <GlobalSearch />
             <div className="quick-grid">
-              <Link to="/peso">
-                <BriefcaseBusiness />
-                <span>
-                  PESO &amp; Jobs<small>Vacancies, SPES &amp; fairs</small>
-                </span>
-              </Link>
               <Link to="/offices">
                 <Building2 />
                 <span>
-                  City Offices<small>35 offices &amp; charters</small>
+                  City Offices<small>35 offices, PESO &amp; charters</small>
                 </span>
               </Link>
               <Link to="/services">
@@ -1801,6 +1788,12 @@ function HomePage() {
                 <MapPin />
                 <span>
                   46 Barangays<small>Profiles &amp; maps</small>
+                </span>
+              </Link>
+              <Link to="/government">
+                <Users />
+                <span>
+                  Government<small>Officials &amp; ordinances</small>
                 </span>
               </Link>
               <Link to="/transparency">
@@ -1819,52 +1812,6 @@ function HomePage() {
           </div>
         </div>
       </section>
-      <section className="section container home-priority-strip" aria-label="Featured Malaybalay portals">
-        <article className="home-priority-card is-peso">
-          <div className="home-priority-head">
-            <img src="/images/offices/peso.png" alt="PESO Malaybalay official emblem" />
-            <div>
-              <span className="eyebrow">Featured Subdomain · peso.bettermalaybalay.cloud</span>
-              <h2>PESO Malaybalay &amp; Job Opportunities</h2>
-            </div>
-          </div>
-          <p>
-            Search active PESO programs, DOLE SPES &amp; TUPAD, Livelihood endorsements, OFW support,
-            Job Fair details, all 10 Citizen&apos;s Charter services, and CSC vacancy records.
-          </p>
-          <div className="home-priority-actions">
-            <Link className="button primary small" to="/peso">
-              Open PESO Hub <ArrowRight aria-hidden="true" />
-            </Link>
-            <Link className="button secondary small" to="/jobs">
-              Browse Job Board
-            </Link>
-          </div>
-        </article>
-
-        <article className="home-priority-card">
-          <div className="home-priority-head">
-            <img src="/images/offices/malaybalay-city-seal.png" alt="City of Malaybalay official seal" />
-            <div>
-              <span className="eyebrow">Complete Directory · 35 Offices &amp; 18 Special Bodies</span>
-              <h2>City Government Offices &amp; Subdomains</h2>
-            </div>
-          </div>
-          <p>
-            Browse every Malaybalay department, Mayor&apos;s division (Community Affairs, OSCA,
-            BPLD, Tourism, TMC), Sangguniang Panlungsod, and national agency desk with verified
-            contacts and Charter requirements.
-          </p>
-          <div className="home-priority-actions">
-            <Link className="button primary small" to="/offices">
-              Explore All 35 Offices <ArrowRight aria-hidden="true" />
-            </Link>
-            <Link className="button secondary small" to="/government">
-              Officials &amp; Hotlines
-            </Link>
-          </div>
-        </article>
-      </section>
       <FirstTimeWelcomeCard />
       <WeatherPanel />
       <HomeNewsAndDiscussionsSection />
@@ -1881,7 +1828,6 @@ function HomePage() {
           <div className="city-overview-actions">
             <Link to="/government">Explore city government <ArrowRight /></Link>
             <Link to="/offices">Browse city offices <ArrowRight /></Link>
-            <Link to="/peso">PESO &amp; job opportunities <ArrowRight /></Link>
             <Link to="/barangays">Browse all barangays <ArrowRight /></Link>
           </div>
         </div>
@@ -2213,8 +2159,8 @@ function HomePage() {
             ))}
           </div>
           <div className="home-section-actions office-directory-actions">
-            <Link className="button secondary" to="/government?tab=offices">
-              View all offices <ArrowRight />
+            <Link className="button secondary" to="/offices">
+              View all 35 offices <ArrowRight />
             </Link>
           </div>
         </div>
@@ -4102,7 +4048,7 @@ function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) 
           <div><dt>Classification</dt><dd>{item.classification ?? item.type}</dd></div>
           <div><dt>Programmes and grade levels</dt><dd>{item.programmes?.join(", ") ?? item.levels.join(", ")}</dd></div>
           <div><dt>Official communication</dt><dd>{item.contacts?.join(" · ") ?? "Not published in the reviewed source"}</dd></div>
-          <div><dt>School subdomain</dt><dd>{item.subdomainHost ?? "Generated after registry verification"}</dd></div>
+          <div><dt>School microsite URL</dt><dd>{item.subdomainHost ? `https://${item.subdomainHost}` : "Generated after registry verification"}</dd></div>
         </dl>
         <section className="education-profile-section">
           <span className="eyebrow">Announcements and official channels</span>
@@ -5026,10 +4972,22 @@ function GovernmentPage() {
               );
             })()}
           </>
-        ) : tab === "offices" ? (
-          <OfficeDirectoryBrowser compactHeader={false} />
         ) : (
-          <div className="directory-list">
+          <>
+            {tab === "offices" ? (
+              <div className="data-notice" style={{ marginBottom: 16 }}>
+                <Building2 aria-hidden="true" />
+                <div>
+                  <strong>Quick contact reference</strong>
+                  <p>
+                    For organizational charts, assigned personnel rosters, divisions, and 2026
+                    Citizen&apos;s Charter requirements across all 35 City Offices and PESO, open the{" "}
+                    <Link to="/offices">City Offices Directory</Link>.
+                  </p>
+                </div>
+              </div>
+            ) : null}
+            <div className="directory-list">
             {visibleOffices.map((office) => (
               <article key={office.name}>
                 <div className="office-symbol">
@@ -5060,6 +5018,7 @@ function GovernmentPage() {
               </article>
             ))}
           </div>
+          </>
         )}
       </section>
     </>
@@ -7346,15 +7305,18 @@ function ServiceCategoryPage() {
       <section className="section container service-category-page">
         <Link className="page-hero-backlink service-category-back" to="/services"><ArrowLeft aria-hidden="true" /> All public services</Link>
         {category.slug === "employment" ? (
-          <div className="offices-peso-spotlight card" style={{ marginBottom: 20 }}>
+          <div className="offices-peso-spotlight bettermc-surface-card" style={{ marginBottom: 20 }}>
             <div className="offices-peso-spotlight-main">
               <img src="/images/offices/peso.png" alt="PESO Malaybalay official emblem" />
               <div>
-                <span className="eyebrow">Malaybalay City Dedicated Employment Hub</span>
                 <h2>PESO Malaybalay &amp; Verified Job Opportunities</h2>
                 <p>
                   Explore NSRP job matching, DOLE SPES &amp; TUPAD, Livelihood endorsements, OFW
-                  DMW/OWWA support, and job vacancies at <code>peso.bettermalaybalay.cloud</code>.
+                  DMW/OWWA support, and verified job opportunities at{" "}
+                  <a href="https://peso.bettermalaybalay.cloud" target="_blank" rel="noopener noreferrer">
+                    https://peso.bettermalaybalay.cloud
+                  </a>
+                  .
                 </p>
               </div>
             </div>
@@ -7435,7 +7397,7 @@ function ServiceCategoryPage() {
             <Link to="/services">
               Return to all service categories <ArrowRight />
             </Link>
-            <Link to="/government?tab=offices">
+            <Link to="/offices">
               Find a Malaybalay office <ArrowRight />
             </Link>
           </aside>

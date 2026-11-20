@@ -22,18 +22,6 @@ export type PesoCharterService = {
   charterPageRef: string;
 };
 
-export type PesoProgramHighlight = {
-  id: string;
-  title: string;
-  shortTag: string;
-  partnerAgency: string;
-  summary: string;
-  eligibility: string;
-  howToAvail: string;
-  sourceLabel: string;
-  sourceUrl: string;
-};
-
 export const PESO_CHARTER_SERVICES_2026: PesoCharterService[] = [
   {
     id: "employment-facilitation",
@@ -260,57 +248,6 @@ export const PESO_CHARTER_SERVICES_2026: PesoCharterService[] = [
       "Consolidate placement results and submit Terminal Report (10 minutes).",
     ],
     charterPageRef: "2026 Citizen's Charter, pp. 544–546 (PDF pp. 563–565)",
-  },
-];
-
-export const PESO_PROGRAMS_HIGHLIGHTS: PesoProgramHighlight[] = [
-  {
-    id: "prog-spes",
-    title: "DOLE–LGU Special Program for the Employment of Students (SPES)",
-    shortTag: "Youth Employment",
-    partnerAgency: "DOLE Region 10 — Bukidnon Provincial Field Office & City Mayor's Office",
-    summary:
-      "Bridges education costs by providing short-term paid work in LGU departments and partner employers during school breaks (typically 60% LGU wage share + 40% DOLE subsidy under RA 10917).",
-    eligibility: "Poor but deserving Malaybalay City students or out-of-school youth meeting annual DOLE/PESO income and academic criteria.",
-    howToAvail: "Watch for cycle announcements on PESO's official Facebook page and register via pesomalaybalaycity@gmail.com.",
-    sourceLabel: "2026 Citizen's Charter (PESO Service #4) & DOLE-10",
-    sourceUrl: CITIZENS_CHARTER_2026_URL,
-  },
-  {
-    id: "prog-tupad",
-    title: "TUPAD & Community Emergency Livelihood Coordination",
-    shortTag: "Emergency Employment",
-    partnerAgency: "DOLE Region 10, Barangay Councils & PESO Malaybalay",
-    summary:
-      "Coordinates Tulong Panghanapbuhay sa Ating Disadvantaged/Displaced Workers (TUPAD) community work orientations, payouts, and beneficiary endorsement with DOLE Bukidnon across Malaybalay barangays.",
-    eligibility: "Underemployed, seasonal, informal-sector, or displaced workers endorsed through partner barangays and DOLE screening.",
-    howToAvail: "Coordinate with your Barangay Hall and inquire at the PESO Desk for active DOLE-10 payout or profiling schedules.",
-    sourceLabel: "PIA / DOLE-10 Reports & PESO Official Page",
-    sourceUrl: PESO_FACEBOOK_PAGE_URL,
-  },
-  {
-    id: "prog-bpmc",
-    title: "Bukidnon PESO Managers' Council (BPMC) & Regional Job Matching",
-    shortTag: "Provincial Network",
-    partnerAgency: "DOLE-10 & Bukidnon PESO Managers' Council",
-    summary:
-      "Connects Malaybalay PESO with provincial LGU PESO offices across Bukidnon for shared job fair sourcing, SPES benchmarking, and DOLE labor market updates.",
-    eligibility: "All registered NSRP jobseekers and accredited Malaybalay employers.",
-    howToAvail: "Register in the NSRP Jobseekers Profile at PESO Desk, 2nd Floor, New City Hall.",
-    sourceLabel: "DOLE-10 Press Release (Bukidnon PESO Managers' Council)",
-    sourceUrl: "https://ro10.dole.gov.ph/",
-  },
-  {
-    id: "prog-city-scholarship",
-    title: "Malaybalay City College Scholarship Program (Cross-Office Youth Link)",
-    shortTag: "Education Support",
-    partnerAgency: "CMO – Community Affairs Division & TESDA / Local HEIs",
-    summary:
-      "Supports incoming and continuing qualified college scholars whose parents' annual net income does not exceed ₱250,000, complemented by PESO Career Guidance (CGAP) and OJT placement.",
-    eligibility: "Bonafide Malaybalay resident, qualifying exam passer, Grade 12 average ≥83% with no grade below 80%, parents' income ≤₱250,000.",
-    howToAvail: "Submit requirements to CMO – Community Affairs Division (0910-156-6938) inside New City Hall.",
-    sourceLabel: "2026 Citizen's Charter (Community Affairs pp. 536–540)",
-    sourceUrl: "https://sakata.malaybalaycity.gov.ph/malaybalay-city-scholarship-2/",
   },
 ];
 

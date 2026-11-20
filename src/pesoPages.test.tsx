@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import App from "./App";
@@ -31,9 +31,10 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
     );
 
     expect(screen.getByRole("heading", { name: "City Health Office" })).toBeInTheDocument();
-    expect(screen.getByText("cho.bettermalaybalay.cloud")).toBeInTheDocument();
+    expect(screen.getAllByText("cho.bettermalaybalay.cloud").length).toBeGreaterThan(0);
     expect(screen.getByText(/Source Cross-Reference Note:/i)).toBeInTheDocument();
 
+    cleanup();
     render(
       <MemoryRouter initialEntries={["/?office=cswdo"]}>
         <App />
@@ -42,7 +43,7 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
     expect(
       screen.getByRole("heading", { name: "City Social Welfare and Development Office" }),
     ).toBeInTheDocument();
-    expect(screen.getByText("cswdo.bettermalaybalay.cloud")).toBeInTheDocument();
+    expect(screen.getAllByText("cswdo.bettermalaybalay.cloud").length).toBeGreaterThan(0);
   });
 
   it("renders PESO Malaybalay Hub with official Facebook link, Charter services, and Job Board filtering", () => {
@@ -92,7 +93,7 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
     expect(screen.getByRole("link", { name: /Open PESO Hub & Jobs/i })).toHaveAttribute("href", "/peso");
   });
 
-  it("prioritizes City Offices and PESO & Jobs in primary navigation, mobile tab bar, and homepage hero", () => {
+  it("keeps PESO accessible through City Offices instead of main navigation and renders office personnel rosters", () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
         <App />
@@ -101,14 +102,27 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
 
     const primaryNav = screen.getByRole("navigation", { name: "Primary navigation" });
     expect(within(primaryNav).getByRole("link", { name: "City Offices" })).toHaveAttribute("href", "/offices");
-    expect(within(primaryNav).getByRole("link", { name: "PESO & Jobs" })).toHaveAttribute("href", "/peso");
+    expect(within(primaryNav).queryByRole("link", { name: "PESO & Jobs" })).not.toBeInTheDocument();
 
     const mobileTabs = screen.getByRole("navigation", { name: "Quick mobile app navigation" });
     expect(within(mobileTabs).getByRole("link", { name: "Offices" })).toHaveAttribute("href", "/offices");
-    expect(within(mobileTabs).getByRole("link", { name: "PESO" })).toHaveAttribute("href", "/peso");
+    expect(within(mobileTabs).getByRole("link", { name: "Barangays" })).toHaveAttribute("href", "/barangays");
+    expect(within(mobileTabs).queryByRole("link", { name: "PESO" })).not.toBeInTheDocument();
 
-    const gateways = screen.getByRole("region", { name: "Featured Malaybalay portals" });
-    expect(within(gateways).getByRole("link", { name: /Open PESO Hub/i })).toHaveAttribute("href", "/peso");
-    expect(within(gateways).getByRole("link", { name: /Explore All 35 Offices/i })).toHaveAttribute("href", "/offices");
+    expect(screen.queryByRole("region", { name: "Featured Malaybalay portals" })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /View all 35 offices/i })).toHaveAttribute("href", "/offices");
+
+    cleanup();
+    render(
+      <MemoryRouter initialEntries={["/?office=budget"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(screen.getByRole("heading", { name: "City Budget Office" })).toBeInTheDocument();
+    const personnelSection = screen.getByRole("region", { name: "Officials & Assigned Personnel" });
+    expect(within(personnelSection).getByText("Ronny B. Gamao")).toBeInTheDocument();
+    expect(within(personnelSection).getByText("City Budget Operations Division")).toBeInTheDocument();
+    expect(within(personnelSection).getByText("Mary Grace R. Alenton")).toBeInTheDocument();
+    expect(screen.getAllByText("budget.bettermalaybalay.cloud").length).toBeGreaterThan(0);
   });
 });

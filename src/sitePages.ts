@@ -5,9 +5,8 @@ export type SitePageLink = {
 };
 
 export const sitePages: SitePageLink[] = [
-  { label: "Home", description: "City overview, weather, and priority civic portals", to: "/" },
-  { label: "PESO & Jobs", description: "PESO Malaybalay profile, job vacancies, job fairs, and programs", to: "/peso" },
-  { label: "City Offices", description: "Directory of 35 city offices, divisions, and special bodies", to: "/offices" },
+  { label: "Home", description: "City overview, weather, and civic directories", to: "/" },
+  { label: "City Offices", description: "35 city offices, personnel, PESO & special bodies", to: "/offices" },
   { label: "Public services", description: "City and national service pathways", to: "/services" },
   { label: "Barangays", description: "Profiles for all 46 barangays", to: "/barangays" },
   { label: "Government", description: "Officials, offices, records, and hotlines", to: "/government" },

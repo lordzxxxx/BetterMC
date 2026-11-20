@@ -384,7 +384,7 @@ export const barangayMicrosites: BarangayMicrositeProfile[] = psgcProfiles.map(
       subdomainUrl: `https://${slug}.bettermalaybalay.cloud`,
       betterGovSubdomainUrl: `https://${slug}.bettergov.org`,
       mainPortalDomain: "bettermalaybalay.cloud",
-      mainPortalUrl: "https://bettermalaybalay.cloud",
+      mainPortalUrl: "https://www.bettermalaybalay.cloud",
       requestedSubdomain: `https://${slug}.bettermalaybalay.cloud`,
     };
   },
@@ -398,7 +398,7 @@ export const MAIN_BETTERMC_PORTAL = {
   name: "BetterMC",
   fullTitle: "BetterMC — Malaybalay City Public Information Portal",
   domain: "bettermalaybalay.cloud",
-  url: "https://bettermalaybalay.cloud",
+  url: "https://www.bettermalaybalay.cloud",
 } as const;
 
 export function barangaySlugFromHostname(hostname: string, search = "") {
