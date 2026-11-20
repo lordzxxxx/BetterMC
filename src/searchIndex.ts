@@ -32,6 +32,7 @@ import {
   newsletterUpdates,
 } from "./publicInformation";
 import { governmentOffices, localSpecialBodies } from "./governmentOffices";
+import { officePersonnelBySlug } from "./officePersonnel";
 import { INITIAL_PESO_OPPORTUNITIES, resolveOpportunityLifecycle } from "./pesoData";
 
 export type PortalSearchRecord = {
@@ -77,9 +78,9 @@ const staticPages: PortalSearchRecord[] = [
   },
   {
     type: "Directory",
-    title: "Public offices",
-    detail: "City department phone numbers and email addresses",
-    href: "/government?tab=offices",
+    title: "City offices & PESO directory",
+    detail: "35 city offices, personnel, Citizen's Charter services, and PESO Malaybalay",
+    href: "/offices",
   },
   {
     type: "Emergency",
@@ -161,21 +162,28 @@ export const portalSearchIndex: PortalSearchRecord[] = [
       ...(official.committeeMemberships ?? []),
     ].join(" "),
   })),
-  ...governmentOffices.map((office) => ({
-    type: `City office · ${office.acronym}`,
-    title: office.name,
-    detail: [office.category, office.phoneNumbers[0], office.emails[0]].filter(Boolean).join(" · "),
-    href: office.slug === "peso" ? "/peso" : `/offices/${office.slug}`,
-    keywords: [
-      office.shortName,
-      office.acronym,
-      office.parentOffice ?? "",
-      office.subdomainHost,
-      office.mandate,
-      ...(office.divisions ?? []),
-      ...office.services.map((s) => s.title),
-    ].join(" "),
-  })),
+  ...governmentOffices.map((office) => {
+    const roster = officePersonnelBySlug[office.slug];
+    const staffNames = roster
+      ? roster.groups.flatMap((g) => g.members.map((m) => m.name))
+      : [];
+    return {
+      type: `City office · ${office.acronym}`,
+      title: office.name,
+      detail: [office.classification, office.phoneNumbers[0], office.emails[0]].filter(Boolean).join(" · "),
+      href: office.slug === "peso" ? "/peso" : `/offices/${office.slug}`,
+      keywords: [
+        office.shortName,
+        office.acronym,
+        office.parentOffice ?? "",
+        office.subdomainHost,
+        office.mandate,
+        ...(office.divisions ?? []),
+        ...staffNames,
+        ...office.services.map((s) => s.title),
+      ].join(" "),
+    };
+  }),
   ...localSpecialBodies.map((body) => ({
     type: `Special body · ${body.executiveOrder}`,
     title: body.name,
@@ -198,14 +206,14 @@ export const portalSearchIndex: PortalSearchRecord[] = [
       ].join(" "),
     };
   }),
-  ...departments.map((department) => ({
-    type: department.emergency ? "Emergency office" : "Office",
-    title: department.name,
-    detail: [department.phone, department.email].filter(Boolean).join(" · "),
-    href: department.emergency
-      ? "/government?tab=hotlines"
-      : "/government?tab=offices",
-  })),
+  ...departments
+    .filter((department) => department.emergency)
+    .map((department) => ({
+      type: "Emergency hotline",
+      title: department.name,
+      detail: [department.phone, department.email].filter(Boolean).join(" · "),
+      href: "/government?tab=hotlines",
+    })),
   ...barangayMicrosites.map((barangay) => ({
     type: "Barangay",
     title: barangay.name,

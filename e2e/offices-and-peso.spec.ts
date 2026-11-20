@@ -38,7 +38,7 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
     await expect(
       page.getByRole("heading", { name: "Public Employment Service Office — Malaybalay City" }),
     ).toBeVisible();
-    await expect(page.getByText("peso.bettermalaybalay.cloud")).toBeVisible();
+    await expect(page.getByRole("link", { name: /peso\.bettermalaybalay\.cloud/i }).first()).toBeVisible();
 
     await page.getByRole("button", { name: /Expired \/ CS Form No\. 9 Archive/i }).click();
     await page.getByRole("link", { name: "Planning Officer IV" }).click();
@@ -56,7 +56,7 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
   test("supports office subdomain query previews (?office=cho and ?office=peso)", async ({ page }) => {
     await page.goto("/?office=cho");
     await expect(page.getByRole("heading", { name: "City Health Office" })).toBeVisible();
-    await expect(page.getByText("cho.bettermalaybalay.cloud")).toBeVisible();
+    await expect(page.getByRole("link", { name: /cho\.bettermalaybalay\.cloud/i }).first()).toBeVisible();
 
     await page.goto("/?office=peso");
     await expect(
@@ -77,17 +77,22 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
     ).toBeVisible();
   });
 
-  test("surfaces PESO & Jobs and City Offices in primary nav, home gateways, and 320px mobile bar", async ({ page }) => {
+  test("keeps City Offices in primary nav, routes PESO via /offices, and renders personnel cleanly on 320px mobile", async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/");
 
     const desktopNav = page.getByRole("navigation", { name: "Primary navigation" });
     await expect(desktopNav.getByRole("link", { name: "City Offices" })).toBeVisible();
-    await expect(desktopNav.getByRole("link", { name: "PESO & Jobs" })).toBeVisible();
+    await expect(desktopNav.getByRole("link", { name: "PESO & Jobs" })).toHaveCount(0);
+    await expect(page.getByRole("region", { name: "Featured Malaybalay portals" })).toHaveCount(0);
 
-    const homePortals = page.getByRole("region", { name: "Featured Malaybalay portals" });
-    await expect(homePortals.getByRole("link", { name: /Open PESO Hub/i })).toBeVisible();
-    await expect(homePortals.getByRole("link", { name: /Explore All 35 Offices/i })).toBeVisible();
+    await page.goto("/?office=budget");
+    const personnelSection = page.getByRole("region", { name: "Officials & Assigned Personnel" });
+    await expect(personnelSection).toBeVisible();
+    await expect(personnelSection.getByText("City Budget Operations Division", { exact: true })).toBeVisible();
+    await expect(personnelSection.getByText("Mary Grace R. Alenton")).toBeVisible();
 
     await page.setViewportSize({ width: 320, height: 740 });
     const hasOverflow = await page.evaluate(
@@ -97,6 +102,7 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
 
     const mobileTabs = page.getByRole("navigation", { name: "Quick mobile app navigation" });
     await expect(mobileTabs.getByRole("link", { name: "Offices" })).toBeVisible();
-    await expect(mobileTabs.getByRole("link", { name: "PESO" })).toBeVisible();
+    await expect(mobileTabs.getByRole("link", { name: "Barangays" })).toBeVisible();
+    await expect(mobileTabs.getByRole("link", { name: "PESO" })).toHaveCount(0);
   });
 });

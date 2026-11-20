@@ -505,9 +505,9 @@ test("global page access remains complete and responsive", async ({
   if ((page.viewportSize()?.width ?? 0) > 960) {
     await page.getByRole("button", { name: "Open BetterMC site directory" }).click();
     const allPages = page.getByRole("navigation", { name: "BetterMC site directory" });
-    await expect(allPages.getByRole("link")).toHaveCount(14);
+    await expect(allPages.getByRole("link")).toHaveCount(13);
     await expect(allPages.getByRole("link", { name: /City Offices/i })).toHaveAttribute("href", "/offices");
-    await expect(allPages.getByRole("link", { name: /PESO & Jobs/i })).toHaveAttribute("href", "/peso");
+    await expect(allPages.getByRole("link", { name: /PESO & Jobs/i })).toHaveCount(0);
     await expect(allPages.getByRole("link", { name: /Legislation/i })).toHaveAttribute(
       "href",
       "/legislation",
@@ -516,9 +516,9 @@ test("global page access remains complete and responsive", async ({
   } else {
     await page.getByRole("button", { name: "Open menu" }).click();
     const mobileNavigation = page.locator("#mobile-navigation");
-    await expect(mobileNavigation.getByRole("link")).toHaveCount(8);
+    await expect(mobileNavigation.getByRole("link")).toHaveCount(7);
     await mobileNavigation.getByText("More sections").click();
-    await expect(mobileNavigation.getByRole("link")).toHaveCount(14);
+    await expect(mobileNavigation.getByRole("link")).toHaveCount(13);
     await page.getByRole("button", { name: "Close menu" }).click();
   }
 

@@ -14,32 +14,30 @@ import {
   ExternalLink,
   FileCheck,
   Filter,
-  Globe,
   Info,
-  Landmark,
-  Mail,
   MapPin,
   Phone,
   Search,
   ShieldAlert,
-  ShieldCheck,
   Users,
 } from "lucide-react";
 import {
   governmentOfficeBySlug,
   governmentOffices,
   localSpecialBodies,
+  MAIN_BETTERMC_URL,
   OFFICE_CATEGORIES,
+  officeDirectoryPath,
   officeSlugFromHostname,
   resolveOfficeSlug,
   type GovernmentOffice,
   type OfficeCategory,
 } from "../governmentOffices";
+import { officePersonnelBySlug } from "../officePersonnel";
 import {
   CSC_FORM_9_2024_URL,
   INITIAL_PESO_OPPORTUNITIES,
   PESO_FACEBOOK_PAGE_URL,
-  PESO_PROGRAMS_HIGHLIGHTS,
   PESO_VACANCIES_SUMMARY,
   resolveOpportunityLifecycle,
   type OpportunityDisplayStatus,
@@ -67,10 +65,6 @@ function telHref(phone: string): string {
   return `tel:${phone.replace(/[^\d+]/g, "")}`;
 }
 
-function officeSlugFromHostnameCheck(hostname: string): string | null {
-  return officeSlugFromHostname(hostname, "");
-}
-
 function mapsSearchHref(query: string, coords?: [number, number]): string {
   if (coords) {
     return `https://www.google.com/maps/search/?api=1&query=${coords[0]},${coords[1]}`;
@@ -78,12 +72,14 @@ function mapsSearchHref(query: string, coords?: [number, number]): string {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
+/** High-contrast circular Facebook mark legible on both light and dark buttons. */
 function FbGlyph({ size = 16 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" style={{ flexShrink: 0 }}>
+      <circle cx="12" cy="12" r="11.5" fill="#1877F2" stroke="#ffffff" strokeOpacity="0.45" />
       <path
-        fill="#1877F2"
-        d="M24 12.073c0-6.627-5.373-12-12-12S0 5.446 0 12.073c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+        fill="#ffffff"
+        d="M13.861 23.4v-8.05h2.68l.4-3.12h-3.08V10.24c0-.9.25-1.52 1.55-1.52h1.65V5.93c-.29-.04-1.27-.12-2.41-.12-2.38 0-4.01 1.45-4.01 4.12v2.3H7.97v3.12h2.67v8.05a11.5 11.5 0 0 0 3.22 0z"
       />
     </svg>
   );
@@ -131,8 +127,8 @@ const OPPORTUNITY_TYPE_LABELS: Record<OpportunityType, string> = {
   "recruitment-event": "Recruitment Activity",
 };
 
-function LifecycleBadge({ status, label }: { status: OpportunityDisplayStatus; label: string }) {
-  return <span className={`peso-status-badge is-${status}`}>{label}</span>;
+function StatusLabel({ status, label }: { status: OpportunityDisplayStatus; label: string }) {
+  return <span className={`peso-status-text is-${status}`}>{label}</span>;
 }
 
 function opportunityCompensationDisplay(item: {
@@ -148,18 +144,38 @@ function opportunityCompensationDisplay(item: {
   if (item.opportunityType === "job-vacancy") {
     return {
       label: "Compensation",
-      value: "Refer to verified employer notice",
+      value: "Refer to official employer notice",
     };
   }
   return {
-    label: "PESO Service Fee",
-    value: "Free (Zero PESO Fee · RA 8759)",
+    label: "Service Fee",
+    value: "Free (RA 8759)",
   };
 }
 
+function MicrositeUrlAnchor({
+  url,
+  host,
+  className,
+}: {
+  url: string;
+  host: string;
+  className?: string;
+}) {
+  return (
+    <a className={className} href={url} target="_blank" rel="noopener noreferrer">
+      <span className="office-url-text">
+        <span>https://</span>
+        <span>{host}</span>
+      </span>
+    </a>
+  );
+}
+
 /**
- * Shared filterable & searchable grid of all Malaybalay City offices, CMO divisions,
- * legislative units, and partner institutions.
+ * Searchable & filterable City Offices Directory (/offices).
+ * Consolidates all 35 City Offices, Mayor's divisions, PESO hub access,
+ * and 18 Local Special Bodies into one clean directory.
  */
 export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeader?: boolean }) {
   const [query, setQuery] = useState("");
@@ -170,6 +186,10 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
     return governmentOffices.filter((office) => {
       if (selectedCategory !== "All" && office.category !== selectedCategory) return false;
       if (!needle) return true;
+      const roster = officePersonnelBySlug[office.slug];
+      const staffHay = roster
+        ? roster.groups.flatMap((g) => g.members.map((m) => `${m.name} ${m.position}`))
+        : [];
       const hay = [
         office.name,
         office.shortName,
@@ -181,6 +201,7 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
         ...office.emails,
         ...office.phoneNumbers,
         ...(office.divisions ?? []),
+        ...staffHay,
         ...office.services.map((s) => s.title),
       ]
         .join(" ")
@@ -196,12 +217,16 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
           <div className="offices-peso-spotlight-main">
             <img src="/images/offices/peso.png" alt="PESO Malaybalay official emblem" />
             <div>
-              <span className="eyebrow">Featured Employment &amp; Livelihood Subdomain</span>
               <h2>Public Employment Service Office (PESO Malaybalay)</h2>
               <p>
-                Access NSRP job matching, DOLE–LGU SPES &amp; TUPAD programs, OFW referral desks,
-                and verified Malaybalay employment opportunities on{" "}
-                <span className="office-inline-host-badge">peso.bettermalaybalay.cloud</span>
+                NSRP job matching, DOLE SPES &amp; TUPAD programs, OFW referral desks, and job
+                opportunities at{" "}
+                <MicrositeUrlAnchor
+                  className="office-inline-url"
+                  url="https://peso.bettermalaybalay.cloud"
+                  host="peso.bettermalaybalay.cloud"
+                />
+                .
               </p>
             </div>
           </div>
@@ -224,18 +249,18 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
       <div className="offices-filter-bar bettermc-surface-card">
         <div className="offices-toolbar">
           <label className="offices-search-field">
-            <span className="sr-only">Search Malaybalay City offices and services</span>
+            <span className="sr-only">Search Malaybalay City offices, personnel, and services</span>
             <Search aria-hidden="true" />
             <input
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search office, acronym, service, division, email, or phone..."
+              placeholder="Search office, acronym, personnel, service, division, or contact..."
             />
           </label>
           <div className="offices-filter-meta">
             <span>
-              Showing <strong>{filteredOffices.length}</strong> of {governmentOffices.length} verified offices &amp; sectors
+              Showing {filteredOffices.length} of {governmentOffices.length} offices
             </span>
             {(query || selectedCategory !== "All") && (
               <button
@@ -246,7 +271,7 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
                   setSelectedCategory("All");
                 }}
               >
-                Reset filters
+                Reset
               </button>
             )}
           </div>
@@ -258,7 +283,7 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
             className={selectedCategory === "All" ? "is-active" : ""}
             onClick={() => setSelectedCategory("All")}
           >
-            All Sectors ({governmentOffices.length})
+            All ({governmentOffices.length})
           </button>
           {OFFICE_CATEGORIES.map((category) => {
             const count = governmentOffices.filter((o) => o.category === category).length;
@@ -294,70 +319,66 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
         </div>
       ) : (
         <div className="offices-grid">
-          {filteredOffices.map((office) => (
-            <article key={office.slug} className="office-dir-card bettermc-surface-card">
-              <header className="office-dir-card-head">
-                <OfficeLogoBadge office={office} size="sm" />
-                <div className="office-dir-card-title-group">
-                  <div className="office-dir-badges">
-                    <span className="office-acronym-pill">{office.acronym}</span>
-                    <span className="office-category-pill">{office.category}</span>
+          {filteredOffices.map((office) => {
+            const profilePath = officeDirectoryPath(office);
+            return (
+              <article key={office.slug} className="office-dir-card bettermc-surface-card">
+                <header className="office-dir-card-head">
+                  <OfficeLogoBadge office={office} size="sm" />
+                  <div className="office-dir-card-title-group">
+                    <p className="office-dir-kicker">
+                      {office.parentOffice
+                        ? `Under ${office.parentOffice}`
+                        : office.classification.split("—")[0].trim()}
+                    </p>
+                    <h3>
+                      <Link to={profilePath}>{office.name}</Link>
+                    </h3>
                   </div>
-                  <h3>
-                    <Link to={office.slug === "peso" ? "/peso" : `/offices/${office.slug}`}>
-                      {office.name}
-                    </Link>
-                  </h3>
-                  {office.parentOffice ? (
-                    <p className="office-parent-note">Under: {office.parentOffice}</p>
+                </header>
+
+                <p className="office-dir-summary">{office.overview}</p>
+
+                <dl className="office-dir-facts">
+                  <div>
+                    <dt>Location</dt>
+                    <dd>{office.address}</dd>
+                  </div>
+                  {office.phoneNumbers[0] ? (
+                    <div>
+                      <dt>Contact</dt>
+                      <dd>{office.phoneNumbers[0]}</dd>
+                    </div>
                   ) : null}
+                  {office.emails[0] ? (
+                    <div>
+                      <dt>Email</dt>
+                      <dd>{office.emails[0]}</dd>
+                    </div>
+                  ) : null}
+                </dl>
+
+                <div className="office-dir-actions">
+                  <Link className="button primary small" to={profilePath}>
+                    Open profile <ArrowRight aria-hidden="true" />
+                  </Link>
+                  <MicrositeUrlAnchor
+                    className="office-subdomain-link"
+                    url={office.subdomainUrl}
+                    host={office.subdomainHost}
+                  />
                 </div>
-              </header>
-
-              <p className="office-dir-summary">{office.overview}</p>
-
-              <dl className="office-dir-facts">
-                <div>
-                  <dt>Location</dt>
-                  <dd>{office.address}</dd>
-                </div>
-                {office.phoneNumbers[0] ? (
-                  <div>
-                    <dt>Contact</dt>
-                    <dd>{office.phoneNumbers[0]}</dd>
-                  </div>
-                ) : null}
-                {office.emails[0] ? (
-                  <div>
-                    <dt>Email</dt>
-                    <dd>{office.emails[0]}</dd>
-                  </div>
-                ) : null}
-              </dl>
-
-              <div className="office-dir-actions">
-                <Link
-                  className="button primary small"
-                  to={office.slug === "peso" ? "/peso" : `/offices/${office.slug}`}
-                >
-                  Open Profile <ArrowRight aria-hidden="true" />
-                </Link>
-                <Link className="office-subdomain-preview-link" to={`/?office=${office.slug}`}>
-                  <Globe aria-hidden="true" />
-                  <span>{office.subdomainHost}</span>
-                </Link>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
       )}
 
       <section className="special-bodies-section" aria-labelledby="local-special-bodies-heading">
         <div className="special-bodies-header">
           <div>
-            <span className="eyebrow">Inter-Agency &amp; Multisectoral Governance</span>
             <h2 id="local-special-bodies-heading">
-              Local Special Bodies &amp; Special Committees ({localSpecialBodies.length} Verified EOs)
+              Local Special Bodies &amp; Special Committees ({localSpecialBodies.length})
             </h2>
             <p>
               Reconstituted via City Executive Orders uniting City Hall offices, national agencies,
@@ -365,7 +386,7 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
             </p>
           </div>
           <a
-            className="button secondary small"
+            className="office-inline-url"
             href="https://sakata.malaybalaycity.gov.ph/local-special-bodies-and-special-committees/"
             target="_blank"
             rel="noopener noreferrer"
@@ -377,10 +398,9 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
         <div className="special-bodies-grid">
           {localSpecialBodies.map((body) => (
             <article key={body.id} className="special-body-card bettermc-surface-card">
-              <div className="special-body-top">
-                <span className="office-acronym-pill">{body.executiveOrder}</span>
-                <span className="special-body-year">{body.year}</span>
-              </div>
+              <p className="special-body-meta">
+                {body.executiveOrder} · {body.year}
+              </p>
               <h3>{body.name}</h3>
               <p>{body.mandateSummary}</p>
               <div className="special-body-footer">
@@ -404,17 +424,16 @@ export function GovernmentOfficesDirectoryPage() {
     <>
       <section className="page-hero page-hero-compact">
         <div className="container">
-          <span className="eyebrow">Malaybalay City Government &amp; Sector Directory</span>
           <h1>City Offices, Divisions &amp; Partner Institutions</h1>
           <p>
-            Verified directory of executive departments, City Mayor&apos;s Office service divisions
+            Verified directory of executive departments, City Mayor&apos;s service divisions
             (including PESO, Community Affairs Scholarships, OSCA, BPLD, Tourism, and TMC),
-            legislative offices, local special bodies, and national partner desks — backed by the
-            2026 Citizen&apos;s Charter and official City Government portals.
+            legislative offices, assigned personnel, local special bodies, and national partner
+            desks.
           </p>
           <div className="hero-actions" style={{ marginTop: 18 }}>
             <Link className="button primary" to="/peso">
-              Explore PESO &amp; Job Opportunities <ArrowRight aria-hidden="true" />
+              Open PESO &amp; Job Opportunities <ArrowRight aria-hidden="true" />
             </Link>
             <Link className="button secondary" to="/government">
               City Officials &amp; Hotlines
@@ -434,7 +453,9 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
   const opportunities = usePublicPesoOpportunities();
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<"all" | OpportunityType>("all");
-  const [statusFilter, setStatusFilter] = useState<"active-open" | "all" | "expired" | "recurring-program">("active-open");
+  const [statusFilter, setStatusFilter] = useState<
+    "active-open" | "all" | "expired" | "recurring-program"
+  >("active-open");
 
   const enriched = useMemo(() => {
     const now = new Date();
@@ -491,31 +512,30 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
     <div className="peso-jobs-board" id="job-opportunities">
       <div className="peso-board-header">
         <div>
-          <span className="eyebrow">PESO Employment &amp; Recruitment Board</span>
-          <h2>{embeddedInPesoPage ? "Employment Opportunities, Programs & Hiring Records" : "Malaybalay City Job & Livelihood Opportunities"}</h2>
+          <h2>
+            {embeddedInPesoPage
+              ? "Employment Opportunities, Programs & Hiring Records"
+              : "Malaybalay City Job & Livelihood Opportunities"}
+          </h2>
           <p>
             Active PESO–DOLE employment facilitation, job fair programs, and archived Civil Service
-            plantilla records. Deadlines automatically transition postings to <strong>Expired</strong>{" "}
-            after their closing date.
+            plantilla records. Deadlines automatically transition postings to Expired after closing.
           </p>
         </div>
-        <div className="peso-board-cta-group">
-          <Link className="button secondary small" to="/participate">
-            Submit Vacancy Update
-          </Link>
-        </div>
+        <Link className="office-inline-url" to="/participate">
+          Submit vacancy correction <ArrowRight aria-hidden="true" />
+        </Link>
       </div>
 
       <div className="peso-fb-source-notice bettermc-surface-card">
         <FbGlyph size={20} />
         <div>
-          <strong>Same-Day Employer Hiring Posters:</strong> Daily private-company job posters
-          screened by PESO Malaybalay are published directly on the{" "}
+          Same-day private-company hiring posters screened by PESO Malaybalay are published on the{" "}
           <a href={PESO_FACEBOOK_PAGE_URL} target="_blank" rel="noopener noreferrer">
             Official PESO Malaybalay Facebook Page
           </a>
           . Verified recurring PESO programs and Civil Service plantilla publications are indexed
-          below for structured search.
+          below for search.
         </div>
       </div>
 
@@ -533,7 +553,9 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
           </label>
 
           <label className="peso-select-field">
-            <span><Filter aria-hidden="true" /> Category</span>
+            <span>
+              <Filter aria-hidden="true" /> Category
+            </span>
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value as "all" | OpportunityType)}
@@ -598,12 +620,11 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
                 key={item.slug}
                 className={`peso-job-card bettermc-surface-card${lifecycle.isExpired ? " is-expired" : ""}`}
               >
-                <div className="peso-job-card-top">
-                  <span className="office-category-pill">
-                    {OPPORTUNITY_TYPE_LABELS[item.opportunityType]}
-                  </span>
-                  <LifecycleBadge status={lifecycle.displayStatus} label={lifecycle.label} />
-                </div>
+                <p className="peso-job-meta-line">
+                  <span>{OPPORTUNITY_TYPE_LABELS[item.opportunityType]}</span>
+                  <span aria-hidden="true">·</span>
+                  <StatusLabel status={lifecycle.displayStatus} label={lifecycle.label} />
+                </p>
 
                 <h3>
                   <Link to={`/jobs/${item.slug}`}>{item.title}</Link>
@@ -641,12 +662,12 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
                 </dl>
 
                 <div className="peso-job-card-footer">
-                  <Link className="button primary small peso-card-detail-btn" to={`/jobs/${item.slug}`}>
-                    View Details <ArrowRight aria-hidden="true" />
+                  <Link className="button primary small" to={`/jobs/${item.slug}`}>
+                    View details <ArrowRight aria-hidden="true" />
                   </Link>
                   {safeHref(item.sourceUrl) ? (
                     <a
-                      className="peso-source-inline-link"
+                      className="peso-source-text-link"
                       href={safeHref(item.sourceUrl) ?? "#"}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -663,14 +684,13 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
 
       <div className="peso-csc-summary-card bettermc-surface-card">
         <div>
-          <span className="eyebrow">Civil Service Commission Verification Note</span>
           <h3>{PESO_VACANCIES_SUMMARY.publicationTitle}</h3>
           <p>
             Official City Hall publication dated {PESO_VACANCIES_SUMMARY.publishedDate} (closed{" "}
             {PESO_VACANCIES_SUMMARY.closingDate}) covered{" "}
-            <strong>{PESO_VACANCIES_SUMMARY.totalPublishedItems} plantilla items</strong> across City
-            Engineering (19), Agriculture (11), Mayor&apos;s Office (9), Accounting (9), Health (8),
-            Assessor (5), Veterinary (5), CEEDMO (5), CSWDO (4), and 17 items across other offices.
+            {PESO_VACANCIES_SUMMARY.totalPublishedItems} plantilla items across City Engineering
+            (19), Agriculture (11), Mayor&apos;s Office (9), Accounting (9), Health (8), Assessor
+            (5), Veterinary (5), CEEDMO (5), CSWDO (4), and 17 items across other offices.
           </p>
         </div>
         <a
@@ -679,7 +699,7 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Download aria-hidden="true" /> Download Official CS Form No. 9 PDF
+          <Download aria-hidden="true" /> Official CS Form No. 9 PDF
         </a>
       </div>
     </div>
@@ -687,8 +707,8 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
 }
 
 /**
- * Standardized Office Landing Page used by ALL /offices/:slug routes AND dedicated
- * *.bettermalaybalay.cloud office subdomains.
+ * Standardized Office Microsite Page used across /offices/:slug, /peso,
+ * and *.bettermalaybalay.cloud subdomains.
  */
 export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = {}) {
   const { slug: routeSlug } = useParams();
@@ -699,8 +719,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
 
   if (!office) {
     return (
-      <section className="section container card" style={{ marginTop: 32, marginBottom: 48 }}>
-        <span className="eyebrow">Government Office Not Found</span>
+      <section className="section container bettermc-surface-card" style={{ marginTop: 32, marginBottom: 48, padding: 28 }}>
         <h1>Office profile not found</h1>
         <p>The requested Malaybalay City office profile does not exist in our verified directory.</p>
         <div className="hero-actions" style={{ marginTop: 16 }}>
@@ -718,6 +737,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
   const relatedSpecialBodies = localSpecialBodies.filter(
     (b) => b.leadOfficeSlug === office.slug,
   );
+  const personnelEntry = officePersonnelBySlug[office.slug];
   const filteredServices = office.services.filter((service) => {
     if (!serviceSearch.trim()) return true;
     return [service.title, service.whoMayAvail ?? "", ...(service.requirements ?? [])]
@@ -729,10 +749,8 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
   const fbSafe = safeHref(office.facebookUrl);
   const webSafe = safeHref(office.officialWebUrl);
   const mapUrl = mapsSearchHref(office.mapQuery, office.coordinates);
-
   const isHostSubdomain =
-    typeof window !== "undefined" &&
-    Boolean(officeSlugFromHostnameCheck(window.location.hostname));
+    typeof window !== "undefined" && Boolean(officeSlugFromHostname(window.location.hostname, ""));
 
   return (
     <div className="office-landing-page">
@@ -740,7 +758,11 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
         <div className="office-hero-backdrop" aria-hidden="true" />
         <div className="container office-hero-content">
           <div className="office-brand-lockup">
-            <div className={`office-logo-frame is-hero${office.logoStatus === "Verified Local Asset" && office.logoPath ? " has-logo" : ""}`}>
+            <div
+              className={`office-logo-frame is-hero${
+                office.logoStatus === "Verified Local Asset" && office.logoPath ? " has-logo" : ""
+              }`}
+            >
               {office.logoStatus === "Verified Local Asset" && office.logoPath ? (
                 <img
                   src={office.logoPath}
@@ -758,42 +780,28 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
           </div>
 
           <div className="office-hero-copy">
-            <div
-              className="office-hero-inline-portal"
-              role="region"
-              aria-label={`${office.shortName} subdomain and portal navigation`}
+            <nav
+              className="office-hero-breadcrumb"
+              aria-label={`${office.shortName} microsite location`}
             >
               {isHostSubdomain ? (
-                <a href="https://www.bettermalaybalay.cloud" className="office-portal-pill">
-                  <Landmark aria-hidden="true" />
-                  <span><strong>BetterMC Home</strong></span>
-                </a>
+                <a href={MAIN_BETTERMC_URL}>BetterMC Home</a>
               ) : (
-                <Link to="/" className="office-portal-pill">
-                  <Landmark aria-hidden="true" />
-                  <span><strong>BetterMC Home</strong></span>
-                </Link>
+                <Link to="/">BetterMC Home</Link>
               )}
+              <span aria-hidden="true">/</span>
               {isHostSubdomain ? (
-                <a href="https://www.bettermalaybalay.cloud/offices" className="office-portal-pill">
-                  <ArrowLeft aria-hidden="true" />
-                  <span>All City Offices ({governmentOffices.length})</span>
+                <a href={`${MAIN_BETTERMC_URL}/offices`}>
+                  City Offices ({governmentOffices.length})
                 </a>
               ) : (
-                <Link to="/offices" className="office-portal-pill">
-                  <ArrowLeft aria-hidden="true" />
-                  <span>All City Offices ({governmentOffices.length})</span>
-                </Link>
+                <Link to="/offices">City Offices ({governmentOffices.length})</Link>
               )}
-              <span className="office-subdomain-pill" aria-label={`Official office subdomain: ${office.subdomainHost}`}>
-                <Globe aria-hidden="true" />
-                <strong>{office.subdomainHost}</strong>
-              </span>
-            </div>
+              <span aria-hidden="true">/</span>
+              <MicrositeUrlAnchor url={office.subdomainUrl} host={office.subdomainHost} />
+            </nav>
 
-            <span className="office-hero-eyebrow">
-              {office.acronym} · {office.category} · {office.classification}
-            </span>
+            <p className="office-hero-classification">{office.classification}</p>
             <h1>{office.name}</h1>
             {office.parentOffice ? (
               <p className="office-hero-parent">Under {office.parentOffice}</p>
@@ -837,20 +845,18 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
               <dd>{office.operatingHours}</dd>
             </div>
             <div>
-              <dt>{office.headOfOffice ? "Head of Office" : "Office Supervision"}</dt>
-              <dd>
-                {office.headOfOffice || office.headNote || office.classification}
-              </dd>
+              <dt>{office.headOfOffice ? "Head of Office" : "Supervision"}</dt>
+              <dd>{office.headOfOffice || office.headNote || office.classification}</dd>
             </div>
             <div>
               <dt>Direct Contact</dt>
               <dd>
                 {office.phoneNumbers[0] ? (
                   <a href={telHref(office.phoneNumbers[0])}>{office.phoneNumbers[0]}</a>
-                ) : "See directory"}
-                {office.emails[0] ? (
-                  <small>{office.emails[0]}</small>
-                ) : null}
+                ) : (
+                  "See directory"
+                )}
+                {office.emails[0] ? <small>{office.emails[0]}</small> : null}
               </dd>
             </div>
           </dl>
@@ -860,6 +866,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
       <nav className="office-local-nav" aria-label={`${office.shortName} page sections`}>
         <div className="container">
           <a href="#about">About</a>
+          <a href="#personnel">Officials &amp; Personnel</a>
           <a href="#mandate">Mandate &amp; Divisions</a>
           <a href="#services">Public Services ({office.services.length})</a>
           {office.slug === "peso" ? <a href="#job-opportunities">Job Opportunities</a> : null}
@@ -876,7 +883,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
               <strong>Source Cross-Reference Note:</strong>
               {office.discrepancies.map((item) => (
                 <p key={item.field}>
-                  <strong>{item.field}:</strong> {item.detail}
+                  {item.field}: {item.detail}
                 </p>
               ))}
             </div>
@@ -885,102 +892,120 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
 
         <section id="about" className="office-about-section" aria-labelledby="office-about-heading">
           <div className="office-about-copy bettermc-surface-card">
-            <span className="eyebrow">About This Office</span>
-            <h2 id="office-about-heading">Purpose, Responsibilities &amp; Public Access</h2>
-            <p>{office.aboutDetails ?? office.overview}</p>
-            <p className="office-about-detail">
-              <strong>Primary Location &amp; Classification:</strong> {office.classification} at{" "}
-              {office.address}.
-            </p>
-            {office.whoServes ? (
-              <div className="office-about-scope">
-                <span className="office-about-scope-icon" aria-hidden="true">
-                  <ShieldCheck />
-                </span>
-                <p>
-                  <strong>Who this office serves:</strong> {office.whoServes}
+            <div className="office-about-main">
+              <h2 id="office-about-heading">About This Office</h2>
+              <p>{office.aboutDetails ?? office.overview}</p>
+              {office.whoServes ? (
+                <p className="office-about-serves">
+                  Who this office serves: {office.whoServes}
                 </p>
-              </div>
-            ) : null}
-            <div className="office-about-stats" aria-label="Verified office metrics">
+              ) : null}
+            </div>
+            <div className="office-about-metrics" aria-label="Verified office summary">
               <div>
                 <span>Documented Services</span>
-                <strong>{office.services.length} public {office.services.length === 1 ? "service" : "services"}</strong>
+                <strong>
+                  {office.services.length} public {office.services.length === 1 ? "service" : "services"}
+                </strong>
               </div>
               <div>
                 <span>Functional Units</span>
-                <strong>{office.divisions?.length ?? 1} verified {(office.divisions?.length ?? 1) === 1 ? "unit" : "units"}</strong>
+                <strong>
+                  {office.divisions?.length ?? 1} verified {(office.divisions?.length ?? 1) === 1 ? "unit" : "units"}
+                </strong>
               </div>
               <div>
-                <span>Official Reference</span>
+                <span>Charter Reference</span>
                 <strong>{office.charterChapterRef || "City Directory 2026"}</strong>
               </div>
             </div>
           </div>
+        </section>
 
-          <aside className="office-quick-facts bettermc-surface-card" aria-label="Verified office directory facts">
-            <span className="eyebrow">Directory &amp; Visiting Guide</span>
-            <h2>Contact &amp; Location Details</h2>
-            <dl>
-              <div>
-                <dt><MapPin aria-hidden="true" /> Address &amp; Counter</dt>
-                <dd>{office.address}</dd>
+        <section
+          id="personnel"
+          className="office-personnel-section bettermc-surface-card"
+          aria-labelledby="office-personnel-heading"
+        >
+          <div className="office-section-head">
+            <div>
+              <h2 id="office-personnel-heading">Officials &amp; Assigned Personnel</h2>
+              <p className="office-section-subtitle">
+                Officials and personnel assigned to {office.shortName}, organized by leadership and
+                functional division.
+              </p>
+            </div>
+          </div>
+
+          {personnelEntry ? (
+            <>
+              <div className="office-personnel-groups">
+                {personnelEntry.groups.map((group) => {
+                  const compactThreshold = 8;
+                  const primaryMembers = group.members.slice(0, compactThreshold);
+                  const remainingMembers = group.members.slice(compactThreshold);
+                  return (
+                    <div key={group.unitName} className="office-personnel-unit">
+                      <h3>
+                        <Users aria-hidden="true" />
+                        <span>{group.unitName}</span>
+                        <span className="office-unit-count">({group.members.length})</span>
+                      </h3>
+                      <div className="office-personnel-list">
+                        {primaryMembers.map((member) => (
+                          <div key={`${group.unitName}-${member.name}`} className="office-personnel-row">
+                            <span className="office-person-name">{member.name}</span>
+                            <span className="office-person-role">{member.position}</span>
+                          </div>
+                        ))}
+                      </div>
+                      {remainingMembers.length > 0 ? (
+                        <details className="office-personnel-more">
+                          <summary>
+                            Show {remainingMembers.length} more assigned personnel in {group.unitName}
+                          </summary>
+                          <div className="office-personnel-list">
+                            {remainingMembers.map((member) => (
+                              <div key={`${group.unitName}-${member.name}`} className="office-personnel-row">
+                                <span className="office-person-name">{member.name}</span>
+                                <span className="office-person-role">{member.position}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </details>
+                      ) : null}
+                    </div>
+                  );
+                })}
               </div>
-              <div>
-                <dt><Clock aria-hidden="true" /> Service Schedule</dt>
-                <dd>{office.operatingHours}</dd>
-              </div>
-              <div>
-                <dt><Users aria-hidden="true" /> {office.headOfOffice ? "Head of Office" : "Supervision"}</dt>
-                <dd>
-                  {office.headOfOffice || office.headNote || office.classification}
-                  {office.headOfOffice && office.headNote ? (
-                    <small className="office-fact-note">{office.headNote}</small>
-                  ) : null}
-                </dd>
-              </div>
-              <div>
-                <dt><Phone aria-hidden="true" /> Official Numbers</dt>
-                <dd>
-                  {office.phoneNumbers.map((phone) => (
-                    <a key={phone} className="office-fact-link" href={telHref(phone)}>
-                      {phone}
-                    </a>
-                  ))}
-                </dd>
-              </div>
-              <div>
-                <dt><Mail aria-hidden="true" /> Email</dt>
-                <dd>
-                  {office.emails.length > 0 ? (
-                    office.emails.map((email) => (
-                      <a key={email} className="office-fact-link" href={`mailto:${email}`}>
-                        {email}
-                      </a>
-                    ))
-                  ) : (
-                    <span>Confirm via telephone during office hours</span>
-                  )}
-                </dd>
-              </div>
-              {webSafe ? (
-                <div>
-                  <dt><ExternalLink aria-hidden="true" /> Official Portal</dt>
-                  <dd>
-                    <a className="office-fact-link" href={webSafe} target="_blank" rel="noopener noreferrer">
-                      Official LGU Malaybalay Page <ExternalLink aria-hidden="true" />
-                    </a>
-                  </dd>
+              <p className="office-personnel-source">
+                Source:{" "}
+                <a href={personnelEntry.sourceUrl} target="_blank" rel="noopener noreferrer">
+                  {personnelEntry.sourceLabel} <ExternalLink aria-hidden="true" />
+                </a>
+              </p>
+            </>
+          ) : (
+            <div className="office-personnel-fallback">
+              {office.headOfOffice ? (
+                <div className="office-personnel-row is-single">
+                  <span className="office-person-name">{office.headOfOffice}</span>
+                  <span className="office-person-role">{office.headNote ?? office.classification}</span>
                 </div>
-              ) : null}
-            </dl>
-          </aside>
+              ) : (
+                <p className="office-personnel-note">
+                  {office.headNote || office.classification}. An individual staff directory has not
+                  yet been published by this office on sakata.malaybalaycity.gov.ph; functional units
+                  and frontline transactions below are documented in the 2026 Citizen&apos;s Charter.
+                </p>
+              )}
+            </div>
+          )}
         </section>
 
         <div id="mandate" className="office-mandate-grid">
           <article className="bettermc-surface-card office-mandate-card">
-            <span className="eyebrow">Mandate &amp; Role</span>
-            <h2>Official Responsibility in Malaybalay City</h2>
+            <h2>Official Mandate &amp; Responsibility</h2>
             <p>{office.mandate}</p>
             {office.charterChapterRef ? (
               <p className="office-charter-ref">
@@ -990,7 +1015,6 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
           </article>
 
           <article className="bettermc-surface-card office-divisions-card">
-            <span className="eyebrow">Structure &amp; Units</span>
             <h2>Divisions &amp; Functional Desks</h2>
             <ul className="office-bullet-list">
               {(office.divisions && office.divisions.length > 0
@@ -1006,10 +1030,12 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
         <section id="services" className="office-services-section" aria-labelledby="office-services-heading">
           <div className="office-section-head">
             <div>
-              <span className="eyebrow">Citizen&apos;s Charter &amp; Public Transactions</span>
               <h2 id="office-services-heading">
                 Public Services Offered ({office.services.length})
               </h2>
+              <p className="office-section-subtitle">
+                Documented transactions, fees, processing times, and documentary checklists.
+              </p>
             </div>
             {office.services.length > 4 ? (
               <label className="offices-search-field is-compact">
@@ -1032,17 +1058,17 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                   <div className="office-service-head">
                     <div>
                       <h3>{service.title}</h3>
-                      <div className="office-service-pills">
-                        <span className="office-meta-chip">
-                          <Clock aria-hidden="true" /> {service.processingTime}
-                        </span>
-                        <span className="office-meta-chip">
-                          Fee: {service.fee}
-                        </span>
+                      <p className="office-service-meta-line">
+                        <span>Processing time: {service.processingTime}</span>
+                        <span aria-hidden="true">·</span>
+                        <span>Fee: {service.fee}</span>
                         {service.classification ? (
-                          <span className="office-meta-chip">{service.classification}</span>
+                          <>
+                            <span aria-hidden="true">·</span>
+                            <span>{service.classification}</span>
+                          </>
                         ) : null}
-                      </div>
+                      </p>
                     </div>
                     {(service.requirements?.length || service.steps?.length) ? (
                       <button
@@ -1058,9 +1084,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                   </div>
 
                   {service.whoMayAvail ? (
-                    <p className="office-service-elig">
-                      <strong>Who may avail:</strong> {service.whoMayAvail}
-                    </p>
+                    <p className="office-service-elig">Who may avail: {service.whoMayAvail}</p>
                   ) : null}
 
                   {isOpen && (service.requirements?.length || service.steps?.length) ? (
@@ -1096,7 +1120,6 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
         {office.slug === "peso" ? <PesoEmploymentBoard embeddedInPesoPage /> : null}
 
         <section id="programs" className="office-programs-section" aria-labelledby="office-programs-heading">
-          <span className="eyebrow">Initiatives &amp; Sector Coordination</span>
           <h2 id="office-programs-heading">Programs, Initiatives &amp; Special Bodies</h2>
           <div className="office-programs-grid">
             {office.programs.map((program) => (
@@ -1104,18 +1127,15 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                 <h3>{program.title}</h3>
                 <p>{program.summary}</p>
                 {program.eligibility ? (
-                  <small>
-                    <strong>Eligibility:</strong> {program.eligibility}
-                  </small>
+                  <small>Eligibility: {program.eligibility}</small>
                 ) : null}
               </article>
             ))}
             {relatedSpecialBodies.map((lsb) => (
               <article key={lsb.id} className="bettermc-surface-card office-program-card is-lsb">
-                <div className="special-body-top">
-                  <span className="office-acronym-pill">{lsb.executiveOrder}</span>
-                  <span>Local Special Body</span>
-                </div>
+                <p className="special-body-meta">
+                  {lsb.executiveOrder} · Local Special Body
+                </p>
                 <h3>{lsb.name}</h3>
                 <p>{lsb.mandateSummary}</p>
               </article>
@@ -1123,20 +1143,77 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
           </div>
         </section>
 
-        <section id="sources" className="office-sources-card bettermc-surface-card" aria-labelledby="office-sources-heading">
-          <span className="eyebrow">Verification &amp; Source Ledger · Reviewed {VERIFIED_ON}</span>
-          <h2 id="office-sources-heading">Official Primary Sources</h2>
-          <ul className="office-source-list">
-            {office.sources.map((src) => (
-              <li key={`${src.label}-${src.url}`}>
-                <a href={safeHref(src.url) ?? "#"} target="_blank" rel="noopener noreferrer">
-                  <span>{src.label}</span>
-                  <ExternalLink aria-hidden="true" />
-                </a>
-                <small>Verified {src.verifiedOn}</small>
-              </li>
-            ))}
-          </ul>
+        <section id="sources" className="office-bottom-grid" aria-labelledby="office-sources-heading">
+          <article className="office-sources-card bettermc-surface-card">
+            <h2>All Verified Contacts &amp; Platforms</h2>
+            <dl className="office-contacts-dl">
+              <div>
+                <dt>Office Counter</dt>
+                <dd>{office.address}</dd>
+              </div>
+              <div>
+                <dt>Operating Hours</dt>
+                <dd>{office.operatingHours}</dd>
+              </div>
+              <div>
+                <dt>Phone Numbers</dt>
+                <dd>
+                  {office.phoneNumbers.map((phone) => (
+                    <a key={phone} className="office-fact-link" href={telHref(phone)}>
+                      {phone}
+                    </a>
+                  ))}
+                </dd>
+              </div>
+              {office.emails.length > 0 ? (
+                <div>
+                  <dt>Email Addresses</dt>
+                  <dd>
+                    {office.emails.map((email) => (
+                      <a key={email} className="office-fact-link" href={`mailto:${email}`}>
+                        {email}
+                      </a>
+                    ))}
+                  </dd>
+                </div>
+              ) : null}
+              <div>
+                <dt>Microsite URL</dt>
+                <dd>
+                  <MicrositeUrlAnchor
+                    className="office-fact-link"
+                    url={office.subdomainUrl}
+                    host={office.subdomainHost}
+                  />
+                </dd>
+              </div>
+              {webSafe ? (
+                <div>
+                  <dt>City Government Portal</dt>
+                  <dd>
+                    <a className="office-fact-link" href={webSafe} target="_blank" rel="noopener noreferrer">
+                      Official LGU Malaybalay Page <ExternalLink aria-hidden="true" />
+                    </a>
+                  </dd>
+                </div>
+              ) : null}
+            </dl>
+          </article>
+
+          <article className="office-sources-card bettermc-surface-card">
+            <h2 id="office-sources-heading">Official Primary Sources · Reviewed {VERIFIED_ON}</h2>
+            <ul className="office-source-list">
+              {office.sources.map((src) => (
+                <li key={`${src.label}-${src.url}`}>
+                  <a href={safeHref(src.url) ?? "#"} target="_blank" rel="noopener noreferrer">
+                    <span>{src.label}</span>
+                    <ExternalLink aria-hidden="true" />
+                  </a>
+                  <small>Verified {src.verifiedOn}</small>
+                </li>
+              ))}
+            </ul>
+          </article>
         </section>
       </section>
     </div>
@@ -1144,45 +1221,11 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
 }
 
 /**
- * Dedicated PESO Malaybalay Hub Page (/peso AND peso.bettermalaybalay.cloud)
- * Combines full standardized PESO Office Profile + prominent Job Opportunities Board
- * + Flagship DOLE/City Programs.
+ * Dedicated PESO Malaybalay Hub Page (/peso, /offices/peso, AND peso.bettermalaybalay.cloud)
+ * Unified without duplicate program showcases.
  */
 export function PesoPortalPage() {
-  return (
-    <div className="peso-hub-wrapper">
-      <OfficeLandingPage slugOverride="peso" />
-      <section className="section container peso-dole-programs-section" aria-labelledby="peso-programs-showcase">
-        <span className="eyebrow">DOLE Region 10 &amp; LGU Malaybalay Collaboration</span>
-        <h2 id="peso-programs-showcase">Key Employment, Livelihood &amp; Youth Programs</h2>
-        <div className="peso-programs-showcase-grid">
-          {PESO_PROGRAMS_HIGHLIGHTS.map((prog) => (
-            <article key={prog.id} className="bettermc-surface-card peso-program-showcase-card">
-              <div className="special-body-top">
-                <span className="office-acronym-pill">{prog.shortTag}</span>
-                <span>{prog.partnerAgency}</span>
-              </div>
-              <h3>{prog.title}</h3>
-              <p>{prog.summary}</p>
-              <dl>
-                <div>
-                  <dt>Eligibility</dt>
-                  <dd>{prog.eligibility}</dd>
-                </div>
-                <div>
-                  <dt>How to Avail</dt>
-                  <dd>{prog.howToAvail}</dd>
-                </div>
-              </dl>
-              <a href={safeHref(prog.sourceUrl) ?? "#"} target="_blank" rel="noopener noreferrer">
-                {prog.sourceLabel} <ExternalLink aria-hidden="true" />
-              </a>
-            </article>
-          ))}
-        </div>
-      </section>
-    </div>
-  );
+  return <OfficeLandingPage slugOverride="peso" />;
 }
 
 /**
@@ -1193,12 +1236,10 @@ export function JobsDirectoryPage() {
     <>
       <section className="page-hero page-hero-compact">
         <div className="container">
-          <span className="eyebrow">PESO Malaybalay City — Employment Facilitation</span>
           <h1>Job Vacancies, Job Fairs &amp; Livelihood Programs</h1>
           <p>
-            Search verified PESO Malaybalay programs, DOLE student/emergency employment pathways,
-            and Civil Service Commission Form No. 9 government vacancy records without sifting
-            through scattered social feeds.
+            Search active PESO Malaybalay programs, DOLE student/emergency employment pathways,
+            and Civil Service Commission Form No. 9 government vacancy records.
           </p>
           <div className="hero-actions" style={{ marginTop: 18 }}>
             <Link className="button primary" to="/peso">
@@ -1237,12 +1278,9 @@ export function JobDetailPage() {
 
   if (!item) {
     return (
-      <section className="section container card" style={{ marginTop: 32, marginBottom: 48 }}>
-        <span className="eyebrow">Job Opportunity Not Found</span>
+      <section className="section container bettermc-surface-card" style={{ marginTop: 32, marginBottom: 48, padding: 28 }}>
         <h1>Opportunity record unavailable</h1>
-        <p>
-          This listing may have been removed, archived, or relocated.
-        </p>
+        <p>This listing may have been removed, archived, or relocated.</p>
         <div className="hero-actions" style={{ marginTop: 16 }}>
           <Link className="button primary" to="/jobs">
             Back to Job Opportunities
@@ -1259,6 +1297,7 @@ export function JobDetailPage() {
   const safeApply = safeHref(item.applicationUrl);
   const safeSrc = safeHref(item.sourceUrl);
   const safePoster = safeHref(item.posterUrl);
+  const comp = opportunityCompensationDisplay(item);
 
   return (
     <>
@@ -1267,12 +1306,11 @@ export function JobDetailPage() {
           <Link className="page-hero-backlink" to="/jobs">
             <ArrowLeft aria-hidden="true" /> All PESO &amp; City Opportunities
           </Link>
-          <div className="office-dir-badges" style={{ marginTop: 12 }}>
-            <span className="office-category-pill">
-              {OPPORTUNITY_TYPE_LABELS[item.opportunityType]}
-            </span>
-            <LifecycleBadge status={lifecycle.displayStatus} label={lifecycle.label} />
-          </div>
+          <p className="job-detail-kicker">
+            <span>{OPPORTUNITY_TYPE_LABELS[item.opportunityType]}</span>
+            <span aria-hidden="true">·</span>
+            <StatusLabel status={lifecycle.displayStatus} label={lifecycle.label} />
+          </p>
           <h1>{item.title}</h1>
           <p>{item.employer}</p>
         </div>
@@ -1356,8 +1394,8 @@ export function JobDetailPage() {
                   </div>
                 ) : null}
                 <div>
-                  <dt><Award aria-hidden="true" /> {opportunityCompensationDisplay(item).label}</dt>
-                  <dd>{opportunityCompensationDisplay(item).value}</dd>
+                  <dt><Award aria-hidden="true" /> {comp.label}</dt>
+                  <dd>{comp.value}</dd>
                 </div>
                 <div>
                   <dt><Calendar aria-hidden="true" /> Published Date</dt>
@@ -1365,7 +1403,10 @@ export function JobDetailPage() {
                 </div>
                 <div>
                   <dt><Clock aria-hidden="true" /> Deadline / Status</dt>
-                  <dd>{item.deadlineDate || (item.isRecurringProgram ? "Ongoing recurring program" : "Until filled / per PESO notice")}</dd>
+                  <dd>
+                    {item.deadlineDate ||
+                      (item.isRecurringProgram ? "Ongoing recurring program" : "Until filled / per PESO notice")}
+                  </dd>
                 </div>
               </dl>
 
