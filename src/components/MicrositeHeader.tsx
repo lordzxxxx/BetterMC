@@ -123,7 +123,6 @@ export function MicrositeHeader({ context }: { context: MicrositeHeaderContext }
               <span className="microsite-brand-main" />
               <span className="microsite-brand-wordmark" />
             </span>
-            <span className="microsite-brand-divider" aria-hidden="true" />
             <span className="microsite-brand-title">
               <strong>Uswag Malaybalay</strong>
             </span>

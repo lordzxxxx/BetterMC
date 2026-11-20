@@ -423,9 +423,33 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
         "https://www.bettermalaybalay.cloud",
       );
       await expect(msHeader.locator(".microsite-brand-title")).toContainText("Uswag Malaybalay");
-      const markBox = await msHeader.locator(".microsite-brand-main").boundingBox();
-      expect(markBox).toBeTruthy();
-      expect(Math.abs((markBox?.width ?? 0) - (markBox?.height ?? 0))).toBeLessThanOrEqual(1);
+      await expect(msHeader.locator(".microsite-brand-divider")).toHaveCount(0);
+      const brandMetrics = await msHeader.evaluate((header) => {
+        const brand = header.querySelector(".microsite-brand");
+        const assets = header.querySelector(".microsite-brand-assets");
+        const main = header.querySelector(".microsite-brand-main");
+        const wordmark = header.querySelector(".microsite-brand-wordmark");
+        const strong = header.querySelector(".microsite-brand-title strong");
+        if (!brand || !assets || !main || !wordmark || !strong) return null;
+        return {
+          gap: getComputedStyle(brand).gap,
+          assetsWidth: assets.getBoundingClientRect().width,
+          mainWidth: main.getBoundingClientRect().width,
+          mainHeight: main.getBoundingClientRect().height,
+          wordmarkWidth: wordmark.getBoundingClientRect().width,
+          wordmarkHeight: wordmark.getBoundingClientRect().height,
+          titleFontSize: parseFloat(getComputedStyle(strong).fontSize),
+        };
+      });
+      expect(brandMetrics).toEqual({
+        gap: "11px",
+        assetsWidth: 70,
+        mainWidth: 44,
+        mainHeight: 34,
+        wordmarkWidth: 66,
+        wordmarkHeight: 18,
+        titleFontSize: 20,
+      });
       await expect(
         msHeader.locator(".microsite-section-nav a", { hasText: entry.anchorText }),
       ).toHaveAttribute("href", entry.anchorHref);
