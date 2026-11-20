@@ -458,7 +458,7 @@ export function GovernmentOfficesDirectoryPage() {
               Open PESO &amp; Job Opportunities <ArrowRight aria-hidden="true" />
             </Link>
             <Link className="button secondary" to="/government">
-              City Officials &amp; Hotlines
+              City Officials &amp; Measures
             </Link>
           </div>
         </div>
