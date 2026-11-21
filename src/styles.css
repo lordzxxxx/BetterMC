@@ -9596,6 +9596,24 @@ kbd {
   line-height: 1.45;
 }
 
+.data-notice a {
+  display: inline;
+  color: #123e9b;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 2px;
+}
+
+.data-notice a svg {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  margin-left: 4px;
+  vertical-align: -2px;
+  flex: none;
+}
+
 /* Service finder: equal-density cards and short, specific actions */
 .home-services {
   padding-top: 44px;
@@ -10643,34 +10661,85 @@ kbd {
 }
 
 .procurement-page-nav a {
-  min-height: 48px;
+  min-height: 46px;
   display: grid;
   place-items: center;
-  padding: 10px 12px;
+  padding: 10px 14px;
   border: 1px solid transparent;
   border-radius: 12px;
   color: var(--navy);
-  font-size: 0.84rem;
-  font-weight: 750;
+  font-size: 0.85rem;
+  font-weight: 700;
   line-height: 1.2;
   text-align: center;
   transition:
     background-color 160ms ease,
     border-color 160ms ease,
-    color 160ms ease;
+    color 160ms ease,
+    box-shadow 160ms ease;
 }
 
 .procurement-page-nav a:hover,
 .procurement-page-nav a:focus-visible {
-  border-color: rgba(37, 99, 235, 0.26);
-  background: rgba(255, 255, 255, 0.62);
+  border-color: rgba(29, 95, 209, 0.28);
+  background: rgba(255, 255, 255, 0.72);
+  color: #123e9b;
 }
 
 .procurement-page-nav a.active {
-  border-color: rgba(37, 99, 235, 0.32);
-  background: rgba(255, 255, 255, 0.82);
-  color: var(--blue);
-  box-shadow: 0 8px 20px rgba(40, 99, 168, 0.08);
+  border-color: rgba(29, 95, 209, 0.42);
+  background: #ffffff;
+  color: #123e9b;
+  font-weight: 750;
+  box-shadow: 0 4px 14px rgba(18, 62, 155, 0.12);
+}
+
+.transparency-hub-page {
+  display: grid;
+  gap: 20px;
+}
+
+.disclosure-catalog-section {
+  display: grid;
+  gap: 14px;
+}
+
+.disclosure-catalog-section .section-heading {
+  margin-bottom: 4px;
+}
+
+.disclosure-catalog-section .toolbar {
+  margin-top: 0;
+}
+
+.disclosure-catalog-section .results-summary {
+  margin-top: 0;
+}
+
+.transparency-hub-page .source-review-callout,
+.transparency-hub-page .procurement-sources,
+.transparency-hub-page .dpwh-ledger {
+  margin-top: 8px;
+}
+
+.record-empty-state {
+  padding: 24px 20px;
+  border: 1px dashed #c6d7ea;
+  border-radius: 16px;
+  background: #f8fbff;
+  text-align: center;
+}
+
+.record-empty-state strong {
+  display: block;
+  color: #102b50;
+  font-size: 0.94rem;
+}
+
+.record-empty-state p {
+  margin: 4px 0 0;
+  color: #5c708a;
+  font-size: 0.84rem;
 }
 
 .procurement-page-summary {
@@ -11478,34 +11547,10 @@ body {
 
 .page-access-panel > .page-access-heading {
   grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 3px 4px 11px;
-  border-bottom: 1px solid #dbe7f2;
-}
-
-.page-access-heading-icon {
-  width: 38px;
-  height: 38px;
-  display: grid;
-  place-items: center;
-  flex: none;
-  border: 1px solid #c9ddef;
-  border-radius: 11px;
-  color: #145fc5;
-  background: #edf5fc;
-}
-
-.page-access-heading-icon svg {
-  width: 18px;
-  height: 18px;
-}
-
-.page-access-heading > span:last-child {
-  min-width: 0;
   display: grid;
   gap: 2px;
+  padding: 4px 4px 11px;
+  border-bottom: 1px solid #dbe7f2;
 }
 
 .page-access-heading strong {
@@ -11538,12 +11583,12 @@ body {
 }
 
 .page-access-panel > a {
-  min-height: 58px;
+  min-height: 54px;
   display: grid;
-  grid-template-columns: 34px minmax(0, 1fr) 15px;
+  grid-template-columns: minmax(0, 1fr) 15px;
   align-items: center;
   gap: 10px;
-  padding: 9px 11px;
+  padding: 10px 12px;
   border: 1px solid #e1ebf5;
   border-radius: 12px;
   color: #294766;
@@ -11552,22 +11597,6 @@ body {
     border-color 150ms ease,
     background-color 150ms ease,
     transform 150ms ease;
-}
-
-.page-access-item-icon {
-  width: 34px;
-  height: 34px;
-  display: grid;
-  place-items: center;
-  border: 1px solid #dce8f4;
-  border-radius: 9px;
-  background: #f1f7fe;
-  color: #175bc0;
-}
-
-.page-access-item-icon svg {
-  width: 16px;
-  height: 16px;
 }
 
 .page-access-item-copy {
@@ -11600,14 +11629,6 @@ body {
   color: #0c4da3;
   background: #eef6fd;
   transform: translateY(-1px);
-}
-
-.page-access-panel > a:hover .page-access-item-icon,
-.page-access-panel > a:focus-visible .page-access-item-icon,
-.page-access-panel > a.is-active .page-access-item-icon {
-  border-color: #9ec4ea;
-  background: #ffffff;
-  color: #0d55b3;
 }
 
 .page-access-panel > a.is-active {
@@ -11890,40 +11911,17 @@ body {
 }
 
 .home-hotlines-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 14px 18px;
-  flex-wrap: wrap;
+  display: block;
 }
 
 .home-hotlines-heading-copy {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  min-width: 0;
-  flex: 1 1 320px;
-}
-
-.home-hotlines-icon {
-  width: 42px;
-  height: 42px;
   display: grid;
-  place-items: center;
-  flex: none;
-  border: 1px solid rgba(198, 89, 76, 0.28);
-  border-radius: 12px;
-  color: #b43c32;
-  background: #fff0ee;
-}
-
-.home-hotlines-icon svg {
-  width: 20px;
-  height: 20px;
+  gap: 3px;
+  min-width: 0;
 }
 
 .home-hotlines-heading-copy h2 {
-  margin: 4px 0 3px;
+  margin: 2px 0 1px;
   color: #102b4e;
   font-size: clamp(1.22rem, 1.9vw, 1.5rem);
   line-height: 1.15;
@@ -11935,33 +11933,6 @@ body {
   color: #516785;
   font-size: 0.85rem;
   line-height: 1.45;
-}
-
-.home-hotlines-all-link {
-  min-height: 40px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 13px;
-  border: 1px solid #bfd7ef;
-  border-radius: 11px;
-  background: #edf5fe;
-  color: #1153ad;
-  font-size: 0.8rem;
-  font-weight: 700;
-  white-space: nowrap;
-  transition: background-color 150ms ease, border-color 150ms ease;
-}
-
-.home-hotlines-all-link:hover,
-.home-hotlines-all-link:focus-visible {
-  background: #dfeeff;
-  border-color: #8ebae5;
-}
-
-.home-hotlines-all-link svg {
-  width: 15px;
-  height: 15px;
 }
 
 .home-hotline-quickbar {
@@ -12212,11 +12183,6 @@ body {
 
   .home-hotlines-header {
     gap: 10px;
-  }
-
-  .home-hotlines-all-link {
-    width: 100%;
-    justify-content: center;
   }
 
   .home-hotlines-grid {
@@ -17131,9 +17097,9 @@ body {
 }
 
 .service-stat-badge.is-origin {
-  background: #ecfdf5;
-  border-color: #a7f3d0;
-  color: #065f46;
+  background: #eff5ff;
+  border-color: #bfdbfe;
+  color: #123e9b;
 }
 
 .service-stat-badge svg {
@@ -17209,9 +17175,9 @@ body {
 }
 
 .service-readiness-pill.is-ready {
-  color: #065f46;
-  background: #ecfdf5;
-  border-color: #a7f3d0;
+  color: #123e9b;
+  background: #eff5ff;
+  border-color: #bfdbfe;
 }
 
 .service-tx-subtitle {
@@ -17244,8 +17210,8 @@ body {
 }
 
 .service-req-item.is-checked {
-  border-color: #86efac;
-  background: #f0fdf4;
+  border-color: #93c5fd;
+  background: #eff5ff;
 }
 
 .service-req-item input[type="checkbox"] {
@@ -17253,7 +17219,7 @@ body {
   height: 18px;
   margin-top: 2px;
   cursor: pointer;
-  accent-color: #16a34a;
+  accent-color: #164fbf;
   flex-shrink: 0;
 }
 
@@ -17265,7 +17231,7 @@ body {
 }
 
 .service-req-item.is-checked .service-req-text {
-  color: #14532d;
+  color: #071a3d;
 }
 
 .service-steps-list {
@@ -20861,8 +20827,8 @@ pre {
 }
 
 .newsletter-verification-tag.is-confirmed {
-  background: #e3f7ec;
-  color: #0d6838;
+  background: #dbe8ff;
+  color: #123e9b;
 }
 
 .newsletter-verification-tag.is-verified {
@@ -21308,19 +21274,96 @@ pre {
 }
 
 .table-source-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: 6px;
+  display: inline;
   color: #123e9b;
-  font-size: 0.79rem;
+  font-size: 0.8rem;
   font-weight: 600;
+  line-height: 1.45;
   text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
 }
 
 .table-source-link svg {
+  display: inline-block;
   width: 13px;
   height: 13px;
+  margin-left: 4px;
+  vertical-align: -2px;
+  flex: none;
+}
+
+/* Budget Transparency Explorer & Allocations Table */
+.budget-explorer-toolbar {
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.budget-allocations-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.budget-col-year {
+  width: 15%;
+}
+
+.budget-col-scope {
+  width: 19%;
+}
+
+.budget-col-sector {
+  width: 20%;
+}
+
+.budget-col-program {
+  width: 17%;
+}
+
+.budget-col-amount {
+  width: 15%;
+}
+
+.budget-col-source {
+  width: 14%;
+}
+
+.budget-scope-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.budget-scope-badge.is-local {
+  border-color: #bfdbfe;
+  background: #eff5ff;
+  color: #123e9b;
+}
+
+.budget-scope-badge.is-national {
+  border-color: #cbd5e1;
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.budget-scope-cell small {
+  margin-top: 6px;
+}
+
+.budget-amount-cell strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.table-empty-state {
+  padding: 26px 16px;
+  text-align: center;
+  color: #566c89;
+  font-size: 0.86rem;
 }
 
 /* Legislative Hearings Page */
@@ -21854,8 +21897,85 @@ pre {
 .table-record-open svg { width: 15px; height: 15px; }
 .table-record-open:focus-visible { outline: 3px solid #77a8e8; outline-offset: 3px; }
 .bac-report-snapshot-note { margin: 10px 0 0; color: #526b86; font-size: .8rem; line-height: 1.5; }
-@media (max-width: 900px) { .procurement-index .bid-record-list { grid-template-columns: repeat(2,minmax(0,1fr)); } }
-@media (max-width: 760px) { .hearings-page .hearings-toolbar, .procurement-index-head, .hearings-cards-grid, .procurement-index .bid-record-list { grid-template-columns: minmax(0,1fr); } .hearings-page .hearings-toolbar { padding: 14px; } .procurement-page > .procurement-page-summary { grid-template-columns: repeat(2,minmax(0,1fr)); } .procurement-page > .procurement-page-summary > div:last-child { grid-column: 1 / -1; min-height: 54px; } .record-dialog-backdrop { padding: 8px; } .record-dialog { max-height: calc(100dvh - 16px); border-radius: 12px; } .record-dialog-head, .record-dialog-body { padding: 16px; } .record-dialog-facts div { grid-template-columns: minmax(0,1fr); gap: 2px; } }
+@media (max-width: 900px) {
+  .procurement-index .bid-record-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .budget-explorer-toolbar { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 860px) {
+  .bac-entries-table-wrap {
+    overflow: visible;
+    border: none;
+    background: transparent;
+  }
+  .bac-entries-table,
+  .budget-allocations-table {
+    table-layout: auto;
+  }
+  .budget-allocations-table col {
+    width: auto !important;
+  }
+  .bac-entries-table,
+  .bac-entries-table thead,
+  .bac-entries-table tbody,
+  .bac-entries-table tr,
+  .bac-entries-table td {
+    display: block;
+    width: 100%;
+  }
+  .bac-entries-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .bac-entries-table tbody {
+    display: grid;
+    gap: 12px;
+  }
+  .bac-entries-table tr {
+    padding: 14px 16px;
+    border: 1px solid #c7dcf1;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(16, 43, 83, 0.04);
+  }
+  .bac-entries-table td {
+    padding: 9px 0;
+    border-bottom: 1px solid #edf3fa;
+  }
+  .bac-entries-table td:first-child {
+    padding-top: 2px;
+  }
+  .bac-entries-table td:last-child {
+    border-bottom: none;
+    padding-bottom: 2px;
+  }
+  .bac-entries-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 4px;
+    color: #566c89;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .bac-entries-table td[colspan]::before {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .hearings-page .hearings-toolbar, .procurement-index-head, .hearings-cards-grid, .procurement-index .bid-record-list { grid-template-columns: minmax(0,1fr); }
+  .hearings-page .hearings-toolbar { padding: 14px; }
+  .procurement-page > .procurement-page-summary { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .procurement-page > .procurement-page-summary > div:last-child { grid-column: 1 / -1; min-height: 54px; }
+  .record-dialog-backdrop { padding: 8px; }
+  .record-dialog { max-height: calc(100dvh - 16px); border-radius: 12px; }
+  .record-dialog-head, .record-dialog-body { padding: 16px; }
+  .record-dialog-facts div { grid-template-columns: minmax(0,1fr); gap: 2px; }
+}
 @media (prefers-reduced-motion: reduce) { .record-dialog, .record-card-open { scroll-behavior: auto; transition: none; } }
 
 /* Public record and directory refinements */
@@ -21865,7 +21985,9 @@ pre {
   .hearings-page,
   .legislation-detail-page,
   .government-directory-section,
-  .procurement-page {
+  .procurement-page,
+  .budget-transparency-page,
+  .transparency-hub-page {
     width: min(1420px, calc(100% - 80px));
   }
 }
@@ -23512,7 +23634,7 @@ pre {
 .peso-status-tabs button.is-active { background: #14499e; border-color: #14499e; color: #fff; font-weight: 600; }
 
 .peso-status-text { font-weight: 600; }
-.peso-status-text.is-active { color: #166534; }
+.peso-status-text.is-active { color: #123e9b; }
 .peso-status-text.is-closing-soon { color: #9a4a06; }
 .peso-status-text.is-recurring-program { color: #14499e; }
 .peso-status-text.is-expired { color: #991b1b; }
@@ -24348,9 +24470,9 @@ body.is-microsite [id] {
 }
 
 .bmc-checklist-progress.is-complete {
-  border-color: #86efac;
-  background: #ecfdf3;
-  color: #166534;
+  border-color: #93c5fd;
+  background: #eff5ff;
+  color: #123e9b;
 }
 
 .bmc-checklist-progress svg {
@@ -24376,7 +24498,7 @@ body.is-microsite [id] {
 }
 
 .bmc-checklist-progress-fill.is-complete {
-  background: #16a34a;
+  background: #123e9b;
 }
 
 .bmc-checklist-subtitle {
@@ -24718,15 +24840,15 @@ body.is-microsite [id] {
 }
 
 .bmc-checklist-item.is-checked {
-  border-color: #86efac;
-  background: #f0fdf4;
+  border-color: #93c5fd;
+  background: #eff5ff;
 }
 
 .bmc-checklist-checkbox {
   width: 19px;
   height: 19px;
   margin: 2px 0 0;
-  accent-color: #15803d;
+  accent-color: #164fbf;
   cursor: pointer;
   flex-shrink: 0;
 }
@@ -24755,7 +24877,7 @@ body.is-microsite [id] {
 }
 
 .bmc-checklist-item.is-checked .bmc-checklist-en {
-  color: #14532d;
+  color: #071a3d;
   text-decoration: line-through;
   text-decoration-color: rgba(20, 83, 45, 0.55);
 }
@@ -24772,8 +24894,8 @@ body.is-microsite [id] {
   height: 22px;
   margin-top: 1px;
   border-radius: 999px;
-  background: #dcfce7;
-  color: #15803d;
+  background: #dbe8ff;
+  color: #123e9b;
   flex-shrink: 0;
 }
 
