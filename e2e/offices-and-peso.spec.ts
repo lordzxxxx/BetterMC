@@ -65,7 +65,12 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
 
     await assertAlignedCardGrid(page, ".office-dir-card", ".office-dir-summary", [
       ".office-dir-top",
+      ".office-dir-summary",
       ".office-dir-facts",
+      ".office-dir-fact-row:nth-child(1)",
+      ".office-dir-fact-row:nth-child(2)",
+      ".office-dir-fact-row:nth-child(3)",
+      ".office-dir-fact-row:nth-child(4)",
       ".office-dir-actions",
     ]);
     await assertAlignedCardGrid(page, ".special-body-card", "p:not(.special-body-meta)", [
