@@ -384,6 +384,9 @@ describe("BetterMC public portal", () => {
       "href",
       "tel:09533852277",
     );
+    expect(
+      hotlines.queryByRole("link", { name: /All city hotlines/i }),
+    ).not.toBeInTheDocument();
   });
 
   it("searches direct portal destinations across record types", () => {
@@ -1353,7 +1356,31 @@ describe("BetterMC public portal", () => {
         name: /Legislative & Budget Hearings/i,
       }),
     ).not.toBeInTheDocument();
+    const catalogSection = document.getElementById("full-disclosure-catalog");
+    const dpwhHeading = document.getElementById("dpwh-ledger-title");
+    expect(catalogSection).not.toBeNull();
+    expect(dpwhHeading).not.toBeNull();
+    expect(
+      Boolean(
+        catalogSection!.compareDocumentPosition(dpwhHeading!) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ),
+    ).toBe(true);
     transparencyView.unmount();
+
+    // Budget (/budget) renders BetterMC-styled single-line scope badges without green tags
+    const budgetView = render(
+      <MemoryRouter initialEntries={["/budget"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    const localBadge = document.querySelector(".budget-scope-badge.is-local");
+    expect(localBadge).not.toBeNull();
+    expect(localBadge).toHaveTextContent("Local LGU Malaybalay");
+    expect(
+      document.querySelector(".budget-allocations-table .newsletter-verification-tag.is-confirmed"),
+    ).toBeNull();
+    budgetView.unmount();
 
     // 3. Legislation (/legislation) is exclusively for Published Ordinances & Executive Issuances
     const legislationView = render(

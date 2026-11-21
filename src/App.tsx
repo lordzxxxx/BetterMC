@@ -43,7 +43,6 @@ import {
   House,
   IdCard,
   Landmark,
-  LayoutGrid,
   Leaf,
   Mail,
   MapPin,
@@ -225,27 +224,6 @@ const navItems = [
   { label: "Procurement", to: "/procurement/livestreams" },
   { label: "Transparency", to: "/transparency" },
 ];
-
-const sitePageIcons: Record<string, ReactNode> = {
-  "/": <House aria-hidden="true" />,
-  "/offices": <Building2 aria-hidden="true" />,
-  "/services": <BookOpen aria-hidden="true" />,
-  "/documents": <FileCheck2 aria-hidden="true" />,
-  "/barangays": <MapPin aria-hidden="true" />,
-  "/education": <GraduationCap aria-hidden="true" />,
-  "/government": <Users aria-hidden="true" />,
-  "/legislation": <Scale aria-hidden="true" />,
-  "/budget": <BarChart3 aria-hidden="true" />,
-  "/transparency": <FileText aria-hidden="true" />,
-  "/procurement/livestreams": <BriefcaseBusiness aria-hidden="true" />,
-  "/procurement/infrastructure-awards": <Landmark aria-hidden="true" />,
-  "/hearings": <Clock3 aria-hidden="true" />,
-  "/offices?sector=Public%20Safety%20%26%20Emergency": (
-    <ShieldAlert aria-hidden="true" />
-  ),
-  "/participate": <HandHeart aria-hidden="true" />,
-  "/about": <Compass aria-hidden="true" />,
-};
 
 function isSitePageCurrent(to: string, pathname: string, search: string): boolean {
   const isEmergencySector =
@@ -729,11 +707,8 @@ function Header() {
                 inert={!pagesOpen}
               >
                 <div className="page-access-heading">
-                  <span className="page-access-heading-icon"><LayoutGrid aria-hidden="true" /></span>
-                  <span>
-                    <strong>Browse BetterMC</strong>
-                    <small>Go directly to any key section of the public information portal.</small>
-                  </span>
+                  <strong>Browse BetterMC</strong>
+                  <small>Go directly to any key section of the public information portal.</small>
                 </div>
                 {sitePageGroups.map((group) => (
                   <Fragment key={group}>
@@ -753,9 +728,6 @@ function Header() {
                             to={page.to}
                             onClick={() => setPagesOpen(false)}
                           >
-                            <span className="page-access-item-icon">
-                              {sitePageIcons[page.to]}
-                            </span>
                             <span className="page-access-item-copy">
                               <strong>{page.label}</strong>
                               <small>{page.description}</small>
@@ -1477,23 +1449,12 @@ function HomeEmergencyHotlines() {
       <div className="home-hotlines-shell">
         <div className="home-hotlines-header">
           <div className="home-hotlines-heading-copy">
-            <span className="home-hotlines-icon" aria-hidden="true">
-              <ShieldAlert />
-            </span>
-            <div>
-              <span className="eyebrow">Emergency &amp; public safety · Verified active</span>
-              <h2 id="home-emergency-title">Emergency hotlines</h2>
-              <p>
-                Direct one-click numbers for Malaybalay 24/7 rescue, fire, police, medical, road, crisis, and power response.
-              </p>
-            </div>
+            <span className="eyebrow">Emergency &amp; public safety · Verified active</span>
+            <h2 id="home-emergency-title">Emergency hotlines</h2>
+            <p>
+              Direct one-click numbers for Malaybalay 24/7 rescue, fire, police, medical, road, crisis, and power response.
+            </p>
           </div>
-          <Link
-            className="home-hotlines-all-link"
-            to="/offices?sector=Public%20Safety%20%26%20Emergency"
-          >
-            All city hotlines <ArrowRight aria-hidden="true" />
-          </Link>
         </div>
 
         <div
@@ -2841,36 +2802,43 @@ function BacLivestreamMonitoringPage() {
             <tbody>
               {filteredEntries.map((entry) => (
                 <tr key={entry.id}>
-                  <td>
+                  <td data-label="Reference & Activity">
                     <strong>{entry.referenceCode}</strong>
                     <small>{entry.activityType}</small>
                     <button type="button" className="table-record-open" onClick={() => setOpenEntryId(entry.id)}>View record <ArrowRight aria-hidden="true" /></button>
                   </td>
-                  <td>
+                  <td data-label="Project Name & Agency">
                     <strong>{entry.projectName}</strong>
                     <small>{entry.participatingAgencyOrBarangay}</small>
                   </td>
-                  <td>{entry.identifiedContractorOrBidder}</td>
-                  <td>
+                  <td data-label="Contractor / Bidder">{entry.identifiedContractorOrBidder}</td>
+                  <td data-label="Proposed Budget (ABC)">
                     <strong>{formatBudget(entry.proposedBudgetAbc)}</strong>
                     <small>{entry.approvedAmountNote}</small>
                   </td>
-                  <td>
+                  <td data-label="Procurement Status">
                     <span>{entry.procurementStatus}</span>
                     <small>{entry.scheduleOrPeriod}</small>
                   </td>
-                  <td>
+                  <td data-label="Verification & Source">
                     <a
                       href={entry.sourceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="table-source-link"
                     >
-                      {entry.sourceLabel} <ExternalLink aria-hidden="true" />
+                      {entry.sourceLabel}<ExternalLink aria-hidden="true" />
                     </a>
                   </td>
                 </tr>
               ))}
+              {filteredEntries.length === 0 && (
+                <tr className="table-empty-row">
+                  <td colSpan={6} className="table-empty-state">
+                    No documented BAC entries match the selected filter.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -3161,7 +3129,7 @@ function BudgetTransparencyPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                BetterGov.PH Budget (hgab/2027/overview) <ExternalLink aria-hidden="true" />
+                BetterGov.PH Budget (hgab/2027/overview)<ExternalLink aria-hidden="true" />
               </a>
               . National line items are never presented as local City Hall appropriations.
             </p>
@@ -3289,6 +3257,14 @@ function BudgetTransparencyPage() {
 
           <div className="bac-entries-table-wrap">
             <table className="bac-entries-table budget-allocations-table">
+              <colgroup>
+                <col className="budget-col-year" />
+                <col className="budget-col-scope" />
+                <col className="budget-col-sector" />
+                <col className="budget-col-program" />
+                <col className="budget-col-amount" />
+                <col className="budget-col-source" />
+              </colgroup>
               <thead>
                 <tr>
                   <th scope="col">Fiscal Year &amp; Stage</th>
@@ -3302,16 +3278,16 @@ function BudgetTransparencyPage() {
               <tbody>
                 {filteredAllocations.map((item) => (
                   <tr key={item.id}>
-                    <td>
+                    <td data-label="Fiscal Year & Stage" className="budget-year-cell">
                       <strong>{item.fiscalYear}</strong>
                       <small>{item.fundingStage}</small>
                     </td>
-                    <td>
+                    <td data-label="Scope & Classification" className="budget-scope-cell">
                       <span
-                        className={`newsletter-verification-tag ${
+                        className={`budget-scope-badge ${
                           item.scope.startsWith("Malaybalay")
-                            ? "is-confirmed"
-                            : "is-verified"
+                            ? "is-local"
+                            : "is-national"
                         }`}
                       >
                         {item.scope.startsWith("Malaybalay")
@@ -3320,26 +3296,33 @@ function BudgetTransparencyPage() {
                       </span>
                       <small>{item.classification}</small>
                     </td>
-                    <td>
+                    <td data-label="Sector / Department">
                       <strong>{item.sectorOrDepartment}</strong>
                     </td>
-                    <td>{item.programOrProject}</td>
-                    <td>
+                    <td data-label="Program, Project, or Activity">{item.programOrProject}</td>
+                    <td data-label="Amount & Context" className="budget-amount-cell">
                       <strong>{formatMoney(item.amount)}</strong>
                       <small>{item.amountNote}</small>
                     </td>
-                    <td>
+                    <td data-label="Source Reference" className="budget-source-cell">
                       <a
                         href={item.sourceUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="table-source-link"
                       >
-                        {item.sourceLabel} <ExternalLink aria-hidden="true" />
+                        {item.sourceLabel}<ExternalLink aria-hidden="true" />
                       </a>
                     </td>
                   </tr>
                 ))}
+                {filteredAllocations.length === 0 && (
+                  <tr className="table-empty-row">
+                    <td colSpan={6} className="table-empty-state">
+                      No budget or allocation entries match the selected filters.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -3388,7 +3371,7 @@ function TransparencyPage() {
         title="Public records, with their context intact."
         description="Browse the City Government’s Full Disclosure listings. Availability here means a record was listed by the official source; it is not a legal-compliance rating."
       />
-      <section className="section container">
+      <section className="section container transparency-hub-page">
         <nav className="procurement-page-nav" aria-label="Transparency and budget sections">
           <NavLink to="/transparency" end>Full Disclosure Catalog</NavLink>
           <NavLink to="/budget">Budget Transparency Hub</NavLink>
@@ -3402,6 +3385,130 @@ function TransparencyPage() {
               infer that an appropriation was spent, or that an unlisted record
               proves noncompliance.
             </p>
+          </div>
+        </div>
+        <div id="full-disclosure-catalog" className="disclosure-catalog-section">
+          <SectionHeading
+            eyebrow="Full Disclosure Catalog"
+            title="City Government public disclosure listings"
+          >
+            Browse FY 2022–2026 postings across budget, procurement, financial,
+            utilization, staffing, and GAD records.
+          </SectionHeading>
+          <div className="toolbar">
+            <label>
+              <span>Search records</span>
+              <div className="input-wrap">
+                <Search />
+                <input
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search document titles"
+                />
+              </div>
+            </label>
+            <label>
+              <span>Fiscal year</span>
+              <select
+                value={year}
+                onChange={(event) => updateParam("year", event.target.value)}
+              >
+                {[2026, 2025, 2024, 2023, 2022].map((value) => (
+                  <option key={value}>{value}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              <span>Quarter</span>
+              <select
+                value={quarter}
+                onChange={(event) => updateParam("quarter", event.target.value)}
+              >
+                {["All", "Annual", "Q1", "Q2", "Q3", "Q4"].map((value) => (
+                  <option key={value}>{value}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              <span>Category</span>
+              <select
+                value={category}
+                onChange={(event) => updateParam("category", event.target.value)}
+              >
+                {[
+                  "All",
+                  "Budget",
+                  "Procurement",
+                  "Financial",
+                  "Utilization",
+                  "Staffing",
+                  "GAD",
+                ].map((value) => (
+                  <option key={value}>{value}</option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className="results-summary">
+            <strong>{rows.length} records</strong>
+            <span>Source checked {VERIFIED_ON}</span>
+          </div>
+          <div className="records-list">
+            {rows.length === 0 ? (
+              <article className="record-empty-state">
+                <strong>No disclosure records match your current filter.</strong>
+                <p>
+                  Try clearing the search query or selecting another Fiscal Year,
+                  Quarter, or Category.
+                </p>
+              </article>
+            ) : (
+              rows.map((record) => (
+                <article
+                  key={`${record.year}-${record.quarter}-${record.title}`}
+                  className="is-interactive-card"
+                  onClick={() => setActiveRecordPopout(record)}
+                >
+                  <div className="record-icon" aria-hidden="true">
+                    <DisclosureCategoryIcon category={record.category} />
+                  </div>
+                  <div className="record-main">
+                    <div className="record-meta">
+                      <span>{record.category}</span>
+                      <span>{record.year}</span>
+                      <span>{record.quarter}</span>
+                    </div>
+                    <h2>{record.title}</h2>
+                    <p
+                      className={
+                        record.status.startsWith("Not")
+                          ? "unavailable"
+                          : "available"
+                      }
+                    >
+                      {record.status.startsWith("Not") ? (
+                        <CircleAlert />
+                      ) : (
+                        <Check />
+                      )}
+                      {record.status}
+                    </p>
+                  </div>
+                  <Link
+                    className="record-link"
+                    to={`/transparency/${record.year}/${record.quarter.toLowerCase()}/${disclosureSlug(record.title)}`}
+                    aria-label={`View context for ${record.title}`}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      setActiveRecordPopout(record);
+                    }}
+                  >
+                    View record details <ArrowRight />
+                  </Link>
+                </article>
+              ))
+            )}
           </div>
         </div>
         <aside
@@ -3428,7 +3535,6 @@ function TransparencyPage() {
             Open official catalog <ExternalLink aria-hidden="true" />
           </a>
         </aside>
-        <DpwhInfrastructureLedger />
         <div className="procurement-sources">
           <SectionHeading
             eyebrow="Procurement records"
@@ -3460,111 +3566,7 @@ function TransparencyPage() {
             other records; BetterMC does not relabel them as awarded projects.
           </p>
         </div>
-        <div className="toolbar">
-          <label>
-            <span>Search records</span>
-            <div className="input-wrap">
-              <Search />
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search document titles"
-              />
-            </div>
-          </label>
-          <label>
-            <span>Fiscal year</span>
-            <select
-              value={year}
-              onChange={(event) => updateParam("year", event.target.value)}
-            >
-              {[2026, 2025, 2024, 2023, 2022].map((value) => (
-                <option key={value}>{value}</option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>Quarter</span>
-            <select
-              value={quarter}
-              onChange={(event) => updateParam("quarter", event.target.value)}
-            >
-              {["All", "Annual", "Q1", "Q2", "Q3", "Q4"].map((value) => (
-                <option key={value}>{value}</option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>Category</span>
-            <select
-              value={category}
-              onChange={(event) => updateParam("category", event.target.value)}
-            >
-              {[
-                "All",
-                "Budget",
-                "Procurement",
-                "Financial",
-                "Utilization",
-                "Staffing",
-                "GAD",
-              ].map((value) => (
-                <option key={value}>{value}</option>
-              ))}
-            </select>
-          </label>
-        </div>
-        <div className="results-summary">
-          <strong>{rows.length} records</strong>
-          <span>Source checked {VERIFIED_ON}</span>
-        </div>
-        <div className="records-list">
-          {rows.map((record) => (
-            <article
-              key={`${record.year}-${record.quarter}-${record.title}`}
-              className="is-interactive-card"
-              onClick={() => setActiveRecordPopout(record)}
-            >
-              <div className="record-icon" aria-hidden="true">
-                <DisclosureCategoryIcon category={record.category} />
-              </div>
-              <div className="record-main">
-                <div className="record-meta">
-                  <span>{record.category}</span>
-                  <span>{record.year}</span>
-                  <span>{record.quarter}</span>
-                </div>
-                <h2>{record.title}</h2>
-                <p
-                  className={
-                    record.status.startsWith("Not")
-                      ? "unavailable"
-                      : "available"
-                  }
-                >
-                  {record.status.startsWith("Not") ? (
-                    <CircleAlert />
-                  ) : (
-                    <Check />
-                  )}
-                  {record.status}
-                </p>
-              </div>
-              <Link
-                className="record-link"
-                to={`/transparency/${record.year}/${record.quarter.toLowerCase()}/${disclosureSlug(record.title)}`}
-                aria-label={`View context for ${record.title}`}
-                onClick={(event) => {
-                  event.preventDefault();
-                  event.stopPropagation();
-                  setActiveRecordPopout(record);
-                }}
-              >
-                View record details <ArrowRight />
-              </Link>
-            </article>
-          ))}
-        </div>
+        <DpwhInfrastructureLedger />
         {activeRecordPopout && (
           <div
             className="barangay-popout-backdrop"

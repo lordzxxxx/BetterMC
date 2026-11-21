@@ -230,7 +230,7 @@ test("homepage exposes local and national service pathways", async ({ page }) =>
   ).toHaveAttribute("href", "tel:09178276117");
   await expect(
     hotlinesSection.getByRole("link", { name: /All city hotlines/i }),
-  ).toHaveAttribute("href", "/offices?sector=Public%20Safety%20%26%20Emergency");
+  ).toHaveCount(0);
   await expect(hotlinesSection.locator(".home-hotline-card")).toHaveCount(6);
   await page
     .locator(".service-category-grid article")
@@ -672,4 +672,61 @@ test("service sectors, city offices, and schools display verified logos, populat
     () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
   );
   expect(overflow).toBe(false);
+});
+
+test("transparency defaults to Full Disclosure Catalog and budget page keeps table alignment without green off-brand tags", async ({
+  page,
+}) => {
+  await page.goto("/transparency");
+
+  const catalog = page.locator("#full-disclosure-catalog");
+  const dpwhHeading = page.locator("#dpwh-ledger-title");
+  await expect(catalog).toBeVisible();
+  await expect(catalog.locator(".records-list article").first()).toBeVisible();
+
+  const [catalogBox, dpwhBox] = await Promise.all([
+    catalog.boundingBox(),
+    dpwhHeading.boundingBox(),
+  ]);
+  expect(catalogBox).not.toBeNull();
+  expect(dpwhBox).not.toBeNull();
+  expect(catalogBox!.y).toBeLessThan(dpwhBox!.y);
+
+  // Switch to Budget Transparency Hub via section navigation and verify layout & styling
+  await page
+    .getByRole("navigation", { name: "Transparency and budget sections" })
+    .getByRole("link", { name: "Budget Transparency Hub" })
+    .click();
+  await expect(page).toHaveURL(/\/budget$/);
+
+  const firstBadge = page.locator(".budget-allocations-table .budget-scope-badge.is-local").first();
+  await expect(firstBadge).toBeVisible();
+  await expect(firstBadge).toHaveText("Local LGU Malaybalay");
+
+  const badgeMetrics = await firstBadge.evaluate((el) => {
+    const rect = el.getBoundingClientRect();
+    const style = window.getComputedStyle(el);
+    return {
+      height: rect.height,
+      backgroundColor: style.backgroundColor,
+    };
+  });
+  // Single-line badge pill and BetterMC blue background (not pale mint green)
+  expect(badgeMetrics.height).toBeLessThan(34);
+  expect(badgeMetrics.backgroundColor).not.toBe("rgb(227, 247, 236)");
+
+  // External link icon inside .table-source-link flows inline instead of floating in a separate column
+  const linkLayout = await page
+    .locator(".budget-allocations-table .table-source-link")
+    .first()
+    .evaluate((el) => {
+      const style = window.getComputedStyle(el);
+      return { display: style.display };
+    });
+  expect(linkLayout.display).toBe("inline");
+
+  const hasOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+  );
+  expect(hasOverflow).toBe(false);
 });
