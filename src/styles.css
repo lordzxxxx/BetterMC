@@ -6661,21 +6661,7 @@ kbd {
   margin-top: 8px;
 }
 
-/* Keep hotline access compact: phone links are the emphasis, not a large CTA. */
 @media (max-width: 640px) {
-  .home-emergency-heading {
-    grid-template-columns: 36px minmax(0, 1fr) auto;
-    align-items: center;
-  }
-
-  .home-emergency-heading > a {
-    grid-column: auto;
-    width: auto;
-    min-height: 36px;
-    padding: 6px 8px;
-    font-size: 0.72rem;
-  }
-
   .source-review-callout {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -11887,178 +11873,365 @@ body {
   }
 }
 
-/* Mobile-first service discovery: emergency access precedes category browsing. */
-.home-emergency {
+/* Dashboard Emergency Hotlines section right after Weather. */
+.home-hotlines-section {
+  padding-top: 10px;
+  padding-bottom: 26px;
+}
+
+.home-hotlines-shell {
   display: grid;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid #d5e3f1;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #ffffff 0%, #f6faff 100%);
+  box-shadow: 0 12px 30px rgba(16, 48, 96, 0.06);
+}
+
+.home-hotlines-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px 18px;
+  flex-wrap: wrap;
+}
+
+.home-hotlines-heading-copy {
+  display: flex;
+  align-items: flex-start;
   gap: 12px;
-  margin: 0 0 14px;
-  padding: 14px;
-  border: 1px solid rgba(160, 190, 223, 0.64);
-  border-radius: 16px;
-  background: rgba(248, 252, 255, 0.76);
-  box-shadow: 0 10px 28px rgba(19, 70, 127, 0.07);
-  backdrop-filter: blur(18px) saturate(130%);
-  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  min-width: 0;
+  flex: 1 1 320px;
 }
 
-.home-emergency-heading {
-  display: grid;
-  grid-template-columns: 38px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 11px;
-}
-
-.home-emergency-icon {
-  width: 38px;
-  height: 38px;
+.home-hotlines-icon {
+  width: 42px;
+  height: 42px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(198, 89, 76, 0.26);
-  border-radius: 11px;
-  color: #b44a41;
-  background: rgba(255, 237, 234, 0.88);
+  flex: none;
+  border: 1px solid rgba(198, 89, 76, 0.28);
+  border-radius: 12px;
+  color: #b43c32;
+  background: #fff0ee;
 }
 
-.home-emergency-icon svg {
-  width: 19px;
-  height: 19px;
+.home-hotlines-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
-.home-emergency-heading h2 {
+.home-hotlines-heading-copy h2 {
+  margin: 4px 0 3px;
+  color: #102b4e;
+  font-size: clamp(1.22rem, 1.9vw, 1.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.home-hotlines-heading-copy p {
   margin: 0;
-  color: #142b4c;
-  font-size: 0.92rem;
+  color: #516785;
+  font-size: 0.85rem;
+  line-height: 1.45;
 }
 
-.home-emergency-heading p {
-  margin: 2px 0 0;
-  color: #536984;
-  font-size: 0.78rem;
-  line-height: 1.4;
-}
-
-.home-emergency-heading > a {
-  min-height: 38px;
+.home-hotlines-all-link {
+  min-height: 40px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 10px;
-  border: 1px solid rgba(79, 127, 182, 0.34);
-  border-radius: 10px;
-  color: #0e56b3;
-  background: rgba(236, 246, 255, 0.82);
-  font-size: 0.78rem;
-  font-weight: 800;
+  padding: 8px 13px;
+  border: 1px solid #bfd7ef;
+  border-radius: 11px;
+  background: #edf5fe;
+  color: #1153ad;
+  font-size: 0.8rem;
+  font-weight: 700;
   white-space: nowrap;
+  transition: background-color 150ms ease, border-color 150ms ease;
 }
 
-.home-emergency-heading > a svg {
+.home-hotlines-all-link:hover,
+.home-hotlines-all-link:focus-visible {
+  background: #dfeeff;
+  border-color: #8ebae5;
+}
+
+.home-hotlines-all-link svg {
   width: 15px;
   height: 15px;
 }
 
-.home-hotline-list {
+.home-hotline-quickbar {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
+  gap: 10px;
 }
 
-.home-hotline-list > a {
+.home-hotline-quick-btn {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 16px;
+  align-items: center;
+  gap: 10px;
   min-width: 0;
   min-height: 52px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  border: 1px solid rgba(131, 171, 211, 0.34);
-  border-radius: 11px;
-  color: #173b6d;
-  background: rgba(255, 255, 255, 0.58);
-  transition: border-color 160ms var(--ease-out), background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+  padding: 9px 12px;
+  border: 1px solid #d5e4f3;
+  border-radius: 13px;
+  background: #ffffff;
+  color: #143662;
+  text-decoration: none;
+  transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
 }
 
-.home-hotline-list > a:hover,
-.home-hotline-list > a:focus-visible {
+.home-hotline-quick-btn.is-urgent {
+  border-color: rgba(196, 65, 55, 0.34);
+  background: linear-gradient(135deg, #fff5f4 0%, #ffffff 100%);
+}
+
+.home-hotline-quick-btn:hover,
+.home-hotline-quick-btn:focus-visible {
   border-color: #2365bb;
-  background: rgba(238, 247, 255, 0.96);
+  background: #eef6ff;
   transform: translateY(-1px);
 }
 
-.home-hotline-list svg {
-  width: 17px;
-  height: 17px;
-  flex: none;
-  color: #1460bd;
+.home-hotline-quick-btn.is-urgent:hover,
+.home-hotline-quick-btn.is-urgent:focus-visible {
+  border-color: #c8332b;
+  background: #fff1ef;
 }
 
-.home-hotline-list span {
+.home-hotline-quick-badge {
+  min-width: 46px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  background: #e8f1fd;
+  color: #1352a8;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+.home-hotline-quick-btn.is-urgent .home-hotline-quick-badge {
+  background: #c8332b;
+  color: #ffffff;
+}
+
+.home-hotline-quick-copy {
   min-width: 0;
   display: grid;
   gap: 1px;
 }
 
-.home-hotline-list small,
-.home-hotline-list strong {
+.home-hotline-quick-copy strong {
+  color: #102a4c;
+  font-size: 0.85rem;
+  line-height: 1.2;
+}
+
+.home-hotline-quick-copy small {
+  color: #586e8a;
+  font-size: 0.71rem;
+  line-height: 1.25;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.home-hotline-list small {
-  color: #5d7290;
-  font-size: 0.67rem;
-  font-weight: 700;
+.home-hotline-quick-btn svg {
+  width: 16px;
+  height: 16px;
+  color: #1458b3;
 }
 
-.home-hotline-list strong {
-  color: #153f77;
-  font-size: 0.8rem;
+.home-hotline-quick-btn.is-urgent svg {
+  color: #c8332b;
+}
+
+.home-hotlines-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.home-hotline-card {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #d9e7f4;
+  border-radius: 14px;
+  background: #ffffff;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.home-hotline-card:hover {
+  border-color: #acc9e8;
+  box-shadow: 0 8px 20px rgba(17, 65, 130, 0.06);
+}
+
+.home-hotline-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.home-hotline-category {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #eef5fd;
+  color: #1a539e;
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.home-hotline-office-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #2f5b93;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.home-hotline-office-link svg {
+  width: 13px;
+  height: 13px;
+}
+
+.home-hotline-office-link:hover,
+.home-hotline-office-link:focus-visible {
+  color: #0e4a9a;
+  text-decoration: underline;
+}
+
+.home-hotline-card-body h3 {
+  margin: 0;
+  color: #112b4f;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.28;
+}
+
+.home-hotline-card-body p {
+  margin: 4px 0 0;
+  color: #566d8a;
+  font-size: 0.76rem;
+  line-height: 1.38;
+}
+
+.home-hotline-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.home-hotline-call-primary,
+.home-hotline-call-secondary {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  font-size: 0.81rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.home-hotline-call-primary {
+  flex: 1 1 132px;
+  border: 1px solid #1659b5;
+  background: #1659b5;
+  color: #ffffff;
+}
+
+.home-hotline-call-primary:hover,
+.home-hotline-call-primary:focus-visible {
+  background: #0f4898;
+  border-color: #0f4898;
+}
+
+.home-hotline-call-primary svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+.home-hotline-call-secondary {
+  flex: 0 1 auto;
+  border: 1px solid #c9ddef;
+  background: #f3f8fe;
+  color: #17498c;
+  font-size: 0.78rem;
+}
+
+.home-hotline-call-secondary:hover,
+.home-hotline-call-secondary:focus-visible {
+  background: #e5f0fc;
+  border-color: #9ec0e4;
+}
+
+@media (max-width: 960px) {
+  .home-hotline-quickbar {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .home-hotlines-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 640px) {
-  .home-emergency {
-    gap: 10px;
-    margin-bottom: 12px;
-    padding: 12px;
-    border-radius: 15px;
+  .home-hotlines-section {
+    padding-top: 6px;
+    padding-bottom: 20px;
   }
 
-  .home-emergency-heading {
-    grid-template-columns: 36px minmax(0, 1fr) auto;
+  .home-hotlines-shell {
+    gap: 11px;
+    padding: 13px;
+    border-radius: 16px;
+  }
+
+  .home-hotlines-header {
+    gap: 10px;
+  }
+
+  .home-hotlines-all-link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .home-hotlines-grid {
+    grid-template-columns: 1fr;
     gap: 9px;
   }
 
-  .home-emergency-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
+  .home-hotline-card {
+    padding: 12px;
+    gap: 9px;
   }
 
-  .home-emergency-heading > a {
-    grid-column: auto;
-    width: auto;
-    min-height: 36px;
-    justify-content: flex-start;
-    padding: 6px 8px;
-    font-size: 0.72rem;
-  }
-
-  .home-hotline-list {
-    grid-template-columns: 1fr;
-    gap: 7px;
-  }
-
-  .home-hotline-list > a {
-    min-height: 48px;
-    padding: 7px 10px;
-  }
-
-  .home-hotline-list small {
-    font-size: 0.66rem;
-  }
-
-  .home-hotline-list strong {
-    font-size: 0.78rem;
+  .home-hotline-call-primary,
+  .home-hotline-call-secondary {
+    flex: 1 1 120px;
   }
 
   .service-category-grid.is-compact {
