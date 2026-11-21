@@ -35,7 +35,8 @@ import {
 } from "../governmentOffices";
 import { officePersonnelBySlug } from "../officePersonnel";
 import { groupRequirementsIntoSections, slugifyFilename } from "../requirementTranslations";
-import { InteractiveChecklist } from "./InteractiveChecklist";
+import type { ChecklistPdfPacket } from "../utils/checklistPdf";
+import { DownloadAllChecklistsButton, InteractiveChecklist } from "./InteractiveChecklist";
 import {
   CSC_FORM_9_2024_URL,
   INITIAL_PESO_OPPORTUNITIES,
@@ -764,6 +765,38 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
             Show All ({counts.total})
           </button>
         </div>
+
+        {visibleItems.some(({ item }) => item.requirements.length > 0) ? (
+          <div className="peso-batch-checklist-row">
+            <span>
+              Want every listed opportunity requirement at once? Download one combined bilingual PDF packet.
+            </span>
+            <DownloadAllChecklistsButton
+              label={`Download All Opportunity Checklists (${visibleItems.filter(({ item }) => item.requirements.length > 0).length})`}
+              count={visibleItems.filter(({ item }) => item.requirements.length > 0).length}
+              title="PESO Malaybalay — Job & Program Requirements Packet"
+              subtitle="Combined bilingual checklists & application steps for listed opportunities"
+              entityLabel="PESO Employment & Programs"
+              packets={visibleItems
+                .filter(({ item }) => item.requirements.length > 0)
+                .map(({ item }) => ({
+                  title: item.title,
+                  subtitle: item.employer,
+                  metadata: [
+                    { label: "Location", value: item.location },
+                    ...(item.deadlineDate ? [{ label: "Deadline", value: item.deadlineDate }] : []),
+                  ],
+                  sections: groupRequirementsIntoSections(item.requirements, `job-${item.slug}`).map((s) => ({
+                    title: s.title,
+                    titleBisaya: s.titleBisaya,
+                    items: s.items,
+                  })),
+                  steps: item.applicationProcess,
+                }))}
+              filename="peso-all-opportunity-checklists.pdf"
+            />
+          </div>
+        ) : null}
       </div>
 
       {visibleItems.length === 0 ? (
@@ -889,6 +922,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
   const office = canonicalSlug ? governmentOfficeBySlug.get(canonicalSlug) : undefined;
   const [serviceSearch, setServiceSearch] = useState("");
   const [openServiceIndex, setOpenServiceIndex] = useState<number | null>(0);
+  const [expandAllServices, setExpandAllServices] = useState(false);
   const [expandedUnits, setExpandedUnits] = useState<Record<string, boolean>>({});
 
   if (!office) {
@@ -1276,7 +1310,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                 Public Services Offered ({office.services.length})
               </h2>
               <p className="office-section-subtitle">
-                Documented transactions, fees, processing times, and documentary checklists.
+                Documented transactions, fees, processing times, and bilingual documentary checklists.
               </p>
             </div>
             {office.services.length > 4 ? (
@@ -1292,9 +1326,73 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
             ) : null}
           </div>
 
+          {(() => {
+            const checklistServices = filteredServices.filter(
+              (s) => (s.requirements?.length ?? 0) > 0,
+            );
+            if (checklistServices.length === 0) return null;
+            const packets: ChecklistPdfPacket[] = checklistServices.map((service, sIdx) => ({
+              title: service.title,
+              whoMayAvail: service.whoMayAvail,
+              metadata: [
+                { label: "Fee", value: service.fee },
+                { label: "Processing time", value: service.processingTime },
+                ...(service.classification
+                  ? [{ label: "Classification", value: service.classification }]
+                  : []),
+              ],
+              sections: groupRequirementsIntoSections(
+                service.requirements ?? [],
+                `office-${office.slug}-all-${sIdx}`,
+              ),
+              steps: service.steps,
+            }));
+            return (
+              <div className="bmc-batch-guide-bar">
+                <div className="bmc-batch-guide-copy">
+                  <strong>Complete Office Checklist &amp; Citizen Guide</strong>
+                  <p>
+                    {checklistServices.length > 1
+                      ? `Download all ${checklistServices.length} documentary checklists and step-by-step guides for ${office.shortName} in one PDF—no need to download each service separately.`
+                      : `Check off requirements below or download the complete printable bilingual checklist and guide for ${office.shortName}.`}
+                  </p>
+                </div>
+                <div className="bmc-batch-guide-actions">
+                  {checklistServices.length > 1 ? (
+                    <button
+                      type="button"
+                      className="bmc-expand-all-btn"
+                      onClick={() => setExpandAllServices((prev) => !prev)}
+                    >
+                      {expandAllServices ? "Collapse All" : `Expand All (${checklistServices.length})`}
+                    </button>
+                  ) : null}
+                  <DownloadAllChecklistsButton
+                    label={
+                      checklistServices.length > 1
+                        ? `Download All Checklists (${checklistServices.length})`
+                        : "Download Checklist PDF"
+                    }
+                    count={checklistServices.length}
+                    title={`${office.name} — Complete Documentary Checklists & Guides`}
+                    subtitle={`Address: ${office.address} · Hours: ${office.operatingHours}`}
+                    entityLabel={office.shortName}
+                    metadata={[
+                      { label: "Contact", value: office.phoneNumbers[0] ?? "See directory" },
+                      ...(office.emails[0] ? [{ label: "Email", value: office.emails[0] }] : []),
+                    ]}
+                    packets={packets}
+                    filename={`${office.slug}-all-checklists.pdf`}
+                  />
+                </div>
+              </div>
+            );
+          })()}
+
           <div className="office-services-accordion">
             {filteredServices.map((service, idx) => {
-              const isOpen = openServiceIndex === idx || (service.requirements?.length ?? 0) === 0;
+              const isOpen =
+                expandAllServices || openServiceIndex === idx || (service.requirements?.length ?? 0) === 0;
               return (
                 <article key={service.title} className="office-service-card bettermc-surface-card">
                   <div className="office-service-head">
@@ -1317,7 +1415,14 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                         type="button"
                         className="office-expand-btn"
                         aria-expanded={isOpen}
-                        onClick={() => setOpenServiceIndex(openServiceIndex === idx ? null : idx)}
+                        onClick={() => {
+                          if (expandAllServices) {
+                            setExpandAllServices(false);
+                            setOpenServiceIndex(idx);
+                          } else {
+                            setOpenServiceIndex(openServiceIndex === idx ? null : idx);
+                          }
+                        }}
                       >
                         {isOpen ? "Hide checklist" : "Requirements & steps"}
                         <ChevronDown aria-hidden="true" />
@@ -1342,6 +1447,12 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                               service.requirements,
                               `office-${office.slug}-${idx}`,
                             )}
+                            steps={service.steps}
+                            guideNote={
+                              service.whoMayAvail
+                                ? `Eligible applicants: ${service.whoMayAvail}. Submit at ${office.address} (${office.operatingHours}).`
+                                : `Submit at ${office.address} (${office.operatingHours}).`
+                            }
                             downloadTitle={service.title}
                             downloadSubtitle={`${office.name} · City Government of Malaybalay`}
                             entityLabel={office.shortName}
@@ -1366,9 +1477,15 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                       {service.steps && service.steps.length > 0 ? (
                         <div className="office-service-steps-col">
                           <h4>Step-by-Step Procedure</h4>
-                          <ol>
-                            {service.steps.map((step) => (
-                              <li key={step}>{step}</li>
+                          <p className="bmc-steps-guide-hint">
+                            Follow these numbered steps in order when submitting your documents:
+                          </p>
+                          <ol className="bmc-steps-guide-list">
+                            {service.steps.map((step, sIdx) => (
+                              <li key={step}>
+                                <span className="bmc-step-badge">{sIdx + 1}</span>
+                                <span>{step}</span>
+                              </li>
                             ))}
                           </ol>
                         </div>
@@ -1697,11 +1814,13 @@ export function JobDetailPage() {
 
             <InteractiveChecklist
               title="Documentary Requirements"
-              subtitle="Check off each requirement you have prepared before applying or downloading your checklist copy."
+              subtitle="Check off each requirement you have prepared before applying or downloading your complete checklist and application guide."
               sections={groupRequirementsIntoSections(
                 item.requirements,
                 `job-${item.slug}`,
               )}
+              steps={item.applicationProcess}
+              guideNote={`How to apply: ${item.employer} (${item.location}). Follow the step-by-step instructions below.`}
               downloadTitle={item.title}
               downloadSubtitle={`${item.employer} · PESO Malaybalay`}
               entityLabel="PESO Opportunity Checklist"

@@ -94,17 +94,46 @@ describe("bilingual interactive checklist & downloadable PDF system", () => {
     expect(checkBoxes[1].isChecked()).toBe(false);
   });
 
-  it("supports multi-page pagination when generating large combined checklists", async () => {
+  it("supports multi-page pagination and combined multi-service packet PDFs with steps", async () => {
     const longList = Object.keys(REQUIREMENT_BISAYA_MAP).slice(0, 32);
     const bytes = await generateChecklistPdfBytes({
       title: "Combined Public Service Documentary Checklist",
       subtitle: "Malaybalay City Complete Verification Packet",
       sections: groupRequirementsIntoSections(longList, "long-test"),
+      steps: [
+        "Gather all required documents and valid IDs.",
+        "Submit your packet at the designated New City Hall counter.",
+      ],
       filename: "long-checklist.pdf",
     });
     const loaded = await PDFDocument.load(bytes);
     expect(loaded.getPageCount()).toBeGreaterThanOrEqual(2);
     expect(loaded.getForm().getFields()).toHaveLength(32);
+
+    // Combined "Download All Checklists" packet mode across multiple PESO Charter services
+    const batchBytes = await generateChecklistPdfBytes({
+      title: "PESO Malaybalay — All Service Checklists",
+      subtitle: "Complete citizen packet",
+      sections: [],
+      packets: PESO_CHARTER_SERVICES_2026.slice(0, 3).map((s, idx) => ({
+        title: s.title,
+        whoMayAvail: s.whoMayAvail,
+        metadata: [
+          { label: "Fee", value: s.fee },
+          { label: "Processing time", value: s.processingTime },
+        ],
+        sections: groupRequirementsIntoSections(s.requirements, `batch-${idx}`),
+        steps: s.steps,
+      })),
+      filename: "peso-batch.pdf",
+    });
+    const expectedTotalReqs = PESO_CHARTER_SERVICES_2026.slice(0, 3).reduce(
+      (sum, s) => sum + s.requirements.length,
+      0,
+    );
+    const batchDoc = await PDFDocument.load(batchBytes);
+    expect(batchDoc.getPageCount()).toBeGreaterThanOrEqual(1);
+    expect(batchDoc.getForm().getFields()).toHaveLength(expectedTotalReqs);
   });
 
   it("toggles checkboxes independently, updates completion state, and resets cleanly", () => {
