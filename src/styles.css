@@ -24047,20 +24047,25 @@ body.is-microsite [id] {
 }
 
 .bmc-checklist-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px 16px;
+  display: grid;
+  gap: 8px;
   padding-bottom: 12px;
   border-bottom: 1px solid #dde8f6;
+}
+
+.bmc-checklist-header-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 14px;
 }
 
 .bmc-checklist-heading-group {
   display: grid;
   gap: 4px;
   min-width: 0;
-  flex: 1 1 240px;
+  flex: 1 1 200px;
 }
 
 .bmc-checklist-title-row {
@@ -24109,9 +24114,30 @@ body.is-microsite [id] {
   height: 13px;
 }
 
+.bmc-checklist-progress-track {
+  width: 100%;
+  height: 5px;
+  border-radius: 999px;
+  background: #e2ecf8;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.bmc-checklist-progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: #1a54b5;
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+
+.bmc-checklist-progress-fill.is-complete {
+  background: #16a34a;
+}
+
 .bmc-checklist-subtitle {
-  margin: 0;
-  font-size: 0.85rem;
+  margin: 2px 0 0;
+  font-size: 0.83rem;
   color: #4d627c;
   line-height: 1.48;
 }
@@ -24203,11 +24229,17 @@ body.is-microsite [id] {
 
 .bmc-checklist-section-head {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 4px 12px;
-  padding: 2px 2px 0;
+  gap: 8px 12px;
+  padding: 4px 2px 2px;
+}
+
+.bmc-checklist-section-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
 .bmc-checklist-section-head h5 {
@@ -24217,6 +24249,195 @@ body.is-microsite [id] {
   text-transform: uppercase;
   letter-spacing: 0.045em;
   color: #20436f;
+  line-height: 1.3;
+}
+
+.bmc-checklist-section-count {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #eaf2fc;
+  color: #2c4e79;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+/* Batch Download Guide Bar & Numbered Step Guide Companion */
+
+.bmc-batch-guide-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 20px;
+  margin-bottom: 16px;
+  padding: 16px 20px;
+  border: 1px solid #c3d8f0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f3f8ff 0%, #eaf2fd 100%);
+}
+
+.bmc-batch-guide-copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  flex: 1 1 320px;
+}
+
+.bmc-batch-guide-copy strong {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #0e2444;
+  line-height: 1.3;
+}
+
+.bmc-batch-guide-copy p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #3d5573;
+  line-height: 1.48;
+}
+
+.bmc-batch-guide-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.bmc-download-all-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 9px 16px;
+  border: 1px solid #123e88;
+  border-radius: 10px;
+  background: #174ca6;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.25;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(23, 76, 166, 0.16);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.bmc-download-all-btn:hover:not(:disabled) {
+  background: #113c87;
+  border-color: #0d2f6a;
+}
+
+.bmc-download-all-btn:disabled {
+  opacity: 0.68;
+  cursor: wait;
+}
+
+.bmc-download-all-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.bmc-expand-all-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid #bfd3ec;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #194480;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.bmc-expand-all-btn:hover {
+  background: #f5f9ff;
+  border-color: #8eb3e0;
+}
+
+.peso-batch-checklist-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 14px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e3edf8;
+}
+
+.peso-batch-checklist-row > span {
+  font-size: 0.84rem;
+  color: #415875;
+  line-height: 1.45;
+}
+
+.bmc-steps-guide-hint {
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  color: #4f647e;
+  line-height: 1.45;
+}
+
+.office-service-details .bmc-steps-guide-list {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.office-service-details .bmc-steps-guide-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 10px 13px;
+  border: 1px solid #dce7f4;
+  border-radius: 11px;
+  background: #f9fbfe;
+  font-size: 0.88rem;
+  color: #1e324d;
+  line-height: 1.48;
+}
+
+.bmc-step-badge {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #1a54b5;
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+@media (max-width: 640px) {
+  .bmc-batch-guide-bar {
+    padding: 14px;
+  }
+  .bmc-batch-guide-actions {
+    width: 100%;
+  }
+  .bmc-download-all-btn,
+  .bmc-expand-all-btn {
+    width: 100%;
+  }
+  .peso-batch-checklist-row .bmc-download-all-btn {
+    width: 100%;
+  }
 }
 
 .bmc-checklist-section-bisaya {

@@ -131,7 +131,7 @@ import {
   PesoPortalPage,
 } from "./components/OfficeAndPesoPages";
 import { MicrositeHeader } from "./components/MicrositeHeader";
-import { InteractiveChecklist } from "./components/InteractiveChecklist";
+import { DownloadAllChecklistsButton, InteractiveChecklist } from "./components/InteractiveChecklist";
 import {
   buildBarangayChecklistSections,
   buildDocumentGuideSections,
@@ -139,6 +139,7 @@ import {
   groupRequirementsIntoSections,
   slugifyFilename,
 } from "./requirementTranslations";
+import type { ChecklistPdfPacket } from "./utils/checklistPdf";
 import {
   resolveStandaloneMicrosite,
   type MicrositeHeaderContext,
@@ -4174,6 +4175,13 @@ function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) 
             title="Enrollment & School Records Checklist"
             subtitle="Check off each requirement as you prepare your enrollment or student credential request. Confirm campus deadlines and forms directly with the school."
             sections={buildSchoolChecklistSections(item)}
+            steps={[
+              "Gather student identity records (PSA Birth Certificate / Learner Reference Number / Valid ID).",
+              "Prepare your latest academic report card (SF9 / Form 138) or transfer credentials (SF10 / Good Moral Certificate).",
+              `Confirm enrollment dates, grade sectioning, or slot availability directly with ${item.contactPerson ?? item.leadership ?? "the School Head / Registrar"}.`,
+              "Submit your complete packet on campus or through the institution's official announcement portal.",
+            ]}
+            guideNote={`School location: ${item.address}. Reach out to: ${item.contactPerson ?? item.leadership ?? "School Head or DepEd Malaybalay Division (0907-688-9009)"}.`}
             downloadTitle={`${item.name} — Enrollment & Records Checklist`}
             downloadSubtitle={`${item.type} · ${item.levels.join(" · ")}${item.barangay ? ` · Barangay ${item.barangay}` : ""}`}
             entityLabel={item.name}
@@ -4225,8 +4233,47 @@ function DocumentGuidePage() {
   const selectedGuides = documentGuides.filter((guide) => selected.includes(guide.slug));
   const checklistSections = buildDocumentGuideSections(selectedGuides);
   const selectedKey = selectedGuides.map((g) => g.slug).join("+") || "none";
-  return <><PageHero eyebrow="One-stop document guide" title="Build a verified starting checklist." description="Select services to combine their published starting requirements. The issuing office remains authoritative for current forms, fees, and release times." compact />
-    <section className="section container civic-directory-page"><div className="civic-card-grid">{documentGuides.map((guide) => { const active = selected.includes(guide.slug); return <article className="civic-record-card" key={guide.slug}><div className="record-meta"><span>{guide.scope}</span><span>{guide.status}</span></div><h2>{guide.title}</h2><p>{guide.office}</p><dl><div><dt>Fees</dt><dd>{guide.fees}</dd></div><div><dt>Processing time</dt><dd>{guide.processingTime}</dd></div></dl><ol className="civic-steps">{guide.steps.map((step) => <li key={step}>{step}</li>)}</ol><button className="button secondary" type="button" aria-pressed={active} onClick={() => setSelected((current) => active ? current.filter((value) => value !== guide.slug) : [...current, guide.slug])}>{active ? "Remove from checklist" : "Add to checklist"}</button><a className="civic-source-link" href={guide.source.url} target="_blank" rel="noreferrer">Open official reference <ExternalLink aria-hidden="true" /></a></article>; })}</div>
+  const allDocumentPackets: ChecklistPdfPacket[] = documentGuides.map((guide) => ({
+    title: guide.title,
+    subtitle: `${guide.office} · ${guide.scope} (${guide.status})`,
+    metadata: [
+      { label: "Fees", value: guide.fees },
+      { label: "Processing time", value: guide.processingTime },
+    ],
+    sections: buildDocumentGuideSections([guide]),
+    steps: guide.steps,
+  }));
+  return <><PageHero eyebrow="One-stop document guide" title="Build a verified starting checklist." description="Select services to combine their published starting requirements, or download all service guides in one printable PDF packet." compact />
+    <section className="section container civic-directory-page">
+      <div className="bmc-batch-guide-bar">
+        <div className="bmc-batch-guide-copy">
+          <strong>All-in-One Document Guide Packet</strong>
+          <p>
+            Select individual guides below or download every starting checklist and step-by-step instruction in one printable bilingual PDF.
+          </p>
+        </div>
+        <div className="bmc-batch-guide-actions">
+          {selected.length < documentGuides.length ? (
+            <button
+              type="button"
+              className="bmc-expand-all-btn"
+              onClick={() => setSelected(documentGuides.map((g) => g.slug))}
+            >
+              Select All ({documentGuides.length})
+            </button>
+          ) : null}
+          <DownloadAllChecklistsButton
+            label={`Download All Checklists (${documentGuides.length})`}
+            count={documentGuides.length}
+            title="BetterMC Complete Public Document Guide Packet"
+            subtitle="All source-linked starting checklists, Bisaya guides, and step-by-step procedures"
+            entityLabel="One-Stop Document Guide"
+            packets={allDocumentPackets}
+            filename="bettermc-all-document-checklists.pdf"
+          />
+        </div>
+      </div>
+      <div className="civic-card-grid">{documentGuides.map((guide) => { const active = selected.includes(guide.slug); return <article className="civic-record-card" key={guide.slug}><div className="record-meta"><span>{guide.scope}</span><span>{guide.status}</span></div><h2>{guide.title}</h2><p>{guide.office}</p><dl><div><dt>Fees</dt><dd>{guide.fees}</dd></div><div><dt>Processing time</dt><dd>{guide.processingTime}</dd></div></dl><ol className="civic-steps">{guide.steps.map((step) => <li key={step}>{step}</li>)}</ol><button className="button secondary" type="button" aria-pressed={active} onClick={() => setSelected((current) => active ? current.filter((value) => value !== guide.slug) : [...current, guide.slug])}>{active ? "Remove from checklist" : "Add to checklist"}</button><a className="civic-source-link" href={guide.source.url} target="_blank" rel="noreferrer">Open official reference <ExternalLink aria-hidden="true" /></a></article>; })}</div>
       <aside className="document-checklist" aria-live="polite">
         <div>
           <span className="eyebrow">Custom checklist</span>
@@ -4237,6 +4284,7 @@ function DocumentGuidePage() {
             title="Your Custom Starting Checklist"
             subtitle="Check off prepared documents and download a bilingual English/Bisaya printable PDF copy."
             sections={checklistSections}
+            steps={selectedGuides.flatMap((guide) => guide.steps.map((s) => `${guide.title}: ${s}`))}
             downloadTitle="My BetterMC Document Checklist"
             downloadSubtitle={`${selectedGuides.length} selected public service guide${selectedGuides.length === 1 ? "" : "s"}`}
             entityLabel="BetterMC Document Guide"
@@ -4263,7 +4311,7 @@ function BarangayDocumentPage() {
   if (!profile) return <NotFoundPage />;
   const guide = documentGuides.find((item) => item.slug === "barangay-certificates-and-clearances");
   if (!guide) return <NotFoundPage />;
-  return <><PageHero eyebrow="Barangay document service" title={`Barangay ${profile.name} document guide`} description="A source-led starting point; confirm requirements and fees with the issuing Barangay Hall." compact><Link className="page-hero-backlink" to={`/barangays/${profile.slug}`}>Return to barangay profile <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-detail-layout"><article className="civic-detail-main"><h2>Certificates and clearances</h2><p>{guide.requirements[0]}</p><ol className="civic-steps">{guide.steps.map((step) => <li key={step}>{step}</li>)}</ol><InteractiveChecklist title={`Barangay ${profile.name} Clearance & Certificate Checklist`} subtitle="Prepare these standard items and confirm exact forms and fees directly with the Barangay Hall." sections={buildBarangayChecklistSections(profile.name)} downloadTitle={`Barangay ${profile.name} — Clearance & Certificate Checklist`} downloadSubtitle="Starting preparation checklist for Barangay Hall transactions" entityLabel={`Barangay ${profile.name}`} downloadFilename={`barangay-${profile.slug}-checklist.pdf`} metadata={[{ label: "Issuing office", value: `Barangay ${profile.name} Hall` }, ...(profile.phone ? [{ label: "Contact", value: profile.phone }] : [])]} storageKey={`barangay-doc-${profile.slug}`} /><dl className="legislation-detail-facts"><div><dt>Issuing office</dt><dd>Barangay {profile.name} Hall</dd></div><div><dt>Fee and processing time</dt><dd>Not published as a citywide standard; confirm directly with Barangay {profile.name}.</dd></div><div><dt>Official contact</dt><dd>{profile.phone ?? profile.email ?? "No direct contact was published in the reviewed directory."}</dd></div></dl></article><aside className="legislation-source-card"><FileCheck2 aria-hidden="true" /><span className="eyebrow">Official reference</span><h2>Confirm the local procedure</h2><p>BetterMC does not publish a template, fee, or release time for this barangay without a matching official source.</p><a className="button primary" href={guide.source.url} target="_blank" rel="noreferrer">Open barangay directory <ExternalLink aria-hidden="true" /></a></aside></section></>;
+  return <><PageHero eyebrow="Barangay document service" title={`Barangay ${profile.name} document guide`} description="A source-led starting point; confirm requirements and fees with the issuing Barangay Hall." compact><Link className="page-hero-backlink" to={`/barangays/${profile.slug}`}>Return to barangay profile <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-detail-layout"><article className="civic-detail-main"><h2>Certificates and clearances</h2><p>{guide.requirements[0]}</p><ol className="civic-steps">{guide.steps.map((step) => <li key={step}>{step}</li>)}</ol><InteractiveChecklist title={`Barangay ${profile.name} Clearance & Certificate Checklist`} subtitle="Prepare these standard items and confirm exact forms and fees directly with the Barangay Hall." sections={buildBarangayChecklistSections(profile.name)} steps={[`Visit or contact Barangay ${profile.name} Hall (${profile.phone ?? "see barangay directory"}) to confirm the exact form and ordinance fee.`, "Bring 1 valid government-issued ID, Cedula, and any local Purok/Sitio endorsement.", "State the clear purpose and recipient office of your clearance or certificate.", "Request an Official Receipt (or invoke RA 11261 First-Time Jobseeker exemption if eligible) upon release."]} guideNote={`Issuing office: Barangay ${profile.name} Hall. Punong Barangay: ${profile.punongBarangay}.`} downloadTitle={`Barangay ${profile.name} — Clearance & Certificate Checklist`} downloadSubtitle="Starting preparation checklist for Barangay Hall transactions" entityLabel={`Barangay ${profile.name}`} downloadFilename={`barangay-${profile.slug}-checklist.pdf`} metadata={[{ label: "Issuing office", value: `Barangay ${profile.name} Hall` }, ...(profile.phone ? [{ label: "Contact", value: profile.phone }] : [])]} storageKey={`barangay-doc-${profile.slug}`} /><dl className="legislation-detail-facts"><div><dt>Issuing office</dt><dd>Barangay {profile.name} Hall</dd></div><div><dt>Fee and processing time</dt><dd>Not published as a citywide standard; confirm directly with Barangay {profile.name}.</dd></div><div><dt>Official contact</dt><dd>{profile.phone ?? profile.email ?? "No direct contact was published in the reviewed directory."}</dd></div></dl></article><aside className="legislation-source-card"><FileCheck2 aria-hidden="true" /><span className="eyebrow">Official reference</span><h2>Confirm the local procedure</h2><p>BetterMC does not publish a template, fee, or release time for this barangay without a matching official source.</p><a className="button primary" href={guide.source.url} target="_blank" rel="noreferrer">Open barangay directory <ExternalLink aria-hidden="true" /></a></aside></section></>;
 }
 
 function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" }) {
@@ -6093,6 +6141,13 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
               title={`Barangay ${profile.name} Clearance & Document Checklist`}
               subtitle="Use this checklist to prepare standard documents and verify barangay-specific forms and fees directly with the Barangay Hall."
               sections={buildBarangayChecklistSections(profile.name)}
+              steps={[
+                `Confirm the specific Barangay ${profile.name} form, ordinance fee, and signatory hours at the Barangay Hall.`,
+                "Bring 1 valid government-issued ID, current Cedula, and any required Purok/Sitio endorsement.",
+                "Specify the exact purpose and recipient office for your Clearance, Indigency, or Residency request.",
+                "Collect your Official Receipt (or claim RA 11261 First-Time Jobseeker exemption if eligible) upon release.",
+              ]}
+              guideNote={`Issuing office: Barangay ${profile.name} Hall · Punong Barangay: ${profile.punongBarangay}${profile.phone ? ` · Contact: ${profile.phone}` : ""}`}
               downloadTitle={`Barangay ${profile.name} — Resident Document Checklist`}
               downloadSubtitle={`PSGC ${profile.code} · Malaybalay City, Bukidnon`}
               entityLabel={`Barangay ${profile.name}`}
@@ -6974,6 +7029,8 @@ function TransactionModal({
                 transaction.requirements,
                 `tx-${transaction.id}`,
               )}
+              steps={transaction.steps}
+              guideNote={`Provider: ${provider.name} · Address: ${provider.address} (${provider.hours}) · E-Payment: ${provider.epaymentChannel}`}
               downloadTitle={transaction.title}
               downloadSubtitle={`${provider.name} · ${provider.jurisdiction}`}
               entityLabel={categoryTitle}
@@ -7523,6 +7580,37 @@ function ServiceCategoryPage() {
             >
               Listed providers serving {originInfo.label}, ordered by approximate distance from barangay coordinates. Travel times are estimates; confirm the route and current requirements with the provider. Open a transaction for its checklist and published steps.
             </SectionHeading>
+
+            <div className="bmc-batch-guide-bar" style={{ marginBottom: 18 }}>
+              <div className="bmc-batch-guide-copy">
+                <strong>Download All {category.title} Checklists</strong>
+                <p>
+                  Get every documentary requirement (English + Bisaya) and step-by-step transaction walkthrough across all {rankedProviders.length} providers in one printable PDF.
+                </p>
+              </div>
+              <div className="bmc-batch-guide-actions">
+                <DownloadAllChecklistsButton
+                  label={`Download All Checklists (${rankedProviders.reduce((n, p) => n + p.transactions.length, 0)})`}
+                  count={rankedProviders.reduce((n, p) => n + p.transactions.length, 0)}
+                  title={`${category.title} — Complete Service Checklists & Walkthroughs`}
+                  subtitle={`${rankedProviders.length} verified Malaybalay service providers (${originInfo.label})`}
+                  entityLabel={category.title}
+                  packets={rankedProviders.flatMap((provider) =>
+                    provider.transactions.map((tx) => ({
+                      title: `${provider.shortName} — ${tx.title}`,
+                      subtitle: `${provider.name} · ${provider.address} (${provider.hours})`,
+                      metadata: [
+                        { label: "Processing", value: tx.processingTime },
+                        { label: "Fees", value: tx.feeSchedule },
+                      ],
+                      sections: groupRequirementsIntoSections(tx.requirements, `cat-${provider.id}-${tx.id}`),
+                      steps: tx.steps,
+                    })),
+                  )}
+                  filename={`bettermc-${slugifyFilename(category.slug)}-all-checklists.pdf`}
+                />
+              </div>
+            </div>
 
             <div className="service-providers-list">
               {rankedProviders.map((provider) => (

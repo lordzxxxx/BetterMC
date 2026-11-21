@@ -80,6 +80,21 @@ test.describe("bilingual interactive checklists and PDF downloads across BetterM
     await page.goto("/offices/peso");
     await verifyChecklistBehaviorAndPdf(page, 2);
 
+    // Download ALL checklists at once on PESO Office page
+    const [batchDl] = await Promise.all([
+      page.waitForEvent("download"),
+      page.getByRole("button", { name: /Download All Checklists \(10\)/i }).click(),
+    ]);
+    expect(batchDl.suggestedFilename()).toBe("peso-all-checklists.pdf");
+    const batchPath = await batchDl.path();
+    const batchDoc = await PDFDocument.load(await readFile(batchPath!));
+    expect(batchDoc.getPageCount()).toBeGreaterThanOrEqual(3);
+    expect(batchDoc.getForm().getFields().length).toBeGreaterThanOrEqual(20);
+
+    // Expand All reveals multiple service checklists simultaneously
+    await page.getByRole("button", { name: /Expand All \(10\)/i }).click();
+    expect(await page.locator("#services .bmc-checklist-card").count()).toBe(10);
+
     await page.goto("/offices/bpld");
     await verifyChecklistBehaviorAndPdf(page, 4);
 
@@ -99,6 +114,15 @@ test.describe("bilingual interactive checklists and PDF downloads across BetterM
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/documents");
     await verifyChecklistBehaviorAndPdf(page, 8);
+
+    // Batch download all 3 document guides at once
+    const [docBatchDl] = await Promise.all([
+      page.waitForEvent("download"),
+      page.getByRole("button", { name: /Download All Checklists \(3\)/i }).click(),
+    ]);
+    expect(docBatchDl.suggestedFilename()).toBe("bettermc-all-document-checklists.pdf");
+    const docBatchDoc = await PDFDocument.load(await readFile((await docBatchDl.path())!));
+    expect(docBatchDoc.getForm().getFields()).toHaveLength(12);
 
     await page.goto("/documents/barangays/casisang");
     await verifyChecklistBehaviorAndPdf(page, 6);
