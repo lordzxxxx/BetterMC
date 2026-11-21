@@ -131,6 +131,14 @@ import {
   PesoPortalPage,
 } from "./components/OfficeAndPesoPages";
 import { MicrositeHeader } from "./components/MicrositeHeader";
+import { InteractiveChecklist } from "./components/InteractiveChecklist";
+import {
+  buildBarangayChecklistSections,
+  buildDocumentGuideSections,
+  buildSchoolChecklistSections,
+  groupRequirementsIntoSections,
+  slugifyFilename,
+} from "./requirementTranslations";
 import {
   resolveStandaloneMicrosite,
   type MicrositeHeaderContext,
@@ -4161,6 +4169,23 @@ function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) 
             <a className="button secondary compact-action" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Open map search <ExternalLink aria-hidden="true" /></a>
           </section>
         </div>
+        <section id="checklist" className="education-profile-section education-checklist-section" aria-label="Enrollment and school records checklist">
+          <InteractiveChecklist
+            title="Enrollment & School Records Checklist"
+            subtitle="Check off each requirement as you prepare your enrollment or student credential request. Confirm campus deadlines and forms directly with the school."
+            sections={buildSchoolChecklistSections(item)}
+            downloadTitle={`${item.name} — Enrollment & Records Checklist`}
+            downloadSubtitle={`${item.type} · ${item.levels.join(" · ")}${item.barangay ? ` · Barangay ${item.barangay}` : ""}`}
+            entityLabel={item.name}
+            downloadFilename={`${item.slug}-enrollment-checklist.pdf`}
+            metadata={[
+              ...(item.schoolId ? [{ label: "School ID", value: item.schoolId }] : []),
+              { label: "Location", value: item.address },
+              ...(item.contactPerson ? [{ label: "Contact", value: item.contactPerson }] : []),
+            ]}
+            storageKey={`school-${item.slug}`}
+          />
+        </section>
       </article>
       <aside id="sources" className="legislation-source-card">
         <MapPin aria-hidden="true" /><span className="eyebrow">Source ledger</span><h2>Confirm before visiting</h2>
@@ -4195,20 +4220,39 @@ function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) 
   </>;
 }
 
-function checklistImage(title: string, items: string[]) {
-  const escaped = (value: string) => value.replace(/[&<>]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[character] ?? character);
-  const lines = items.map((item, index) => `<text x="56" y="${116 + index * 38}" font-size="18" fill="#172b49">□ ${escaped(item)}</text>`).join("");
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="${Math.max(220, 150 + items.length * 38)}" viewBox="0 0 1200 ${Math.max(220, 150 + items.length * 38)}"><rect width="100%" height="100%" fill="#f7fbff"/><text x="56" y="64" font-size="30" font-weight="700" fill="#123e9b">${escaped(title)}</text><text x="56" y="92" font-size="16" fill="#56647b">BetterMC checklist — confirm current requirements with the issuing office.</text>${lines}</svg>`;
-}
-
 function DocumentGuidePage() {
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>(() => documentGuides.map((g) => g.slug));
   const selectedGuides = documentGuides.filter((guide) => selected.includes(guide.slug));
-  const checklist = selectedGuides.flatMap((guide) => guide.requirements.map((requirement) => `${guide.title}: ${requirement}`));
-  const downloadImage = () => { const blob = new Blob([checklistImage("My BetterMC document checklist", checklist)], { type: "image/svg+xml" }); const url = URL.createObjectURL(blob); const anchor = document.createElement("a"); anchor.href = url; anchor.download = "bettermc-document-checklist.svg"; anchor.click(); URL.revokeObjectURL(url); };
+  const checklistSections = buildDocumentGuideSections(selectedGuides);
+  const selectedKey = selectedGuides.map((g) => g.slug).join("+") || "none";
   return <><PageHero eyebrow="One-stop document guide" title="Build a verified starting checklist." description="Select services to combine their published starting requirements. The issuing office remains authoritative for current forms, fees, and release times." compact />
     <section className="section container civic-directory-page"><div className="civic-card-grid">{documentGuides.map((guide) => { const active = selected.includes(guide.slug); return <article className="civic-record-card" key={guide.slug}><div className="record-meta"><span>{guide.scope}</span><span>{guide.status}</span></div><h2>{guide.title}</h2><p>{guide.office}</p><dl><div><dt>Fees</dt><dd>{guide.fees}</dd></div><div><dt>Processing time</dt><dd>{guide.processingTime}</dd></div></dl><ol className="civic-steps">{guide.steps.map((step) => <li key={step}>{step}</li>)}</ol><button className="button secondary" type="button" aria-pressed={active} onClick={() => setSelected((current) => active ? current.filter((value) => value !== guide.slug) : [...current, guide.slug])}>{active ? "Remove from checklist" : "Add to checklist"}</button><a className="civic-source-link" href={guide.source.url} target="_blank" rel="noreferrer">Open official reference <ExternalLink aria-hidden="true" /></a></article>; })}</div>
-      <aside className="document-checklist" aria-live="polite"><div><span className="eyebrow">Custom checklist</span><h2>{selectedGuides.length ? `${selectedGuides.length} selected service${selectedGuides.length === 1 ? "" : "s"}` : "Select a service to begin"}</h2></div>{checklist.length ? <ul>{checklist.map((item) => <li key={item}><Check aria-hidden="true" />{item}</li>)}</ul> : <p>Choose one or more services above; only source-published starting requirements are included.</p>}<div className="civic-card-actions"><button className="button primary" disabled={!checklist.length} type="button" onClick={() => window.print()}>Print / save as PDF <Printer aria-hidden="true" /></button><button className="button secondary" disabled={!checklist.length} type="button" onClick={downloadImage}>Download image <FileText aria-hidden="true" /></button></div></aside>
+      <aside className="document-checklist" aria-live="polite">
+        <div>
+          <span className="eyebrow">Custom checklist</span>
+          <h2>{selectedGuides.length ? `${selectedGuides.length} selected service${selectedGuides.length === 1 ? "" : "s"}` : "Select a service to begin"}</h2>
+        </div>
+        {checklistSections.length ? (
+          <InteractiveChecklist
+            title="Your Custom Starting Checklist"
+            subtitle="Check off prepared documents and download a bilingual English/Bisaya printable PDF copy."
+            sections={checklistSections}
+            downloadTitle="My BetterMC Document Checklist"
+            downloadSubtitle={`${selectedGuides.length} selected public service guide${selectedGuides.length === 1 ? "" : "s"}`}
+            entityLabel="BetterMC Document Guide"
+            downloadFilename={`bettermc-document-checklist-${slugifyFilename(selectedKey)}.pdf`}
+            storageKey={`docguide-${selectedKey}`}
+            extraActions={
+              <button className="button secondary" type="button" onClick={() => window.print()}>
+                <Printer aria-hidden="true" />
+                <span>Print</span>
+              </button>
+            }
+          />
+        ) : (
+          <p>Choose one or more services above; only source-published starting requirements are included.</p>
+        )}
+      </aside>
       <div className="data-notice"><CircleAlert aria-hidden="true" /><div><strong>All 46 barangay document pages are available through their existing profiles</strong><p>Each profile now links to a consistent document-service brief. Barangay-specific fees, forms, and release times are intentionally marked for confirmation unless published by that exact issuing office.</p></div></div>
     </section></>;
 }
@@ -4219,7 +4263,7 @@ function BarangayDocumentPage() {
   if (!profile) return <NotFoundPage />;
   const guide = documentGuides.find((item) => item.slug === "barangay-certificates-and-clearances");
   if (!guide) return <NotFoundPage />;
-  return <><PageHero eyebrow="Barangay document service" title={`Barangay ${profile.name} document guide`} description="A source-led starting point; confirm requirements and fees with the issuing Barangay Hall." compact><Link className="page-hero-backlink" to={`/barangays/${profile.slug}`}>Return to barangay profile <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-detail-layout"><article className="civic-detail-main"><h2>Certificates and clearances</h2><p>{guide.requirements[0]}</p><ol className="civic-steps">{guide.steps.map((step) => <li key={step}>{step}</li>)}</ol><dl className="legislation-detail-facts"><div><dt>Issuing office</dt><dd>Barangay {profile.name} Hall</dd></div><div><dt>Fee and processing time</dt><dd>Not published as a citywide standard; confirm directly with Barangay {profile.name}.</dd></div><div><dt>Official contact</dt><dd>{profile.phone ?? profile.email ?? "No direct contact was published in the reviewed directory."}</dd></div></dl></article><aside className="legislation-source-card"><FileCheck2 aria-hidden="true" /><span className="eyebrow">Official reference</span><h2>Confirm the local procedure</h2><p>BetterMC does not publish a template, fee, or release time for this barangay without a matching official source.</p><a className="button primary" href={guide.source.url} target="_blank" rel="noreferrer">Open barangay directory <ExternalLink aria-hidden="true" /></a></aside></section></>;
+  return <><PageHero eyebrow="Barangay document service" title={`Barangay ${profile.name} document guide`} description="A source-led starting point; confirm requirements and fees with the issuing Barangay Hall." compact><Link className="page-hero-backlink" to={`/barangays/${profile.slug}`}>Return to barangay profile <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-detail-layout"><article className="civic-detail-main"><h2>Certificates and clearances</h2><p>{guide.requirements[0]}</p><ol className="civic-steps">{guide.steps.map((step) => <li key={step}>{step}</li>)}</ol><InteractiveChecklist title={`Barangay ${profile.name} Clearance & Certificate Checklist`} subtitle="Prepare these standard items and confirm exact forms and fees directly with the Barangay Hall." sections={buildBarangayChecklistSections(profile.name)} downloadTitle={`Barangay ${profile.name} — Clearance & Certificate Checklist`} downloadSubtitle="Starting preparation checklist for Barangay Hall transactions" entityLabel={`Barangay ${profile.name}`} downloadFilename={`barangay-${profile.slug}-checklist.pdf`} metadata={[{ label: "Issuing office", value: `Barangay ${profile.name} Hall` }, ...(profile.phone ? [{ label: "Contact", value: profile.phone }] : [])]} storageKey={`barangay-doc-${profile.slug}`} /><dl className="legislation-detail-facts"><div><dt>Issuing office</dt><dd>Barangay {profile.name} Hall</dd></div><div><dt>Fee and processing time</dt><dd>Not published as a citywide standard; confirm directly with Barangay {profile.name}.</dd></div><div><dt>Official contact</dt><dd>{profile.phone ?? profile.email ?? "No direct contact was published in the reviewed directory."}</dd></div></dl></article><aside className="legislation-source-card"><FileCheck2 aria-hidden="true" /><span className="eyebrow">Official reference</span><h2>Confirm the local procedure</h2><p>BetterMC does not publish a template, fee, or release time for this barangay without a matching official source.</p><a className="button primary" href={guide.source.url} target="_blank" rel="noreferrer">Open barangay directory <ExternalLink aria-hidden="true" /></a></aside></section></>;
 }
 
 function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" }) {
@@ -6044,6 +6088,23 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
               </article>
             ))}
           </div>
+          <div className="barangay-checklist-wrap">
+            <InteractiveChecklist
+              title={`Barangay ${profile.name} Clearance & Document Checklist`}
+              subtitle="Use this checklist to prepare standard documents and verify barangay-specific forms and fees directly with the Barangay Hall."
+              sections={buildBarangayChecklistSections(profile.name)}
+              downloadTitle={`Barangay ${profile.name} — Resident Document Checklist`}
+              downloadSubtitle={`PSGC ${profile.code} · Malaybalay City, Bukidnon`}
+              entityLabel={`Barangay ${profile.name}`}
+              downloadFilename={`barangay-${profile.slug}-checklist.pdf`}
+              metadata={[
+                { label: "Barangay", value: `Barangay ${profile.name}` },
+                { label: "Punong Barangay", value: profile.punongBarangay },
+                ...(profile.phone ? [{ label: "Contact", value: profile.phone }] : []),
+              ]}
+              storageKey={`barangay-${profile.slug}`}
+            />
+          </div>
         </section>
 
         <section
@@ -6907,24 +6968,27 @@ function TransactionModal({
             <p className="service-tx-subtitle">
               Check off each document as you prepare them before visiting the counter or filing online.
             </p>
-            <div className="service-req-checklist">
-              {transaction.requirements.map((req, idx) => {
-                const checked = Boolean(checkedReqs[req]);
-                return (
-                  <label
-                    key={`req-${idx}`}
-                    className={`service-req-item${checked ? " is-checked" : ""}`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => toggleReq(req)}
-                    />
-                    <span className="service-req-text">{req}</span>
-                  </label>
-                );
-              })}
-            </div>
+            <InteractiveChecklist
+              title="Required Documents & Verification"
+              sections={groupRequirementsIntoSections(
+                transaction.requirements,
+                `tx-${transaction.id}`,
+              )}
+              downloadTitle={transaction.title}
+              downloadSubtitle={`${provider.name} · ${provider.jurisdiction}`}
+              entityLabel={categoryTitle}
+              downloadFilename={`service-${slugifyFilename(transaction.id)}-checklist.pdf`}
+              metadata={[
+                { label: "Reference", value: txRef },
+                { label: "Processing", value: transaction.processingTime },
+                { label: "Fees", value: transaction.feeSchedule },
+              ]}
+              checkedMap={checkedReqs}
+              controlledMatchBy="english"
+              onToggleItem={(_itemKey, itemEnglish) => toggleReq(itemEnglish)}
+              onResetChecks={() => setCheckedReqs({})}
+              compact
+            />
           </section>
 
           {/* Step-by-Step Procedure Guide */}

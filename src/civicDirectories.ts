@@ -443,13 +443,67 @@ const cityCharter: Source = {
 
 export const documentGuides: DocumentGuide[] = [
   {
-    slug: "city-civil-registry-services", title: "City civil registry services", scope: "City", office: "City Civil Registrar’s Office", requirements: ["Confirm the record type and current documentary requirements with the City Civil Registrar’s Office."], steps: ["Open the official Citizen’s Charter.", "Confirm the correct record and requirements with the issuing office before travelling.", "Submit only through the official office or its published channel."], fees: "Not transcribed here; consult the current Charter or issuing office.", processingTime: "Confirm with issuing office.", source: cityCharter, status: "Confirm with issuing office",
+    slug: "city-civil-registry-services",
+    title: "City civil registry services",
+    scope: "City",
+    office: "City Civil Registrar’s Office",
+    requirements: [
+      "Valid government ID of the document owner or authorized immediate family member",
+      "Signed Authorization Letter + valid ID if requested by a representative",
+      "For Late Birth Registration: PSA Negative Result, Baptismal/School/Voter record, and 2 disinterested witnesses’ affidavit",
+      "Confirm the exact record type and any additional supporting forms with the City Civil Registrar’s Office",
+    ],
+    steps: [
+      "Open the official Citizen’s Charter.",
+      "Confirm the correct record and requirements with the issuing office before travelling.",
+      "Submit only through the official office or its published channel.",
+    ],
+    fees: "Not transcribed here; consult the current Charter or issuing office.",
+    processingTime: "Confirm with issuing office.",
+    source: cityCharter,
+    status: "Confirm with issuing office",
   },
   {
-    slug: "barangay-certificates-and-clearances", title: "Barangay certificates and clearances", scope: "Barangay", office: "Relevant Barangay Hall", requirements: ["Requirements, fee schedules, and forms are barangay-specific and were not published consistently in a source suitable for transcription."], steps: ["Choose your barangay page.", "Use the official barangay contact or visit the hall to confirm the document, form, fee, and release time.", "Bring only the requirements confirmed by that issuing office."], fees: "Not published as a citywide standard.", processingTime: "Confirm with the selected Barangay Hall.", source: { label: "City Government of Malaybalay — List of Barangays", url: "https://sakata.malaybalaycity.gov.ph/list-of-barangay/", verifiedOn: reviewedOn }, status: "Confirm with issuing office",
+    slug: "barangay-certificates-and-clearances",
+    title: "Barangay certificates and clearances",
+    scope: "Barangay",
+    office: "Relevant Barangay Hall",
+    requirements: [
+      "1 valid government-issued ID showing full name and current Malaybalay address",
+      "Current Community Tax Certificate (Cedula) or prepare to secure one at Barangay Hall / City Treasurer",
+      "Purok or Sitio clearance / endorsement if required by your Barangay Hall",
+      "Confirm exact barangay-specific forms, fees, and release schedules before visiting",
+    ],
+    steps: [
+      "Choose your barangay page.",
+      "Use the official barangay contact or visit the hall to confirm the document, form, fee, and release time.",
+      "Bring only the requirements confirmed by that issuing office.",
+    ],
+    fees: "Not published as a citywide standard.",
+    processingTime: "Confirm with the selected Barangay Hall.",
+    source: { label: "City Government of Malaybalay — List of Barangays", url: "https://sakata.malaybalaycity.gov.ph/list-of-barangay/", verifiedOn: reviewedOn },
+    status: "Confirm with issuing office",
   },
   {
-    slug: "building-office-printables", title: "Building office printable forms", scope: "City", office: "Office of the Building Official", requirements: ["Select the applicable official form before preparing a submission."], steps: ["Open the City’s OBO form templates.", "Select the matching form.", "Confirm current requirements, fees, and processing time with the Office of the Building Official."], fees: "Confirm with issuing office.", processingTime: "Confirm with issuing office.", source: { label: "City Government of Malaybalay — OBO Form Templates", url: "https://sakata.malaybalaycity.gov.ph/obo-forms/", verifiedOn: reviewedOn }, status: "Published standard",
+    slug: "building-office-printables",
+    title: "Building office printable forms",
+    scope: "City",
+    office: "Office of the Building Official",
+    requirements: [
+      "Select the applicable official OBO form template before preparing a submission",
+      "5 sets of signed and sealed Architectural, Structural, Electrical, and Sanitary/Plumbing plans",
+      "Certified True Copy of OCT/TCT Land Title, Tax Declaration, and current Real Property Tax Receipt",
+      "Barangay Construction Clearance, CPDO Locational/Zoning Clearance, and BFP Fire Safety Evaluation Clearance (FSEC)",
+    ],
+    steps: [
+      "Open the City’s OBO form templates.",
+      "Select the matching form.",
+      "Confirm current requirements, fees, and processing time with the Office of the Building Official.",
+    ],
+    fees: "Confirm with issuing office.",
+    processingTime: "Confirm with issuing office.",
+    source: { label: "City Government of Malaybalay — OBO Form Templates", url: "https://sakata.malaybalaycity.gov.ph/obo-forms/", verifiedOn: reviewedOn },
+    status: "Published standard",
   },
 ];
 
