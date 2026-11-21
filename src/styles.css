@@ -22988,16 +22988,17 @@ pre {
 .office-service-elig { margin: 8px 0 0; font-size: 0.91rem; font-weight: 400; color: #364b64; line-height: 1.5; }
 .office-service-details {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  align-items: start;
+  gap: 20px;
   margin-top: 14px;
-  padding-top: 14px;
+  padding-top: 16px;
   border-top: 1px solid #e4eef8;
   font-size: 0.9rem;
   line-height: 1.58;
 }
-.office-service-details h4 { margin: 0 0 8px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #466080; }
-.office-service-details ul, .office-service-details ol { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: #243850; }
+.office-service-steps-col h4 { margin: 0 0 10px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #466080; }
+.office-service-details ul, .office-service-details ol { margin: 0; padding-left: 20px; display: grid; gap: 8px; color: #243850; }
 
 .office-programs-grid {
   display: grid;
@@ -24016,5 +24017,329 @@ body.is-microsite [id] {
   .mobile-bottom-app-bar a svg {
     width: 17px;
     height: 17px;
+  }
+}
+
+/* ==========================================================================
+   Reusable Bilingual Interactive Checklist & Downloadable PDF System
+   ========================================================================== */
+
+.barangay-checklist-wrap {
+  margin-top: 22px;
+}
+
+.education-checklist-section {
+  margin-top: 22px;
+}
+
+.bmc-checklist-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 1px solid #cdddf0;
+  border-radius: 16px;
+  background: #f8fbff;
+}
+
+.bmc-checklist-card.is-compact {
+  padding: 16px;
+  border-radius: 14px;
+}
+
+.bmc-checklist-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #dde8f6;
+}
+
+.bmc-checklist-heading-group {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  flex: 1 1 240px;
+}
+
+.bmc-checklist-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+}
+
+.bmc-checklist-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #0e2444;
+  line-height: 1.3;
+}
+
+.bmc-checklist-card.is-compact .bmc-checklist-title {
+  font-size: 0.94rem;
+}
+
+.bmc-checklist-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid #cbdcf1;
+  background: #eef5fd;
+  color: #264873;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.bmc-checklist-progress.is-complete {
+  border-color: #86efac;
+  background: #ecfdf3;
+  color: #166534;
+}
+
+.bmc-checklist-progress svg {
+  width: 13px;
+  height: 13px;
+}
+
+.bmc-checklist-subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #4d627c;
+  line-height: 1.48;
+}
+
+.bmc-checklist-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.bmc-checklist-download-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 8px 14px;
+  border: 1px solid #164899;
+  border-radius: 10px;
+  background: #1a54b5;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.bmc-checklist-download-btn:hover:not(:disabled) {
+  background: #144496;
+  border-color: #0f387c;
+}
+
+.bmc-checklist-download-btn:focus-visible {
+  outline: 2px solid #1a54b5;
+  outline-offset: 2px;
+}
+
+.bmc-checklist-download-btn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.bmc-checklist-download-btn svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.bmc-checklist-reset-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 38px;
+  padding: 7px 11px;
+  border: 1px solid #cddbef;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #36506e;
+  font: inherit;
+  font-size: 0.81rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.bmc-checklist-reset-btn:hover {
+  background: #f1f6fd;
+  border-color: #a6c1e5;
+}
+
+.bmc-checklist-reset-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.bmc-checklist-sections {
+  display: grid;
+  gap: 14px;
+}
+
+.bmc-checklist-section {
+  display: grid;
+  gap: 8px;
+}
+
+.bmc-checklist-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  padding: 2px 2px 0;
+}
+
+.bmc-checklist-section-head h5 {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.045em;
+  color: #20436f;
+}
+
+.bmc-checklist-section-bisaya {
+  font-size: 0.77rem;
+  font-weight: 500;
+  color: #5d728c;
+}
+
+.bmc-checklist-items {
+  display: grid;
+  gap: 8px;
+}
+
+.bmc-checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 11px 14px;
+  border: 1px solid #d7e4f3;
+  border-radius: 12px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bmc-checklist-item:hover {
+  border-color: #9dc0ea;
+  background: #f5faff;
+}
+
+.bmc-checklist-item:focus-within {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
+.bmc-checklist-item.is-checked {
+  border-color: #86efac;
+  background: #f0fdf4;
+}
+
+.bmc-checklist-checkbox {
+  width: 19px;
+  height: 19px;
+  margin: 2px 0 0;
+  accent-color: #15803d;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.bmc-checklist-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.bmc-checklist-en {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #10243e;
+  line-height: 1.42;
+  transition: color 0.15s ease;
+}
+
+.bmc-checklist-bisaya {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #566b85;
+  line-height: 1.44;
+}
+
+.bmc-checklist-item.is-checked .bmc-checklist-en {
+  color: #14532d;
+  text-decoration: line-through;
+  text-decoration-color: rgba(20, 83, 45, 0.55);
+}
+
+.bmc-checklist-item.is-checked .bmc-checklist-bisaya {
+  color: #3f6d52;
+}
+
+.bmc-checklist-done-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #15803d;
+  flex-shrink: 0;
+}
+
+.bmc-checklist-done-badge svg {
+  width: 13px;
+  height: 13px;
+}
+
+@media (max-width: 640px) {
+  .bmc-checklist-card {
+    padding: 14px;
+    gap: 12px;
+  }
+  .bmc-checklist-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .bmc-checklist-toolbar {
+    width: 100%;
+  }
+  .bmc-checklist-download-btn {
+    flex: 1;
+  }
+  .bmc-checklist-item {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .bmc-checklist-en {
+    font-size: 0.89rem;
+  }
+  .bmc-checklist-bisaya {
+    font-size: 0.78rem;
   }
 }

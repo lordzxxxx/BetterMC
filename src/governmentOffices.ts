@@ -280,6 +280,12 @@ export const governmentOffices: GovernmentOffice[] = [
         processingTime: "24 Minutes",
         fee: "₱130.00",
         whoMayAvail: "Malaybalay City residents requiring local executive clearance",
+        requirements: [
+          "Barangay Clearance from your barangay in Malaybalay City",
+          "Police Clearance (PNP) or Court / Fiscal Clearance (for employment or legal use)",
+          "Current Community Tax Certificate (Cedula)",
+          "Official Receipt from the City Treasurer’s Office (₱130.00)",
+        ],
       },
       {
         title: "Official Appointments, Executive Endorsements & Barangay Assistance",
@@ -476,6 +482,10 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "46 Minutes",
         fee: "None",
+        requirements: [
+          "Written request letter specifying the session date, topic, or agenda item",
+          "Valid government-issued ID of the requesting party or authorized representative",
+        ],
       },
       {
         title: "Certified Copies of Approved Ordinances & Resolutions",
@@ -483,6 +493,10 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "16 Minutes",
         fee: "None",
+        requirements: [
+          "Ordinance or Resolution number, title, or year requested",
+          "1 valid government-issued ID for request logging",
+        ],
       },
       {
         title: "Status Updates on Referrals & Legislative Communications",
@@ -639,9 +653,32 @@ export const governmentOffices: GovernmentOffice[] = [
     facebookUrl: CITY_MAIN_FB_URL,
     officialWebUrl: "https://sakata.malaybalaycity.gov.ph/malaybalay-city-scholarship-2/",
     services: [
-      { title: "1. City Scholarship Program — New Scholar Application", classification: "Simple", processingTime: "32 Minutes", fee: "None", reference: "Charter pp. 536–540" },
+      {
+        title: "1. City Scholarship Program — New Scholar Application",
+        classification: "Simple",
+        processingTime: "32 Minutes",
+        fee: "None",
+        reference: "Charter pp. 536–540",
+        requirements: [
+          "Accomplished Malaybalay City Scholarship Application Form",
+          "Grade 12 Report Card / latest academic grades (average 83% or higher, no grade below 80)",
+          "Barangay Certificate of Residency and Indigency",
+          "Parents' Income Tax Return (ITR) or Certificate of Tax Exemption (annual net income not exceeding ₱250,000)",
+        ],
+      },
       { title: "2. City Scholarship Program — Existing Scholar Renewal & Incentive Allowance", classification: "Simple", processingTime: "14 – 21 Minutes", fee: "None" },
-      { title: "3. Issuance of Mayor's Clearance", classification: "Simple", processingTime: "24 Minutes", fee: "₱130.00" },
+      {
+        title: "3. Issuance of Mayor's Clearance",
+        classification: "Simple",
+        processingTime: "24 Minutes",
+        fee: "₱130.00",
+        requirements: [
+          "Barangay Clearance from your barangay in Malaybalay City",
+          "Police Clearance (PNP) or Court / Fiscal Clearance (for employment or legal use)",
+          "Current Community Tax Certificate (Cedula)",
+          "Official Receipt from the City Treasurer’s Office (₱130.00)",
+        ],
+      },
       { title: "4. Civil Society Organization (CSO) Accreditation", classification: "Simple", processingTime: "5 Days & 20 Minutes", fee: "None" },
       { title: "5. Barangay Purok Development Project & Sports Assistance", classification: "Simple / Gov", processingTime: "32 Minutes – 22 Working Days", fee: "None" },
     ],
@@ -704,7 +741,14 @@ export const governmentOffices: GovernmentOffice[] = [
         processingTime: "30 Minutes",
         fee: "None",
         whoMayAvail: "All senior citizens (60 years & above) residing in Malaybalay City",
-        requirements: ["Valid ID, Barangay Certification, Recent Cedula, PSA Birth Certificate, Application Form, 2 pcs 1x1 picture"],
+        requirements: [
+          "1 valid government-issued ID",
+          "Barangay Certificate of Residency in Malaybalay City",
+          "Current Community Tax Certificate (Cedula)",
+          "PSA Birth Certificate (or official proof of age 60+)",
+          "Accomplished OSCA Senior Citizen ID Application Form",
+          "2 pcs 1x1 ID photo",
+        ],
         reference: "Charter pp. 566–568",
       },
       {
@@ -712,6 +756,10 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "15 – 30 Minutes",
         fee: "None",
+        requirements: [
+          "Senior Citizen OSCA ID Card",
+          "Signed Authorization Letter + valid ID if requested by a representative",
+        ],
         reference: "Charter pp. 569–571",
       },
     ],
@@ -763,6 +811,13 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple / CSC",
         processingTime: "25 Minutes intake (15-day CSC publication window)",
         fee: "None",
+        requirements: [
+          "Application Letter addressed to the City Mayor through the City HRMO (Magnolia O. Improgo)",
+          "Fully accomplished Personal Data Sheet (CS Form No. 212, Revised 2017) with Work Experience Sheet",
+          "Performance rating in the last rating period (if applicable)",
+          "Photocopy of Certificate of Eligibility / PRC Rating / License",
+          "Photocopy of Transcript of Records",
+        ],
       },
       {
         title: "Issuance of Service Record, Certificate of Employment (COE) & Employee ID",
@@ -937,6 +992,11 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "55 Minutes",
         fee: "₱920.00",
+        requirements: [
+          "Certified True Copy of OCT/TCT Land Title, Tax Declaration, and current Real Property Tax Receipt",
+          "Vicinity Map / Lot Plan signed by a Geodetic Engineer showing exact lot location",
+          "1 valid government-issued ID or Authorization Letter (if representative)",
+        ],
       },
       {
         title: "Locational Clearance (Simple Projects — 1–3 Storeys up to 1,500 sq.m.)",
@@ -944,6 +1004,12 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "Per Building Permit queue",
         fee: "Per Zoning Fee Schedule",
+        requirements: [
+          "Accomplished CPDO Locational Clearance Application Form",
+          "Certified True Copy of OCT/TCT Land Title, Tax Declaration, and current Real Property Tax Receipt",
+          "Barangay Construction Clearance",
+          "Site Development Plan and Architectural Floor Plans",
+        ],
       },
       {
         title: "Locational Clearance (Complex Projects)",
@@ -1139,6 +1205,10 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "8 Minutes",
         fee: "₱5.00 basic + earnings/property assessment",
+        requirements: [
+          "Valid ID and gross income/receipts declaration (for Community Tax Certificate / Cedula)",
+          "Signed Oath of Undertaking (if claiming RA 11261 First-Time Jobseeker fee exemption)",
+        ],
       },
       {
         title: "Real Property Tax Payment & Tax Clearance Certificate",
@@ -1146,6 +1216,10 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "15 – 20 Minutes",
         fee: "1% Basic + 1% SEF of Assessed Value; ₱100/page + ₱30 doc stamp clearance",
+        requirements: [
+          "Previous Real Property Tax Official Receipt or Tax Declaration Number (ARP/TD No.)",
+          "1 valid government-issued ID",
+        ],
       },
       {
         title: "Quarterly Business Tax, Transfer Tax & Professional Tax (PTR)",
@@ -1224,6 +1298,11 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "1 Hour & 50 Minutes",
         fee: "₱100.00 / parcel",
+        requirements: [
+          "Tax Declaration Number or OCT/TCT Title Number",
+          "Current Real Property Tax Official Receipt from the City Treasurer’s Office",
+          "Valid ID or Special Power of Attorney / Authorization Letter",
+        ],
       },
       {
         title: "Total Landholding Certificate (Estate Tax / DAR Clearance / Exempt)",
@@ -1392,6 +1471,11 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "23 – 35 Minutes",
         fee: "₱100.00 certification fee",
+        requirements: [
+          "Valid government ID of the document owner or authorized immediate family member",
+          "Signed Authorization Letter + valid ID if requested by a representative",
+          "Hospital/Attending Physician Certificate of Live Birth / Marriage / Death",
+        ],
       },
       {
         title: "Delayed Registration of Birth, Marriage, Death & RA 9255",
@@ -1399,6 +1483,10 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Complex",
         processingTime: "30 – 38 Mins + 10-Day Posting (Out-of-town: 35 Mins)",
         fee: "₱200.00 certification fee",
+        requirements: [
+          "For Late Birth Registration: PSA Negative Result, Baptismal/School/Voter record, and 2 disinterested witnesses’ affidavit",
+          "Valid government ID of the document owner or authorized immediate family member",
+        ],
       },
       {
         title: "Application for Marriage License (Municipal Form No. 90)",
@@ -1406,6 +1494,12 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Complex",
         processingTime: "45 Minutes + 10-Day Posting",
         fee: "₱300.00 (Local applicant)",
+        requirements: [
+          "PSA Birth Certificates and CENOMAR (Certificate of No Marriage) of both applicants",
+          "Parental Consent (ages 18–20) or Parental Advice (ages 21–24)",
+          "Certificate of Attendance in Pre-Marriage Counseling (CSWDO / CHO / PopCom Malaybalay)",
+          "Community Tax Certificate (Cedula) and 1x1 / 2x2 ID photos",
+        ],
       },
       {
         title: "RA 9048 / RA 10172 Petitions (Clerical Error, First Name, Birth Day/Month or Sex)",
@@ -1471,9 +1565,39 @@ export const governmentOffices: GovernmentOffice[] = [
     emails: ["swmlycty@yahoo.com"],
     officialWebUrl: "https://sakata.malaybalaycity.gov.ph/citysocialwelfareanddevelopmentoffice/",
     services: [
-      { title: "1. Assistance to Individuals & Families in Crisis Situation (AICS)", classification: "Complex", processingTime: "1 Week & 45 Minutes", fee: "None", reference: "Charter pp. 620–654" },
-      { title: "2. Certificate of Indigency & Social Case Study Report", classification: "Simple", processingTime: "20 – 53 Minutes", fee: "None" },
-      { title: "3. Issuance of Solo Parent Identification Card", classification: "Complex", processingTime: "5 Days & 36 Minutes", fee: "None" },
+      {
+        title: "1. Assistance to Individuals & Families in Crisis Situation (AICS)",
+        classification: "Complex",
+        processingTime: "1 Week & 45 Minutes",
+        fee: "None",
+        reference: "Charter pp. 620–654",
+        requirements: [
+          "Barangay Certificate of Indigency and Residency in Malaybalay City",
+          "Medical prescription/hospital bill or registered Death Certificate/funeral contract (for AICS Medical/Burial aid)",
+          "Valid ID of patient and representative + Barangay Certificate of Indigency",
+        ],
+      },
+      {
+        title: "2. Certificate of Indigency & Social Case Study Report",
+        classification: "Simple",
+        processingTime: "20 – 53 Minutes",
+        fee: "None",
+        requirements: [
+          "Barangay Certificate of Indigency and Residency in Malaybalay City",
+          "Updated Hospital Statement of Account (SOA) or Doctor’s Prescription / Laboratory Request with price quotation",
+          "1 valid government-issued ID",
+        ],
+      },
+      {
+        title: "3. Issuance of Solo Parent Identification Card",
+        classification: "Complex",
+        processingTime: "5 Days & 36 Minutes",
+        fee: "None",
+        requirements: [
+          "Valid ID / PSA Birth Certificate (for Senior Citizen OSCA ID), Medical Certificate confirming disability (for PWD ID), or Solo Parent affidavit/birth certificates of children",
+          "Barangay Certificate of Residency in Malaybalay City",
+        ],
+      },
       { title: "4. Assistive Device Request for Persons with Disability (PWD)", classification: "Complex", processingTime: "9 Days & 1 Hour", fee: "None" },
       { title: "5. VAWC / WEDC Crisis Center & Bahay Pag-asa Case Management", classification: "Emergency / Ongoing", processingTime: "1 Hour 30 Mins – 2 Hours 5 Mins intake", fee: "None" },
       { title: "6. Self-Employment Assistance to Groups (SEA-K)", classification: "Complex", processingTime: "11 Days, 4 Hours & 1 Minute", fee: "None" },
@@ -1542,6 +1666,9 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "15 – 37 Minutes",
         fee: "None (Consult / EPI) • ₱100.00 (Dental)",
+        requirements: [
+          "Barangay Health Station referral slip or valid ID / PhilHealth MDR",
+        ],
       },
       {
         title: "Health Certificate, Sanitary Permit & Exhumation / Cadaver Transfer Permit",
@@ -1549,6 +1676,10 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "6 – 13 Minutes",
         fee: "₱100.00 (Health Cert / Exhumation) • None (Sanitary Permit)",
+        requirements: [
+          "Barangay Health Station referral slip or valid ID / PhilHealth MDR",
+          "Laboratory results (urinalysis, fecalysis, chest X-ray for food/non-food handler Health Card)",
+        ],
       },
       {
         title: "Rabies Post-Exposure Prophylaxis (ABTC), Mental Health GAP, PT & TB-DOTS",
@@ -1658,6 +1789,11 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "15 Minutes",
         fee: "None",
+        requirements: [
+          "Exact barangay, purok/sitio, nearest landmark, and active callback mobile number",
+          "Barangay Incident Report or Blotter Certification confirming disaster damage",
+          "1 valid government-issued ID",
+        ],
       },
       {
         title: "Review & Certification of Barangay DRRM Plans (BDRRMP)",
@@ -1728,6 +1864,13 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "1 Day",
         fee: "Per City Tax Ordinance & Line of Business",
+        requirements: [
+          "DTI Business Name Certificate (Sole Proprietorship) or SEC/CDA Registration",
+          "Barangay Business Clearance from the barangay where the business is located",
+          "Contract of Lease (if rented) or Tax Declaration / Land Title (if owned)",
+          "Occupancy Permit (OBO) & Fire Safety Inspection Certificate (BFP Malaybalay)",
+          "Sanitary Permit / Health Certificate from Malaybalay City Health Office",
+        ],
       },
       {
         title: "Business Permit Retirement / Closure & Business Certificates",
@@ -1735,6 +1878,11 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "20 Minutes (Certs) – 1 Day (Retirement)",
         fee: "Certification Fee + verified tax due",
+        requirements: [
+          "Previous year’s Mayor’s Permit and Official Receipt",
+          "Sworn declaration of prior-year gross sales/receipts or BIR Audited Financial Statements / ITR",
+          "Updated Barangay Business Clearance",
+        ],
       },
       {
         title: "Motorela Permit, 3-Year Franchise, Confirmation & Franchise Dropping",
@@ -1896,6 +2044,12 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple / Complex / Highly Technical",
         processingTime: "3 Days (Simple) • 7 Days (Complex) • 20 Days (Highly Technical)",
         fee: "Per National Building Code (PD 1096) Fee Schedule",
+        requirements: [
+          "5 sets of signed and sealed Architectural, Structural, Electrical, and Sanitary/Plumbing plans",
+          "Certified True Copy of OCT/TCT Land Title, Tax Declaration, and current Real Property Tax Receipt",
+          "Barangay Construction Clearance and CPDO Locational/Zoning Clearance",
+          "BFP Fire Safety Evaluation Clearance (FSEC)",
+        ],
       },
       {
         title: "Certificate of Occupancy Application",
@@ -1903,6 +2057,11 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple / Complex / Highly Technical",
         processingTime: "3 Days (Simple) • 7 Days (Complex) • 20 Days (Highly Technical)",
         fee: "Per National Building Code (PD 1096) Schedule",
+        requirements: [
+          "Approved Building Permit and As-Built Plans signed and sealed by supervising engineers/architects",
+          "BFP Fire Safety Inspection Certificate (FSIC)",
+          "Construction Logbook and Certificate of Completion",
+        ],
       },
       {
         title: "Temporary Electrical Connection Permit",
@@ -1967,6 +2126,10 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "33 Minutes",
         fee: "₱130.00",
+        requirements: [
+          "Written request / project location details in Malaybalay City",
+          "1 valid government-issued ID",
+        ],
       },
       {
         title: "Ecological Solid Waste Management Certification",
@@ -1974,6 +2137,11 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "40 Minutes",
         fee: "₱80.00",
+        requirements: [
+          "DTI / SEC Registration Certificate",
+          "Updated Business Permit",
+          "Official Receipt of Environmental Certification Fee (₱80.00)",
+        ],
       },
       {
         title: "Request for Indigenous Forest Tree Seedlings",
@@ -2404,6 +2572,11 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "3 – 15 Minutes (ID/Clearance/Inspection) • 4 Hours 30 Mins (Seminar)",
         fee: "₱130.00 (Seminar) • ₱100.00 (Clearance / Inspection) • ₱50.00 (ID)",
+        requirements: [
+          "LTO Official Receipt (OR) and Certificate of Registration (CR) of the motorela unit",
+          "TMC Roadworthiness / Stencil Inspection Report and TODA/Association endorsement",
+          "Current Community Tax Certificate (Cedula)",
+        ],
       },
       {
         title: "Traffic Citation Settlement, Community Service Cert & Vehicle Release",
@@ -2411,6 +2584,10 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple / Technical",
         processingTime: "20 – 50 Minutes (Settlement / Release) • 1 Hour 15 Mins (Community Service Cert)",
         fee: "Per City Ordinance No. 900 s.2019 / ₱350+ towing/impounding fees",
+        requirements: [
+          "Traffic Citation Ticket (TOP/TCT) for traffic violation settlement",
+          "1 valid government-issued ID",
+        ],
       },
       {
         title: "Road Crash Response, Towing, Parade Escort & Fortich Truck Ban Exemption",
@@ -2587,7 +2764,16 @@ export const governmentOffices: GovernmentOffice[] = [
     emails: ["malaybalaycfs@gmail.com"],
     officialWebUrl: SAKATA_CONTACT_URL,
     services: [
-      { title: "Fire Safety Inspection Certificate (FSIC) for Business / Occupancy Permits", processingTime: "Aligned with BPLD/OBO BOSS", fee: "RA 9514 Fire Code fee (15% of local fee min ₱500)" },
+      {
+        title: "Fire Safety Inspection Certificate (FSIC) for Business / Occupancy Permits",
+        processingTime: "Aligned with BPLD/OBO BOSS",
+        fee: "RA 9514 Fire Code fee (15% of local fee min ₱500)",
+        requirements: [
+          "Signed architectural/engineering plans (for FSEC Building Permit)",
+          "Occupancy Permit assessment or Business Permit application form (for FSIC)",
+          "Proof of functional fire extinguishers and emergency exit signage",
+        ],
+      },
       { title: "24/7 Emergency Fire Suppression & Rescue Response", processingTime: "Immediate Dispatch", fee: "None" },
     ],
     programs: [
@@ -2631,7 +2817,16 @@ export const governmentOffices: GovernmentOffice[] = [
     emails: ["malaybalay.cps.pnp@gmail.com"],
     officialWebUrl: SAKATA_CONTACT_URL,
     services: [
-      { title: "National Police Clearance System (NPCS) Biometrics & Release", processingTime: "Scheduled NPCS appointment", fee: "₱150.00 + payment fee (pnpclearance.ph)" },
+      {
+        title: "National Police Clearance System (NPCS) Biometrics & Release",
+        processingTime: "Scheduled NPCS appointment",
+        fee: "₱150.00 + payment fee (pnpclearance.ph)",
+        requirements: [
+          "NPCS Online Appointment Reference Number",
+          "2 valid government-issued IDs (or 1 primary ID + Barangay Clearance & Birth Certificate)",
+          "Original Barangay Certification & Oath of Undertaking (if claiming RA 11261 First-Time Jobseeker free clearance)",
+        ],
+      },
       { title: "24/7 Crime Reporting, Women & Children Protection Desk & Blotter Certification", processingTime: "Immediate / Same day", fee: "None / Standard Cert" },
     ],
     programs: [
@@ -2720,7 +2915,16 @@ export const governmentOffices: GovernmentOffice[] = [
     emails: ["pac.malaybalaycity@deped.gov.ph", "malaybalay.city@deped.gov.ph"],
     officialWebUrl: "https://malaybalay.deped.gov.ph/",
     services: [
-      { title: "Public Assistance Counter (PAC) — Learner Records & Division Inquiries", processingTime: "Office hours", fee: "None" },
+      {
+        title: "Public Assistance Counter (PAC) — Learner Records & Division Inquiries",
+        processingTime: "Office hours",
+        fee: "None",
+        requirements: [
+          "Certified True Copy of Form 137 / SF10 (Permanent Learner Record) and Diploma from the originating Malaybalay school",
+          "School Principal endorsement letter",
+          "Valid ID of learner or parent/guardian",
+        ],
+      },
       { title: "PESO Career Guidance Advocacy (CGAP) School Scheduling", processingTime: "2 Minutes (with PESO)", fee: "None" },
     ],
     programs: [
@@ -2774,6 +2978,11 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Simple",
         processingTime: "Office hours (upon CTO receipt & record check)",
         fee: "₱100.00 Fiscal Clearance (CTO Regulatory Fee Schedule)",
+        requirements: [
+          "1 valid government-issued ID",
+          "Current Community Tax Certificate (Cedula)",
+          "Official Receipt of Fiscal Clearance Fee (₱100.00 from City Treasurer’s Office)",
+        ],
       },
       {
         title: "Filing of Criminal Complaints, Inquest & Preliminary Investigation",
@@ -2897,6 +3106,10 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Facility Desk",
         processingTime: "Scheduled visitation window",
         fee: "None",
+        requirements: [
+          "1 valid government-issued ID",
+          "Proof of immediate relationship or IBP ID / Legal Counsel Authorization",
+        ],
       },
       {
         title: "PDL Certificate of Detention & Court Commitment Coordination",
@@ -2957,6 +3170,11 @@ export const governmentOffices: GovernmentOffice[] = [
         classification: "Court Referral",
         processingTime: "Statutory 60-day court period (PD 968)",
         fee: "None",
+        requirements: [
+          "Court Referral Order (RTC / MTCC Malaybalay) for Post-Sentence Investigation",
+          "1 valid government-issued ID",
+          "Barangay Certificate of Residency in Malaybalay City",
+        ],
       },
       {
         title: "Probation / Parole Reporting, Clearance & Rehabilitation Compliance",

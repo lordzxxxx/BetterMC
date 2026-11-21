@@ -34,6 +34,8 @@ import {
   type OfficeCategory,
 } from "../governmentOffices";
 import { officePersonnelBySlug } from "../officePersonnel";
+import { groupRequirementsIntoSections, slugifyFilename } from "../requirementTranslations";
+import { InteractiveChecklist } from "./InteractiveChecklist";
 import {
   CSC_FORM_9_2024_URL,
   INITIAL_PESO_OPPORTUNITIES,
@@ -1333,17 +1335,36 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                   {isOpen && (service.requirements?.length || service.steps?.length) ? (
                     <div className="office-service-details">
                       {service.requirements && service.requirements.length > 0 ? (
-                        <div>
-                          <h4>Documentary Requirements</h4>
-                          <ul>
-                            {service.requirements.map((req) => (
-                              <li key={req}>{req}</li>
-                            ))}
-                          </ul>
+                        <div className="office-service-checklist-col">
+                          <InteractiveChecklist
+                            title="Documentary Requirements"
+                            sections={groupRequirementsIntoSections(
+                              service.requirements,
+                              `office-${office.slug}-${idx}`,
+                            )}
+                            downloadTitle={service.title}
+                            downloadSubtitle={`${office.name} · City Government of Malaybalay`}
+                            entityLabel={office.shortName}
+                            downloadFilename={`${office.slug}-${slugifyFilename(service.title)}-checklist.pdf`}
+                            metadata={[
+                              { label: "Fee", value: service.fee },
+                              { label: "Processing time", value: service.processingTime },
+                              ...(service.classification
+                                ? [{ label: "Classification", value: service.classification }]
+                                : []),
+                            ]}
+                            footerNote={
+                              service.reference
+                                ? `Source: ${service.reference} — Confirm current forms & schedules with ${office.shortName}.`
+                                : undefined
+                            }
+                            storageKey={`office-${office.slug}-${slugifyFilename(service.title)}`}
+                            compact
+                          />
                         </div>
                       ) : null}
                       {service.steps && service.steps.length > 0 ? (
-                        <div>
+                        <div className="office-service-steps-col">
                           <h4>Step-by-Step Procedure</h4>
                           <ol>
                             {service.steps.map((step) => (
@@ -1674,12 +1695,24 @@ export function JobDetailPage() {
               ))}
             </ul>
 
-            <h3>Documentary Requirements</h3>
-            <ul className="office-bullet-list">
-              {item.requirements.map((req) => (
-                <li key={req}>{req}</li>
-              ))}
-            </ul>
+            <InteractiveChecklist
+              title="Documentary Requirements"
+              subtitle="Check off each requirement you have prepared before applying or downloading your checklist copy."
+              sections={groupRequirementsIntoSections(
+                item.requirements,
+                `job-${item.slug}`,
+              )}
+              downloadTitle={item.title}
+              downloadSubtitle={`${item.employer} · PESO Malaybalay`}
+              entityLabel="PESO Opportunity Checklist"
+              downloadFilename={`peso-${slugifyFilename(item.slug)}-checklist.pdf`}
+              metadata={[
+                { label: "Employer / Agency", value: item.employer },
+                { label: "Location", value: item.location },
+                ...(item.deadlineDate ? [{ label: "Deadline", value: item.deadlineDate }] : []),
+              ]}
+              storageKey={`job-${item.slug}`}
+            />
 
             <h3>How to Apply / Procedure</h3>
             <ol className="job-steps-list">
