@@ -369,15 +369,39 @@ describe("BetterMC public portal", () => {
         <App />
       </MemoryRouter>,
     );
+    const primaryNav = within(
+      screen.getByRole("navigation", { name: "Primary navigation" }),
+    );
+    expect(primaryNav.getByRole("link", { name: "Legislation" })).toHaveAttribute(
+      "href",
+      "/legislation",
+    );
+    expect(primaryNav.getByRole("link", { name: "Budget" })).toHaveAttribute(
+      "href",
+      "/budget",
+    );
+
     fireEvent.click(screen.getByRole("button", { name: /BetterMC site directory/i }));
     const navigation = screen.getByRole("navigation", { name: /BetterMC site directory/i });
     expect(within(navigation).getByRole("link", { name: /Legislation/i })).toHaveAttribute(
       "href",
       "/legislation",
     );
+    expect(within(navigation).getByRole("link", { name: /Budget/i })).toHaveAttribute(
+      "href",
+      "/budget",
+    );
     expect(within(navigation).getByRole("link", { name: /Procurement/i })).toHaveAttribute(
       "href",
       "/procurement/livestreams",
+    );
+    expect(within(navigation).getByRole("link", { name: /Infrastructure/i })).toHaveAttribute(
+      "href",
+      "/procurement/infrastructure-awards",
+    );
+    expect(within(navigation).getByRole("link", { name: /Emergency contacts/i })).toHaveAttribute(
+      "href",
+      "/offices?sector=Public%20Safety%20%26%20Emergency",
     );
     expect(within(navigation).getByRole("link", { name: /Hearings/i })).toHaveAttribute("href", "/hearings");
     expect(within(navigation).getByRole("link", { name: /City Offices/i })).toHaveAttribute("href", "/offices");

@@ -511,22 +511,43 @@ test("global page access remains complete and responsive", async ({
   );
 
   if ((page.viewportSize()?.width ?? 0) > 960) {
+    const primaryNav = page.getByRole("navigation", { name: "Primary navigation" });
+    await expect(primaryNav.getByRole("link", { name: "Budget" })).toHaveAttribute("href", "/budget");
+    await expect(primaryNav.getByRole("link", { name: "Legislation" })).toHaveAttribute("href", "/legislation");
+
+    const singleLineNavLinks = await primaryNav.locator("> a").evaluateAll((links) =>
+      links.every((link) => {
+        const rect = link.getBoundingClientRect();
+        return rect.height > 0 && rect.right <= window.innerWidth + 1;
+      }),
+    );
+    expect(singleLineNavLinks).toBe(true);
+
     await page.getByRole("button", { name: "Open BetterMC site directory" }).click();
     const allPages = page.getByRole("navigation", { name: "BetterMC site directory" });
-    await expect(allPages.getByRole("link")).toHaveCount(13);
+    await expect(allPages.getByRole("link")).toHaveCount(16);
     await expect(allPages.getByRole("link", { name: /City Offices/i })).toHaveAttribute("href", "/offices");
     await expect(allPages.getByRole("link", { name: /PESO & Jobs/i })).toHaveCount(0);
     await expect(allPages.getByRole("link", { name: /Legislation/i })).toHaveAttribute(
       "href",
       "/legislation",
     );
+    await expect(allPages.getByRole("link", { name: /Budget/i })).toHaveAttribute("href", "/budget");
+    await expect(allPages.getByRole("link", { name: /Infrastructure/i })).toHaveAttribute(
+      "href",
+      "/procurement/infrastructure-awards",
+    );
+    await expect(allPages.getByRole("link", { name: /Emergency contacts/i })).toHaveAttribute(
+      "href",
+      "/offices?sector=Public%20Safety%20%26%20Emergency",
+    );
     await expect(allPages.getByRole("link", { name: /Procurement/i })).toHaveAttribute("href", "/procurement/livestreams");
   } else {
     await page.getByRole("button", { name: "Open menu" }).click();
     const mobileNavigation = page.locator("#mobile-navigation");
-    await expect(mobileNavigation.getByRole("link")).toHaveCount(7);
+    await expect(mobileNavigation.getByRole("link")).toHaveCount(9);
     await mobileNavigation.getByText("More sections").click();
-    await expect(mobileNavigation.getByRole("link")).toHaveCount(13);
+    await expect(mobileNavigation.getByRole("link")).toHaveCount(16);
     await page.getByRole("button", { name: "Close menu" }).click();
   }
 
