@@ -202,7 +202,7 @@ import {
   type EducationLevel,
   type InstitutionType,
 } from "./civicDirectories";
-import { sitePages } from "./sitePages";
+import { sitePageGroups, sitePages } from "./sitePages";
 import { serviceProviderLogos } from "./serviceProviderLogos";
 import WeatherPanel from "./WeatherPanel";
 import MalaybalayGisMap from "./MalaybalayGisMap";
@@ -218,9 +218,56 @@ const navItems = [
   { label: "City Offices", to: "/offices" },
   { label: "Barangays", to: "/barangays" },
   { label: "Government", to: "/government" },
+  { label: "Legislation", to: "/legislation" },
+  { label: "Budget", to: "/budget" },
   { label: "Procurement", to: "/procurement/livestreams" },
   { label: "Transparency", to: "/transparency" },
 ];
+
+const sitePageIcons: Record<string, ReactNode> = {
+  "/": <House aria-hidden="true" />,
+  "/offices": <Building2 aria-hidden="true" />,
+  "/services": <BookOpen aria-hidden="true" />,
+  "/documents": <FileCheck2 aria-hidden="true" />,
+  "/barangays": <MapPin aria-hidden="true" />,
+  "/education": <GraduationCap aria-hidden="true" />,
+  "/government": <Users aria-hidden="true" />,
+  "/legislation": <Scale aria-hidden="true" />,
+  "/budget": <BarChart3 aria-hidden="true" />,
+  "/transparency": <FileText aria-hidden="true" />,
+  "/procurement/livestreams": <BriefcaseBusiness aria-hidden="true" />,
+  "/procurement/infrastructure-awards": <Landmark aria-hidden="true" />,
+  "/hearings": <Clock3 aria-hidden="true" />,
+  "/offices?sector=Public%20Safety%20%26%20Emergency": (
+    <ShieldAlert aria-hidden="true" />
+  ),
+  "/participate": <HandHeart aria-hidden="true" />,
+  "/about": <Compass aria-hidden="true" />,
+};
+
+function isSitePageCurrent(to: string, pathname: string, search: string): boolean {
+  const isEmergencySector =
+    new URLSearchParams(search).get("sector") === "Public Safety & Emergency";
+  if (to.includes("?")) {
+    return pathname === "/offices" && isEmergencySector;
+  }
+  if (to === "/") return pathname === "/";
+  if (to === "/offices") {
+    return (
+      ((pathname === "/offices" || pathname.startsWith("/offices/")) &&
+        !isEmergencySector) ||
+      pathname.startsWith("/peso") ||
+      pathname.startsWith("/jobs")
+    );
+  }
+  if (to === "/procurement/livestreams") {
+    return (
+      pathname.startsWith("/procurement") &&
+      pathname !== "/procurement/infrastructure-awards"
+    );
+  }
+  return pathname === to || pathname.startsWith(`${to}/`);
+}
 
 const pageMetadata: Record<string, { title: string; description: string }> = {
   "/": {
@@ -583,7 +630,7 @@ function Header() {
   const [pagesOpen, setPagesOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const pageAccessRef = useRef<HTMLDivElement>(null);
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
 
   useEffect(() => {
     if (!open && !pagesOpen) return;
@@ -677,32 +724,46 @@ function Header() {
                 role="navigation"
                 aria-label="BetterMC site directory"
                 aria-hidden={!pagesOpen}
+                inert={!pagesOpen}
               >
                 <div className="page-access-heading">
                   <span className="page-access-heading-icon"><LayoutGrid aria-hidden="true" /></span>
                   <span>
                     <strong>Browse BetterMC</strong>
-                    <small>Go directly to any section of the public information portal.</small>
+                    <small>Go directly to any key section of the public information portal.</small>
                   </span>
                 </div>
-                {sitePages.map((page) => {
-                  const isCurrent =
-                    pathname === page.to ||
-                    (page.to === "/procurement/livestreams" &&
-                      pathname.startsWith("/procurement"));
-                  return (
-                    <Link
-                      key={page.to}
-                      className={isCurrent ? "is-active" : undefined}
-                      aria-current={pathname === page.to ? "page" : undefined}
-                      to={page.to}
-                      onClick={() => setPagesOpen(false)}
-                    >
-                      <span><strong>{page.label}</strong><small>{page.description}</small></span>
-                      <ArrowRight aria-hidden="true" />
-                    </Link>
-                  );
-                })}
+                {sitePageGroups.map((group) => (
+                  <Fragment key={group}>
+                    <div className="page-access-group-label">{group}</div>
+                    {sitePages
+                      .filter((page) => page.group === group)
+                      .map((page) => {
+                        const isCurrent = isSitePageCurrent(page.to, pathname, search);
+                        const exactCurrent = page.to.includes("?")
+                          ? isCurrent
+                          : pathname === page.to && !search;
+                        return (
+                          <Link
+                            key={page.to}
+                            className={isCurrent ? "is-active" : undefined}
+                            aria-current={exactCurrent ? "page" : undefined}
+                            to={page.to}
+                            onClick={() => setPagesOpen(false)}
+                          >
+                            <span className="page-access-item-icon">
+                              {sitePageIcons[page.to]}
+                            </span>
+                            <span className="page-access-item-copy">
+                              <strong>{page.label}</strong>
+                              <small>{page.description}</small>
+                            </span>
+                            <ArrowRight aria-hidden="true" />
+                          </Link>
+                        );
+                      })}
+                  </Fragment>
+                ))}
               </div>
             </div>
           </nav>
