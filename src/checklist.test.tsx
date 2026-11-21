@@ -136,9 +136,9 @@ describe("bilingual interactive checklist & downloadable PDF system", () => {
     expect(batchDoc.getForm().getFields()).toHaveLength(expectedTotalReqs);
   });
 
-  it("toggles checkboxes independently, updates completion state, and resets cleanly", () => {
+  it("toggles checkboxes independently, collapses/expands smoothly without instructional clutter, and resets cleanly", () => {
     const sections = buildBarangayChecklistSections("Casisang");
-    render(
+    const { container } = render(
       <InteractiveChecklist
         title="Barangay Casisang Checklist"
         sections={sections}
@@ -146,6 +146,10 @@ describe("bilingual interactive checklist & downloadable PDF system", () => {
         downloadFilename="casisang.pdf"
       />,
     );
+
+    expect(
+      screen.queryByText(/Tick items as you prepare them/i),
+    ).not.toBeInTheDocument();
 
     const checkboxes = screen.getAllByRole("checkbox");
     expect(checkboxes.length).toBeGreaterThanOrEqual(6);
@@ -157,13 +161,28 @@ describe("bilingual interactive checklist & downloadable PDF system", () => {
     expect(checkboxes[0].closest("label")).toHaveClass("is-checked");
     expect(screen.getByText(/1 of 7 checked/i)).toBeInTheDocument();
 
+    // Collapsible dropdown hides & shows smoothly while preserving checked state
+    const toggleBtn = screen.getByRole("button", { name: /Hide checklist/i });
+    expect(toggleBtn).toHaveAttribute("aria-expanded", "true");
+    expect(container.querySelector(".bmc-checklist-collapse")).toHaveClass("is-expanded");
+
+    fireEvent.click(toggleBtn);
+    expect(screen.getByRole("button", { name: /Show checklist/i })).toHaveAttribute(
+      "aria-expanded",
+      "false",
+    );
+    expect(container.querySelector(".bmc-checklist-collapse")).not.toHaveClass("is-expanded");
+
+    fireEvent.click(screen.getByRole("button", { name: /Show checklist/i }));
+    expect(screen.getAllByRole("checkbox")[0]).toBeChecked();
+
     // Verify Cebuano/Bisaya translation appears right inside the same item label
     expect(
       screen.getByText(/1 ka balido nga ID gikan sa gobyerno/i),
     ).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /Clear checked items/i }));
-    expect(checkboxes[0]).not.toBeChecked();
+    expect(screen.getAllByRole("checkbox")[0]).not.toBeChecked();
     expect(screen.getByText(/0 of 7 checked/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Download Checklist/i })).toBeEnabled();
   });

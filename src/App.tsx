@@ -1152,7 +1152,7 @@ function GlobalSearch() {
         id="site-search"
         value={query}
         onChange={(event) => setQuery(event.target.value)}
-        placeholder="Search records, officials, offices, barangays, services…"
+        placeholder="Search offices, barangays, services…"
         autoComplete="off"
         aria-controls={hasQuery ? resultsId : undefined}
         aria-expanded={hasQuery}
@@ -4173,7 +4173,6 @@ function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) 
         <section id="checklist" className="education-profile-section education-checklist-section" aria-label="Enrollment and school records checklist">
           <InteractiveChecklist
             title="Enrollment & School Records Checklist"
-            subtitle="Check off each requirement as you prepare your enrollment or student credential request. Confirm campus deadlines and forms directly with the school."
             sections={buildSchoolChecklistSections(item)}
             steps={[
               "Gather student identity records (PSA Birth Certificate / Learner Reference Number / Valid ID).",
@@ -4282,7 +4281,6 @@ function DocumentGuidePage() {
         {checklistSections.length ? (
           <InteractiveChecklist
             title="Your Custom Starting Checklist"
-            subtitle="Check off prepared documents and download a bilingual English/Bisaya printable PDF copy."
             sections={checklistSections}
             steps={selectedGuides.flatMap((guide) => guide.steps.map((s) => `${guide.title}: ${s}`))}
             downloadTitle="My BetterMC Document Checklist"
@@ -4311,7 +4309,7 @@ function BarangayDocumentPage() {
   if (!profile) return <NotFoundPage />;
   const guide = documentGuides.find((item) => item.slug === "barangay-certificates-and-clearances");
   if (!guide) return <NotFoundPage />;
-  return <><PageHero eyebrow="Barangay document service" title={`Barangay ${profile.name} document guide`} description="A source-led starting point; confirm requirements and fees with the issuing Barangay Hall." compact><Link className="page-hero-backlink" to={`/barangays/${profile.slug}`}>Return to barangay profile <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-detail-layout"><article className="civic-detail-main"><h2>Certificates and clearances</h2><p>{guide.requirements[0]}</p><ol className="civic-steps">{guide.steps.map((step) => <li key={step}>{step}</li>)}</ol><InteractiveChecklist title={`Barangay ${profile.name} Clearance & Certificate Checklist`} subtitle="Prepare these standard items and confirm exact forms and fees directly with the Barangay Hall." sections={buildBarangayChecklistSections(profile.name)} steps={[`Visit or contact Barangay ${profile.name} Hall (${profile.phone ?? "see barangay directory"}) to confirm the exact form and ordinance fee.`, "Bring 1 valid government-issued ID, Cedula, and any local Purok/Sitio endorsement.", "State the clear purpose and recipient office of your clearance or certificate.", "Request an Official Receipt (or invoke RA 11261 First-Time Jobseeker exemption if eligible) upon release."]} guideNote={`Issuing office: Barangay ${profile.name} Hall. Punong Barangay: ${profile.punongBarangay}.`} downloadTitle={`Barangay ${profile.name} — Clearance & Certificate Checklist`} downloadSubtitle="Starting preparation checklist for Barangay Hall transactions" entityLabel={`Barangay ${profile.name}`} downloadFilename={`barangay-${profile.slug}-checklist.pdf`} metadata={[{ label: "Issuing office", value: `Barangay ${profile.name} Hall` }, ...(profile.phone ? [{ label: "Contact", value: profile.phone }] : [])]} storageKey={`barangay-doc-${profile.slug}`} /><dl className="legislation-detail-facts"><div><dt>Issuing office</dt><dd>Barangay {profile.name} Hall</dd></div><div><dt>Fee and processing time</dt><dd>Not published as a citywide standard; confirm directly with Barangay {profile.name}.</dd></div><div><dt>Official contact</dt><dd>{profile.phone ?? profile.email ?? "No direct contact was published in the reviewed directory."}</dd></div></dl></article><aside className="legislation-source-card"><FileCheck2 aria-hidden="true" /><span className="eyebrow">Official reference</span><h2>Confirm the local procedure</h2><p>BetterMC does not publish a template, fee, or release time for this barangay without a matching official source.</p><a className="button primary" href={guide.source.url} target="_blank" rel="noreferrer">Open barangay directory <ExternalLink aria-hidden="true" /></a></aside></section></>;
+  return <><PageHero eyebrow="Barangay document service" title={`Barangay ${profile.name} document guide`} description="A source-led starting point; confirm requirements and fees with the issuing Barangay Hall." compact><Link className="page-hero-backlink" to={`/barangays/${profile.slug}`}>Return to barangay profile <ArrowRight aria-hidden="true" /></Link></PageHero><section className="section container civic-detail-layout"><article className="civic-detail-main"><h2>Certificates and clearances</h2><p>{guide.requirements[0]}</p><ol className="civic-steps">{guide.steps.map((step) => <li key={step}>{step}</li>)}</ol><InteractiveChecklist title={`Barangay ${profile.name} Clearance & Certificate Checklist`} sections={buildBarangayChecklistSections(profile.name)} steps={[`Visit or contact Barangay ${profile.name} Hall (${profile.phone ?? "see barangay directory"}) to confirm the exact form and ordinance fee.`, "Bring 1 valid government-issued ID, Cedula, and any local Purok/Sitio endorsement.", "State the clear purpose and recipient office of your clearance or certificate.", "Request an Official Receipt (or invoke RA 11261 First-Time Jobseeker exemption if eligible) upon release."]} guideNote={`Issuing office: Barangay ${profile.name} Hall. Punong Barangay: ${profile.punongBarangay}.`} downloadTitle={`Barangay ${profile.name} — Clearance & Certificate Checklist`} downloadSubtitle="Starting preparation checklist for Barangay Hall transactions" entityLabel={`Barangay ${profile.name}`} downloadFilename={`barangay-${profile.slug}-checklist.pdf`} metadata={[{ label: "Issuing office", value: `Barangay ${profile.name} Hall` }, ...(profile.phone ? [{ label: "Contact", value: profile.phone }] : [])]} storageKey={`barangay-doc-${profile.slug}`} /><dl className="legislation-detail-facts"><div><dt>Issuing office</dt><dd>Barangay {profile.name} Hall</dd></div><div><dt>Fee and processing time</dt><dd>Not published as a citywide standard; confirm directly with Barangay {profile.name}.</dd></div><div><dt>Official contact</dt><dd>{profile.phone ?? profile.email ?? "No direct contact was published in the reviewed directory."}</dd></div></dl></article><aside className="legislation-source-card"><FileCheck2 aria-hidden="true" /><span className="eyebrow">Official reference</span><h2>Confirm the local procedure</h2><p>BetterMC does not publish a template, fee, or release time for this barangay without a matching official source.</p><a className="button primary" href={guide.source.url} target="_blank" rel="noreferrer">Open barangay directory <ExternalLink aria-hidden="true" /></a></aside></section></>;
 }
 
 function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" }) {
@@ -6139,7 +6137,6 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
           <div className="barangay-checklist-wrap">
             <InteractiveChecklist
               title={`Barangay ${profile.name} Clearance & Document Checklist`}
-              subtitle="Use this checklist to prepare standard documents and verify barangay-specific forms and fees directly with the Barangay Hall."
               sections={buildBarangayChecklistSections(profile.name)}
               steps={[
                 `Confirm the specific Barangay ${profile.name} form, ordinance fee, and signatory hours at the Barangay Hall.`,
@@ -7020,9 +7017,6 @@ function TransactionModal({
                 )}
               </span>
             </div>
-            <p className="service-tx-subtitle">
-              Check off each document as you prepare them before visiting the counter or filing online.
-            </p>
             <InteractiveChecklist
               title="Required Documents & Verification"
               sections={groupRequirementsIntoSections(

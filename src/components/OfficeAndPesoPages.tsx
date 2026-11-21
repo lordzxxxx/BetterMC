@@ -1424,7 +1424,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                           }
                         }}
                       >
-                        {isOpen ? "Hide checklist" : "Requirements & steps"}
+                        {isOpen ? "Hide details" : "Requirements & steps"}
                         <ChevronDown aria-hidden="true" />
                       </button>
                     ) : null}
@@ -1437,59 +1437,63 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
                     <p className="office-service-elig">Who may avail: {service.whoMayAvail}</p>
                   ) : null}
 
-                  {isOpen && (service.requirements?.length || service.steps?.length) ? (
-                    <div className="office-service-details">
-                      {service.requirements && service.requirements.length > 0 ? (
-                        <div className="office-service-checklist-col">
-                          <InteractiveChecklist
-                            title="Documentary Requirements"
-                            sections={groupRequirementsIntoSections(
-                              service.requirements,
-                              `office-${office.slug}-${idx}`,
-                            )}
-                            steps={service.steps}
-                            guideNote={
-                              service.whoMayAvail
-                                ? `Eligible applicants: ${service.whoMayAvail}. Submit at ${office.address} (${office.operatingHours}).`
-                                : `Submit at ${office.address} (${office.operatingHours}).`
-                            }
-                            downloadTitle={service.title}
-                            downloadSubtitle={`${office.name} · City Government of Malaybalay`}
-                            entityLabel={office.shortName}
-                            downloadFilename={`${office.slug}-${slugifyFilename(service.title)}-checklist.pdf`}
-                            metadata={[
-                              { label: "Fee", value: service.fee },
-                              { label: "Processing time", value: service.processingTime },
-                              ...(service.classification
-                                ? [{ label: "Classification", value: service.classification }]
-                                : []),
-                            ]}
-                            footerNote={
-                              service.reference
-                                ? `Source: ${service.reference} — Confirm current forms & schedules with ${office.shortName}.`
-                                : undefined
-                            }
-                            storageKey={`office-${office.slug}-${slugifyFilename(service.title)}`}
-                            compact
-                          />
+                  {(service.requirements?.length || service.steps?.length) ? (
+                    <div
+                      className={`office-service-collapse${isOpen ? " is-expanded" : ""}`}
+                      aria-hidden={!isOpen}
+                    >
+                      <div className="office-service-collapse-inner">
+                        <div className="office-service-details">
+                          {service.requirements && service.requirements.length > 0 ? (
+                            <div className="office-service-checklist-col">
+                              <InteractiveChecklist
+                                title="Documentary Requirements"
+                                sections={groupRequirementsIntoSections(
+                                  service.requirements,
+                                  `office-${office.slug}-${idx}`,
+                                )}
+                                steps={service.steps}
+                                guideNote={
+                                  service.whoMayAvail
+                                    ? `Eligible applicants: ${service.whoMayAvail}. Submit at ${office.address} (${office.operatingHours}).`
+                                    : `Submit at ${office.address} (${office.operatingHours}).`
+                                }
+                                downloadTitle={service.title}
+                                downloadSubtitle={`${office.name} · City Government of Malaybalay`}
+                                entityLabel={office.shortName}
+                                downloadFilename={`${office.slug}-${slugifyFilename(service.title)}-checklist.pdf`}
+                                metadata={[
+                                  { label: "Fee", value: service.fee },
+                                  { label: "Processing time", value: service.processingTime },
+                                  ...(service.classification
+                                    ? [{ label: "Classification", value: service.classification }]
+                                    : []),
+                                ]}
+                                footerNote={
+                                  service.reference
+                                    ? `Source: ${service.reference} — Confirm current forms & schedules with ${office.shortName}.`
+                                    : undefined
+                                }
+                                storageKey={`office-${office.slug}-${slugifyFilename(service.title)}`}
+                                compact
+                              />
+                            </div>
+                          ) : null}
+                          {service.steps && service.steps.length > 0 ? (
+                            <div className="office-service-steps-col">
+                              <h4>Step-by-Step Procedure</h4>
+                              <ol className="bmc-steps-guide-list">
+                                {service.steps.map((step, sIdx) => (
+                                  <li key={step}>
+                                    <span className="bmc-step-badge">{sIdx + 1}</span>
+                                    <span>{step}</span>
+                                  </li>
+                                ))}
+                              </ol>
+                            </div>
+                          ) : null}
                         </div>
-                      ) : null}
-                      {service.steps && service.steps.length > 0 ? (
-                        <div className="office-service-steps-col">
-                          <h4>Step-by-Step Procedure</h4>
-                          <p className="bmc-steps-guide-hint">
-                            Follow these numbered steps in order when submitting your documents:
-                          </p>
-                          <ol className="bmc-steps-guide-list">
-                            {service.steps.map((step, sIdx) => (
-                              <li key={step}>
-                                <span className="bmc-step-badge">{sIdx + 1}</span>
-                                <span>{step}</span>
-                              </li>
-                            ))}
-                          </ol>
-                        </div>
-                      ) : null}
+                      </div>
                     </div>
                   ) : null}
                 </article>
@@ -1814,7 +1818,6 @@ export function JobDetailPage() {
 
             <InteractiveChecklist
               title="Documentary Requirements"
-              subtitle="Check off each requirement you have prepared before applying or downloading your complete checklist and application guide."
               sections={groupRequirementsIntoSections(
                 item.requirements,
                 `job-${item.slug}`,

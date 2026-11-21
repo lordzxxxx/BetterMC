@@ -8,6 +8,22 @@ async function verifyChecklistBehaviorAndPdf(
 ) {
   const card = page.locator(".bmc-checklist-card").first();
   await expect(card).toBeVisible();
+  await expect(card).not.toContainText(/Tick items as you prepare them/i);
+
+  // Verify smooth animated expand/collapse toggle works cleanly
+  const collapsePanel = card.locator(".bmc-checklist-collapse");
+  await expect(collapsePanel).toHaveClass(/is-expanded/);
+  const toggleBtn = card.getByRole("button", { name: /Hide checklist/i });
+  await expect(toggleBtn).toHaveAttribute("aria-expanded", "true");
+  const transitionProp = await collapsePanel.evaluate((el) => window.getComputedStyle(el).transitionProperty);
+  expect(transitionProp).toContain("grid-template-rows");
+
+  await toggleBtn.click();
+  await expect(collapsePanel).not.toHaveClass(/is-expanded/);
+  await expect(card.getByRole("button", { name: /Show checklist/i })).toHaveAttribute("aria-expanded", "false");
+  await card.getByRole("button", { name: /Show checklist/i }).click();
+  await expect(collapsePanel).toHaveClass(/is-expanded/);
+  await expect(collapsePanel).toHaveCSS("opacity", "1");
 
   const checkboxes = card.locator('input[type="checkbox"]');
   const count = await checkboxes.count();
@@ -93,7 +109,7 @@ test.describe("bilingual interactive checklists and PDF downloads across BetterM
 
     // Expand All reveals multiple service checklists simultaneously
     await page.getByRole("button", { name: /Expand All \(10\)/i }).click();
-    expect(await page.locator("#services .bmc-checklist-card").count()).toBe(10);
+    expect(await page.locator("#services .office-service-collapse.is-expanded .bmc-checklist-card").count()).toBe(10);
 
     await page.goto("/offices/bpld");
     await verifyChecklistBehaviorAndPdf(page, 4);
@@ -158,6 +174,53 @@ test.describe("bilingual interactive checklists and PDF downloads across BetterM
     await expect(modal).toBeVisible();
     await verifyChecklistBehaviorAndPdf(page, 4);
     await expect(modal.getByRole("button", { name: /Print Checklist/i })).toBeVisible();
+  });
+
+  test("verifies DTI/SEC/BPLD logos render unclipped and mobile pages have zero horizontal overflow", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/services/business-trade");
+
+    const logos = page.locator(".provider-card .provider-logo img");
+    const logoCount = await logos.count();
+    expect(logoCount).toBeGreaterThan(0);
+
+    for (let i = 0; i < logoCount; i += 1) {
+      const logo = logos.nth(i);
+      await logo.scrollIntoViewIfNeeded();
+      await expect(logo).toBeVisible();
+      await expect
+        .poll(() =>
+          logo.evaluate((el) => {
+            const img = el as HTMLImageElement;
+            return img.complete && img.naturalWidth > 0;
+          }),
+        )
+        .toBe(true);
+    }
+
+    const dtiLogoFit = await page
+      .locator('.provider-card .provider-logo img[src$="/dti.png"]')
+      .first()
+      .evaluate((el) => getComputedStyle(el).objectFit);
+    expect(dtiLogoFit).toBe("contain");
+
+    const mobileRoutes = [
+      "/",
+      "/services/business-trade",
+      "/offices/peso",
+      "/budget",
+      "/barangays/casisang",
+    ];
+    for (const route of mobileRoutes) {
+      await page.goto(route);
+      await page.waitForLoadState("networkidle");
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - window.innerWidth,
+      );
+      expect(overflow, `Horizontal overflow on ${route}`).toBeLessThanOrEqual(1);
+    }
   });
 
   test("verifies responsive checklists across tablet (768px) and mobile (375px & 320px) without overflow", async ({
