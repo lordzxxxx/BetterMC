@@ -1,10 +1,10 @@
-import { useCallback, useId, useMemo, useState, type ReactNode } from "react";
-import { Check, Download, FileStack, RotateCcw } from "lucide-react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
+import { Check, ChevronDown, Download, FileStack, RotateCcw } from "lucide-react";
 import type { ChecklistSection } from "../requirementTranslations";
 import type { ChecklistPdfDocumentInput, ChecklistPdfPacket } from "../utils/checklistPdf";
 
 export type InteractiveChecklistProps = {
-  /** Visible heading above the checklist; omit or pass compact when embedded inside an accordion column. */
+  /** Visible heading above the checklist. */
   title?: string;
   subtitle?: string;
   guideNote?: string;
@@ -17,6 +17,9 @@ export type InteractiveChecklistProps = {
   metadata?: Array<{ label: string; value: string }>;
   footerNote?: string;
   compact?: boolean;
+  collapsible?: boolean;
+  defaultExpanded?: boolean;
+  toggleLabels?: { show: string; hide: string };
   /** Key used for persisting checked items in localStorage (uncontrolled mode). */
   storageKey?: string;
   /** Controlled mode: map keyed by either item.id or item.english. */
@@ -142,6 +145,9 @@ export function InteractiveChecklist({
   metadata,
   footerNote,
   compact = false,
+  collapsible = true,
+  defaultExpanded = true,
+  toggleLabels = { show: "Show checklist", hide: "Hide checklist" },
   storageKey,
   checkedMap,
   onToggleItem,
@@ -151,12 +157,22 @@ export function InteractiveChecklist({
   ariaLabel,
 }: InteractiveChecklistProps) {
   const headingId = useId();
+  const collapsePanelId = useId();
+  const collapseInnerRef = useRef<HTMLDivElement>(null);
   const isControlled = checkedMap !== undefined;
+  const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   const [internalState, setInternalState] = useState<{
     key: string | undefined;
     map: Record<string, boolean>;
   }>(() => ({ key: storageKey, map: readStoredMap(storageKey) }));
   const [downloading, setDownloading] = useState(false);
+
+  useEffect(() => {
+    const el = collapseInnerRef.current;
+    if (el && "inert" in el) {
+      el.inert = collapsible ? !isExpanded : false;
+    }
+  }, [collapsible, isExpanded]);
 
   const activeInternalMap = useMemo(
     () => (internalState.key === storageKey ? internalState.map : readStoredMap(storageKey)),
@@ -303,6 +319,18 @@ export function InteractiveChecklist({
           </div>
 
           <div className="bmc-checklist-toolbar">
+            {collapsible ? (
+              <button
+                type="button"
+                className="bmc-checklist-toggle-btn"
+                aria-expanded={isExpanded}
+                aria-controls={collapsePanelId}
+                onClick={() => setIsExpanded((prev) => !prev)}
+              >
+                <span>{isExpanded ? toggleLabels.hide : toggleLabels.show}</span>
+                <ChevronDown aria-hidden="true" />
+              </button>
+            ) : null}
             {completedCount > 0 ? (
               <button
                 type="button"
@@ -333,60 +361,65 @@ export function InteractiveChecklist({
             style={{ width: `${progressPct}%` }}
           />
         </div>
-        <p className="bmc-checklist-subtitle">
-          {subtitle ??
-            "Tick items as you prepare them. English requirement on top, Cebuano/Bisaya guide below."}
-        </p>
+        {subtitle ? <p className="bmc-checklist-subtitle">{subtitle}</p> : null}
       </div>
 
-      <div className="bmc-checklist-sections">
-        {sections.map((section) => {
-          const sectionDoneCount = section.items.filter((item) =>
-            isItemChecked(item.id, item.english),
-          ).length;
-          return (
-            <div key={section.title} className="bmc-checklist-section">
-              <div className="bmc-checklist-section-head">
-                <div className="bmc-checklist-section-titles">
-                  <h5>{section.title}</h5>
-                  {section.titleBisaya ? (
-                    <span className="bmc-checklist-section-bisaya">{section.titleBisaya}</span>
-                  ) : null}
-                </div>
-                <span className="bmc-checklist-section-count">
-                  {sectionDoneCount}/{section.items.length}
-                </span>
-              </div>
-              <div className="bmc-checklist-items">
-                {section.items.map((item) => {
-                  const checked = isItemChecked(item.id, item.english);
-                  return (
-                    <label
-                      key={item.id}
-                      className={`bmc-checklist-item${checked ? " is-checked" : ""}`}
-                    >
-                      <input
-                        type="checkbox"
-                        className="bmc-checklist-checkbox"
-                        checked={checked}
-                        onChange={() => handleToggle(item.id, item.english)}
-                      />
-                      <span className="bmc-checklist-text">
-                        <span className="bmc-checklist-en">{item.english}</span>
-                        <span className="bmc-checklist-bisaya">{item.bisaya}</span>
-                      </span>
-                      {checked ? (
-                        <span className="bmc-checklist-done-badge" aria-hidden="true">
-                          <Check aria-hidden="true" />
-                        </span>
+      <div
+        id={collapsePanelId}
+        className={`bmc-checklist-collapse${!collapsible || isExpanded ? " is-expanded" : ""}`}
+        aria-hidden={collapsible ? !isExpanded : false}
+      >
+        <div className="bmc-checklist-collapse-inner" ref={collapseInnerRef}>
+          <div className="bmc-checklist-sections">
+            {sections.map((section) => {
+              const sectionDoneCount = section.items.filter((item) =>
+                isItemChecked(item.id, item.english),
+              ).length;
+              return (
+                <div key={section.title} className="bmc-checklist-section">
+                  <div className="bmc-checklist-section-head">
+                    <div className="bmc-checklist-section-titles">
+                      <h5>{section.title}</h5>
+                      {section.titleBisaya ? (
+                        <span className="bmc-checklist-section-bisaya">{section.titleBisaya}</span>
                       ) : null}
-                    </label>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
+                    </div>
+                    <span className="bmc-checklist-section-count">
+                      {sectionDoneCount}/{section.items.length}
+                    </span>
+                  </div>
+                  <div className="bmc-checklist-items">
+                    {section.items.map((item) => {
+                      const checked = isItemChecked(item.id, item.english);
+                      return (
+                        <label
+                          key={item.id}
+                          className={`bmc-checklist-item${checked ? " is-checked" : ""}`}
+                        >
+                          <input
+                            type="checkbox"
+                            className="bmc-checklist-checkbox"
+                            checked={checked}
+                            onChange={() => handleToggle(item.id, item.english)}
+                          />
+                          <span className="bmc-checklist-text">
+                            <span className="bmc-checklist-en">{item.english}</span>
+                            <span className="bmc-checklist-bisaya">{item.bisaya}</span>
+                          </span>
+                          {checked ? (
+                            <span className="bmc-checklist-done-badge" aria-hidden="true">
+                              <Check aria-hidden="true" />
+                            </span>
+                          ) : null}
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );

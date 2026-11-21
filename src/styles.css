@@ -2579,12 +2579,14 @@ kbd {
 .money-row {
   width: 100%;
   display: block;
-  padding: 3px 4px;
+  min-height: 40px;
+  padding: 6px 8px;
   border: 0;
   border-radius: 8px;
   color: inherit;
   background: transparent;
   text-align: left;
+  cursor: pointer;
 }
 .money-row:hover,
 .money-row[aria-pressed="true"] {
@@ -12824,16 +12826,17 @@ body {
 .barangay-popout-btn,
 .barangay-bid-popout-btn {
   width: 100%;
+  min-height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 7px 11px;
+  padding: 8px 14px;
   border: 1px solid #c3d8f0;
   border-radius: 9px;
   color: #0f4ea8;
   background: #edf5ff;
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   font-weight: 800;
   cursor: pointer;
 }
@@ -19288,6 +19291,7 @@ div.service-category-grid > article.service-category-card > a.category-card-arro
 .civic-detail-main > h2 { margin-top: 0; }
 .civic-detail-main .popout-measures-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 10px; }
 .document-checklist { display: grid; gap: 14px; padding: 20px; border: 1px solid #b7d1f1; border-radius: 16px; background: #f5faff; }
+.document-checklist:has(.bmc-checklist-card) { padding: 16px; }
 .document-checklist h2 { margin: 4px 0 0; font-size: 1.2rem; }
 .document-checklist p { margin: 0; color: var(--muted); line-height: 1.5; }
 .document-checklist ul { display: grid; gap: 9px; margin: 0; padding: 0; list-style: none; }
@@ -21336,7 +21340,11 @@ pre {
 
 @media (max-width: 760px) {
   body {
-    padding-bottom: 68px;
+    padding-bottom: 72px;
+  }
+
+  .site-footer {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)) !important;
   }
 
   .mobile-bottom-app-bar {
@@ -21462,8 +21470,9 @@ pre {
   .procurement-page-nav[aria-label="Transparency and budget sections"] {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
     overflow-x: visible;
-    padding-bottom: 8px;
+    padding: 5px;
   }
 
   .procurement-page-nav::-webkit-scrollbar {
@@ -21476,6 +21485,12 @@ pre {
   }
 
   .procurement-page-nav[aria-label="Transparency and budget sections"] a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 8px 10px;
+    line-height: 1.25;
     white-space: normal;
     text-align: center;
   }
@@ -21619,7 +21634,7 @@ pre {
 .record-video > p { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0 0; color: #536a86; font-size: .78rem; }
 .record-video a { display: inline-flex; align-items: center; gap: 3px; color: #124c9e; font-weight: 650; }
 .record-video a svg { width: 13px; height: 13px; }
-.table-record-open { display: inline-flex; align-items: center; gap: 5px; margin-top: 6px; padding: 0; border: 0; background: transparent; color: #124c9e; font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
+.table-record-open { display: inline-flex; align-items: center; gap: 5px; min-height: 36px; margin-top: 4px; padding: 6px 2px; border: 0; background: transparent; color: #124c9e; font: inherit; font-size: .8rem; font-weight: 700; cursor: pointer; }
 .table-record-open svg { width: 15px; height: 15px; }
 .table-record-open:focus-visible { outline: 3px solid #77a8e8; outline-offset: 3px; }
 .bac-report-snapshot-note { margin: 10px 0 0; color: #526b86; font-size: .8rem; line-height: 1.5; }
@@ -21830,9 +21845,9 @@ pre {
 .provider-card .provider-card-identity { min-width: 0; }
 .provider-card .provider-logo { display: grid; place-items: center; width: 56px; height: 56px; flex: none; border: 1px solid #d4e3f1; border-radius: 12px; background: #f1f7fe; color: #1c5aa5; }
 .provider-card .provider-logo.has-logo { width: 60px; height: 60px; padding: 5px; background: #fff; }
-.provider-card .provider-logo.has-logo-wide { width: 108px; height: 56px; padding: 6px; }
-.provider-card .provider-logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
-.provider-card .provider-logo img:is([src$="/sss.png"],[src$="/dti.png"],[src$="/deped.png"]) { object-fit: cover; object-position: left center; }
+.provider-card .provider-logo.has-logo-wide { width: 112px; height: 56px; padding: 6px 8px; background: #ffffff; }
+.provider-card .provider-logo img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
+.provider-card .provider-logo img:is([src$="/sss.png"],[src$="/dti.png"],[src$="/deped.png"]) { object-fit: contain; object-position: center; }
 .provider-card .provider-logo svg { width: 24px; height: 24px; }
 .provider-card .provider-mobile-toggle { display: none; }
 .provider-card .provider-card-meta { margin-bottom: 5px; }
@@ -24538,20 +24553,111 @@ body.is-microsite [id] {
   height: 13px;
 }
 
+.bmc-checklist-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 7px 12px;
+  border: 1px solid #c5daf2;
+  border-radius: 10px;
+  background: #f4f8ff;
+  color: #14499e;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.16s ease, border-color 0.16s ease;
+}
+
+.bmc-checklist-toggle-btn:hover {
+  background: #e8f1fd;
+  border-color: #93bae6;
+}
+
+.bmc-checklist-toggle-btn:focus-visible {
+  outline: 2px solid #1a54b5;
+  outline-offset: 2px;
+}
+
+.bmc-checklist-toggle-btn svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  transition: transform 240ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bmc-checklist-toggle-btn[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+/* Smooth ease-in-out height & opacity collapse/expand across all checklists */
+.bmc-checklist-collapse,
+.office-service-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    grid-template-rows 280ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 220ms ease-in-out,
+    visibility 0s linear 280ms;
+}
+
+.bmc-checklist-collapse.is-expanded,
+.office-service-collapse.is-expanded {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    grid-template-rows 280ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 240ms ease-in-out,
+    visibility 0s linear 0s;
+}
+
+.bmc-checklist-collapse-inner,
+.office-service-collapse-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.bmc-checklist-collapse.is-expanded .bmc-checklist-sections {
+  padding-top: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bmc-checklist-collapse,
+  .office-service-collapse,
+  .bmc-checklist-toggle-btn svg,
+  .office-expand-btn svg,
+  .bmc-checklist-progress-fill {
+    transition: none !important;
+  }
+}
+
 @media (max-width: 640px) {
   .bmc-checklist-card {
     padding: 14px;
     gap: 12px;
   }
-  .bmc-checklist-header {
+  .bmc-checklist-header-top {
     flex-direction: column;
     align-items: stretch;
+  }
+  .bmc-checklist-heading-group {
+    flex: 0 0 auto;
+    width: 100%;
   }
   .bmc-checklist-toolbar {
     width: 100%;
   }
   .bmc-checklist-download-btn {
-    flex: 1;
+    flex: 1 1 160px;
+  }
+  .bmc-checklist-toggle-btn {
+    flex: 0 1 auto;
   }
   .bmc-checklist-item {
     padding: 10px 12px;
@@ -24562,5 +24668,56 @@ body.is-microsite [id] {
   }
   .bmc-checklist-bisaya {
     font-size: 0.78rem;
+  }
+  .document-checklist:has(.bmc-checklist-card) {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  .office-service-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .office-expand-btn {
+    width: 100%;
+    justify-content: space-between;
+    min-height: 40px;
+    padding: 8px 14px;
+  }
+  .service-tx-modal {
+    width: calc(100vw - 20px);
+    max-height: 92dvh;
+    border-radius: 16px;
+  }
+  .service-tx-body {
+    padding: 14px;
+  }
+  .service-tx-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .service-tx-actions > a,
+  .service-tx-actions > button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .bmc-checklist-card {
+    padding: 12px;
+  }
+  .bmc-checklist-toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bmc-checklist-toolbar > button {
+    width: 100%;
+    min-height: 40px;
+  }
+  .bmc-checklist-checkbox {
+    width: 20px;
+    height: 20px;
   }
 }
