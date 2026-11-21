@@ -211,22 +211,63 @@ function opportunityCompensationDisplay(item: {
   };
 }
 
+function formatDirectoryKicker(office: GovernmentOffice): string {
+  if (office.parentOffice) {
+    const cleanParent = office.parentOffice
+      .replace(/\s*\([^)]*\)\s*/g, "")
+      .replace(/^Office of the City Mayor$/i, "City Mayor's Office")
+      .trim();
+    return `Under ${cleanParent}`;
+  }
+  return office.classification
+    .split("—")[0]
+    .replace(/\s*\([^)]*\)\s*/g, "")
+    .trim();
+}
+
+function formatDirectoryHead(
+  headOfOffice?: string,
+  headNote?: string,
+): { name: string; role: string | null } {
+  const primary = (headOfOffice ?? "").split("•")[0].trim();
+  if (!primary) {
+    return { name: headNote || "See assigned personnel", role: null };
+  }
+  const match = primary.match(/^(.+?)\s*\(([^()]+)\)\s*$/);
+  if (!match) {
+    return { name: primary, role: null };
+  }
+  const cleanRole = match[2]
+    .replace(/,\s*CY\s*2026\s*APP(?:\s*Summary)?/gi, "")
+    .replace(/\s*•\s*Concurrent.*$/i, "")
+    .replace(/\s*—\s*CHRMO$/i, "")
+    .replace(/^City Government\s+/i, "")
+    .trim();
+  return { name: match[1].trim(), role: cleanRole || null };
+}
+
+function formatDirectoryPhone(phone: string): string {
+  return phone.replace(/\bLocal\s+/gi, "Local\u00A0");
+}
+
 function MicrositeUrlAnchor({
   url,
   host,
   className,
   showIcons = false,
+  hideProtocol = false,
 }: {
   url: string;
   host: string;
   className?: string;
   showIcons?: boolean;
+  hideProtocol?: boolean;
 }) {
   return (
     <a className={className} href={url} target="_blank" rel="noopener noreferrer">
       {showIcons ? <Globe aria-hidden="true" /> : null}
       <span className="office-url-text">
-        <span>https://</span>
+        {!hideProtocol ? <span>https://</span> : null}
         <span>{host}</span>
       </span>
     </a>
@@ -399,21 +440,17 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
         <div className="offices-grid">
           {filteredOffices.map((office) => {
             const profilePath = officeDirectoryPath(office);
+            const headInfo = formatDirectoryHead(office.headOfOffice, office.headNote);
+            const primaryPhone = office.phoneNumbers[0];
+            const extraPhoneCount = Math.max(0, office.phoneNumbers.length - 1);
+            const primaryEmail = office.emails[0];
             return (
               <article key={office.slug} className="office-dir-card bettermc-surface-card">
                 <div className="office-dir-top">
                   <header className="office-dir-card-head">
                     <OfficeLogoBadge office={office} size="sm" />
-                    <div className="office-dir-card-context">
-                      <strong className="office-dir-kicker">
-                        {office.parentOffice
-                          ? `Under ${office.parentOffice}`
-                          : office.classification.split("—")[0].trim()}
-                      </strong>
-                      <span className="office-dir-submeta">
-                        {office.acronym} · Malaybalay City
-                      </span>
-                    </div>
+                    <strong className="office-dir-kicker">{formatDirectoryKicker(office)}</strong>
+                    <span className="office-dir-acronym-badge">{office.acronym}</span>
                   </header>
                   <h3 className="office-dir-title">
                     <Link to={profilePath}>{office.name}</Link>
@@ -429,9 +466,10 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
                       <span>Office Head</span>
                     </dt>
                     <dd>
-                      {office.headOfOffice
-                        ? office.headOfOffice.split("•")[0].trim()
-                        : office.headNote || "See assigned personnel"}
+                      <span className="office-dir-head-name">{headInfo.name}</span>
+                      {headInfo.role ? (
+                        <span className="office-dir-head-role">{headInfo.role}</span>
+                      ) : null}
                     </dd>
                   </div>
                   <div className="office-dir-fact-row">
@@ -447,12 +485,17 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
                       <span>Contact</span>
                     </dt>
                     <dd className="office-dir-tel-list">
-                      {office.phoneNumbers.length > 0 ? (
-                        office.phoneNumbers.slice(0, 2).map((phone) => (
-                          <a key={phone} className="office-dir-tel" href={telHref(phone)}>
-                            {phone}
+                      {primaryPhone ? (
+                        <>
+                          <a className="office-dir-tel" href={telHref(primaryPhone)}>
+                            {formatDirectoryPhone(primaryPhone)}
                           </a>
-                        ))
+                          {extraPhoneCount > 0 ? (
+                            <span className="office-dir-extra-count">
+                              +{extraPhoneCount} {extraPhoneCount === 1 ? "line" : "lines"}
+                            </span>
+                          ) : null}
+                        </>
                       ) : (
                         <span className="office-dir-muted">Not published</span>
                       )}
@@ -464,10 +507,16 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
                       <span>Email</span>
                     </dt>
                     <dd>
-                      {office.emails[0] ? (
-                        <a className="office-dir-email" href={`mailto:${office.emails[0]}`}>
-                          {office.emails[0]}
-                        </a>
+                      {primaryEmail ? (
+                        isDeliverableEmail(primaryEmail) ? (
+                          <a className="office-dir-email" href={`mailto:${primaryEmail.trim()}`}>
+                            {primaryEmail.trim()}
+                          </a>
+                        ) : (
+                          <span className="office-dir-muted">
+                            {primaryEmail} (confirm via phone)
+                          </span>
+                        )
                       ) : (
                         <span className="office-dir-muted">Not published</span>
                       )}
@@ -485,6 +534,7 @@ export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeade
                     url={office.subdomainUrl}
                     host={office.subdomainHost}
                     showIcons
+                    hideProtocol
                   />
                 </div>
               </article>
