@@ -334,6 +334,58 @@ describe("BetterMC public portal", () => {
     ).toHaveAttribute("href", "/barangays");
   });
 
+  it("renders organized emergency hotlines directly after the weather section instead of inside government services", () => {
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
+
+    const weatherSection = document.querySelector(".weather-section");
+    const hotlinesSection = document.getElementById("emergency-hotlines");
+    const servicesSection = document.getElementById("government-services");
+
+    expect(weatherSection).not.toBeNull();
+    expect(hotlinesSection).not.toBeNull();
+    expect(servicesSection).not.toBeNull();
+    expect(weatherSection?.nextElementSibling).toBe(hotlinesSection);
+    expect(
+      within(servicesSection!).queryByRole("heading", { name: /Emergency hotlines/i }),
+    ).not.toBeInTheDocument();
+
+    const hotlines = within(hotlinesSection!);
+    expect(hotlines.getByRole("link", { name: /911/i })).toHaveAttribute("href", "tel:911");
+    expect(hotlines.getByRole("link", { name: /143/i })).toHaveAttribute("href", "tel:143");
+    expect(hotlines.getByRole("link", { name: /BUSECO.*0998-843-8335/i })).toHaveAttribute(
+      "href",
+      "tel:09988438335",
+    );
+    expect(hotlines.getByRole("link", { name: /City Disaster Risk Reduction.*0917-827-6117/i })).toHaveAttribute(
+      "href",
+      "tel:09178276117",
+    );
+    expect(hotlines.getByRole("link", { name: /Bureau of Fire Protection.*0917-677-7700/i })).toHaveAttribute(
+      "href",
+      "tel:09176777700",
+    );
+    expect(hotlines.getByRole("link", { name: /Malaybalay City Police Station.*0926-821-8803/i })).toHaveAttribute(
+      "href",
+      "tel:09268218803",
+    );
+    expect(hotlines.getByRole("link", { name: /City Health Office.*0965-094-9105/i })).toHaveAttribute(
+      "href",
+      "tel:09650949105",
+    );
+    expect(hotlines.getByRole("link", { name: /Traffic Management Center.*0936-829-4691/i })).toHaveAttribute(
+      "href",
+      "tel:09368294691",
+    );
+    expect(hotlines.getByRole("link", { name: /City Social Welfare.*0953-385-2277/i })).toHaveAttribute(
+      "href",
+      "tel:09533852277",
+    );
+  });
+
   it("searches direct portal destinations across record types", () => {
     render(
       <MemoryRouter>

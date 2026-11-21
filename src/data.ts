@@ -1075,6 +1075,127 @@ export const departments: Department[] = [
   source: contactSource,
 }));
 
+function departmentPhone(name: string): string {
+  return departments.find((dept) => dept.name === name)?.phone ?? "";
+}
+
+export type QuickEmergencyHotline = {
+  id: string;
+  badge: string;
+  label: string;
+  scope: string;
+  phone: string;
+  urgent?: boolean;
+  source: Source;
+};
+
+export type EmergencyHotlineEntry = {
+  id: string;
+  category: string;
+  name: string;
+  scope: string;
+  primaryPhone: string;
+  secondaryPhone: string;
+  officeTo: string;
+};
+
+export const urgentEmergencyHotlines: QuickEmergencyHotline[] = [
+  {
+    id: "national-911",
+    badge: "911",
+    label: "National Emergency",
+    scope: "24/7 Police, Fire & Medical Rescue",
+    phone: "911",
+    urgent: true,
+    source: {
+      label: "DILG Emergency 911 & Malaybalay CDRRMO",
+      url: contactSource.url,
+      verifiedOn: VERIFIED_ON,
+    },
+  },
+  {
+    id: "red-cross-143",
+    badge: "143",
+    label: "Philippine Red Cross",
+    scope: "24/7 Blood & Disaster Relief",
+    phone: "143",
+    source: {
+      label: "Philippine Red Cross",
+      url: "https://redcross.org.ph/",
+      verifiedOn: VERIFIED_ON,
+    },
+  },
+  {
+    id: "buseco-malaybalay",
+    badge: "BUSECO",
+    label: "0998-843-8335",
+    scope: "Power Outages · Malaybalay Branch",
+    phone: "0998-843-8335",
+    source: {
+      label: "BUSECO Contact Directory (Malaybalay Branch)",
+      url: "https://buseco.coop/contact-us/",
+      verifiedOn: VERIFIED_ON,
+    },
+  },
+];
+
+export const cityEmergencyHotlines: EmergencyHotlineEntry[] = [
+  {
+    id: "cdrrmo",
+    category: "Rescue & Disaster",
+    name: "City Disaster Risk Reduction and Management Office",
+    scope: "24/7 Rescue, EMS Ambulance & Flood Dispatch",
+    primaryPhone: departmentPhone("City Disaster Risk Reduction and Management Office"),
+    secondaryPhone: "(088) 813-3611",
+    officeTo: "/offices/drrmo",
+  },
+  {
+    id: "bfp",
+    category: "Fire Protection",
+    name: "Bureau of Fire Protection — Malaybalay",
+    scope: "24/7 Fire Suppression & Rescue Operations",
+    primaryPhone: departmentPhone("Bureau of Fire Protection — Malaybalay"),
+    secondaryPhone: "(088) 813-5449",
+    officeTo: "/offices/bfp",
+  },
+  {
+    id: "pnp",
+    category: "Police & Peace",
+    name: "Malaybalay City Police Station",
+    scope: "24/7 Police Desk, Patrol & WCPD",
+    primaryPhone: departmentPhone("Malaybalay City Police Station"),
+    secondaryPhone: "(088) 813-0760",
+    officeTo: "/offices/police",
+  },
+  {
+    id: "cho",
+    category: "Medical & Health",
+    name: "City Health Office",
+    scope: "Medical Care, Animal Bite PEP & Lying-In",
+    primaryPhone: departmentPhone("City Health Office"),
+    secondaryPhone: "(088) 813-2877",
+    officeTo: "/offices/cho",
+  },
+  {
+    id: "tmc",
+    category: "Road & Traffic",
+    name: "Traffic Management Center",
+    scope: "Road Crashes, Towing & Field Enforcers",
+    primaryPhone: departmentPhone("Traffic Management Center"),
+    secondaryPhone: "0935-568-4362",
+    officeTo: "/offices/tmc",
+  },
+  {
+    id: "cswdo",
+    category: "Crisis Protection",
+    name: "City Social Welfare and Development Office",
+    scope: "24/7 Women & Children Crisis Desk & AICS",
+    primaryPhone: departmentPhone("City Social Welfare and Development Office"),
+    secondaryPhone: "(088) 813-8426",
+    officeTo: "/offices/cswdo",
+  },
+];
+
 const barangaySource: Source = {
   label: "City Government of Malaybalay — List of Barangays",
   url: "https://sakata.malaybalaycity.gov.ph/list-of-barangay/",

@@ -200,15 +200,38 @@ test("homepage exposes local and national service pathways", async ({ page }) =>
     page.getByRole("heading", { name: /Find the right public service/i }),
   ).toBeVisible();
   await expect(page.locator(".service-category-grid.is-compact article")).toHaveCount(12);
+  await expect(page.locator("#government-services .home-emergency")).toHaveCount(0);
   await expect(
-    page.getByRole("heading", { name: "Emergency hotlines" }),
+    page.locator("#government-services").getByRole("heading", { name: "Emergency hotlines" }),
+  ).toHaveCount(0);
+
+  const hotlinesSection = page.locator("#emergency-hotlines");
+  await expect(hotlinesSection).toBeVisible();
+  const isDirectlyAfterWeather = await hotlinesSection.evaluate((el) => {
+    const prev = el.previousElementSibling;
+    return Boolean(prev && prev.classList.contains("weather-section"));
+  });
+  expect(isDirectlyAfterWeather).toBe(true);
+
+  await expect(
+    hotlinesSection.getByRole("heading", { name: "Emergency hotlines" }),
   ).toBeVisible();
   await expect(
-    page.getByRole("link", { name: /City Disaster Risk Reduction.*0917-827-6117/i }),
+    hotlinesSection.getByRole("link", { name: /Call National Emergency.*911/i }),
+  ).toHaveAttribute("href", "tel:911");
+  await expect(
+    hotlinesSection.getByRole("link", { name: /Call Philippine Red Cross.*143/i }),
+  ).toHaveAttribute("href", "tel:143");
+  await expect(
+    hotlinesSection.getByRole("link", { name: /BUSECO.*0998-843-8335/i }),
+  ).toHaveAttribute("href", "tel:09988438335");
+  await expect(
+    hotlinesSection.getByRole("link", { name: /City Disaster Risk Reduction.*0917-827-6117/i }),
   ).toHaveAttribute("href", "tel:09178276117");
   await expect(
-    page.getByRole("link", { name: /All city hotlines/i }),
+    hotlinesSection.getByRole("link", { name: /All city hotlines/i }),
   ).toHaveAttribute("href", "/offices?sector=Public%20Safety%20%26%20Emergency");
+  await expect(hotlinesSection.locator(".home-hotline-card")).toHaveCount(6);
   await page
     .locator(".service-category-grid article")
     .filter({ hasText: "Health" })

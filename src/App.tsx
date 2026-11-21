@@ -74,6 +74,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import {
+  cityEmergencyHotlines,
   civicRecords,
   departments,
   disclosures,
@@ -88,6 +89,7 @@ import {
   publicProjects,
   services,
   specialBodyOrders,
+  urgentEmergencyHotlines,
   type CivicRecord,
   type Disclosure,
   type Official,
@@ -1466,40 +1468,97 @@ function ServiceResourceGrid({ activeTab }: { activeTab: ServiceResourceTab }) {
 }
 
 function HomeEmergencyHotlines() {
-  const priorityHotlines = departments.filter((office) =>
-    [
-      "City Disaster Risk Reduction and Management Office",
-      "Bureau of Fire Protection — Malaybalay",
-      "Malaybalay City Police Station",
-    ].includes(office.name),
-  );
-
   return (
-    <aside className="home-emergency" aria-labelledby="home-emergency-title">
-      <div className="home-emergency-heading">
-        <span className="home-emergency-icon" aria-hidden="true">
-          <ShieldAlert />
-        </span>
-        <div>
-          <h2 id="home-emergency-title">Emergency hotlines</h2>
-          <p>For urgent help, call the response office that matches the situation.</p>
-        </div>
-        <Link to="/offices?sector=Public%20Safety%20%26%20Emergency">
-          All city hotlines <ArrowRight aria-hidden="true" />
-        </Link>
-      </div>
-      <div className="home-hotline-list" aria-label="Priority emergency hotlines">
-        {priorityHotlines.map((office) => (
-          <a key={office.name} href={`tel:${telephoneHref(office.phone)}`}>
-            <Phone aria-hidden="true" />
-            <span>
-              <small>{office.name}</small>
-              <strong>{office.phone}</strong>
+    <section
+      className="section container home-hotlines-section"
+      id="emergency-hotlines"
+      aria-labelledby="home-emergency-title"
+    >
+      <div className="home-hotlines-shell">
+        <div className="home-hotlines-header">
+          <div className="home-hotlines-heading-copy">
+            <span className="home-hotlines-icon" aria-hidden="true">
+              <ShieldAlert />
             </span>
-          </a>
-        ))}
+            <div>
+              <span className="eyebrow">Emergency &amp; public safety · Verified active</span>
+              <h2 id="home-emergency-title">Emergency hotlines</h2>
+              <p>
+                Direct one-click numbers for Malaybalay 24/7 rescue, fire, police, medical, road, crisis, and power response.
+              </p>
+            </div>
+          </div>
+          <Link
+            className="home-hotlines-all-link"
+            to="/offices?sector=Public%20Safety%20%26%20Emergency"
+          >
+            All city hotlines <ArrowRight aria-hidden="true" />
+          </Link>
+        </div>
+
+        <div
+          className="home-hotline-quickbar"
+          aria-label="Universal and utility emergency hotlines"
+        >
+          {urgentEmergencyHotlines.map((item) => (
+            <a
+              key={item.id}
+              href={`tel:${telephoneHref(item.phone)}`}
+              className={`home-hotline-quick-btn${item.urgent ? " is-urgent" : ""}`}
+              aria-label={`Call ${item.label} (${item.badge}): ${item.phone}`}
+            >
+              <span className="home-hotline-quick-badge">{item.badge}</span>
+              <span className="home-hotline-quick-copy">
+                <strong>{item.label}</strong>
+                <small>{item.scope}</small>
+              </span>
+              <Phone aria-hidden="true" />
+            </a>
+          ))}
+        </div>
+
+        <div
+          className="home-hotlines-grid"
+          aria-label="City emergency response offices"
+        >
+          {cityEmergencyHotlines.map((office) => (
+            <article key={office.id} className="home-hotline-card">
+              <div className="home-hotline-card-top">
+                <span className="home-hotline-category">{office.category}</span>
+                <Link
+                  to={office.officeTo}
+                  className="home-hotline-office-link"
+                  aria-label={`View ${office.name} profile`}
+                >
+                  Office <ArrowRight aria-hidden="true" />
+                </Link>
+              </div>
+              <div className="home-hotline-card-body">
+                <h3>{office.name}</h3>
+                <p>{office.scope}</p>
+              </div>
+              <div className="home-hotline-card-actions">
+                <a
+                  className="home-hotline-call-primary"
+                  href={`tel:${telephoneHref(office.primaryPhone)}`}
+                  aria-label={`${office.name} ${office.primaryPhone}`}
+                >
+                  <Phone aria-hidden="true" />
+                  <span>{office.primaryPhone}</span>
+                </a>
+                <a
+                  className="home-hotline-call-secondary"
+                  href={`tel:${telephoneHref(office.secondaryPhone)}`}
+                  aria-label={`Alternate line for ${office.name}: ${office.secondaryPhone}`}
+                >
+                  <span>{office.secondaryPhone}</span>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
-    </aside>
+    </section>
   );
 }
 
@@ -1910,6 +1969,7 @@ function HomePage() {
       </section>
       <FirstTimeWelcomeCard />
       <WeatherPanel />
+      <HomeEmergencyHotlines />
       <HomeNewsAndDiscussionsSection />
       <section className="section container city-overview" id="about-malaybalay">
         <div className="city-overview-copy">
@@ -1989,7 +2049,6 @@ function HomePage() {
             Open the complete service guide <ArrowRight />
           </Link>
         </div>
-        <HomeEmergencyHotlines />
         <ServiceCategoryGrid compact />
       </section>
       <section
