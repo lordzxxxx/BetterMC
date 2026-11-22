@@ -621,7 +621,13 @@ export function GovernmentOfficesDirectoryPage() {
   );
 }
 
-function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPage?: boolean }) {
+function PesoEmploymentBoard({
+  embeddedInPesoPage = false,
+  isHostSubdomain = false,
+}: {
+  embeddedInPesoPage?: boolean;
+  isHostSubdomain?: boolean;
+}) {
   const opportunities = usePublicPesoOpportunities();
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<"all" | OpportunityType>("all");
@@ -681,7 +687,7 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
   }, [enriched, searchQuery, typeFilter, statusFilter]);
 
   return (
-    <div className="peso-jobs-board" id="job-opportunities">
+    <div className="peso-jobs-board" id="job-opportunities" tabIndex={-1}>
       <div className="peso-board-header">
         <div>
           <h2>
@@ -694,9 +700,15 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
             plantilla records. Deadlines automatically transition postings to Expired after closing.
           </p>
         </div>
-        <Link className="office-inline-url" to="/participate">
-          Submit vacancy correction <ArrowRight aria-hidden="true" />
-        </Link>
+        {isHostSubdomain ? (
+          <a className="office-inline-url" href={`${MAIN_BETTERMC_URL}/participate`}>
+            Submit vacancy correction <ExternalLink aria-hidden="true" />
+          </a>
+        ) : (
+          <Link className="office-inline-url" to="/participate">
+            Submit vacancy correction <ArrowRight aria-hidden="true" />
+          </Link>
+        )}
       </div>
 
       <div className="peso-fb-source-notice bettermc-surface-card">
@@ -742,9 +754,10 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
           </label>
         </div>
 
-        <div className="peso-status-tabs" role="tablist" aria-label="Filter opportunities by status">
+        <div className="peso-status-tabs" role="group" aria-label="Filter opportunities by status">
           <button
             type="button"
+            aria-pressed={statusFilter === "active-open"}
             className={statusFilter === "active-open" ? "is-active" : ""}
             onClick={() => setStatusFilter("active-open")}
           >
@@ -752,6 +765,7 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
           </button>
           <button
             type="button"
+            aria-pressed={statusFilter === "expired"}
             className={statusFilter === "expired" ? "is-active" : ""}
             onClick={() => setStatusFilter("expired")}
           >
@@ -759,6 +773,7 @@ function PesoEmploymentBoard({ embeddedInPesoPage = false }: { embeddedInPesoPag
           </button>
           <button
             type="button"
+            aria-pressed={statusFilter === "all"}
             className={statusFilter === "all" ? "is-active" : ""}
             onClick={() => setStatusFilter("all")}
           >
@@ -959,7 +974,6 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
   const mapUrl = mapsSearchHref(office.mapQuery, office.coordinates);
   const isHostSubdomain =
     typeof window !== "undefined" && Boolean(officeSlugFromHostname(window.location.hostname, ""));
-  const hideSpMicrositeHomeButton = office.slug === "sp" && isHostSubdomain;
 
   return (
     <div className="office-landing-page">
@@ -991,22 +1005,15 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
           </div>
 
           <div className="office-hero-copy">
-            {!hideSpMicrositeHomeButton ? (
+            {!isHostSubdomain ? (
               <nav
                 className="microsite-home-nav"
                 aria-label={`${office.shortName} main portal navigation`}
               >
-                {isHostSubdomain ? (
-                  <a href={MAIN_BETTERMC_URL} className="microsite-home-button">
-                    <ArrowLeft aria-hidden="true" />
-                    <span>BetterMC Home</span>
-                  </a>
-                ) : (
-                  <Link to="/" className="microsite-home-button">
-                    <ArrowLeft aria-hidden="true" />
-                    <span>BetterMC Home</span>
-                  </Link>
-                )}
+                <Link to="/" className="microsite-home-button">
+                  <ArrowLeft aria-hidden="true" />
+                  <span>BetterMC Home</span>
+                </Link>
               </nav>
             ) : null}
 
@@ -1090,7 +1097,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
       ) : null}
 
       <section className="section container office-content-sections">
-        <section id="about" className="office-about-section" aria-labelledby="office-about-heading">
+        <section id="about" tabIndex={-1} className="office-about-section" aria-labelledby="office-about-heading">
           {(() => {
             const personnelTotal =
               personnelEntry?.groups.reduce((sum, group) => sum + group.members.length, 0) ?? 0;
@@ -1149,6 +1156,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
 
         <section
           id="personnel"
+          tabIndex={-1}
           className="office-personnel-section bettermc-surface-card"
           aria-labelledby="office-personnel-heading"
         >
@@ -1284,7 +1292,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
           )}
         </section>
 
-        <div id="mandate" className="office-mandate-grid">
+        <div id="mandate" tabIndex={-1} className="office-mandate-grid">
           <article className="bettermc-surface-card office-mandate-card">
             <h2>Official Mandate &amp; Responsibility</h2>
             <p>{office.mandate}</p>
@@ -1303,7 +1311,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
           </article>
         </div>
 
-        <section id="services" className="office-services-section" aria-labelledby="office-services-heading">
+        <section id="services" tabIndex={-1} className="office-services-section" aria-labelledby="office-services-heading">
           <div className="office-section-head">
             <div>
               <h2 id="office-services-heading">
@@ -1502,9 +1510,11 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
           </div>
         </section>
 
-        {office.slug === "peso" ? <PesoEmploymentBoard embeddedInPesoPage /> : null}
+        {office.slug === "peso" ? (
+          <PesoEmploymentBoard embeddedInPesoPage isHostSubdomain={isHostSubdomain} />
+        ) : null}
 
-        <section id="programs" className="office-programs-section" aria-labelledby="office-programs-heading">
+        <section id="programs" tabIndex={-1} className="office-programs-section" aria-labelledby="office-programs-heading">
           <h2 id="office-programs-heading">Programs, Initiatives &amp; Special Bodies</h2>
           <div className="office-programs-grid">
             {office.programs.map((program) => (
@@ -1528,7 +1538,7 @@ export function OfficeLandingPage({ slugOverride }: { slugOverride?: string } = 
           </div>
         </section>
 
-        <section id="sources" className="office-bottom-grid" aria-labelledby="office-sources-heading">
+        <section id="sources" tabIndex={-1} className="office-bottom-grid" aria-labelledby="office-sources-heading">
           <article className="office-sources-card bettermc-surface-card">
             <div className="office-card-header-stack">
               <span className="office-section-eyebrow">Direct Channels &amp; Links</span>

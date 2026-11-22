@@ -1,0 +1,1265 @@
+/* ==========================================================================
+   BetterMC Unified Microsite Design System
+   Covers all standalone microsites: City Offices (39), Schools (111),
+   and Barangays (46), plus shared microsite header, drawer, and cards.
+   Guided by Google Chrome's modern-web-guidance principles while strictly
+   preserving BetterMC's blue civic brand palette and typography tokens.
+   ========================================================================== */
+
+:root {
+  --ms-header-h: 76px;
+  --ms-target-min: 24px;
+  --ms-navy-deep: #071a3d;
+  --ms-navy: #0b2b5e;
+  --ms-blue: #123e9b;
+  --ms-blue-bright: #164fbf;
+  --ms-blue-soft: #eef5ff;
+  --ms-blue-tint: #f6faff;
+  --ms-surface: #ffffff;
+  --ms-border: #cde0f5;
+  --ms-border-strong: #94b8e6;
+  --ms-ink: #101d35;
+  --ms-ink-body: #243850;
+  --ms-ink-muted: #4b6382;
+  --ms-radius-card: 18px;
+  --ms-radius-inner: 12px;
+  --ms-radius-control: 10px;
+  --ms-shadow-card: 0 4px 18px rgba(15, 48, 96, 0.055);
+  --ms-shadow-hover: 0 12px 28px rgba(15, 48, 96, 0.095);
+}
+
+@media (max-width: 640px) {
+  :root {
+    --ms-header-h: 64px;
+  }
+}
+
+@media (pointer: coarse) {
+  :root {
+    --ms-target-min: 44px;
+  }
+}
+
+/* Focus Not Obscured (WCAG 2.4.11) & Safe-Area Support */
+html:has(body.is-microsite) {
+  scroll-padding-top: calc(var(--ms-header-h) + 20px + env(safe-area-inset-top, 0px));
+}
+
+body.is-microsite [id] {
+  scroll-margin-top: calc(var(--ms-header-h) + 20px + env(safe-area-inset-top, 0px));
+}
+
+body.is-microsite [tabindex="-1"]:focus {
+  outline: none;
+}
+
+body.is-microsite [tabindex="-1"]:focus-visible {
+  outline: 2px solid var(--ms-blue);
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   1. Shared Microsite Header, Native CSS Scrollspy & Accessible Mobile Drawer
+   -------------------------------------------------------------------------- */
+
+.microsite-header {
+  padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px);
+  background: rgba(246, 250, 255, 0.92);
+  border-bottom: 1px solid #d3e3f6;
+  box-shadow: 0 6px 24px rgba(14, 48, 98, 0.07);
+}
+
+.microsite-section-nav {
+  scroll-target-group: auto;
+  gap: 4px;
+}
+
+.microsite-section-nav a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 38px;
+  padding: 7px 11px;
+  border-radius: 9px;
+  color: #324a6b;
+  font-size: 0.84rem;
+  font-weight: 600;
+  transition: color 140ms ease, background-color 140ms ease, box-shadow 140ms ease, scale 140ms ease;
+}
+
+.microsite-section-nav a:hover {
+  color: #0e3a88;
+  background: #e9f2ff;
+}
+
+.microsite-section-nav a:active {
+  scale: 0.98;
+}
+
+.microsite-section-nav a:focus-visible {
+  outline: 2px solid var(--ms-blue);
+  outline-offset: 2px;
+  color: #0e3a88;
+  background: #e9f2ff;
+}
+
+/* Non-color active section indicator (bold + underline bar + tint) via :is() fallback */
+.microsite-section-nav a:is(:target-current, .target-current) {
+  color: #0f3885;
+  font-weight: 700;
+  background: #e6f0ff;
+  box-shadow: inset 0 -2.5px 0 var(--ms-blue);
+}
+
+.microsite-menu-toggle {
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: 1px solid #c9ddf4;
+  border-radius: 11px;
+  background: #f4f9ff;
+  color: #103b84;
+  transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, scale 140ms ease;
+}
+
+.microsite-menu-toggle:hover {
+  background: #e7f1ff;
+  border-color: #97bce8;
+}
+
+.microsite-menu-toggle:active {
+  scale: 0.96;
+}
+
+.microsite-menu-toggle:focus-visible {
+  outline: 2px solid var(--ms-blue);
+  outline-offset: 2px;
+}
+
+.microsite-menu-toggle[aria-expanded="true"] {
+  background: var(--ms-blue);
+  border-color: var(--ms-blue);
+  color: #ffffff;
+}
+
+.microsite-mobile-drawer {
+  max-block-size: calc(100dvh - var(--ms-header-h));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  background: rgba(255, 255, 255, 0.98);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.microsite-mobile-sections a {
+  min-block-size: 46px;
+  padding: 9px 13px;
+  border: 1px solid #d5e5f6;
+  border-radius: 11px;
+  background: #f7fbff;
+  color: #133460;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease, scale 140ms ease;
+}
+
+.microsite-mobile-sections a:active {
+  scale: 0.985;
+}
+
+.microsite-mobile-sections a:focus-visible,
+.microsite-mobile-network-link:focus-visible {
+  outline: 2px solid var(--ms-blue);
+  outline-offset: 2px;
+}
+
+.microsite-mobile-sections a:is(:target-current, .target-current) {
+  border-color: var(--ms-blue-bright);
+  background: #e7f2ff;
+  color: #0c3580;
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 var(--ms-blue-bright);
+}
+
+.microsite-mobile-sections a:is(:target-current, .target-current) svg {
+  color: var(--ms-blue-bright);
+}
+
+.microsite-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: rgba(7, 26, 61, 0.34);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* --------------------------------------------------------------------------
+   2. Shared Microsite Typography, Container Contexts & Interaction Rhythm
+   -------------------------------------------------------------------------- */
+
+:where(.office-landing-page, .school-landing-page, .barangay-site) {
+  overflow-wrap: break-word;
+}
+
+:where(.office-landing-page, .school-landing-page, .barangay-site) :where(h1, h2, h3) {
+  text-wrap: balance;
+}
+
+:where(.office-landing-page, .school-landing-page, .barangay-site) p {
+  text-wrap: pretty;
+}
+
+:where(.office-content-sections, .school-content-sections, .barangay-profile-main) {
+  container: ms-main / inline-size;
+}
+
+:where(.office-hero-content, .school-hero-content, .barangay-hero-content) {
+  container: ms-hero / inline-size;
+}
+
+:where(.office-landing-page, .school-landing-page, .barangay-site) :where(a, button):focus-visible {
+  outline: 2px solid var(--ms-blue);
+  outline-offset: 3px;
+}
+
+:where(.office-hero, .school-hero, .barangay-hero) :where(a, button):focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+:where(.office-hero-actions, .school-hero-actions, .barangay-hero-actions) .button {
+  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease, scale 140ms ease;
+}
+
+:where(.office-hero-actions, .school-hero-actions, .barangay-hero-actions) .button:active {
+  scale: 0.98;
+}
+
+/* Unified surface cards across all microsites */
+:where(.office-landing-page, .school-landing-page) .bettermc-surface-card {
+  border-color: var(--ms-border);
+  border-radius: var(--ms-radius-card);
+  background: var(--ms-surface);
+  box-shadow: var(--ms-shadow-card);
+}
+
+/* --------------------------------------------------------------------------
+   3. Unified Civic School Microsites (All 111 Schools)
+   -------------------------------------------------------------------------- */
+
+.school-landing-page {
+  display: block;
+}
+
+.school-hero {
+  position: relative;
+  overflow: clip;
+  color: #ffffff;
+  background: var(--ms-navy);
+}
+
+.school-hero-backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 86% 18%, rgba(71, 152, 238, 0.28), transparent 44%),
+    linear-gradient(100deg, rgba(7, 32, 74, 0.96), rgba(16, 66, 138, 0.86) 58%, rgba(28, 98, 182, 0.66)),
+    url("/images/malaybalay-city-hall-background.webp") center / cover no-repeat;
+}
+
+.school-hero-content {
+  position: relative;
+  display: grid;
+  grid-template-columns: 144px minmax(0, 1fr);
+  align-content: center;
+  gap: 24px 36px;
+  padding-block: clamp(28px, 4.2vw, 48px);
+}
+
+.school-brand-lockup {
+  grid-row: 1 / 2;
+  align-self: start;
+  display: grid;
+  gap: 12px;
+}
+
+.school-logo-frame {
+  display: grid;
+  place-items: center;
+  inline-size: 136px;
+  aspect-ratio: 1;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 22px;
+  background: #ffffff;
+  color: var(--ms-blue);
+  box-shadow: 0 16px 34px rgba(3, 18, 48, 0.24);
+}
+
+.school-logo-frame img,
+.school-logo-frame .education-school-logo {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  object-fit: contain;
+}
+
+.school-logo-frame svg {
+  inline-size: 52px;
+  block-size: 52px;
+}
+
+.school-hero-copy {
+  display: grid;
+  gap: 9px;
+  align-content: start;
+  min-inline-size: 0;
+}
+
+.school-hero-eyebrow {
+  margin: 2px 0 0;
+  color: #b4d4ff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.school-hero-copy h1 {
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--font-kapwa-sans);
+  font-size: clamp(1.75rem, 1.15rem + 2.3vw, 2.95rem);
+  font-weight: 750;
+  letter-spacing: -0.028em;
+  line-height: 1.1;
+  overflow-wrap: break-word;
+}
+
+.school-hero-lead {
+  max-inline-size: 68ch;
+  margin: 2px 0 0;
+  color: #e4f0ff;
+  font-size: 0.96rem;
+  line-height: 1.58;
+}
+
+.school-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  flex-wrap: balance;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.school-hero-actions .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-block-size: 44px;
+  margin: 0;
+  padding: 10px 17px;
+  border-width: 1.5px;
+  border-style: solid;
+  border-radius: var(--ms-radius-control);
+  font-size: 0.87rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  box-shadow: none;
+}
+
+.school-hero-actions .button svg {
+  inline-size: 16px;
+  block-size: 16px;
+  flex: none;
+}
+
+.school-hero-actions .button.hero-contrast-primary {
+  background: #ffffff;
+  color: #103b8d;
+  border-color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(4, 21, 56, 0.22);
+}
+
+.school-hero-actions .button.hero-contrast-primary:hover {
+  background: #edf4ff;
+  border-color: #edf4ff;
+  color: #0b2d6f;
+}
+
+.school-hero-actions .button.secondary {
+  color: #ffffff;
+  border-color: rgba(224, 238, 255, 0.44);
+  background: rgba(7, 30, 68, 0.42);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.school-hero-actions .button.secondary:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.84);
+  color: #ffffff;
+}
+
+.school-hero-facts {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 4px 0 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(14px) saturate(110%);
+  -webkit-backdrop-filter: blur(14px) saturate(110%);
+}
+
+.school-hero-facts > div {
+  min-inline-size: 0;
+  padding: 14px 16px;
+  background: rgba(8, 35, 78, 0.62);
+}
+
+.school-hero-facts dt {
+  color: #a9ceff;
+  font-size: 0.71rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.school-hero-facts dd {
+  margin: 6px 0 0;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.44;
+  overflow-wrap: anywhere;
+}
+
+.school-hero-facts dd strong {
+  font-weight: 700;
+}
+
+.school-hero-facts small {
+  display: block;
+  margin-top: 3px;
+  color: #cfe3ff;
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+.school-content-sections {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  padding-top: 24px;
+  padding-bottom: 48px;
+}
+
+.school-section-card {
+  display: grid;
+  gap: 16px;
+  min-inline-size: 0;
+  padding: clamp(18px, 3vw, 28px);
+}
+
+.school-section-head {
+  display: grid;
+  gap: 4px;
+}
+
+.school-section-head h2 {
+  margin: 0;
+  font-size: clamp(1.25rem, 1.02rem + 1.05vw, 1.65rem);
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  color: #10243e;
+  line-height: 1.22;
+}
+
+.school-overview-copy {
+  margin: 0;
+  max-inline-size: 72ch;
+  color: var(--ms-ink-body);
+  font-size: 0.97rem;
+  line-height: 1.66;
+}
+
+.school-leadership-block {
+  display: grid;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid #e4eef8;
+}
+
+.school-leadership-block h3 {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 750;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  color: #466080;
+}
+
+.school-leadership-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.school-officer-card {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  padding: 13px 15px;
+  border: 1px solid #d5e4f5;
+  border-radius: var(--ms-radius-inner);
+  background: var(--ms-blue-tint);
+}
+
+.school-officer-role {
+  font-size: 0.71rem;
+  font-weight: 750;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  color: var(--ms-blue-bright);
+  line-height: 1.3;
+}
+
+.school-officer-name {
+  font-size: 0.93rem;
+  font-weight: 700;
+  color: #0e2444;
+  line-height: 1.35;
+}
+
+.school-facts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 24px;
+  margin: 0;
+}
+
+.school-facts-grid > div {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  min-inline-size: 0;
+  padding: 12px 14px;
+  border: 1px solid #e2ecf8;
+  border-radius: var(--ms-radius-inner);
+  background: #fbfdff;
+}
+
+.school-facts-grid > div:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.school-facts-grid dt {
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  color: #4d6787;
+}
+
+.school-facts-grid dd {
+  margin: 0;
+  font-size: 0.91rem;
+  line-height: 1.5;
+  color: #142a47;
+  overflow-wrap: anywhere;
+}
+
+.school-inline-url {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--ms-target-min);
+  color: var(--ms-blue);
+  font-weight: 600;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.school-inline-url:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.school-landing-page .education-offerings-section {
+  margin-top: 0;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--ms-border);
+  padding: clamp(18px, 3vw, 28px);
+}
+
+.school-landing-page .education-offerings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 2px;
+}
+
+.school-landing-page .education-offering-card {
+  border-top: 3px solid var(--ms-blue-bright);
+  border-color: #d3e3f5;
+  border-top-color: var(--ms-blue-bright);
+  border-radius: 13px;
+  padding: 16px 18px;
+  background: #f9fcff;
+}
+
+.school-channels-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.school-channel-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-inline-size: 0;
+  padding: clamp(18px, 2.8vw, 26px);
+}
+
+.school-channel-panel h2 {
+  margin: 0;
+  font-size: 1.16rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #10243e;
+}
+
+.school-channel-panel p {
+  margin: 0;
+  color: #364e6d;
+  font-size: 0.92rem;
+  line-height: 1.58;
+}
+
+.school-channel-panel .button.compact-action {
+  margin-top: auto;
+  min-block-size: 44px;
+}
+
+.school-checklist-card {
+  padding: clamp(16px, 2.6vw, 24px);
+}
+
+.school-checklist-card .bmc-checklist-card {
+  border-color: #d4e3f4;
+  background: #f9fcff;
+}
+
+.school-sources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 10px;
+}
+
+/* Container queries + media-query fallback for school microsites */
+@media (max-width: 720px) {
+  .school-facts-grid,
+  .school-channels-grid,
+  .school-landing-page .education-offerings-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@container ms-main (inline-size < 680px) {
+  .school-facts-grid,
+  .school-channels-grid,
+  .school-landing-page .education-offerings-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@container ms-hero (inline-size < 780px) {
+  .school-hero-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .school-hero-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .school-logo-frame {
+    inline-size: 92px;
+    border-radius: 16px;
+    padding: 9px;
+  }
+  .school-logo-frame svg {
+    inline-size: 38px;
+    block-size: 38px;
+  }
+}
+
+@media (max-width: 640px) {
+  .school-hero-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    inline-size: 100%;
+  }
+  .school-hero-actions .button:first-child {
+    grid-column: 1 / -1;
+  }
+  .school-hero-actions .button {
+    inline-size: 100%;
+    padding-inline: 12px;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .school-hero-facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 360px) {
+  .school-hero-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. City Office & PESO Microsite Refinements (All 39 City Offices)
+   -------------------------------------------------------------------------- */
+
+/* Remove redundant double-bordered wrapper box around Office hero buttons */
+.office-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  flex-wrap: balance;
+  align-items: center;
+  gap: 10px;
+  inline-size: auto;
+  margin-top: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.office-hero-actions .button.secondary {
+  background: rgba(7, 30, 68, 0.42);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.office-hero-copy h1 {
+  font-size: clamp(1.75rem, 1.15rem + 2.3vw, 2.9rem);
+}
+
+.office-hero-facts dd a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: max(28px, var(--ms-target-min));
+  padding-block: 2px;
+}
+
+.office-sources-report-link,
+.peso-source-text-link,
+.office-inline-url,
+.office-fact-link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: max(32px, var(--ms-target-min));
+  padding-block: 4px;
+}
+
+.peso-fb-source-notice a {
+  display: inline-block;
+  padding-block: 2px;
+}
+
+.office-expand-btn,
+.office-personnel-expand-btn {
+  min-block-size: max(40px, var(--ms-target-min));
+  transition: background-color 140ms ease, border-color 140ms ease, scale 140ms ease;
+}
+
+.office-expand-btn:active,
+.office-personnel-expand-btn:active {
+  scale: 0.985;
+}
+
+.office-service-card {
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.office-service-card:hover {
+  border-color: var(--ms-border-strong);
+}
+
+.peso-status-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  flex-wrap: balance;
+  gap: 8px;
+}
+
+.peso-status-tabs button {
+  min-block-size: max(40px, var(--ms-target-min));
+  padding: 7px 14px;
+  border-radius: 9px;
+  font-weight: 600;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease, scale 140ms ease;
+}
+
+.peso-status-tabs button:active {
+  scale: 0.98;
+}
+
+.peso-status-tabs button.is-active {
+  box-shadow: 0 3px 10px rgba(18, 62, 155, 0.22);
+}
+
+.office-local-nav .container,
+.barangay-local-nav .container {
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+}
+
+.office-local-nav a,
+.barangay-local-nav a {
+  scroll-snap-align: start;
+}
+
+/* Compact 2-col secondary button layout on mobile so PESO hero stays scannable */
+@media (max-width: 640px) {
+  .office-hero-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    inline-size: 100%;
+    gap: 8px;
+  }
+  .office-hero-actions .button:first-child {
+    grid-column: 1 / -1;
+  }
+  .office-hero-actions .button:last-child:nth-child(even) {
+    grid-column: 1 / -1;
+  }
+  .office-hero-actions .button {
+    inline-size: 100%;
+    padding-inline: 12px;
+    white-space: normal;
+    text-align: center;
+  }
+  .office-logo-frame.is-hero {
+    width: 92px;
+    height: 92px;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .office-hero-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Unified Civic Barangay Microsites (All 46 Barangays)
+   -------------------------------------------------------------------------- */
+
+.barangay-site .barangay-hero-content {
+  min-block-size: 0;
+  padding-block: clamp(28px, 4.4vw, 48px);
+  gap: 22px 36px;
+}
+
+.barangay-site .barangay-logo-frame {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  height: auto;
+  overflow: hidden;
+}
+
+.barangay-site .barangay-logo-frame img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+.barangay-site .barangay-hero-copy h1 {
+  font-size: clamp(2rem, 1.25rem + 3vw, 3.8rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.barangay-site .barangay-hero-copy > p {
+  max-inline-size: 65ch;
+  color: #e4f0ff;
+  line-height: 1.56;
+}
+
+.barangay-site .barangay-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  flex-wrap: balance;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.barangay-site .barangay-hero-actions .button {
+  min-block-size: 44px;
+  padding: 10px 18px;
+  border-radius: var(--ms-radius-control);
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-width: 1.5px;
+  border-style: solid;
+}
+
+.barangay-site .barangay-hero-actions .button.hero-contrast-primary {
+  background: #ffffff;
+  color: #103b8d;
+  border-color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(4, 21, 56, 0.22);
+}
+
+.barangay-site .barangay-hero-actions .button.hero-contrast-primary:hover {
+  background: #edf4ff;
+  border-color: #edf4ff;
+  color: #0b2d6f;
+}
+
+.barangay-site .barangay-hero-actions .button.secondary {
+  color: #ffffff;
+  border-color: rgba(224, 238, 255, 0.44);
+  background: rgba(7, 30, 68, 0.42);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.barangay-site .barangay-hero-actions .button.secondary:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.84);
+  color: #ffffff;
+}
+
+/* Harmonize Barangay Hero Facts with frosted deep-navy glass (matching Offices & Schools) */
+.barangay-site .barangay-facts {
+  grid-column: 1 / -1;
+  inline-size: 100%;
+  max-inline-size: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 4px 0 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: none;
+  backdrop-filter: blur(14px) saturate(110%);
+  -webkit-backdrop-filter: blur(14px) saturate(110%);
+}
+
+.barangay-site .barangay-facts > div {
+  min-inline-size: 0;
+  padding: 15px 18px;
+  border: 0;
+  background: rgba(8, 35, 78, 0.62);
+}
+
+.barangay-site .barangay-facts dt {
+  color: #a9ceff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.barangay-site .barangay-facts dd {
+  margin: 6px 0 0;
+  color: #ffffff;
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.32;
+}
+
+.barangay-site .barangay-facts dd small {
+  display: block;
+  margin-top: 3px;
+  color: #cfe3ff;
+  font-size: 0.77rem;
+  font-weight: 500;
+}
+
+.barangay-site .barangay-photo-credit {
+  min-block-size: max(32px, var(--ms-target-min));
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(7, 26, 61, 0.56);
+  color: #d8e8ff;
+  font-size: 0.74rem;
+}
+
+/* Unified Barangay section surfaces & touch-safe controls */
+.barangay-site .barangay-profile-section {
+  padding-block: clamp(28px, 4vw, 44px);
+}
+
+.barangay-site .barangay-about {
+  gap: 20px;
+}
+
+.barangay-site .barangay-about-copy {
+  padding: clamp(20px, 3vw, 28px);
+  border: 1px solid var(--ms-border);
+  border-radius: var(--ms-radius-card);
+  background: var(--ms-surface);
+  box-shadow: var(--ms-shadow-card);
+}
+
+.barangay-site .barangay-about-copy p {
+  max-inline-size: 68ch;
+  line-height: 1.65;
+}
+
+.barangay-site .barangay-source-card {
+  border: 1px solid var(--ms-border);
+  border-radius: var(--ms-radius-card);
+  background: var(--ms-surface);
+  box-shadow: var(--ms-shadow-card);
+}
+
+.barangay-site .barangay-source-card a {
+  min-block-size: max(36px, var(--ms-target-min));
+  padding-block: 6px;
+}
+
+/* Fix WCAG touch target size on Barangay Official contact links (22px -> 36px/44px) */
+.barangay-site .barangay-official-contacts {
+  gap: 6px;
+  padding: 10px 0 4px;
+}
+
+.barangay-site .barangay-official-contacts a {
+  min-block-size: max(34px, var(--ms-target-min));
+  padding: 5px 9px;
+  border: 1px solid #e1ecf8;
+  border-radius: 8px;
+  background: #f7fbff;
+  color: #124296;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+
+.barangay-site .barangay-official-contacts a:hover {
+  background: #eaf3ff;
+  border-color: #9ec0ea;
+  text-decoration: none;
+}
+
+.barangay-site .barangay-official-action {
+  min-block-size: max(40px, var(--ms-target-min));
+  border-radius: var(--ms-radius-control);
+}
+
+/* Disclosure tabs: smooth horizontal swipe on narrow mobile & crisp active indicator */
+.barangay-site .barangay-disclosure-tabs {
+  gap: 7px;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+}
+
+.barangay-site .barangay-disclosure-tabs button {
+  min-block-size: max(40px, var(--ms-target-min));
+  padding: 8px 14px;
+  border-radius: 9px;
+  scroll-snap-align: start;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease, scale 140ms ease;
+}
+
+.barangay-site .barangay-disclosure-tabs button:active {
+  scale: 0.98;
+}
+
+.barangay-site .barangay-disclosure-card,
+.barangay-site .barangay-contact-card,
+.barangay-site .barangay-emergency-grid article,
+.barangay-site .barangay-services-grid article,
+.barangay-site .barangay-committee-grid article {
+  border-color: var(--ms-border);
+  border-radius: 16px;
+  background: var(--ms-surface);
+  box-shadow: var(--ms-shadow-card);
+}
+
+.barangay-site .barangay-contact-card a {
+  min-block-size: max(44px, var(--ms-target-min));
+  padding: 10px 13px;
+  border: 1px solid #d5e4f5;
+  border-radius: var(--ms-radius-inner);
+  background: #f7fbff;
+  overflow-wrap: anywhere;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+
+.barangay-site .barangay-contact-card a:hover {
+  background: #eaf3ff;
+  border-color: #96bbe8;
+}
+
+.barangay-site .barangay-emergency-grid article a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: max(32px, var(--ms-target-min));
+  padding-block: 3px;
+  overflow-wrap: anywhere;
+}
+
+.barangay-site .barangay-map-disclaimer a,
+.barangay-site .barangay-backup-citations a,
+.barangay-site .barangay-primary-citation {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: max(32px, var(--ms-target-min));
+  padding-block: 4px;
+}
+
+@media (max-width: 760px) {
+  .barangay-site .barangay-hero-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .barangay-site .barangay-brand-lockup {
+    grid-row: auto;
+  }
+  .barangay-site .barangay-hero-copy {
+    display: grid;
+    gap: 8px;
+    grid-row: auto;
+  }
+  .barangay-site .barangay-hero-copy > span:not(.barangay-hero-inline-portal),
+  .barangay-site .barangay-hero-copy > *,
+  .barangay-site .barangay-hero-actions,
+  .barangay-site .barangay-facts,
+  .barangay-site .barangay-photo-credit {
+    grid-row: auto;
+    order: 0;
+  }
+  .barangay-site .barangay-hero-copy h1 {
+    margin: 0;
+  }
+  .barangay-site .barangay-logo-frame {
+    width: 92px;
+    padding: 8px;
+    border-radius: 16px;
+  }
+  .barangay-site .barangay-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .barangay-site .barangay-facts > div:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .barangay-site .barangay-hero-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    inline-size: 100%;
+  }
+  .barangay-site .barangay-hero-actions .button:first-child {
+    grid-column: 1 / -1;
+  }
+  .barangay-site .barangay-hero-actions .button {
+    inline-size: 100%;
+    padding-inline: 12px;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 440px) {
+  .barangay-site .barangay-facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Reduced Motion & Forced Colors Mode (High Contrast Accessibility)
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .microsite-section-nav a,
+  .microsite-menu-toggle,
+  .microsite-mobile-drawer,
+  .microsite-mobile-sections a,
+  .office-hero-actions .button,
+  .school-hero-actions .button,
+  .barangay-hero-actions .button,
+  .office-expand-btn,
+  .office-personnel-expand-btn,
+  .peso-status-tabs button,
+  .barangay-disclosure-tabs button {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  :where(.microsite-section-nav a, .microsite-menu-toggle, .microsite-mobile-sections a, .office-hero-actions .button, .school-hero-actions .button, .barangay-hero-actions .button):active {
+    scale: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .microsite-section-nav a:is(:target-current, .target-current) {
+    border-bottom: 3px solid Highlight;
+    box-shadow: none;
+  }
+
+  .microsite-mobile-sections a:is(:target-current, .target-current) {
+    border: 2px solid Highlight;
+    box-shadow: none;
+  }
+
+  .microsite-header,
+  .school-hero-facts,
+  .office-hero-facts,
+  .barangay-site .barangay-facts,
+  .bettermc-surface-card,
+  .school-officer-card,
+  .education-offering-card {
+    border: 1px solid CanvasText;
+    box-shadow: none;
+  }
+
+  :where(.office-landing-page, .school-landing-page, .barangay-site, .microsite-header) :where(a, button):focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+}
