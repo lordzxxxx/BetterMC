@@ -1865,8 +1865,8 @@ function HomePage() {
                 <span className="hero-verification-desktop">
                   Records show their original source and verification date.
                   <strong>
-                    Portal review: November 6, 2026 · finance and disclosure
-                    rechecked November 9
+                    Portal review: November 22, 2026 · offices, services,
+                    schools, and disclosures rechecked
                   </strong>
                 </span>
                 <span className="hero-verification-mobile">
@@ -1981,8 +1981,8 @@ function HomePage() {
             <span>source-listed disclosure entries</span>
           </div>
           <div>
-            <strong>{departments.length}</strong>
-            <span>offices and public contacts</span>
+            <strong>{governmentOffices.length}</strong>
+            <span>city offices &amp; partner agencies</span>
           </div>
           <div>
             <strong>{officials.length}</strong>

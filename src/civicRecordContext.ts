@@ -6,6 +6,14 @@ export type CivicRecordContext = {
 };
 
 export const civicRecordContext: Record<string, CivicRecordContext> = {
+  "Executive Order No. 93, Series of 2026": {
+    summary:
+      "Establishes an internal patient referral and medical coordination system for residents seeking care at the Malaybalay City Super Health Center in Barangay Aglayan to the Malaybalay City Health Office.",
+    publicRelevance:
+      "Clarifies the formal referral pathway connecting the Barangay Aglayan Super Health Center and the City Health Office in Freedom Park, Barangay 4 so patients requiring follow-up or specialized primary care receive coordinated handoffs.",
+    limits:
+      "The order establishes the referral and coordination framework; it does not publish live clinic schedules, patient volumes, or emergency dispatch times. Confirm clinical hours directly with CHO or the Super Health Center.",
+  },
   "Executive Order No. 23, Series of 2026": {
     summary:
       "The published title establishes energy-saving procedures and fuel-reduction measures for City Government operations.",
