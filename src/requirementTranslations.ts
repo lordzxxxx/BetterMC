@@ -201,6 +201,8 @@ export const REQUIREMENT_BISAYA_MAP: Record<string, string> = {
   // Health & Social Welfare
   "Barangay Health Station referral slip or valid ID / PhilHealth MDR":
     "Referral slip gikan sa Barangay Health Station o balido nga ID / PhilHealth MDR.",
+  "Barangay Health Station or Brgy. Aglayan Super Health Center referral slip (per EO No. 93, Nov. 2026) or valid ID / PhilHealth MDR":
+    "Referral slip gikan sa Barangay Health Station o sa Malaybalay City Super Health Center sa Brgy. Aglayan (subay sa EO No. 93, Nob. 2026), o balido nga ID / PhilHealth MDR.",
   "Laboratory results (urinalysis, fecalysis, chest X-ray for food/non-food handler Health Card)":
     "Resulta sa laboratoryo (urinalysis, fecalysis, chest X-ray alang sa Health Card).",
   "Updated Hospital Statement of Account (SOA) or Doctor’s Prescription / Laboratory Request with price quotation":
@@ -223,6 +225,8 @@ export const REQUIREMENT_BISAYA_MAP: Record<string, string> = {
   // Housing, Building, Land & Planning
   "5 sets of signed and sealed Architectural, Structural, Electrical, and Sanitary/Plumbing plans":
     "5 ka set sa gipirmahan ug selyadong plano sa Architectural, Structural, Electrical, ug Sanitary/Plumbing.",
+  "4–5 sets of signed and sealed Architectural, Structural, Electrical, and Sanitary/Plumbing plans":
+    "4–5 ka set sa gipirmahan ug selyadong plano sa Architectural, Structural, Electrical, ug Sanitary/Plumbing.",
   "Certified True Copy of OCT/TCT Land Title, Tax Declaration, and current Real Property Tax Receipt":
     "Certified True Copy sa OCT/TCT Titulo sa yuta, Tax Declaration, ug bag-ong resibo sa Real Property Tax.",
   "Barangay Construction Clearance and CPDO Locational/Zoning Clearance":
