@@ -36,6 +36,7 @@ export type EducationInstitution = {
   contactPerson?: string;
   contacts?: string[];
   programmes?: string[];
+  academicOfferings?: Array<{ group: string; items: string[] }>;
   officialLinks?: Array<{ label: string; url: string }>;
   logoUrl?: string;
   logoSource?: RecordSource;
@@ -381,6 +382,7 @@ export const educationInstitutions: EducationInstitution[] = [...existingSchoolB
     contactPerson: enrichment?.contactPerson ?? school.contactPerson,
     contacts: mergedContacts,
     programmes: enrichment?.programmes ?? school.programmes,
+    academicOfferings: enrichment?.academicOfferings ?? school.academicOfferings,
     officialLinks: mergedLinks,
     logoUrl: resolvedLogoUrl,
     logoSource:

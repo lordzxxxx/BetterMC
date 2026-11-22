@@ -4123,6 +4123,34 @@ function educationSummary(item: EducationInstitution) {
   return `${item.type} institution in ${location} offering ${levelList}.`;
 }
 
+function educationCardDistrict(item: EducationInstitution): string | undefined {
+  if (!item.district) return undefined;
+  return item.district
+    .replace("Main Campus (Poblacion, Brgy. 3) · Lab Schools under Malaybalay City District I", "Main Campus (Brgy. 3)")
+    .replace("Malaybalay City ", "");
+}
+
+function educationCardContact(item: EducationInstitution): string {
+  if (item.leadership) {
+    const primaryLeader = item.leadership.split(" · ")[0].trim();
+    const directContact = item.contacts?.find((entry) => !entry.startsWith("http"));
+    if (primaryLeader.startsWith("BukSU College of Education")) {
+      return directContact
+        ? `BukSU College of Education · ${directContact}`
+        : "BukSU College of Education · Dr. Joy M. Mirasol";
+    }
+    return directContact ? `${primaryLeader} · ${directContact}` : primaryLeader;
+  }
+  const raw = item.contactPerson ?? "";
+  if (raw.startsWith("Campus School Head (campus walk-in)")) {
+    return "Campus School Head · DepEd Malaybalay (0907-688-9009)";
+  }
+  if (raw.startsWith("School Principal or Registrar at the campus")) {
+    return "School Principal / Registrar · DepEd Malaybalay (0907-688-9009)";
+  }
+  return raw || "School Head / DepEd Malaybalay Division (0907-688-9009)";
+}
+
 function SchoolLogo({ item }: { item: EducationInstitution }) {
   if (item.logoUrl) {
     return <img className="education-school-logo" src={item.logoUrl} alt={`${item.name} logo`} loading="lazy" />;
@@ -4148,7 +4176,8 @@ function EducationDirectoryPage() {
   const programmes = [...new Set(educationInstitutions.flatMap((item) => item.programmes ?? []))].sort();
   const barangays = [...new Set(educationInstitutions.flatMap((item) => item.barangay ? [item.barangay] : []))].sort();
   const records = educationInstitutions.filter((item) => {
-    const matchesQuery = !deferredQuery || `${item.name} ${item.schoolId ?? ""} ${item.barangay ?? ""} ${item.address} ${item.district ?? ""} ${item.classification ?? ""} ${(item.programmes ?? []).join(" ")}`.toLowerCase().includes(deferredQuery);
+    const offeringText = (item.academicOfferings ?? []).flatMap((group) => [group.group, ...group.items]).join(" ");
+    const matchesQuery = !deferredQuery || `${item.name} ${item.schoolId ?? ""} ${item.barangay ?? ""} ${item.address} ${item.district ?? ""} ${item.classification ?? ""} ${(item.programmes ?? []).join(" ")} ${offeringText}`.toLowerCase().includes(deferredQuery);
     return matchesQuery && (type === "all" || item.type === type) && (level === "all" || item.levels.includes(level as EducationLevel)) && (barangay === "all" || item.barangay === barangay) && (programme === "all" || item.programmes?.includes(programme));
   }).sort((left, right) => sort === "level" ? left.levels[0].localeCompare(right.levels[0]) || left.name.localeCompare(right.name) : left.name.localeCompare(right.name));
   const updateFilter = (key: string, value: string) => {
@@ -4170,35 +4199,37 @@ function EducationDirectoryPage() {
         <label>Sort<select value={sort} onChange={(event) => updateFilter("sort", event.target.value)}><option value="name">A–Z</option><option value="level">Educational category</option></select></label>
       </div>
       <div className="results-summary"><strong>{records.length} matching institution{records.length === 1 ? "" : "s"}</strong><span>Last reviewed 22 November 2026</span>{activeFilters.length > 0 && <><span className="filter-summary">Filters: {activeFilters.join(" · ")}</span><button className="text-button" type="button" onClick={clearFilters}>Clear all</button></>}</div>
-      <div className="civic-card-grid">
-        {records.map((item) => (
-          <article className="civic-record-card education-directory-card" key={item.slug}>
-            <header className="education-card-header">
-              <SchoolLogo item={item} />
-              <div className="education-card-heading">
-                <span className="education-card-submeta">
-                  {item.type}{item.district ? ` · ${item.district}` : ""}
-                </span>
-                <h2>
-                  <Link to={`/education/${item.slug}`}>{item.name}</Link>
-                </h2>
+      <div className="civic-card-grid education-card-grid">
+        {records.map((item) => {
+          const cardDistrict = educationCardDistrict(item);
+          return (
+            <article className="civic-record-card education-directory-card" key={item.slug}>
+              <header className="education-card-header">
+                <SchoolLogo item={item} />
+                <div className="education-card-heading">
+                  <span className="education-card-submeta">
+                    {item.type}{cardDistrict ? ` · ${cardDistrict}` : ""}
+                  </span>
+                  <h2>
+                    <Link to={`/education/${item.slug}`}>{item.name}</Link>
+                  </h2>
+                </div>
+              </header>
+              <p className="education-card-intro">{educationSummary(item)}</p>
+              <dl className="education-card-meta">
+                <div><dt>Education offered</dt><dd>{item.levels.join(" · ")}</dd></div>
+                <div><dt>Student population</dt><dd>{item.studentPopulation ?? "Confirm with campus / DepEd Division"}</dd></div>
+                <div><dt>Location</dt><dd>{item.address}</dd></div>
+                <div><dt>Who to reach out to</dt><dd>{educationCardContact(item)}</dd></div>
+                <div><dt>School ID</dt><dd>{item.schoolId ?? (item.type === "Technical-vocational" ? "TESDA registry (see profile)" : "See school profile")}</dd></div>
+              </dl>
+              <div className="civic-card-actions">
+                <Link to={`/education/${item.slug}`}>View school details <ArrowRight aria-hidden="true" /></Link>
+                <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Directions <ExternalLink aria-hidden="true" /></a>
               </div>
-            </header>
-            <p className="education-card-intro">{educationSummary(item)}</p>
-            <dl>
-              <div><dt>Education offered</dt><dd>{item.levels.join(" · ")}</dd></div>
-              {item.studentPopulation && <div><dt>Student population</dt><dd>{item.studentPopulation}</dd></div>}
-              <div><dt>Location</dt><dd>{item.address}</dd></div>
-              <div><dt>Who to reach out to</dt><dd>{item.leadership ?? item.contactPerson ?? "School Head / DepEd Malaybalay Division (0907-688-9009)"}</dd></div>
-              {item.schoolId && <div><dt>School ID</dt><dd>{item.schoolId}</dd></div>}
-              {item.programmes?.length ? <div><dt>Published programmes</dt><dd>{item.programmes.join(", ")}</dd></div> : null}
-            </dl>
-            <div className="civic-card-actions">
-              <Link to={`/education/${item.slug}`}>View school details <ArrowRight aria-hidden="true" /></Link>
-              <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Directions <ExternalLink aria-hidden="true" /></a>
-            </div>
-          </article>
-        ))}
+            </article>
+          );
+        })}
       </div>
       {!records.length && <div className="empty-state" role="status"><Search aria-hidden="true" /><strong>No matching schools found</strong><p>Try searching another school name, ID, or barangay, or clear your current filters.</p><button className="button secondary" type="button" onClick={clearFilters}>Clear all filters</button></div>}
     </section>
@@ -4275,12 +4306,45 @@ function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) 
           {item.studentPopulation && <div><dt>Student population</dt><dd>{item.studentPopulation}</dd></div>}
           {staffingSummary && <div><dt>Staffing &amp; classrooms</dt><dd>{staffingSummary}</dd></div>}
           <div><dt>Who to reach out to</dt><dd>{item.contactPerson ?? item.leadership ?? "Campus School Head or DepEd Malaybalay Division (0907-688-9009)"}</dd></div>
-          {item.leadership && <div><dt>School head / key officers</dt><dd>{item.leadership}</dd></div>}
+          {item.leadership && (
+            <div>
+              <dt>School head / key officers</dt>
+              <dd>
+                {item.leadership.includes(" · ") ? (
+                  <ul className="education-leadership-list">
+                    {item.leadership.split(" · ").map((entry) => (
+                      <li key={entry}>{entry}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  item.leadership
+                )}
+              </dd>
+            </div>
+          )}
           <div><dt>Classification</dt><dd>{item.classification ?? item.type}</dd></div>
-          <div><dt>Programmes and grade levels</dt><dd>{item.programmes?.join(", ") ?? item.levels.join(", ")}</dd></div>
+          <div><dt>Programmes and grade levels</dt><dd>{item.programmes?.join(" · ") ?? item.levels.join(" · ")}</dd></div>
           <div><dt>Official communication</dt><dd>{item.contacts?.join(" · ") ?? "Walk-in at campus or via DepEd Malaybalay City Division (0907-688-9009 / malaybalay.city@deped.gov.ph)"}</dd></div>
           <div><dt>School microsite URL</dt><dd>{item.subdomainHost ? `https://${item.subdomainHost}` : "Generated after registry verification"}</dd></div>
         </dl>
+        {item.academicOfferings?.length ? (
+          <section id="programmes" className="education-profile-section education-offerings-section" aria-label="Academic programmes and offerings">
+            <span className="eyebrow">Verified academic directory</span>
+            <h2>Academic programmes &amp; offerings</h2>
+            <div className="education-offerings-grid">
+              {item.academicOfferings.map((group) => (
+                <div className="education-offering-card" key={group.group}>
+                  <h3>{group.group}</h3>
+                  <ul>
+                    {group.items.map((degree) => (
+                      <li key={degree}>{degree}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : null}
         <div id="channels" className="education-channels-grid">
           <section className="education-profile-section">
             <span className="eyebrow">Announcements and official channels</span>
