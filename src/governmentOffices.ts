@@ -80,9 +80,10 @@ export type LocalSpecialBody = {
   sourceUrl: string;
 };
 
-const VERIFIED_DATE = "2026-11-20";
+const VERIFIED_DATE = "2026-11-22";
 const SAKATA_DEPARTMENTS_URL = "https://sakata.malaybalaycity.gov.ph/departments-offices/";
 const SAKATA_CONTACT_URL = "https://sakata.malaybalaycity.gov.ph/contact-us/";
+const SAKATA_CHARTER_URL = "https://sakata.malaybalaycity.gov.ph/citizens-charter/";
 const SAKATA_SPECIAL_BODIES_URL = "https://sakata.malaybalaycity.gov.ph/local-special-bodies-and-special-committees/";
 const SAKATA_SP_URL = "https://sakata.malaybalaycity.gov.ph/spoffice/";
 const SAKATA_ADMIN_URL = "https://sakata.malaybalaycity.gov.ph/city-administrators-office/";
@@ -351,7 +352,7 @@ export const governmentOffices: GovernmentOffice[] = [
     coordinates: NEW_CITY_HALL_COORDS,
     operatingHours: "Monday to Friday, 8:00 AM – 5:00 PM",
     phoneNumbers: ["0917-188-4225", "(088) 813-4726 / 813-4761 Local 105", "(088) 813-4706 / 813-4707"],
-    emails: ["imalaybalay.8700@gmail.com", "cadodmo.malaybalay@gmail.com"],
+    emails: ["imalaybalay.8700@gmail.com", "cadodmo.malaybalaycity@gmail.com", "cadodmo.malaybalay@gmail.com"],
     facebookUrl: "https://www.facebook.com/lgumalaybalay.adminfo/",
     officialWebUrl: SAKATA_ADMIN_URL,
     services: [
@@ -651,7 +652,7 @@ export const governmentOffices: GovernmentOffice[] = [
     phoneNumbers: ["0910-156-6938"],
     emails: ["malaybalaycitylgu@gmail.com"],
     facebookUrl: CITY_MAIN_FB_URL,
-    officialWebUrl: "https://sakata.malaybalaycity.gov.ph/malaybalay-city-scholarship-2/",
+    officialWebUrl: SAKATA_CHARTER_URL,
     services: [
       {
         title: "1. City Scholarship Program — New Scholar Application",
@@ -689,11 +690,13 @@ export const governmentOffices: GovernmentOffice[] = [
         eligibility: "Qualified bonafide Malaybalay City students.",
       },
       { title: "CSO / NGO Accreditation", summary: "Qualifies civil society groups to sit on Local Special Bodies (CDC, Health Board, Peace & Order, etc.)." },
+      { title: "Medical Education Subsidy Committee (EO No. 17, s. 2026)", summary: "Coordinates city medical education subsidy screening and guidelines alongside CMO and partner institutions." },
     ],
     charterChapterRef: "CMO - COMMUNITY AFFAIRS 2026 (pp. 531–548)",
     sources: [
       ccSource("CMO — Community Affairs Division (pp. 531–548)"),
-      sakataSource("Malaybalay City Scholarship Page", "https://sakata.malaybalaycity.gov.ph/malaybalay-city-scholarship-2/"),
+      sakataSource("Citizen's Charter 2026 Portal", SAKATA_CHARTER_URL),
+      sakataSource("Executive Order No. 17, s. 2026 (Medical Education Subsidy Committee)", "https://sakata.malaybalaycity.gov.ph/executive-order-no-17/"),
     ],
   }),
 
@@ -1463,7 +1466,7 @@ export const governmentOffices: GovernmentOffice[] = [
     phoneNumbers: ["0906-616-4009", "0917-888-1392", "(088) 813-4726 / 813-4761 Local 122"],
     emails: ["malaybalayccro@gmail.com"],
     facebookUrl: "https://www.facebook.com/p/CCRO-Malaybalay-City-100085126836875/",
-    officialWebUrl: "https://sakata.malaybalaycity.gov.ph/civil-registry-2/",
+    officialWebUrl: SAKATA_CHARTER_URL,
     services: [
       {
         title: "Timely Birth, Marriage & Death Registration (Hospital & Home)",
@@ -1522,7 +1525,7 @@ export const governmentOffices: GovernmentOffice[] = [
     charterChapterRef: "CCRO 2026 (pp. 188–250 & p. 728)",
     sources: [
       ccSource("City Civil Registry Office (pp. 188–250 & p. 728)"),
-      sakataSource("Civil Registry Service Page", "https://sakata.malaybalaycity.gov.ph/civil-registry-2/"),
+      sakataSource("Citizen's Charter 2026 Portal", SAKATA_CHARTER_URL),
     ],
   }),
 
@@ -1604,12 +1607,16 @@ export const governmentOffices: GovernmentOffice[] = [
     ],
     programs: [
       { title: "24/7 Women & Children Crisis Center & Bahay Pag-asa", summary: "Provides shelter, trauma-informed social work, and RA 9344 diversion support." },
+      { title: "Anti-Sexual Harassment (ASH) Referral Network (EO No. 15, s. 2026)", summary: "Coordinates victim support and Safe Spaces Act (RA 11313) case referrals across city desks and partner agencies." },
+      { title: "Search for Model Family Awards (City Ordinance No. 1077)", summary: "CSWDO serves as lead implementing office for the institutionalized annual Model Family Awards (₱250,000 annual allocation)." },
       { title: "Disaster Camp Management Team (EO 36 s.2023)", summary: "Manages evacuation camp welfare and relief distribution alongside CDRRMO." },
     ],
     charterChapterRef: "CSWDO 2026 (pp. 620–654)",
     sources: [
       ccSource("CSWDO 2026 (pp. 620–654 & p. 729)"),
       sakataSource("CSWDO Page", "https://sakata.malaybalaycity.gov.ph/citysocialwelfareanddevelopmentoffice/"),
+      sakataSource("City Ordinance No. 1077 (Model Family Awards)", "https://sakata.malaybalaycity.gov.ph/ordinance-no-1077/"),
+      sakataSource("Executive Order No. 15, s. 2026 (ASH Referral Network)", "https://sakata.malaybalaycity.gov.ph/executive-order-no-15/"),
     ],
   }),
 
@@ -1632,7 +1639,7 @@ export const governmentOffices: GovernmentOffice[] = [
       "Provides free primary health consultations, dental care, immunization, TB-DOTS, sanitary permits, and lying-in care.",
     cardLocation: "Freedom Park, Brgy. 4 & Upper Pulangui",
     aboutDetails:
-      "Headquartered at Freedom Park, Barangay 4 (Poblacion) with 46 Barangay Health Stations and the 24/7 Upper Pulangui Lying-In Clinic, CHO issues pre-employment and food-handler Health Certificates, sanitary establishment clearances for BPLD permits, and outpatient disease treatment.",
+      "Headquartered at Freedom Park, Barangay 4 (Poblacion) with 46 Barangay Health Stations, the 24/7 Upper Pulangui Lying-In Clinic, and an internal patient referral linkage with the Malaybalay City Super Health Center in Barangay Aglayan (EO No. 93, Nov. 9, 2026), CHO issues Health Certificates, Sanitary Permits for BPLD permits, and primary outpatient care.",
     whoServes:
       "Families seeking primary care/immunization, food handlers & business owners needing Sanitary Permits, pregnant mothers, and TB/mental health patients.",
     mandate:
@@ -1658,7 +1665,7 @@ export const governmentOffices: GovernmentOffice[] = [
       "0992-385-8353",
     ],
     emails: ["cho.malaybly@gmail.com"],
-    officialWebUrl: "https://sakata.malaybalaycity.gov.ph/health-and-dental/",
+    officialWebUrl: SAKATA_CHARTER_URL,
     services: [
       {
         title: "Medical Consultation, Child Immunization & Dental Care",
@@ -1711,13 +1718,16 @@ export const governmentOffices: GovernmentOffice[] = [
       },
     ],
     programs: [
+      { title: "Super Health Center (Brgy. Aglayan) Referral System (EO No. 93, 2026)", summary: "Formalizes internal patient referral and medical coordination between the Malaybalay City Super Health Center in Brgy. Aglayan and CHO." },
+      { title: "Epidemiology & Surveillance Manual of Operations (EO No. 18, s. 2026)", summary: "Adopts standardized citywide disease surveillance and outbreak reporting protocols." },
       { title: "City Health Board (EO 5 & EO 26) & Nutrition Committee (EO 59)", summary: "Coordinates barangay health stations, Maternal Care Packages, and vaccination drives." },
       { title: "National Voluntary Blood Services Program", summary: "Regular citywide blood donation drives safeguarding emergency supply." },
     ],
     charterChapterRef: "CHO 2026 (pp. 354–408 & p. 729)",
     sources: [
       ccSource("City Health Office (pp. 354–408 & p. 729)"),
-      sakataSource("Health & Dental Services Page", "https://sakata.malaybalaycity.gov.ph/health-and-dental/"),
+      sakataSource("Executive Order No. 93 (Super Health Center Referral System)", "https://sakata.malaybalaycity.gov.ph/executive-order-no-93/"),
+      sakataSource("Executive Order No. 18, s. 2026 (Epidemiology & Surveillance)", "https://sakata.malaybalaycity.gov.ph/executive-order-no-18/"),
     ],
   }),
 
@@ -2298,7 +2308,9 @@ export const governmentOffices: GovernmentOffice[] = [
       "0916-114-1934",
       "0905-725-9062",
     ],
-    emails: ["cityvetmalaybalay@gmail.com", "citymalaybalay@gmail.com"],
+    emails: ["cityvetmalaybalay@gmail.com"],
+    verificationNote:
+      "Official email confirmed as cityvetmalaybalay@gmail.com on the City Departments directory (the LGU Contact Us page contains an incomplete 'citymalaybalay@gmail.com' typo).",
     facebookUrl: "https://www.facebook.com/p/City-Veterinary-Office-City-of-Malaybalay-100064138659249/",
     officialWebUrl: "https://sakata.malaybalaycity.gov.ph/departments-offices/",
     services: [
@@ -2546,7 +2558,7 @@ export const governmentOffices: GovernmentOffice[] = [
       "Manages city road traffic flow, deploys traffic enforcers across school zones and Sayre Highway junctions, issues traffic citation clearances, and coordinates road closures and public utility routing.",
     cardSummary:
       "Manages city traffic flow, deploys road enforcers, issues citation clearances, and coordinates public routing.",
-    cardLocation: "Traffic Management Center, Malaybalay",
+    cardLocation: "New City Hall Compound, Casisang",
     aboutDetails:
       "Working across Poblacion junctions and Sayre Highway corridors while coordinating citation settlements with City Treasurer Windows at City Hall, TMC conducts mandatory safety seminars for motorela drivers/operators, issues TMC IDs and clearances, and manages temporary road closures for civic events.",
     whoServes:
@@ -2558,8 +2570,8 @@ export const governmentOffices: GovernmentOffice[] = [
       "Motorela & Public Utility Routing Compliance Unit",
       "TMC Clearances, Citations & Road Closure Permit Desk",
     ],
-    address: "Traffic Management Center, Malaybalay City, 8700 Bukidnon (Check Charter pp. 572–587 / CTO citation counter at City Hall)",
-    barangay: "Barangay 9",
+    address: "Traffic Management Center, New City Hall Compound, Barangay Casisang, Malaybalay City, 8700 Bukidnon (with CTO citation settlement counter at 1st Floor, New City Hall)",
+    barangay: "Casisang",
     operatingHours: "Monday to Friday, 8:00 AM – 5:00 PM Admin (Field Traffic Posts active daily)",
     phoneNumbers: ["0936-829-4691", "0935-568-4362"],
     emails: ["tmcmalaybalay2014@gmail.com"],
@@ -2599,10 +2611,12 @@ export const governmentOffices: GovernmentOffice[] = [
     ],
     programs: [
       { title: "School Zone Safety & Kaamulan Traffic Rerouting", summary: "Real-time traffic advisories published directly through TMC's official Facebook page." },
+      { title: "Motorela Fare Matrix Enforcement (City Ordinance No. 1095, s. 2026)", summary: "Enforces amended Automatic and Pakyaw Motorela Fare Matrix rules across city routes." },
     ],
     charterChapterRef: "CMO - TMC 2026 (pp. 572–587)",
     sources: [
       ccSource("CMO — Traffic Management Center (pp. 572–587)"),
+      sakataSource("City Ordinance No. 1095, s. 2026 (Motorela Fare Matrix)", "https://sakata.malaybalaycity.gov.ph/ordinance-no-1095-series-of-2026/"),
       sakataSource("Departments & Contact Directory", SAKATA_DEPARTMENTS_URL),
     ],
   }),
@@ -2715,7 +2729,7 @@ export const governmentOffices: GovernmentOffice[] = [
     emails: ["dilg.buk.malaybalay@gmail.cm"],
     officialWebUrl: "https://region10.dilg.gov.ph/",
     verificationNote:
-      "Note: The LGU contact directory publishes 'dilg.buk.malaybalay@gmail.cm' (typo on .cm domain). Confirm active email routing by calling 0926-880-6529 or (088) 813-2562.",
+      "Note: The LGU contact directory publishes 'dilg.buk.malaybalay@gmail.cm' (typo on .cm domain). Confirm active CLGOO email routing by calling 0926-880-6529 or (088) 813-2562, or coordinate with DILG Bukidnon Provincial Office at Capitol Grounds ((088) 813-5085 / dilg.kaamulan@gmail.com).",
     services: [
       { title: "Seal of Good Local Governance (SGLG / SGLGB) & Barangay Assessment", processingTime: "Annual DILG cycle", fee: "None" },
       { title: "Barangay Official Succession, Katarungang Pambarangay & DILG Endorsements", processingTime: "Field office review", fee: "None" },
@@ -2745,7 +2759,7 @@ export const governmentOffices: GovernmentOffice[] = [
       "Provides 24/7 fire suppression and emergency rescue while conducting mandatory Fire Safety Inspections for Building Permits (OBO) and Business Permits (BPLD).",
     cardSummary:
       "Provides 24/7 firefighting and rescue while issuing Fire Safety Clearances for building and business permits.",
-    cardLocation: "Central Fire Station, Poblacion",
+    cardLocation: "Capt. Juan Melendez St., Brgy. 4",
     aboutDetails:
       "Alongside 24/7 emergency response across Poblacion and rural barangays, Malaybalay City Fire Station evaluates building plans for Fire Safety Evaluation Clearance (FSEC) and inspects commercial establishments for mandatory annual Fire Safety Inspection Certificates (FSIC).",
     whoServes:
@@ -2757,7 +2771,7 @@ export const governmentOffices: GovernmentOffice[] = [
       "Fire Safety Enforcement Division (FSEC & FSIC Inspection)",
       "Fire Prevention & Community Fire Brigade Unit",
     ],
-    address: "Malaybalay City Central Fire Station (City Contact Directory — Poblacion, Malaybalay City)",
+    address: "Malaybalay City Central Fire Station, Capt. Juan Melendez Street, Barangay 4 (Poblacion), Malaybalay City, 8700 Bukidnon",
     barangay: "Barangay 4",
     operatingHours: "24/7 Fire & Rescue Operations • Mon–Fri 8:00 AM – 5:00 PM FSIC Assessment",
     phoneNumbers: ["0917-677-7700", "(088) 813-5449"],
@@ -3072,7 +3086,7 @@ export const governmentOffices: GovernmentOffice[] = [
     category: "Public Safety & Emergency",
     logoPath: "/images/agencies/bjmp.png",
     logoStatus: "Verified Local Asset",
-    logoSourceUrl: "https://commons.wikimedia.org/wiki/File:Bureau_of_Jail_Management_and_Penology.svg",
+    logoSourceUrl: "https://commons.wikimedia.org/wiki/Category:Bureau_of_Jail_Management_and_Penology",
     headOfOffice: "JInsp. Murphy B. Todyog (BJMP-Main) • JCInsp. Haidee G. Macandili (BJMP-Reformatory Center)",
     headNote: "Both BJMP-Main and BJMP-Reformatory Center are listed under Malaybalay's CY 2026 APP Summary (p. 47).",
     overview:
@@ -3138,7 +3152,7 @@ export const governmentOffices: GovernmentOffice[] = [
     category: "National & Partner Agencies",
     logoPath: "/images/agencies/ppa.png",
     logoStatus: "Verified Local Asset",
-    logoSourceUrl: "https://commons.wikimedia.org/wiki/File:Parole_and_Probation_Administration.svg",
+    logoSourceUrl: "https://commons.wikimedia.org/wiki/File:Parole_and_Probation_Administration_(PPA).svg",
     headOfOffice: "Dennah E. Vivares (Chief Probation and Parole Officer, CY 2026 APP)",
     headNote: "Listed as Department/Office Head for Parole & Probation local support in the CY 2026 LGU APP Summary.",
     overview:

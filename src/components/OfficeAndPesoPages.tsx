@@ -279,8 +279,8 @@ function MicrositeUrlAnchor({
 
 /**
  * Searchable & filterable City Offices Directory (/offices).
- * Consolidates all 35 City Offices, Mayor's divisions, PESO hub access,
- * and 18 Local Special Bodies into one clean directory.
+ * Consolidates all 39 City Offices & Partner Agencies, Mayor's divisions, PESO hub access,
+ * and Local Special Bodies into one clean directory.
  */
 export function OfficeDirectoryBrowser({ compactHeader = false }: { compactHeader?: boolean }) {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -293,6 +293,8 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
   cpdo: {
     sourceLabel: "City Government of Malaybalay — CPDO Organizational Chart",
     sourceUrl: SAKATA_CPDO_URL,
+    unitNotes:
+      "Staff roster reflects the published CPDO organizational structure, cross-checked against the 2026 Citizen's Charter (which assigns Phoebe Jane E. Leono to the City Agriculture Office as Agricultural Technologist / GIS Mapper).",
     groups: [
       {
         unitName: "Office Leadership",
@@ -328,7 +330,6 @@ export const officePersonnelBySlug: Record<string, OfficePersonnelDirectoryEntry
           { name: "Angelie Joy G. Darangina", position: "Planning Officer IV (Division Head)" },
           { name: "Marjorie Z. Toyhorada", position: "Planning Officer II (Planning Section)" },
           { name: "Maricel L. Tagayuna", position: "Economic Researcher (Planning Section)" },
-          { name: "Phoebe Jane E. Leono", position: "Project Development Officer II (Investment & Programming)" },
           { name: "Achille M. Cabañelez", position: "Project Development Officer I (Investment & Programming)" },
           { name: "Darius Z. Muñez", position: "Zoning Officer III (Zoning Administration Section)" },
         ],
