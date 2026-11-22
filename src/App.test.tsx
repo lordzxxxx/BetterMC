@@ -219,6 +219,27 @@ describe("BetterMC public portal", () => {
     }
   });
 
+  it("uses live government portals and verified local addresses across all service providers", () => {
+    const deadDomains = ["podrs.dti.gov.ph", "egsismo.gsis.gov.ph", "ers.dole.gov.ph", "obo-printables"];
+    for (const provider of VERIFIED_SERVICE_PROVIDERS) {
+      for (const dead of deadDomains) {
+        expect(provider.onlinePortalUrl).not.toContain(dead);
+        expect(provider.source.url).not.toContain(dead);
+        for (const tx of provider.transactions) {
+          expect(tx.actionUrl).not.toContain(dead);
+          expect(tx.steps.join(" ")).not.toContain(dead);
+          expect(tx.steps.join(" ")).not.toContain("forEmployed");
+        }
+      }
+    }
+    expect(VERIFIED_SERVICE_PROVIDERS.find((p) => p.id === "cdrrmo-malaybalay")?.barangay).toBe("Barangay 9");
+    expect(VERIFIED_SERVICE_PROVIDERS.find((p) => p.id === "bfp-malaybalay")?.barangay).toBe("Barangay 4");
+    expect(VERIFIED_SERVICE_PROVIDERS.find((p) => p.id === "buksu-malaybalay")?.barangay).toBe("Barangay 3");
+    expect(VERIFIED_SERVICE_PROVIDERS.find((p) => p.id === "deped-malaybalay")?.phone).toContain("0907-688-9009");
+    expect(VERIFIED_SERVICE_PROVIDERS.find((p) => p.id === "sec-ipophl-gateway")?.barangay).toContain("Cagayan de Oro");
+    expect(VERIFIED_SERVICE_PROVIDERS.find((p) => p.id === "dfa-passport-cdo-malaybalay")?.barangay).toContain("Cagayan de Oro");
+  });
+
   it("opens provider maps as exact coordinate pins", () => {
     for (const provider of VERIFIED_SERVICE_PROVIDERS) {
       const mapUrl = new URL(buildGoogleMapsPlaceUrl(provider.coordinates));
