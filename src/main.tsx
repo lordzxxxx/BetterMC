@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/react'
 import App from './App'
 import 'leaflet/dist/leaflet.css'
 import './styles.css'
+import './microsites.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

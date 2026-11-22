@@ -4243,6 +4243,20 @@ function EducationOfficesPage() {
   })}</section></>;
 }
 
+function extractSchoolDialablePhone(contacts?: string[]): { display: string; href: string } | null {
+  if (!contacts?.length) return null;
+  for (const raw of contacts) {
+    if (raw.startsWith("http") || raw.includes("@")) continue;
+    const primarySegment = raw.split(/\s+to\s+|\/|;|·/i)[0]?.trim() ?? "";
+    const digits = primarySegment.replace(/\D/g, "");
+    if (digits.length >= 7 && digits.length <= 12) {
+      const normalized = digits.startsWith("63") ? `+${digits}` : digits;
+      return { display: primarySegment, href: `tel:${normalized}` };
+    }
+  }
+  return null;
+}
+
 function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) {
   const { slug } = useParams<{ slug: string }>();
   const item = resolveEducationInstitution(slugOverride ?? slug);
@@ -4254,112 +4268,277 @@ function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) 
   const staffingSummary = hasTeachers || hasClassrooms
     ? `${[hasTeachers ? `${item.teacherCount!.toLocaleString()} teachers` : null, hasClassrooms ? `${item.classroomCount!.toLocaleString()} classrooms` : null].filter(Boolean).join(" · ")} (SY 2024–25)`
     : null;
-  return <>
-    <PageHero eyebrow="School profile" title={item.name} description={`${item.type} · ${item.levels.join(" · ")}${item.district ? ` · ${item.district}` : ""}`} compact>
-      {isHostSchoolSubdomain ? (
-        <a className="page-hero-backlink" href={`${MAIN_BETTERMC_URL}/education`}>
-          All Malaybalay schools on BetterMC <ExternalLink aria-hidden="true" />
-        </a>
-      ) : (
-        <Link className="page-hero-backlink" to="/education">Return to education directory <ArrowRight aria-hidden="true" /></Link>
-      )}
-    </PageHero>
-    <section className="section container civic-detail-layout">
-      <article className="civic-detail-main">
-        <section id="overview" className="education-profile-intro">
-          <div className="education-profile-head">
-            <SchoolLogo item={item} />
-            <div>
-              <span className="eyebrow">About this school</span>
-              <h2>At a glance</h2>
+  const primaryChannelUrl = item.announcements.externalUrl ?? item.officialLinks?.[0]?.url;
+  const primaryChannelLabel = item.announcements.externalUrl
+    ? "Official Portal / Channel"
+    : (item.officialLinks?.[0]?.label ?? "Official Website");
+  const schoolPhone = extractSchoolDialablePhone(item.contacts);
+  const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`;
+  const leadershipEntries = item.leadership
+    ? item.leadership.split(" · ").map((entry) => {
+        const colonIdx = entry.indexOf(":");
+        if (colonIdx > 0 && colonIdx < 36) {
+          return { role: entry.slice(0, colonIdx).trim(), name: entry.slice(colonIdx + 1).trim() };
+        }
+        return { role: "School Leadership", name: entry.trim() };
+      })
+    : [];
+
+  return (
+    <div className="school-landing-page">
+      <section className="school-hero">
+        <div className="school-hero-backdrop" aria-hidden="true" />
+        <div className="container school-hero-content">
+          <div className="school-brand-lockup">
+            <div className={`school-logo-frame${item.logoUrl ? " has-logo" : ""}`}>
+              {item.logoUrl ? (
+                <img
+                  className="education-school-logo"
+                  src={item.logoUrl}
+                  alt={`${item.name} logo`}
+                  width="124"
+                  height="124"
+                  decoding="async"
+                />
+              ) : (
+                <GraduationCap aria-hidden="true" />
+              )}
             </div>
+            {!isHostSchoolSubdomain ? (
+              <div className="office-bettermc-mark">
+                <img src="/bettermc1.png" alt="" aria-hidden="true" decoding="async" />
+                <span>Powered by BetterMC</span>
+              </div>
+            ) : null}
           </div>
-          <p>{educationSummary(item)}</p>
-          {item.contactPerson && (
-            <p className="office-about-serves education-contact-callout">
-              <strong>Who to reach out to:</strong> {item.contactPerson}
+
+          <div className="school-hero-copy">
+            {!isHostSchoolSubdomain ? (
+              <nav className="microsite-home-nav" aria-label={`${item.name} portal`}>
+                <Link className="microsite-home-button" to="/education">
+                  <ArrowLeft aria-hidden="true" />
+                  <span>Return to education directory</span>
+                </Link>
+              </nav>
+            ) : null}
+
+            <p className="school-hero-eyebrow">
+              {item.type} · {item.levels.join(" · ")}
+              {item.district ? ` · ${item.district}` : ""}
             </p>
-          )}
-          <div className="office-about-metrics education-profile-metrics" aria-label="School facts summary">
-            <div>
-              <span>Student population</span>
-              <strong>{item.studentPopulation ?? "Confirm with school / DepEd Division"}</strong>
-            </div>
-            <div>
-              <span>{staffingSummary ? "Teachers & classrooms" : "Education offered"}</span>
-              <strong>{staffingSummary ?? item.levels.join(" · ")}</strong>
-            </div>
-            <div>
-              <span>
-                {item.type === "State university" || item.type === "Technical-vocational"
-                  ? "District / oversight"
-                  : "DepEd district"}
-              </span>
-              <strong>{item.district ?? item.type}</strong>
+            <h1>{item.name}</h1>
+            <p className="school-hero-lead">{educationSummary(item)}</p>
+
+            <div className="school-hero-actions" role="group" aria-label={`${item.name} quick actions`}>
+              {primaryChannelUrl ? (
+                <a
+                  className="button hero-contrast-primary"
+                  href={primaryChannelUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Globe aria-hidden="true" />
+                  <span>{primaryChannelLabel}</span>
+                </a>
+              ) : (
+                <a className="button hero-contrast-primary" href="#checklist">
+                  <FileCheck2 aria-hidden="true" />
+                  <span>Enrollment Checklist</span>
+                </a>
+              )}
+              {item.academicOfferings?.length ? (
+                <a className="button secondary" href="#programmes">
+                  <BookOpen aria-hidden="true" />
+                  <span>Academic Programmes</span>
+                </a>
+              ) : null}
+              {schoolPhone ? (
+                <a className="button secondary" href={schoolPhone.href}>
+                  <Phone aria-hidden="true" />
+                  <span>Call {schoolPhone.display}</span>
+                </a>
+              ) : null}
+              <a className="button secondary" href={mapUrl} target="_blank" rel="noreferrer">
+                <MapPin aria-hidden="true" />
+                <span>Directions / Map</span>
+              </a>
+              {primaryChannelUrl ? (
+                <a className="button secondary" href="#checklist">
+                  <FileCheck2 aria-hidden="true" />
+                  <span>Checklist</span>
+                </a>
+              ) : null}
             </div>
           </div>
-        </section>
-        <dl id="facts" className="legislation-detail-facts">
-          <div><dt>School ID</dt><dd>{item.schoolId ?? "Not published in the reviewed source"}</dd></div>
-          <div><dt>Address</dt><dd>{item.address}</dd></div>
-          <div><dt>Barangay</dt><dd>{item.barangay ?? "Not published in the reviewed source"}</dd></div>
-          {item.studentPopulation && <div><dt>Student population</dt><dd>{item.studentPopulation}</dd></div>}
-          {staffingSummary && <div><dt>Staffing &amp; classrooms</dt><dd>{staffingSummary}</dd></div>}
-          <div><dt>Who to reach out to</dt><dd>{item.contactPerson ?? item.leadership ?? "Campus School Head or DepEd Malaybalay Division (0907-688-9009)"}</dd></div>
-          {item.leadership && (
+
+          <dl className="school-hero-facts" aria-label="Verified school snapshot">
             <div>
-              <dt>School head / key officers</dt>
+              <dt>Student Population</dt>
+              <dd>{item.studentPopulation ?? "Confirm with campus / DepEd"}</dd>
+            </div>
+            <div>
+              <dt>{staffingSummary ? "Teachers & Classrooms" : "Education Offered"}</dt>
+              <dd>{staffingSummary ?? item.levels.join(" · ")}</dd>
+            </div>
+            <div>
+              <dt>Classification</dt>
               <dd>
-                {item.leadership.includes(" · ") ? (
-                  <ul className="education-leadership-list">
-                    {item.leadership.split(" · ").map((entry) => (
-                      <li key={entry}>{entry}</li>
-                    ))}
-                  </ul>
+                <strong>{item.classification ?? item.type}</strong>
+                {staffingSummary ? <small>{item.levels.join(" · ")}</small> : null}
+              </dd>
+            </div>
+            <div>
+              <dt>
+                {item.type === "State university" || item.type === "Technical-vocational"
+                  ? "Campus & Oversight"
+                  : "DepEd District & Location"}
+              </dt>
+              <dd>
+                {item.district ?? item.type}
+                {item.barangay ? <small>{item.barangay.toLowerCase().startsWith("barangay ") ? item.barangay : `Barangay ${item.barangay}`}</small> : null}
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      {!isHostSchoolSubdomain ? (
+        <nav className="office-local-nav school-local-nav" aria-label={`${item.name} page sections`}>
+          <div className="container">
+            <a href="#overview">Overview</a>
+            <a href="#facts">School Facts</a>
+            {item.academicOfferings?.length ? <a href="#programmes">Programmes</a> : null}
+            <a href="#channels">Channels &amp; Map</a>
+            <a href="#checklist">Enrollment Checklist</a>
+            <a href="#sources">Sources</a>
+          </div>
+        </nav>
+      ) : null}
+
+      <div className="section container school-content-sections">
+        <section id="overview" tabIndex={-1} className="bettermc-surface-card school-section-card school-overview-card">
+          <div className="school-section-head">
+            <span className="office-section-eyebrow">About this school</span>
+            <h2>At a glance</h2>
+          </div>
+          <p className="school-overview-copy">{educationSummary(item)}</p>
+          {item.contactPerson ? (
+            <div className="office-contact-guide" role="region" aria-label="Who to reach out to">
+              <span className="office-contact-guide-eyebrow">Who to reach out to</span>
+              <p>{item.contactPerson}</p>
+            </div>
+          ) : null}
+          {leadershipEntries.length > 0 ? (
+            <div className="school-leadership-block">
+              <h3>School Head &amp; Key Officers</h3>
+              <ul className="school-leadership-grid">
+                {leadershipEntries.map((entry) => (
+                  <li key={`${entry.role}-${entry.name}`} className="school-officer-card">
+                    <span className="school-officer-role">{entry.role}</span>
+                    <strong className="school-officer-name">{entry.name}</strong>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </section>
+
+        <section id="facts" tabIndex={-1} className="bettermc-surface-card school-section-card">
+          <div className="school-section-head">
+            <span className="office-section-eyebrow">Institutional registry</span>
+            <h2>Verified school facts</h2>
+          </div>
+          <dl className="school-facts-grid">
+            <div><dt>School ID</dt><dd>{item.schoolId ?? "Not published in the reviewed source"}</dd></div>
+            <div><dt>Classification</dt><dd>{item.classification ?? item.type}</dd></div>
+            <div><dt>Address</dt><dd>{item.address}</dd></div>
+            <div><dt>Barangay</dt><dd>{item.barangay ?? "Not published in the reviewed source"}</dd></div>
+            {item.studentPopulation ? <div><dt>Student population</dt><dd>{item.studentPopulation}</dd></div> : null}
+            {staffingSummary ? <div><dt>Staffing &amp; classrooms</dt><dd>{staffingSummary}</dd></div> : null}
+            <div><dt>Who to reach out to</dt><dd>{item.contactPerson ?? item.leadership ?? "Campus School Head or DepEd Malaybalay Division (0907-688-9009)"}</dd></div>
+            <div><dt>Programmes and grade levels</dt><dd>{item.programmes?.join(" · ") ?? item.levels.join(" · ")}</dd></div>
+            <div><dt>Official communication</dt><dd>{item.contacts?.join(" · ") ?? "Walk-in at campus or via DepEd Malaybalay City Division (0907-688-9009 / malaybalay.city@deped.gov.ph)"}</dd></div>
+            <div>
+              <dt>School microsite URL</dt>
+              <dd>
+                {item.subdomainHost ? (
+                  <a className="school-inline-url" href={`https://${item.subdomainHost}`} target="_blank" rel="noreferrer">
+                    https://{item.subdomainHost}
+                  </a>
                 ) : (
-                  item.leadership
+                  "Generated after registry verification"
                 )}
               </dd>
             </div>
-          )}
-          <div><dt>Classification</dt><dd>{item.classification ?? item.type}</dd></div>
-          <div><dt>Programmes and grade levels</dt><dd>{item.programmes?.join(" · ") ?? item.levels.join(" · ")}</dd></div>
-          <div><dt>Official communication</dt><dd>{item.contacts?.join(" · ") ?? "Walk-in at campus or via DepEd Malaybalay City Division (0907-688-9009 / malaybalay.city@deped.gov.ph)"}</dd></div>
-          <div><dt>School microsite URL</dt><dd>{item.subdomainHost ? `https://${item.subdomainHost}` : "Generated after registry verification"}</dd></div>
-        </dl>
+          </dl>
+        </section>
+
         {item.academicOfferings?.length ? (
-          <section id="programmes" className="education-profile-section education-offerings-section" aria-label="Academic programmes and offerings">
-            <span className="eyebrow">Verified academic directory</span>
-            <h2>Academic programmes &amp; offerings</h2>
+          <section
+            id="programmes"
+            tabIndex={-1}
+            className="bettermc-surface-card school-section-card education-offerings-section"
+            aria-label="Academic programmes and offerings"
+          >
+            <div className="school-section-head">
+              <span className="office-section-eyebrow">Verified academic directory</span>
+              <h2>Academic programmes &amp; offerings</h2>
+            </div>
             <div className="education-offerings-grid">
               {item.academicOfferings.map((group) => (
-                <div className="education-offering-card" key={group.group}>
+                <article className="education-offering-card" key={group.group}>
                   <h3>{group.group}</h3>
                   <ul>
                     {group.items.map((degree) => (
                       <li key={degree}>{degree}</li>
                     ))}
                   </ul>
-                </div>
+                </article>
               ))}
             </div>
           </section>
         ) : null}
-        <div id="channels" className="education-channels-grid">
-          <section className="education-profile-section">
-            <span className="eyebrow">Announcements and official channels</span>
+
+        <section id="channels" tabIndex={-1} className="school-channels-grid" aria-label="Official channels and location">
+          <article className="bettermc-surface-card school-channel-panel">
+            <span className="office-section-eyebrow">Announcements &amp; official channels</span>
             <h2>{item.announcements.mode}</h2>
-            <p>{item.announcements.mode === "Not configured" ? "This school does not have an external announcement page linked yet. For enrollment schedules and campus advisories, visit the school directly or contact DepEd Malaybalay City Division." : "Check the official school channel below for enrollment dates, class advisories, admissions, and announcements."}</p>
-            {item.announcements.externalUrl && <a className="button secondary compact-action" href={item.announcements.externalUrl} target="_blank" rel="noreferrer">Open official channel <ExternalLink aria-hidden="true" /></a>}
-          </section>
-          <section className="education-profile-section">
-            <span className="eyebrow">Location and directions</span>
-            <h2>{item.transport.status === "Verified" ? "Published access information" : "Confirm travel routes before visiting"}</h2>
+            <p>
+              {item.announcements.mode === "Not configured"
+                ? "This school does not have an external announcement page linked yet. For enrollment schedules and campus advisories, visit the school directly or contact DepEd Malaybalay City Division."
+                : "Check the official school channel below for enrollment dates, class advisories, admissions, and announcements."}
+            </p>
+            {item.announcements.externalUrl ? (
+              <a
+                className="button secondary compact-action"
+                href={item.announcements.externalUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Open official channel <ExternalLink aria-hidden="true" />
+              </a>
+            ) : null}
+          </article>
+          <article className="bettermc-surface-card school-channel-panel">
+            <span className="office-section-eyebrow">Location &amp; directions</span>
+            <h2>
+              {item.transport.status === "Verified"
+                ? "Published access information"
+                : "Confirm travel routes before visiting"}
+            </h2>
             <p>{item.transport.note}</p>
-            <a className="button secondary compact-action" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.transport.mapQuery)}`} target="_blank" rel="noreferrer">Open map search <ExternalLink aria-hidden="true" /></a>
-          </section>
-        </div>
-        <section id="checklist" className="education-profile-section education-checklist-section" aria-label="Enrollment and school records checklist">
+            <a className="button secondary compact-action" href={mapUrl} target="_blank" rel="noreferrer">
+              Open map search <ExternalLink aria-hidden="true" />
+            </a>
+          </article>
+        </section>
+
+        <section
+          id="checklist"
+          tabIndex={-1}
+          className="bettermc-surface-card school-section-card school-checklist-card"
+          aria-label="Enrollment and school records checklist"
+        >
           <InteractiveChecklist
             title="Enrollment & School Records Checklist"
             sections={buildSchoolChecklistSections(item)}
@@ -4382,38 +4561,74 @@ function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) 
             storageKey={`school-${item.slug}`}
           />
         </section>
-      </article>
-      <aside id="sources" className="legislation-source-card">
-        <MapPin aria-hidden="true" /><span className="eyebrow">Source ledger</span><h2>Confirm before visiting</h2>
-        <p>The map opens a Google Maps search using the source-listed address. BetterMC does not claim an exact pin where none was published by the institution or agency.</p>
-        <a className="button primary" href={item.source.url} target="_blank" rel="noreferrer">Open source listing <ExternalLink aria-hidden="true" /></a>
-        {item.subdomainHost && !isHostSchoolSubdomain && (
-          <div className="detail-source-list">
-            <a className="detail-source-link" href={`https://${item.subdomainHost}`} target="_blank" rel="noreferrer">
-              Open school subdomain <ExternalLink aria-hidden="true" />
-            </a>
+
+        <section id="sources" tabIndex={-1} className="bettermc-surface-card school-section-card school-sources-card">
+          <div className="school-section-head">
+            <span className="office-section-eyebrow">Source ledger &amp; official links</span>
+            <h2>Verify directly with published sources</h2>
+            <p className="office-section-subtitle">
+              Map links open a Google Maps search using the source-listed address. Confirm enrollment schedules and fees directly with the institution.
+            </p>
           </div>
-        )}
-        {isHostSchoolSubdomain && (
-          <div className="detail-source-list">
-            <a className="detail-source-link" href={`${MAIN_BETTERMC_URL}/education/${item.slug}`}>
-              View school profile on BetterMC <ExternalLink aria-hidden="true" />
+          <div className="school-sources-grid">
+            <a className="office-platform-card is-fb" href={item.source.url} target="_blank" rel="noreferrer">
+              <FileCheck2 aria-hidden="true" />
+              <span className="office-channel-body">
+                <strong>Open source listing</strong>
+                <small>{item.source.label}</small>
+              </span>
+              <ExternalLink aria-hidden="true" />
             </a>
-          </div>
-        )}
-        {item.officialLinks?.length ? (
-          <div className="detail-source-list">
-            {item.officialLinks.map((link) => (
-              <a className="detail-source-link" key={link.url} href={link.url} target="_blank" rel="noreferrer">
-                {link.label} <ExternalLink aria-hidden="true" />
+            {item.subdomainHost && !isHostSchoolSubdomain ? (
+              <a className="office-platform-card" href={`https://${item.subdomainHost}`} target="_blank" rel="noreferrer">
+                <Globe aria-hidden="true" />
+                <span className="office-channel-body">
+                  <strong>Open school subdomain</strong>
+                  <small>{item.subdomainHost}</small>
+                </span>
+                <ExternalLink aria-hidden="true" />
+              </a>
+            ) : null}
+            {isHostSchoolSubdomain ? (
+              <a className="office-platform-card" href={`${MAIN_BETTERMC_URL}/education/${item.slug}`}>
+                <Building2 aria-hidden="true" />
+                <span className="office-channel-body">
+                  <strong>View school profile on BetterMC</strong>
+                  <small>www.bettermalaybalay.cloud/education/{item.slug}</small>
+                </span>
+                <ExternalLink aria-hidden="true" />
+              </a>
+            ) : null}
+            {item.officialLinks?.map((link) => (
+              <a className="office-platform-card" key={link.url} href={link.url} target="_blank" rel="noreferrer">
+                <Globe aria-hidden="true" />
+                <span className="office-channel-body">
+                  <strong>{link.label}</strong>
+                  <small>{link.url.replace(/^https?:\/\/(www\.)?/, "").split("/")[0]}</small>
+                </span>
+                <ExternalLink aria-hidden="true" />
               </a>
             ))}
           </div>
-        ) : null}
-        <p className="source-availability-note">{item.source.label} · {item.source.type} · reviewed {item.source.verifiedOn} · Logo: {item.logoStatus ?? "Unavailable"}</p>
-      </aside>
-    </section>
-  </>;
+          <div className="office-sources-footer">
+            <p>
+              {item.source.label} · {item.source.type} · reviewed {item.source.verifiedOn} · Logo:{" "}
+              {item.logoStatus ?? "Unavailable"}
+            </p>
+            {isHostSchoolSubdomain ? (
+              <a className="office-sources-report-link" href={`${MAIN_BETTERMC_URL}/participate`}>
+                Submit an update or correction <ExternalLink aria-hidden="true" />
+              </a>
+            ) : (
+              <Link className="office-sources-report-link" to="/participate">
+                Submit an update or correction <ArrowRight aria-hidden="true" />
+              </Link>
+            )}
+          </div>
+        </section>
+      </div>
+    </div>
+  );
 }
 
 function DocumentGuidePage() {
@@ -5714,54 +5929,48 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
                 alt={`${profile.name} mark published by the City Government`}
               />
             </div>
-            <div className="barangay-bettermc-mark">
-              <img
-                src="/bettermc1.png"
-                alt=""
-                aria-hidden="true"
-                decoding="async"
-              />
-              <span>Powered by BetterMC</span>
-            </div>
+            {!isHostBarangaySubdomain ? (
+              <div className="barangay-bettermc-mark">
+                <img
+                  src="/bettermc1.png"
+                  alt=""
+                  aria-hidden="true"
+                  decoding="async"
+                />
+                <span>Powered by BetterMC</span>
+              </div>
+            ) : null}
           </div>
           <div className="barangay-hero-copy">
-            <div
-              className="barangay-hero-inline-portal"
-              role="region"
-              aria-label={`${profile.name} embedded subdomain and main portal navigation`}
-            >
-              {slugOverride ? (
-                <a
-                  href={MAIN_BETTERMC_PORTAL.url}
-                  className="microsite-home-button barangay-main-portal-pill"
-                >
-                  <ArrowLeft aria-hidden="true" />
-                  <span>BetterMC Home</span>
-                </a>
-              ) : (
+            {!isHostBarangaySubdomain ? (
+              <div
+                className="barangay-hero-inline-portal"
+                role="region"
+                aria-label={`${profile.name} embedded subdomain and main portal navigation`}
+              >
                 <Link to="/" className="microsite-home-button barangay-main-portal-pill">
                   <ArrowLeft aria-hidden="true" />
                   <span>BetterMC Home</span>
                 </Link>
-              )}
-            </div>
+              </div>
+            ) : null}
             <span>Welcome to Barangay {profile.name}</span>
             <h1>{profile.name}</h1>
             <p>{profile.description}</p>
             <div className="barangay-hero-actions">
               {profile.phone && (
                 <a
-                  className="button primary"
+                  className="button hero-contrast-primary"
                   href={`tel:${telephoneHref(profile.phone)}`}
                 >
-                  <Phone /> Call barangay
+                  <Phone aria-hidden="true" /> Call barangay
                 </a>
               )}
               <a className="button secondary" href="#disclosure">
-                <FileText /> Full disclosure
+                <FileText aria-hidden="true" /> Full disclosure
               </a>
               <a className="button secondary" href="#emergency">
-                <ShieldAlert /> Emergency
+                <ShieldAlert aria-hidden="true" /> Emergency
               </a>
             </div>
           </div>
@@ -5816,7 +6025,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
       ) : null}
 
       <div className="barangay-profile-main container">
-        <section id="about" className="barangay-profile-section barangay-about">
+        <section id="about" tabIndex={-1} className="barangay-profile-section barangay-about">
           <div className="barangay-about-copy">
             <span className="eyebrow">About the barangay</span>
             <h2>Barangay overview</h2>
@@ -5857,7 +6066,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
           </aside>
         </section>
 
-        <section id="leadership" className="barangay-profile-section">
+        <section id="leadership" tabIndex={-1} className="barangay-profile-section">
           <SectionHeading
             title={`Barangay ${profile.name} officials`}
           >
@@ -5870,7 +6079,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
               roster.punongBarangay,
               roster.barangaySecretary,
               roster.skChairperson,
-              ...[...roster.sangguniangBarangayMembers].sort(
+              ...roster.sangguniangBarangayMembers.toSorted(
                 (a, b) => (a.kagawadOrder ?? 99) - (b.kagawadOrder ?? 99),
               ),
             ].map((official) => {
@@ -5931,6 +6140,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
 
         <section
           id="disclosure"
+          tabIndex={-1}
           className="barangay-profile-section barangay-disclosure-section"
         >
           <SectionHeading
@@ -6143,6 +6353,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
 
         <section
           id="map"
+          tabIndex={-1}
           className="barangay-profile-section barangay-map-section"
         >
           <SectionHeading
@@ -6169,7 +6380,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
           </div>
         </section>
 
-        <section id="projects" className="barangay-profile-section">
+        <section id="projects" tabIndex={-1} className="barangay-profile-section">
           <SectionHeading
             eyebrow="2026 procurement"
             title={`Published projects mentioning ${profile.name}`}
@@ -6269,7 +6480,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
           )}
         </section>
 
-        <section id="committees" className="barangay-profile-section">
+        <section id="committees" tabIndex={-1} className="barangay-profile-section">
           <SectionHeading
             eyebrow="Committee transparency"
             title="Common committee areas"
@@ -6292,7 +6503,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
           </div>
         </section>
 
-        <section id="services" className="barangay-profile-section">
+        <section id="services" tabIndex={-1} className="barangay-profile-section">
           <SectionHeading
             eyebrow="Resident guide"
             title="Services to ask about at the barangay hall"
@@ -6350,6 +6561,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
 
         <section
           id="contacts"
+          tabIndex={-1}
           className="barangay-profile-section barangay-contact-section"
         >
           <div>
@@ -6404,6 +6616,7 @@ function BarangayProfilePage({ slugOverride }: { slugOverride?: string }) {
 
         <section
           id="emergency"
+          tabIndex={-1}
           className="barangay-profile-section barangay-emergency-section"
         >
           <SectionHeading

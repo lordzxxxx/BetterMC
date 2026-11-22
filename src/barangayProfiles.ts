@@ -92,8 +92,8 @@ const psgcProfiles: PsgcProfile[] = psgcRows.map(
 );
 
 const populationRankByName = new Map(
-  [...psgcProfiles]
-    .sort((left, right) => right.population - left.population)
+  psgcProfiles
+    .toSorted((left, right) => right.population - left.population)
     .map((profile, index) => [profile.name, index + 1]),
 );
 

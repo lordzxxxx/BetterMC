@@ -369,10 +369,8 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto(mayorUrl.toString());
     await expect(page.getByRole("heading", { name: "Office of the City Mayor" })).toBeVisible();
-    const mayorHomeBtn = page.locator(".microsite-home-button");
-    await expect(mayorHomeBtn).toHaveCount(1);
-    await expect(mayorHomeBtn).toContainText("BetterMC Home");
-    await expect(mayorHomeBtn).toHaveAttribute("href", "https://www.bettermalaybalay.cloud");
+    await expect(page.locator(".microsite-home-button")).toHaveCount(0);
+    await expect(page.locator(".microsite-home-nav")).toHaveCount(0);
   });
 
   test("renders dedicated MicrositeHeader across standalone Office, School, and Barangay microsites without altering internal BetterMC headers", async ({
@@ -580,6 +578,67 @@ test.describe("Government Offices Directory, Subdomains & PESO Hub", () => {
         () => document.documentElement.scrollWidth > window.innerWidth + 1,
       );
       expect(overflow).toBe(false);
+    }
+  });
+
+  test("verifies unified civic microsite heroes, scrollspy active state, and touch-safe controls across Office, School, and Barangay subdomains", async ({
+    page,
+    baseURL,
+  }) => {
+    const base = new URL(baseURL || "http://127.0.0.1:5173");
+    const subUrl = (slug: string, pathname = "/") => {
+      const target = new URL(base.toString());
+      target.hostname = `${slug}.localhost`;
+      target.pathname = pathname;
+      return target.toString();
+    };
+
+    // 1. School microsite (BukSU): unified civic hero, officer grid, 6 offering cards, scrollspy
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto(subUrl("bukidnon-state-university"));
+    await expect(page.locator(".school-hero")).toBeVisible();
+    await expect(page.locator(".school-hero-facts > div")).toHaveCount(4);
+    await expect(page.locator(".school-officer-card")).toHaveCount(5);
+    await expect(page.locator(".education-offering-card")).toHaveCount(6);
+    const progNavLink = page.locator('.microsite-section-nav a[href="#programmes"]');
+    await expect(progNavLink).toBeVisible();
+    await progNavLink.click();
+    await expect(progNavLink).toHaveAttribute("aria-current", "true");
+
+    // 2. Barangay microsite (Casisang): full-width frosted facts strip + touch-safe official links
+    await page.goto(subUrl("casisang"));
+    const brgyFactsWidth = await page.evaluate(() => {
+      const facts = document.querySelector(".barangay-facts")?.getBoundingClientRect().width ?? 0;
+      const container = document.querySelector(".barangay-hero-content")?.getBoundingClientRect().width ?? 1;
+      return facts / container;
+    });
+    expect(brgyFactsWidth).toBeGreaterThan(0.9);
+    const firstOfficialContactHeight = await page
+      .locator(".barangay-official-contacts a")
+      .first()
+      .evaluate((el) => el.getBoundingClientRect().height);
+    expect(firstOfficialContactHeight).toBeGreaterThanOrEqual(32);
+
+    // 3. Mobile 390px: >=44px menu toggle, no hero BetterMC Home pill on standalone microsites, zero overflow across all 3 kinds
+    for (const slug of ["cho", "bukidnon-state-university", "casisang"]) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(subUrl(slug));
+      await expect(page.locator(".microsite-home-button")).toHaveCount(0);
+      const toggleBox = await page.locator(".microsite-menu-toggle").boundingBox();
+      expect(toggleBox?.width ?? 0).toBeGreaterThanOrEqual(44);
+      expect(toggleBox?.height ?? 0).toBeGreaterThanOrEqual(44);
+      if (slug === "casisang") {
+        const orderOk = await page.evaluate(() => {
+          const h1 = document.querySelector(".barangay-hero-copy h1")?.getBoundingClientRect().top ?? 0;
+          const facts = document.querySelector(".barangay-facts")?.getBoundingClientRect().top ?? 0;
+          return h1 > 0 && facts > h1;
+        });
+        expect(orderOk, "barangay heading stays above hero facts on mobile").toBe(true);
+      }
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth > window.innerWidth + 1,
+      );
+      expect(overflow, `zero 390px overflow on ${slug}`).toBe(false);
     }
   });
 });

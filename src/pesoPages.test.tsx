@@ -169,7 +169,7 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
     }
   });
 
-  it("shows BetterMC Home on /offices/sp, hides it on sp.bettermalaybalay.cloud/transparency, and preserves SP emblem & other microsites", () => {
+  it("shows BetterMC Home on internal pages (/offices/sp) and hides hero home buttons across standalone office microsites while preserving SP emblem", () => {
     const originalLocation = window.location;
 
     const renderWithHostname = (hostname: string, entryPath: string) => {
@@ -242,11 +242,10 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
 
       renderWithHostname("mayor.bettermalaybalay.cloud", "/");
       expect(screen.getByRole("heading", { name: "Office of the City Mayor" })).toBeInTheDocument();
-      const mayorNav = screen.getByRole("navigation", { name: /main portal navigation/i });
-      expect(within(mayorNav).getByRole("link", { name: /BetterMC Home/i })).toHaveAttribute(
-        "href",
-        "https://www.bettermalaybalay.cloud",
-      );
+      expect(document.querySelectorAll(".microsite-home-button")).toHaveLength(0);
+      expect(
+        screen.queryByRole("navigation", { name: /main portal navigation/i }),
+      ).not.toBeInTheDocument();
     } finally {
       Object.defineProperty(window, "location", {
         configurable: true,
@@ -319,9 +318,10 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
       expect(
         within(schoolHeader as HTMLElement).queryByRole("link", { name: /All Schools/i }),
       ).not.toBeInTheDocument();
+      expect(document.querySelectorAll(".microsite-home-button")).toHaveLength(0);
       expect(
-        screen.getByRole("link", { name: /All Malaybalay schools on BetterMC/i }),
-      ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud/education");
+        screen.getByRole("link", { name: /View school profile on BetterMC/i }),
+      ).toHaveAttribute("href", "https://www.bettermalaybalay.cloud/education/bukidnon-state-university");
       expect(document.title).toBe("Bukidnon State University | BetterMC");
 
       // 3. Standalone Barangay microsite (Bangcud)
@@ -337,6 +337,7 @@ describe("Malaybalay Offices, PESO Hub & Job Details UI", () => {
       expect(
         within(brgyHeader as HTMLElement).queryByRole("link", { name: /All Barangays/i }),
       ).not.toBeInTheDocument();
+      expect(document.querySelectorAll(".microsite-home-button")).toHaveLength(0);
       expect(
         screen.getByRole("link", { name: /Open Barangay Bangcud document guide/i }),
       ).toHaveAttribute(
