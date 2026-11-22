@@ -47,7 +47,7 @@ export type EducationInstitution = {
   status: VerificationStatus;
 };
 
-const reviewedOn = "2026-11-17";
+const reviewedOn = "2026-11-22";
 export const depedSchoolSource: RecordSource = {
   label: "Department of Education — Malaybalay City school listings",
   url: "https://www.deped.gov.ph/wp-content/uploads/Annex-B_2024-CB-011a-Allocation-List.pdf",
@@ -111,21 +111,27 @@ const publicHighSchools: Array<[string, string, string, string, string, Educatio
   ["managok-national-high-school", "Managok National High School", "303973", "Purok 2, Managok, Malaybalay City, 8700 Bukidnon", "Managok", ["Junior high", "Senior high"]],
   ["miglamin-national-high-school", "Miglamin National High School", "314920", "Purok 2, Miglamin, Malaybalay City, 8700 Bukidnon", "Miglamin", ["Junior high", "Senior high"]],
   ["san-martin-agro-industrial-national-high-school", "San Martin Agro-Industrial National High School", "303982", "Purok 2, San Martin, Malaybalay City, 8700 Bukidnon", "San Martin", ["Junior high", "Senior high"]],
-  ["silae-national-high-school", "Silae National High School", "303984", "Purok 2, Silae, Malaybalay City, 8700 Bukidnon", "Silae", ["Junior high"]],
+  ["silae-national-high-school", "Silae National High School", "303984", "Purok 2, Silae, Malaybalay City, 8700 Bukidnon", "Silae", ["Junior high", "Senior high"]],
   ["st-peter-national-high-school", "St. Peter National High School", "314905", "Purok 1, St. Peter, Malaybalay City, 8700 Bukidnon", "St. Peter", ["Junior high", "Senior high"]],
 ];
 
 const publicBasicSchools: Array<[string, string, string, string, string | undefined, EducationLevel[]]> = [
   ["aglayan-central-school", "Aglayan Central School", "126557", "Purok 3, Aglayan, Malaybalay City, 8700 Bukidnon", "Aglayan", ["Elementary"]],
-  ["baganao-elementary-school", "Baganao Elementary School", "126575", "Sitio Bagnao, Kibalabag, Malaybalay City, 8700 Bukidnon", "Kibalabag", ["Elementary"]],
-  ["bagong-silang-elementary-school", "Bagong Silang Elementary School", "126543", "Purok 6, Bagong Silang, Maligaya, Malaybalay City, 8700 Bukidnon", "Maligaya", ["Elementary"]],
+  ["baganao-elementary-school", "Baganao Elementary School", "126575", "Sitio Baganao, Kibalabag, Malaybalay City, 8700 Bukidnon", "Kibalabag", ["Elementary"]],
+  ["bagong-silang-elementary-school", "Bagong Silang Elementary School", "126534", "Purok 6, Bagong Silang, Maligaya, Malaybalay City, 8700 Bukidnon", "Maligaya", ["Elementary"]],
   ["bendolan-elementary-school", "Bendolan Elementary School", "126559", "Purok 3, Sitio Bendolan, Magsaysay, Malaybalay City, 8700 Bukidnon", "Magsaysay", ["Elementary"]],
   ["cabagahan-elementary-school", "Cabagahan Elementary School", "126561", "Purok 1, Cabangahan, Malaybalay City, 8700 Bukidnon", "Cabangahan", ["Elementary"]],
-  ["capitan-angel-integrated-school", "Capitan Angel Integrated School", "501189", "Purok 1, Capitan Angel, Malaybalay City, 8700 Bukidnon", "Capitan Angel", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
+  ["capitan-angel-integrated-school", "Capitan Angel Integrated School", "501189", "Purok 1, Capitan Angel, Malaybalay City, 8700 Bukidnon", "Capitan Angel", ["Kindergarten", "Elementary", "Junior high", "Senior high", "Integrated school"]],
   ["candiisan-integrated-school", "Candiisan Integrated School", "501195", "Sitio Candiisan, Can-ayan, Malaybalay City, 8700 Bukidnon", "Can-ayan", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
-  ["kibalabag-integrated-school", "Kibalabag Integrated School", "501188", "Purok 3, Kibalabag, Malaybalay City, 8700 Bukidnon", "Kibalabag", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
-  ["maligaya-integrated-school", "Maligaya Integrated School", "502800", "Sitio Malubog, San Jose, Malaybalay City, 8700 Bukidnon", "San Jose", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
+  ["kibalabag-elementary-school-silae", "Kibalabag Elementary School (Silae)", "199518", "Purok 5, Sitio Kibalabag, Silae, Malaybalay City, 8700 Bukidnon", "Silae", ["Elementary"]],
+  ["kibalabag-integrated-school", "Kibalabag Integrated School", "501188", "Purok 3, Kibalabag, Malaybalay City, 8700 Bukidnon", "Kibalabag", ["Kindergarten", "Elementary", "Junior high", "Senior high", "Integrated school"]],
+  ["laguitas-elementary-school", "Laguitas Elementary School", "126564", "Purok 2, Laguitas, Malaybalay City, 8700 Bukidnon", "Laguitas", ["Elementary"]],
+  ["maligaya-integrated-school", "Maligaya Integrated School", "502800", "Purok 3, Barangay Maligaya, Malaybalay City, 8700 Bukidnon", "Maligaya", ["Kindergarten", "Elementary", "Junior high", "Integrated school"]],
   ["mapulo-elementary-school", "Mapulo Elementary School", "126548", "Purok 1, Mapulo, Malaybalay City, 8700 Bukidnon", "Mapulo", ["Elementary"]],
+  ["matangpatang-elementary-school", "Matangpatang Elementary School", "126549", "Purok 3, Miglamin, Malaybalay City, 8700 Bukidnon", "Miglamin", ["Elementary"]],
+  ["miglamin-elementary-school", "Miglamin Elementary School", "126550", "Barangay Miglamin, Malaybalay City, 8700 Bukidnon", "Miglamin", ["Elementary"]],
+  ["paiwaig-elementary-school", "Paiwaig Elementary School", "199511", "Purok 7, Paiwaig, Linabo, Malaybalay City, 8700 Bukidnon", "Linabo", ["Elementary"]],
+  ["panamucan-elementary-school", "Panamucan Elementary School", "126551", "Sitio Panamucan, San Jose, Malaybalay City, 8700 Bukidnon", "San Jose", ["Elementary"]],
   ["silae-elementary-school", "Silae Elementary School", "126553", "Purok 2, Silae, Malaybalay City, 8700 Bukidnon", "Silae", ["Elementary"]],
   ["st-peter-elementary-school", "St. Peter Elementary School", "126554", "Valsons, St. Peter, Malaybalay City, 8700 Bukidnon", "St. Peter", ["Elementary"]],
   ["sumpong-central-school", "Sumpong Central School", "126593", "Fortich Street, Sumpong, Malaybalay City, 8700 Bukidnon", "Sumpong", ["Elementary"]],
@@ -135,22 +141,23 @@ const publicBasicSchools: Array<[string, string, string, string, string | undefi
 
 const recognizedPrivateBasicSchools: Array<[string, string, string, string, EducationLevel[]]> = [
   ["apc", "Apu Palamguwan Cultural Education Center", "Busdi", "Sitio Bendum, Barangay Busdi, Malaybalay City, Bukidnon 8700", ["Kindergarten", "Elementary", "Junior high", "Senior high"]],
-  ["bethel-baptist-christian-academy", "Bethel Baptist Christian Academy", "Sumpong", "Fortich Street (Sayre Highway), Barangay Sumpong, Malaybalay City, 8700 Bukidnon", ["Preschool", "Elementary", "Junior high"]],
-  ["brightspark-christian-academy", "Brightspark Christian Academy", "Aglayan", "Sayre Highway, Barangay Aglayan, Malaybalay City, 8700 Bukidnon", ["Preschool", "Elementary", "Junior high"]],
+  ["bethel-baptist-christian-academy", "Bethel Baptist Christian Academy", "Sumpong", "Fortich Street (Sayre Highway), Barangay Sumpong, Malaybalay City, 8700 Bukidnon", ["Preschool", "Elementary", "Junior high", "Senior high"]],
+  ["bible-baptist-malaybalay-christian-academy", "Bible Baptist Malaybalay Christian Academy, Inc.", "Kalasungay", "Zone 6, Sun Flower Village, Barangay Kalasungay, Malaybalay City, 8700 Bukidnon", ["Kindergarten", "Elementary", "Junior high"]],
+  ["brightspark-christian-academy", "Brightspark Christian Academy", "Aglayan", "Purok 6-B, Sayre Highway, Barangay Aglayan, Malaybalay City, 8700 Bukidnon", ["Preschool", "Elementary", "Junior high", "Senior high"]],
   ["bugemco-learning-center", "BUGEMCO Learning Center", "Barangay 9", "San Victores Street, Barangay 9, Capitol Compound, Malaybalay City", ["Preschool"]],
-  ["casisang-international-christian-school", "Casisang International Christian School", "Casisang", "Purok 6, Barangay Casisang, Malaybalay City, 8700 Bukidnon", ["Preschool", "Elementary", "Junior high"]],
+  ["casisang-international-christian-school", "Casisang International Christian School", "Casisang", "Purok 6, Barangay Casisang, Malaybalay City, 8700 Bukidnon", ["Preschool", "Elementary", "Junior high", "Senior high"]],
   ["el-gibbor-faithhouse-academy", "El Gibbor Faithhouse Academy Incorporated", "Sinanglanan", "Purok 2, Barangay Sinanglanan, Malaybalay City, 8700 Bukidnon", ["Preschool"]],
   ["heights-kinderland", "Heights Kinderland Inc.", "Barangay 1", "01-38 Alberto Street, Barangay 1 (Poblacion), Malaybalay City, 8700 Bukidnon", ["Preschool"]],
-  ["kitanglad-view-adventist-elementary-school", "Kitanglad View Adventist Elementary School", "Casisang", "Purok 6, Barangay Casisang, Malaybalay City, 8700 Bukidnon", ["Elementary"]],
+  ["kitanglad-view-adventist-elementary-school", "Kitanglad View Adventist Elementary School", "Kalasungay", "Purok 5, Barangay Kalasungay, Malaybalay City, 8700 Bukidnon", ["Elementary"]],
   ["little-gems-learning-center", "Little Gems Learning Center, Inc.", "Barangay 2", "52 Guingona Street, Barangay 2 (Poblacion), Malaybalay City, 8700 Bukidnon", ["Preschool"]],
   ["malaybalay-city-adventist-elementary-school", "Malaybalay City Adventist Elementary School, Inc.", "Barangay 11", "Impalambong, Barangay 11 (Poblacion), Malaybalay City, 8700 Bukidnon", ["Preschool", "Elementary"]],
-  ["marywoods-academy", "Marywoods Academy Inc.", "Sumpong", "Marywoods Access Road, New Diversion Road, Barangay Sumpong, Malaybalay City, 8700 Bukidnon", ["Elementary", "Junior high"]],
-  ["mindanao-arts-technological-institute", "Mindanao Arts & Technological Institute, Inc.", "Barangay 3", "Fortich Street, Barangay 3 (Poblacion), Malaybalay City, 8700 Bukidnon", ["Preschool", "Elementary", "Junior high"]],
+  ["marywoods-academy", "Marywoods Academy Inc.", "Sumpong", "Marywoods Access Road, New Diversion Road, Barangay Sumpong, Malaybalay City, 8700 Bukidnon", ["Elementary", "Junior high", "Senior high"]],
+  ["mindanao-arts-technological-institute", "Mindanao Arts & Technological Institute, Inc.", "Barangay 9", "Sawmill Site, Barangay 9 (Poblacion), Malaybalay City, 8700 Bukidnon", ["Preschool", "Elementary", "Junior high", "Senior high", "Technical-vocational", "College / university"]],
   ["saint-isidore-high-school", "Saint Isidore High School", "Zamboanguita", "Purok 3, Barangay Zamboanguita, Malaybalay City, 8700 Bukidnon", ["Elementary", "Junior high", "Senior high"]],
-  ["san-isidro-college", "San Isidro College", "Barangay 10", "Impalambong, Barangay 10 (Poblacion), Malaybalay City, 8700 Bukidnon", ["Preschool", "Elementary", "Junior high"]],
-  ["st-isidore-academy-sinanglanan", "St. Isidore Academy of Bukidnon, Inc.", "Sinanglanan", "Purok 2, Barangay Sinanglanan, Malaybalay City, 8700 Bukidnon", ["Elementary", "Junior high"]],
+  ["san-isidro-college", "San Isidro College", "Barangay 10", "Impalambong, Barangay 10 (Poblacion), Malaybalay City, 8700 Bukidnon", ["Preschool", "Elementary", "Junior high", "Senior high", "College / university"]],
+  ["st-isidore-academy-sinanglanan", "St. Isidore Academy of Bukidnon, Inc.", "Sinanglanan", "Purok 1, Barangay Sinanglanan, Malaybalay City, 8700 Bukidnon", ["Elementary", "Junior high", "Senior high"]],
   ["st-johns-school-malaybalay", "St. John’s School of Malaybalay City, Inc.", "Barangay 1", "Bonifacio Drive, Barangay 1 (Poblacion), Malaybalay City, 8700 Bukidnon", ["Preschool", "Elementary"]],
-  ["st-michael-high-school", "St. Michael High School Inc.", "Linabo", "Purok 1, Sayre Highway, Barangay Linabo, Malaybalay City, 8700 Bukidnon", ["Junior high"]],
+  ["st-michael-high-school", "St. Michael High School Inc.", "Linabo", "Purok 1, Sayre Highway, Barangay Linabo, Malaybalay City, 8700 Bukidnon", ["Junior high", "Senior high"]],
   ["sunbeam-christian-academy", "Sunbeam Christian Academy of Bangcud Inc.", "Bangcud", "Sayre Highway, Barangay Bangcud, Malaybalay City, 8700 Bukidnon", ["Preschool", "Elementary"]],
 ];
 
@@ -178,7 +185,7 @@ const educationInstitutionSeed: EducationInstitution[] = [
     status: "Partially Verified",
   },
   { slug: "kalasungay-central-school", name: "Kalasungay Central School", schoolId: "126582", barangay: "Kalasungay", address: "Purok 2, Kalasungay, Malaybalay City, 8700 Bukidnon", type: "Public", levels: ["Elementary"], source: depedMasterlistSource, status: "Partially Verified", announcements: defaultAnnouncement, transport: schoolTransport("Purok 2, Kalasungay, Malaybalay City") },
-  { slug: "natid-asan-elementary-school", name: "Natid-asan Elementary School", schoolId: "126588", barangay: "Dalwangan", address: "New Look, Dalwangan, Malaybalay City, 8700 Bukidnon", type: "Public", levels: ["Elementary"], source: depedMasterlistSource, status: "Partially Verified", announcements: defaultAnnouncement, transport: schoolTransport("Natid-asan Elementary School, Dalwangan, Malaybalay City") },
+  { slug: "natid-asan-elementary-school", name: "Natid-asan Elementary School", schoolId: "126588", barangay: "Casisang", address: "Natid-asan, Barangay Casisang, Malaybalay City, 8700 Bukidnon", type: "Public", levels: ["Elementary"], source: depedMasterlistSource, status: "Partially Verified", announcements: defaultAnnouncement, transport: schoolTransport("Natid-asan Elementary School, Casisang, Malaybalay City") },
   ...([
     ["new-ilocos-elementary-school", "New Ilocos Elementary School", "126589", "Dalwangan", "Sitio New Ilocos, Barangay Dalwangan, Malaybalay City, 8700 Bukidnon"],
     ["dalwangan-elementary-school", "Dalwangan Elementary School", "126580", "Dalwangan", "Purok 1, Dalwangan, Malaybalay City, 8700 Bukidnon"],
@@ -186,7 +193,40 @@ const educationInstitutionSeed: EducationInstitution[] = [
   ] as const).map(([slug, name, schoolId, barangay, address]) => ({ slug, name, schoolId, barangay, address, type: "Public" as const, levels: ["Elementary" as const], source: depedMasterlistSource, status: "Partially Verified" as const, announcements: defaultAnnouncement, transport: schoolTransport(address) })),
   { slug: "patpat-elementary-school", name: "Patpat Elementary School", schoolId: "126590", barangay: "Patpat", address: "Purok 3, Patpat, Malaybalay City, 8700 Bukidnon", type: "Public", levels: ["Elementary"], source: depedMasterlistSource, status: "Partially Verified", announcements: defaultAnnouncement, transport: schoolTransport("Purok 3, Patpat, Malaybalay City") },
   ...recognizedPrivateBasicSchools.map(([slug, name, barangay, address, levels]) => ({ slug, name, barangay, address, type: "Private" as const, levels, source: depedRecognizedPrivateSource, status: "Partially Verified" as const, announcements: defaultAnnouncement, transport: schoolTransport(`${name}, ${address}`) })),
-  { slug: "bukidnon-state-university", name: "Bukidnon State University", barangay: "Casisang", address: BUKSU_CAMPUS_ADDRESS, type: "State university", levels: ["College / university"], contacts: ["(088) 813-2717", "(088) 221-2196", "presoffice@bsc.edu.ph"], source: chedSource, status: "Verified", announcements: { mode: "External official channel", externalUrl: "https://buksu.edu.ph/" }, transport: schoolTransport(`Bukidnon State University, ${BUKSU_CAMPUS_ADDRESS}`) },
+  {
+    slug: "bukidnon-state-university",
+    name: "Bukidnon State University",
+    barangay: "Barangay 3",
+    address: "Fortich Street, Barangay 3 (Poblacion) & Casisang University Road, Malaybalay City, 8700 Bukidnon",
+    type: "State university",
+    classification: "Chartered State University (CHED Code 10014 · DepEd Lab School ID 600130)",
+    levels: ["College / university"],
+    contacts: ["(088) 813-5661 to 5663", "(088) 813-2717", "+63 975 758 3157 (Registrar)"],
+    source: chedSource,
+    status: "Verified",
+    announcements: { mode: "External official channel", externalUrl: "https://buksu.edu.ph/" },
+    transport: schoolTransport("Bukidnon State University, Fortich Street, Barangay 3, Malaybalay City, 8700 Bukidnon"),
+  },
+  {
+    slug: "sti-college-malaybalay",
+    name: "STI College Malaybalay",
+    schoolId: "403708",
+    barangay: "Barangay 7",
+    address: "Fortich Street, Barangay 7 (Poblacion), Malaybalay City, 8700 Bukidnon",
+    type: "Private",
+    classification: "Private Higher Education Institution, Senior High School & TESDA TVI (CHED Code 10131)",
+    levels: ["Senior high", "Technical-vocational", "College / university"],
+    contacts: ["(088) 813-3877"],
+    source: {
+      label: "STI Education Services Group & CHED HEIDA — STI College Malaybalay",
+      url: "https://www.sti.edu/campuses/malaybalay",
+      verifiedOn: reviewedOn,
+      type: "Institutional website",
+    },
+    status: "Verified",
+    announcements: { mode: "External official channel", externalUrl: "https://www.sti.edu/campuses/malaybalay" },
+    transport: schoolTransport("STI College Malaybalay, Fortich Street, Barangay 7, Malaybalay City, 8700 Bukidnon"),
+  },
   { slug: "camilo-adrales-technical-school", name: "Camilo Adrales Technical School Training and Assessment Center, Inc.", barangay: "San Jose", address: "Purok 5, Barangay San Jose, Malaybalay City, Bukidnon", type: "Technical-vocational", levels: ["Technical-vocational"], source: tesdaSource, status: "Verified", announcements: defaultAnnouncement, transport: schoolTransport("Purok 5, Barangay San Jose, Malaybalay City, Bukidnon") },
 ].map((institution) => {
   if (institution.slug === "apc") {
@@ -268,16 +308,15 @@ const pendingSchoolInventory: InventorySchool[] = [
   inventorySchool("macote-elementary-school", "Macote Elementary School", "Public", ["Elementary"], "Apo Macote", "Purok 1, Barangay Apo Macote, Malaybalay City, 8700 Bukidnon", "126566"),
   inventorySchool("pighalugan-elementary-school", "Pighalugan Elementary School", "Public", ["Elementary"], "Silae", "Sitio Pighalugan, Barangay Silae, Malaybalay City, 8700 Bukidnon", "103629"),
   inventorySchool("san-jose-elementary-school", "San Jose Elementary School", "Public", ["Elementary"], "San Jose", "Purok 2, Barangay San Jose, Malaybalay City, 8700 Bukidnon", "126591"),
-  inventorySchool("bukidnon-national-high-school-senior-high-school-campus", "Bukidnon National High School Senior High School Campus", "Public", ["Senior high"], "Barangay 3", "Fortich Street (Sayre Highway), Barangay 3 (Poblacion), Malaybalay City, 8700 Bukidnon", undefined, "Senior high school campus"),
-  inventorySchool("san-martin-elementary-school", "San Martin Elementary School", "Public", ["Elementary"], "San Martin", "Purok 1, Barangay San Martin, Malaybalay City, 8700 Bukidnon"),
-  inventorySchool("san-martin-sinanglanan-elementary-school", "San Martin-Sinanglanan Elementary School", "Public", ["Elementary"], "Sinanglanan", "Boundary Road, Barangay Sinanglanan / San Martin, Malaybalay City, 8700 Bukidnon", "126571"),
+  inventorySchool("bukidnon-national-high-school-senior-high-school-campus", "Bukidnon National High School Senior High School Campus", "Public", ["Senior high"], "Casisang", "Purok 6, Barangay Casisang, Malaybalay City, 8700 Bukidnon", "341061", "Senior high school campus"),
+  inventorySchool("san-martin-elementary-school", "San Martin Elementary School", "Public", ["Elementary"], "San Martin", "Purok 1, Barangay San Martin, Malaybalay City, 8700 Bukidnon", "126571"),
   inventorySchool("san-roque-elementary-school", "San Roque Elementary School", "Public", ["Elementary"], "Sinanglanan", "Purok 7, Sitio San Roque, Barangay Sinanglanan, Malaybalay City, 8700 Bukidnon", "126572"),
   inventorySchool("sawaga-elementary-school", "Sawaga Elementary School", "Public", ["Elementary"], "Violeta", "Purok 3, Barangay Violeta, Malaybalay City, 8700 Bukidnon", "126552"),
   inventorySchool("sta-ana-elementary-school", "Sta. Ana Elementary School", "Public", ["Elementary"], "Casisang", "Purok 6, Sta. Ana Area, Barangay Casisang, Malaybalay City, 8700 Bukidnon", "126592"),
   inventorySchool("tag-ilanao-elementary-school", "Tag-ilanao Elementary School", "Public", ["Elementary"], "Can-ayan", "Sitio Tag-ilanao, Barangay Can-ayan, Malaybalay City, 8700 Bukidnon", "126594"),
   inventorySchool("tamogawe-elementary-school", "Tamogawe Elementary School", "Public", ["Elementary"], "Mapayag", "Sitio Tamogawe, Barangay Mapayag, Malaybalay City, 8700 Bukidnon", "137297"),
   inventorySchool("tintinaan-elementary-school", "Tintinaan Elementary School", "Public", ["Elementary"], "Can-ayan", "Sitio Tintinaan, Barangay Can-ayan, Malaybalay City, 8700 Bukidnon", "126595"),
-  inventorySchool("can-ayan-integrated-school", "Can-ayan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "Can-ayan", "Purok 2, Barangay Can-ayan, Malaybalay City, 8700 Bukidnon", "500245", "Integrated school"),
+  inventorySchool("can-ayan-integrated-school", "Can-ayan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Senior high", "Integrated school"], "Can-ayan", "Purok 2, Barangay Can-ayan, Malaybalay City, 8700 Bukidnon", "500245", "Integrated school"),
   inventorySchool("candiisan-integrated-school", "Candiisan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "Can-ayan", "Sitio Candiisan, Barangay Can-ayan, Malaybalay City, 8700 Bukidnon", "501195", "Integrated school"),
   inventorySchool("casisang-central-integrated-school", "Casisang Central Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "Casisang", "Purok 6, Sayre Highway, Barangay Casisang, Malaybalay City, 8700 Bukidnon", "501580", "Integrated school"),
   inventorySchool("kilap-agan-integrated-school", "Kilap-agan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "Can-ayan", "Sitio Kilap-agan, Barangay Can-ayan, Malaybalay City, 8700 Bukidnon", "501579", "Integrated school"),
@@ -289,7 +328,7 @@ const pendingSchoolInventory: InventorySchool[] = [
   inventorySchool("san-roque-integrated-school", "San Roque Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "Sinanglanan", "Purok 7, Sitio San Roque, Barangay Sinanglanan, Malaybalay City, 8700 Bukidnon", "502738", "Integrated school"),
   inventorySchool("simaya-integrated-school", "Simaya Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "Simaya", "Purok 2, Barangay Simaya, Malaybalay City, 8700 Bukidnon", "501582", "Integrated school"),
   inventorySchool("tuburan-integrated-school", "Tuburan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "Mapulo", "Sitio Tuburan, Barangay Mapulo, Malaybalay City, 8700 Bukidnon", "501581", "Integrated school"),
-  inventorySchool("busdi-integrated-school", "Busdi Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "Busdi", "Purok 1-A, Barangay Busdi, Malaybalay City, 8700 Bukidnon", "500409", "Integrated school"),
+  inventorySchool("busdi-integrated-school", "Busdi Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Senior high", "Integrated school"], "Busdi", "Purok 1-A, Barangay Busdi, Malaybalay City, 8700 Bukidnon", "500409", "Integrated school"),
   inventorySchool("lunokan-integrated-school", "Lunokan Integrated School", "Public", ["Kindergarten", "Elementary", "Junior high", "Integrated school"], "Miglamin", "Sitio Lunokan, Barangay Miglamin, Malaybalay City, 8700 Bukidnon", "502744", "Integrated school"),
   inventorySchool("bukidnon-state-university-elementary-laboratory", "Bukidnon State University Elementary School Laboratory", "State university", ["Elementary"], "Casisang", BUKSU_CAMPUS_ADDRESS, undefined, "University laboratory school"),
   inventorySchool("lalawan-sda-elementary-school", "Lalawan SDA Elementary School", "Private", ["Elementary"], "Linabo", "Sitio Lalawan, Barangay Linabo, Malaybalay City, 8700 Bukidnon", undefined),
@@ -358,6 +397,15 @@ export const educationInstitutions: EducationInstitution[] = [...existingSchoolB
   };
 });
 export const educationInstitutionBySlug = new Map(educationInstitutions.map((school) => [school.slug, school]));
+export const schoolSlugAliases: Record<string, string> = {
+  "san-martin-sinanglanan-elementary-school": "san-martin-elementary-school",
+};
+
+export function resolveEducationInstitution(slug?: string): EducationInstitution | undefined {
+  if (!slug) return undefined;
+  const canonical = schoolSlugAliases[slug] ?? slug;
+  return educationInstitutionBySlug.get(canonical);
+}
 
 export function schoolSlugFromHostname(hostname: string, search = "") {
   if (search) {
@@ -365,7 +413,8 @@ export function schoolSlugFromHostname(hostname: string, search = "") {
     const requested = (params.get("school") ?? params.get("schoolSubdomain") ?? "")
       .trim()
       .toLowerCase();
-    if (requested && educationInstitutionBySlug.has(requested)) return requested;
+    const resolved = schoolSlugAliases[requested] ?? requested;
+    if (resolved && educationInstitutionBySlug.has(resolved)) return resolved;
   }
   const normalized = hostname.toLowerCase().split(":")[0];
   const suffixes = [
@@ -379,7 +428,8 @@ export function schoolSlugFromHostname(hostname: string, search = "") {
   const suffix = suffixes.find((candidate) => normalized.endsWith(candidate));
   if (!suffix) return null;
   const slug = normalized.slice(0, -suffix.length);
-  return slug && slug !== "www" && educationInstitutionBySlug.has(slug) ? slug : null;
+  const resolved = schoolSlugAliases[slug] ?? slug;
+  return resolved && resolved !== "www" && educationInstitutionBySlug.has(resolved) ? resolved : null;
 }
 
 export type EducationOffice = {
@@ -399,7 +449,7 @@ export const educationOffices: EducationOffice[] = [
     name: "Department of Education — Schools Division of Malaybalay City",
     jurisdiction: "Public elementary and secondary schools within the Schools Division of Malaybalay City.",
     address: "Sayre Highway, Purok 6, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
-    contacts: ["0907-688-9009", "malaybalay.city@deped.gov.ph"],
+    contacts: ["0907-688-9009", "0991-331-7778", "malaybalay.city@deped.gov.ph", "pac.malaybalaycity@deped.gov.ph"],
     officials: [
       { role: "Schools Division Superintendent", name: "Dr. Cherry Mae L. Limbaco-Reyes, CESO V", status: "Verified" },
     ],

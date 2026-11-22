@@ -198,6 +198,7 @@ import {
   educationOffices,
   educationInstitutionBySlug,
   educationInstitutions,
+  resolveEducationInstitution,
   schoolSlugFromHostname,
   type EducationInstitution,
   type EducationLevel,
@@ -4147,7 +4148,7 @@ function EducationDirectoryPage() {
   const programmes = [...new Set(educationInstitutions.flatMap((item) => item.programmes ?? []))].sort();
   const barangays = [...new Set(educationInstitutions.flatMap((item) => item.barangay ? [item.barangay] : []))].sort();
   const records = educationInstitutions.filter((item) => {
-    const matchesQuery = !deferredQuery || `${item.name} ${item.schoolId ?? ""} ${item.address} ${item.district ?? ""}`.toLowerCase().includes(deferredQuery);
+    const matchesQuery = !deferredQuery || `${item.name} ${item.schoolId ?? ""} ${item.barangay ?? ""} ${item.address} ${item.district ?? ""} ${item.classification ?? ""} ${(item.programmes ?? []).join(" ")}`.toLowerCase().includes(deferredQuery);
     return matchesQuery && (type === "all" || item.type === type) && (level === "all" || item.levels.includes(level as EducationLevel)) && (barangay === "all" || item.barangay === barangay) && (programme === "all" || item.programmes?.includes(programme));
   }).sort((left, right) => sort === "level" ? left.levels[0].localeCompare(right.levels[0]) || left.name.localeCompare(right.name) : left.name.localeCompare(right.name));
   const updateFilter = (key: string, value: string) => {
@@ -4168,7 +4169,7 @@ function EducationDirectoryPage() {
         <label>Programme<select value={programme} onChange={(event) => updateFilter("programme", event.target.value)}><option value="all">All programmes</option>{programmes.map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
         <label>Sort<select value={sort} onChange={(event) => updateFilter("sort", event.target.value)}><option value="name">A–Z</option><option value="level">Educational category</option></select></label>
       </div>
-      <div className="results-summary"><strong>{records.length} matching institution{records.length === 1 ? "" : "s"}</strong><span>Last reviewed 20 November 2026</span>{activeFilters.length > 0 && <><span className="filter-summary">Filters: {activeFilters.join(" · ")}</span><button className="text-button" type="button" onClick={clearFilters}>Clear all</button></>}</div>
+      <div className="results-summary"><strong>{records.length} matching institution{records.length === 1 ? "" : "s"}</strong><span>Last reviewed 22 November 2026</span>{activeFilters.length > 0 && <><span className="filter-summary">Filters: {activeFilters.join(" · ")}</span><button className="text-button" type="button" onClick={clearFilters}>Clear all</button></>}</div>
       <div className="civic-card-grid">
         {records.map((item) => (
           <article className="civic-record-card education-directory-card" key={item.slug}>
@@ -4213,12 +4214,14 @@ function EducationOfficesPage() {
 
 function EducationProfilePage({ slugOverride }: { slugOverride?: string } = {}) {
   const { slug } = useParams<{ slug: string }>();
-  const item = educationInstitutions.find((entry) => entry.slug === (slugOverride ?? slug));
+  const item = resolveEducationInstitution(slugOverride ?? slug);
   if (!item) return <NotFoundPage />;
   const isHostSchoolSubdomain =
     typeof window !== "undefined" && Boolean(schoolSlugFromHostname(window.location.hostname, ""));
-  const staffingSummary = item.teacherCount != null
-    ? `${item.teacherCount.toLocaleString()} teachers${item.classroomCount != null ? ` · ${item.classroomCount.toLocaleString()} classrooms` : ""} (SY 2024–25)`
+  const hasTeachers = item.teacherCount != null && item.teacherCount > 0;
+  const hasClassrooms = item.classroomCount != null && item.classroomCount > 0;
+  const staffingSummary = hasTeachers || hasClassrooms
+    ? `${[hasTeachers ? `${item.teacherCount!.toLocaleString()} teachers` : null, hasClassrooms ? `${item.classroomCount!.toLocaleString()} classrooms` : null].filter(Boolean).join(" · ")} (SY 2024–25)`
     : null;
   return <>
     <PageHero eyebrow="School profile" title={item.name} description={`${item.type} · ${item.levels.join(" · ")}${item.district ? ` · ${item.district}` : ""}`} compact>
