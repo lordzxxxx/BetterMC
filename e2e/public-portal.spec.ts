@@ -220,6 +220,9 @@ test("homepage exposes local and national service pathways", async ({ page }) =>
     hotlinesSection.getByRole("link", { name: /Call National Emergency.*911/i }),
   ).toHaveAttribute("href", "tel:911");
   await expect(
+    hotlinesSection.locator(".home-hotline-quick-btn.is-urgent .home-hotline-quick-badge"),
+  ).toHaveCSS("background-color", "rgb(19, 82, 168)");
+  await expect(
     hotlinesSection.getByRole("link", { name: /Call Philippine Red Cross.*143/i }),
   ).toHaveAttribute("href", "tel:143");
   await expect(

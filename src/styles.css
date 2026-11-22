@@ -11958,8 +11958,8 @@ body {
 }
 
 .home-hotline-quick-btn.is-urgent {
-  border-color: rgba(196, 65, 55, 0.34);
-  background: linear-gradient(135deg, #fff5f4 0%, #ffffff 100%);
+  border-color: #b7d2f2;
+  background: linear-gradient(135deg, #f3f8ff 0%, #ffffff 100%);
 }
 
 .home-hotline-quick-btn:hover,
@@ -11971,8 +11971,8 @@ body {
 
 .home-hotline-quick-btn.is-urgent:hover,
 .home-hotline-quick-btn.is-urgent:focus-visible {
-  border-color: #c8332b;
-  background: #fff1ef;
+  border-color: #2365bb;
+  background: #eaf3ff;
 }
 
 .home-hotline-quick-badge {
@@ -11988,7 +11988,7 @@ body {
 }
 
 .home-hotline-quick-btn.is-urgent .home-hotline-quick-badge {
-  background: #c8332b;
+  background: #1352a8;
   color: #ffffff;
 }
 
@@ -12020,7 +12020,7 @@ body {
 }
 
 .home-hotline-quick-btn.is-urgent svg {
-  color: #c8332b;
+  color: #1458b3;
 }
 
 .home-hotlines-grid {
