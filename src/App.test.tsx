@@ -146,9 +146,44 @@ describe("BetterMC public portal", () => {
   });
 
   it("adds the Bukidnon National senior high campus and removes Casisang senior high", () => {
-    expect(educationInstitutions.some((school) => school.name === "Bukidnon National High School Senior High School Campus")).toBe(true);
+    const bnhsShs = educationInstitutions.find(
+      (school) => school.name === "Bukidnon National High School Senior High School Campus",
+    );
+    expect(bnhsShs?.schoolId).toBe("341061");
+    expect(bnhsShs?.barangay).toBe("Casisang");
     expect(educationInstitutions.some((school) => school.slug === "casisang-senior-high-school")).toBe(false);
     expect(schoolSlugFromHostname("casisang-senior-high-school.bettermalaybalay.cloud")).toBeNull();
+  });
+
+  it("verifies DepEd school IDs, barangays, CHED higher education records, and legacy slug resolution", () => {
+    expect(educationInstitutions.find((s) => s.slug === "bagong-silang-elementary-school")?.schoolId).toBe("126534");
+    expect(educationInstitutions.find((s) => s.slug === "langasihan-elementary-school")?.schoolId).toBe("126543");
+    expect(educationInstitutions.find((s) => s.slug === "natid-asan-elementary-school")?.barangay).toBe("Casisang");
+    expect(educationInstitutions.find((s) => s.slug === "kitanglad-view-adventist-elementary-school")?.barangay).toBe("Kalasungay");
+    expect(educationInstitutions.find((s) => s.slug === "mindanao-arts-technological-institute")?.barangay).toBe("Barangay 9");
+    expect(educationInstitutions.find((s) => s.slug === "maligaya-integrated-school")?.barangay).toBe("Maligaya");
+
+    const sti = educationInstitutions.find((s) => s.slug === "sti-college-malaybalay");
+    expect(sti?.schoolId).toBe("403708");
+    expect(sti?.levels).toEqual(expect.arrayContaining(["Senior high", "Technical-vocational", "College / university"]));
+
+    const sic = educationInstitutions.find((s) => s.slug === "san-isidro-college");
+    expect(sic?.levels).toEqual(expect.arrayContaining(["Senior high", "College / university"]));
+
+    const buksu = educationInstitutions.find((s) => s.slug === "bukidnon-state-university");
+    expect(buksu?.barangay).toBe("Barangay 3");
+    expect(buksu?.programmes?.join(" ")).toContain("Juris Doctor");
+    expect(buksu?.contacts?.join(" ")).not.toContain("bsc.edu.ph");
+
+    expect(educationInstitutions.filter((s) => s.schoolId === "126571")).toHaveLength(1);
+    expect(schoolSlugFromHostname("san-martin-sinanglanan-elementary-school.bettermalaybalay.cloud")).toBe("san-martin-elementary-school");
+    expect(educationInstitutions.some((s) => s.slug === "panamucan-elementary-school" && s.schoolId === "126551")).toBe(true);
+    expect(educationInstitutions.some((s) => s.slug === "laguitas-elementary-school" && s.schoolId === "126564")).toBe(true);
+    expect(educationInstitutions.some((s) => s.slug === "bible-baptist-malaybalay-christian-academy" && s.schoolId === "409078")).toBe(true);
+
+    for (const s of educationInstitutions) {
+      expect(s.description ?? "").not.toMatch(/\b0 (teachers|classrooms)\b/);
+    }
   });
 
   it("uses the supplied BukSU campus address without status badges", () => {

@@ -38,9 +38,9 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
   },
   "apc": {
     "schoolId": "408493",
-    "district": "Malaybalay City District II",
+    "district": "Malaybalay City District X",
     "studentPopulation": "325 learners in SY 2024–25",
-    "description": "Apu Palamguwan Cultural Education Center (APC) is a Jesuit-supported Indigenous cultural and ecological school in Sitio Bendum, Barangay Busdi. In SY 2024–25, DepEd recorded 325 K–12 learners studying Binukid, Filipino, English, and sustainable upland stewardship.",
+    "description": "Apu Palamguwan Cultural Education Center (APC) is a Jesuit-supported Indigenous cultural and ecological school in Sitio Bendum, Barangay Busdi under Malaybalay City District X. In SY 2024–25, DepEd recorded 325 K–12 learners studying Binukid, Filipino, English, and sustainable upland stewardship.",
     "contactPerson": "School Manager Jenny Lynn Lee, Principal Datu Nestor Menaling, and Director Fr. Pedro Walpole, SJ",
     "logoUrl": "/images/schools/apc.jpg",
     "logoNote": "Apu Palamguwan Cultural Education Center official emblem"
@@ -64,12 +64,9 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "bagong-silang-elementary-school": {
-    "schoolId": "126543",
+    "schoolId": "126534",
     "district": "Malaybalay City District IX",
-    "studentPopulation": "200 learners (DepEd SY 2024–25)",
-    "teacherCount": 7,
-    "classroomCount": 6,
-    "description": "Public school offering elementary in Barangay Maligaya under Malaybalay City District IX. In SY 2024–25, it served 200 enrolled learners with 7 teachers and 6 classrooms.",
+    "description": "Public elementary school (DepEd School ID 126534) located at Purok 6, Bagong Silang, Barangay Maligaya under Malaybalay City District IX. Confirm current school-year enrollment, teacher count, and section availability directly with the campus or DepEd Malaybalay City Division.",
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "balangbang-elementary-school": {
@@ -130,14 +127,14 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "schoolId": "404995",
     "district": "Malaybalay City District II",
     "studentPopulation": "284 learners (DepEd SY 2024–25)",
-    "description": "Private school offering preschool, elementary, and junior high in Barangay Sumpong under Malaybalay City District II. In SY 2024–25, it served 284 enrolled learners.",
+    "description": "Private school offering preschool, elementary, junior high, and senior high (K–12) in Barangay Sumpong under Malaybalay City District II. In SY 2024–25, it served 284 enrolled learners.",
     "contactPerson": "School Principal or Registrar at the campus · For basic-education inquiries: DepEd Malaybalay City Division (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "brightspark-christian-academy": {
     "schoolId": "400609",
     "district": "Malaybalay City District VI",
     "studentPopulation": "199 learners (DepEd SY 2024–25)",
-    "description": "Private school offering preschool, elementary, and junior high in Barangay Aglayan under Malaybalay City District VI. In SY 2024–25, it served 199 enrolled learners.",
+    "description": "Private school offering preschool, elementary, junior high, and senior high (K–12) at Purok 6-B, Barangay Aglayan under Malaybalay City District VI. In SY 2024–25, it served 199 enrolled learners.",
     "contactPerson": "School Principal or Registrar at the campus · For basic-education inquiries: DepEd Malaybalay City Division (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "bugemco-learning-center": {
@@ -168,27 +165,29 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
   },
   "bukidnon-national-high-school-senior-high-school-campus": {
     "schoolId": "341061",
+    "barangay": "Casisang",
+    "address": "Purok 6, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     "district": "Malaybalay City District V",
     "studentPopulation": "590 Senior High learners in SY 2024–25 (separate campus ID 341061)",
     "teacherCount": 21,
     "classroomCount": 41,
-    "description": "Dedicated Senior High School campus unit (DepEd School ID 341061) of Bukidnon National High School. In SY 2024–25, it served 590 Grade 11 and Grade 12 learners with 21 teachers and 41 classrooms.",
+    "description": "Dedicated public Senior High School campus (DepEd School ID 341061) in Purok 6, Barangay Casisang under Malaybalay City District V (formerly listed as Casisang Senior High School in earlier DepEd address masterlists). In SY 2024–25, it served 590 Grade 11 and Grade 12 learners with 21 teachers and 41 classrooms.",
     "leadership": "Principal IV: Dr. Paul O. Orong · Senior High School Department",
-    "contactPerson": "BNHS Senior High School Campus / Principal IV Dr. Paul O. Orong (0907-688-9009)",
+    "contactPerson": "BNHS Senior High School Campus (Purok 6, Casisang) / DepEd Malaybalay Division (0907-688-9009)",
     "programmes": [
-      "Senior High School Academic Strands",
+      "Senior High School Academic Strands (STEM, ABM, HUMSS, GAS)",
       "Technical-Vocational-Livelihood (TVL) Track"
     ]
   },
   "bukidnon-state-university": {
     "schoolId": "600130",
-    "district": "Main Campus (Poblacion) · Lab Schools under Malaybalay City District I",
+    "district": "Main Campus (Poblacion, Brgy. 3) · Lab Schools under Malaybalay City District I",
     "studentPopulation": "9,300+ Main Campus college students (AY 2026–27) · 725 Lab School learners (SY 2024–25)",
-    "description": "Bukidnon State University (BukSU) is Malaybalay City's flagship public state university. Founded in 1924 as Bukidnon Normal School along Fortich Street in Poblacion (with an academic annex on University Road in Casisang), it serves over 9,300 main-campus students across seven colleges and graduate programs.",
-    "barangay": "Barangay 2",
-    "address": "Fortich Street, Barangay 2 (Poblacion) & Casisang University Road, Malaybalay City, 8700 Bukidnon",
-    "leadership": "University President: Dr. Joy M. Mirasol · University Registrar & Admissions Office",
-    "contactPerson": "University President Dr. Joy M. Mirasol · Admissions (Local 113) or Registrar (+63 975 758 3157 / +63 965 806 1044)",
+    "description": "Bukidnon State University (BukSU, CHED Inst. Code 10014) is Malaybalay City's flagship chartered public state university. Founded in 1924 as Bukidnon Normal School along Fortich Street in Barangay 3 (Poblacion), with an academic annex on University Road in Casisang, it operates seven colleges offering undergraduate, Juris Doctor, master's, and doctoral degree programs plus Elementary and Secondary Laboratory Schools.",
+    "barangay": "Barangay 3",
+    "address": "Fortich Street, Barangay 3 (Poblacion) & Casisang University Road, Malaybalay City, 8700 Bukidnon",
+    "leadership": "University President: Dr. Joy M. Mirasol · VPAA: Dr. Hazel Jean M. Abejuela · VPREI: Dr. Carina Joane V. Barroso · VPCASS: Dr. Lincoln V. Tan · VPAF: Mr. Dante S. Victoria, Jr.",
+    "contactPerson": "Office of the President (Dr. Joy M. Mirasol) · Admissions (Local 113) or University Registrar (+63 975 758 3157 / +63 965 806 1044)",
     "contacts": [
       "(088) 813-5661 to 5663",
       "(088) 813-2717",
@@ -196,10 +195,12 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
       "https://admissions.buksu.edu.ph/"
     ],
     "programmes": [
-      "Undergraduate and graduate degrees across 7 colleges",
-      "College of Law and College of Nursing",
-      "Teacher Education and Public Governance",
-      "Elementary and Secondary Laboratory Schools"
+      "CAS: AB Economics, AB English Language, AB Philosophy (Pre-Law / Teaching), AB Sociology, BS Biology (Biotechnology), BS Community Development, BS Development Communication, BS Environmental Science, BS Mathematics; PhD English Language, MA English Language, MA Guidance & Counseling, MA Sociology",
+      "COB: BS Accountancy, BSBA Financial Management, BS Hospitality Management; Master of Business Administration (MBA)",
+      "COE: BECEd, BEEd, BPEd, BSEd (English, Filipino, Mathematics, Science, Social Studies); PhD Education / Science Education, MAEd (Educational Admin, ELT, General Science, Math Education)",
+      "CON & COL: BS Nursing (BSN) · Juris Doctor (JD)",
+      "COT: BS Automotive Technology, BS Electronics Technology, BSEMC Digital Animation Technology, BS Food Technology, BS Information Technology (BSIT)",
+      "CPAG: Bachelor of Public Administration (BPA), Master of Public Administration (MPA), Doctor of Public Administration (DPA)"
     ],
     "officialLinks": [
       {
@@ -207,12 +208,24 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
         "url": "https://buksu.edu.ph/"
       },
       {
+        "label": "Official Academic Programs (AY 2025–2026)",
+        "url": "https://buksu.edu.ph/academic-programs-2025_26/"
+      },
+      {
         "label": "BukSU Admissions Portal",
         "url": "https://admissions.buksu.edu.ph/"
       },
       {
+        "label": "Designated University Officials",
+        "url": "https://buksu.edu.ph/designated-officials/"
+      },
+      {
         "label": "Contact Directory & Trunkline",
         "url": "https://buksu.edu.ph/contact-us/"
+      },
+      {
+        "label": "BukSU Official Facebook Page",
+        "url": "https://www.facebook.com/BukidnonStateUniversityOfficialPage"
       }
     ],
     "logoUrl": "/images/schools/buksu.png",
@@ -264,7 +277,7 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "studentPopulation": "562 learners (DepEd SY 2024–25)",
     "teacherCount": 29,
     "classroomCount": 12,
-    "description": "Public school offering kindergarten, elementary, junior high, and integrated school in Barangay Busdi under Malaybalay City District X. In SY 2024–25, it served 562 enrolled learners with 29 teachers and 12 classrooms.",
+    "description": "Public K–12 integrated school (Kindergarten through Senior High School) in Barangay Busdi under Malaybalay City District X. In SY 2024–25, it served 562 enrolled learners with 29 teachers and 12 classrooms.",
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "cabagahan-elementary-school": {
@@ -305,7 +318,7 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "studentPopulation": "1,059 learners (DepEd SY 2024–25)",
     "teacherCount": 44,
     "classroomCount": 32,
-    "description": "Public school offering kindergarten, elementary, junior high, and integrated school in Barangay Can-ayan under Malaybalay City District II. In SY 2024–25, it served 1,059 enrolled learners with 44 teachers and 32 classrooms.",
+    "description": "Public K–12 integrated school (Kindergarten through Senior High School) in Barangay Can-ayan under Malaybalay City District II. In SY 2024–25, it served 1,059 enrolled learners with 44 teachers and 32 classrooms.",
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "candiisan-integrated-school": {
@@ -323,7 +336,7 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "studentPopulation": "436 learners (DepEd SY 2024–25)",
     "teacherCount": 17,
     "classroomCount": 10,
-    "description": "Public school offering kindergarten, elementary, junior high, and integrated school in Barangay Capitan Angel under Malaybalay City District I. In SY 2024–25, it served 436 enrolled learners with 17 teachers and 10 classrooms.",
+    "description": "Public K–12 integrated school (Kindergarten through Senior High School) in Barangay Capitan Angel under Malaybalay City District I. In SY 2024–25, it served 436 enrolled learners with 17 teachers and 10 classrooms.",
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "casisang-central-integrated-school": {
@@ -339,7 +352,7 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "schoolId": "404997",
     "district": "Malaybalay City District V",
     "studentPopulation": "170 learners (DepEd SY 2024–25)",
-    "description": "Private school offering preschool, elementary, and junior high in Barangay Casisang under Malaybalay City District V. In SY 2024–25, it served 170 enrolled learners.",
+    "description": "Private school offering preschool, elementary, junior high, and senior high (K–12) in Barangay Casisang under Malaybalay City District V. In SY 2024–25, it served 170 enrolled learners.",
     "contactPerson": "School Principal or Registrar at the campus · For basic-education inquiries: DepEd Malaybalay City Division (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "casisang-national-high-school": {
@@ -479,7 +492,7 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "studentPopulation": "301 learners (DepEd SY 2024–25)",
     "teacherCount": 14,
     "classroomCount": 9,
-    "description": "Public school offering kindergarten, elementary, junior high, and integrated school in Barangay Kibalabag under Malaybalay City District II. In SY 2024–25, it served 301 enrolled learners with 14 teachers and 9 classrooms.",
+    "description": "Public K–12 integrated school (Kindergarten through Senior High School) in Barangay Kibalabag under Malaybalay City District II. In SY 2024–25, it served 301 enrolled learners with 14 teachers and 9 classrooms.",
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "kilap-agan-integrated-school": {
@@ -493,9 +506,11 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
   },
   "kitanglad-view-adventist-elementary-school": {
     "schoolId": "483543",
+    "barangay": "Kalasungay",
+    "address": "Purok 5, Barangay Kalasungay, Malaybalay City, 8700 Bukidnon",
     "district": "Malaybalay City District I",
     "studentPopulation": "57 learners (DepEd SY 2024–25)",
-    "description": "Private school offering elementary in Barangay Casisang under Malaybalay City District I. In SY 2024–25, it served 57 enrolled learners.",
+    "description": "Private Adventist elementary school at Purok 5, Barangay Kalasungay under Malaybalay City District I. In SY 2024–25, it served 57 enrolled learners.",
     "contactPerson": "School Principal or Registrar at the campus · For basic-education inquiries: DepEd Malaybalay City Division (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "kulaman-elementary-school": {
@@ -615,7 +630,7 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "studentPopulation": "3,583 learners in SY 2024–25 (largest public elementary school in the city)",
     "teacherCount": 111,
     "classroomCount": 87,
-    "description": "Malaybalay City Central School (MCCS) is the largest public elementary school in Malaybalay City, centrally located in Barangay 9 (Poblacion). In SY 2024–25, DepEd recorded 3,583 learners, 111 teachers, and 87 classrooms under District IV.",
+    "description": "Malaybalay City Central School (MCCS) is the largest public elementary school in Malaybalay City, located along Corner Guingona and Don Carlos Streets in Barangay 4 (Poblacion). In SY 2024–25, DepEd recorded 3,583 learners, 111 teachers, and 87 classrooms under District IV.",
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "malaybalay-city-national-high-school": {
@@ -638,11 +653,13 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
   },
   "maligaya-integrated-school": {
     "schoolId": "502800",
+    "barangay": "Maligaya",
+    "address": "Purok 3, Barangay Maligaya, Malaybalay City, 8700 Bukidnon",
     "district": "Malaybalay City District IX",
     "studentPopulation": "281 learners (DepEd SY 2024–25)",
     "teacherCount": 8,
     "classroomCount": 9,
-    "description": "Public school offering kindergarten, elementary, junior high, and integrated school in Barangay San Jose under Malaybalay City District IX. In SY 2024–25, it served 281 enrolled learners with 8 teachers and 9 classrooms.",
+    "description": "Public school offering kindergarten, elementary, and junior high as an integrated school in Barangay Maligaya under Malaybalay City District IX. In SY 2024–25, it served 281 enrolled learners with 8 teachers and 9 classrooms.",
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "managok-central-school": {
@@ -694,7 +711,7 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "schoolId": "459522",
     "district": "Malaybalay City District II",
     "studentPopulation": "61 learners (DepEd SY 2024–25)",
-    "description": "Private school offering elementary and junior high in Barangay Sumpong under Malaybalay City District II. In SY 2024–25, it served 61 enrolled learners.",
+    "description": "Private school offering elementary, junior high, and senior high (K–12) in Barangay Sumpong under Malaybalay City District II. In SY 2024–25, it served 61 enrolled learners.",
     "contactPerson": "School Principal or Registrar at the campus · For basic-education inquiries: DepEd Malaybalay City Division (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "miglamin-national-high-school": {
@@ -708,18 +725,38 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
   },
   "mindanao-arts-technological-institute": {
     "schoolId": "405003",
-    "district": "Malaybalay City District V",
-    "studentPopulation": "38 learners (DepEd SY 2024–25)",
-    "description": "Private school offering preschool, elementary, and junior high in Barangay 3 under Malaybalay City District V. In SY 2024–25, it served 38 enrolled learners.",
-    "contactPerson": "School Principal or Registrar at the campus · For basic-education inquiries: DepEd Malaybalay City Division (0907-688-9009 / malaybalay.city@deped.gov.ph)"
+    "barangay": "Barangay 9",
+    "address": "Sawmill Site, Barangay 9 (Poblacion), Malaybalay City, 8700 Bukidnon",
+    "district": "Malaybalay City District V · CHED Code 10041",
+    "studentPopulation": "38 Basic Education learners (DepEd SY 2024–25; plus CHED college & TESDA tech-voc enrollees)",
+    "description": "Mindanao Arts & Technological Institute, Inc. (MATI, DepEd ID 405003 / CHED Inst. Code 10041) is a private non-sectarian institution at Sawmill Site, Barangay 9 (Poblacion) offering K–12 basic education alongside CHED-monitored higher education and TESDA-registered technical-vocational courses.",
+    "contactPerson": "MATI Registrar ((088) 813-3039 / (088) 813-2748 / matiregistrar19@gmail.com)",
+    "contacts": [
+      "(088) 813-3039",
+      "(088) 813-2748",
+      "matiregistrar19@gmail.com"
+    ],
+    "programmes": [
+      "Basic Education (K–12: Preschool, Elementary, Junior High & Senior High)",
+      "CHED Higher Education (confirm current COPC offerings with MATI Registrar / CHED Region X)",
+      "TESDA Technical-Vocational Programs (Automotive Servicing, Food & Beverage Services, Housekeeping, Bartending, Commercial Cooking, Programming)"
+    ],
+    "officialLinks": [
+      {
+        "label": "CHED HEIDA Region X Directory (Code 10041)",
+        "url": "https://heida.ched.gov.ph/hei-directory/10?page=6"
+      }
+    ]
   },
   "natid-asan-elementary-school": {
     "schoolId": "126588",
+    "barangay": "Casisang",
+    "address": "Natid-asan, Barangay Casisang, Malaybalay City, 8700 Bukidnon",
     "district": "Malaybalay City District V",
     "studentPopulation": "477 learners (DepEd SY 2024–25)",
     "teacherCount": 14,
     "classroomCount": 12,
-    "description": "Public school offering elementary in Barangay Dalwangan under Malaybalay City District V. In SY 2024–25, it served 477 enrolled learners with 14 teachers and 12 classrooms.",
+    "description": "Public elementary school in Natid-asan, Barangay Casisang under Malaybalay City District V. In SY 2024–25, it served 477 enrolled learners with 14 teachers and 12 classrooms.",
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "new-ilocos-elementary-school": {
@@ -744,9 +781,7 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "schoolId": "306338",
     "district": "Malaybalay City District I",
     "studentPopulation": "80 learners (DepEd SY 2024–25)",
-    "teacherCount": 0,
-    "classroomCount": 0,
-    "description": "Public school offering junior high and senior high in Barangay Patpat under Malaybalay City District I. In SY 2024–25, it served 80 enrolled learners with 0 teachers and 0 classrooms.",
+    "description": "Public secondary school offering junior high and senior high in Barangay Patpat under Malaybalay City District I. In SY 2024–25, it served 80 enrolled learners (teacher and classroom counts were not separately reported in the DepEd SY 2024–25 summary).",
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "pighalugan-elementary-school": {
@@ -776,23 +811,38 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
   },
   "san-isidro-college": {
     "schoolId": "405006",
-    "district": "Malaybalay City District IV",
+    "district": "Malaybalay City District IV · CHED Code 10079",
     "studentPopulation": "1,259 Basic Education learners in SY 2024–25 (plus college departments)",
-    "description": "Founded in 1949, San Isidro College (SIC) is a private Catholic school and college in Impalambong, Barangay 10, Malaybalay City. Alongside its college departments, its Basic Education Department enrolled 1,259 learners in SY 2024–25 under DepEd District IV.",
+    "description": "Founded in 1949, San Isidro College (SIC, DepEd ID 405006 / CHED Inst. Code 10079) is the oldest private Catholic educational institution in Malaybalay City, located in Impalambong, Barangay 10. It offers K–12 Basic Education (Preschool through Senior High School), CHED-recognized college degrees, and TESDA-aligned technical courses.",
     "leadership": "College President: Rev. Fr. Virgilio H. Delfin, CPA, DBM",
     "contactPerson": "President Rev. Fr. Virgilio H. Delfin, CPA, DBM · Admissions & Registrar ((088) 813-5541 / info@sic.edu.ph)",
     "contacts": [
       "(088) 813-5541",
+      "(088) 221-2368",
       "info@sic.edu.ph"
     ],
     "programmes": [
-      "Preschool, Elementary, and Junior High",
-      "College degree programs (IT, Business, Education, Arts & Sciences)"
+      "Basic Education (Preschool, Elementary & Junior High School)",
+      "Senior High School Tracks (ABM, STEM, HUMSS, GAS & TVL)",
+      "School of Information Technology (BS Information Technology)",
+      "College Departments: Business Administration & Accountancy, Teacher Education, and Arts & Sciences"
     ],
     "officialLinks": [
       {
         "label": "San Isidro College Official Website",
         "url": "https://sic.edu.ph/"
+      },
+      {
+        "label": "SIC Admissions & Contact Page",
+        "url": "https://sic.edu.ph/contact"
+      },
+      {
+        "label": "School of Information Technology",
+        "url": "https://sic.edu.ph/departments/school-of-information-technology"
+      },
+      {
+        "label": "CHED HEIDA Region X Directory (Code 10079)",
+        "url": "https://heida.ched.gov.ph/hei-directory/10?page=9"
       }
     ],
     "logoUrl": "/images/schools/sic.webp",
@@ -842,16 +892,7 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "studentPopulation": "697 learners (DepEd SY 2024–25)",
     "teacherCount": 21,
     "classroomCount": 4,
-    "description": "Public school offering elementary in Barangay San Martin under Malaybalay City District VIII. In SY 2024–25, it served 697 enrolled learners with 21 teachers and 4 classrooms.",
-    "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
-  },
-  "san-martin-sinanglanan-elementary-school": {
-    "schoolId": "126571",
-    "district": "Malaybalay City District VIII",
-    "studentPopulation": "697 learners (DepEd SY 2024–25)",
-    "teacherCount": 21,
-    "classroomCount": 4,
-    "description": "DepEd inventory listing paired with San Martin Elementary School (School ID 126571) along Boundary Road between Sinanglanan and San Martin under Malaybalay City District VIII. SY 2024–25 data records 697 learners.",
+    "description": "Public elementary school (DepEd School ID 126571) serving Barangay San Martin and the adjacent San Martin–Sinanglanan corridor under Malaybalay City District VIII. In SY 2024–25, it served 697 enrolled learners with 21 teachers and 4 classrooms.",
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "san-roque-elementary-school": {
@@ -860,7 +901,7 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "studentPopulation": "112 learners (DepEd SY 2024–25)",
     "teacherCount": 7,
     "classroomCount": 6,
-    "description": "Public school offering elementary in Barangay Sinanglanan under Malaybalay City District VIII. In SY 2024–25, it served 112 enrolled learners with 7 teachers and 6 classrooms.",
+    "description": "Public elementary school (DepEd School ID 126572) in Sitio San Roque, Barangay Sinanglanan under Malaybalay City District VIII (also paired with San Roque Integrated School ID 502738 in DepEd listings). In SY 2024–25, it recorded 112 enrolled learners with 7 teachers and 6 classrooms.",
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "san-roque-integrated-school": {
@@ -896,7 +937,7 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "studentPopulation": "234 learners (DepEd SY 2024–25)",
     "teacherCount": 27,
     "classroomCount": 17,
-    "description": "Public school offering junior high in Barangay Silae under Malaybalay City District X. In SY 2024–25, it served 234 enrolled learners with 27 teachers and 17 classrooms.",
+    "description": "Public secondary school offering junior high and senior high in Barangay Silae under Malaybalay City District X. In SY 2024–25, it served 234 enrolled learners with 27 teachers and 17 classrooms.",
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "simaya-integrated-school": {
@@ -912,7 +953,7 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "schoolId": "405008",
     "district": "Malaybalay City District VIII",
     "studentPopulation": "154 learners (DepEd SY 2024–25)",
-    "description": "Private school offering elementary and junior high in Barangay Sinanglanan under Malaybalay City District VIII. In SY 2024–25, it served 154 enrolled learners.",
+    "description": "Private Catholic academy offering elementary, junior high, and senior high in Purok 1, Barangay Sinanglanan under Malaybalay City District VIII. In SY 2024–25, it served 154 enrolled learners.",
     "contactPerson": "School Principal or Registrar at the campus · For basic-education inquiries: DepEd Malaybalay City Division (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "st-johns-school-malaybalay": {
@@ -926,7 +967,7 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "schoolId": "405009",
     "district": "Malaybalay City District VIII",
     "studentPopulation": "312 learners (DepEd SY 2024–25)",
-    "description": "Private school offering junior high in Barangay Linabo under Malaybalay City District VIII. In SY 2024–25, it served 312 enrolled learners.",
+    "description": "Private Catholic secondary school offering junior high and senior high in Purok 1, Barangay Linabo under Malaybalay City District VIII. In SY 2024–25, it served 312 enrolled learners.",
     "contactPerson": "School Principal or Registrar at the campus · For basic-education inquiries: DepEd Malaybalay City Division (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "st-peter-elementary-school": {
@@ -986,8 +1027,7 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "district": "Malaybalay City District VI",
     "studentPopulation": "36 learners (DepEd SY 2024–25)",
     "teacherCount": 3,
-    "classroomCount": 0,
-    "description": "Public school offering elementary in Barangay Mapayag under Malaybalay City District VI. In SY 2024–25, it served 36 enrolled learners with 3 teachers and 0 classrooms.",
+    "description": "Public elementary school in Sitio Tamogawe, Barangay Mapayag under Malaybalay City District VI. In SY 2024–25, it served 36 enrolled learners with 3 teachers (classroom count not reported in the DepEd SY 2024–25 summary).",
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   },
   "tintinaan-elementary-school": {
@@ -1015,6 +1055,81 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "teacherCount": 12,
     "classroomCount": 8,
     "description": "Public school offering elementary in Barangay Zamboanguita under Malaybalay City District X. In SY 2024–25, it served 297 enrolled learners with 12 teachers and 8 classrooms.",
+    "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
+  },
+  "sti-college-malaybalay": {
+    "schoolId": "403708",
+    "barangay": "Barangay 7",
+    "address": "Fortich Street, Barangay 7 (Poblacion), Malaybalay City, 8700 Bukidnon",
+    "district": "Malaybalay City District I · CHED Code 10131",
+    "description": "STI College Malaybalay (CHED Inst. Code 10131 · DepEd SHS ID 403708) is a private higher education, Senior High School, and TESDA-registered training campus along Fortich Street in Barangay 7 (Poblacion). It offers tertiary degrees in Information Systems and Tourism Management, four Senior High tracks, and AI/Data Science TESDA qualifications.",
+    "contactPerson": "STI College Malaybalay Admissions & Registrar ((088) 813-3877)",
+    "contacts": [
+      "(088) 813-3877",
+      "https://www.sti.edu/campuses/malaybalay"
+    ],
+    "programmes": [
+      "BS in Information Systems (BSIS)",
+      "BS in Tourism Management (BSTM)",
+      "SHS: Business & Entrepreneurship (B&E) and Arts, Social Sciences & Humanities (ASSH)",
+      "SHS: ICT Support & Computer Programming Technologies (ICT-SCPT) and Culinary Arts (HTCUA)",
+      "TESDA: Data Collection & Annotation (Data Science–AI Level II) and AI Prompting & Automation (Level III)"
+    ],
+    "officialLinks": [
+      {
+        "label": "STI College Malaybalay Official Campus Page",
+        "url": "https://www.sti.edu/campuses/malaybalay"
+      },
+      {
+        "label": "STI College Malaybalay Facebook Page",
+        "url": "https://www.facebook.com/malaybalay.sti.edu"
+      },
+      {
+        "label": "CHED HEIDA Region X Directory (Code 10131)",
+        "url": "https://heida.ched.gov.ph/hei-directory/10?page=10"
+      }
+    ]
+  },
+  "bible-baptist-malaybalay-christian-academy": {
+    "schoolId": "409078",
+    "district": "Malaybalay City District I",
+    "description": "Private sectarian basic education school (DepEd School ID 409078) at Zone 6, Sun Flower Village, Barangay Kalasungay offering Kindergarten, Elementary, and Junior High School (K–10) under Malaybalay City District I.",
+    "contactPerson": "School Principal or Registrar at the campus · DepEd Malaybalay City Division (0907-688-9009 / malaybalay.city@deped.gov.ph)"
+  },
+  "panamucan-elementary-school": {
+    "schoolId": "126551",
+    "district": "Malaybalay City District V",
+    "description": "Public elementary school (DepEd School ID 126551) in Sitio Panamucan, Barangay San Jose under Malaybalay City District V. Confirm current school-year enrollment and section schedules directly with the campus or DepEd Malaybalay City Division.",
+    "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
+  },
+  "laguitas-elementary-school": {
+    "schoolId": "126564",
+    "district": "Malaybalay City District VI",
+    "description": "Public elementary school (DepEd School ID 126564) in Purok 2, Barangay Laguitas under Malaybalay City District VI. Confirm current school-year enrollment and section schedules directly with the campus or DepEd Malaybalay City Division.",
+    "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
+  },
+  "paiwaig-elementary-school": {
+    "schoolId": "199511",
+    "district": "Malaybalay City District VIII",
+    "description": "Public elementary school (DepEd School ID 199511) in Purok 7, Paiwaig, Barangay Linabo under Malaybalay City District VIII. Confirm current school-year enrollment and section schedules directly with the campus or DepEd Malaybalay City Division.",
+    "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
+  },
+  "matangpatang-elementary-school": {
+    "schoolId": "126549",
+    "district": "Malaybalay City District IX",
+    "description": "Public elementary school (DepEd School ID 126549) in Purok 3, Barangay Miglamin under Malaybalay City District IX. Confirm current school-year enrollment and section schedules directly with the campus or DepEd Malaybalay City Division.",
+    "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
+  },
+  "miglamin-elementary-school": {
+    "schoolId": "126550",
+    "district": "Malaybalay City District IX",
+    "description": "Public elementary school (DepEd School ID 126550) in Barangay Miglamin under Malaybalay City District IX. Confirm current school-year enrollment and section schedules directly with the campus or DepEd Malaybalay City Division.",
+    "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
+  },
+  "kibalabag-elementary-school-silae": {
+    "schoolId": "199518",
+    "district": "Malaybalay City District X",
+    "description": "Public elementary school (DepEd School ID 199518) located at Purok 5, Sitio Kibalabag, Barangay Silae under Malaybalay City District X (distinct from Kibalabag Integrated School, ID 501188, in Barangay Kibalabag).",
     "contactPerson": "Campus School Head (campus walk-in) · DepEd Malaybalay City Division — Dr. Cherry Mae L. Limbaco-Reyes, CESO V (0907-688-9009 / malaybalay.city@deped.gov.ph)"
   }
 };
