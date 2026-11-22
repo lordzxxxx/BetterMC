@@ -757,6 +757,20 @@ test("verified offices, services, schools, and EO 93 dashboard records load clea
   await expect(page.getByText("403708").first()).toBeVisible();
   await expect(page.getByText(/BS in Information Systems/i).first()).toBeVisible();
 
+  await page.goto("/education/bukidnon-state-university");
+  await expect(page.getByRole("heading", { name: /Academic programmes & offerings/i })).toBeVisible();
+  await expect(page.locator(".education-offering-card")).toHaveCount(6);
+
+  await page.goto("/education?q=Bukidnon%20State%20University");
+  const buksuCards = page.locator(".education-directory-card");
+  await expect(buksuCards).toHaveCount(3);
+  const buksuHeights = await buksuCards.evaluateAll((cards) =>
+    cards.map((card) => Math.round(card.getBoundingClientRect().height)),
+  );
+  for (const h of buksuHeights) {
+    expect(h, `balanced BukSU card height (${h}px)`).toBeLessThan(620);
+  }
+
   await page.goto("/offices/cho");
   await expect(page.getByRole("heading", { name: /City Health Office/i, level: 1 })).toBeVisible();
   await expect(page.getByText(/Freedom Park, Barangay 4/i).first()).toBeVisible();

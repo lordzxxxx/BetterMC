@@ -12,6 +12,7 @@ export type SchoolEnrichment = {
   contactPerson?: string;
   contacts?: string[];
   programmes?: string[];
+  academicOfferings?: Array<{ group: string; items: string[] }>;
   officialLinks?: Array<{ label: string; url: string }>;
   logoUrl?: string;
   logoNote?: string;
@@ -195,12 +196,73 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
       "https://admissions.buksu.edu.ph/"
     ],
     "programmes": [
-      "CAS: AB Economics, AB English Language, AB Philosophy (Pre-Law / Teaching), AB Sociology, BS Biology (Biotechnology), BS Community Development, BS Development Communication, BS Environmental Science, BS Mathematics; PhD English Language, MA English Language, MA Guidance & Counseling, MA Sociology",
-      "COB: BS Accountancy, BSBA Financial Management, BS Hospitality Management; Master of Business Administration (MBA)",
-      "COE: BECEd, BEEd, BPEd, BSEd (English, Filipino, Mathematics, Science, Social Studies); PhD Education / Science Education, MAEd (Educational Admin, ELT, General Science, Math Education)",
-      "CON & COL: BS Nursing (BSN) · Juris Doctor (JD)",
-      "COT: BS Automotive Technology, BS Electronics Technology, BSEMC Digital Animation Technology, BS Food Technology, BS Information Technology (BSIT)",
-      "CPAG: Bachelor of Public Administration (BPA), Master of Public Administration (MPA), Doctor of Public Administration (DPA)"
+      "College of Arts and Sciences (Undergrad & Postgrad)",
+      "College of Business (BSA, BSBA-FM, BSHM, MBA)",
+      "College of Education (BECEd, BEEd, BPEd, BSEd, MAEd, PhD)",
+      "College of Nursing (BSN) & College of Law (Juris Doctor)",
+      "College of Technologies (BSIT, BSAT, BSET, BSEMC, BSFT)",
+      "College of Public Administration & Governance (BPA, MPA, DPA)"
+    ],
+    "academicOfferings": [
+      {
+        "group": "College of Arts and Sciences (CAS)",
+        "items": [
+          "AB Economics",
+          "AB English Language",
+          "AB Philosophy (Pre-Law / Teaching Track)",
+          "AB Sociology",
+          "BS Biology major in Biotechnology",
+          "BS Community Development",
+          "BS Development Communication",
+          "BS Environmental Science major in Environmental Heritage Studies",
+          "BS Mathematics",
+          "Postgraduate: PhD English Language, MA English Language, MA Guidance and Counseling, MA Sociology"
+        ]
+      },
+      {
+        "group": "College of Business (COB)",
+        "items": [
+          "BS Accountancy (BSA)",
+          "BS Business Administration major in Financial Management",
+          "BS Hospitality Management (BSHM)",
+          "Postgraduate: Master of Business Administration (MBA)"
+        ]
+      },
+      {
+        "group": "College of Education (COE)",
+        "items": [
+          "Bachelor of Early Childhood Education (BECEd)",
+          "Bachelor of Elementary Education (BEEd)",
+          "Bachelor of Physical Education (BPEd)",
+          "Bachelor of Secondary Education (English, Filipino, Mathematics, Science, Social Studies)",
+          "Postgraduate: PhD Education (Instructional Systems Design / Educational Admin), PhD Science Education (Biology / Math), MAEd (Educational Admin, ELT, General Science, Math Education)"
+        ]
+      },
+      {
+        "group": "College of Nursing (CON) & College of Law (COL)",
+        "items": [
+          "Bachelor of Science in Nursing (BSN)",
+          "Juris Doctor (JD)"
+        ]
+      },
+      {
+        "group": "College of Technologies (COT)",
+        "items": [
+          "BS Automotive Technology (BSAT)",
+          "BS Electronics Technology (BSET)",
+          "BS Entertainment and Multimedia Computing major in Digital Animation Technology",
+          "BS Food Technology (BSFT)",
+          "BS Information Technology (BSIT)"
+        ]
+      },
+      {
+        "group": "College of Public Administration and Governance (CPAG)",
+        "items": [
+          "Bachelor of Public Administration (BPA)",
+          "Master of Public Administration (MPA)",
+          "Doctor of Public Administration (DPA)"
+        ]
+      }
     ],
     "officialLinks": [
       {
@@ -737,9 +799,34 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
       "matiregistrar19@gmail.com"
     ],
     "programmes": [
-      "Basic Education (K–12: Preschool, Elementary, Junior High & Senior High)",
-      "CHED Higher Education (confirm current COPC offerings with MATI Registrar / CHED Region X)",
-      "TESDA Technical-Vocational Programs (Automotive Servicing, Food & Beverage Services, Housekeeping, Bartending, Commercial Cooking, Programming)"
+      "Basic Education (K–12)",
+      "CHED Higher Education (Code 10041)",
+      "TESDA Technical-Vocational Programs"
+    ],
+    "academicOfferings": [
+      {
+        "group": "Basic Education (DepEd ID 405003)",
+        "items": [
+          "Preschool, Elementary, Junior High School & Senior High School (K–12)"
+        ]
+      },
+      {
+        "group": "Higher Education (CHED Inst. Code 10041)",
+        "items": [
+          "Confirm active CHED COPC degree programs directly with the MATI Registrar or CHED Region X"
+        ]
+      },
+      {
+        "group": "TESDA Technical-Vocational Programs",
+        "items": [
+          "Automotive Servicing (NC I & NC II)",
+          "Bartending NC II",
+          "Commercial Cooking NC II",
+          "Food and Beverage Services NC II",
+          "Housekeeping NC II",
+          "Programming NC IV"
+        ]
+      }
     ],
     "officialLinks": [
       {
@@ -822,10 +909,29 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
       "info@sic.edu.ph"
     ],
     "programmes": [
-      "Basic Education (Preschool, Elementary & Junior High School)",
-      "Senior High School Tracks (ABM, STEM, HUMSS, GAS & TVL)",
-      "School of Information Technology (BS Information Technology)",
-      "College Departments: Business Administration & Accountancy, Teacher Education, and Arts & Sciences"
+      "Basic Education (Preschool, Elementary & Junior High)",
+      "Senior High School (ABM, STEM, HUMSS, GAS & TVL)",
+      "School of Information Technology (BSIT)",
+      "College: Business, Accountancy, Education & Arts & Sciences"
+    ],
+    "academicOfferings": [
+      {
+        "group": "Basic Education Department (DepEd ID 405006)",
+        "items": [
+          "Preschool & Grade School (Elementary)",
+          "Junior High School (Grades 7–10)",
+          "Senior High School Strands: ABM, STEM, HUMSS, GAS & TVL"
+        ]
+      },
+      {
+        "group": "Higher Education Departments (CHED Inst. Code 10079)",
+        "items": [
+          "School of Information Technology (BS Information Technology)",
+          "School of Business Administration (Business Administration & Accountancy)",
+          "School of Education (Teacher Education)",
+          "School of Arts and Sciences"
+        ]
+      }
     ],
     "officialLinks": [
       {
@@ -1071,9 +1177,33 @@ export const schoolEnrichmentBySlug: Record<string, SchoolEnrichment> = {
     "programmes": [
       "BS in Information Systems (BSIS)",
       "BS in Tourism Management (BSTM)",
-      "SHS: Business & Entrepreneurship (B&E) and Arts, Social Sciences & Humanities (ASSH)",
-      "SHS: ICT Support & Computer Programming Technologies (ICT-SCPT) and Culinary Arts (HTCUA)",
-      "TESDA: Data Collection & Annotation (Data Science–AI Level II) and AI Prompting & Automation (Level III)"
+      "Senior High School (B&E, ASSH, ICT-SCPT, Culinary Arts)",
+      "TESDA AI & Data Science Qualifications (Levels II–III)"
+    ],
+    "academicOfferings": [
+      {
+        "group": "College Degree Programs (CHED Inst. Code 10131)",
+        "items": [
+          "BS in Information Systems (BSIS)",
+          "BS in Tourism Management (BSTM)"
+        ]
+      },
+      {
+        "group": "Senior High School Tracks (DepEd SHS ID 403708)",
+        "items": [
+          "Business and Entrepreneurship (B&E)",
+          "Arts, Social Sciences, and Humanities (ASSH)",
+          "ICT Support and Computer Programming Technologies (ICT-SCPT)",
+          "Hospitality and Tourism — Culinary Arts (HTCUA)"
+        ]
+      },
+      {
+        "group": "TESDA Short & AI Qualifications",
+        "items": [
+          "Data Collection and Annotation — Data Science–AI (Level II)",
+          "AI Prompting and Automation (Level III)"
+        ]
+      }
     ],
     "officialLinks": [
       {
