@@ -1,6 +1,6 @@
 import type { Source } from "./data";
 
-export const PUBLIC_INFO_REVIEWED_ON = "2026-11-18";
+export const PUBLIC_INFO_REVIEWED_ON = "2026-11-22";
 
 export const OFFICIAL_CITY_FB_URL =
   "https://www.facebook.com/profile.php?id=100063747444247";
@@ -44,6 +44,20 @@ export type NewsletterUpdateCard = {
 };
 
 export const newsletterUpdates: NewsletterUpdateCard[] = [
+  {
+    id: "news-eo-93-super-health-center-2026",
+    title: "Executive Order No. 93, s. 2026: Brgy. Aglayan Super Health Center to CHO Referral System",
+    description:
+      "Establishes an internal patient referral and medical coordination system linking the Malaybalay City Super Health Center in Barangay Aglayan with the Malaybalay City Health Office.",
+    publishedDate: "November 9, 2026",
+    category: "City Announcements",
+    verificationStatus: "Confirmed Official Record",
+    sourceAttribution: "Office of the City Mayor — Official Public Announcements",
+    sourceUrl: "https://sakata.malaybalaycity.gov.ph/executive-order-no-93/",
+    internalRoute: "/legislation/executive-order-no-93-series-of-2026",
+    secondarySourceUrl: OFFICIAL_CITY_FB_URL,
+    secondarySourceLabel: "City Government Facebook Page",
+  },
   {
     id: "news-ord-1118-skfa-2026",
     title: "Ordinance No. 1118, s. 2026: Annual SK Functionality Audit Institutionalized",
@@ -150,6 +164,20 @@ export const newsletterUpdates: NewsletterUpdateCard[] = [
     sourceUrl: "https://sakata.malaybalaycity.gov.ph/executive-order-no-19/",
     internalRoute: "/legislation/executive-order-no-19-series-of-2026",
   },
+  {
+    id: "news-eo-15-ash-referral-network-2026",
+    title: "Executive Order No. 15, s. 2026: Anti-Sexual Harassment (ASH) Referral Network Established",
+    description:
+      "Organizes Malaybalay City's inter-office Anti-Sexual Harassment Referral Network pursuant to Republic Act No. 11313 (Safe Spaces Act / Bawal Bastos Law) to coordinate victim protection and case referrals.",
+    publishedDate: "2026",
+    category: "Public Advisories",
+    verificationStatus: "Confirmed Official Record",
+    sourceAttribution: "Office of the City Mayor — Official Public Announcements",
+    sourceUrl: "https://sakata.malaybalaycity.gov.ph/executive-order-no-15/",
+    internalRoute: "/legislation/executive-order-no-15-series-of-2026",
+    secondarySourceUrl: OFFICIAL_CITY_FB_URL,
+    secondarySourceLabel: "City Government Facebook Page",
+  },
 ];
 
 export type CivicDiscussionCard = {
@@ -172,7 +200,7 @@ export const civicDiscussionCards: CivicDiscussionCard[] = [
     id: "discussion-bac-livestream-reforms",
     title: "Livestreamed Public Bidding & Procurement Transparency in Malaybalay City",
     category: "Procurement & Open Governance Discussion",
-    publishedDate: "Reviewed November 18, 2026",
+    publishedDate: "Reviewed November 22, 2026",
     verificationBadge: "Confirmed Official Record",
     background:
       "Since mid-2022, the City Government of Malaybalay has mandated the live broadcasting of Bids and Awards Committee (BAC) proceedings on Facebook alongside quarterly publication of FDP Form 10a Bid Results and Google Drive ITB packets.",
@@ -208,7 +236,7 @@ export const civicDiscussionCards: CivicDiscussionCard[] = [
     id: "discussion-budget-2026-2027-alignment",
     title: "Understanding Malaybalay City Budget Allocations vs. National FY 2027 HGAB Proposals",
     category: "Budget & Fiscal Transparency Discussion",
-    publishedDate: "Reviewed November 18, 2026",
+    publishedDate: "Reviewed November 22, 2026",
     verificationBadge: "Confirmed Official Record",
     background:
       "Public infrastructure and services in Malaybalay City draw from two distinct fiscal streams: (1) local City Government funds (Internal Revenue Allotment / NTA share, local business and real property taxes, and 20% Development Fund) and (2) national agency appropriations (DPWH, DepEd, CHED/BukSU, DA, NIA) tracked in the FY 2027 House General Appropriations Bill (HB 10858).",
@@ -244,7 +272,7 @@ export const civicDiscussionCards: CivicDiscussionCard[] = [
     id: "discussion-sp-legislative-hearings-modernization",
     title: "10th Sangguniang Panlungsod Public Hearings, Fare Matrix Rules, and Barangay Audits",
     category: "Legislative Hearings & Council Discussion",
-    publishedDate: "Reviewed November 18, 2026",
+    publishedDate: "Reviewed November 22, 2026",
     verificationBadge: "Confirmed Official Record",
     background:
       "Presided over by City Vice Mayor Estelito 'Litoy' R. Marabe with SP Secretary Atty. Phoebe Corazon C. Hidalgo, the 10th Sangguniang Panlungsod conducts regular sessions, committee hearings, and mandatory public consultations on regulatory codes, revenue measures, and annual budgets.",

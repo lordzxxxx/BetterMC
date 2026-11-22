@@ -388,6 +388,9 @@ describe("BetterMC public portal", () => {
     expect(
       screen.getByRole("link", { name: /Find every barangay/i }),
     ).toHaveAttribute("href", "/barangays");
+    expect(
+      screen.getByText(/Executive Order No\. 93, s\. 2026: Brgy\. Aglayan Super Health Center/i),
+    ).toBeInTheDocument();
   });
 
   it("renders organized emergency hotlines directly after the weather section instead of inside government services", () => {

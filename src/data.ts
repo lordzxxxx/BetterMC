@@ -2,7 +2,7 @@
  * Date on which BetterMC rechecked source-page availability. A source listing
  * is not a claim that every linked file was independently transcribed again.
  */
-export const VERIFIED_ON = "2026-11-09";
+export const VERIFIED_ON = "2026-11-22";
 
 export type Source = {
   label: string;
@@ -1621,6 +1621,22 @@ const announcementSource = (url: string): Source => ({
 });
 
 export const civicRecords: CivicRecord[] = [
+  {
+    number: "Executive Order No. 93, Series of 2026",
+    title:
+      "Internal referral and coordination system between the Malaybalay City Super Health Center (Brgy. Aglayan) and the City Health Office",
+    kind: "Executive order",
+    published: "2026-11-09",
+    body: "Office of the City Mayor",
+    attribution:
+      "Published as a mayoral executive issuance on the City Government website with linked scan.",
+    attributionLevel: "office",
+    source: announcementSource(
+      "https://sakata.malaybalaycity.gov.ph/executive-order-no-93/",
+    ),
+    documentUrl:
+      "https://drive.google.com/file/d/1r0EpqG-QrO0dzq-jqarXW8yfTk0vg-rU/view?usp=drive_link",
+  },
   {
     number: "Executive Order No. 23, Series of 2026",
     title:

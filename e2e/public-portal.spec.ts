@@ -730,3 +730,39 @@ test("transparency defaults to Full Disclosure Catalog and budget page keeps tab
   );
   expect(hasOverflow).toBe(false);
 });
+
+test("verified offices, services, schools, and EO 93 dashboard records load cleanly without horizontal overflow", async ({
+  page,
+}) => {
+  await page.route("https://api.open-meteo.com/**", (route) =>
+    route.fulfill({ json: weatherFixture }),
+  );
+  await page.goto("/");
+  await expect(
+    page.getByText(/Executive Order No\. 93, s\. 2026: Brgy\. Aglayan Super Health Center/i),
+  ).toBeVisible();
+
+  await page.goto("/legislation/executive-order-no-93-series-of-2026");
+  await expect(page.getByRole("heading", { name: /Executive Order No\. 93, Series of 2026/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Open official source/i })).toHaveAttribute(
+    "href",
+    "https://sakata.malaybalaycity.gov.ph/executive-order-no-93/",
+  );
+
+  await page.goto("/education/sti-college-malaybalay");
+  await expect(page.getByRole("heading", { name: "STI College Malaybalay", level: 1 })).toBeVisible();
+  await expect(page.getByText("403708").first()).toBeVisible();
+  await expect(page.getByText(/BS in Information Systems/i).first()).toBeVisible();
+
+  await page.goto("/offices/cho");
+  await expect(page.getByRole("heading", { name: /City Health Office/i, level: 1 })).toBeVisible();
+  await expect(page.getByText(/Freedom Park, Barangay 4/i).first()).toBeVisible();
+
+  for (const route of ["/offices", "/services", "/education", "/education/sti-college-malaybalay", "/offices/cho"]) {
+    await page.goto(route);
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    );
+    expect(overflow, `no overflow on ${route}`).toBe(false);
+  }
+});
