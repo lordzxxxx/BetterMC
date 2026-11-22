@@ -7,6 +7,7 @@ import {
   officeSlugFromHostname,
   resolveOfficeSlug,
 } from "./governmentOffices";
+import { officePersonnelBySlug } from "./officePersonnel";
 import {
   INITIAL_PESO_OPPORTUNITIES,
   PESO_FACEBOOK_PAGE_URL,
@@ -82,6 +83,35 @@ describe("Malaybalay government offices & sector directory", () => {
     expect(peso?.facebookUrl).toBe(PESO_FACEBOOK_PAGE_URL);
     expect(peso?.emails).toContain("pesomalaybalaycity@gmail.com");
     expect(peso?.services.length).toBe(10);
+  });
+
+  it("ensures verified office URLs, clean addresses, valid emails, and accurate personnel assignments", () => {
+    const unavailableFragments = [
+      "malaybalay-city-scholarship-2",
+      "civil-registry-2",
+      "health-and-dental",
+      "obo-printables",
+    ];
+    for (const office of governmentOffices) {
+      expect(office.address).not.toContain("Check Charter");
+      for (const fragment of unavailableFragments) {
+        expect(office.officialWebUrl).not.toContain(fragment);
+        for (const src of office.sources) {
+          expect(src.url).not.toContain(fragment);
+        }
+      }
+    }
+
+    const admin = governmentOffices.find((o) => o.slug === "admin");
+    expect(admin?.emails).toContain("cadodmo.malaybalaycity@gmail.com");
+
+    const vet = governmentOffices.find((o) => o.slug === "veterinary");
+    expect(vet?.emails).toEqual(["cityvetmalaybalay@gmail.com"]);
+
+    const cpdoNames = officePersonnelBySlug.cpdo.groups.flatMap((g) => g.members.map((m) => m.name));
+    const agriNames = officePersonnelBySlug.agriculture.groups.flatMap((g) => g.members.map((m) => m.name));
+    expect(cpdoNames).not.toContain("Phoebe Jane E. Leono");
+    expect(agriNames).toContain("Phoebe Jane E. Leono");
   });
 });
 

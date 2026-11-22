@@ -1032,7 +1032,7 @@ export const departments: Department[] = [
     "0953-459-7782",
     "city8700housing@gmail.com",
   ],
-  ["City Veterinary Office", "0926-198-6992", "citymalaybalay@gmail.com"],
+  ["City Veterinary Office", "0926-198-6992", "cityvetmalaybalay@gmail.com"],
   ["City Vice Mayor’s Office", "0917-128-8087", "spmarabe@gmail.com"],
   [
     "Office of the Building Official",
@@ -1478,7 +1478,7 @@ export const services = [
     title: "Office of the Building Official Printables",
     office: "Office of the Building Official",
     description: "Official printable forms for building-related transactions.",
-    url: "https://sakata.malaybalaycity.gov.ph/obo-printables/",
+    url: "https://sakata.malaybalaycity.gov.ph/obo-forms/",
     verifiedOn: VERIFIED_ON,
   },
   {
