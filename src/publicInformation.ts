@@ -420,6 +420,12 @@ export type LegislativeHearingRecord = {
   sourceLabel: string;
   recordingOrReferenceUrl?: string;
   recordingOrReferenceLabel?: string;
+  videoUrl?: string;
+  videoTitle?: string;
+  videoPoster?: string;
+  secondaryVideoUrl?: string;
+  secondaryVideoTitle?: string;
+  secondaryVideoPoster?: string;
 };
 
 export const legislativeHearingRecords: LegislativeHearingRecord[] = [
@@ -472,11 +478,17 @@ export const legislativeHearingRecords: LegislativeHearingRecord[] = [
     statementsAndDecisions:
       "Ordinance No. 1132, s. 2026 was enacted by the 10th Sangguniang Panlungsod on November 10, 2026 and signed into law by City Mayor Jay Warren R. Pabillaran on November 16, 2026, designating CENRO, Liga ng mga Barangay, City Engineering Office, and PNP as enforcing bodies. The three-term barangay official incentive measure was reported approved by the Council on November 17, 2026.",
     verificationNotes:
-      "Verified via official legislative announcements by Vice Mayor Estelito R. Marabe, Councilor Alan Ryann O. Legaspi, Councilor Atty. Rendon P. Sangalang, Councilor Erwin A. Damasco, and Councilor Christopher Lambert Tortola; awaiting full ordinance PDF upload on sakata.malaybalaycity.gov.ph.",
+      "Verified via official SP Regular Session livestreams published on Vice Mayor Estelito 'Litoy' R. Marabe's Facebook page (69th Regular Session on Nov 10, 2026 and 70th Regular Session on Nov 17, 2026) and legislative updates by Councilors Alan Ryann O. Legaspi, Atty. Rendon P. Sangalang, Erwin A. Damasco, and Christopher Lambert Tortola.",
     sourceUrl: "https://www.facebook.com/estelitolitoymarabe",
-    sourceLabel: "City Vice Mayor Estelito “Litoy” R. Marabe — Official SP Session Updates",
+    sourceLabel: "City Vice Mayor Estelito “Litoy” R. Marabe — Official SP Session Livestreams",
     recordingOrReferenceUrl: "https://www.facebook.com/KonsehalManoyLegaspi",
     recordingOrReferenceLabel: "Councilor Alan Ryann O. Legaspi — Ordinance No. 1132 Report",
+    videoUrl: "https://www.facebook.com/estelitolitoymarabe/videos/1139814078783195/",
+    videoTitle: "70th Regular Session · 10th Sangguniang Panlungsod (17 November 2026 Livestream by Vice Mayor Estelito 'Litoy' R. Marabe)",
+    videoPoster: "/images/recordings/1139814078783195.jpg",
+    secondaryVideoUrl: "https://www.facebook.com/estelitolitoymarabe/videos/1145005021720628/",
+    secondaryVideoTitle: "69th Regular Session · 10th Sangguniang Panlungsod (10 November 2026 Livestream by Vice Mayor Estelito 'Litoy' R. Marabe)",
+    secondaryVideoPoster: "/images/recordings/1145005021720628.jpg",
   },
   {
     id: "sp-session-ord-1118-sk-audit-2026",
@@ -627,6 +639,11 @@ export type BacLivestreamDiscussionEntry = {
   sourceUrl: string;
   sourceLabel: string;
   videoUrl?: string;
+  videoTitle?: string;
+  videoPoster?: string;
+  relatedVideoUrl?: string;
+  relatedVideoTitle?: string;
+  relatedVideoPoster?: string;
 };
 
 export const bacLivestreamSummary = {
@@ -818,6 +835,9 @@ export const bacLivestreamEntries: BacLivestreamDiscussionEntry[] = [
     sourceUrl:
       "https://drive.google.com/drive/folders/16Y5k6czs9rs_bjZoc7By1AU7m4t9BRKL?usp=drive_link",
     sourceLabel: "BAC LGU Malaybalay 11 Nov 2026 Pre-Bid Folder",
+    relatedVideoUrl: "https://www.facebook.com/100063747444247/videos/1481595420501767/",
+    relatedVideoTitle: "Bids and Awards Committee Meeting · 11 November 2026",
+    relatedVideoPoster: "/images/recordings/1481595420501767.jpg",
   },
   {
     id: "bac-itb-2026-200-excavator",

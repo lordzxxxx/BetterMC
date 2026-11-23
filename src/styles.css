@@ -22104,10 +22104,12 @@ pre {
 
 /* Source-linked recording library shared by council and BAC pages. */
 .civic-recordings { display: grid; gap: 16px; min-width: 0; }
-.civic-recordings-heading { display: flex; justify-content: space-between; align-items: end; gap: 16px; }
+.civic-recordings-heading { display: flex; justify-content: space-between; align-items: end; flex-wrap: wrap; gap: 16px; }
 .civic-recordings-heading h2 { margin: 5px 0 3px; color: #10213b; font-size: clamp(1.4rem,2.4vw,2rem); line-height: 1.15; }
 .civic-recordings-heading p { margin: 0; color: #536780; font-size: .9rem; }
-.civic-recordings-heading > strong { flex: none; color: #536780; font-size: .82rem; font-weight: 600; }
+.civic-recordings-heading > strong,
+.civic-recordings-heading-actions > strong { flex: none; color: #536780; font-size: .82rem; font-weight: 600; }
+.civic-recordings-heading-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
 .civic-recordings-filters { display: flex; align-items: end; flex-wrap: wrap; gap: 10px; padding: 14px; border: 1px solid #cad9e9; border-radius: 12px; background: #fff; }
 .civic-recordings-filters label { display: grid; flex: 1 1 260px; min-width: 0; gap: 6px; color: #314968; font-size: .78rem; font-weight: 650; }
 .civic-recordings-filters label + label { flex: 0 1 230px; }
@@ -22158,8 +22160,9 @@ pre {
   .bac-livestream-page .procurement-page-nav { display: flex; flex-wrap: nowrap; gap: 6px; width: 100%; overflow-x: auto; padding: 4px 2px 8px; scrollbar-width: thin; scroll-snap-type: x proximity; }
   .hearings-page .procurement-page-nav a,
   .bac-livestream-page .procurement-page-nav a { flex: 0 0 auto; width: auto; max-width: 230px; min-height: 40px; padding: 8px 12px; text-align: left; scroll-snap-align: start; }
-  .civic-recordings-heading { align-items: start; }
+  .civic-recordings-heading { flex-direction: column; align-items: stretch; }
   .civic-recordings-heading > strong { padding-top: 4px; }
+  .civic-recordings-heading-actions { width: 100%; justify-content: space-between; }
   .civic-recordings-filters { padding: 12px; }
   .civic-recordings-filters label, .civic-recordings-filters label + label { flex-basis: 100%; }
   .civic-recordings-grid { grid-template-columns: minmax(0,1fr); }

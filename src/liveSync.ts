@@ -1,4 +1,9 @@
 import {
+  buildFacebookVideoEmbedUrl,
+  civicRecordings,
+  type CivicRecording,
+} from "./civicRecordings";
+import {
   INITIAL_PESO_OPPORTUNITIES,
   PESO_FACEBOOK_PAGE_URL,
   pesoOpportunityInputSchema,
@@ -13,6 +18,73 @@ import {
   type NewsletterUpdateCard,
   type VerificationTier,
 } from "./publicInformation";
+
+export type OfficialVideoChannelConfig = {
+  id: string;
+  label: string;
+  videosPageUrl: string;
+  baseVideoUrlPrefix: string;
+  publisher: string;
+  channelRole: "legislative-video" | "procurement-video" | "lgu-video" | "executive-video";
+  defaultCategory: CivicRecording["category"];
+};
+
+export const OFFICIAL_LIVESTREAM_VIDEO_SOURCES: OfficialVideoChannelConfig[] = [
+  {
+    id: "fb-videos-vice-mayor-marabe",
+    label: "Office of the City Vice Mayor — Estelito “Litoy” R. Marabe (SP Regular Session Livestreams)",
+    videosPageUrl: "https://www.facebook.com/estelitolitoymarabe/videos",
+    baseVideoUrlPrefix: "https://www.facebook.com/estelitolitoymarabe/videos",
+    publisher: 'Estelito "Litoy" R. Marabe',
+    channelRole: "legislative-video",
+    defaultCategory: "Legislative session",
+  },
+  {
+    id: "fb-videos-city-gov-malaybalay",
+    label: "City Government of Malaybalay — Official BAC & City Activity Livestreams",
+    videosPageUrl: "https://www.facebook.com/100063747444247/videos",
+    baseVideoUrlPrefix: "https://www.facebook.com/100063747444247/videos",
+    publisher: "City Government of Malaybalay",
+    channelRole: "lgu-video",
+    defaultCategory: "BAC meeting",
+  },
+  {
+    id: "fb-videos-bac-malaybalay",
+    label: "BAC LGU Malaybalay — Official Procurement Livestream Page",
+    videosPageUrl: "https://www.facebook.com/bacmalaybalay/videos",
+    baseVideoUrlPrefix: "https://www.facebook.com/bacmalaybalay/videos",
+    publisher: "BAC LGU Malaybalay",
+    channelRole: "procurement-video",
+    defaultCategory: "BAC meeting",
+  },
+  {
+    id: "fb-videos-mayor-pabillaran",
+    label: "Office of the City Mayor — Mayor Jay Warren R. Pabillaran (Makisayud Livestreams)",
+    videosPageUrl: "https://www.facebook.com/mayorwarrenpabillaran/videos",
+    baseVideoUrlPrefix: "https://www.facebook.com/mayorwarrenpabillaran/videos",
+    publisher: "Mayor Warren Pabillaran",
+    channelRole: "executive-video",
+    defaultCategory: "City activity",
+  },
+];
+
+export type RawSyncedVideoNode = {
+  id: string;
+  channelId: string;
+  publisher: string;
+  channelRole: OfficialVideoChannelConfig["channelRole"];
+  defaultCategory: CivicRecording["category"];
+  title: string;
+  caption: string;
+  videoUrl: string;
+  embedUrl: string;
+  thumbnailUrl: string;
+  duration?: string;
+  broadcastStatus?: string;
+  eventDate: string;
+  publishedIso: string;
+  timestampMs: number;
+};
 
 export type OfficialFeedSourceConfig = {
   id: string;
@@ -837,6 +909,397 @@ export function mergeOpportunitiesWithLive(
   };
 }
 
+export function formatDurationSeconds(totalSeconds?: number | null): string | undefined {
+  if (typeof totalSeconds !== "number" || !Number.isFinite(totalSeconds) || totalSeconds <= 0) {
+    return undefined;
+  }
+  const sec = Math.round(totalSeconds);
+  const hours = Math.floor(sec / 3600);
+  const minutes = Math.floor((sec % 3600) / 60);
+  const seconds = sec % 60;
+  if (hours > 0) {
+    return `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  }
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
+}
+
+export function formatRecordingDayMonthYear(timestampMs: number): string {
+  const safeMs = Number.isFinite(timestampMs) && timestampMs > 0 ? timestampMs : Date.now();
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Asia/Manila",
+  }).format(new Date(safeMs));
+}
+
+type RawFbChannelVideoObject = {
+  id?: string | null;
+  publish_time?: number | null;
+  playable_duration_in_ms?: number | null;
+  canonical_uri_with_fallback?: string | null;
+  url?: string | null;
+  savable_title?: { text?: string | null } | null;
+  title?: { text?: string | null } | null;
+  image?: { uri?: string | null } | null;
+  video_thumbnail_overlays_renderer?: {
+    video?: {
+      broadcast_status?: string | null;
+      playable_duration?: number | null;
+    } | null;
+  } | null;
+  creation_story?: {
+    message?: { text?: string | null } | null;
+    attachments?: Array<{
+      target?: {
+        preferred_thumbnail?: {
+          image?: { uri?: string | null } | null;
+        } | null;
+      } | null;
+    }> | null;
+  } | null;
+};
+
+/**
+ * Extracts `"__typename":"ChannelTabVideoThumbnailWithReactionsRenderer","video":{...}`
+ * nodes from a public Facebook `/videos` tab HTML document using balanced brace scanning.
+ */
+export function parseFacebookVideosTab(
+  html: string,
+  channel: OfficialVideoChannelConfig,
+): RawSyncedVideoNode[] {
+  if (!html) return [];
+  const marker = '"__typename":"ChannelTabVideoThumbnailWithReactionsRenderer","video":';
+  const results: RawSyncedVideoNode[] = [];
+  const seenIds = new Set<string>();
+
+  let idx = 0;
+  while ((idx = html.indexOf(marker, idx)) !== -1) {
+    const start = idx + marker.length;
+    let depth = 0;
+    let end = start;
+    let inStr = false;
+    let escaped = false;
+    for (let i = start; i < html.length; i++) {
+      const ch = html[i];
+      if (escaped) {
+        escaped = false;
+        continue;
+      }
+      if (ch === "\\") {
+        escaped = true;
+        continue;
+      }
+      if (ch === '"') {
+        inStr = !inStr;
+        continue;
+      }
+      if (!inStr) {
+        if (ch === "{") {
+          depth += 1;
+        } else if (ch === "}") {
+          depth -= 1;
+          if (depth === 0) {
+            end = i + 1;
+            break;
+          }
+        }
+      }
+    }
+
+    if (end <= start) {
+      idx = start + 1;
+      continue;
+    }
+
+    try {
+      const parsed = JSON.parse(html.slice(start, end)) as RawFbChannelVideoObject;
+      const id = String(parsed.id ?? "").trim();
+      if (id && !seenIds.has(id)) {
+        seenIds.add(id);
+        const rawTitle = normalizeSocialText(
+          parsed.savable_title?.text ?? parsed.title?.text ?? "",
+        );
+        const rawCaption = normalizeSocialText(
+          parsed.creation_story?.message?.text ?? "",
+        );
+        const unixSec =
+          typeof parsed.publish_time === "number" && parsed.publish_time > 0
+            ? parsed.publish_time
+            : Math.floor(Date.now() / 1000);
+        const timestampMs = unixSec * 1000;
+        const { iso } = formatManilaDisplayDate(timestampMs);
+        const eventDate = formatRecordingDayMonthYear(timestampMs);
+        const durationSec =
+          parsed.video_thumbnail_overlays_renderer?.video?.playable_duration ??
+          (typeof parsed.playable_duration_in_ms === "number"
+            ? Math.round(parsed.playable_duration_in_ms / 1000)
+            : undefined);
+        const duration = formatDurationSeconds(durationSec);
+        const videoUrl = `${channel.baseVideoUrlPrefix}/${id}/`;
+        const embedUrl = buildFacebookVideoEmbedUrl(videoUrl);
+        const thumbnailUrl =
+          parsed.image?.uri ??
+          parsed.creation_story?.attachments?.[0]?.target?.preferred_thumbnail?.image?.uri ??
+          "";
+
+        if (rawTitle || rawCaption) {
+          results.push({
+            id,
+            channelId: channel.id,
+            publisher: channel.publisher,
+            channelRole: channel.channelRole,
+            defaultCategory: channel.defaultCategory,
+            title: rawTitle || rawCaption.split("\n")[0] || "",
+            caption: rawCaption || rawTitle,
+            videoUrl,
+            embedUrl,
+            thumbnailUrl,
+            duration,
+            broadcastStatus:
+              parsed.video_thumbnail_overlays_renderer?.video?.broadcast_status ?? undefined,
+            eventDate,
+            publishedIso: iso,
+            timestampMs,
+          });
+        }
+      }
+    } catch {
+      // Ignore malformed individual block and continue scanning
+    }
+
+    idx = end;
+  }
+
+  return results;
+}
+
+const KNOWN_LOCAL_RECORDING_POSTERS = new Set(
+  civicRecordings.map((item) => item.id),
+);
+
+/**
+ * Evaluates a raw Facebook video node from Vice Mayor Estelito "Litoy" R. Marabe,
+ * City Government of Malaybalay, BAC LGU Malaybalay, or Mayor Jay Warren R. Pabillaran,
+ * and returns a structured `CivicRecording` with thumbnail (`poster`) and embedded
+ * livestream URL (`embedUrl`) when it matches an official SP Session, BAC/Bidding
+ * Livestream, or City Activity broadcast.
+ */
+export function evaluateCivicRecordingTrigger(
+  node: RawSyncedVideoNode,
+): CivicRecording | null {
+  const combined = normalizeSocialText(`${node.title}\n${node.caption}`);
+  if (!combined || combined.length < 6) return null;
+  if (NON_CIVIC_EXCLUSION_REGEX.test(combined)) return null;
+
+  const poster = KNOWN_LOCAL_RECORDING_POSTERS.has(node.id)
+    ? `/images/recordings/${node.id}.jpg`
+    : node.thumbnailUrl || "/images/bac-meeting-2026-11-18.jpg";
+
+  // 1. Trigger for Sangguniang Panlungsod (SP) Regular Sessions (from Vice Mayor Estelito "Litoy" R. Marabe)
+  const spSessionMatch = combined.match(/\b(\d+(?:st|nd|rd|th))\s+regular\s+session\b/i);
+  const isSpKeyword =
+    /\b(?:regular\s+session|sangguniang\s+panlungsod|sp\s+session|city\s+council\s+session|committee\s+hearing)\b/i.test(
+      combined,
+    );
+
+  if (
+    spSessionMatch ||
+    (node.channelRole === "legislative-video" && isSpKeyword)
+  ) {
+    const ordinalRaw = spSessionMatch ? spSessionMatch[1] : null;
+    const ordinal = ordinalRaw
+      ? `${ordinalRaw.slice(0, -2)}${ordinalRaw.slice(-2).toLowerCase()}`
+      : null;
+    const isShortHighlight =
+      node.duration !== undefined &&
+      /^(?:0:\d{2}|1:\d{2}|2:\d{2})$/.test(node.duration) &&
+      !/\b2:\d{2}:\d{2}\b/.test(node.duration);
+
+    const title = ordinal
+      ? `${ordinal} Regular Session${isShortHighlight ? " Highlights" : ""} · 10th Sangguniang Panlungsod`
+      : cleanHeadlineLine(node.title || combined.split("\n")[0]).slice(0, 110);
+
+    const description = ordinal
+      ? isShortHighlight
+        ? `Short video highlight from the ${ordinal} Regular Session of the 10th Sangguniang Panlungsod published on Vice Mayor Estelito "Litoy" R. Marabe's Facebook page.`
+        : `Full ${ordinal.toLowerCase()} regular session livestream recording published on Vice Mayor Estelito "Litoy" R. Marabe's public video page.`
+      : `Sangguniang Panlungsod legislative session recording published on ${node.publisher}'s public video page.`;
+
+    const sourceContext = ordinal
+      ? `The Vice Mayor's public page identifies this livestream as the ${ordinal.toLowerCase()} regular session of Malaybalay City's 10th Sangguniang Panlungsod. This page keeps the full recording, thumbnail, and embedded player together for residents.`
+      : `${node.publisher}'s public page published this Sangguniang Panlungsod proceeding on ${node.eventDate}.`;
+
+    return {
+      id: node.id,
+      title,
+      category: "Legislative session",
+      publisher: node.publisher,
+      sourceUrl: node.videoUrl,
+      embedUrl: node.embedUrl,
+      duration: node.duration,
+      eventDate: node.eventDate,
+      description,
+      sourceContext,
+      poster,
+    };
+  }
+
+  // 2. Trigger for BAC / Bidding Livestreams (from City Government of Malaybalay or BAC LGU Malaybalay)
+  const isBacLivestream =
+    /\b(?:bids\s+and\s+awards\s+committee|bac\s+meeting|pre-bid\s+conference|public\s+bidding|bid\s+opening)\b/i.test(
+      combined,
+    );
+
+  if (isBacLivestream) {
+    const driveMatch = combined.match(
+      /https?:\/\/drive\.google\.com\/drive\/folders\/[^\s)]+/i,
+    );
+    const title = `Bids and Awards Committee Meeting · ${node.eventDate}`;
+    const hasPriceFolder = Boolean(driveMatch);
+
+    return {
+      id: node.id,
+      title,
+      category: "BAC meeting",
+      publisher: node.publisher,
+      sourceUrl: node.videoUrl,
+      embedUrl: node.embedUrl,
+      duration: node.duration,
+      eventDate: node.eventDate,
+      description: hasPriceFolder
+        ? `Full BAC meeting livestream recording published by ${node.publisher} on ${node.eventDate} with linked pre-bid price schedule documents.`
+        : `Full BAC meeting livestream recording published by ${node.publisher} on ${node.eventDate}.`,
+      sourceContext: hasPriceFolder
+        ? `The publisher identifies a Bids and Awards Committee meeting broadcast on ${node.eventDate} and links a price schedule folder for procurement projects presented at the pre-bid conference.`
+        : `The publisher identifies this recording as a Bids and Awards Committee meeting broadcast on ${node.eventDate}. Residents can watch the original proceeding through the embedded video player.`,
+      relatedSource: driveMatch
+        ? { label: "Publisher-linked price schedule folder", url: driveMatch[0] }
+        : undefined,
+      poster,
+    };
+  }
+
+  // 3. Trigger for Official City Activities & Executive Governance Broadcasts (Convocations, Kapihan, Kalihukan sa Semana, Makisayud)
+  const isCityActivityVideo =
+    /\b(?:makisayud\s+sa\s+city\s+government|convocation\s+program|kapihan|kalihukan\s+sa\s+semana|state\s+of\s+the\s+city|charter\s+day)\b/i.test(
+      combined,
+    );
+
+  if (isCityActivityVideo) {
+    let cleanTitle = cleanHeadlineLine(node.title || combined.split("\n")[0]);
+    if (/^makisayud sa city government of malaybalay$/i.test(cleanTitle)) {
+      cleanTitle = `Makisayud sa City Government of Malaybalay · ${node.eventDate}`;
+    } else if (/convocation program/i.test(cleanTitle) && !cleanTitle.includes(node.eventDate)) {
+      cleanTitle = `${cleanTitle} · ${node.eventDate}`;
+    }
+
+    return {
+      id: node.id,
+      title: cleanTitle.slice(0, 120),
+      category: "City activity",
+      publisher: node.publisher,
+      sourceUrl: node.videoUrl,
+      embedUrl: node.embedUrl,
+      duration: node.duration,
+      eventDate: node.eventDate,
+      description: `Official city activity broadcast published by ${node.publisher} on ${node.eventDate}.`,
+      sourceContext: `${node.publisher} published this public broadcast ('${cleanTitle}') on ${node.eventDate}.`,
+      poster,
+    };
+  }
+
+  return null;
+}
+
+export function isDuplicateRecording(
+  candidate: CivicRecording,
+  existingList: CivicRecording[],
+): boolean {
+  for (const existing of existingList) {
+    if (existing.id === candidate.id) return true;
+    if (existing.sourceUrl === candidate.sourceUrl) return true;
+  }
+  return false;
+}
+
+export function mergeRecordingsWithLive(
+  baseRecordings: CivicRecording[],
+  liveRecordings: CivicRecording[],
+): { merged: CivicRecording[]; addedCount: number } {
+  const merged = [...baseRecordings];
+  const added: CivicRecording[] = [];
+
+  for (const rec of liveRecordings) {
+    if (!isDuplicateRecording(rec, [...added, ...merged])) {
+      added.push(rec);
+    }
+  }
+
+  return {
+    merged: [...added, ...merged],
+    addedCount: added.length,
+  };
+}
+
+/**
+ * Converts a newly triggered BAC Meeting or SP Regular Session livestream recording
+ * into a homepage `NewsletterUpdateCard` so live video broadcasts also surface in
+ * the main Public Announcements feed.
+ */
+export function convertRecordingToAnnouncementCard(
+  recording: CivicRecording,
+): NewsletterUpdateCard {
+  const isBac = recording.category === "BAC meeting";
+  const isSp = recording.category === "Legislative session";
+  return {
+    id: `live-video-${recording.id}`,
+    title: `${recording.title}${recording.duration ? ` (${recording.duration} Livestream)` : ""}`,
+    description: recording.description,
+    publishedDate: recording.eventDate ?? recording.publishedDate ?? "November 2026",
+    category: isBac
+      ? "Procurement & Bidding"
+      : isSp
+        ? "Hearings & Sessions"
+        : "City Announcements",
+    verificationStatus: "Verified Public Announcement",
+    sourceAttribution: `${recording.publisher} — Official Facebook Livestream`,
+    sourceUrl: recording.sourceUrl,
+    internalRoute: `/recordings/${recording.id}`,
+    secondarySourceUrl: recording.relatedSource?.url,
+    secondarySourceLabel: recording.relatedSource?.label,
+  };
+}
+
+async function fetchSingleVideoChannel(
+  channel: OfficialVideoChannelConfig,
+  timeoutMs = 6500,
+): Promise<RawSyncedVideoNode[]> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(channel.videosPageUrl, {
+      signal: controller.signal,
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+      },
+    });
+    if (!response.ok) return [];
+    const html = await response.text();
+    return parseFacebookVideosTab(html, channel);
+  } catch {
+    return [];
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function fetchSingleFeedSource(
   source: OfficialFeedSourceConfig,
   timeoutMs = 6500,
@@ -881,6 +1344,7 @@ async function fetchSingleFeedSource(
  */
 export async function syncLiveMalaybalayFeeds(options?: {
   sources?: OfficialFeedSourceConfig[];
+  videoChannels?: OfficialVideoChannelConfig[];
   timeoutMs?: number;
 }): Promise<{
   syncedAt: string;
@@ -892,19 +1356,45 @@ export async function syncLiveMalaybalayFeeds(options?: {
   liveOpportunities: PesoOpportunity[];
   mergedOpportunities: PesoOpportunity[];
   newlyAddedOpportunitiesCount: number;
+  liveRecordings: CivicRecording[];
+  mergedRecordings: CivicRecording[];
+  newlyAddedRecordingsCount: number;
 }> {
   const sources = options?.sources ?? OFFICIAL_MALAYBALAY_SYNC_SOURCES;
+  const videoChannels = options?.videoChannels ?? OFFICIAL_LIVESTREAM_VIDEO_SOURCES;
   const timeoutMs = options?.timeoutMs ?? 6500;
 
-  const batches = await Promise.all(
-    sources.map((src) => fetchSingleFeedSource(src, timeoutMs)),
-  );
+  const [batches, videoBatches] = await Promise.all([
+    Promise.all(sources.map((src) => fetchSingleFeedSource(src, timeoutMs))),
+    Promise.all(videoChannels.map((ch) => fetchSingleVideoChannel(ch, timeoutMs))),
+  ]);
+
   const allRawItems = batches
+    .flat()
+    .sort((a, b) => b.timestampMs - a.timestampMs);
+
+  const allVideoNodes = videoBatches
     .flat()
     .sort((a, b) => b.timestampMs - a.timestampMs);
 
   const liveAnnouncements: NewsletterUpdateCard[] = [];
   const liveOpportunities: PesoOpportunity[] = [];
+  const liveRecordings: CivicRecording[] = [];
+
+  for (const videoNode of allVideoNodes) {
+    const recording = evaluateCivicRecordingTrigger(videoNode);
+    if (recording && !isDuplicateRecording(recording, liveRecordings)) {
+      liveRecordings.push(recording);
+      // If a brand-new livestream recording (not yet in baseline civicRecordings) is detected,
+      // also surface it as a live announcement card
+      if (!isDuplicateRecording(recording, civicRecordings)) {
+        const videoCard = convertRecordingToAnnouncementCard(recording);
+        if (!isDuplicateAnnouncement(videoCard, liveAnnouncements)) {
+          liveAnnouncements.push(videoCard);
+        }
+      }
+    }
+  }
 
   for (const raw of allRawItems) {
     const card = evaluateCivicAnnouncementRelevance(raw);
@@ -919,16 +1409,20 @@ export async function syncLiveMalaybalayFeeds(options?: {
 
   const mergedNews = mergeAnnouncementsWithLive(newsletterUpdates, liveAnnouncements);
   const mergedJobs = mergeOpportunitiesWithLive(INITIAL_PESO_OPPORTUNITIES, liveOpportunities);
+  const mergedVideos = mergeRecordingsWithLive(civicRecordings, liveRecordings);
 
   return {
     syncedAt: new Date().toISOString(),
-    checkedSourcesCount: sources.length,
-    rawItemsCount: allRawItems.length,
+    checkedSourcesCount: sources.length + videoChannels.length,
+    rawItemsCount: allRawItems.length + allVideoNodes.length,
     liveAnnouncements,
     mergedAnnouncements: mergedNews.merged,
     newlyAddedAnnouncementsCount: mergedNews.addedCount,
     liveOpportunities,
     mergedOpportunities: mergedJobs.merged,
     newlyAddedOpportunitiesCount: mergedJobs.addedCount,
+    liveRecordings,
+    mergedRecordings: mergedVideos.merged,
+    newlyAddedRecordingsCount: mergedVideos.addedCount,
   };
 }
