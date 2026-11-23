@@ -716,18 +716,39 @@ body.is-microsite [tabindex="-1"]:focus-visible {
 }
 
 @media (max-width: 640px) {
-  .school-hero-actions {
+  .hero-actions {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
     gap: 8px;
     inline-size: 100%;
   }
-  .school-hero-actions .button:first-child {
+  .hero-actions .button {
+    inline-size: 100%;
+    block-size: 100%;
+    min-block-size: 46px;
+    justify-content: center;
+    text-align: center;
+  }
+  .school-hero-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    align-items: stretch;
+    gap: 8px;
+    inline-size: 100%;
+  }
+  .school-hero-actions .button:first-child,
+  .school-hero-actions .button:last-child:nth-child(even) {
     grid-column: 1 / -1;
   }
   .school-hero-actions .button {
     inline-size: 100%;
-    padding-inline: 12px;
+    block-size: 100%;
+    min-block-size: 46px;
+    gap: 6px;
+    padding: 10px;
+    font-size: 0.83rem;
     white-space: normal;
     text-align: center;
   }
@@ -851,24 +872,27 @@ body.is-microsite [tabindex="-1"]:focus-visible {
   scroll-snap-align: start;
 }
 
-/* Compact 2-col secondary button layout on mobile so PESO hero stays scannable */
+/* Compact, uniform-height 2-col secondary button layout on mobile */
 @media (max-width: 640px) {
   .office-hero-actions {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: auto;
+    grid-auto-rows: 1fr;
+    align-items: stretch;
     inline-size: 100%;
     gap: 8px;
   }
-  .office-hero-actions .button:first-child {
-    grid-column: 1 / -1;
-  }
+  .office-hero-actions .button:first-child,
   .office-hero-actions .button:last-child:nth-child(even) {
     grid-column: 1 / -1;
   }
   .office-hero-actions .button {
     inline-size: 100%;
-    padding-inline: 12px;
+    block-size: 100%;
+    min-block-size: 46px;
+    gap: 6px;
+    padding: 10px;
+    font-size: 0.83rem;
     white-space: normal;
     text-align: center;
   }
@@ -1018,13 +1042,26 @@ body.is-microsite [tabindex="-1"]:focus-visible {
 }
 
 .barangay-site .barangay-photo-credit {
-  min-block-size: max(32px, var(--ms-target-min));
-  padding: 5px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(7, 26, 61, 0.56);
-  color: #d8e8ff;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  max-inline-size: 100%;
+  min-block-size: max(28px, var(--ms-target-min));
+  padding: 4px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(216, 232, 255, 0.82);
   font-size: 0.74rem;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.barangay-site .barangay-photo-credit:hover {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* Unified Barangay section surfaces & touch-safe controls */
@@ -1191,15 +1228,22 @@ body.is-microsite [tabindex="-1"]:focus-visible {
   .barangay-site .barangay-hero-actions {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    align-items: stretch;
     gap: 8px;
     inline-size: 100%;
   }
-  .barangay-site .barangay-hero-actions .button:first-child {
+  .barangay-site .barangay-hero-actions .button:first-child,
+  .barangay-site .barangay-hero-actions .button:last-child:nth-child(even) {
     grid-column: 1 / -1;
   }
   .barangay-site .barangay-hero-actions .button {
     inline-size: 100%;
-    padding-inline: 12px;
+    block-size: 100%;
+    min-block-size: 46px;
+    gap: 6px;
+    padding: 10px;
+    font-size: 0.83rem;
     justify-content: center;
     text-align: center;
   }
