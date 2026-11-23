@@ -112,9 +112,15 @@ import {
 } from "./publicInformation";
 import {
   mergeAnnouncementsWithLive,
+  mergeRecordingsWithLive,
+  OFFICIAL_LIVESTREAM_VIDEO_SOURCES,
   OFFICIAL_MALAYBALAY_SYNC_SOURCES,
 } from "./liveSync";
-import { civicRecordings, type CivicRecording } from "./civicRecordings";
+import {
+  buildFacebookVideoEmbedUrl,
+  civicRecordings,
+  type CivicRecording,
+} from "./civicRecordings";
 import {
   barangayMicrositeBySlug,
   barangayMicrosites,
@@ -2467,10 +2473,21 @@ function RecordDialog({ title, onClose, children }: { title: string; onClose: ()
   );
 }
 
-function FacebookVideo({ url, title, poster }: { url: string; title: string; poster?: string }) {
+function FacebookVideo({
+  url,
+  title,
+  poster,
+  embedUrl,
+}: {
+  url: string;
+  title: string;
+  poster?: string;
+  embedUrl?: string;
+}) {
   const [loaded, setLoaded] = useState(false);
+  const resolvedEmbedUrl = embedUrl ?? buildFacebookVideoEmbedUrl(url);
   return <div className="record-video">
-    {loaded ? <iframe title={title} src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&width=900`} allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen loading="lazy" /> :
+    {loaded ? <iframe title={title} src={resolvedEmbedUrl} allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen loading="lazy" /> :
       <button type="button" onClick={() => setLoaded(true)}>{poster && <img src={poster} alt="" loading="lazy" decoding="async" />}<span aria-hidden="true">▶</span><strong>Play original Facebook video</strong></button>}
     <p>Playback is supplied by Facebook. <a href={url} target="_blank" rel="noopener noreferrer">Open the original video <ExternalLink aria-hidden="true" /></a></p>
   </div>;
@@ -2485,7 +2502,7 @@ function recordingDateLabel(recording: CivicRecording) {
 function CivicRecordingContent({ recording }: { recording: CivicRecording }) {
   return <>
     <p className="record-dialog-meta">{recording.category} · {recordingDateLabel(recording)}{recording.duration ? ` · ${recording.duration}` : ""}</p>
-    <FacebookVideo url={recording.sourceUrl} title={recording.title} poster={recording.poster} />
+    <FacebookVideo url={recording.sourceUrl} title={recording.title} poster={recording.poster} embedUrl={recording.embedUrl} />
     <div className="recording-reading-grid">
       <section className="recording-reading-card" aria-labelledby={`context-${recording.id}`}>
         <span className="eyebrow">Recording guide</span>
@@ -2574,8 +2591,79 @@ function CivicRecordingsSection({ category }: { category: "hearing" | "procureme
   const [openId, setOpenId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [type, setType] = useState("All");
+  const [allRecordings, setAllRecordings] = useState<CivicRecording[]>(civicRecordings);
+  const [syncState, setSyncState] = useState<"idle" | "syncing" | "synced">("idle");
+  const [syncMeta, setSyncMeta] = useState<{
+    checkedChannelsCount: number;
+    newlyAddedCount: number;
+  }>({
+    checkedChannelsCount: OFFICIAL_LIVESTREAM_VIDEO_SOURCES.length,
+    newlyAddedCount: 0,
+  });
   const location = useLocation();
-  const records = civicRecordings.filter((recording) =>
+
+  const handleSyncRecordings = useCallback(async () => {
+    setSyncState("syncing");
+    try {
+      const response = await fetch("/api/announcements", {
+        headers: { Accept: "application/json" },
+      });
+      if (response.ok) {
+        const payload = (await response.json()) as {
+          recordings?: CivicRecording[];
+          liveRecordings?: CivicRecording[];
+        };
+        const incoming = payload.recordings ?? payload.liveRecordings ?? [];
+        if (incoming.length > 0) {
+          const { merged, addedCount } = mergeRecordingsWithLive(civicRecordings, incoming);
+          setAllRecordings(merged);
+          setSyncMeta({
+            checkedChannelsCount: OFFICIAL_LIVESTREAM_VIDEO_SOURCES.length,
+            newlyAddedCount: addedCount,
+          });
+        }
+      }
+    } catch {
+      // Keep verified baseline recordings
+    } finally {
+      setSyncState("synced");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (import.meta.env.MODE === "test") return;
+    let cancelled = false;
+    fetch("/api/announcements", { headers: { Accept: "application/json" } })
+      .then((res) => (res.ok ? res.json() : null))
+      .then(
+        (
+          payload: {
+            recordings?: CivicRecording[];
+            liveRecordings?: CivicRecording[];
+          } | null,
+        ) => {
+          if (cancelled || !payload) return;
+          const incoming = payload.recordings ?? payload.liveRecordings ?? [];
+          if (incoming.length > 0) {
+            const { merged, addedCount } = mergeRecordingsWithLive(civicRecordings, incoming);
+            setAllRecordings(merged);
+            setSyncMeta({
+              checkedChannelsCount: OFFICIAL_LIVESTREAM_VIDEO_SOURCES.length,
+              newlyAddedCount: addedCount,
+            });
+          }
+          setSyncState("synced");
+        },
+      )
+      .catch(() => {
+        if (!cancelled) setSyncState("synced");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const records = allRecordings.filter((recording) =>
     category === "procurement" ? recording.category === "BAC meeting" : recording.category !== "BAC meeting",
   );
   const types = [...new Set(records.map((recording) => recording.category))];
@@ -2586,8 +2674,45 @@ function CivicRecordingsSection({ category }: { category: "hearing" | "procureme
       .includes(query.trim().toLowerCase()),
   );
   const active = records.find((recording) => recording.id === openId);
+  const channelNote =
+    category === "procurement"
+      ? "Auto-synced from City Government of Malaybalay & BAC LGU Malaybalay Facebook video pages"
+      : "Auto-synced from Vice Mayor Estelito “Litoy” R. Marabe (SP Sessions) & City Government video pages";
+
   return <section className="civic-recordings" aria-labelledby={`${category}-recordings-heading`}>
-    <div className="civic-recordings-heading"><div><span className="eyebrow">Original recordings</span><h2 id={`${category}-recordings-heading`}>{category === "procurement" ? "BAC meeting videos" : "Council sessions and city recordings"}</h2><p>Watch recordings on their own BetterMC page or open the original publisher’s video.</p></div><strong>{filtered.length} videos</strong></div>
+    <div className="civic-recordings-heading">
+      <div>
+        <span className="eyebrow">Original recordings</span>
+        <h2 id={`${category}-recordings-heading`}>{category === "procurement" ? "BAC meeting videos" : "Council sessions and city recordings"}</h2>
+        <p>Watch recordings on their own BetterMC page or open the original publisher’s video. {channelNote}.</p>
+      </div>
+      <div className="civic-recordings-heading-actions">
+        <strong>{filtered.length} videos</strong>
+        <button
+          type="button"
+          className="live-sync-btn"
+          onClick={() => void handleSyncRecordings()}
+          disabled={syncState === "syncing"}
+          aria-label={
+            category === "procurement"
+              ? "Sync latest BAC and bidding livestream videos from Facebook"
+              : "Sync latest Sangguniang Panlungsod session livestreams from Vice Mayor Estelito Litoy Marabe Facebook page"
+          }
+        >
+          <RefreshCw
+            aria-hidden="true"
+            className={syncState === "syncing" ? "is-spinning" : ""}
+          />
+          <span>
+            {syncState === "syncing"
+              ? "Syncing Videos..."
+              : syncState === "synced" && syncMeta.newlyAddedCount > 0
+                ? `Synced (+${syncMeta.newlyAddedCount} Live)`
+                : "Sync Live Livestreams"}
+          </span>
+        </button>
+      </div>
+    </div>
     <div className="civic-recordings-filters"><label><span>Search videos</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search recording title" /></label>{types.length > 1 && <label><span>Type</span><select value={type} onChange={(event) => setType(event.target.value)}><option value="All">All recordings</option>{types.map((item) => <option key={item}>{item}</option>)}</select></label>}{(query || type !== "All") && <button type="button" onClick={() => { setQuery(""); setType("All"); }}>Clear</button>}</div>
     <div className="civic-recordings-grid">{filtered.map((recording) =>
       <CivicRecordingCard key={recording.id} recording={recording} onOpen={() => setOpenId(recording.id)} />,
@@ -2961,11 +3086,17 @@ function BacLivestreamMonitoringPage() {
         </div>
         {activeEntry && <RecordDialog title={activeEntry.projectName} onClose={() => setOpenEntryId(null)}>
           <p className="record-dialog-meta">{activeEntry.activityType} · {activeEntry.scheduleOrPeriod}</p>
-          {activeEntry.videoUrl && <FacebookVideo url={activeEntry.videoUrl} title={activeEntry.projectName} poster="/images/bac-meeting-2026-11-18.jpg" />}
+          {(activeEntry.videoUrl || activeEntry.relatedVideoUrl) && (
+            <FacebookVideo
+              url={activeEntry.videoUrl ?? activeEntry.relatedVideoUrl ?? ""}
+              title={activeEntry.videoTitle ?? activeEntry.relatedVideoTitle ?? activeEntry.projectName}
+              poster={activeEntry.videoPoster ?? activeEntry.relatedVideoPoster ?? "/images/bac-meeting-2026-11-18.jpg"}
+            />
+          )}
           <p>{activeEntry.procurementStatus}</p>
           <dl className="record-dialog-facts"><div><dt>Reference</dt><dd>{activeEntry.referenceCode}</dd></div><div><dt>Responsible offices</dt><dd>{activeEntry.participatingAgencyOrBarangay}</dd></div><div><dt>Bidder listed</dt><dd>{activeEntry.identifiedContractorOrBidder}</dd></div><div><dt>Approved Budget for the Contract</dt><dd>{formatBudget(activeEntry.proposedBudgetAbc)}</dd></div></dl>
           <p>{activeEntry.approvedAmountNote}</p>
-          <p className="record-dialog-note">{activeEntry.videoUrl ? "The recording's spoken content has not been reviewed or transcribed. The procurement information above is based on separate published records." : "No video or reviewed verbatim transcript is attached to this procurement record."}</p>
+          <p className="record-dialog-note">{activeEntry.videoUrl || activeEntry.relatedVideoUrl ? "The recording's spoken content has not been reviewed or transcribed. The procurement information above is based on separate published records." : "No video or reviewed verbatim transcript is attached to this procurement record."}</p>
           <div className="record-dialog-links"><Link to={`/procurement/livestreams/${activeEntry.id}`} state={location.state} onClick={() => setOpenEntryId(null)}>Open permanent page <ArrowRight aria-hidden="true" /></Link><a href={activeEntry.sourceUrl} target="_blank" rel="noopener noreferrer">{activeEntry.sourceLabel} <ExternalLink aria-hidden="true" /></a></div>
         </RecordDialog>}
       </section>
@@ -4843,6 +4974,18 @@ function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" 
   const sourceUrl = hearing?.sourceUrl ?? procurement?.sourceUrl ?? "";
   const sourceLabel = hearing?.sourceLabel ?? procurement?.sourceLabel ?? "Original source";
   const back = hearing ? "/hearings" : "/procurement/livestreams";
+  const primaryVideoUrl = hearing?.videoUrl ?? procurement?.videoUrl ?? procurement?.relatedVideoUrl;
+  const primaryVideoTitle =
+    hearing?.videoTitle ??
+    procurement?.videoTitle ??
+    procurement?.relatedVideoTitle ??
+    title;
+  const primaryVideoPoster =
+    hearing?.videoPoster ??
+    procurement?.videoPoster ??
+    procurement?.relatedVideoPoster ??
+    "/images/bac-meeting-2026-11-18.jpg";
+
   return <>
     <PageHero eyebrow={hearing ? "Legislative record" : "BAC procurement record"} title={title} description="Review the available source, record context, and verification limits." compact>
       <Link className="page-hero-backlink" to={back} state={location.state}><ArrowLeft aria-hidden="true" /> Return to records</Link>
@@ -4866,7 +5009,20 @@ function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" 
           </dl>
           <p className="proceeding-note">{procurement?.approvedAmountNote}</p>
         </>}
-        {procurement?.videoUrl && <FacebookVideo url={procurement.videoUrl} title={procurement.projectName} poster="/images/bac-meeting-2026-11-18.jpg" />}
+        {primaryVideoUrl && (
+          <FacebookVideo
+            url={primaryVideoUrl}
+            title={primaryVideoTitle}
+            poster={primaryVideoPoster}
+          />
+        )}
+        {hearing?.secondaryVideoUrl && (
+          <FacebookVideo
+            url={hearing.secondaryVideoUrl}
+            title={hearing.secondaryVideoTitle ?? hearing.title}
+            poster={hearing.secondaryVideoPoster}
+          />
+        )}
       </article>
       <aside className="proceeding-detail-source">
         <span className="eyebrow">Source and status</span>
@@ -4887,8 +5043,8 @@ function PublicProceedingDetailPage({ kind }: { kind: "hearing" | "procurement" 
         <div className="proceeding-media-status">
           <CircleAlert aria-hidden="true" />
           <div>
-            <h3>{procurement?.videoUrl ? "Transcript status" : "Video and transcript"}</h3>
-            <p>{procurement?.videoUrl ? "The original Facebook video is linked beside this card. No reviewed verbatim transcript or verified timestamps have been published for this recording. The procurement notes come from separately cited documents." : "No direct playable recording or reviewed transcript is attached to this record. Use the source link above to open the original publication."}</p>
+            <h3>{primaryVideoUrl ? "Transcript status" : "Video and transcript"}</h3>
+            <p>{primaryVideoUrl ? "The original Facebook video is linked beside this card. No reviewed verbatim transcript or verified timestamps have been published for this recording. The summary notes come from separately cited documents." : "No direct playable recording or reviewed transcript is attached to this record. Use the source link above to open the original publication."}</p>
             {sourceUrl.includes("facebook.com") && <a className="detail-source-link" href={sourceUrl} target="_blank" rel="noopener noreferrer">Open original Facebook post <ExternalLink aria-hidden="true" /></a>}
           </div>
         </div>
@@ -4970,11 +5126,30 @@ function LegislativeHearingsPage() {
         {!filteredHearings.length && <div className="empty-state" role="status">No hearings match your search. Try another term or clear the filters.</div>}
         {activeHearing && <RecordDialog title={activeHearing.title} onClose={() => setOpenHearingId(null)}>
           <p className="record-dialog-meta">{activeHearing.sessionType} · {activeHearing.sessionDate}</p>
+          {activeHearing.videoUrl && (
+            <FacebookVideo
+              url={activeHearing.videoUrl}
+              title={activeHearing.videoTitle ?? activeHearing.title}
+              poster={activeHearing.videoPoster}
+            />
+          )}
+          {activeHearing.secondaryVideoUrl && (
+            <FacebookVideo
+              url={activeHearing.secondaryVideoUrl}
+              title={activeHearing.secondaryVideoTitle ?? activeHearing.title}
+              poster={activeHearing.secondaryVideoPoster}
+            />
+          )}
           <p>{activeHearing.statementsAndDecisions}</p>
           <dl className="record-dialog-facts"><div><dt>Legislative body</dt><dd>{activeHearing.committeeOrBody}</dd></div><div><dt>Presiding officer or lead</dt><dd>{activeHearing.presidingOrChair}</dd></div></dl>
           <h3>Topics discussed</h3><ul>{activeHearing.agendaItems.map((item) => <li key={item}>{item}</li>)}</ul>
           <h3>Measures mentioned</h3><ul>{activeHearing.ordinancesAndResolutions.map((item) => <li key={item}>{item}</li>)}</ul>
-          <h3>Recording and transcript</h3><p className="record-dialog-note">No direct recording or reviewed verbatim transcript has been attached to this specific hearing. The listed source may be a publication or general archive rather than a video.</p>
+          <h3>Recording and transcript</h3>
+          <p className="record-dialog-note">
+            {activeHearing.videoUrl
+              ? "Official SP Regular Session livestream recording(s) from Vice Mayor Estelito 'Litoy' R. Marabe's Facebook page are embedded above with their thumbnails. Spoken discussion has not yet been transcribed."
+              : "No direct recording or reviewed verbatim transcript has been attached to this specific hearing. The listed source may be a publication or general archive rather than a video."}
+          </p>
           <h3>Verification</h3><p>{activeHearing.verificationNotes}</p>
           <div className="record-dialog-links"><Link to={`/hearings/${activeHearing.id}`} state={location.state} onClick={() => setOpenHearingId(null)}>Open permanent page <ArrowRight aria-hidden="true" /></Link><a href={activeHearing.sourceUrl} target="_blank" rel="noopener noreferrer">{activeHearing.sourceLabel} <ExternalLink aria-hidden="true" /></a>{activeHearing.recordingOrReferenceUrl && <a href={activeHearing.recordingOrReferenceUrl} target="_blank" rel="noopener noreferrer">{activeHearing.recordingOrReferenceLabel ?? "Related reference"} <ExternalLink aria-hidden="true" /></a>}</div>
         </RecordDialog>}

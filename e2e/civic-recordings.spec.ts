@@ -2,8 +2,8 @@ import { expect, test } from "@playwright/test";
 
 test("council recording card opens its source-linked video and permanent page", async ({ page }) => {
   await page.goto("/hearings");
-  await expect(page.locator(".civic-recording-card")).toHaveCount(7);
-  await page.getByRole("button", { name: /Open 70th Regular Session/i }).click();
+  await expect(page.locator(".civic-recording-card")).toHaveCount(12);
+  await page.getByRole("button", { name: /Open 70th Regular Session · 10th Sangguniang Panlungsod/i }).click();
   const dialog = page.getByRole("dialog");
   await expect(dialog).toContainText("70th Regular Session");
   await expect(dialog.getByRole("heading", { name: "Purpose and source context" })).toBeVisible();
@@ -25,6 +25,6 @@ test("BAC recordings are separate from bid disclosures and mobile layout does no
   await expect(page.getByRole("dialog")).toContainText("28 October 2026");
   await expect(page.getByRole("dialog").getByRole("link", { name: /Publisher-linked price schedule folder/i })).toHaveAttribute("href", /1s4rPTElX-rWrlYeRjCGc56bx0uh4jBUT/);
   await page.getByRole("button", { name: "Close record" }).click();
-  await expect(page.locator(".bac-entries-table tbody tr")).toHaveCount(9);
+  await expect(page.locator(".bac-entries-table tbody tr")).toHaveCount(10);
   expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)).toBe(false);
 });

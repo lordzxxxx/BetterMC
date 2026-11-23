@@ -1,4 +1,6 @@
+import { civicRecordings } from "../src/civicRecordings";
 import {
+  OFFICIAL_LIVESTREAM_VIDEO_SOURCES,
   OFFICIAL_MALAYBALAY_SYNC_SOURCES,
   syncLiveMalaybalayFeeds,
 } from "../src/liveSync";
@@ -43,15 +45,26 @@ export async function GET(request: Request): Promise<Response> {
       checkedSourcesCount: syncResult.checkedSourcesCount,
       rawItemsCount: syncResult.rawItemsCount,
       newlyAddedCount: syncResult.newlyAddedAnnouncementsCount,
+      newlyAddedRecordingsCount: syncResult.newlyAddedRecordingsCount,
       total: items.length,
       announcements: items,
       liveDetected: syncResult.liveAnnouncements,
-      monitoredSources: OFFICIAL_MALAYBALAY_SYNC_SOURCES.map((s) => ({
-        id: s.id,
-        label: s.label,
-        url: s.url,
-        kind: s.kind,
-      })),
+      recordings: syncResult.mergedRecordings,
+      liveRecordings: syncResult.liveRecordings,
+      monitoredSources: [
+        ...OFFICIAL_MALAYBALAY_SYNC_SOURCES.map((s) => ({
+          id: s.id,
+          label: s.label,
+          url: s.url,
+          kind: s.kind,
+        })),
+        ...OFFICIAL_LIVESTREAM_VIDEO_SOURCES.map((v) => ({
+          id: v.id,
+          label: v.label,
+          url: v.videosPageUrl,
+          kind: "facebook-videos-tab",
+        })),
+      ],
     });
   } catch {
     const items =
@@ -63,12 +76,16 @@ export async function GET(request: Request): Promise<Response> {
       ok: true,
       source: "verified-baseline",
       syncedAt: new Date().toISOString(),
-      checkedSourcesCount: OFFICIAL_MALAYBALAY_SYNC_SOURCES.length,
+      checkedSourcesCount:
+        OFFICIAL_MALAYBALAY_SYNC_SOURCES.length + OFFICIAL_LIVESTREAM_VIDEO_SOURCES.length,
       rawItemsCount: 0,
       newlyAddedCount: 0,
+      newlyAddedRecordingsCount: 0,
       total: items.length,
       announcements: items,
       liveDetected: [],
+      recordings: civicRecordings,
+      liveRecordings: [],
     });
   }
 }

@@ -91,6 +91,33 @@ const SOURCES = [
   },
 ];
 
+const VIDEO_CHANNELS = [
+  {
+    id: "fb-videos-vice-mayor-marabe",
+    label: "Vice Mayor Estelito “Litoy” R. Marabe — SP Regular Session Livestreams",
+    url: "https://www.facebook.com/estelitolitoymarabe/videos",
+    baseVideoUrlPrefix: "https://www.facebook.com/estelitolitoymarabe/videos",
+  },
+  {
+    id: "fb-videos-city-gov-malaybalay",
+    label: "City Government of Malaybalay — BAC Meeting & City Livestreams",
+    url: "https://www.facebook.com/100063747444247/videos",
+    baseVideoUrlPrefix: "https://www.facebook.com/100063747444247/videos",
+  },
+  {
+    id: "fb-videos-bac-malaybalay",
+    label: "BAC LGU Malaybalay — Official Procurement Livestreams",
+    url: "https://www.facebook.com/bacmalaybalay/videos",
+    baseVideoUrlPrefix: "https://www.facebook.com/bacmalaybalay/videos",
+  },
+  {
+    id: "fb-videos-mayor-pabillaran",
+    label: "Mayor Jay Warren R. Pabillaran — Makisayud Livestreams",
+    url: "https://www.facebook.com/mayorwarrenpabillaran/videos",
+    baseVideoUrlPrefix: "https://www.facebook.com/mayorwarrenpabillaran/videos",
+  },
+];
+
 function extractJsonArray(html, key) {
   const idx = html.indexOf(`"${key}":`);
   if (idx === -1) return null;
@@ -185,4 +212,105 @@ for (const r of results) {
     console.log(`   • ${item.date}: ${item.summary.slice(0, 100)}`);
   }
 }
-console.log(`\nChecked ${SOURCES.length} official Malaybalay feeds (${totalItems} live posts/announcements scanned).`);
+
+async function checkVideoChannel(channel) {
+  try {
+    const res = await fetch(channel.url, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+      },
+    });
+    if (!res.ok) return { channel, ok: false, videos: [] };
+    const html = await res.text();
+    const marker = '"__typename":"ChannelTabVideoThumbnailWithReactionsRenderer","video":';
+    const videos = [];
+    const seen = new Set();
+    let idx = 0;
+    while ((idx = html.indexOf(marker, idx)) !== -1) {
+      const start = idx + marker.length;
+      let depth = 0,
+        end = start,
+        inStr = false,
+        esc = false;
+      for (let i = start; i < html.length; i++) {
+        const ch = html[i];
+        if (esc) {
+          esc = false;
+          continue;
+        }
+        if (ch === "\\") {
+          esc = true;
+          continue;
+        }
+        if (ch === '"') {
+          inStr = !inStr;
+          continue;
+        }
+        if (!inStr) {
+          if (ch === "{") depth++;
+          else if (ch === "}") {
+            depth--;
+            if (depth === 0) {
+              end = i + 1;
+              break;
+            }
+          }
+        }
+      }
+      try {
+        const v = JSON.parse(html.slice(start, end));
+        if (v.id && !seen.has(v.id)) {
+          seen.add(v.id);
+          const videoUrl = `${channel.baseVideoUrlPrefix}/${v.id}/`;
+          videos.push({
+            id: v.id,
+            date: v.publish_time
+              ? new Date(v.publish_time * 1000).toISOString().slice(0, 10)
+              : "unknown",
+            title: normalizeText(
+              v.savable_title?.text || v.creation_story?.message?.text || "(livestream)",
+            )
+              .split("\n")[0]
+              .slice(0, 95),
+            thumbnail: Boolean(
+              v.image?.uri ||
+                v.creation_story?.attachments?.[0]?.target?.preferred_thumbnail?.image?.uri,
+            ),
+            embedUrl: `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(videoUrl)}&show_text=false&width=900`,
+          });
+        }
+      } catch {
+        // skip
+      }
+      idx = end;
+    }
+    return { channel, ok: true, videos };
+  } catch (err) {
+    return { channel, ok: false, error: err.message, videos: [] };
+  }
+}
+
+console.log("\n--- Checking Official BAC & SP Session Livestream Video Channels ---");
+const videoResults = await Promise.all(VIDEO_CHANNELS.map(checkVideoChannel));
+let totalVideos = 0;
+for (const vr of videoResults) {
+  totalVideos += vr.videos.length;
+  console.log(
+    `${vr.ok ? "VIDEOS" : "SKIP  "} [${vr.channel.label}] (${vr.videos.length} livestreams/videos)`,
+  );
+  for (const v of vr.videos.slice(0, 3)) {
+    console.log(
+      `   ▶ [${v.id}] ${v.date}: ${v.title} (thumbnail=${v.thumbnail ? "yes" : "no"}, embed=ready)`,
+    );
+  }
+}
+
+console.log(
+  `\nChecked ${SOURCES.length} official Malaybalay feeds (${totalItems} live posts) and ${VIDEO_CHANNELS.length} livestream channels (${totalVideos} videos with thumbnails & embeds).`,
+);
