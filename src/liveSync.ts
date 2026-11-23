@@ -525,6 +525,9 @@ export function evaluateCivicAnnouncementRelevance(
   if (!normalized || normalized.length < 35) return null;
   if (NON_CIVIC_EXCLUSION_REGEX.test(normalized)) return null;
   if (!CIVIC_RELEVANCE_KEYWORDS_REGEX.test(normalized)) return null;
+  // Only auto-promote active recent posts (November 2026 onward) so older archive posts
+  // or past temporary office closures from earlier quarters do not displace current news.
+  if (item.publishedIso && item.publishedIso < "2026-11-01") return null;
 
   const lines = normalized
     .split("\n")
@@ -730,21 +733,30 @@ export function isDuplicateAnnouncement(
     const topicFingerprints = [
       ["120", "lifeguard"],
       ["abaca", "spindle"],
+      ["dumalahay"],
+      ["house turnover"],
       ["oasia", "domestic helper"],
-      ["11 20", "job fair"],
-      ["26", "job fair"],
+      ["job fair"],
       ["recorrida", "2027"],
+      ["69th", "regular session"],
       ["70th", "regular session"],
       ["71st", "regular session"],
       ["226", "barangay"],
       ["asf", "surveillance"],
-      ["project sarai", "weather station"],
+      ["project sarai"],
       ["lunokan", "integrated school"],
+      ["box culvert"],
+      ["rcbc"],
+      ["san martin", "turnover"],
       ["bspo", "congress"],
-      ["tilapia", "358"],
+      ["tilapia"],
+      ["agroforestry"],
+      ["sloping agricultural land technology"],
+      ["price monitoring"],
+      ["work and financial plan"],
       ["tupad", "street sweepers"],
-      ["fashion designing", "skills training"],
-      ["bids and awards", "18 november 2026"],
+      ["fashion designing"],
+      ["bac meeting"],
     ];
     for (const tokens of topicFingerprints) {
       if (

@@ -74,9 +74,9 @@ export const newsletterUpdates: NewsletterUpdateCard[] = [
   },
   {
     id: "news-peso-nov-2026-job-fair-and-overseas-sra",
-    title: "PESO Malaybalay 11/20 Job Fair (26 Employers) & Nov 24–25 Overseas Recruitment Screening at City Hall",
+    title: "PESO Malaybalay 11/20 Job Fair (26 Employers), Skills Training & Nov 24–25 Overseas Recruitment Screening",
     description:
-      "Following the November 20, 2026 Job Fair at People's Hall featuring 26 employers and Hired-On-The-Spot placements, PESO Malaybalay is hosting a walk-in Overseas Domestic Helper Screening with Oasia Global Resources, Inc. on November 24–25, 2026 (8:00 AM–3:00 PM) at the New City Hall Lobby, plus TUPAD Street Sweepers orientation at Brgy. 9 Covered Court.",
+      "Following the Nov 13 Fashion Designing Skills Training and the Nov 20, 2026 Job Fair at People's Hall featuring 26 employers and Hired-On-The-Spot placements, PESO Malaybalay is hosting a walk-in Overseas Domestic Helper Screening with Oasia Global Resources, Inc. on November 24–25, 2026 (8:00 AM–3:00 PM) at the New City Hall Lobby, plus TUPAD Street Sweepers orientation at Brgy. 9 Covered Court.",
     publishedDate: "November 21, 2026",
     category: "City Announcements",
     verificationStatus: "Verified Public Announcement",
@@ -88,7 +88,7 @@ export const newsletterUpdates: NewsletterUpdateCard[] = [
     id: "news-lgu-lunokan-school-bridge-bspo-awards-nov-2026",
     title: "LGU Turns Over Lunokan Integrated School Building & RCBC Bridge; Malaybalay Wins 1st Place at 2026 BSPO Congress",
     description:
-      "On November 16–20, 2026, the City Government turned over a new LGU-funded 1-Storey, 2-Classroom School Building at Lunokan Integrated School, a Two-Barrel Reinforced Concrete Box Culvert (RCBC) Bridge, and Barangay San Martin infrastructure projects, while Malaybalay City earned 1st Place at the 2026 BSPO Congress and the 2026 Bukidnon Population and Development Award.",
+      "On November 16–20, 2026, the City Government completed the turnover of a new LGU-funded 1-Storey, 2-Classroom School Building at Lunokan Integrated School, a Two-Barrel Reinforced Concrete Box Culvert (RCBC) Bridge, and Barangay San Martin infrastructure projects, while Malaybalay City earned 1st Place at the 2026 BSPO Congress and the 2026 Bukidnon Population and Development Award.",
     publishedDate: "November 20, 2026",
     category: "City Announcements",
     verificationStatus: "Verified Public Announcement",
@@ -114,7 +114,7 @@ export const newsletterUpdates: NewsletterUpdateCard[] = [
     id: "news-cvet-nmis-asf-surveillance-dost-sarai-nov-2026",
     title: "NMIS & City Vet ASF Surveillance Yields Negative Results; DOST Project SARAI Weather Station Installed in Brgy. Violeta",
     description:
-      "Rapid blood sample tests collected by NMIS and the City Veterinary Office at the Malaybalay slaughterhouse on November 17, 2026 tested negative for African Swine Fever (ASF). Earlier on November 11, DOST-10 and the City Government installed a Project SARAI Automated Weather Station in Brgy. Violeta alongside ₱1.0M tilapia feed and ₱1.5M SALT agroforestry support.",
+      "Rapid blood sample tests collected by NMIS and the City Veterinary Office at the Malaybalay slaughterhouse on November 17, 2026 tested negative for African Swine Fever (ASF). Earlier in November, DOST-10 and the City Government installed a Project SARAI Automated Weather Station in Brgy. Violeta alongside CAgO's ₱1.0M tilapia feed distribution, ₱1.5M SALT agroforestry support, public market price monitoring, and 2027 Work & Financial Plan (₱87M allocation).",
     publishedDate: "November 18, 2026",
     category: "Public Advisories",
     verificationStatus: "Verified Public Announcement",
@@ -198,7 +198,7 @@ export const newsletterUpdates: NewsletterUpdateCard[] = [
     id: "news-bac-2026-bidding-and-livestreams",
     title: "BAC LGU Malaybalay 2026 Bidding Opportunities & Livestreamed Proceedings",
     description:
-      "212 source-linked 2026 Invitations to Bid (up to ITB-2026-206) and Q1/Q2 FDP Form 10a civil-works bid results are indexed alongside BAC LGU Malaybalay livestream documentation.",
+      "212 source-linked 2026 Invitations to Bid (up to ITB-2026-208), November 2026 BAC Meeting pre-bid packets, and Q1/Q2 FDP Form 10a civil-works bid results are indexed alongside BAC LGU Malaybalay livestream documentation.",
     publishedDate: "November 18, 2026",
     category: "Procurement & Bidding",
     verificationStatus: "Confirmed Official Record",
