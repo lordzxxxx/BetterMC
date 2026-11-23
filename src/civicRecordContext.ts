@@ -6,6 +6,14 @@ export type CivicRecordContext = {
 };
 
 export const civicRecordContext: Record<string, CivicRecordContext> = {
+  "Ordinance No. 1132, Series of 2026": {
+    summary:
+      "Prohibits nailing, wiring, tying, or installing election campaign paraphernalia and commercial advertisement materials on trees located in public places within Malaybalay City.",
+    publicRelevance:
+      "Enacted by the 10th Sangguniang Panlungsod during its 69th Regular Session on November 10, 2026 and signed by City Mayor Jay Warren R. Pabillaran on November 16, 2026, the measure protects urban and roadside trees from structural damage and designates CENRO as the lead implementing office alongside the Liga ng mga Barangay, City Engineering Office, and Philippine National Police (PNP).",
+    limits:
+      "Summarized from the official legislative enactment report; consult the signed ordinance text at the Sangguniang Panlungsod Secretariat or CENRO for exact penalty schedules and removal procedures.",
+  },
   "Executive Order No. 93, Series of 2026": {
     summary:
       "Establishes an internal patient referral and medical coordination system for residents seeking care at the Malaybalay City Super Health Center in Barangay Aglayan to the Malaybalay City Health Office.",

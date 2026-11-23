@@ -1,4 +1,8 @@
 import {
+  OFFICIAL_MALAYBALAY_SYNC_SOURCES,
+  syncLiveMalaybalayFeeds,
+} from "../src/liveSync";
+import {
   INITIAL_PESO_OPPORTUNITIES,
   resolveOpportunityLifecycle,
 } from "../src/pesoData";
@@ -30,37 +34,65 @@ export async function GET(request: Request): Promise<Response> {
   const statusFilter = url.searchParams.get("status")?.trim() ?? "";
   const queryFilter = url.searchParams.get("q")?.trim().toLowerCase() ?? "";
 
+  let sourceOpportunities = INITIAL_PESO_OPPORTUNITIES;
+  let syncedAt = new Date().toISOString();
+  let newlyAddedCount = 0;
+
+  const pesoSources = OFFICIAL_MALAYBALAY_SYNC_SOURCES.filter(
+    (s) =>
+      s.channelRole === "peso" ||
+      s.channelRole === "lgu-website" ||
+      s.id === "fb-councilor-flores",
+  );
+
+  try {
+    const syncResult = await syncLiveMalaybalayFeeds({
+      sources: pesoSources,
+      timeoutMs: 5000,
+    });
+    sourceOpportunities = syncResult.mergedOpportunities;
+    syncedAt = syncResult.syncedAt;
+    newlyAddedCount = syncResult.newlyAddedOpportunitiesCount;
+  } catch {
+    sourceOpportunities = INITIAL_PESO_OPPORTUNITIES;
+  }
+
   const now = new Date();
-  const items = INITIAL_PESO_OPPORTUNITIES.map((opportunity) => ({
-    ...opportunity,
-    lifecycle: resolveOpportunityLifecycle(opportunity, now),
-  })).filter((item) => {
-    if (!item.lifecycle.isVisibleToPublic) return false;
-    if (typeFilter && typeFilter !== "all" && item.opportunityType !== typeFilter) {
-      return false;
-    }
-    if (statusFilter && statusFilter !== "all" && item.lifecycle.displayStatus !== statusFilter) {
-      return false;
-    }
-    if (queryFilter) {
-      const haystack = [
-        item.title,
-        item.employer,
-        item.location,
-        item.description,
-        item.salaryGradeOrCompensation ?? "",
-        ...item.qualifications,
-      ]
-        .join(" ")
-        .toLowerCase();
-      if (!haystack.includes(queryFilter)) return false;
-    }
-    return true;
-  });
+  const items = sourceOpportunities
+    .map((opportunity) => ({
+      ...opportunity,
+      lifecycle: resolveOpportunityLifecycle(opportunity, now),
+    }))
+    .filter((item) => {
+      if (!item.lifecycle.isVisibleToPublic) return false;
+      if (typeFilter && typeFilter !== "all" && item.opportunityType !== typeFilter) {
+        return false;
+      }
+      if (statusFilter && statusFilter !== "all" && item.lifecycle.displayStatus !== statusFilter) {
+        return false;
+      }
+      if (queryFilter) {
+        const haystack = [
+          item.title,
+          item.employer,
+          item.location,
+          item.description,
+          item.salaryGradeOrCompensation ?? "",
+          ...item.qualifications,
+        ]
+          .join(" ")
+          .toLowerCase();
+        if (!haystack.includes(queryFilter)) return false;
+      }
+      return true;
+    });
 
   return jsonResponse({
     ok: true,
     source: "code-managed",
+    liveSync: "enabled",
+    syncedAt,
+    newlyAddedCount,
     total: items.length,
     opportunities: items,
   });

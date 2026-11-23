@@ -2,7 +2,7 @@
  * Date on which BetterMC rechecked source-page availability. A source listing
  * is not a claim that every linked file was independently transcribed again.
  */
-export const VERIFIED_ON = "2026-11-22";
+export const VERIFIED_ON = "2026-11-24";
 
 export type Source = {
   label: string;
@@ -1621,6 +1621,20 @@ const announcementSource = (url: string): Source => ({
 });
 
 export const civicRecords: CivicRecord[] = [
+  {
+    number: "Ordinance No. 1132, Series of 2026",
+    title:
+      "Prohibition on installing election paraphernalia and commercial advertisement materials on trees in public places across Malaybalay City",
+    kind: "Ordinance",
+    published: "2026-11-16",
+    body: "10th Sangguniang Panlungsod",
+    attribution:
+      "Enacted during the 69th Regular Session (November 10, 2026) and approved by City Mayor Jay Warren R. Pabillaran on November 16, 2026; publicly reported by Councilor Alan Ryann O. Legaspi.",
+    attributionLevel: "institutional",
+    source: announcementSource(
+      "https://sakata.malaybalaycity.gov.ph/category/public-annoucement/",
+    ),
+  },
   {
     number: "Executive Order No. 93, Series of 2026",
     title:

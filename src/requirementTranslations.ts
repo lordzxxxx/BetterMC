@@ -493,6 +493,24 @@ export const REQUIREMENT_BISAYA_MAP: Record<string, string> = {
     "Pamatuod sa suod nga relasyon sa PDL o IBP ID / Legal Counsel Authorization.",
   "Court Referral Order (RTC / MTCC Malaybalay) for Post-Sentence Investigation":
     "Court Referral Order (RTC / MTCC Malaybalay) alang sa Post-Sentence Investigation.",
+  "Valid Government-Issued ID (original and photocopy for attendance verification)":
+    "Balido nga ID gikan sa gobyerno (orihinal ug photocopy alang sa pagsubay sa attendance).",
+  "Personal ballpen for signing the TUPAD work contract and orientation attendance sheet":
+    "Kaugalingong ballpen alang sa pagpirma sa TUPAD work contract ug attendance sheet sa orientation.",
+  "Valid Philippine Passport (or proof of passport application / required documents indicated in the recruitment flyer)":
+    "Balido nga Philippine Passport (o pamatuod sa aplikasyon sa pasaporte ug mga dokumento nga nakabutang sa flyer).",
+  "Updated resume / bio-data, valid government-issued IDs, and 2x2 ID pictures":
+    "Nabag-o nga resume o bio-data, mga balido nga ID gikan sa gobyerno, ug 2x2 ID nga mga litrato.",
+  "PSA Birth Certificate and Marriage Certificate (if applicable)":
+    "PSA Birth Certificate ug Marriage Certificate (kon minyo).",
+  "Multiple copies of updated Resume / Curriculum Vitae":
+    "Daghang kopya sa nabag-o nga Resume o Curriculum Vitae.",
+  "Valid Government-Issued ID, Transcript of Records / Diploma, and NSRP Jobseeker Profile Form":
+    "Balido nga ID gikan sa gobyerno, Transcript of Records o Diploma, ug NSRP Jobseeker Profile Form.",
+  "PESO Skills Training Registration / NSRP Profile Form":
+    "PESO Skills Training Registration o NSRP Profile Form.",
+  "Valid ID and Barangay Certification of Residency":
+    "Balido nga ID ug Barangay Certification of Residency.",
 };
 
 function classifySection(requirement: string): SectionCategory {

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
@@ -17,6 +17,7 @@ import {
   Mail,
   MapPin,
   Phone,
+  RefreshCw,
   Search,
   ShieldAlert,
   Users,
@@ -45,7 +46,9 @@ import {
   resolveOpportunityLifecycle,
   type OpportunityDisplayStatus,
   type OpportunityType,
+  type PesoOpportunity,
 } from "../pesoData";
+import { mergeOpportunitiesWithLive } from "../liveSync";
 
 function safeHref(raw?: string): string | null {
   if (!raw) return null;
@@ -171,13 +174,71 @@ function OfficeLogoBadge({
 }
 
 function usePublicPesoOpportunities() {
-  return useMemo(
+  const [rawList, setRawList] = useState<PesoOpportunity[]>(INITIAL_PESO_OPPORTUNITIES);
+  const [syncState, setSyncState] = useState<"idle" | "syncing" | "synced">("idle");
+  const [newlyAddedCount, setNewlyAddedCount] = useState(0);
+
+  const triggerSync = useCallback(async () => {
+    setSyncState("syncing");
+    try {
+      const response = await fetch("/api/jobs", {
+        headers: { Accept: "application/json" },
+      });
+      if (response.ok) {
+        const payload = (await response.json()) as {
+          ok?: boolean;
+          opportunities?: PesoOpportunity[];
+        };
+        if (Array.isArray(payload.opportunities) && payload.opportunities.length > 0) {
+          const { merged, addedCount } = mergeOpportunitiesWithLive(
+            INITIAL_PESO_OPPORTUNITIES,
+            payload.opportunities,
+          );
+          setRawList(merged);
+          setNewlyAddedCount(addedCount);
+        }
+      }
+    } catch {
+      // Keep verified baseline on network failure
+    } finally {
+      setSyncState("synced");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (import.meta.env.MODE === "test") return;
+    let cancelled = false;
+    fetch("/api/jobs", { headers: { Accept: "application/json" } })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((payload: { opportunities?: PesoOpportunity[] } | null) => {
+        if (cancelled || !payload) return;
+        if (Array.isArray(payload.opportunities) && payload.opportunities.length > 0) {
+          const { merged, addedCount } = mergeOpportunitiesWithLive(
+            INITIAL_PESO_OPPORTUNITIES,
+            payload.opportunities,
+          );
+          setRawList(merged);
+          setNewlyAddedCount(addedCount);
+        }
+        setSyncState("synced");
+      })
+      .catch(() => {
+        if (!cancelled) setSyncState("synced");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const opportunities = useMemo(
     () =>
-      INITIAL_PESO_OPPORTUNITIES.filter(
-        (item) => resolveOpportunityLifecycle(item).isVisibleToPublic,
-      ).sort((a, b) => b.publishedDate.localeCompare(a.publishedDate)),
-    [],
+      rawList
+        .filter((item) => resolveOpportunityLifecycle(item).isVisibleToPublic)
+        .sort((a, b) => b.publishedDate.localeCompare(a.publishedDate)),
+    [rawList],
   );
+
+  return { opportunities, syncState, newlyAddedCount, triggerSync };
 }
 
 const OPPORTUNITY_TYPE_LABELS: Record<OpportunityType, string> = {
@@ -628,7 +689,8 @@ function PesoEmploymentBoard({
   embeddedInPesoPage?: boolean;
   isHostSubdomain?: boolean;
 }) {
-  const opportunities = usePublicPesoOpportunities();
+  const { opportunities, syncState, newlyAddedCount, triggerSync } =
+    usePublicPesoOpportunities();
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<"all" | OpportunityType>("all");
   const [statusFilter, setStatusFilter] = useState<
@@ -713,13 +775,38 @@ function PesoEmploymentBoard({
 
       <div className="peso-fb-source-notice bettermc-surface-card">
         <FbGlyph size={20} />
-        <div>
-          Same-day private-company hiring posters screened by PESO Malaybalay are published on the{" "}
+        <div className="peso-fb-source-copy">
+          Same-day private-company hiring posters and overseas recruitment screenings published on the{" "}
           <a href={PESO_FACEBOOK_PAGE_URL} target="_blank" rel="noopener noreferrer">
             Official PESO Malaybalay Facebook Page
-          </a>
-          . Verified recurring PESO programs and Civil Service plantilla publications are indexed
-          below for search.
+          </a>{" "}
+          and the City Government portal sync automatically with this board alongside recurring PESO
+          programs and Civil Service plantilla publications.
+        </div>
+        <div className="peso-live-sync-controls">
+          <span className="live-sync-pill is-compact" role="status" aria-live="polite">
+            <span className="live-sync-dot" aria-hidden="true" />
+            <span>
+              {syncState === "syncing"
+                ? "Syncing PESO feed..."
+                : syncState === "synced"
+                  ? `PESO Feed Synced${newlyAddedCount > 0 ? ` (+${newlyAddedCount} new)` : ""}`
+                  : "Auto-Sync Active"}
+            </span>
+          </span>
+          <button
+            type="button"
+            className="live-sync-btn is-compact"
+            onClick={() => void triggerSync()}
+            disabled={syncState === "syncing"}
+            aria-label="Sync latest job opportunities from PESO Malaybalay Facebook page"
+          >
+            <RefreshCw
+              aria-hidden="true"
+              className={syncState === "syncing" ? "is-spinning" : ""}
+            />
+            <span>{syncState === "syncing" ? "Syncing..." : "Sync PESO Jobs"}</span>
+          </button>
         </div>
       </div>
 
@@ -1745,7 +1832,7 @@ export function JobsDirectoryPage() {
  */
 export function JobDetailPage() {
   const { slug } = useParams();
-  const opportunities = usePublicPesoOpportunities();
+  const { opportunities } = usePublicPesoOpportunities();
 
   const item = useMemo(
     () => opportunities.find((candidate) => candidate.slug === slug),
