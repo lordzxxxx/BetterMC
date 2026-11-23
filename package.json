@@ -16,6 +16,7 @@
     "test:e2e": "playwright test",
     "preview": "vite preview",
     "verify:sources": "node scripts/verify-sources.mjs",
+    "sync:updates": "node scripts/sync-live-updates.mjs",
     "vercel-build": "npm run build",
     "check": "npm run lint && npm test && npm run build"
   },

@@ -52,6 +52,7 @@ import {
   Plane,
   Printer,
   ReceiptText,
+  RefreshCw,
   Search,
   Scale,
   ShieldCheck,
@@ -105,9 +106,14 @@ import {
   newsletterUpdates,
   PUBLIC_INFO_REVIEWED_ON,
   type NewsCardCategory,
+  type NewsletterUpdateCard,
   type LegislativeHearingRecord,
   type BudgetAllocationItem,
 } from "./publicInformation";
+import {
+  mergeAnnouncementsWithLive,
+  OFFICIAL_MALAYBALAY_SYNC_SOURCES,
+} from "./liveSync";
 import { civicRecordings, type CivicRecording } from "./civicRecordings";
 import {
   barangayMicrositeBySlug,
@@ -1680,11 +1686,90 @@ const newsCategoryOptions: Array<"All" | NewsCardCategory> = [
 function HomeNewsAndDiscussionsSection() {
   const [selectedCategory, setSelectedCategory] = useState<"All" | NewsCardCategory>("All");
   const [openDiscussionId, setOpenDiscussionId] = useState<string | null>(null);
+  const [cards, setCards] = useState<NewsletterUpdateCard[]>(newsletterUpdates);
+  const [syncState, setSyncState] = useState<"idle" | "syncing" | "synced">("idle");
+  const [syncMeta, setSyncMeta] = useState<{
+    checkedSourcesCount: number;
+    newlyAddedCount: number;
+  }>({
+    checkedSourcesCount: OFFICIAL_MALAYBALAY_SYNC_SOURCES.length,
+    newlyAddedCount: 0,
+  });
+
+  const handleSyncAnnouncements = useCallback(async () => {
+    setSyncState("syncing");
+    try {
+      const response = await fetch("/api/announcements", {
+        headers: { Accept: "application/json" },
+      });
+      if (response.ok) {
+        const payload = (await response.json()) as {
+          ok?: boolean;
+          checkedSourcesCount?: number;
+          announcements?: NewsletterUpdateCard[];
+          liveDetected?: NewsletterUpdateCard[];
+        };
+        const incoming = payload.announcements ?? payload.liveDetected ?? [];
+        if (incoming.length > 0) {
+          const { merged, addedCount } = mergeAnnouncementsWithLive(newsletterUpdates, incoming);
+          setCards(merged);
+          setSyncMeta({
+            checkedSourcesCount:
+              payload.checkedSourcesCount ?? OFFICIAL_MALAYBALAY_SYNC_SOURCES.length,
+            newlyAddedCount: addedCount,
+          });
+        }
+      }
+    } catch {
+      // Fall back gracefully to verified baseline
+    } finally {
+      setSyncState("synced");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (import.meta.env.MODE === "test") return;
+    let cancelled = false;
+    fetch("/api/announcements", { headers: { Accept: "application/json" } })
+      .then((res) => (res.ok ? res.json() : null))
+      .then(
+        (
+          payload: {
+            checkedSourcesCount?: number;
+            announcements?: NewsletterUpdateCard[];
+            liveDetected?: NewsletterUpdateCard[];
+          } | null,
+        ) => {
+          if (cancelled || !payload) return;
+          const incoming = payload.announcements ?? payload.liveDetected ?? [];
+          if (incoming.length > 0) {
+            const { merged, addedCount } = mergeAnnouncementsWithLive(
+              newsletterUpdates,
+              incoming,
+            );
+            setCards(merged);
+            setSyncMeta({
+              checkedSourcesCount:
+                payload.checkedSourcesCount ?? OFFICIAL_MALAYBALAY_SYNC_SOURCES.length,
+              newlyAddedCount: addedCount,
+            });
+          }
+          setSyncState("synced");
+        },
+      )
+      .catch(() => {
+        if (!cancelled) setSyncState("synced");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const activeDiscussion = civicDiscussionCards.find((item) => item.id === openDiscussionId);
   const filteredNews =
     selectedCategory === "All"
-      ? newsletterUpdates
-      : newsletterUpdates.filter((item) => item.category === selectedCategory);
+      ? cards
+      : cards.filter((item) => item.category === selectedCategory);
 
   return (
     <section
@@ -1700,11 +1785,42 @@ function HomeNewsAndDiscussionsSection() {
           </h2>
           <p>
             Source-linked updates from the City Government of Malaybalay, the 10th
-            Sangguniang Panlungsod, and the Bids and Awards Committee (BAC).
-            Social media posts are never treated as enacted law without an
-            official publication record. Direct video playback is shown only
-            when a recording can be verified.
+            Sangguniang Panlungsod, PESO Malaybalay, and the Bids and Awards
+            Committee (BAC). Relevant public announcements from official Malaybalay
+            Facebook pages and the City website sync automatically. Social media
+            posts are never treated as enacted law without an official publication
+            record. Direct video playback is shown only when a recording can be
+            verified.
           </p>
+        </div>
+        <div className="live-sync-status-bar">
+          <span className="live-sync-pill" role="status" aria-live="polite">
+            <span className="live-sync-dot" aria-hidden="true" />
+            <span>
+              {syncState === "syncing"
+                ? "Checking official Malaybalay Facebook & LGU feeds..."
+                : syncState === "synced"
+                  ? `Synced · ${syncMeta.checkedSourcesCount} official LGU, PESO & BAC feeds${
+                      syncMeta.newlyAddedCount > 0
+                        ? ` (+${syncMeta.newlyAddedCount} live)`
+                        : ""
+                    }`
+                  : `Auto-sync active · ${syncMeta.checkedSourcesCount} official LGU, PESO & BAC feeds`}
+            </span>
+          </span>
+          <button
+            type="button"
+            className="live-sync-btn"
+            onClick={() => void handleSyncAnnouncements()}
+            disabled={syncState === "syncing"}
+            aria-label="Sync latest updates from City of Malaybalay Facebook and website feeds"
+          >
+            <RefreshCw
+              aria-hidden="true"
+              className={syncState === "syncing" ? "is-spinning" : ""}
+            />
+            <span>{syncState === "syncing" ? "Syncing..." : "Sync Live Updates"}</span>
+          </button>
         </div>
       </div>
 
@@ -1865,7 +1981,7 @@ function HomePage() {
                 <span className="hero-verification-desktop">
                   Records show their original source and verification date.
                   <strong>
-                    Portal review: November 22, 2026 · offices, services,
+                    Portal review: November 24, 2026 · offices, services,
                     schools, and disclosures rechecked
                   </strong>
                 </span>

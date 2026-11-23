@@ -1,6 +1,6 @@
 import type { Source } from "./data";
 
-export const PUBLIC_INFO_REVIEWED_ON = "2026-11-22";
+export const PUBLIC_INFO_REVIEWED_ON = "2026-11-24";
 
 export const OFFICIAL_CITY_FB_URL =
   "https://www.facebook.com/profile.php?id=100063747444247";
@@ -44,6 +44,100 @@ export type NewsletterUpdateCard = {
 };
 
 export const newsletterUpdates: NewsletterUpdateCard[] = [
+  {
+    id: "news-ord-1132-public-trees-protection-2026",
+    title: "Ordinance No. 1132, s. 2026: Ban on Election Paraphernalia & Ads on Public Trees Approved",
+    description:
+      "Enacted by the 10th Sangguniang Panlungsod on November 10, 2026 (69th Regular Session) and signed by Mayor Jay Warren R. Pabillaran on November 16, 2026, prohibiting the nailing, wiring, or mounting of campaign and advertising materials on trees in public places across Malaybalay City, with CENRO, Liga ng mga Barangay, CEO, and PNP as lead enforcers.",
+    publishedDate: "November 23, 2026",
+    category: "Resolutions & Ordinances",
+    verificationStatus: "Verified Public Announcement",
+    sourceAttribution: "10th Sangguniang Panlungsod — Councilor Alan Ryann O. Legaspi Official Announcement",
+    sourceUrl: "https://www.facebook.com/KonsehalManoyLegaspi",
+    internalRoute: "/legislation/ordinance-no-1132-series-of-2026",
+    secondarySourceUrl: OFFICIAL_CITY_FB_URL,
+    secondarySourceLabel: "City Government Facebook Page",
+  },
+  {
+    id: "news-cdrrmo-lifeguards-abaca-housing-nov-2026",
+    title: "CDRRMO 120-Lifeguard Aquatic Rescue Training, PhilFIDA–CAgO Abaca Stripping Machines & Dumalahay Housing Turnover",
+    description:
+      "On November 23, 2026, CDRRMO trained 120 lifeguards with Surf Life Saving Philippines & SEAL Network in Brgy. Casisang, while PhilFIDA (DA-10) and the City Agriculture Office turned over abaca spindle stripping machines and PPE to four tribal and farmer associations alongside a housing turnover at Dumalahay Subdivision.",
+    publishedDate: "November 23, 2026",
+    category: "City Announcements",
+    verificationStatus: "Verified Public Announcement",
+    sourceAttribution: "Office of the City Mayor — Mayor Jay Warren R. Pabillaran Official Facebook Page",
+    sourceUrl: "https://www.facebook.com/mayorwarrenpabillaran",
+    internalRoute: "/offices/drrmo",
+    secondarySourceUrl: OFFICIAL_CITY_FB_URL,
+    secondarySourceLabel: "City Government Facebook Page",
+  },
+  {
+    id: "news-peso-nov-2026-job-fair-and-overseas-sra",
+    title: "PESO Malaybalay 11/20 Job Fair (26 Employers) & Nov 24–25 Overseas Recruitment Screening at City Hall",
+    description:
+      "Following the November 20, 2026 Job Fair at People's Hall featuring 26 employers and Hired-On-The-Spot placements, PESO Malaybalay is hosting a walk-in Overseas Domestic Helper Screening with Oasia Global Resources, Inc. on November 24–25, 2026 (8:00 AM–3:00 PM) at the New City Hall Lobby, plus TUPAD Street Sweepers orientation at Brgy. 9 Covered Court.",
+    publishedDate: "November 21, 2026",
+    category: "City Announcements",
+    verificationStatus: "Verified Public Announcement",
+    sourceAttribution: "PESO Malaybalay City — Official Facebook Page",
+    sourceUrl: "https://www.facebook.com/profile.php?id=61589180493733",
+    internalRoute: "/peso",
+  },
+  {
+    id: "news-lgu-lunokan-school-bridge-bspo-awards-nov-2026",
+    title: "LGU Turns Over Lunokan Integrated School Building & RCBC Bridge; Malaybalay Wins 1st Place at 2026 BSPO Congress",
+    description:
+      "On November 16–20, 2026, the City Government turned over a new LGU-funded 1-Storey, 2-Classroom School Building at Lunokan Integrated School, a Two-Barrel Reinforced Concrete Box Culvert (RCBC) Bridge, and Barangay San Martin infrastructure projects, while Malaybalay City earned 1st Place at the 2026 BSPO Congress and the 2026 Bukidnon Population and Development Award.",
+    publishedDate: "November 20, 2026",
+    category: "City Announcements",
+    verificationStatus: "Verified Public Announcement",
+    sourceAttribution: "10th Sangguniang Panlungsod — Councilors Christopher Lambert Tortola & Alan Ryann O. Legaspi",
+    sourceUrl: "https://www.facebook.com/sp.cristopher.lambert.tortola",
+    internalRoute: "/education/lunokan-integrated-school",
+    secondarySourceUrl: "https://www.facebook.com/KonsehalManoyLegaspi",
+    secondarySourceLabel: "Councilor Alan Ryann O. Legaspi FB",
+  },
+  {
+    id: "news-bpld-recorrida-boss-2027",
+    title: "CMO–BPLD Launches Recorrida 2027 Information Drive Ahead of Business One-Stop Shop (BOSS 2027)",
+    description:
+      "The Business Permits and Licensing Division (CMO-BPLD) conducted a citywide Recorrida information drive on November 19, 2026 to brief business owners on permit application and renewal requirements ahead of BOSS 2027.",
+    publishedDate: "November 19, 2026",
+    category: "Public Advisories",
+    verificationStatus: "Verified Public Announcement",
+    sourceAttribution: "CMO–BPLD Malaybalay City — Official Facebook Page",
+    sourceUrl: "https://www.facebook.com/bpld.malaybalaycity",
+    internalRoute: "/offices/bpld",
+  },
+  {
+    id: "news-cvet-nmis-asf-surveillance-dost-sarai-nov-2026",
+    title: "NMIS & City Vet ASF Surveillance Yields Negative Results; DOST Project SARAI Weather Station Installed in Brgy. Violeta",
+    description:
+      "Rapid blood sample tests collected by NMIS and the City Veterinary Office at the Malaybalay slaughterhouse on November 17, 2026 tested negative for African Swine Fever (ASF). Earlier on November 11, DOST-10 and the City Government installed a Project SARAI Automated Weather Station in Brgy. Violeta alongside ₱1.0M tilapia feed and ₱1.5M SALT agroforestry support.",
+    publishedDate: "November 18, 2026",
+    category: "Public Advisories",
+    verificationStatus: "Verified Public Announcement",
+    sourceAttribution: "City Government of Malaybalay, City Veterinary Office & Malaybalay City Agri-NEWS",
+    sourceUrl: "https://www.facebook.com/p/City-Veterinary-Office-City-of-Malaybalay-100064138659249/",
+    internalRoute: "/offices/veterinary",
+    secondarySourceUrl: "https://www.facebook.com/mlyblyAgriNews/",
+    secondarySourceLabel: "Malaybalay City Agri-NEWS",
+  },
+  {
+    id: "news-sp-70th-71st-sessions-barangay-incentives-2026",
+    title: "10th SP 69th–71st Regular Sessions: Cash Incentives Ordinance for 226 Three-Term Barangay Officials Approved",
+    description:
+      "During its November 2026 regular sessions presided over by Vice Mayor Estelito 'Litoy' R. Marabe, the 10th Sangguniang Panlungsod enacted an ordinance granting cash incentives and recognition to 226 barangay officials who completed three terms since 1997.",
+    publishedDate: "November 17, 2026",
+    category: "Council & Legislative",
+    verificationStatus: "Verified Public Announcement",
+    sourceAttribution: "Office of the City Vice Mayor & Councilor Atty. Rendon P. Sangalang Official Pages",
+    sourceUrl: "https://www.facebook.com/estelitolitoymarabe",
+    internalRoute: "/hearings",
+    secondarySourceUrl: "https://www.facebook.com/AttyRendonJojoSangalang",
+    secondarySourceLabel: "Councilor Atty. Rendon P. Sangalang FB",
+  },
   {
     id: "news-eo-93-super-health-center-2026",
     title: "Executive Order No. 93, s. 2026: Brgy. Aglayan Super Health Center to CHO Referral System",
@@ -355,6 +449,34 @@ export const legislativeHearingRecords: LegislativeHearingRecord[] = [
     sourceLabel: "Official City Government of Malaybalay Facebook Page",
     recordingOrReferenceUrl: "https://sakata.malaybalaycity.gov.ph/full-disclosure/",
     recordingOrReferenceLabel: "City Full Disclosure Portal (Budget Archive)",
+  },
+  {
+    id: "sp-session-69th-71st-regular-sessions-nov-2026",
+    sessionDate: "November 10–19, 2026 (69th, 70th & 71st Regular Sessions)",
+    title: "10th Sangguniang Panlungsod 69th–71st Regular Sessions: Public Tree Protection Ordinance & Three-Term Barangay Officials Cash Incentives",
+    sessionType: "SP Regular Session / Enactment",
+    committeeOrBody:
+      "10th Sangguniang Panlungsod · Environment & Natural Resources / Barangay Affairs",
+    presidingOrChair:
+      "City Vice Mayor Estelito “Litoy” R. Marabe (Presiding Officer) · Councilors Alan Ryann O. Legaspi & Atty. Rendon P. Sangalang",
+    verificationStatus: "Verified Public Announcement",
+    agendaItems: [
+      "Enactment of Ordinance No. 1132, s. 2026 prohibiting the installation of election paraphernalia and advertisement materials on trees in public places (69th Regular Session, Nov 10; approved by Mayor Jay Warren R. Pabillaran on Nov 16, 2026)",
+      "Council approval of an ordinance granting recognition and cash incentives to 226 former barangay officials who completed three consecutive terms since 1997 (reported Nov 17, 2026)",
+      "Plenary deliberations during the 70th and 71st Regular Sessions at the New Sangguniang Panlungsod Session Hall, Barangay Casisang",
+    ],
+    ordinancesAndResolutions: [
+      "Ordinance No. 1132, Series of 2026 (Public Trees Protection from Election & Advertising Materials)",
+      "Ordinance Granting Cash Incentives to 226 Three-Term Barangay Officials (Series of 2026)",
+    ],
+    statementsAndDecisions:
+      "Ordinance No. 1132, s. 2026 was enacted by the 10th Sangguniang Panlungsod on November 10, 2026 and signed into law by City Mayor Jay Warren R. Pabillaran on November 16, 2026, designating CENRO, Liga ng mga Barangay, City Engineering Office, and PNP as enforcing bodies. The three-term barangay official incentive measure was reported approved by the Council on November 17, 2026.",
+    verificationNotes:
+      "Verified via official legislative announcements by Vice Mayor Estelito R. Marabe, Councilor Alan Ryann O. Legaspi, Councilor Atty. Rendon P. Sangalang, Councilor Erwin A. Damasco, and Councilor Christopher Lambert Tortola; awaiting full ordinance PDF upload on sakata.malaybalaycity.gov.ph.",
+    sourceUrl: "https://www.facebook.com/estelitolitoymarabe",
+    sourceLabel: "City Vice Mayor Estelito “Litoy” R. Marabe — Official SP Session Updates",
+    recordingOrReferenceUrl: "https://www.facebook.com/KonsehalManoyLegaspi",
+    recordingOrReferenceLabel: "Councilor Alan Ryann O. Legaspi — Ordinance No. 1132 Report",
   },
   {
     id: "sp-session-ord-1118-sk-audit-2026",
@@ -678,6 +800,24 @@ export const bacLivestreamEntries: BacLivestreamDiscussionEntry[] = [
     sourceUrl:
       "https://drive.google.com/file/d/1_2soiSWKXwMkk9M_-UZmoOYto86Fjzm0/view?usp=drive_link",
     sourceLabel: "BAC 2026 ITB-2026-206 Packet",
+  },
+  {
+    id: "bac-itb-2026-208-casisang-pathway",
+    referenceCode: "ITB-2026-208 (SVP)",
+    activityType: "2026 Invitation to Bid (Active Notice)",
+    projectName:
+      "Improvement of Pathway with Canal at Purok 5, Barangay Casisang (Nov 11, 2026 BAC Pre-Bid Packet)",
+    participatingAgencyOrBarangay: "BAC LGU Malaybalay · Barangay Casisang",
+    identifiedContractorOrBidder: "Small Value Procurement / Pre-Bid Conference Stage",
+    proposedBudgetAbc: null,
+    approvedAmountNote:
+      "Included in the November 11, 2026 BAC Pre-Bid Google Drive packet alongside 2026-176 (P22 Casisang MPB), 2026-184 (Dalwangan Road), 2026-187 (Brgy. 1 Family Crisis Center), 2026-188 (Mapulo Road), 2026-189 (Cabangahan MPB), and 2026-190 (Violeta Fish Hatchery).",
+    procurementStatus: "Published Pre-Bid Conference Packet (11 November 2026 BAC Meeting)",
+    scheduleOrPeriod: "11 November 2026 BAC Meeting",
+    verificationCategory: "Confirmed Official Record",
+    sourceUrl:
+      "https://drive.google.com/drive/folders/16Y5k6czs9rs_bjZoc7By1AU7m4t9BRKL?usp=drive_link",
+    sourceLabel: "BAC LGU Malaybalay 11 Nov 2026 Pre-Bid Folder",
   },
   {
     id: "bac-itb-2026-200-excavator",

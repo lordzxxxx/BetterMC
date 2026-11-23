@@ -470,7 +470,7 @@ export function slugifyOpportunityTitle(input: string): string {
     .slice(0, 72);
 }
 
-const SEED_TIMESTAMP = "2026-11-20T00:00:00Z";
+const SEED_TIMESTAMP = "2026-11-24T00:00:00Z";
 
 function seedProgram(
   data: Omit<PesoOpportunity, "createdAt" | "updatedAt" | "createdBy" | "seedLocked">,
@@ -551,6 +551,157 @@ function csc2024Vacancy(params: {
  * Never invent unverified employers, salaries, deadlines, or application links.
  */
 export const INITIAL_PESO_OPPORTUNITIES: PesoOpportunity[] = [
+  seedProgram({
+    id: "seed-peso-tupad-street-sweepers-nov-2026",
+    slug: "dole-lgu-tupad-street-sweepers-orientation-nov-2026",
+    title: "TUPAD Street Sweepers Program — Qualified Beneficiaries Orientation (Nov 2026 Batch)",
+    opportunityType: "livelihood-program",
+    employer: "DOLE Region 10 & City Government of Malaybalay (TUPAD Street Sweepers Program)",
+    location: "Barangay 9 Covered Court, Malaybalay City",
+    employmentType: "Part-Time / Seasonal",
+    salaryGradeOrCompensation: "DOLE-10 TUPAD emergency work wage stipend",
+    cardSummary:
+      "Official beneficiary list released Nov 23, 2026; mandatory TUPAD Street Sweepers orientation on Nov 24, 2026 (1:00 PM) at Barangay 9 Covered Court.",
+    description:
+      "Official release of qualified beneficiaries for the DOLE–LGU TUPAD Street Sweepers Program in Malaybalay City. Listed beneficiaries are required to attend the mandatory deployment orientation on November 24, 2026 at 1:00 PM at the Barangay 9 Covered Court prior to community street-sweeping deployment.",
+    qualifications: [
+      "Validated beneficiaries whose names appear on the official November 23, 2026 TUPAD Street Sweepers masterlist",
+      "Disadvantaged, underemployed, or informal-sector residents profiled under DOLE Region 10 TUPAD guidelines",
+    ],
+    requirements: [
+      "Valid Government-Issued ID (original and photocopy for attendance verification)",
+      "Personal ballpen for signing the TUPAD work contract and orientation attendance sheet",
+    ],
+    applicationProcess: [
+      "Verify your name on the published TUPAD Street Sweepers beneficiary list.",
+      "Attend the mandatory orientation on November 24, 2026 at 1:00 PM at the Barangay 9 Covered Court, Malaybalay City.",
+      "For future TUPAD batches, coordinate with your Barangay Hall or PESO Malaybalay Desk at New City Hall.",
+    ],
+    contactDetails: [
+      "PESO Malaybalay Desk: 0907-688-5735 / 0915-542-3434",
+      "Office of City Councilor Brian Nelson T. Flores: 0955-120-1116",
+      "Email: pesomalaybalaycity@gmail.com",
+    ],
+    publishedDate: "2026-11-23",
+    deadlineDate: "2026-11-24",
+    isRecurringProgram: false,
+    publicationStatus: "published",
+    sourceLabel: "Official TUPAD Street Sweepers Public Advisory (Nov 23, 2026)",
+    sourceUrl: "https://www.facebook.com/profile.php?id=100076097234513",
+    applicationUrl: PESO_FACEBOOK_PAGE_URL,
+  }),
+  seedProgram({
+    id: "seed-peso-oasia-overseas-domestic-helper-nov-2026",
+    slug: "peso-oasia-global-overseas-domestic-helper-nov-2026",
+    title: "Overseas Screening: Domestic Helper Positions (Oasia Global Resources, Inc.)",
+    opportunityType: "recruitment-event",
+    employer: "Oasia Global Resources, Inc. (Cagayan de Oro Branch) — Facilitated by PESO Malaybalay",
+    location: "Malaybalay New City Hall Lobby, Barangay Casisang, Malaybalay City",
+    employmentType: "Full-Time",
+    salaryGradeOrCompensation: "Overseas DMW-approved contract package (9 destination countries)",
+    cardSummary:
+      "Nov 24–25, 2026 (8:00 AM–3:00 PM) walk-in overseas screening at Malaybalay New City Hall Lobby for Hong Kong, Malaysia, UAE, Qatar, KSA, Kuwait, Bahrain, Turkey & Kyrgyzstan.",
+    description:
+      "Special overseas recruitment screening facilitated by PESO Malaybalay City with OASIA GLOBAL RESOURCES, INC. – Cagayan de Oro Branch for Domestic Helper deployment across nine destination countries: Hong Kong, Malaysia, Turkey, Kyrgyzstan, Bahrain, Kuwait, UAE (Dubai / Abu Dhabi), Qatar, and Saudi Arabia. Screening interviews take place on November 24–25, 2026 from 8:00 AM to 3:00 PM at the Malaybalay New City Hall Lobby, Barangay Casisang.",
+    qualifications: [
+      "Interested overseas jobseekers meeting DMW age and medical fitness standards for Domestic Helper deployment",
+      "Available for deployment to Hong Kong, Malaysia, Turkey, Kyrgyzstan, Bahrain, Kuwait, UAE (Dubai/Abu Dhabi), Qatar, or Saudi Arabia",
+    ],
+    requirements: [
+      "Valid Philippine Passport (or proof of passport application / required documents indicated in the recruitment flyer)",
+      "Updated resume / bio-data, valid government-issued IDs, and 2x2 ID pictures",
+      "PSA Birth Certificate and Marriage Certificate (if applicable)",
+    ],
+    applicationProcess: [
+      "Proceed in person to the Malaybalay New City Hall Lobby, Barangay Casisang on November 24–25, 2026 between 8:00 AM and 3:00 PM.",
+      "Present your passport and required documentary credentials at the PESO / Oasia Global Resources screening desk.",
+      "Always verify agency DMW accreditation at the PESO Desk and beware of unauthorized fixers or illegal recruiters.",
+    ],
+    contactDetails: [
+      "Oasia Global Recruitment Inquiry Line: 0906-777-6694",
+      "PESO Malaybalay Desk: 0907-688-5735 / 0915-542-3434",
+      "Email: pesomalaybalaycity@gmail.com",
+    ],
+    publishedDate: "2026-11-21",
+    deadlineDate: "2026-11-25",
+    isRecurringProgram: false,
+    publicationStatus: "published",
+    sourceLabel: "Official PESO Malaybalay City Facebook Announcement (Nov 21, 2026)",
+    sourceUrl: PESO_FACEBOOK_PAGE_URL,
+    applicationUrl: PESO_FACEBOOK_PAGE_URL,
+  }),
+  seedProgram({
+    id: "seed-peso-nov-20-2026-job-fair-employers",
+    slug: "peso-malaybalay-november-20-2026-job-fair-roster",
+    title: "Malaybalay City 11/20 Job Fair 2026 — 26 Participating Companies & Ongoing Referrals",
+    opportunityType: "job-fair",
+    employer: "PESO Malaybalay City & 26 Accredited Local / Manpower Employers",
+    location: "People's Hall, New City Hall, Barangay Casisang, Malaybalay City",
+    employmentType: "Full-Time",
+    salaryGradeOrCompensation:
+      "Direct employer compensation (Local retail, logistics, BPO, hospitality, finance & manpower)",
+    cardSummary:
+      "26 companies joined the Nov 20, 2026 Job Fair at People's Hall with Hired-On-The-Spot placements; ongoing NSRP referral matching continues at PESO.",
+    description:
+      "Held on Friday, November 20, 2026 (8:00 AM–5:00 PM) at People's Hall, New City Hall, Barangay Casisang, bringing together 26 participating employers with multiple jobseekers Hired On The Spot (HOTS): Petrofuel Logistics, Inc., Toyota Valencia, Alorica, Cailum Holdings, Negros Women for Tomorrow Foundation (NWTF), Centro Supersales, Dahilayan Forest Park, Davao Manpower Inc., Ktarco Inc., M. Montesclaros, Rural Transit of Mindanao Inc., Velox Energy Philippines Corp., Ace Promotion and Marketing Corp., FAST Distribution Corp., Kianen Group of Companies, AIA Philippines, Green Valley Supersales, Dunkin' Bukidnon, CF Freight Corp., Army Recruitment Office, Roy Plaza, Granduke Financing Company, Inc., Roy's Bistro, Maanyag International Manpower Corp., SMC Manpower Agency Philippines Co., and Villa Tuna. Jobseekers can still register via NSRP at the PESO Desk for continuing referrals to unfilled vacancies.",
+    qualifications: [
+      "Fresh graduates, first-time jobseekers, skilled technicians, drivers, sales/retail staff, hospitality workers, BPO applicants, and professionals",
+    ],
+    requirements: [
+      "Multiple copies of updated Resume / Curriculum Vitae",
+      "Valid Government-Issued ID, Transcript of Records / Diploma, and NSRP Jobseeker Profile Form",
+    ],
+    applicationProcess: [
+      "The main People's Hall Job Fair concluded on November 20, 2026 with Hired-On-The-Spot placements.",
+      "For remaining unfilled vacancies among the 26 participating companies, submit your resume to pesomalaybalaycity@gmail.com or visit the PESO Desk (2nd Floor, New City Hall) for NSRP referral matching.",
+    ],
+    contactDetails: [
+      "PESO Malaybalay Desk: 0907-688-5735 / 0915-542-3434",
+      "Email: pesomalaybalaycity@gmail.com",
+    ],
+    publishedDate: "2026-11-19",
+    deadlineDate: "2026-11-20",
+    isRecurringProgram: false,
+    publicationStatus: "published",
+    sourceLabel: "Official PESO Malaybalay City 11/20 Job Fair 2026 Notices (Nov 19–20, 2026)",
+    sourceUrl: PESO_FACEBOOK_PAGE_URL,
+    applicationUrl: PESO_FACEBOOK_PAGE_URL,
+  }),
+  seedProgram({
+    id: "seed-peso-fashion-designing-skills-training-2026",
+    slug: "peso-livelihood-skills-training-fashion-designing",
+    title: "PESO Community Livelihood Skills Training (Fashion Designing & Garment Craft)",
+    opportunityType: "skills-training",
+    employer: "City Government of Malaybalay — Public Employment Service Office (PESO)",
+    location: "People's Hall / PESO Training Venue, New City Hall, Barangay Casisang, Malaybalay City",
+    employmentType: "Program Benefit",
+    salaryGradeOrCompensation: "Free LGU Livelihood & Self-Employment Skills Training",
+    cardSummary:
+      "Hands-on PESO livelihood training covering design sketching, fabric selection, pattern-making, and garment sewing (latest cohort completed Nov 13, 2026).",
+    description:
+      "Community skills training initiative by the City Government of Malaybalay through PESO to equip residents with practical self-employment and enterprise skills. During the November 13, 2026 Fashion Designing Skills Training at People's Hall, New City Hall, participants trained in sketching designs, fabric selection, pattern drafting, and garment sewing. Residents interested in upcoming PESO livelihood skills training batches may register at the PESO Desk.",
+    qualifications: [
+      "Malaybalay City residents, out-of-school youth, women, and informal workers seeking self-employment or livelihood skills",
+    ],
+    requirements: [
+      "PESO Skills Training Registration / NSRP Profile Form",
+      "Valid ID and Barangay Certification of Residency",
+    ],
+    applicationProcess: [
+      "Inquire at the PESO Desk (2nd Floor, New City Hall) or monitor the PESO Malaybalay City Facebook Page for the next skills training batch schedule.",
+      "Submit registration requirements for slot confirmation and attend the hands-on workshop at People's Hall.",
+    ],
+    contactDetails: [
+      "PESO Malaybalay Desk: 0907-688-5735 / 0915-542-3434",
+      "Email: pesomalaybalaycity@gmail.com",
+    ],
+    publishedDate: "2026-11-18",
+    isRecurringProgram: true,
+    publicationStatus: "published",
+    sourceLabel: "Official PESO Malaybalay City Skills Training Report (Nov 18, 2026)",
+    sourceUrl: PESO_FACEBOOK_PAGE_URL,
+    applicationUrl: PESO_FACEBOOK_PAGE_URL,
+  }),
   seedProgram({
     id: "seed-peso-nsrp-job-matching",
     slug: "peso-nsrp-jobseeker-registration-matching",
