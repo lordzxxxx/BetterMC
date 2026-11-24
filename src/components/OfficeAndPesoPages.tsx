@@ -689,7 +689,7 @@ function PesoEmploymentBoard({
   embeddedInPesoPage?: boolean;
   isHostSubdomain?: boolean;
 }) {
-  const { opportunities, syncState, newlyAddedCount, triggerSync } =
+  const { opportunities, syncState, triggerSync } =
     usePublicPesoOpportunities();
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<"all" | OpportunityType>("all");
@@ -774,26 +774,20 @@ function PesoEmploymentBoard({
       </div>
 
       <div className="peso-fb-source-notice bettermc-surface-card">
-        <FbGlyph size={20} />
         <div className="peso-fb-source-copy">
-          Same-day private-company hiring posters and overseas recruitment screenings published on the{" "}
-          <a href={PESO_FACEBOOK_PAGE_URL} target="_blank" rel="noopener noreferrer">
-            Official PESO Malaybalay Facebook Page
-          </a>{" "}
-          and the City Government portal sync automatically with this board alongside recurring PESO
-          programs and Civil Service plantilla publications.
+          <span className="peso-fb-source-icon" aria-hidden="true">
+            <FbGlyph size={18} />
+          </span>
+          <span>
+            Same-day private-company hiring posters and overseas recruitment screenings published on the{" "}
+            <a href={PESO_FACEBOOK_PAGE_URL} target="_blank" rel="noopener noreferrer">
+              Official PESO Malaybalay Facebook Page
+            </a>{" "}
+            and the City Government portal sync automatically with this board alongside recurring PESO
+            programs and Civil Service plantilla publications.
+          </span>
         </div>
         <div className="peso-live-sync-controls">
-          <span className="live-sync-pill is-compact" role="status" aria-live="polite">
-            <span className="live-sync-dot" aria-hidden="true" />
-            <span>
-              {syncState === "syncing"
-                ? "Syncing PESO feed..."
-                : syncState === "synced"
-                  ? `PESO Feed Synced${newlyAddedCount > 0 ? ` (+${newlyAddedCount} new)` : ""}`
-                  : "Auto-Sync Active"}
-            </span>
-          </span>
           <button
             type="button"
             className="live-sync-btn is-compact"

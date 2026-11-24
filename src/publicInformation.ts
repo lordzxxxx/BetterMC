@@ -111,6 +111,20 @@ export const newsletterUpdates: NewsletterUpdateCard[] = [
     internalRoute: "/offices/bpld",
   },
   {
+    id: "news-bac-2026-bidding-and-livestreams",
+    title: "BAC LGU Malaybalay 2026 Bidding Opportunities & Livestreamed Proceedings",
+    description:
+      "212 source-linked 2026 Invitations to Bid (up to ITB-2026-208), November 2026 BAC Meeting pre-bid packets, and Q1/Q2 FDP Form 10a civil-works bid results are indexed alongside BAC LGU Malaybalay livestream documentation.",
+    publishedDate: "November 18, 2026",
+    category: "Procurement & Bidding",
+    verificationStatus: "Confirmed Official Record",
+    sourceAttribution: "BAC LGU Malaybalay Portal & Official Facebook Page",
+    sourceUrl: "https://sites.google.com/site/malaybalay221/awarded-projects?authuser=0",
+    internalRoute: "/procurement/livestreams",
+    secondarySourceUrl: OFFICIAL_BAC_FB_URL,
+    secondarySourceLabel: "BAC LGU Malaybalay Facebook",
+  },
+  {
     id: "news-cvet-nmis-asf-surveillance-dost-sarai-nov-2026",
     title: "NMIS & City Vet ASF Surveillance Yields Negative Results; DOST Project SARAI Weather Station Installed in Brgy. Violeta",
     description:
@@ -153,34 +167,6 @@ export const newsletterUpdates: NewsletterUpdateCard[] = [
     secondarySourceLabel: "City Government Facebook Page",
   },
   {
-    id: "news-ord-1118-skfa-2026",
-    title: "Ordinance No. 1118, s. 2026: Annual SK Functionality Audit Institutionalized",
-    description:
-      "The 10th Sangguniang Panlungsod enacted Ordinance No. 1118 establishing annual assessment mechanisms, evaluation criteria, incentives, and funding for Sangguniang Kabataan councils across all 46 barangays.",
-    publishedDate: "August 18, 2026",
-    category: "Resolutions & Ordinances",
-    verificationStatus: "Confirmed Official Record",
-    sourceAttribution: "City Government of Malaybalay — Public Announcements Archive",
-    sourceUrl: "https://sakata.malaybalaycity.gov.ph/ordinance-no-1118-series-of-2026/",
-    internalRoute: "/legislation/ordinance-no-1118-series-of-2026",
-    secondarySourceUrl: OFFICIAL_CITY_FB_URL,
-    secondarySourceLabel: "City Government Facebook Page",
-  },
-  {
-    id: "news-dhsud-local-shelter-plan-2026",
-    title: "DHSUD-10 Approves Malaybalay City FY 2026 Local Shelter Plan (LSP)",
-    description:
-      "Malaybalay City became the first LGU in Northern Mindanao to secure DHSUD-10 approval for a Local Shelter Plan fully aligned with its Comprehensive Land Use Plan (CLUP) and national housing frameworks.",
-    publishedDate: "February 2026",
-    category: "City Announcements",
-    verificationStatus: "Verified Public Announcement",
-    sourceAttribution: "Philippine Information Agency (PIA-10) & City Government of Malaybalay",
-    sourceUrl: "https://pia.gov.ph/",
-    internalRoute: "/budget",
-    secondarySourceUrl: OFFICIAL_CITY_FB_URL,
-    secondarySourceLabel: "Official LGU Facebook Page",
-  },
-  {
     id: "news-sp-2027-budget-hearing",
     title: "SP Committee on Finance Conducts Public Hearings on Proposed 2027 Annual Budget",
     description:
@@ -195,18 +181,30 @@ export const newsletterUpdates: NewsletterUpdateCard[] = [
     secondarySourceLabel: "BetterGov.PH Hearings Reference",
   },
   {
-    id: "news-bac-2026-bidding-and-livestreams",
-    title: "BAC LGU Malaybalay 2026 Bidding Opportunities & Livestreamed Proceedings",
+    id: "news-ord-1118-skfa-2026",
+    title: "Ordinance No. 1118, s. 2026: Annual SK Functionality Audit Institutionalized",
     description:
-      "212 source-linked 2026 Invitations to Bid (up to ITB-2026-208), November 2026 BAC Meeting pre-bid packets, and Q1/Q2 FDP Form 10a civil-works bid results are indexed alongside BAC LGU Malaybalay livestream documentation.",
-    publishedDate: "November 18, 2026",
-    category: "Procurement & Bidding",
+      "The 10th Sangguniang Panlungsod enacted Ordinance No. 1118 establishing annual assessment mechanisms, evaluation criteria, incentives, and funding for Sangguniang Kabataan councils across all 46 barangays.",
+    publishedDate: "August 18, 2026",
+    category: "Resolutions & Ordinances",
     verificationStatus: "Confirmed Official Record",
-    sourceAttribution: "BAC LGU Malaybalay Portal & Official Facebook Page",
-    sourceUrl: "https://sites.google.com/site/malaybalay221/awarded-projects?authuser=0",
-    internalRoute: "/procurement/livestreams",
-    secondarySourceUrl: OFFICIAL_BAC_FB_URL,
-    secondarySourceLabel: "BAC LGU Malaybalay Facebook",
+    sourceAttribution: "City Government of Malaybalay — Public Announcements Archive",
+    sourceUrl: "https://sakata.malaybalaycity.gov.ph/ordinance-no-1118-series-of-2026/",
+    internalRoute: "/legislation/ordinance-no-1118-series-of-2026",
+    secondarySourceUrl: OFFICIAL_CITY_FB_URL,
+    secondarySourceLabel: "City Government Facebook Page",
+  },
+  {
+    id: "news-ord-1092-rpt-month",
+    title: "Ordinance No. 1092, s. 2026: Adoption of March as Real Property Tax Month",
+    description:
+      "Adopts Provincial Ordinance No. 2025-013R declaring March of every year as Real Property Tax Month to encourage timely assessment and tax compliance.",
+    publishedDate: "May 19, 2026",
+    category: "Resolutions & Ordinances",
+    verificationStatus: "Confirmed Official Record",
+    sourceAttribution: "10th Sangguniang Panlungsod — Official Publication Archive",
+    sourceUrl: "https://sakata.malaybalaycity.gov.ph/ordinance-no-1092-series-of-2026/",
+    internalRoute: "/legislation/ordinance-no-1092-series-of-2026",
   },
   {
     id: "news-ord-1095-motorela-fare-matrix",
@@ -235,18 +233,6 @@ export const newsletterUpdates: NewsletterUpdateCard[] = [
     secondarySourceLabel: "Official LGU Facebook Page",
   },
   {
-    id: "news-ord-1092-rpt-month",
-    title: "Ordinance No. 1092, s. 2026: Adoption of March as Real Property Tax Month",
-    description:
-      "Adopts Provincial Ordinance No. 2025-013R declaring March of every year as Real Property Tax Month to encourage timely assessment and tax compliance.",
-    publishedDate: "May 19, 2026",
-    category: "Resolutions & Ordinances",
-    verificationStatus: "Confirmed Official Record",
-    sourceAttribution: "10th Sangguniang Panlungsod — Official Publication Archive",
-    sourceUrl: "https://sakata.malaybalaycity.gov.ph/ordinance-no-1092-series-of-2026/",
-    internalRoute: "/legislation/ordinance-no-1092-series-of-2026",
-  },
-  {
     id: "news-eo-19-pmeis-monitoring",
     title: "PMEIS Project Monitoring & Evaluation System Operationalized",
     description:
@@ -257,6 +243,20 @@ export const newsletterUpdates: NewsletterUpdateCard[] = [
     sourceAttribution: "Office of the City Mayor — Public Announcements",
     sourceUrl: "https://sakata.malaybalaycity.gov.ph/executive-order-no-19/",
     internalRoute: "/legislation/executive-order-no-19-series-of-2026",
+  },
+  {
+    id: "news-dhsud-local-shelter-plan-2026",
+    title: "DHSUD-10 Approves Malaybalay City FY 2026 Local Shelter Plan (LSP)",
+    description:
+      "Malaybalay City became the first LGU in Northern Mindanao to secure DHSUD-10 approval for a Local Shelter Plan fully aligned with its Comprehensive Land Use Plan (CLUP) and national housing frameworks.",
+    publishedDate: "February 2026",
+    category: "City Announcements",
+    verificationStatus: "Verified Public Announcement",
+    sourceAttribution: "Philippine Information Agency (PIA-10) & City Government of Malaybalay",
+    sourceUrl: "https://pia.gov.ph/",
+    internalRoute: "/budget",
+    secondarySourceUrl: OFFICIAL_CITY_FB_URL,
+    secondarySourceLabel: "Official LGU Facebook Page",
   },
   {
     id: "news-eo-15-ash-referral-network-2026",

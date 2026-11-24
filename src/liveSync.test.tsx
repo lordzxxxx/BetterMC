@@ -8,9 +8,11 @@ import {
   evaluateCivicAnnouncementRelevance,
   evaluateCivicRecordingTrigger,
   evaluatePesoOpportunityRelevance,
+  formatAnnouncementDate,
   mergeAnnouncementsWithLive,
   mergeOpportunitiesWithLive,
   mergeRecordingsWithLive,
+  normalizeAllCapsHeadline,
   normalizeSocialText,
   OFFICIAL_LIVESTREAM_VIDEO_SOURCES,
   OFFICIAL_MALAYBALAY_SYNC_SOURCES,
@@ -189,6 +191,9 @@ describe("Automatic Malaybalay Facebook & LGU Website Live Sync Mechanism", () =
       screen.getByText(/PESO Malaybalay 11\/20 Job Fair \(26 Employers\)/i),
     ).toBeInTheDocument();
 
+    // Verify the noisy feed-count sync status indicator pill is not rendered
+    expect(screen.queryByText(/official LGU, PESO & BAC feeds/i)).not.toBeInTheDocument();
+
     // Clicking "Sync Live Updates" fetches /api/announcements and merges new live announcements
     const syncBtn = screen.getByRole("button", {
       name: /Sync latest updates from City of Malaybalay Facebook and website feeds/i,
@@ -200,6 +205,56 @@ describe("Automatic Malaybalay Facebook & LGU Website Live Sync Mechanism", () =
         screen.getByText(/MCGWSS & CEEDMO Water Supply Maintenance Advisory/i),
       ).toBeInTheDocument();
     });
+    expect(screen.queryByText(/official LGU, PESO & BAC feeds/i)).not.toBeInTheDocument();
+  });
+
+  it("sorts merged announcements strictly newest-first, normalizes dates and ALL-CAPS headlines, and strips raw emojis", () => {
+    expect(formatAnnouncementDate("16 November 2026")).toBe("November 16, 2026");
+    expect(formatAnnouncementDate("November 24, 2026")).toBe("November 24, 2026");
+    expect(formatAnnouncementDate("November 2026")).toBe("November 2026");
+    expect(normalizeAllCapsHeadline("RESPONSIBLE PET OWNERSHIP STARTS WITH YOU")).toBe(
+      "Responsible Pet Ownership Starts with You",
+    );
+
+    const vetPost = evaluateCivicAnnouncementRelevance({
+      sourceId: "fb-cvet",
+      sourceLabel: "City Veterinary Office — Malaybalay City",
+      sourceUrl: "https://www.facebook.com/p/City-Veterinary-Office-City-of-Malaybalay-100064138659249/",
+      channelRole: "department",
+      defaultCategory: "City Announcements",
+      defaultInternalRoute: "/offices/veterinary",
+      verificationTier: "Verified Public Announcement",
+      message:
+        "RESPONSIBLE PET OWNERSHIP STARTS WITH YOU\n🐶🐈📌 Update on November 13 & 16, 2026 Data - In accordance to Anti-Rabies Act of 2007, City Ordinance No. 668 Series of 2009, the Malaybalay City Veterinary Office reminds residents to vaccinate pets.",
+      publishedIso: "2026-11-24",
+      publishedDisplay: "November 24, 2026",
+      timestampMs: 1795480000000,
+    });
+
+    expect(vetPost).not.toBeNull();
+    expect(vetPost?.title).toBe("Responsible Pet Ownership Starts with You");
+    expect(vetPost?.category).toBe("Public Advisories");
+    expect(vetPost?.description).not.toMatch(/[🐶🐈📌]/u);
+
+    const olderVideoCard = {
+      id: "live-video-old",
+      title: "Kalihukan sa Semana · 09–13 November 2026 (0:55)",
+      description: "Official city activity broadcast.",
+      publishedDate: "16 November 2026",
+      category: "City Announcements" as const,
+      verificationStatus: "Verified Public Announcement" as const,
+      sourceAttribution: "City Government of Malaybalay — Official Video Broadcast",
+      sourceUrl: "https://www.facebook.com/100063747444247/videos/123/",
+      internalRoute: "/recordings/123",
+    };
+
+    const { merged } = mergeAnnouncementsWithLive(newsletterUpdates, [olderVideoCard, vetPost!]);
+    expect(merged[0].id).toBe(vetPost!.id);
+    expect(merged[0].publishedDate).toBe("November 24, 2026");
+    const videoIndex = merged.findIndex((item) => item.id === "live-video-old");
+    const nov23Index = merged.findIndex((item) => item.id === "news-ord-1132-public-trees-protection-2026");
+    expect(videoIndex).toBeGreaterThan(nov23Index);
+    expect(merged[videoIndex].publishedDate).toBe("November 16, 2026");
   });
 
   it("serves live-synced announcements from /api/announcements with category filtering and 405 method protection", async () => {

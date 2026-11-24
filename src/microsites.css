@@ -1309,7 +1309,7 @@ body.is-microsite [tabindex="-1"]:focus-visible {
 }
 
 /* --------------------------------------------------------------------------
-   11. LIVE FACEBOOK & LGU PORTAL SYNC STATUS BAR
+   11. LIVE FACEBOOK & LGU PORTAL SYNC CONTROLS
    -------------------------------------------------------------------------- */
 .live-sync-status-bar,
 .peso-live-sync-controls {
@@ -1317,45 +1317,41 @@ body.is-microsite [tabindex="-1"]:focus-visible {
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
-  margin-top: 14px;
+  margin-top: 0;
 }
 
 .peso-fb-source-notice {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px 16px;
+  justify-content: space-between;
+  gap: 14px 18px;
 }
 
 .peso-fb-source-notice .peso-fb-source-copy {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
   flex: 1 1 320px;
+  min-width: 0;
+}
+
+.peso-fb-source-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #edf5ff;
+  border: 1px solid #cde0f5;
+  flex: none;
+  margin-top: 1px;
 }
 
 .peso-fb-source-notice .peso-live-sync-controls {
   margin-top: 0;
   margin-left: auto;
-}
-
-.live-sync-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: var(--bmc-primary-50, #eff6ff);
-  border: 1px solid var(--bmc-primary-200, #bfdbfe);
-  color: var(--bmc-primary-800, #1e40af);
-  font-size: 0.78rem;
-  font-weight: 600;
-  line-height: 1.3;
-}
-
-.live-sync-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #16a34a;
-  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.18);
   flex-shrink: 0;
 }
 
@@ -1363,23 +1359,26 @@ body.is-microsite [tabindex="-1"]:focus-visible {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  min-height: 34px;
-  padding: 6px 13px;
+  gap: 7px;
+  min-height: 38px;
+  padding: 8px 14px;
   border-radius: 999px;
-  border: 1px solid var(--bmc-slate-300, #cbd5e1);
+  border: 1px solid #c4d7ee;
   background: #ffffff;
-  color: var(--bmc-slate-800, #1e293b);
-  font-size: 0.78rem;
+  color: #163b7a;
+  font-size: 0.81rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(15, 48, 96, 0.04);
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
 }
 
 .live-sync-btn:hover:not(:disabled) {
-  background: var(--bmc-slate-50, #f8fafc);
-  border-color: var(--bmc-primary-400, #60a5fa);
-  color: var(--bmc-primary-700, #1d4ed8);
+  background: #f0f6ff;
+  border-color: #82b0e6;
+  color: #123e9b;
+  box-shadow: 0 4px 12px rgba(18, 62, 155, 0.08);
 }
 
 .live-sync-btn:disabled {
@@ -1407,11 +1406,22 @@ body.is-microsite [tabindex="-1"]:focus-visible {
   .live-sync-status-bar,
   .peso-fb-source-notice .peso-live-sync-controls {
     width: 100%;
-    justify-content: space-between;
+    margin-left: 0;
+    justify-content: flex-start;
+  }
+
+  .peso-fb-source-notice {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .peso-fb-source-notice .peso-live-sync-controls .live-sync-btn {
+    width: 100%;
+    min-height: 42px;
   }
 
   .live-sync-btn {
-    min-height: 38px;
-    padding: 7px 14px;
+    min-height: 40px;
+    padding: 8px 15px;
   }
 }

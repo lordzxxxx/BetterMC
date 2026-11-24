@@ -492,19 +492,202 @@ const NON_CIVIC_EXCLUSION_REGEX =
 const CIVIC_RELEVANCE_KEYWORDS_REGEX =
   /\b(?:ordinance|executive order|proclamation|memorandum circular|sangguniang panlungsod|regular session|public hearing|committee hearing|annual budget|bids and awards|bac meeting|pre-bid|invitation to bid|procurement|peso|job fair|job opportunity|hiring|recruitment|domestic helper|tupad|spes|skills training|livelihood|cdrrmo|lifeguard|aquatic rescue|abaca|tilapia|fisherfolk|african swine fever|asf surveillance|rabies|veterinary|bpld|recorrida|business one stop shop|boss 2027|kadiwa|benteng bigas|price monitoring|automated weather station|project sarai|super health center|turnover|classroom|school building|box culvert|farm to market road|water system|work suspension|office advisory|obo advisory|women's empowerment|gender and development|magna carta of women|bspo congress)\b/i;
 
+const KNOWN_ACRONYMS = new Set([
+  "LGU", "BAC", "PESO", "SP", "DRRMO", "CDRRMO", "BPLD", "NMIS", "ASF", "DOST",
+  "SARAI", "BOSS", "CHO", "PNP", "CEO", "CENRO", "DHSUD", "CLUP", "MCGWSS",
+  "CEEDMO", "EO", "RA", "TUPAD", "SPES", "SK", "OBO", "RCBC", "BSPO", "PPE",
+  "NGO", "FDP", "ITB", "PMEIS", "ASH", "RPT", "FY", "DA", "DPWH", "PIA", "PSA",
+  "DILG", "PCG", "BFP", "CSWDO", "CAGO", "CMO", "DOLE", "COA", "CSC", "PHILGEPS",
+  "NSRP", "OJT", "ID", "CCTV", "COVID", "EMS", "WCPD", "PEP", "AICS", "NTA", "HGAB",
+  "SALT", "GAD", "SKFA", "LSP", "PD", "III", "IV", "II",
+]);
+
+const SMALL_TITLE_WORDS = new Set([
+  "a", "an", "and", "as", "at", "by", "for", "from", "in", "into", "of", "on",
+  "or", "per", "the", "to", "with", "sa", "ng", "mga", "ni", "kay",
+]);
+
+export function stripSocialEmojis(text: string): string {
+  return text
+    .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}\uFE0F\u200D]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+export function normalizeAllCapsHeadline(headline: string): string {
+  const letters = headline.replace(/[^A-Za-z]/g, "");
+  if (letters.length < 14) return headline;
+  const upperCount = (letters.match(/[A-Z]/g) ?? []).length;
+  if (upperCount / letters.length < 0.78) return headline;
+
+  const words = headline.split(/\s+/);
+  return words
+    .map((word, index) => {
+      const bare = word.replace(/^[^A-Za-z0-9]+|[^A-Za-z0-9]+$/g, "");
+      if (!bare) return word;
+      const upperBare = bare.toUpperCase();
+      if (KNOWN_ACRONYMS.has(upperBare)) {
+        return word.replace(bare, upperBare === "CAGO" ? "CAgO" : upperBare);
+      }
+      if (/^\d+(?:ST|ND|RD|TH)$/i.test(bare)) {
+        return word.replace(bare, bare.toLowerCase());
+      }
+      const lower = bare.toLowerCase();
+      if (index > 0 && SMALL_TITLE_WORDS.has(lower)) {
+        return word.replace(bare, lower);
+      }
+      const titled = lower.charAt(0).toUpperCase() + lower.slice(1);
+      return word.replace(bare, titled);
+    })
+    .join(" ");
+}
+
+const MONTH_INDEX_MAP: Record<string, number> = {
+  january: 0, jan: 0,
+  february: 1, feb: 1,
+  march: 2, mar: 2,
+  april: 3, apr: 3,
+  may: 4,
+  june: 5, jun: 5,
+  july: 6, jul: 6,
+  august: 7, aug: 7,
+  september: 8, sep: 8, sept: 8,
+  october: 9, oct: 9,
+  november: 10, nov: 10,
+  december: 11, dec: 11,
+};
+
+const FULL_MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+/**
+ * Parses announcement date strings across US ("November 24, 2026"),
+ * GB ("16 November 2026"), month-year ("November 2026"), year-only ("2026"),
+ * and ISO ("2026-11-24") formats into UTC milliseconds for chronological sorting.
+ */
+export function parseAnnouncementDateMs(dateStr?: string | null): number {
+  if (!dateStr) return 0;
+  const cleaned = dateStr.replace(/^Reviewed\s+/i, "").trim();
+  if (!cleaned) return 0;
+
+  // ISO YYYY-MM-DD
+  const isoMatch = cleaned.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (isoMatch) {
+    return Date.UTC(Number(isoMatch[1]), Number(isoMatch[2]) - 1, Number(isoMatch[3]), 12);
+  }
+
+  // "November 24, 2026" or "Nov 24, 2026"
+  const mdyMatch = cleaned.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$/);
+  if (mdyMatch) {
+    const month = MONTH_INDEX_MAP[mdyMatch[1].toLowerCase()];
+    if (month !== undefined) {
+      return Date.UTC(Number(mdyMatch[3]), month, Number(mdyMatch[2]), 12);
+    }
+  }
+
+  // "16 November 2026" or "16 Nov 2026"
+  const dmyMatch = cleaned.match(/^(\d{1,2})\s+([A-Za-z]+),?\s+(\d{4})$/);
+  if (dmyMatch) {
+    const month = MONTH_INDEX_MAP[dmyMatch[2].toLowerCase()];
+    if (month !== undefined) {
+      return Date.UTC(Number(dmyMatch[3]), month, Number(dmyMatch[1]), 12);
+    }
+  }
+
+  // "November 2026" -> sort just before dated items of that month (day 1, 00:00)
+  const myMatch = cleaned.match(/^([A-Za-z]+)\s+(\d{4})$/);
+  if (myMatch) {
+    const month = MONTH_INDEX_MAP[myMatch[1].toLowerCase()];
+    if (month !== undefined) {
+      return Date.UTC(Number(myMatch[2]), month, 1, 0);
+    }
+  }
+
+  // Year-only "2026" -> sort at start of that year
+  const yMatch = cleaned.match(/^(\d{4})$/);
+  if (yMatch) {
+    return Date.UTC(Number(yMatch[1]), 0, 1, 0);
+  }
+
+  const parsed = Date.parse(cleaned);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+/**
+ * Formats full announcement dates consistently as "Month Day, Year"
+ * (e.g., "16 November 2026" -> "November 16, 2026"), while preserving
+ * month-year ("November 2026") and year-only ("2026") labels.
+ */
+export function formatAnnouncementDate(dateStr?: string | null): string {
+  if (!dateStr) return "";
+  const cleaned = dateStr.trim();
+  if (!cleaned) return "";
+
+  const dmyMatch = cleaned.match(/^(\d{1,2})\s+([A-Za-z]+),?\s+(\d{4})$/);
+  if (dmyMatch) {
+    const month = MONTH_INDEX_MAP[dmyMatch[2].toLowerCase()];
+    if (month !== undefined) {
+      return `${FULL_MONTH_NAMES[month]} ${Number(dmyMatch[1])}, ${dmyMatch[3]}`;
+    }
+  }
+
+  const mdyMatch = cleaned.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$/);
+  if (mdyMatch) {
+    const month = MONTH_INDEX_MAP[mdyMatch[1].toLowerCase()];
+    if (month !== undefined) {
+      return `${FULL_MONTH_NAMES[month]} ${Number(mdyMatch[2])}, ${mdyMatch[3]}`;
+    }
+  }
+
+  const isoMatch = cleaned.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (isoMatch) {
+    const month = Number(isoMatch[2]) - 1;
+    if (month >= 0 && month <= 11) {
+      return `${FULL_MONTH_NAMES[month]} ${Number(isoMatch[3])}, ${isoMatch[1]}`;
+    }
+  }
+
+  return cleaned;
+}
+
+export function sortAnnouncementsNewestFirst(
+  cards: NewsletterUpdateCard[],
+): NewsletterUpdateCard[] {
+  return cards
+    .map((card, index) => ({
+      card: {
+        ...card,
+        publishedDate: formatAnnouncementDate(card.publishedDate),
+      },
+      timeMs: parseAnnouncementDateMs(card.publishedDate),
+      index,
+    }))
+    .sort((a, b) => {
+      if (b.timeMs !== a.timeMs) return b.timeMs - a.timeMs;
+      return a.index - b.index;
+    })
+    .map((entry) => entry.card);
+}
+
 function cleanHeadlineLine(line: string): string {
-  return line
+  const cleaned = line
     .replace(/^[\p{Emoji_Presentation}\p{Extended_Pictographic}\uFE0F\s•]+/gu, "")
     .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}\uFE0F]+$/gu, "")
+    .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}\uFE0F\u200D]+/gu, " ")
     .replace(/#[A-Za-z0-9_]+/g, "")
     .replace(/\s+/g, " ")
     .trim();
+  return normalizeAllCapsHeadline(cleaned);
 }
 
 function stripHashtagsAndCleanBody(text: string): string {
   return text
     .split("\n")
-    .map((line) => line.replace(/#[A-Za-z0-9_]+/g, "").trim())
+    .map((line) =>
+      stripSocialEmojis(line.replace(/#[A-Za-z0-9_]+/g, "")).replace(/^[-–—•:|]+\s*/, "").trim(),
+    )
     .filter((line) => line.length > 0 && !/^(?:Report|Photo by|Disclaimer)\s*:/i.test(line))
     .join(" ")
     .replace(/\s+/g, " ")
@@ -548,6 +731,9 @@ function classifyAnnouncementRouteAndCategory(
       internalRoute: "/legislation/executive-order-no-93-series-of-2026",
     };
   }
+  if (/\b(?:african swine fever|asf|anti-rabies|rabies|responsible pet ownership|veterinary|slaughterhouse)\b/i.test(lower)) {
+    return { category: "Public Advisories", internalRoute: "/offices/veterinary" };
+  }
   if (/\b(?:ordinance\s+no|executive\s+order\s+no|presidential\s+proclamation)\b/i.test(lower)) {
     return { category: "Resolutions & Ordinances", internalRoute: "/legislation" };
   }
@@ -566,9 +752,6 @@ function classifyAnnouncementRouteAndCategory(
   }
   if (/\b(?:bpld|recorrida|business one stop shop|boss 2027|business permit)\b/i.test(lower)) {
     return { category: "Public Advisories", internalRoute: "/offices/bpld" };
-  }
-  if (/\b(?:african swine fever|asf|rabies|veterinary|slaughterhouse)\b/i.test(lower)) {
-    return { category: "Public Advisories", internalRoute: "/offices/veterinary" };
   }
   if (/\b(?:cdrrmo|lifeguard|aquatic rescue|disaster preparedness)\b/i.test(lower)) {
     return { category: "City Announcements", internalRoute: "/offices/drrmo" };
@@ -856,7 +1039,7 @@ export function mergeAnnouncementsWithLive(
   }
 
   return {
-    merged: [...added, ...merged],
+    merged: sortAnnouncementsNewestFirst([...added, ...merged]),
     addedCount: added.length,
   };
 }
@@ -1252,18 +1435,30 @@ export function convertRecordingToAnnouncementCard(
 ): NewsletterUpdateCard {
   const isBac = recording.category === "BAC meeting";
   const isSp = recording.category === "Legislative session";
+  const cleanTitle = recording.title
+    .replace(/^WATCH:\s*/i, "")
+    .replace(/\s*\|\s*/g, " · ")
+    .trim();
+  const isFullLivestream = Boolean(recording.duration && recording.duration.split(":").length === 3);
+  const durationSuffix = recording.duration
+    ? ` (${recording.duration}${isFullLivestream ? " Livestream" : ""})`
+    : "";
+  const formattedDate = formatAnnouncementDate(
+    recording.eventDate ?? recording.publishedDate ?? "November 2026",
+  );
+
   return {
     id: `live-video-${recording.id}`,
-    title: `${recording.title}${recording.duration ? ` (${recording.duration} Livestream)` : ""}`,
+    title: `${cleanTitle}${durationSuffix}`,
     description: recording.description,
-    publishedDate: recording.eventDate ?? recording.publishedDate ?? "November 2026",
+    publishedDate: formattedDate,
     category: isBac
       ? "Procurement & Bidding"
       : isSp
         ? "Hearings & Sessions"
         : "City Announcements",
     verificationStatus: "Verified Public Announcement",
-    sourceAttribution: `${recording.publisher} — Official Facebook Livestream`,
+    sourceAttribution: `${recording.publisher} — Official Video Broadcast`,
     sourceUrl: recording.sourceUrl,
     internalRoute: `/recordings/${recording.id}`,
     secondarySourceUrl: recording.relatedSource?.url,
@@ -1385,9 +1580,10 @@ export async function syncLiveMalaybalayFeeds(options?: {
     const recording = evaluateCivicRecordingTrigger(videoNode);
     if (recording && !isDuplicateRecording(recording, liveRecordings)) {
       liveRecordings.push(recording);
-      // If a brand-new livestream recording (not yet in baseline civicRecordings) is detected,
-      // also surface it as a live announcement card
-      if (!isDuplicateRecording(recording, civicRecordings)) {
+      // If a brand-new November 2026+ livestream recording (not yet in baseline civicRecordings)
+      // is detected, also surface it as a live announcement card (older clips remain in /hearings & /procurement/livestreams)
+      const isRecentBroadcast = !videoNode.publishedIso || videoNode.publishedIso >= "2026-11-01";
+      if (isRecentBroadcast && !isDuplicateRecording(recording, civicRecordings)) {
         const videoCard = convertRecordingToAnnouncementCard(recording);
         if (!isDuplicateAnnouncement(videoCard, liveAnnouncements)) {
           liveAnnouncements.push(videoCard);

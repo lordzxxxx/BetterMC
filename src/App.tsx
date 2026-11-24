@@ -114,7 +114,7 @@ import {
   mergeAnnouncementsWithLive,
   mergeRecordingsWithLive,
   OFFICIAL_LIVESTREAM_VIDEO_SOURCES,
-  OFFICIAL_MALAYBALAY_SYNC_SOURCES,
+  sortAnnouncementsNewestFirst,
 } from "./liveSync";
 import {
   buildFacebookVideoEmbedUrl,
@@ -1599,15 +1599,18 @@ function FirstTimeWelcomeCard() {
     >
       <div className="welcome-card">
         <div className="welcome-card-header">
-          <div>
-            <span className="eyebrow">First-time visitor guide · Public transparency platform</span>
+          <div className="welcome-card-heading-copy">
+            <span className="eyebrow">First-time visitor guide</span>
             <h2 id="welcome-guide-heading">
               How to navigate Malaybalay City&apos;s public records on BetterMC
             </h2>
-            <p>
+            <p className="welcome-copy-desktop">
               BetterMC organizes verified public documents, legislative actions,
               procurement notices, and budget disclosures across all 46 barangays.
               Every record preserves its original government source and verification date.
+            </p>
+            <p className="welcome-copy-mobile">
+              Browse verified public documents, hearings, bidding notices, and budget records across all 46 barangays.
             </p>
           </div>
           <button
@@ -1689,18 +1692,16 @@ const newsCategoryOptions: Array<"All" | NewsCardCategory> = [
   "Public Advisories",
 ];
 
+const INITIAL_NEWS_CARD_COUNT = 10;
+
 function HomeNewsAndDiscussionsSection() {
   const [selectedCategory, setSelectedCategory] = useState<"All" | NewsCardCategory>("All");
+  const [showAllUpdates, setShowAllUpdates] = useState(false);
   const [openDiscussionId, setOpenDiscussionId] = useState<string | null>(null);
-  const [cards, setCards] = useState<NewsletterUpdateCard[]>(newsletterUpdates);
+  const [cards, setCards] = useState<NewsletterUpdateCard[]>(() =>
+    sortAnnouncementsNewestFirst(newsletterUpdates),
+  );
   const [syncState, setSyncState] = useState<"idle" | "syncing" | "synced">("idle");
-  const [syncMeta, setSyncMeta] = useState<{
-    checkedSourcesCount: number;
-    newlyAddedCount: number;
-  }>({
-    checkedSourcesCount: OFFICIAL_MALAYBALAY_SYNC_SOURCES.length,
-    newlyAddedCount: 0,
-  });
 
   const handleSyncAnnouncements = useCallback(async () => {
     setSyncState("syncing");
@@ -1711,19 +1712,13 @@ function HomeNewsAndDiscussionsSection() {
       if (response.ok) {
         const payload = (await response.json()) as {
           ok?: boolean;
-          checkedSourcesCount?: number;
           announcements?: NewsletterUpdateCard[];
           liveDetected?: NewsletterUpdateCard[];
         };
         const incoming = payload.announcements ?? payload.liveDetected ?? [];
         if (incoming.length > 0) {
-          const { merged, addedCount } = mergeAnnouncementsWithLive(newsletterUpdates, incoming);
+          const { merged } = mergeAnnouncementsWithLive(newsletterUpdates, incoming);
           setCards(merged);
-          setSyncMeta({
-            checkedSourcesCount:
-              payload.checkedSourcesCount ?? OFFICIAL_MALAYBALAY_SYNC_SOURCES.length,
-            newlyAddedCount: addedCount,
-          });
         }
       }
     } catch {
@@ -1741,7 +1736,6 @@ function HomeNewsAndDiscussionsSection() {
       .then(
         (
           payload: {
-            checkedSourcesCount?: number;
             announcements?: NewsletterUpdateCard[];
             liveDetected?: NewsletterUpdateCard[];
           } | null,
@@ -1749,16 +1743,11 @@ function HomeNewsAndDiscussionsSection() {
           if (cancelled || !payload) return;
           const incoming = payload.announcements ?? payload.liveDetected ?? [];
           if (incoming.length > 0) {
-            const { merged, addedCount } = mergeAnnouncementsWithLive(
+            const { merged } = mergeAnnouncementsWithLive(
               newsletterUpdates,
               incoming,
             );
             setCards(merged);
-            setSyncMeta({
-              checkedSourcesCount:
-                payload.checkedSourcesCount ?? OFFICIAL_MALAYBALAY_SYNC_SOURCES.length,
-              newlyAddedCount: addedCount,
-            });
           }
           setSyncState("synced");
         },
@@ -1772,10 +1761,28 @@ function HomeNewsAndDiscussionsSection() {
   }, []);
 
   const activeDiscussion = civicDiscussionCards.find((item) => item.id === openDiscussionId);
-  const filteredNews =
-    selectedCategory === "All"
-      ? cards
-      : cards.filter((item) => item.category === selectedCategory);
+  const orderedCards = useMemo(() => sortAnnouncementsNewestFirst(cards), [cards]);
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = { All: orderedCards.length };
+    for (const item of orderedCards) {
+      counts[item.category] = (counts[item.category] ?? 0) + 1;
+    }
+    return counts;
+  }, [orderedCards]);
+
+  const filteredNews = useMemo(
+    () =>
+      selectedCategory === "All"
+        ? orderedCards
+        : orderedCards.filter((item) => item.category === selectedCategory),
+    [orderedCards, selectedCategory],
+  );
+
+  const visibleNews =
+    selectedCategory === "All" && !showAllUpdates
+      ? filteredNews.slice(0, INITIAL_NEWS_CARD_COUNT)
+      : filteredNews;
+  const hiddenCount = filteredNews.length - visibleNews.length;
 
   return (
     <section
@@ -1784,36 +1791,23 @@ function HomeNewsAndDiscussionsSection() {
       aria-labelledby="home-news-heading"
     >
       <div className="home-news-header">
-        <div>
+        <div className="home-news-heading-copy">
           <span className="eyebrow">Public information &amp; civic updates</span>
           <h2 id="home-news-heading">
             Latest news, ordinances, hearings, and procurement updates
           </h2>
-          <p>
+          <p className="home-news-lead-desktop">
             Source-linked updates from the City Government of Malaybalay, the 10th
             Sangguniang Panlungsod, PESO Malaybalay, and the Bids and Awards
-            Committee (BAC). Relevant public announcements from official Malaybalay
-            Facebook pages and the City website sync automatically. Social media
-            posts are never treated as enacted law without an official publication
-            record. Direct video playback is shown only when a recording can be
-            verified.
+            Committee (BAC), ordered from newest to oldest. Social media posts are
+            never treated as enacted law without an official publication record.
+          </p>
+          <p className="home-news-lead-mobile">
+            Source-linked City Government, Council, PESO, and BAC updates ordered
+            from newest to oldest.
           </p>
         </div>
         <div className="live-sync-status-bar">
-          <span className="live-sync-pill" role="status" aria-live="polite">
-            <span className="live-sync-dot" aria-hidden="true" />
-            <span>
-              {syncState === "syncing"
-                ? "Checking official Malaybalay Facebook & LGU feeds..."
-                : syncState === "synced"
-                  ? `Synced · ${syncMeta.checkedSourcesCount} official LGU, PESO & BAC feeds${
-                      syncMeta.newlyAddedCount > 0
-                        ? ` (+${syncMeta.newlyAddedCount} live)`
-                        : ""
-                    }`
-                  : `Auto-sync active · ${syncMeta.checkedSourcesCount} official LGU, PESO & BAC feeds`}
-            </span>
-          </span>
           <button
             type="button"
             className="live-sync-btn"
@@ -1825,7 +1819,7 @@ function HomeNewsAndDiscussionsSection() {
               aria-hidden="true"
               className={syncState === "syncing" ? "is-spinning" : ""}
             />
-            <span>{syncState === "syncing" ? "Syncing..." : "Sync Live Updates"}</span>
+            <span>{syncState === "syncing" ? "Updating..." : "Refresh updates"}</span>
           </button>
         </div>
       </div>
@@ -1835,51 +1829,101 @@ function HomeNewsAndDiscussionsSection() {
         role="tablist"
         aria-label="Filter public information updates by category"
       >
-        {newsCategoryOptions.map((category) => (
-          <button
-            key={category}
-            type="button"
-            role="tab"
-            aria-selected={selectedCategory === category}
-            className={selectedCategory === category ? "is-active" : ""}
-            onClick={() => setSelectedCategory(category)}
-          >
-            {category}
-          </button>
-        ))}
+        {newsCategoryOptions.map((category) => {
+          const count = categoryCounts[category] ?? 0;
+          return (
+            <button
+              key={category}
+              type="button"
+              role="tab"
+              aria-selected={selectedCategory === category}
+              className={selectedCategory === category ? "is-active" : ""}
+              onClick={() => {
+                setSelectedCategory(category);
+                setShowAllUpdates(false);
+              }}
+            >
+              <span>{category}</span>
+              <span className="news-category-count" aria-hidden="true">
+                {count}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
       <div className="newsletter-cards-grid">
-        {filteredNews.map((card) => (
-          <article key={card.id} className="newsletter-card">
-            <div className="newsletter-card-meta">
-              <span className="newsletter-category-tag">{card.category}</span>
-              <time>{card.publishedDate}</time>
-            </div>
-            <h3>{card.title}</h3>
-            <p>{card.description}</p>
-            <span className="newsletter-card-attribution">{card.sourceAttribution}</span>
-            <div className="newsletter-card-actions">
-              <Link to={card.internalRoute} className="newsletter-primary-link">
-                <span>Read full context</span>
-                <ArrowRight aria-hidden="true" />
-              </Link>
-              <a
-                href={card.sourceUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="newsletter-source-link"
-              >
-                {card.sourceUrl.includes("facebook.com") ? (
-                  <FacebookIcon size={14} />
-                ) : null}
-                <span>Official source</span>
-                <ExternalLink aria-hidden="true" />
-              </a>
-            </div>
-          </article>
-        ))}
+        {visibleNews.map((card) => {
+          const isVideoCard = card.internalRoute.startsWith("/recordings/");
+          return (
+            <article
+              key={card.id}
+              className={`newsletter-card${isVideoCard ? " is-video-update" : ""}`}
+            >
+              <div className="newsletter-card-meta">
+                <div className="newsletter-card-badges">
+                  <span
+                    className="newsletter-category-tag"
+                    data-category={card.category}
+                  >
+                    {card.category}
+                  </span>
+                  {isVideoCard ? (
+                    <span className="newsletter-type-pill">Broadcast</span>
+                  ) : null}
+                </div>
+                <time>{card.publishedDate}</time>
+              </div>
+              <h3 className="newsletter-card-title">{card.title}</h3>
+              <p className="newsletter-card-summary">{card.description}</p>
+              <div className="newsletter-card-bottom">
+                <span className="newsletter-card-attribution">
+                  {card.sourceAttribution}
+                </span>
+                <div className="newsletter-card-actions">
+                  <Link to={card.internalRoute} className="newsletter-primary-link">
+                    <span>{isVideoCard ? "Watch & view context" : "Read full context"}</span>
+                    <ArrowRight aria-hidden="true" />
+                  </Link>
+                  <a
+                    href={card.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="newsletter-source-link"
+                  >
+                    {card.sourceUrl.includes("facebook.com") ? (
+                      <FacebookIcon size={14} />
+                    ) : null}
+                    <span>Official source</span>
+                    <ExternalLink aria-hidden="true" />
+                  </a>
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </div>
+
+      {selectedCategory === "All" && filteredNews.length > INITIAL_NEWS_CARD_COUNT ? (
+        <div className="newsletter-grid-footer">
+          <button
+            type="button"
+            className="newsletter-load-more-btn"
+            aria-expanded={showAllUpdates}
+            onClick={() => setShowAllUpdates((prev) => !prev)}
+          >
+            <span>
+              {showAllUpdates
+                ? "Show latest updates only"
+                : `Show ${hiddenCount} earlier updates`}
+            </span>
+            <ChevronDown
+              aria-hidden="true"
+              className={showAllUpdates ? "is-rotated" : ""}
+            />
+          </button>
+        </div>
+      ) : null}
 
       <div className="discussion-cards-block" id="civic-discussions">
         <div className="discussion-cards-heading">
