@@ -116,6 +116,13 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
+    server: {
+      host: true,
+      strictPort: true,
+      watch: {
+        usePolling: true
+      }
+    },
     plugins: [react(), devSubmissionsApiPlugin(env)],
     build: {
       chunkSizeWarningLimit: 1800,
